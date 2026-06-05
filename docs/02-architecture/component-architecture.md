@@ -17,75 +17,81 @@ packages** (two asset/stub-only: `chromosomes`, `benchmarks`) plus **4 top-level
 C4 has no native Mermaid type; per the upstream convention
 (`docs/architecture/_C4-COMPONENT.md`) it is rendered as a styled `flowchart`.
 
+Because a single 17-package graph is too wide to stay legible in a Markdown column,
+the component map is shown as **two narrow views**: **(A)** the entry points and the runtime
+engine down to the forensic tools, and **(B)** the safety spine, the supporting outputs, and
+the external sinks. Both share the same palette (blue = API, green = runtime, red = safety,
+amber = sinks, grey = external).
+
+**View A — entry points → runtime engine → forensic tools:**
+
 ```mermaid
 flowchart TB
     classDef ext fill:#e9ecef,stroke:#495057,color:#212529,stroke-width:1px
     classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545,stroke-width:2px
     classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f,stroke-width:1.5px
     classDef gov fill:#ffc9c9,stroke:#e03131,color:#5c1a1a,stroke-width:2px
-    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400,stroke-width:1.5px
 
     Analyst([DFIR Examiner / MCP Client]):::ext
-
-    subgraph Tailnet["Tailnet-only boundary — ADR-017"]
-        CLI["cli.py (Typer: run, doctor)"]:::api
-        MCP["mcp_server (FastMCP, 71 tools)<br/>+ bearer-token middleware"]:::api
-        Approval["approval_sidecar (Starlette, HMAC)"]:::gov
+    subgraph Entry["Entry points — tailnet-only (ADR-017)"]
+        direction LR
+        CLI["cli.py<br/>Typer: run, doctor"]:::api
+        MCP["mcp_server<br/>FastMCP · 71 tools<br/>bearer-token"]:::api
     end
-
-    subgraph Runtime["Agentropix Runtime"]
-        Orch["orchestrator.py (run_triage)"]:::core
-        Trinity["trinity (Architect -> Swarm -> Critic)"]:::core
-        Agents["agents (Swarm + Blackboard)"]:::core
-        Detect["detectors (ATT&CK detector agents)"]:::core
-        Wrap["mcp_server/wrappers (~40 forensic drivers)"]:::core
-        Imaging["imaging (EWF/E01 lifecycle)"]:::core
-        Memory["memory (HippocampusBridge, opt-in)"]:::core
-        Schema["schema (typed tool returns)"]:::core
-        Reports["reports (multi-tier render/export)"]:::core
-    end
-
-    subgraph Safety["Safety spine"]
-        Thymus["thymus_policy.py (read-only allow-list)"]:::gov
-        Courtroom["courtroom.py (evidence hash + HMAC seal)"]:::gov
-        EvGate["evidence_gate (mutation-token regime)"]:::gov
-        Audit["audit + provenance (chain validation)"]:::gov
-        Security["security (HMAC redaction)"]:::gov
-    end
-
-    subgraph Sinks["External sinks"]
-        Indexer["OpenSearch (idx_*)"]:::sink
-        Wazuh["Wazuh SIEM (wazuh_*)"]:::sink
-        Intel["Threat-intel providers"]:::ext
-        SIFT["16 SIFT forensic binaries"]:::ext
-    end
+    Orch["orchestrator.py<br/>run_triage"]:::core
+    Trinity["trinity<br/>Architect → Swarm → Critic"]:::core
+    Agents["agents<br/>Swarm + Blackboard"]:::core
+    Detect["detectors<br/>ATT&CK detectors"]:::core
+    Memory["memory<br/>Hippocampus (opt-in)"]:::core
+    Wrap["mcp_server/wrappers<br/>~40 forensic drivers"]:::core
+    Schema["schema<br/>typed tool returns"]:::core
+    Imaging["imaging<br/>EWF/E01 lifecycle"]:::core
+    Thymus["thymus_policy.py<br/>read-only allow-list"]:::gov
+    SIFT["16 SIFT forensic binaries"]:::ext
 
     Analyst --> CLI --> Orch
     Analyst --> MCP
-    MCP --> Wrap
-    MCP --> Thymus
     Orch --> Trinity --> Agents
     Agents --> Detect
-    Agents --> Wrap
     Agents --> Memory
-    Wrap --> Thymus
+    Agents --> Wrap
+    MCP --> Wrap
     Wrap --> Schema
-    Wrap --> SIFT
     Wrap --> Imaging
-    Orch --> Courtroom
-    Courtroom --> Audit
+    Wrap --> Thymus
+    MCP --> Thymus
+    Wrap --> SIFT
+    style Entry fill:#f1f3f5,stroke:#868e96,color:#212529
+```
+
+**View B — safety spine, supporting outputs, and external sinks:**
+
+```mermaid
+flowchart LR
+    classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545,stroke-width:2px
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f,stroke-width:1.5px
+    classDef gov fill:#ffc9c9,stroke:#e03131,color:#5c1a1a,stroke-width:2px
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400,stroke-width:1.5px
+
+    Orch["orchestrator.py"]:::core
+    MCP["mcp_server"]:::api
+    Approval["approval_sidecar<br/>Starlette, HMAC"]:::gov
+    Reports["reports<br/>multi-tier render/export"]:::core
+    Courtroom["courtroom.py<br/>evidence hash + HMAC seal"]:::gov
+    EvGate["evidence_gate<br/>mutation-token regime"]:::gov
+    Audit["audit + provenance<br/>chain validation"]:::gov
+    Security["security<br/>HMAC redaction"]:::gov
+    Indexer["OpenSearch<br/>idx_*"]:::sink
+    Wazuh["Wazuh SIEM<br/>wazuh_*"]:::sink
+    Intel["Threat-intel providers"]:::sink
+
+    Orch --> Reports --> Indexer
+    Orch --> Courtroom --> Audit
     Orch --> EvGate
-    MCP --> Security
     Approval --> Courtroom
-    Orch --> Reports
-    Reports --> Indexer
+    MCP --> Security
     MCP --> Wazuh
     MCP --> Intel
-
-    style Tailnet fill:#f1f3f5,stroke:#868e96,color:#212529
-    style Runtime fill:#f1f3f5,stroke:#868e96,color:#212529
-    style Safety fill:#f1f3f5,stroke:#868e96,color:#212529
-    style Sinks fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
 **Reading the components.** The diagram groups the 17 packages into four bands:

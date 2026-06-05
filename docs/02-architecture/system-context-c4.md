@@ -72,7 +72,7 @@ report seal, because the LLM never touched them"* (`docs/ARCHITECTURE-LAYERS.md`
 ## 2. Container View (C4 — Level 2)
 
 ```mermaid
-flowchart TB
+flowchart LR
     classDef actor fill:#d0bfff,stroke:#7048e8,color:#2b1a52,stroke-width:2px
     classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545,stroke-width:2px
     classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f,stroke-width:1.5px
@@ -82,47 +82,45 @@ flowchart TB
 
     Examiner(["DFIR Examiner"]):::actor
 
-    subgraph ASIFT["Agentropix-SIFT"]
-        CLI["CLI — Python · Typer<br/>agentropix-sift run / doctor; seals report on write (cli.py)"]:::api
-        MCP["FastMCP server — Python · FastMCP<br/>single MCP server, 71 tools; stdio or HTTP+SSE Bearer (fastmcp_app.py)"]:::api
-        Orch["Orchestrator + Trinity — asyncio<br/>Architect → Swarm → Critic over one image (orchestrator.py, trinity/)"]:::core
-        Agents["Swarm + Blackboard — asyncio<br/>7 core specialists + ATT&CK detectors · Blackboard correlation (agents/, detectors/)"]:::core
-        Wrappers["Forensic wrappers — Python<br/>~40 modules · 16 SIFT binaries + EZ-Tools (mcp_server/wrappers/)"]:::core
-        Thymus["Thymus policy — Python<br/>read-only allow-list + audit ring at MCP boundary (thymus_policy.py)"]:::gov
-        Courtroom["Courtroom + provenance — Python<br/>evidence_image_sha256, HMAC-SHA256 seal, chain validation (courtroom.py)"]:::gov
-        Approval["Approval sidecar (optional) — Starlette<br/>HMAC challenge/approve human gate (approval_sidecar/)"]:::gov
+    subgraph ASIFT["Agentropix-SIFT containers"]
+        direction TB
+        CLI["CLI · cli.py"]:::api
+        MCP["FastMCP · 71 tools"]:::api
+        Orch["Orchestrator + Trinity"]:::core
+        Agents["Swarm + Blackboard"]:::core
+        Wrappers["Forensic wrappers"]:::core
+        Thymus["Thymus policy"]:::gov
+        Courtroom["Courtroom + provenance"]:::gov
+        Approval["Approval sidecar"]:::gov
     end
 
-    subgraph HOST["External host"]
-        SIFT["SIFT forensic binaries<br/>vol3 · plaso · fls · RegRipper · YARA · …"]:::ext
-        Evidence[("Evidence store<br/>E01 / raw / .mem (read-only)")]:::ext
+    subgraph EXT["External host + sinks"]
+        direction TB
+        SIFT["SIFT binaries"]:::ext
+        Evidence[("Evidence store")]:::ext
+        OpenSearch["OpenSearch · idx_*"]:::sink
+        Wazuh["Wazuh · wazuh_*"]:::sink
+        Intel["Threat-intel"]:::sink
     end
 
-    subgraph SINKS["External sinks"]
-        OpenSearch["OpenSearch — idx_* case store"]:::sink
-        Wazuh["Wazuh SIEM (optional) — wazuh_* CDB lists"]:::sink
-        Intel["Threat-intel (optional) — VT / OTX"]:::sink
-    end
-
-    Examiner -->|"agentropix-sift run (shell)"| CLI
-    Examiner -->|"MCP tools/call — stdio / HTTPS Bearer"| MCP
-    CLI -->|"run_triage(image) — in-process"| Orch
-    MCP -->|"dispatch tool call — in-process"| Wrappers
-    MCP -->|"check_read(path) — in-process"| Thymus
-    Orch -->|"run plan each iteration — asyncio"| Agents
-    Agents -->|"call mcp_* tools — asyncio"| Wrappers
-    Wrappers -->|"check_read before subprocess"| Thymus
-    Wrappers -->|"subprocess exec (async)"| SIFT
-    Wrappers -->|"read image bytes (read-only)"| Evidence
-    Orch -->|"hash evidence + seal report"| Courtroom
-    Approval -->|"bind approval into seal"| Courtroom
-    MCP -->|"idx_* ingest/query (HTTP)"| OpenSearch
-    MCP -->|"wazuh_* push<br/>dry-run default (HTTPS)"| Wazuh
-    MCP -->|"threat_intel_lookup<br/>HTTPS, egress-gated"| Intel
+    Examiner -->|run| CLI
+    Examiner -->|"tools/call"| MCP
+    CLI --> Orch
+    MCP --> Wrappers
+    MCP --> Thymus
+    Orch --> Agents
+    Agents --> Wrappers
+    Wrappers --> Thymus
+    Wrappers --> SIFT
+    Wrappers --> Evidence
+    Orch --> Courtroom
+    Approval --> Courtroom
+    MCP --> OpenSearch
+    MCP --> Wazuh
+    MCP --> Intel
 
     style ASIFT fill:#f1f3f5,stroke:#868e96,color:#212529
-    style HOST fill:#f1f3f5,stroke:#868e96,color:#212529
-    style SINKS fill:#f1f3f5,stroke:#868e96,color:#212529
+    style EXT fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
 **Reading the containers.** There are two entry points and one shared engine:
@@ -152,37 +150,36 @@ exposure model is what matters for the threat picture
 (`docs/architecture/_C4-DEPLOYMENT.md`):
 
 ```mermaid
-flowchart TB
+flowchart LR
     classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545,stroke-width:2px
     classDef gov fill:#ffc9c9,stroke:#e03131,color:#5c1a1a,stroke-width:2px
     classDef ext fill:#e9ecef,stroke:#495057,color:#212529,stroke-width:1px
     classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400,stroke-width:1.5px
 
-    subgraph Tailnet["Tailnet — siftworkstation.taile7c9ca.ts.net · WireGuard, no LAN/public ingress"]
-        subgraph WS["siftworkstation (primary host) — SANS SIFT Workstation"]
-            MCP2["FastMCP server<br/>Bearer-token middleware; stdio or HTTP+SSE; fail-closed if no token"]:::api
-            Approval2["approval_sidecar :8800<br/>Starlette, HMAC; 127.0.0.1 bind by default"]:::gov
-            Cases[("/cases evidence store<br/>read-only Thymus policy")]:::ext
+    subgraph Tailnet["Tailnet (WireGuard · no LAN/public ingress)"]
+        subgraph WS["siftworkstation host"]
+            direction TB
+            MCP2["FastMCP server<br/>Bearer-token · fail-closed"]:::api
+            Approval2["approval_sidecar :8800<br/>127.0.0.1 bind"]:::gov
+            Cases[("/cases evidence<br/>read-only Thymus")]:::ext
         end
     end
-    subgraph GPU1["gpu1 / 192.168.2.178 — Docker (NOT systemd)"]
-        Wazuh2["Wazuh single-node stack<br/>manager + indexer + dashboard"]:::sink
-        OS2["OpenSearch indexer<br/>idx_* tools"]:::sink
+    subgraph GPU1["gpu1 · 192.168.2.178 · Docker"]
+        direction TB
+        Wazuh2["Wazuh single-node<br/>manager + indexer"]:::sink
+        OS2["OpenSearch · idx_*"]:::sink
     end
-    subgraph Net["Internet (egress-gated)"]
-        Intel2["Threat-intel providers<br/>VT / OTX"]:::sink
-    end
+    Intel2["Threat-intel · VT / OTX<br/>(Internet, egress-gated)"]:::sink
 
     MCP2 -->|"read-only"| Cases
-    MCP2 -->|"wazuh_* push<br/>ADR-018, HTTPS"| Wazuh2
-    MCP2 -->|"idx_* ingest/search<br/>HTTP"| OS2
-    MCP2 -->|"threat_intel_lookup<br/>HTTPS, AGENTROPIX_ALLOW_EGRESS"| Intel2
-    MCP2 -->|"HMAC approve<br/>HTTP loopback"| Approval2
+    MCP2 -->|"HMAC approve · loopback"| Approval2
+    MCP2 -->|"wazuh_* · HTTPS"| Wazuh2
+    MCP2 -->|"idx_* · HTTP"| OS2
+    MCP2 -->|"intel · HTTPS egress-gated"| Intel2
 
     style Tailnet fill:#e7f5ff,stroke:#1971c2,color:#0b2545
     style WS fill:#f1f3f5,stroke:#868e96,color:#212529
     style GPU1 fill:#f1f3f5,stroke:#868e96,color:#212529
-    style Net fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
 **Reading the deployment.** Three exposure facts anchor the security story:
