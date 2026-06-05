@@ -143,3 +143,30 @@ pragmatic path to zoomable diagrams.
   left as-is to avoid altering diagram content. Revisit only if the purple base
   tint is later deemed required (would need a valid `class ... ::: ` / classDef
   application rather than `cssClass`).
+
+---
+
+## Update — GitLab "squish" width remediation (post-audit visual pass)
+
+The audit above rendered diagrams **locally at native size** (mmdc), where they
+look fine. But **GitLab scales any diagram wider than its ~900px content column
+down to fit**, shrinking the text — so several *wide* diagrams that passed the
+local bar were still unreadable **in GitLab**. A second pass measured each
+diagram's rendered width and redesigned the worst offenders to be narrower
+(vertical layout / `LR` fan-out / split views / concise labels):
+
+| Diagram | Before (px wide) | After | How |
+|---|---|---|---|
+| `component-architecture.md` · Component map | **3537** | **split → 1203 + 754** | split into View A (entry+engine) and View B (safety+sinks) |
+| `system-context-c4.md` · Container View | **3308** | **1534** | `LR`, two vertical groups, concise labels (detail in the table below) |
+| `system-context-c4.md` · Deployment | **2009** | **850** | `LR` so the MCP fan-out stacks vertically; shorter labels |
+| `swarm-agents.md` · class hierarchy | n/a | n/a | fixed invalid `cssClass` → `style` directives (tints now apply) |
+
+**Verified in GitLab via the Playwright MCP container** (screenshots in `issues/`):
+View A and the container/deployment views now render at a legible size.
+
+**Still intrinsically wide (known limitation):** `schema-er.md` · ER diagram
+(~3005px, 16 entities) and a few moderate 1100–1700px graphs. ER auto-layout
+cannot be narrowed without dropping entities. Recommended remedy is **zoom
+option (b)** — commit an `.svg` export and add an *"open as SVG (infinite
+zoom)"* link beside the diagram.
