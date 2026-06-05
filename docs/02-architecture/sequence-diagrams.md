@@ -187,7 +187,7 @@ sequenceDiagram
     Orch->>Critic: score(BB, planned_agents=plan, iteration=N)
 
     Critic->>BB: max_conf + correlations()
-    Critic->>Critic: score = min(1.0, max_conf + 0.25*#corr)
+    Critic->>Critic: score = min(1.0, max_conf + 0.25·n_corr)
 
     alt any PLANNED agent produced 0 findings
         Critic-->>Orch: should_halt=False (coverage guard W-083)
