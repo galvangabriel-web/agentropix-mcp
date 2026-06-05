@@ -26,13 +26,13 @@ graph TD
     examiner([Human Examiner])
 
     subgraph Agentropix-SIFT
-        UC1["record_finding (DRAFT, mutation_token)"]
-        UC2["delete_finding (DRAFT-only self-correct)"]
-        UC3["case_status (DRAFT/APPROVED/REJECTED counts)"]
-        UC4["approve_finding (HMAC -> sidecar)"]
-        UC5["retract_approval (compensating, append-only)"]
-        UC6["report_generate / report_export (APPROVED only)"]
-        UC7["report sealed (courtroom HMAC-SHA256)"]
+        UC1["record_finding<br/>(DRAFT, mutation_token)"]
+        UC2["delete_finding<br/>(DRAFT-only self-correct)"]
+        UC3["case_status<br/>(DRAFT/APPROVED/REJECTED counts)"]
+        UC4["approve_finding<br/>(HMAC -> sidecar)"]
+        UC5["retract_approval<br/>(compensating, append-only)"]
+        UC6["report_generate / report_export<br/>(APPROVED only)"]
+        UC7["report sealed<br/>(courtroom HMAC-SHA256)"]
     end
 
     analyst --> UC1
@@ -42,6 +42,20 @@ graph TD
     examiner --> UC5
     UC4 --> UC6
     UC6 --> UC7
+
+    classDef actor fill:#d0bfff,stroke:#7048e8,color:#2b1a52
+    classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+    classDef gov fill:#ffc9c9,stroke:#e03131,color:#5c1a1a
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400
+
+    class analyst,examiner actor
+    class UC1,UC2,UC3 api
+    class UC4,UC5 gov
+    class UC6 core
+    class UC7 sink
+
+    style Agentropix-SIFT fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
 The analyst stages DRAFT findings and can self-correct an over-count with `delete_finding`

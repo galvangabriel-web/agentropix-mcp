@@ -46,6 +46,17 @@ graph TD
     MCP --> WRAP
     CLI --> COURT
     ORCH --> COURT
+
+    classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+    classDef gov fill:#ffc9c9,stroke:#e03131,color:#5c1a1a
+    classDef ext fill:#e9ecef,stroke:#495057,color:#212529
+
+    class CLI api
+    class ORCH,TRIN,AG,BB,DET core
+    class MCP api
+    class WRAP ext
+    class THY,COURT gov
 ```
 
 The dependency arrows run **downhill**: the CLI drives the orchestrator, the orchestrator

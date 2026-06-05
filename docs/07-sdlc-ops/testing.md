@@ -28,7 +28,7 @@ Tests live under `tests/`, partitioned by the layer they exercise:
 | Secrets gate | `tests/secrets_gate/` | Secret resolution precedence and logging-safe redaction. |
 
 ```mermaid
-graph LR
+graph TB
     subgraph fast["Fast / always-run (mock-based)"]
         U["unit/"]
         C["chaos/"]
@@ -45,6 +45,15 @@ graph LR
     end
     fast --> CI["CI / pre-commit"]
     gated -. "skip-with-reason<br/>when host lacks the fixture" .-> CI
+
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400
+    classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545
+    class U,C,P,E,A,S,W core
+    class I,WL,RC sink
+    class CI api
+    style fast fill:#f1f3f5,stroke:#868e96,color:#212529
+    style gated fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
 The fast suites run everywhere with no external prerequisites; the gated suites

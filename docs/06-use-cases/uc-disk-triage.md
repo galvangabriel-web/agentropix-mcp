@@ -30,7 +30,7 @@ graph TD
     subgraph Agentropix-SIFT
         UC1["doctor: pre-flight the 16 SIFT binaries"]
         UC2["run: autonomous Trinity triage of E01"]
-        UC3["MCP disk chain:<br/>get_image_info -> get_partitions -> fls -> extract_files -> exec-evidence"]
+        UC3["MCP disk chain:<br/>get_image_info -> get_partitions -> fls<br/>-> extract_files -> exec-evidence"]
         UC4["evidence_register: chain-of-custody hash"]
         UC5["report sealed (HMAC-SHA256)"]
     end
@@ -42,6 +42,17 @@ graph TD
     UC2 --> UC5
     UC3 -.feeds.-> UC4
     examiner -.verifies seal.-> UC5
+
+    classDef actor fill:#d0bfff,stroke:#7048e8,color:#2b1a52
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+    classDef gov fill:#ffc9c9,stroke:#e03131,color:#5c1a1a
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400
+
+    class analyst,examiner actor
+    class UC1,UC2,UC3 core
+    class UC4 gov
+    class UC5 sink
+    style Agentropix-SIFT fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
 The analyst pre-flights the toolchain (`doctor`), then chooses either the autonomous `run` command

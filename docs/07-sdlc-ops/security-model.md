@@ -27,6 +27,18 @@ graph TD
     Allow --> Ring["bounded audit ring<br/>(default 1000)"]
     Allow --> JSONL["on-disk JSONL audit<br/>(AGENTROPIX_AUDIT_LOG)"]
     Deny --> Ring
+
+    classDef actor fill:#d0bfff,stroke:#7048e8,color:#2b1a52
+    classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+    classDef gov fill:#ffc9c9,stroke:#e03131,color:#5c1a1a
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400
+
+    class Tool actor
+    class Chk api
+    class Allow core
+    class Deny gov
+    class Ring,JSONL sink
 ```
 
 **Allowed zones** (`READONLY_PATHS`): `/cases/`, `/mnt/`, `/media/`, `/evidence/`,
@@ -104,22 +116,43 @@ by default and uses PBKDF2 (`600000` iterations) over per-examiner salts.
 ## 5. Threat model — defends / does NOT defend
 
 ```mermaid
-graph LR
+graph TB
     subgraph defends["DEFENDS AGAINST"]
+        direction TB
         D1["Evidence mutation<br/>(no write tools exist)"]
-        D2["Path traversal / device access<br/>(Thymus FORBIDDEN_PATTERNS)"]
+        D2["Path traversal /<br/>device access<br/>(Thymus FORBIDDEN_PATTERNS)"]
         D3["Tampered report/audit<br/>(HMAC-SHA256 seal)"]
         D4["LLM-fabricated facts<br/>(deterministic-tools-only)"]
         D5["Credential/secret leakage<br/>(fail-closed redaction)"]
         D6["Unauthorised mutation<br/>(one-shot evidence-gate tokens)"]
+        D1 ~~~ D2 ~~~ D3
+        D4 ~~~ D5 ~~~ D6
+        D1 ~~~ D4
+        D2 ~~~ D5
+        D3 ~~~ D6
     end
     subgraph nodefend["Does NOT defend against"]
+        direction TB
         N1["Compromised host / root"]
-        N2["Malicious SIFT binary on PATH"]
+        N2["Malicious SIFT binary<br/>on PATH"]
         N3["Operator with valid creds"]
-        N4["Public exposure w/o hardening"]
-        N5["Untrusted ground-truth authorship"]
+        N4["Public exposure<br/>w/o hardening"]
+        N5["Untrusted ground-truth<br/>authorship"]
+        N1 ~~~ N2 ~~~ N3
+        N4 ~~~ N5
+        N1 ~~~ N4
+        N2 ~~~ N5
     end
+    defends ~~~ nodefend
+
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+    classDef gov fill:#ffc9c9,stroke:#e03131,color:#5c1a1a
+
+    class D1,D2,D3,D4,D5,D6 core
+    class N1,N2,N3,N4,N5 gov
+
+    style defends fill:#ebfbee,stroke:#2f9e44,color:#15391f
+    style nodefend fill:#fff0f0,stroke:#e03131,color:#5c1a1a
 ```
 
 **What the system defends against.** Evidence integrity (writes are structurally impossible;

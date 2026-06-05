@@ -16,12 +16,20 @@ SIFT forensic tools are installed.
 
 ```mermaid
 graph TD
-  entry["console-script: agentropix-sift"] --> main["main() -> app()<br/>cli.py:220"]
+  entry["console-script:<br/>agentropix-sift"] --> main["main() -> app()<br/>cli.py:220"]
   main --> run["run<br/>cli.py:50-152"]
   main --> doctor["doctor<br/>cli.py:175-217"]
   run --> triage["run_triage()<br/>orchestrator.py"]
   run --> seal["write_sealed_session()<br/>courtroom.py"]
   doctor --> which["shutil.which() per tool<br/>+ AGENTROPIX_*_TOOL overrides"]
+
+  classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545
+  classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+  classDef ext fill:#e9ecef,stroke:#495057,color:#212529
+
+  class entry,main api
+  class run,doctor core
+  class triage,seal,which ext
 ```
 
 The Typer app is constructed at `cli.py:44` with `name="agentropix-sift"` and the

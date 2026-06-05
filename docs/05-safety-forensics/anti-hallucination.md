@@ -193,9 +193,25 @@ graph TD
     H --> I[Report sealed<br/>evidence SHA-256 + HMAC<br/>courtroom.py]
     X --> J[(AGENTROPIX_AUDIT_LOG<br/>JSONL chain of custody)]
     C -.logs ALLOW/REJECT.-> J
-    style C fill:#fde,stroke:#c39
-    style G fill:#def,stroke:#39c
-    style I fill:#dfd,stroke:#3c3
+
+    classDef actor fill:#d0bfff,stroke:#7048e8,color:#2b1a52
+    classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+    classDef gov fill:#ffc9c9,stroke:#e03131,color:#5c1a1a
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400
+    classDef ext fill:#e9ecef,stroke:#495057,color:#212529
+
+    class A actor
+    class B api
+    class C gov
+    class X gov
+    class D core
+    class E core
+    class F api
+    class G api
+    class H core
+    class I core
+    class J sink
 ```
 
 The diagram traces a single iteration. **Three of the five controls gate a

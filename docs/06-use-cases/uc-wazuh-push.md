@@ -25,20 +25,23 @@ silent pass), HMAC-sealed (ADR-016), and validated through Thymus STRICT
 
 ```mermaid
 graph TD
-    operator([Analyst / SOC Operator])
+    operator(["Analyst / SOC Operator"])
 
-    subgraph Agentropix-SIFT
-        UC1["build_executable_registry -> MASTER-IOCS.json"]
-        UC2["wazuh_index_findings (findings -> alerts)"]
-        UC3["wazuh_publish_iocs (dry-run): push plan"]
-        UC4["wazuh_publish_iocs (live): CDB lists + rules + HMAC seal"]
-        UC5["wazuh_hunt_ioc: retro-hunt across wazuh-alerts-*"]
-        UC6["wazuh_check_intel / wazuh_vuln_query"]
+    subgraph SIFT["Agentropix-SIFT"]
+        direction TB
+        UC1["build_executable_registry<br/>writes MASTER-IOCS.json"]
+        UC2["wazuh_index_findings<br/>(findings -> alerts)"]
+        UC3["wazuh_publish_iocs (dry-run)<br/>push plan"]
+        UC4["wazuh_publish_iocs (live)<br/>CDB lists + rules + HMAC seal"]
+        UC5["wazuh_hunt_ioc<br/>retro-hunt across wazuh-alerts-*"]
+        UC6["wazuh_check_intel<br/>/ wazuh_vuln_query"]
+        UC1 ~~~ UC2 ~~~ UC3 ~~~ UC4 ~~~ UC5 ~~~ UC6
     end
 
-    subgraph Wazuh ["Wazuh (EXPERIMENTAL, kill-switch gated)"]
-        W1[(Manager API :55000)]
-        W2[(Indexer :9200)]
+    subgraph WAZUH["Wazuh (EXPERIMENTAL, kill-switch gated)"]
+        direction TB
+        W1[("Manager API :55000")]
+        W2[("Indexer :9200")]
     end
 
     operator --> UC1
@@ -51,6 +54,19 @@ graph TD
     UC4 --> W1
     UC5 --> W2
     UC6 --> W2
+
+    classDef actor fill:#d0bfff,stroke:#7048e8,color:#2b1a52
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+    classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400
+
+    class operator actor
+    class UC1,UC2,UC3,UC4,UC5,UC6 core
+    class W1 api
+    class W2 sink
+
+    style SIFT fill:#f1f3f5,stroke:#868e96,color:#212529
+    style WAZUH fill:#e9ecef,stroke:#495057,color:#212529,stroke-dasharray: 6 4
 ```
 
 The operator first materialises `MASTER-IOCS.json` (`build_executable_registry`), previews the push

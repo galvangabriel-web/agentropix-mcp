@@ -134,7 +134,7 @@ sequenceDiagram
     participant ORCH as Orchestrator
     participant CR as courtroom.py
     participant FS as Disk (report + key + audit)
-    participant V as Verifier (audit/verify_seal · provenance/validate)
+    participant V as Verifier<br/>(audit/verify_seal · provenance/validate)
 
     Note over ORCH: Session start
     ORCH->>CR: evidence_image_sha256(image_path)

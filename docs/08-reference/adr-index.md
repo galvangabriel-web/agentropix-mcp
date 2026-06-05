@@ -20,6 +20,16 @@ graph LR
   A --> D["Deprecated"]
   A --> S["Superseded by ADR-XXX"]
   P -.-> Def["Deferred<br/>(documented, not built)"]
+
+  classDef start fill:#e9ecef,stroke:#495057,color:#212529
+  classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+  classDef eol fill:#e9ecef,stroke:#495057,color:#212529
+  classDef gov fill:#ffc9c9,stroke:#e03131,color:#5c1a1a
+
+  class P start
+  class A core
+  class D,S eol
+  class Def gov
 ```
 
 ADRs move `Proposed → Accepted` once the decision is technically reviewed, has a

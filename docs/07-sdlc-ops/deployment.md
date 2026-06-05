@@ -23,6 +23,16 @@ graph TD
     C --> D["agentropix-sift doctor<br/>pre-flight 16 SIFT binaries"]
     D -->|"all-green"| E["agentropix-sift run &lt;image&gt;<br/>(sealed TriageReport)"]
     D -->|"missing binary"| F["point AGENTROPIX_&lt;TOOL&gt;_TOOL<br/>at the SIFT path; re-run doctor"]
+
+    classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400
+    classDef gov fill:#ffc9c9,stroke:#e03131,color:#5c1a1a
+
+    class A api
+    class B,C,E core
+    class D sink
+    class F gov
 ```
 
 Prerequisites the runbook calls out: Python 3.12+, `uv`, `git`, network for the first

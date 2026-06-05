@@ -17,6 +17,8 @@ ATT&CK detectors"* and cite `agents/__init__.py` ([agents-list.md](../../.crew/a
 
 ## 1. The agent class hierarchy
 
+The four data contracts and how an agent feeds them:
+
 ```mermaid
 classDiagram
     class SwarmAgent {
@@ -54,31 +56,46 @@ classDiagram
         +float max_confidence
     }
 
-    SwarmAgent <|-- MemoryAgent
-    SwarmAgent <|-- TimelineAgent
-    SwarmAgent <|-- FilesystemAgent
-    SwarmAgent <|-- ArtifactAgent
-    SwarmAgent <|-- DiscoveryAgent
-    SwarmAgent <|-- MailAgent
-    SwarmAgent <|-- HuntAgent
-    SwarmAgent <|-- YARAHuntAgent
-    SwarmAgent <|-- InjectionDetector
-    SwarmAgent <|-- NullSessionBaselineAgent
-    SwarmAgent <|-- AccessibilityIfeoHijackDetector
-    SwarmAgent <|-- IexLoopbackC2Detector
-    SwarmAgent <|-- T1071SvchostOutboundHttpDetector
-
     SwarmAgent ..> Finding : produces
     SwarmAgent --> Blackboard : publishes to
     Blackboard o-- Finding : holds (agent, Finding)
     Blackboard ..> Correlation : surfaces
 
+    style SwarmAgent fill:#d0bfff,stroke:#7048e8,color:#2b1a52
+    style Finding fill:#a5d8ff,stroke:#1971c2,color:#0b2545
+    style Blackboard fill:#a5d8ff,stroke:#1971c2,color:#0b2545
+    style Correlation fill:#a5d8ff,stroke:#1971c2,color:#0b2545
+```
+
+The 13 `SwarmAgent` subclasses — the 7 core specialists and the 6 ATT&CK detectors:
+
+```mermaid
+flowchart TB
+    SA["SwarmAgent<br/>(abstract base)"]
+
+    subgraph core["Core specialists (7)"]
+        direction TB
+        MA["MemoryAgent"] --- TA["TimelineAgent"] --- FA["FilesystemAgent"] --- AA["ArtifactAgent"]
+        AA --- DA["DiscoveryAgent"] --- MLA["MailAgent"] --- HA["HuntAgent"]
+    end
+
+    subgraph attck["ATT&amp;CK detectors (6)"]
+        direction TB
+        YA["YARAHuntAgent"] --- ID["InjectionDetector"] --- NS["NullSessionBaselineAgent"]
+        NS --- AI["AccessibilityIfeoHijackDetector"] --- IL["IexLoopbackC2Detector"] --- TS["T1071SvchostOutboundHttpDetector"]
+    end
+
+    SA --> MA
+    SA --> YA
+
+    linkStyle 0,1,2,3,4,5,6,7,8,9,10,11 stroke-width:0px,fill:none
+
     classDef base fill:#d0bfff,stroke:#7048e8,color:#2b1a52
     classDef agent fill:#b2f2bb,stroke:#2f9e44,color:#15391f
-    classDef data fill:#a5d8ff,stroke:#1971c2,color:#0b2545
-    cssClass "SwarmAgent" base
-    cssClass "MemoryAgent,TimelineAgent,FilesystemAgent,ArtifactAgent,DiscoveryAgent,MailAgent,HuntAgent,YARAHuntAgent,InjectionDetector,NullSessionBaselineAgent,AccessibilityIfeoHijackDetector,IexLoopbackC2Detector,T1071SvchostOutboundHttpDetector" agent
-    cssClass "Finding,Blackboard,Correlation" data
+    class SA base
+    class MA,TA,FA,AA,DA,MLA,HA,YA,ID,NS,AI,IL,TS agent
+    style core fill:#f1f3f5,stroke:#868e96,color:#212529
+    style attck fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
 **Reading the hierarchy.** Every agent extends the abstract `SwarmAgent`

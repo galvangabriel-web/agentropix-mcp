@@ -30,6 +30,16 @@ graph TD
     Done --> Report[Build TriageReport<br/>findings + trace + audit + iterations]
     Exhausted --> Report
     Report --> Seal([CLI seals report on write])
+
+    classDef actor fill:#d0bfff,stroke:#7048e8,color:#2b1a52
+    classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400
+
+    class Start,Seal actor
+    class Iter,Halt,Budget api
+    class Hash,Plan,Run,Score,Report core
+    class Done,Exhausted sink
 ```
 
 **Reading the loop.** `run_triage()` resolves the evidence path, computes
@@ -116,16 +126,27 @@ This is the load-bearing part of the chapter. The Critic decides `should_halt` f
 ```mermaid
 graph TD
     S[Critic.score] --> E{Blackboard empty?}
-    E -- "yes" --> NH0["should_halt = False<br/>(no findings yet)"]
     E -- "no" --> PG{"plan_gaps?<br/>any PLANNED agent produced 0 findings"}
-    PG -- "yes" --> NH1["should_halt = False<br/>(coverage guard — W-083)"]
     PG -- "no" --> MI{"iteration < min_iterations (default 2)?"}
-    MI -- "yes" --> NH2["should_halt = False<br/>(min-iterations floor)"]
     MI -- "no" --> TH{"score >= halt_threshold (default 0.85)?"}
-    TH -- "yes" --> H1["should_halt = True<br/>(threshold met)"]
     TH -- "no" --> NP{"no new findings since last iteration?<br/>(fingerprint fixed point)"}
+
+    E -- "yes" --> NH0["should_halt = False<br/>(no findings yet)"]
+    PG -- "yes" --> NH1["should_halt = False<br/>(coverage guard — W-083)"]
+    MI -- "yes" --> NH2["should_halt = False<br/>(min-iterations floor)"]
+    TH -- "yes" --> H1["should_halt = True<br/>(threshold met)"]
     NP -- "yes" --> H2["should_halt = True<br/>(idempotent fixed point — no progress)"]
     NP -- "no" --> NH3["should_halt = False<br/>(continue: below threshold, still progressing)"]
+
+    classDef actor fill:#d0bfff,stroke:#7048e8,color:#2b1a52
+    classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400
+
+    class S actor
+    class E,PG,MI,TH,NP api
+    class H1,H2 sink
+    class NH0,NH1,NH2,NH3 core
 ```
 
 **Reading the halt cascade.** The three components combine to make halting both *safe* and

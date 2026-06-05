@@ -38,11 +38,11 @@ flowchart TB
 
     Examiner -->|"runs CLI / connects MCP client<br/>agentropix-sift run · stdio / HTTPS Bearer"| Agentropix
     Examiner -->|"approves / retracts findings<br/>HMAC challenge → sign (approval sidecar)"| Agentropix
-    Agentropix -->|"invokes forensic binaries (async subprocess)"| SIFT
-    Agentropix -->|"reads image bytes (read-only, Thymus-enforced)"| Evidence
-    Agentropix -->|"ingests / queries case data — idx_* (mutation_token)"| OpenSearch
-    Agentropix -->|"pushes IOCs, dry-run by default — wazuh_* (mutation_token)"| Wazuh
-    Agentropix -->|"looks up indicators — threat_intel_lookup (AGENTROPIX_ALLOW_EGRESS)"| Intel
+    Agentropix -->|"invokes forensic binaries<br/>async subprocess"| SIFT
+    Agentropix -->|"reads image bytes<br/>read-only, Thymus-enforced"| Evidence
+    Agentropix -->|"ingests / queries case data<br/>idx_* (mutation_token)"| OpenSearch
+    Agentropix -->|"pushes IOCs, dry-run by default<br/>wazuh_* (mutation_token)"| Wazuh
+    Agentropix -->|"looks up indicators<br/>threat_intel_lookup (AGENTROPIX_ALLOW_EGRESS)"| Intel
 ```
 
 **Reading the context.** The only human in the loop is the **DFIR examiner**, who either
@@ -86,18 +86,23 @@ flowchart TB
         CLI["CLI — Python · Typer<br/>agentropix-sift run / doctor; seals report on write (cli.py)"]:::api
         MCP["FastMCP server — Python · FastMCP<br/>single MCP server, 71 tools; stdio or HTTP+SSE Bearer (fastmcp_app.py)"]:::api
         Orch["Orchestrator + Trinity — asyncio<br/>Architect → Swarm → Critic over one image (orchestrator.py, trinity/)"]:::core
-        Agents["Swarm + Blackboard — asyncio<br/>7 core specialists + ATT&CK detectors; Blackboard correlation (agents/, detectors/)"]:::core
-        Wrappers["Forensic wrappers — Python<br/>~40 modules driving 16 SIFT binaries + EZ-Tools (mcp_server/wrappers/)"]:::core
+        Agents["Swarm + Blackboard — asyncio<br/>7 core specialists + ATT&CK detectors · Blackboard correlation (agents/, detectors/)"]:::core
+        Wrappers["Forensic wrappers — Python<br/>~40 modules · 16 SIFT binaries + EZ-Tools (mcp_server/wrappers/)"]:::core
         Thymus["Thymus policy — Python<br/>read-only allow-list + audit ring at MCP boundary (thymus_policy.py)"]:::gov
         Courtroom["Courtroom + provenance — Python<br/>evidence_image_sha256, HMAC-SHA256 seal, chain validation (courtroom.py)"]:::gov
         Approval["Approval sidecar (optional) — Starlette<br/>HMAC challenge/approve human gate (approval_sidecar/)"]:::gov
     end
 
-    SIFT["SIFT forensic binaries<br/>vol3 · plaso · fls · RegRipper · YARA · …"]:::ext
-    Evidence[("Evidence store<br/>E01 / raw / .mem (read-only)")]:::ext
-    OpenSearch["OpenSearch — idx_* case store"]:::sink
-    Wazuh["Wazuh SIEM (optional) — wazuh_* CDB lists"]:::sink
-    Intel["Threat-intel (optional) — VT / OTX"]:::sink
+    subgraph HOST["External host"]
+        SIFT["SIFT forensic binaries<br/>vol3 · plaso · fls · RegRipper · YARA · …"]:::ext
+        Evidence[("Evidence store<br/>E01 / raw / .mem (read-only)")]:::ext
+    end
+
+    subgraph SINKS["External sinks"]
+        OpenSearch["OpenSearch — idx_* case store"]:::sink
+        Wazuh["Wazuh SIEM (optional) — wazuh_* CDB lists"]:::sink
+        Intel["Threat-intel (optional) — VT / OTX"]:::sink
+    end
 
     Examiner -->|"agentropix-sift run (shell)"| CLI
     Examiner -->|"MCP tools/call — stdio / HTTPS Bearer"| MCP
@@ -112,10 +117,12 @@ flowchart TB
     Orch -->|"hash evidence + seal report"| Courtroom
     Approval -->|"bind approval into seal"| Courtroom
     MCP -->|"idx_* ingest/query (HTTP)"| OpenSearch
-    MCP -->|"wazuh_* push, dry-run default (HTTPS)"| Wazuh
-    MCP -->|"threat_intel_lookup (HTTPS, egress-gated)"| Intel
+    MCP -->|"wazuh_* push<br/>dry-run default (HTTPS)"| Wazuh
+    MCP -->|"threat_intel_lookup<br/>HTTPS, egress-gated"| Intel
 
     style ASIFT fill:#f1f3f5,stroke:#868e96,color:#212529
+    style HOST fill:#f1f3f5,stroke:#868e96,color:#212529
+    style SINKS fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
 **Reading the containers.** There are two entry points and one shared engine:
@@ -167,10 +174,10 @@ flowchart TB
     end
 
     MCP2 -->|"read-only"| Cases
-    MCP2 -->|"wazuh_* push (ADR-018, HTTPS)"| Wazuh2
-    MCP2 -->|"idx_* ingest/search (HTTP)"| OS2
-    MCP2 -->|"threat_intel_lookup (HTTPS, AGENTROPIX_ALLOW_EGRESS)"| Intel2
-    MCP2 -->|"HMAC approve (HTTP loopback)"| Approval2
+    MCP2 -->|"wazuh_* push<br/>ADR-018, HTTPS"| Wazuh2
+    MCP2 -->|"idx_* ingest/search<br/>HTTP"| OS2
+    MCP2 -->|"threat_intel_lookup<br/>HTTPS, AGENTROPIX_ALLOW_EGRESS"| Intel2
+    MCP2 -->|"HMAC approve<br/>HTTP loopback"| Approval2
 
     style Tailnet fill:#e7f5ff,stroke:#1971c2,color:#0b2545
     style WS fill:#f1f3f5,stroke:#868e96,color:#212529

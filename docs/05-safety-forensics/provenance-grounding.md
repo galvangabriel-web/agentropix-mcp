@@ -167,7 +167,7 @@ erDiagram
     }
     HMAC_SEAL {
         string algo "hmac-sha256"
-        string endpoint "/provenance/<list_name>"
+        string endpoint "/provenance/{list}"
         string req_sha256
     }
     EVIDENCE_FILE {

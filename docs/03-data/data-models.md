@@ -87,6 +87,11 @@ classDiagram
         +float total_duration_ms
     }
     Trace "1" *-- "0..*" ToolCall : tool_calls[]
+
+    cssClass "TriageReport" rootNode
+    cssClass "Finding,TrinityResultEntry,Trace,ThymusAuditEntry,ToolCall" subNode
+    classDef rootNode fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+    classDef subNode fill:#a5d8ff,stroke:#1971c2,color:#0b2545
 ```
 
 The `TriageReport` is a *composition root*: `findings`, `iterations`, `trace`, and `thymus_audit` are
@@ -171,7 +176,7 @@ classDiagram
 ```mermaid
 classDiagram
     class Blackboard {
-        -list~tuple~str,Finding~~ _entries
+        -list _entries  «list[tuple[str,Finding]]»
         -asyncio.Lock _lock
         -int _quorum_threshold = 2
         +dict config
@@ -336,19 +341,30 @@ classDiagram
         +str|None report_seal
     }
     class EvidenceBinding {
-        +SHA-256 of image bytes at session start
+        <<guarantee>>
+        +SHA-256 of image bytes
+        +at session start
     }
     class DeterministicProvenance {
-        +every fact ← named MCP tool in trace.tool_calls
+        <<guarantee>>
+        +every fact from a named
+        +MCP tool in trace.tool_calls
     }
     class HMACSeal {
-        +HMAC-SHA256 over canonical report JSON
+        <<guarantee>>
+        +HMAC-SHA256 over
+        +canonical report JSON
         +session-key mode 0600
         +cross-bound to audit_log_seal
     }
     TriageReport --> EvidenceBinding : evidence_image_sha256
     TriageReport --> DeterministicProvenance : inference_constraint=high
     TriageReport --> HMACSeal : report_seal
+
+    cssClass "TriageReport" anchorNode
+    cssClass "EvidenceBinding,DeterministicProvenance,HMACSeal" govNode
+    classDef anchorNode fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+    classDef govNode fill:#ffc9c9,stroke:#e03131,color:#5c1a1a
 ```
 
 1. **Evidence binding** — `evidence_image_sha256` is the SHA-256 of the image bytes computed at

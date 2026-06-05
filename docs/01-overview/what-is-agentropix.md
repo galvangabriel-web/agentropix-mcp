@@ -61,7 +61,7 @@ properties a forensic result needs to be defensible:
 ## The pipeline at a glance
 
 ```mermaid
-graph LR
+flowchart TB
     IMG[("Evidence image<br/>E01 · raw · memory")]
     subgraph TRINITY["Trinity Loop (deterministic control)"]
         ARCH["Architect<br/>(deterministic planner)"]
@@ -72,7 +72,7 @@ graph LR
     MCP["FastMCP server<br/>71 MCP tools"]
     TOOLS[["16 SIFT forensic binaries<br/>vol · plaso · fls · yara · …"]]
     BB[("Blackboard<br/>cross-agent correlation")]
-    SEAL["Courtroom seal<br/>HMAC-SHA256 + SHA-256 binding"]
+    SEAL["Courtroom seal<br/>HMAC-SHA256<br/>+ SHA-256 binding"]
     REPORT[("TriageReport JSON<br/>findings · trace · seal")]
 
     IMG --> ARCH
@@ -87,6 +87,23 @@ graph LR
     CRIT -->|"not converged: re-plan (gaps)"| ARCH
     CRIT -->|"converged / budget"| SEAL
     SEAL --> REPORT
+
+    classDef ext fill:#e9ecef,stroke:#495057,color:#212529
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+    classDef gov fill:#ffc9c9,stroke:#e03131,color:#5c1a1a
+    classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400
+
+    class IMG ext
+    class ARCH,SWARM,CRIT core
+    class THYMUS gov
+    class MCP api
+    class TOOLS ext
+    class BB core
+    class SEAL gov
+    class REPORT sink
+
+    style TRINITY fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
 The flow is a **Trinity Loop**:

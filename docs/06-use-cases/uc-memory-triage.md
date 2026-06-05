@@ -26,7 +26,7 @@ the memory path tells you *the parent/child shape and live network posture* of t
 graph TD
     analyst([DFIR Analyst / Agent])
 
-    subgraph Agentropix-SIFT
+    subgraph sift["Agentropix-SIFT"]
         UC1["get_pslist / build_process_tree:<br/>baseline + parent-child anomaly"]
         UC2["get_netscan: outbound sockets"]
         UC3["get_malfind: RWX / injected code"]
@@ -45,6 +45,18 @@ graph TD
     UC4 --> UC5
     UC5 -.optional.-> UC6
     UC1 --> UC7
+
+    classDef actor fill:#d0bfff,stroke:#7048e8,color:#2b1a52
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400
+    classDef ext fill:#e9ecef,stroke:#495057,color:#212529
+
+    class analyst actor
+    class UC1,UC2,UC3,UC4,UC5 core
+    class UC7 sink
+    class UC6 ext
+
+    style sift fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
 The analyst baselines processes, then inspects sockets, injected code, and services. A confirmed
@@ -118,11 +130,13 @@ sequenceDiagram
 
     Analyst->>CLI: agentropix-sift run base-hunt-memory.raw -o mem-report.json
     CLI->>Orch: run_triage(image, max_iterations=5)
-    Orch->>Mem: run(image)  %% MemoryAgent runs first in SWARM
+    Orch->>Mem: run(image)
+    Note over Mem: MemoryAgent runs first in SWARM
     Mem->>Mem: get_pslist + build_process_tree + secretsdump (credentials)
     Mem->>BB: publish suspicious/orphan procs, injected regions
     Note over Mem: emits MEMORY_TRIAGED promise on >=1 finding
-    Orch->>Hunt: run(image)  %% HuntAgent runs LAST
+    Orch->>Hunt: run(image)
+    Note over Hunt: HuntAgent runs LAST
     Hunt->>BB: read correlations() (>=2-agent token agreement)
     Hunt->>BB: publish CROSS_AGENT_CORRELATION_DONE findings
     Orch->>Critic: score(blackboard, planned_agents, iteration)

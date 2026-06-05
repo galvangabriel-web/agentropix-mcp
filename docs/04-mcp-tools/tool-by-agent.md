@@ -20,12 +20,14 @@ Critic scores and halts on a deterministic convergence fingerprint (no LLM self-
 Blackboard:
 
 ```mermaid
-graph LR
-  M[MemoryAgent] --> T[TimelineAgent] --> F[FilesystemAgent] --> A[ArtifactAgent] --> D[DiscoveryAgent]
-  D --> NS[NullSessionBaselineAgent] --> ML[MailAgent] --> YH[YARAHuntAgent]
-  YH --> IJ[InjectionDetector] --> IF[AccessibilityIfeoHijackDetector]
-  IF --> IX[IexLoopbackC2Detector] --> SV[T1071SvchostOutboundHttpDetector] --> H[HuntAgent]
+graph TB
+  M["MemoryAgent"] --> T["TimelineAgent"] --> F["FilesystemAgent"] --> A["ArtifactAgent"] --> D["DiscoveryAgent"]
+  D --> NS["NullSessionBaselineAgent"] --> ML["MailAgent"] --> YH["YARAHuntAgent"]
+  YH --> IJ["InjectionDetector"] --> IF["AccessibilityIfeoHijackDetector"]
+  IF --> IX["IexLoopbackC2Detector"] --> SV["T1071SvchostOutboundHttpDetector"] --> H["HuntAgent"]
+  classDef agent fill:#b2f2bb,stroke:#2f9e44,color:#15391f;
   classDef derived fill:#ffec99,stroke:#f08c00,color:#5c4400,stroke-width:2px;
+  class M,T,F,A,NS,ML,YH,IJ,IF,IX,SV agent;
   class D,H derived;
 ```
 
