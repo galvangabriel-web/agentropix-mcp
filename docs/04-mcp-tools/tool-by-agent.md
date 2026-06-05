@@ -25,7 +25,7 @@ graph LR
   D --> NS[NullSessionBaselineAgent] --> ML[MailAgent] --> YH[YARAHuntAgent]
   YH --> IJ[InjectionDetector] --> IF[AccessibilityIfeoHijackDetector]
   IF --> IX[IexLoopbackC2Detector] --> SV[T1071SvchostOutboundHttpDetector] --> H[HuntAgent]
-  classDef derived fill:#eef,stroke:#557;
+  classDef derived fill:#ffec99,stroke:#f08c00,color:#5c4400,stroke-width:2px;
   class D,H derived;
 ```
 

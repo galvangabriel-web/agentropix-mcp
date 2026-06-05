@@ -96,23 +96,28 @@ Each step is documented as a worked use case:
 ## Architecture
 
 ```mermaid
-C4Context
-    title System Context — Agentropix-SIFT on a SIFT Workstation
+flowchart TB
+    classDef actor fill:#d0bfff,stroke:#7048e8,color:#2b1a52,stroke-width:2px
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f,stroke-width:2px
+    classDef ext fill:#e9ecef,stroke:#495057,color:#212529,stroke-width:1px
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400,stroke-width:1.5px
 
-    Person(examiner, "DFIR Examiner", "Runs triage, reviews & approves findings")
+    Examiner(["DFIR Examiner<br/>runs triage · reviews · approves findings"]):::actor
 
-    System_Boundary(sift, "SANS SIFT Workstation (local host)") {
-        System(agentropix, "Agentropix-SIFT", "Trinity Loop engine + FastMCP server (71 tools)")
-        System_Ext(toolchain, "SIFT Forensic Toolchain", "Volatility3, Plaso, Sleuth Kit, EVTX, YARA, … (16 tools)")
-        System_Ext(evidence, "Evidence Store", "E01 / raw disk images, memory dumps — read-only")
-    }
+    subgraph Host["SANS SIFT Workstation — local host"]
+        Agentropix["Agentropix-SIFT<br/>Trinity Loop engine + FastMCP server (71 tools)"]:::core
+        Toolchain["SIFT Forensic Toolchain<br/>Volatility3 · Plaso · Sleuth Kit · EVTX · YARA · … (16 tools)"]:::ext
+        Evidence[("Evidence Store<br/>E01 / raw / memory — read-only")]:::ext
+    end
 
-    System_Ext(wazuh, "Wazuh / SIEM", "Optional alert sink for APPROVED findings")
+    Wazuh["Wazuh / SIEM<br/>optional alert sink for APPROVED findings"]:::sink
 
-    Rel(examiner, agentropix, "agentropix-sift run / review / approve")
-    Rel(agentropix, toolchain, "Invokes deterministic binaries (read-only)")
-    Rel(agentropix, evidence, "Reads, fingerprints (SHA-256), never mutates")
-    Rel(agentropix, wazuh, "Pushes APPROVED findings (optional)")
+    Examiner -->|"agentropix-sift run / review / approve"| Agentropix
+    Agentropix -->|"invokes deterministic binaries (read-only)"| Toolchain
+    Agentropix -->|"reads + SHA-256 fingerprints, never mutates"| Evidence
+    Agentropix -->|"pushes APPROVED findings (optional)"| Wazuh
+
+    style Host fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
 A DFIR examiner drives Agentropix-SIFT from the CLI on a local SIFT host. The engine never

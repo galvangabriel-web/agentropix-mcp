@@ -21,26 +21,28 @@ make every run court-defensible.
 ## 1. System Context (C4 — Level 1)
 
 ```mermaid
-C4Context
-    title System Context — Agentropix-SIFT on the SANS SIFT Workstation
+flowchart TB
+    classDef actor fill:#d0bfff,stroke:#7048e8,color:#2b1a52,stroke-width:2px
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f,stroke-width:2px
+    classDef ext fill:#e9ecef,stroke:#495057,color:#212529,stroke-width:1px
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400,stroke-width:1.5px
 
-    Person(examiner, "DFIR Examiner", "Runs triage, reviews findings, signs off on approvals")
+    Examiner(["DFIR Examiner<br/>runs triage · reviews findings · signs off approvals"]):::actor
+    Agentropix["Agentropix-SIFT<br/>local bio-agentic DFIR triage engine<br/>Trinity Loop · 71 MCP tools · FastMCP · read-only evidence + HMAC seal"]:::core
 
-    System(agentropix, "Agentropix-SIFT", "Local bio-agentic DFIR triage engine. Trinity Loop drives 71 MCP tools over a single FastMCP server; read-only evidence policy + HMAC seal")
+    SIFT["SANS SIFT Workstation<br/>host OS + 16 forensic binaries<br/>(vol3, plaso, fls, RegRipper, YARA, …) on $PATH"]:::ext
+    Evidence[("Evidence store<br/>E01 / raw / .mem under /cases, /mnt, /media<br/>read-only via Thymus")]:::ext
+    OpenSearch["OpenSearch indexer<br/>case data store — findings, timeline, IOCs (idx_*)"]:::sink
+    Wazuh["Wazuh SIEM (optional)<br/>single-node manager + indexer; IOC push to CDB lists (wazuh_*)"]:::sink
+    Intel["Threat-intel providers (optional)<br/>VirusTotal / OTX — egress-gated, no-key"]:::sink
 
-    System_Ext(sift, "SANS SIFT Workstation", "Host OS + 16 classical forensic binaries (vol3, plaso, fls, RegRipper, YARA, ...) on $PATH")
-    System_Ext(evidence, "Evidence store", "Immutable E01 / raw / .mem images under /cases, /mnt, /media (read-only via Thymus)")
-    System_Ext(opensearch, "OpenSearch indexer", "Case data store — findings, timeline, IOCs (idx_* tools)")
-    System_Ext(wazuh, "Wazuh SIEM (optional)", "Single-node manager + indexer; IOC push to CDB lists (wazuh_* tools)")
-    System_Ext(intel, "Threat-intel providers (optional)", "VirusTotal / OTX — egress-gated, no-key on this host")
-
-    Rel(examiner, agentropix, "Runs CLI / connects MCP client", "agentropix-sift run · stdio / HTTPS Bearer")
-    Rel(agentropix, sift, "Invokes forensic binaries", "async subprocess")
-    Rel(agentropix, evidence, "Reads image bytes", "read-only, Thymus-enforced")
-    Rel(agentropix, opensearch, "Ingests / queries case data", "idx_* (mutation_token)")
-    Rel(agentropix, wazuh, "Pushes IOCs (dry-run by default)", "wazuh_* (mutation_token)")
-    Rel(agentropix, intel, "Looks up indicators", "threat_intel_lookup (AGENTROPIX_ALLOW_EGRESS)")
-    Rel(examiner, agentropix, "Approves / retracts findings", "HMAC challenge → sign (approval sidecar)")
+    Examiner -->|"runs CLI / connects MCP client<br/>agentropix-sift run · stdio / HTTPS Bearer"| Agentropix
+    Examiner -->|"approves / retracts findings<br/>HMAC challenge → sign (approval sidecar)"| Agentropix
+    Agentropix -->|"invokes forensic binaries (async subprocess)"| SIFT
+    Agentropix -->|"reads image bytes (read-only, Thymus-enforced)"| Evidence
+    Agentropix -->|"ingests / queries case data — idx_* (mutation_token)"| OpenSearch
+    Agentropix -->|"pushes IOCs, dry-run by default — wazuh_* (mutation_token)"| Wazuh
+    Agentropix -->|"looks up indicators — threat_intel_lookup (AGENTROPIX_ALLOW_EGRESS)"| Intel
 ```
 
 **Reading the context.** The only human in the loop is the **DFIR examiner**, who either
@@ -70,43 +72,50 @@ report seal, because the LLM never touched them"* (`docs/ARCHITECTURE-LAYERS.md`
 ## 2. Container View (C4 — Level 2)
 
 ```mermaid
-C4Container
-    title Container View — Agentropix-SIFT runtime
+flowchart TB
+    classDef actor fill:#d0bfff,stroke:#7048e8,color:#2b1a52,stroke-width:2px
+    classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545,stroke-width:2px
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f,stroke-width:1.5px
+    classDef gov fill:#ffc9c9,stroke:#e03131,color:#5c1a1a,stroke-width:2px
+    classDef ext fill:#e9ecef,stroke:#495057,color:#212529,stroke-width:1px
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400,stroke-width:1.5px
 
-    Person(examiner, "DFIR Examiner", "")
+    Examiner(["DFIR Examiner"]):::actor
 
-    System_Boundary(asift, "Agentropix-SIFT") {
-        Container(cli, "CLI", "Python · Typer", "agentropix-sift run / doctor. Drives one triage; seals the report on write (cli.py)")
-        Container(mcp, "FastMCP server", "Python · FastMCP", "Single MCP server, 71 tools. stdio (local) or HTTP+SSE (tailnet, Bearer). fastmcp_app.py")
-        Container(orch, "Orchestrator + Trinity", "Python · asyncio", "Architect -> Swarm -> Critic loop over one image. orchestrator.py, trinity/")
-        Container(agents, "Swarm + Blackboard", "Python · asyncio", "7 core specialists + ATT&CK detectors; shared Blackboard correlation. agents/, detectors/")
-        Container(wrappers, "Forensic wrappers", "Python", "~40 wrapper modules driving 16 SIFT binaries + EZ-Tools. mcp_server/wrappers/")
-        Container(thymus, "Thymus policy", "Python", "Read-only allow-list + audit ring at the MCP boundary. thymus_policy.py")
-        Container(courtroom, "Courtroom + provenance", "Python", "evidence_image_sha256, HMAC-SHA256 seal, chain validation. courtroom.py, provenance/")
-        Container(approval, "Approval sidecar (optional)", "Python · Starlette", "HMAC challenge/approve human gate. approval_sidecar/")
-    }
+    subgraph ASIFT["Agentropix-SIFT"]
+        CLI["CLI — Python · Typer<br/>agentropix-sift run / doctor; seals report on write (cli.py)"]:::api
+        MCP["FastMCP server — Python · FastMCP<br/>single MCP server, 71 tools; stdio or HTTP+SSE Bearer (fastmcp_app.py)"]:::api
+        Orch["Orchestrator + Trinity — asyncio<br/>Architect → Swarm → Critic over one image (orchestrator.py, trinity/)"]:::core
+        Agents["Swarm + Blackboard — asyncio<br/>7 core specialists + ATT&CK detectors; Blackboard correlation (agents/, detectors/)"]:::core
+        Wrappers["Forensic wrappers — Python<br/>~40 modules driving 16 SIFT binaries + EZ-Tools (mcp_server/wrappers/)"]:::core
+        Thymus["Thymus policy — Python<br/>read-only allow-list + audit ring at MCP boundary (thymus_policy.py)"]:::gov
+        Courtroom["Courtroom + provenance — Python<br/>evidence_image_sha256, HMAC-SHA256 seal, chain validation (courtroom.py)"]:::gov
+        Approval["Approval sidecar (optional) — Starlette<br/>HMAC challenge/approve human gate (approval_sidecar/)"]:::gov
+    end
 
-    System_Ext(sift, "SIFT forensic binaries", "vol3 · plaso · fls · RegRipper · YARA · ...")
-    System_Ext(evidence, "Evidence store", "E01 / raw / .mem (read-only)")
-    System_Ext(opensearch, "OpenSearch", "idx_* case store")
-    System_Ext(wazuh, "Wazuh SIEM (optional)", "wazuh_* CDB lists")
-    System_Ext(intel, "Threat-intel (optional)", "VT / OTX")
+    SIFT["SIFT forensic binaries<br/>vol3 · plaso · fls · RegRipper · YARA · …"]:::ext
+    Evidence[("Evidence store<br/>E01 / raw / .mem (read-only)")]:::ext
+    OpenSearch["OpenSearch — idx_* case store"]:::sink
+    Wazuh["Wazuh SIEM (optional) — wazuh_* CDB lists"]:::sink
+    Intel["Threat-intel (optional) — VT / OTX"]:::sink
 
-    Rel(examiner, cli, "agentropix-sift run", "shell")
-    Rel(examiner, mcp, "MCP tools/call", "stdio / HTTPS Bearer")
-    Rel(cli, orch, "run_triage(image)", "in-process")
-    Rel(mcp, wrappers, "dispatch tool call", "in-process")
-    Rel(mcp, thymus, "check_read(path)", "in-process")
-    Rel(orch, agents, "run plan each iteration", "asyncio")
-    Rel(agents, wrappers, "call mcp_* tools", "asyncio")
-    Rel(wrappers, thymus, "check_read before subprocess", "in-process")
-    Rel(wrappers, sift, "subprocess exec", "async")
-    Rel(wrappers, evidence, "read image bytes", "read-only")
-    Rel(orch, courtroom, "hash evidence + seal report", "in-process")
-    Rel(approval, courtroom, "bind approval into seal", "in-process")
-    Rel(mcp, opensearch, "idx_* ingest/query", "HTTP")
-    Rel(mcp, wazuh, "wazuh_* push (dry-run default)", "HTTPS")
-    Rel(mcp, intel, "threat_intel_lookup", "HTTPS (egress-gated)")
+    Examiner -->|"agentropix-sift run (shell)"| CLI
+    Examiner -->|"MCP tools/call — stdio / HTTPS Bearer"| MCP
+    CLI -->|"run_triage(image) — in-process"| Orch
+    MCP -->|"dispatch tool call — in-process"| Wrappers
+    MCP -->|"check_read(path) — in-process"| Thymus
+    Orch -->|"run plan each iteration — asyncio"| Agents
+    Agents -->|"call mcp_* tools — asyncio"| Wrappers
+    Wrappers -->|"check_read before subprocess"| Thymus
+    Wrappers -->|"subprocess exec (async)"| SIFT
+    Wrappers -->|"read image bytes (read-only)"| Evidence
+    Orch -->|"hash evidence + seal report"| Courtroom
+    Approval -->|"bind approval into seal"| Courtroom
+    MCP -->|"idx_* ingest/query (HTTP)"| OpenSearch
+    MCP -->|"wazuh_* push, dry-run default (HTTPS)"| Wazuh
+    MCP -->|"threat_intel_lookup (HTTPS, egress-gated)"| Intel
+
+    style ASIFT fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
 **Reading the containers.** There are two entry points and one shared engine:
@@ -136,29 +145,37 @@ exposure model is what matters for the threat picture
 (`docs/architecture/_C4-DEPLOYMENT.md`):
 
 ```mermaid
-C4Deployment
-    title Deployment — tailnet-only exposure (ADR-017)
+flowchart TB
+    classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545,stroke-width:2px
+    classDef gov fill:#ffc9c9,stroke:#e03131,color:#5c1a1a,stroke-width:2px
+    classDef ext fill:#e9ecef,stroke:#495057,color:#212529,stroke-width:1px
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400,stroke-width:1.5px
 
-    Deployment_Node(tailnet, "Tailnet — siftworkstation.taile7c9ca.ts.net", "WireGuard overlay; no LAN/public ingress") {
-        Deployment_Node(ws, "siftworkstation (primary host)", "SANS SIFT Workstation") {
-            Container(mcp2, "FastMCP server", "Bearer-token middleware", "stdio or HTTP+SSE; fail-closed if no token")
-            Container(approval2, "approval_sidecar :8800", "Starlette, HMAC", "127.0.0.1 bind by default")
-            Container(cases, "/cases evidence store", "read-only Thymus policy", "")
-        }
-    }
-    Deployment_Node(gpu1, "gpu1 / 192.168.2.178 — Docker", "NOT systemd") {
-        Container(wazuh2, "Wazuh single-node stack", "manager + indexer + dashboard", "")
-        Container(os2, "OpenSearch indexer", "idx_* tools", "")
-    }
-    Deployment_Node(intelnode, "Internet (egress-gated)", "") {
-        Container(intel2, "Threat-intel providers", "VT / OTX", "")
-    }
+    subgraph Tailnet["Tailnet — siftworkstation.taile7c9ca.ts.net · WireGuard, no LAN/public ingress"]
+        subgraph WS["siftworkstation (primary host) — SANS SIFT Workstation"]
+            MCP2["FastMCP server<br/>Bearer-token middleware; stdio or HTTP+SSE; fail-closed if no token"]:::api
+            Approval2["approval_sidecar :8800<br/>Starlette, HMAC; 127.0.0.1 bind by default"]:::gov
+            Cases[("/cases evidence store<br/>read-only Thymus policy")]:::ext
+        end
+    end
+    subgraph GPU1["gpu1 / 192.168.2.178 — Docker (NOT systemd)"]
+        Wazuh2["Wazuh single-node stack<br/>manager + indexer + dashboard"]:::sink
+        OS2["OpenSearch indexer<br/>idx_* tools"]:::sink
+    end
+    subgraph Net["Internet (egress-gated)"]
+        Intel2["Threat-intel providers<br/>VT / OTX"]:::sink
+    end
 
-    Rel(mcp2, cases, "read-only", "")
-    Rel(mcp2, wazuh2, "wazuh_* push (ADR-018)", "HTTPS")
-    Rel(mcp2, os2, "idx_* ingest/search", "HTTP")
-    Rel(mcp2, intel2, "threat_intel_lookup", "HTTPS, AGENTROPIX_ALLOW_EGRESS")
-    Rel(mcp2, approval2, "HMAC approve", "HTTP loopback")
+    MCP2 -->|"read-only"| Cases
+    MCP2 -->|"wazuh_* push (ADR-018, HTTPS)"| Wazuh2
+    MCP2 -->|"idx_* ingest/search (HTTP)"| OS2
+    MCP2 -->|"threat_intel_lookup (HTTPS, AGENTROPIX_ALLOW_EGRESS)"| Intel2
+    MCP2 -->|"HMAC approve (HTTP loopback)"| Approval2
+
+    style Tailnet fill:#e7f5ff,stroke:#1971c2,color:#0b2545
+    style WS fill:#f1f3f5,stroke:#868e96,color:#212529
+    style GPU1 fill:#f1f3f5,stroke:#868e96,color:#212529
+    style Net fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
 **Reading the deployment.** Three exposure facts anchor the security story:

@@ -72,6 +72,13 @@ classDiagram
     SwarmAgent --> Blackboard : publishes to
     Blackboard o-- Finding : holds (agent, Finding)
     Blackboard ..> Correlation : surfaces
+
+    classDef base fill:#d0bfff,stroke:#7048e8,color:#2b1a52
+    classDef agent fill:#b2f2bb,stroke:#2f9e44,color:#15391f
+    classDef data fill:#a5d8ff,stroke:#1971c2,color:#0b2545
+    cssClass "SwarmAgent" base
+    cssClass "MemoryAgent,TimelineAgent,FilesystemAgent,ArtifactAgent,DiscoveryAgent,MailAgent,HuntAgent,YARAHuntAgent,InjectionDetector,NullSessionBaselineAgent,AccessibilityIfeoHijackDetector,IexLoopbackC2Detector,T1071SvchostOutboundHttpDetector" agent
+    cssClass "Finding,Blackboard,Correlation" data
 ```
 
 **Reading the hierarchy.** Every agent extends the abstract `SwarmAgent`
@@ -179,6 +186,13 @@ graph LR
     TI -->|"'evil.exe' seen by >= quorum agents"| C["Correlation(token='evil.exe',<br/>agents=[filesystem, memory, yara_hunt],<br/>max_confidence=0.9)"]
     C --> H["HuntAgent emits high-confidence<br/>cross-source finding (S-05)"]
     C --> CR["Critic score += 0.25 per correlation"]
+
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f,stroke-width:1.5px
+    classDef data fill:#a5d8ff,stroke:#1971c2,color:#0b2545,stroke-width:2px
+    classDef hit fill:#ffec99,stroke:#f08c00,color:#5c4400,stroke-width:2px
+    class M,F,Y,H,CR core
+    class TI data
+    class C hit
 ```
 
 **Reading the Blackboard.** `correlations()` (`_blackboard.py:108-131`) builds a
