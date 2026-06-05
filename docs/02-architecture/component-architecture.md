@@ -19,11 +19,11 @@ C4 has no native Mermaid type; per the upstream convention
 
 ```mermaid
 flowchart TB
-    classDef ext fill:#eee,stroke:#999,color:#333
-    classDef api fill:#bbf,stroke:#333,stroke-width:2px
-    classDef core fill:#dfd,stroke:#333
-    classDef gov fill:#fdd,stroke:#933
-    classDef sink fill:#ffe,stroke:#993
+    classDef ext fill:#e9ecef,stroke:#495057,color:#212529,stroke-width:1px
+    classDef api fill:#a5d8ff,stroke:#1971c2,color:#0b2545,stroke-width:2px
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f,stroke-width:1.5px
+    classDef gov fill:#ffc9c9,stroke:#e03131,color:#5c1a1a,stroke-width:2px
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400,stroke-width:1.5px
 
     Analyst([DFIR Examiner / MCP Client]):::ext
 
@@ -81,6 +81,11 @@ flowchart TB
     Reports --> Indexer
     MCP --> Wazuh
     MCP --> Intel
+
+    style Tailnet fill:#f1f3f5,stroke:#868e96,color:#212529
+    style Runtime fill:#f1f3f5,stroke:#868e96,color:#212529
+    style Safety fill:#f1f3f5,stroke:#868e96,color:#212529
+    style Sinks fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
 **Reading the components.** The diagram groups the 17 packages into four bands:
@@ -123,10 +128,10 @@ flowchart TB
     L3 --> L4
     L4 --> E01
 
-    classDef stoch fill:#fff5e6,stroke:#f59f00,stroke-width:2px
-    classDef det fill:#e6ffea,stroke:#2f9e44,stroke-width:2px
-    classDef leak fill:#fff0f0,stroke:#e03131,stroke-width:2px
-    classDef anchor fill:#eef2ff,stroke:#3b5bdb,stroke-width:2px
+    classDef stoch fill:#ffd8a8,stroke:#e8590c,color:#5c2a00,stroke-width:2px
+    classDef det fill:#b2f2bb,stroke:#2f9e44,color:#15391f,stroke-width:2px
+    classDef leak fill:#ffc9c9,stroke:#e03131,color:#5c1a1a,stroke-width:2px
+    classDef anchor fill:#bac8ff,stroke:#3b5bdb,color:#1a2a6c,stroke-width:2px
 ```
 
 **Reading the layers.** Each layer has a determinism property and a clear code home:
