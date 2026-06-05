@@ -212,6 +212,8 @@ graph LR
     class C hit
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/swarm-agents-3.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 **Reading the Blackboard.** `correlations()` (`_blackboard.py:108-131`) builds a
 token → agent → findings index, keeps only tokens seen by ≥ quorum agents, and returns a
 `Correlation` per surviving token carrying the agreeing agents, the backing finding count,

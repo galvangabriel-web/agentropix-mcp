@@ -132,9 +132,13 @@ pragmatic path to zoomable diagrams.
 
 - **No NEEDS-WORK diagrams.** All 52 diagrams across 26 files passed and are
   marked DONE.
-- **Optional enhancement (not blocking):** implement zoom option **(b)** —
-  export committed SVGs + per-diagram "open as SVG" links — to give readers
-  infinite vector zoom inside GitLab's constraints.
+- **Zoom option (b) — DONE.** Every diagram wider than ~1150px now has a
+  committed vector `.svg` (under the section's `assets/` dir) and an
+  *"🔍 Open as SVG — full size, zoomable"* link directly beneath it, so readers
+  get infinite lossless zoom inside GitLab's constraints. 9 diagrams covered:
+  schema-er (ER, ~3005px), uc-approval-gate, system-context Context + Container,
+  uc-memory-triage, swarm-agents Blackboard, provenance-grounding (ER),
+  component View A, trinity-loop halt logic.
 - **Cosmetic-only note (no action required):**
   `docs/02-architecture/swarm-agents.md` · *The agent class hierarchy*
   classDiagram contains `cssClass` lines that are invalid classDiagram syntax

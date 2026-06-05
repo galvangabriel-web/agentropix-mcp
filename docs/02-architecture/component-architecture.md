@@ -64,6 +64,8 @@ flowchart TB
     style Entry fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/component-architecture-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 **View B — safety spine, supporting outputs, and external sinks:**
 
 ```mermaid

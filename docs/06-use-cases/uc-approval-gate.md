@@ -58,6 +58,8 @@ graph TD
     style Agentropix-SIFT fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/uc-approval-gate-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 The analyst stages DRAFT findings and can self-correct an over-count with `delete_finding`
 (DRAFT-only). The **examiner** — a separate human actor — issues the HMAC-signed `approve_finding`,
 the only edge that promotes a finding to APPROVED. `retract_approval` is the compensating,

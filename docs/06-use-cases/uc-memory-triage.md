@@ -59,6 +59,8 @@ graph TD
     style sift fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/uc-memory-triage-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 The analyst baselines processes, then inspects sockets, injected code, and services. A confirmed
 indicator (a C2 IP, a process name, a service) is pivoted across every host via `pivot_on_ioc`,
 turning a single-host hit into a campaign view. `threat_intel_lookup` is a dashed (optional) edge

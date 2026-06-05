@@ -45,6 +45,8 @@ flowchart TB
     Agentropix -->|"looks up indicators<br/>threat_intel_lookup (AGENTROPIX_ALLOW_EGRESS)"| Intel
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/system-context-c4-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 **Reading the context.** The only human in the loop is the **DFIR examiner**, who either
 runs the `agentropix-sift` CLI (`src/agentropix_sift/cli.py`) or connects a Model Context
 Protocol client (Claude Desktop / Claude Code) to the FastMCP server. Everything to the
@@ -122,6 +124,8 @@ flowchart LR
     style ASIFT fill:#f1f3f5,stroke:#868e96,color:#212529
     style EXT fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
+
+> 🔍 **[Open as SVG — full size, zoomable](assets/system-context-c4-2.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
 
 **Reading the containers.** There are two entry points and one shared engine:
 

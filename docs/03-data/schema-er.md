@@ -122,6 +122,8 @@ erDiagram
     }
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/schema-er-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 ---
 
 ## Entity-by-entity

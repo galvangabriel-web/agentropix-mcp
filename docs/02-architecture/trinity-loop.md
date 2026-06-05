@@ -149,6 +149,8 @@ graph TD
     class NH0,NH1,NH2,NH3 core
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/trinity-loop-2.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 **Reading the halt cascade.** The three components combine to make halting both *safe* and
 *terminating*:
 

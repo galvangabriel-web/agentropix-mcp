@@ -178,6 +178,8 @@ erDiagram
     }
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/provenance-grounding-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 The ER diagram shows the two axes meeting on a single indicator. **Provenance
 tier** (`PROVENANCE_TIER`) is stamped once at the MCP boundary and is
 downgrade-only. **Grounding level** is *derived at validation time* from two
