@@ -17,6 +17,75 @@ small Starlette app (SIFT-W-288) bound by default to port 8800
 (`AGENTROPIX_APPROVAL_SIDECAR_PORT` / config `port`) holding the approver
 credential (`approval_sidecar/__init__.py:1-8`).
 
+---
+
+## Using the Approval Portal (browser walkthrough)
+
+> **This is the operator's primary touchpoint with the whole platform.** Every
+> finding the engine produces is held in `DRAFT` until a human signs off here, so
+> read this section before you approve anything in a real case.
+
+The sidecar serves a self-contained browser form. On this workstation it is
+published on the **tailnet only**, behind a valid TLS certificate, at:
+
+**🔗 `https://siftworkstation.taile7c9ca.ts.net:8443/`**
+
+`tailscale serve` fronts that HTTPS address and proxies it to the sidecar's local
+bind `http://127.0.0.1:8800` (tailnet-only, device-authenticated — it is **not**
+reachable from the LAN or the Internet). If you are on the workstation itself you
+can also open `http://127.0.0.1:8800/` directly.
+
+![The Agentropix Approval Sidecar browser form](assets/approval-sidecar-ui.png)
+
+*The Approval Portal as served at `https://siftworkstation.taile7c9ca.ts.net:8443/`.
+PBKDF2 + HMAC-SHA256 are computed in your browser tab — the approver password
+never leaves the page.*
+
+### How to complete each field
+
+| Field (UI label) | Form id | What to enter | Notes & failure mode |
+|---|---|---|---|
+| **Examiner ID** | `examiner_id` | Your approver username | Must equal `AGENTROPIX_APPROVER_USER`. Any other value → **`403 unknown_examiner`** (`app.py:143-152`). |
+| **Case ID** | `case_id` | The case the finding belongs to, e.g. `INC-2026-0042` | Folded into the signed message; must match the finding's case or the precondition fails. |
+| **Finding / Event / Approval ID** | `target_id` | The `DRAFT` item's ID, e.g. `F-alice-001` — **or** a prior `approval_id` when retracting | Read it from the finding/timeline entry in the report. Wrong id → **`409 target_not_found`**. |
+| **Target Type** | `target_type` | `finding`, `timeline`, or `approval (retract / void)` | Pick what you are acting on. Choose `approval` only to **void** a prior approval (append-only, never a delete). |
+| **From** | `from_status` | The target's **current** status — normally `DRAFT` (or `APPROVED` when revoking) | Must match the live status or → **`409 precondition_failed`** (BUG-001 gate, `app.py:233-260`). |
+| **To** | `to_status` | Your decision: `APPROVED`, `REJECTED`, or `REVOKED` | `DRAFT→APPROVED` promotes; `DRAFT→REJECTED` declines; `APPROVED→REVOKED` voids. |
+| **Reason (optional)** | *(textarea)* | Free-text rationale | Recorded with the decision; recommended for auditability. |
+| **Approver password** | `password` | The approver password | Used **only** to derive the PBKDF2 key locally; never transmitted. Wrong password → **`401 bad_signature`** (`app.py:202-223`). |
+
+### Submitting a decision — step by step
+
+1. **Open** the portal URL above (you must be on the tailnet and device-approved).
+2. **Identify yourself & the case** — fill **Examiner ID** and **Case ID**.
+3. **Point at the target** — paste the **Finding / Event / Approval ID** and pick the matching **Target Type**.
+4. **Set the transition** — choose **From** (the item's current status) and **To** (your decision). Optionally add a **Reason**.
+5. **Enter the Approver password.**
+6. Click **Sign & Submit.** The page then, entirely client-side:
+   - calls `POST /challenge` to get a single-use **nonce** (TTL ~60 s) plus the PBKDF2 `salt_hex` / `iterations`;
+   - derives the PBKDF2 key from your password **in the browser** and computes the **HMAC** of the signed move;
+   - calls `POST /approve` with the signature — **only the HMAC is sent, never the password.**
+7. **Clear** resets the form without submitting.
+
+### What you'll see back
+
+| Outcome | Meaning / next step |
+|---|---|
+| ✅ **Approval recorded** | A deterministic approval doc is written to the daily `agentropix-approvals-YYYY.MM.DD` index and the append-only hash chain is extended; the finding moves out of `DRAFT`. |
+| `403 unknown_examiner` | The **Examiner ID** is not the configured approver — fix it. |
+| `401 nonce_expired` / `nonce_unknown` | You waited too long (>TTL) between page-load and submit — just click **Sign & Submit** again to get a fresh nonce. |
+| `401 bad_signature` | Wrong **Approver password**. |
+| `409 target_not_found` | The **Case ID** / **Target ID** don't match a recorded item. |
+| `409 precondition_failed` | **From** doesn't match the target's current status (e.g. it's already `APPROVED`). |
+
+> **Operational notes.** Your password is processed entirely in this browser tab
+> (Web Crypto PBKDF2); only the HMAC of the approval message is transmitted.
+> Approval is **single-examiner** in Phase 1. Every accepted decision is appended
+> to the audit log at **`/var/log/agentropix/approval-sidecar.log`** (SIFT-W-288 /
+> W-294, same-workstation deployment). The deeper guarantees behind each of these
+> steps — nonce replay defence, signature verification, the precondition gate,
+> and the tamper-evident hash chain — are detailed in the sections below.
+
 ## The core invariant
 
 The sidecar's reason for existing is one sentence

@@ -49,8 +49,9 @@ cryptographically sealed triage report a human examiner can trust and defend.
 - **Courtroom audit seal** — an **HMAC-SHA256** seal over a JSONL chain-of-custody audit log
   (`courtroom.py`) plus [provenance-chain validation](docs/05-safety-forensics/provenance-grounding.md).
 - **Optional approval sidecar** — a human gate that holds findings in DRAFT until an examiner
-  APPROVES them, before any report is sealed. See
-  [Human-in-the-Loop](docs/05-safety-forensics/human-in-the-loop.md).
+  APPROVES them in a browser **Approval Portal** (tailnet-only, at
+  `https://siftworkstation.taile7c9ca.ts.net:8443/`), before any report is sealed. See the
+  [Human-in-the-Loop walkthrough](docs/05-safety-forensics/human-in-the-loop.md#using-the-approval-portal-browser-walkthrough).
 - **Typed, provenance-tagged responses** — every tool returns a Pydantic model carrying a
   `raw_stdout_sha256` provenance fingerprint, not a free-form dict. See the
   [Response Envelope](docs/04-mcp-tools/response-envelope.md).

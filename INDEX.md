@@ -23,7 +23,7 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
 - **Examiner** (reviews & approves findings, defends them): [What You Get](docs/01-overview/what-you-get.md)
   → [Anti-Hallucination](docs/05-safety-forensics/anti-hallucination.md)
   → [Provenance & Grounding](docs/05-safety-forensics/provenance-grounding.md)
-  → [Human-in-the-Loop](docs/05-safety-forensics/human-in-the-loop.md)
+  → [Human-in-the-Loop](docs/05-safety-forensics/human-in-the-loop.md) (incl. the [Approval Portal browser walkthrough](docs/05-safety-forensics/human-in-the-loop.md#using-the-approval-portal-browser-walkthrough))
   → [Approval-Gate use case](docs/06-use-cases/uc-approval-gate.md)
   → [Audit & Courtroom Seal](docs/05-safety-forensics/audit-courtroom.md).
 - **Developer** (extends the engine): [Implementation](docs/07-sdlc-ops/implementation.md)
@@ -93,7 +93,7 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
 | Anti-Hallucination | examiner, auditor | How are fabricated findings prevented — determinism, evidence sovereignty, no LLM self-rating? | [docs/05-safety-forensics/anti-hallucination.md](docs/05-safety-forensics/anti-hallucination.md) |
 | Provenance & Grounding | examiner, auditor | How are findings grounded in evidence, and what are the provenance tiers / grounding levels? | [docs/05-safety-forensics/provenance-grounding.md](docs/05-safety-forensics/provenance-grounding.md) |
 | Audit & Courtroom Seal | auditor, examiner | How is the audit log HMAC-SHA256 sealed and the chain of custody validated? | [docs/05-safety-forensics/audit-courtroom.md](docs/05-safety-forensics/audit-courtroom.md) |
-| Human-in-the-Loop | examiner | How does the approval sidecar gate hold findings in DRAFT until an examiner approves? | [docs/05-safety-forensics/human-in-the-loop.md](docs/05-safety-forensics/human-in-the-loop.md) |
+| Human-in-the-Loop | examiner, operator | How does the approval sidecar gate hold findings in DRAFT until an examiner approves — **and how do I use the browser Approval Portal** (`https://siftworkstation.taile7c9ca.ts.net:8443/`): every field + how to submit? | [docs/05-safety-forensics/human-in-the-loop.md](docs/05-safety-forensics/human-in-the-loop.md) · [Portal walkthrough](docs/05-safety-forensics/human-in-the-loop.md#using-the-approval-portal-browser-walkthrough) |
 
 ## 6. Use Cases
 
