@@ -51,7 +51,7 @@ cryptographically sealed triage report a human examiner can trust and defend.
 - **Optional approval sidecar** — a human gate that holds findings in DRAFT until an examiner
   APPROVES them in a browser **Approval Portal** (tailnet-only, at
   `https://siftworkstation.taile7c9ca.ts.net:8443/`), before any report is sealed. See the
-  [Human-in-the-Loop walkthrough](docs/05-safety-forensics/human-in-the-loop.md#using-the-approval-portal-browser-walkthrough).
+  [Approval Portal walkthrough](docs/05-safety-forensics/approval-portal.md).
 - **Typed, provenance-tagged responses** — every tool returns a Pydantic model carrying a
   `raw_stdout_sha256` provenance fingerprint, not a free-form dict. See the
   [Response Envelope](docs/04-mcp-tools/response-envelope.md).

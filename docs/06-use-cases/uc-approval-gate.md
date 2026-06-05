@@ -10,7 +10,7 @@
 > [`.crew/env-vars.md`](../../.crew/env-vars.md) §Approval-sidecar.
 >
 > **Doing the approval in the browser?** The step-by-step
-> [Approval Portal walkthrough](../05-safety-forensics/human-in-the-loop.md#using-the-approval-portal-browser-walkthrough)
+> [Approval Portal walkthrough](../05-safety-forensics/approval-portal.md)
 > (screenshot, every field, how to submit) covers the human side of this use case.
 
 This is the chain-of-custody spine that separates DRAFT analysis from a court-defensible report.
