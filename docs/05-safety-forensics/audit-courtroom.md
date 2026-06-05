@@ -140,7 +140,7 @@ sequenceDiagram
     ORCH->>CR: evidence_image_sha256(image_path)
     CR-->>ORCH: sha256 hex (or None, recorded)
 
-    Note over ORCH: ...Trinity loop runs; Thymus logs ALLOW/REJECT to JSONL...
+    Note over ORCH: ...Trinity loop runs, Thymus logs ALLOW/REJECT to JSONL...
 
     Note over ORCH: Session end — seal
     ORCH->>CR: write_sealed_session(report, audit_entries, out_path)

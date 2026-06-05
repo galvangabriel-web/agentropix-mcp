@@ -44,13 +44,13 @@ sequenceDiagram
         Critic->>BB: max_confidence + correlations()
         Critic-->>Orch: TrinityResult(score, feedback, should_halt)
         alt should_halt
-            Orch->>Orch: status = complete; break
+            Orch->>Orch: status = complete, break
         else continue
             Orch->>Orch: carry feedback + stable_agents forward
         end
     end
 
-    Orch->>Orch: dedup findings; build TriageReport
+    Orch->>Orch: dedup findings, build TriageReport
     Orch-->>CLI: TriageReport (unsealed)
     CLI->>Seal: write_sealed_session(report, audit_entries, out)
     Seal-->>CLI: {report.json, audit-log.json, session-key (0600)}
@@ -202,9 +202,9 @@ sequenceDiagram
     end
 
     alt should_halt
-        Orch->>Orch: status=complete; exit loop
+        Orch->>Orch: status=complete, exit loop
     else
-        Orch->>Orch: last_stable = stable_agents; next iteration
+        Orch->>Orch: last_stable = stable_agents, next iteration
     end
 ```
 
@@ -238,18 +238,18 @@ sequenceDiagram
     Nonce-->>SC: nonce (TTL, target-bound, single-use)
     SC-->>Form: ChallengeResponse(nonce, salt_hex, iterations, ttl)
     Examiner->>Form: enter password
-    Form->>Form: derive PBKDF2 key; HMAC-sign message
+    Form->>Form: derive PBKDF2 key, HMAC-sign message
     Form->>SC: POST /approve (signature_hex, nonce, from/to status)
     SC->>Nonce: consume(nonce) [single-use]
     alt nonce expired / unknown
         SC-->>Form: ErrorResponse(nonce_expired / nonce_unknown, 401)
     else valid
-        SC->>SC: re-derive key; verify_signature
+        SC->>SC: re-derive key, verify_signature
         alt bad signature
             SC-->>Form: ErrorResponse(bad_signature, 401)
         else verified
             SC->>SC: verify target exists (anti-phantom)
-            SC->>Chain: compute_approval_id; link prev_approval_hash
+            SC->>Chain: compute_approval_id, link prev_approval_hash
             SC->>OS: write approval doc (agentropix-approvals-YYYY.MM.DD)
             SC-->>Form: ApprovalSubmitResponse(approval_id, indexed_to, prev_hash)
         end

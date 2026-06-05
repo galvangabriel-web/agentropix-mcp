@@ -117,7 +117,7 @@ classDiagram
         +float confidence  «ge=0.0 le=1.0»
         +str description
         +str evidence = ""
-        +dict~str,object~ evidence_dict = {}
+        +dict~str,object~ evidence_dict
         +str timestamp = ""
         +str mitre_attack = ""
         +list~str~ related_findings = []
