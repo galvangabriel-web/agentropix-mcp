@@ -1,0 +1,250 @@
+# What You Get
+
+A capability matrix for Agentropix-SIFT. Every entry below is sourced from the code,
+not the pitch — see the inline citations and the shared references in
+[`.crew/`](../../.crew/facts.md). For the *why* behind these capabilities, read
+[What is Agentropix-SIFT?](what-is-agentropix.md); to run them, see the
+[Quickstart](quickstart.md).
+
+---
+
+## At a glance
+
+| Capability | What you get | Where it lives |
+|------------|--------------|----------------|
+| **Trinity Loop** | Deterministic Architect → Swarm → Critic control loop with fingerprint-based halt; **no LLM self-rating** | `trinity/architect.py`, `trinity/critic.py`, `orchestrator.py` |
+| **71 MCP tools** | A single FastMCP server exposing **71 distinct forensic tools** over stdio + HTTP | `mcp_server/fastmcp_app.py` |
+| **16 SIFT forensic wrappers** | Hardened drivers around the 16 trusted SIFT binaries (timeout, memory ceiling, retry, stderr capture, tracing) | `mcp_server/wrappers/` |
+| **7-agent Swarm** | Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt specialists + 6 ATT&CK detectors | `agents/`, `detectors/` |
+| **Thymus read-only policy** | Path-allowlist enforcement of evidence read-only at the MCP boundary, with an audit ring | `mcp_server/thymus_policy.py` |
+| **Courtroom seal** | SHA-256 evidence binding + HMAC-SHA256 report/audit-log sealing, mode-0600 session keys | `courtroom.py` |
+| **Provenance & grounding** | Tool-sourced findings (`_source`), `inference_constraint = high`, per-row HMAC seal-chain validation | `agents/_base.py`, `provenance/validate.py` |
+| **Approval sidecar** | Optional HMAC human-in-the-loop examiner sign-off (PBKDF2 + nonce + hash chain) | `approval_sidecar/` |
+| **Wazuh integration** | Promote findings/IOCs into a Wazuh SIEM behind default-deny kill switches | `wazuh/` |
+| **Chaos-tested resilience** | Fault-injection tests over the failure paths (timeout, OOM, malformed output, …) | `tests/chaos/test_fault_paths.py` |
+
+> **Canonical counts** (`71` tools, `16` wrappers, `4464` tests, recall `72/72` /
+> `108/118`) are pinned in [`.crew/facts.md`](../../.crew/facts.md) (mirroring upstream
+> `CANONICAL_FACTS.md`). Numbers below cite that file; re-query the live `tools/list`
+> when an exact count is load-bearing in your own work.
+
+---
+
+## Trinity Loop — agentic control without self-rating
+
+The Trinity Loop is the engine's brain, and its defining property is that the
+*non-deterministic* part (an LLM) only **orchestrates** — it never authors a finding,
+never assigns a confidence, and never decides "done."
+
+- **Architect** (`trinity/architect.py`) — deterministic planner. Returns the canonical
+  ordered `SWARM`, may prune agents the Critic marked *stable*, preserves run order so
+  `HuntAgent` runs last.
+- **Swarm** — runs each iteration, writing `Finding`s to a shared `Blackboard`.
+- **Critic** (`trinity/critic.py`) — deterministic scorer. Score = `max(confidence) +
+  0.25 · #correlations`, capped at 1.0. Halts when score ≥
+  `AGENTROPIX_CRITIC_HALT_THRESHOLD` (**default 0.85**) **or** the per-pass output
+  fingerprint reaches a fixed point — gated by a minimum-iterations guard and a refusal
+  to halt while any planned agent produced zero findings.
+
+The loop emits a `TrinityResult` (`score`, `feedback`, `should_halt`) per iteration,
+all preserved in the report's `iterations[]` for audit (see
+[`.crew/schema-dump.md`](../../.crew/schema-dump.md) §3).
+
+---
+
+## 71 MCP tools on one FastMCP server
+
+A single FastMCP server (`mcp_server/fastmcp_app.py`) exposes **71 distinct tool
+functions** (`.crew/facts.md`, `mcp_tool_count = 71`) over both stdio and HTTP. The
+running server's `tools/list` is the authoritative argument schema; the full
+categorized catalogue is in [`.crew/tool-list.md`](../../.crew/tool-list.md). The tool
+families:
+
+| Family | Count | Examples |
+|--------|------:|----------|
+| Case & session | 4 | `case_init`, `case_activate`, `case_status`, `health` |
+| Evidence intake & disk imaging | 10 | `evidence_register`, `get_image_info`, `get_partitions`, `extract_files`, `fls` |
+| Memory forensics (Volatility) | 7 | `run_volatility`, `get_pslist`, `get_malfind`, `get_netscan`, `get_svcscan` |
+| Registry / execution / shell artifacts | 16 | `get_registry`, `get_amcache`, `get_shimcache`, `get_prefetch`, EZ-Tools, EAR |
+| Event logs & timeline | 6 | `get_evtx`, `get_timeline`, `correlate_timeline`, `detect_sweep` |
+| Mail / maldoc / documents | 4 | `analyze_maldoc`, `carve_pst_iocs`, `email_header_matrix`, `pdf_extract_text` |
+| File analysis & carving | 6 | `run_strings`, `run_bulk_extractor`, `run_foremost`, `run_exiftool`, `run_hashdeep`, `scan_yara` |
+| Findings, IOCs & reporting | 7 | `record_finding`, `promote_iocs`, `pivot_on_ioc`, `report_generate`, `report_export` |
+| Approval workflow (HMAC) | 2 | `approve_finding`, `retract_approval` |
+| Indexer (OpenSearch) | 5 | `idx_ingest`, `idx_search`, `idx_aggregate`, `idx_timeline`, `idx_case_summary` |
+| Wazuh SIEM | 5 | `wazuh_hunt_ioc`, `wazuh_check_intel`, `wazuh_index_findings`, `wazuh_publish_iocs`, `wazuh_vuln_query` |
+
+State-mutating tools (`record_finding`, `idx_ingest`, `promote_iocs`, …) require a
+one-shot **mutation token** (`AGENTROPIX_MUTATION_TOKEN`, minted via
+`agentropix-sift evidence-gate mint`); approval tools require HMAC-signed examiner
+authorization; every promote/ingest/publish/delete tool carries a `dry_run` guard.
+
+---
+
+## 16 SIFT forensic wrappers
+
+The canonical **16 forensic wrappers / 16 SIFT tools** are the trusted command-line
+binaries the engine drives and that `agentropix-sift doctor` pre-flights. Each wrapper
+ships a consistent hardening envelope — **timeout, memory ceiling, retry,
+stderr-capture, tracing** — and resolves its binary via an `AGENTROPIX_<TOOL>_TOOL`
+override so it can point at a SIFT-installed path.
+
+| # | Binary | Provides | Wrapper |
+|---|--------|----------|---------|
+| 1 | `vol` (Volatility3) | Memory forensics | `wrappers/volatility.py` |
+| 2 | `log2timeline.py` (Plaso) | Super timeline | `wrappers/plaso.py` |
+| 3 | `fls` (Sleuth Kit) | Filesystem listing | `wrappers/tsk.py` |
+| 4 | `icat` (Sleuth Kit) | File extraction | `wrappers/extract.py` |
+| 5 | `mmls` (Sleuth Kit) | Partition table | `wrappers/tsk.py` / `gpt_parser.py` |
+| 6 | `ewfinfo` (libewf) | E01 image metadata | `wrappers/ewf.py` |
+| 7 | `evtx_dump.py` | Windows `.evtx` logs | `wrappers/evtx.py` |
+| 8 | `yara` | Pattern matching | `wrappers/yara.py` |
+| 9 | `bulk_extractor` | Feature scanning | `wrappers/bulk_extractor.py` |
+| 10 | `rip.pl` (RegRipper) | Registry hives | `wrappers/regripper.py` |
+| 11 | `pf` | Prefetch parsing | `wrappers/prefetch.py` |
+| 12 | `amcache_parser` | Amcache execution evidence | `wrappers/amcache.py` |
+| 13 | `shimcache_parser` | Shimcache (AppCompatCache) | `wrappers/shimcache.py` |
+| 14 | `exiftool` | File metadata | `wrappers/exiftool.py` |
+| 15 | `foremost` | File carving | `wrappers/foremost.py` |
+| 16 | `hashdeep` | Multi-algorithm hashing / audit | `wrappers/hashdeep.py` |
+
+Source: `README.md:151`, `CHANGELOG.md:449`, and the `doctor` tool dict in
+`src/agentropix_sift/cli.py:176-196`. EZ-Tools (`RECmd`, `MFTECmd`, `LECmd`, `JLECmd`,
+`SBECmd`, `SQLECmd`, `bstrings`, `SRUM`) ship as additional wrappers on top of the core
+16.
+
+---
+
+## 7-agent Swarm (+ ATT&CK detectors)
+
+The "7-agent Swarm" is the seven first-class DFIR specialists. The runnable `SWARM`
+tuple (`agents/__init__.py`) additionally interleaves six deterministic ATT&CK detector
+agents — full per-agent breakdown in
+[`.crew/agents-list.md`](../../.crew/agents-list.md).
+
+| Specialist | Investigates | Drives |
+|------------|--------------|--------|
+| `MemoryAgent` | Suspicious/orphan processes, injected/RWX regions, credential-dump evidence | Volatility, process-tree correlation, secretsdump |
+| `TimelineAgent` | Execution/LOLBin timeline, EID 4688 events, lateral-movement sweeps | Plaso, sweep detection |
+| `FilesystemAgent` | Suspicious filenames, deleted artifacts, inode evidence (with payload hashes) | Sleuth Kit (`fls`) |
+| `ArtifactAgent` | Registry/Amcache/Shimcache execution evidence, scheduled-task persistence | `extract_files` → registry/amcache/shimcache chain |
+| `DiscoveryAgent` | MITRE Discovery techniques (T1018/T1069/T1083/T1087/T1135) | Reads TimelineAgent's EID 4688 off the Blackboard (no re-run) |
+| `MailAgent` | T1566 phishing, lookalike domains, maldoc chains | `email_headers`, PST/memory carve, oletools |
+| `HuntAgent` | High-confidence cross-source correlations (≥3-agent agreement) | The Blackboard (runs **last**) |
+
+The six deterministic ATT&CK detectors (`detectors/`) emit ATT&CK-tagged findings:
+YARA hunt (T1055 family), process injection (T1055.001/.002), null-session baseline
+(T1087.002), IFEO/accessibility hijack (T1546.008), IEX loopback C2 (T1059.001), and
+svchost outbound HTTP (T1071.001).
+
+Each specialist appends a verifiable **completion-promise** token (e.g.
+`TIMELINE_GENERATED`, `MEMORY_TRIAGED`) to `report.completion_proofs` when it publishes
+at least one finding without a tool error — a machine-checkable proof that the agent
+actually ran.
+
+---
+
+## Thymus read-only enforcement
+
+The **Thymus** policy (`mcp_server/thymus_policy.py`, "S-02") is the immune-system gate:
+**every** `mcp_*` tool call is checked against a path allowlist *before* any subprocess
+spawns. Evidence is structurally read-only — **no agent is given a write tool to call**.
+Each access is recorded to an in-memory audit ring (size
+`AGENTROPIX_THYMUS_AUDIT_LOG_RING_SIZE`, default 1000) and, when
+`AGENTROPIX_AUDIT_LOG` is set, to an on-disk JSONL chain-of-custody log. The report's
+`thymus_audit[]` array carries the read-only access trail (`timestamp`, `action`,
+`path`, `reason`).
+
+---
+
+## Courtroom seal — chain of custody you can verify
+
+`courtroom.py` (ADR-016 / ADR-022) provides the cryptographic anchor that makes a report
+judge-verifiable:
+
+- **`evidence_image_sha256`** — SHA-256 of the evidence image at session start, binding
+  the report to the exact bytes triaged (operator-suppliable via
+  `AGENTROPIX_EVIDENCE_SHA256` when auto-hash is unavailable).
+- **`report_seal`** — HMAC-SHA256 over the canonicalized report JSON, verified against a
+  per-run **session key** written at mode `0600`.
+- **Audit-log sealing + cross-binding** — the Thymus audit log is sealed into
+  `<stem>.audit-log.json` and its seal cross-bound into the report.
+
+A single run produces three files: `report.json`, `<stem>.audit-log.json`, and
+`<stem>.session-key`. The standalone `audit/verify_seal.py` (and `scripts/verify_seal.py`)
+verify them independently.
+
+---
+
+## Provenance & grounding
+
+Grounding is enforced at three layers:
+
+1. **Tool-sourced findings** — every `Finding` carries `_source` naming the deterministic
+   tool that produced it; `file_sha256` carries the SHA-256 of the byte payload behind the
+   finding where one was hashed (`agents/_base.py`,
+   [`.crew/schema-dump.md`](../../.crew/schema-dump.md) §2).
+2. **Inference constraint** — the report declares `inference_constraint = high` (ADR-016):
+   the LLM orchestrates only, and every fact originates from a named MCP tool captured in
+   `trace.tool_calls`.
+3. **Provenance-chain validation** — `provenance/validate.py` (`validate_dir`) verifies
+   each row's HMAC seal to confirm a sealed chain has not been tampered. IOC records carry
+   a first-class `IOCProvenance` (source evidence hash, extraction tool, args, timestamp,
+   analyst); `AGENTROPIX_REQUIRE_IOC_PROVENANCE` makes provenance mandatory.
+
+---
+
+## Approval sidecar (human-in-the-loop)
+
+For findings that need an examiner's signature, the optional **approval sidecar**
+(`approval_sidecar/`) is a standalone Starlette HMAC service implementing a
+challenge/submit handshake: PBKDF2-derived examiner key (default **600,000**
+iterations), TTL-bounded nonce (default 60 s), exactly-64-hex HMAC signature, and an
+**append-only hash chain** of approval state transitions
+(`DRAFT → APPROVED → REJECTED → REVOKED`). It exposes two MCP tools — `approve_finding`
+and the compensating, append-only `retract_approval` — and ships a browser approval form
+(`approval_sidecar/static/`). Bind/host/port and credentials are configured via
+`AGENTROPIX_APPROVAL_SIDECAR_*` / `AGENTROPIX_APPROVER_*` env vars (see
+[`.crew/env-vars.md`](../../.crew/env-vars.md) §1).
+
+---
+
+## Wazuh SIEM integration
+
+The `wazuh/` package promotes case findings and IOCs into a Wazuh SIEM — finding→alert
+mapping, CDB-list IOC publishing, index templates, and ISM retention — through five MCP
+tools (`wazuh_hunt_ioc`, `wazuh_check_intel`, `wazuh_index_findings`,
+`wazuh_publish_iocs`, `wazuh_vuln_query`). The integration is **default-deny**: it stays
+off unless `WAZUH_INTEGRATION_ENABLED=true`, writes require `WAZUH_PUSH_ENABLED=true`,
+`WAZUH_DRY_RUN_ONLY=true` forces dry-run, and an operator must affirm the target is not
+production (`AGENTROPIX_INTEGRATION_NOT_PRODUCTION`, W-188). An active-response guard
+protects RFC-1918/loopback CIDRs from ever being blocked
+(`AGENTROPIX_AR_PROTECTED_CIDRS`). See [`.crew/env-vars.md`](../../.crew/env-vars.md) for
+the full kill-switch matrix.
+
+---
+
+## Chaos-tested resilience
+
+Forensic tools fail in hostile ways — they time out, run out of memory, emit malformed
+output, or are missing entirely. Agentropix-SIFT treats those as first-class paths:
+fault-injection (**chaos**) tests in `tests/chaos/test_fault_paths.py` exercise the
+failure paths (the suite is marked `chaos` in `pyproject.toml` as
+"fault-injection / resilience-path tests"). A missing tool degrades gracefully (it is
+skipped, surfaced by `doctor`) rather than aborting the run, and each wrapper's
+timeout/retry/memory-ceiling envelope contains a misbehaving binary.
+
+The whole surface is covered by **4464 collected tests**
+([`.crew/facts.md`](../../.crew/facts.md), `test_count = 4464`), spanning unit,
+integration (real-subprocess), chaos, and end-to-end recall gates. On the real-data
+recall gate (SANS SRL-2018 corpus), disk per-IOC recall is **72/72 (100%)** on the
+regression suite and **108/118 (91.5%)** memory+disk combined — both pinned in
+`.crew/facts.md` with their methodology caveats.
+
+---
+
+## Next
+
+- **[Quickstart](quickstart.md)** — install, `doctor` pre-flight, first triage run.
+- **[What is Agentropix-SIFT?](what-is-agentropix.md)** — the problem, the positioning,
+  and the pipeline diagram.
