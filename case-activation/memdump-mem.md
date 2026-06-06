@@ -21,7 +21,7 @@
 | **Format** | **Raw / unstructured** — `file` reports `data` (no EWF/ELF/crash-dump header). This is a flat `.mem` capture, **not** an E01. |
 | **Size** | **512 MiB** — `536870912` bytes exactly (`du -h` → `512M`). |
 | **Suggested `case_id` slug** | **`MEMDUMP-RAW-2014`** (matches `^[A-Za-z0-9._-]{1,128}$`; no spaces, no slashes) |
-| **OS / scenario** | **Unknown — generic, no ground-truth.** No `readme`/`ground_truth_*.yaml` ships with this image; `file` yields only `data`. The OS profile is **not declared** and must be discovered by Volatility3's auto-detect (symbol-table match), not assumed. Treat it as an unattributed Windows-or-other memory capture until `windows.info` (or a Linux/Mac banner scan) resolves it. |
+| **OS / scenario** | **Unknown — generic, no ground-truth.** No `readme`/`ground_truth_*.yaml` ships with this image; `file` yields only `data`. The OS profile is **not declared** and must be discovered by Volatility3's auto-detect (symbol-table match), not assumed. Treat it as an unattributed Windows-or-other memory capture — the kernel profile is resolved implicitly when the first `windows.*` analysis plugin (`get_pslist`) runs. |
 
 ### Recommended path + tool chain (memory)
 
@@ -31,8 +31,7 @@ is the Volatility3-backed tool set:
 
 ```
 case_init → case_activate → evidence_register (SHA-256)
-   → run_volatility { plugin:"windows.info" }   # discover OS / kernel build first (no profile is declared)
-   → get_pslist        # processes
+   → get_pslist        # processes — also auto-detects the kernel profile (see note)
    → get_netscan       # sockets / connections
    → get_malfind       # injected / RWX code
    → get_svcscan       # Windows services
@@ -41,16 +40,22 @@ case_init → case_activate → evidence_register (SHA-256)
 ```
 
 > **Why no `get_image_info` here.** `get_image_info` drives `ewfinfo` and only
-> reads **E01/EWF** acquisition metadata. A flat `.mem` has none, so that tool is
-> skipped for this case — the OS-discovery step is `run_volatility { plugin:"windows.info" }`
-> instead. (Volatility3 is **profile-less**: it auto-detects via symbol tables, so
-> there is no profile string to pass.)
+> reads **E01/EWF** acquisition metadata. A flat `.mem` has none, so on a raw memory
+> dump it returns empty fields — skip it for this case.
+>
+> **How the OS/kernel is resolved.** Volatility3 is **profile-less**: it auto-detects
+> the kernel via symbol tables on the **first `windows.*` plugin that runs** (here
+> `get_pslist`). There is **no separate `windows.info`/`banners` step** — the MCP
+> allowlist exposes analysis plugins only (`pslist, psscan, pstree, malfind, netscan,
+> svcscan, cmdline, dlllist, handles, filescan, vadinfo, modules, …`), so an OS-info
+> call would be rejected as a disallowed plugin. A successful `get_pslist` *is* the
+> confirmation that a kernel symbol table matched.
 
 > ⚠️ **Generic-image expectation.** With no scenario metadata, treat counts as
-> *discovered*, not *expected*. If `windows.info` fails to resolve a Windows kernel,
-> the image may be Linux/Mac or a partial capture — fall back to
-> `run_volatility { plugin:"banners.Banners" }` to fingerprint the kernel before
-> any `windows.*` plugin. A 512 MiB image is small; plugin runs are fast.
+> *discovered*, not *expected*. If the analysis plugins return empty and report
+> `Unable to validate the plugin requirements: kernel.symbol_table_name`, this image
+> has **no matching Windows symbol table** (it may be Linux/Mac or a partial capture) —
+> an honest negative, recorded as-is. A 512 MiB image is small; plugin runs are fast.
 
 ---
 
@@ -117,15 +122,14 @@ Evidence is already staged at `/cases/memdump/memdump.mem`. Slug = **`MEMDUMP-RA
 
 > **🖥️ Expert (MCP calls):**
 > ```text
-> run_volatility { "target":"/cases/memdump/memdump.mem", "plugin":"windows.info" }   # discover OS/kernel FIRST
-> get_pslist         { "image":"/cases/memdump/memdump.mem" }   # processes
+> get_pslist         { "image":"/cases/memdump/memdump.mem" }   # processes (auto-detects the kernel profile)
 > get_netscan        { "image":"/cases/memdump/memdump.mem" }   # sockets / connections
 > get_malfind        { "image":"/cases/memdump/memdump.mem" }   # injected / RWX code
 > get_svcscan        { "image":"/cases/memdump/memdump.mem" }   # Windows services
 > build_process_tree { "image":"/cases/memdump/memdump.mem" }   # PPID forest + LOLBin flags
 > ```
-> **💬 End-user (prompt):** *"Analyse this memory image: first identify the OS/kernel, then show running processes, open network connections, any injected code, the services, and the process tree."*
-> **Expect:** `windows.info` resolves the kernel build (or errors if non-Windows → fall back to `run_volatility { plugin:"banners.Banners" }`); the Volatility-backed tools return process / socket / malfind / service / PPID-tree data. Counts are **discovered** (no ground-truth to match against).
+> **💬 End-user (prompt):** *"Analyse this memory image: show running processes, open network connections, any injected code, the services, and the process tree."*
+> **Expect:** the Volatility-backed tools return process / socket / malfind / service / PPID-tree data. The kernel profile is auto-detected on the first plugin (`get_pslist`) — a populated process list confirms the symbol-table match; if every plugin returns empty with `Unable to validate the plugin requirements: kernel.symbol_table_name`, no Windows profile resolved (honest negative). Counts are **discovered** (no ground-truth to match against).
 
 > **Tool surface:** these are 5 of the platform's **71** MCP tools (`{{ref:CANONICAL_FACTS#mcp_tool_count}}`), driving Volatility3 — one of the **16 forensic SIFT wrappers** (cite [`.crew/facts.md`](../.crew/facts.md)). `run_volatility` is the generic escape hatch for any other plugin (`windows.cmdline`, `windows.dlllist`, `windows.hashdump`, …).
 
@@ -181,44 +185,40 @@ Both lanes hit the **same deterministic MCP tools** — only who drives them dif
    🖥️ `evidence_register {"path":"/cases/memdump/memdump.mem","examiner_id":"victor.galvan",…}`
    **Expect:** `evidence_id`, evidence SHA-256, `size_bytes 536870912`, `indexed: true`.
 
-6. 💬 *"Identify the OS and kernel build of this memory image."*
-   🖥️ `run_volatility {"target":"/cases/memdump/memdump.mem","plugin":"windows.info"}`
-   **Expect:** resolved Windows kernel/build, or an error → fall back to `banners.Banners` to fingerprint a non-Windows kernel.
-
-7. 💬 *"List the running processes in this memory image."*
+6. 💬 *"List the running processes in this memory image."*
    🖥️ `get_pslist {"image":"/cases/memdump/memdump.mem"}`
-   **Expect:** a process list (PID/PPID/name); counts are discovered (no ground-truth).
+   **Expect:** a process list (PID/PPID/name) — this first `windows.*` plugin also **auto-detects the kernel profile**, so a populated list confirms the symbol-table match. There is **no separate `windows.info`/`banners` step** (the MCP allowlist exposes analysis plugins only). If it returns empty with `Unable to validate the plugin requirements: kernel.symbol_table_name`, no Windows profile resolved — an honest negative. Counts are discovered (no ground-truth).
 
-8. 💬 *"Show the open network connections / sockets."*
+7. 💬 *"Show the open network connections / sockets."*
    🖥️ `get_netscan {"image":"/cases/memdump/memdump.mem"}`
    **Expect:** a typed TCP/UDP socket list.
 
-9. 💬 *"Is there any injected or RWX code in this image?"*
+8. 💬 *"Is there any injected or RWX code in this image?"*
    🖥️ `get_malfind {"image":"/cases/memdump/memdump.mem"}`
    **Expect:** malfind hits (injected/RWX VAD regions) or an empty set — both are valid for a generic image.
 
-10. 💬 *"Enumerate the Windows services and build the process tree with LOLBin flags."*
-    🖥️ `get_svcscan {"image":"…"}` then `build_process_tree {"image":"…"}`
-    **Expect:** a service list and a PPID-linked process forest with any LOLBin flags.
+9. 💬 *"Enumerate the Windows services and build the process tree with LOLBin flags."*
+   🖥️ `get_svcscan {"image":"…"}` then `build_process_tree {"image":"…"}`
+   **Expect:** a service list and a PPID-linked process forest with any LOLBin flags.
 
-11. 💬 *"Record a DRAFT finding for the resolved OS/kernel."*
-    🖥️ `record_finding {"finding":{"finding_id":"memdump-os-001",…},"dry_run":false,"mutation_token":"<token>"}`
+10. 💬 *"Record a DRAFT finding for a notable observation (e.g. the recovered process list)."*
+    🖥️ `record_finding {"finding":{"finding_id":"memdump-001",…},"dry_run":false,"mutation_token":"<token>"}`
     **Expect:** finding lands as **DRAFT** (`indexed:false`); `finding_id` required; bot cannot self-approve.
 
-12. 💬 *"List the DRAFT findings and their IDs for `MEMDUMP-RAW-2014`."* (then approve yourself in the portal)
+11. 💬 *"List the DRAFT findings and their IDs for `MEMDUMP-RAW-2014`."* (then approve yourself in the portal)
     🖥️ approve in the Examiner Portal (`approve_finding`, HMAC sign-off)
     **Expect:** DRAFT IDs listed; **you** sign off in the browser — no plain-language approval shortcut, by design.
 
-13. 💬 *"Generate the full SIFT report for `MEMDUMP-RAW-2014`."*
+12. 💬 *"Generate the full SIFT report for `MEMDUMP-RAW-2014`."*
     🖥️ `report_generate {"profile":"full","case_id":"MEMDUMP-RAW-2014"}`
-    **Expect:** `report_id` + section counts; `approved_finding_count` reflects Step 12 (stays `0` if nothing approved yet).
+    **Expect:** `report_id` + section counts; `approved_finding_count` reflects Step 11 (stays `0` if nothing approved yet; a DRAFT-only case may return `case_not_found` — the correct end-state when nothing was approved).
 
 ### AUTONOMOUS sequence (launch → monitor → approve → report)
 
 1. **Launch (interactive autonomous prompt — non-expert lane).**
-   💬 *"You are a DFIR analyst with the Agentropix MCP. Investigate case `MEMDUMP-RAW-2014` on the raw memory image `/cases/memdump/memdump.mem`. Run the full memory sequence (identify OS via `windows.info` first, then pslist → netscan → malfind → svcscan → build_process_tree), staging findings as DRAFT. This is a raw `.mem` — there is no partition table, so do NOT run mmls/fls/bulk_extractor. Do NOT approve findings. Finish by generating the full report."*
+   💬 *"You are a DFIR analyst with the Agentropix MCP. Investigate case `MEMDUMP-RAW-2014` on the raw memory image `/cases/memdump/memdump.mem`. Run the full memory sequence (pslist → netscan → malfind → svcscan → build_process_tree — the first plugin auto-detects the kernel profile), staging findings as DRAFT. This is a raw `.mem` — there is no partition table, so do NOT run mmls/fls/bulk_extractor. Do NOT approve findings. Finish by generating the full report."*
    🖥️ same prompt works via `claude --print` for a one-shot headless run.
-   **Expect:** the agent walks `case_init`→`case_activate`→`evidence_register`→`run_volatility{windows.info}`→`get_pslist`→`get_netscan`→`get_malfind`→`get_svcscan`→`build_process_tree`→`record_finding`×N (DRAFT)→`report_generate{profile:"full"}`, stopping before approval.
+   **Expect:** the agent walks `case_init`→`case_activate`→`evidence_register`→`get_pslist`→`get_netscan`→`get_malfind`→`get_svcscan`→`build_process_tree`→`record_finding`×N (DRAFT)→`report_generate{profile:"full"}`, stopping before approval.
 
    *Expert headless-driver alternative (detached):*
    🖥️ `AGENTROPIX_MCP_AUTH_TOKEN="<BEARER>" setsid nohup bash -c "python3 /home/admin2/.openclaw/workspace/drivers/agx_gearb.py <case_key> > run.log 2>&1" </dev/null >/dev/null 2>&1 & disown`
@@ -246,7 +246,7 @@ Both lanes hit the **same deterministic MCP tools** — only who drives them dif
 | Gotcha | Rule |
 |---|---|
 | Treating `.mem` like a disk | **No partition table.** Skip `mmls`/`fls`/`run_bulk_extractor`/`scan_yara`-on-disk. Use the Volatility memory chain. |
-| Assuming an OS | **No ground-truth / no profile declared.** Run `run_volatility { windows.info }` (or `banners.Banners`) to discover the kernel before any `windows.*` plugin. |
+| Assuming an OS | **No ground-truth / no profile declared.** There is no `windows.info`/`banners` call in the MCP allowlist — the kernel profile is auto-detected by Volatility3 on the first `windows.*` plugin (`get_pslist`). A populated `get_pslist` confirms the symbol-table match; empty results with `Unable to validate ... kernel.symbol_table_name` mean no Windows profile resolved. |
 | Expecting `ewfinfo` output | `get_image_info`/`ewfinfo` are **E01-only**. A flat raw `.mem` returns no EWF metadata. |
 | `case_id` formatting | `MEMDUMP-RAW-2014` is pre-slugged — no spaces/slashes (`^[A-Za-z0-9._-]{1,128}$`). |
 | Findings not persisting | `record_finding` defaults to `dry_run=True` — pass `dry_run=False` + `mutation_token`. |
