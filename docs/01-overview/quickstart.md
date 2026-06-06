@@ -5,6 +5,12 @@ end-to-end triage. For background, read [What is
 Agentropix-SIFT?](what-is-agentropix.md); for the full capability set, see [What You
 Get](what-you-get.md).
 
+> 📘 **Want the whole case, not just the 3-command fast path?** The
+> [User Guide — Start to Finish](user-guide.md) walks a first-time operator through one
+> complete case — install/pre-flight, configure, triage, **review findings, approve in the
+> portal, seal the report, and (optionally) escalate to Wazuh** — with expected output at
+> every phase. This Quickstart is the condensed install-and-first-run subset of it.
+
 > **Three steps, well under two minutes** on a prepared SIFT host:
 >
 > ```bash

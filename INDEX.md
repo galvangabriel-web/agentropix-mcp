@@ -15,6 +15,10 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
 
 ## Reading Paths by Audience
 
+- **Operator** (first run, start to finish): **[User Guide — Start to Finish](docs/01-overview/user-guide.md)**
+  → [Quickstart](docs/01-overview/quickstart.md) (the condensed 3-command path)
+  → [CLI Reference](docs/08-reference/cli-reference.md). The single end-to-end walkthrough:
+  install/pre-flight → configure → triage → review → approve → seal → (optional) Wazuh.
 - **Operator** (runs triage): [What is Agentropix-SIFT?](docs/01-overview/what-is-agentropix.md)
   → [Competitive Positioning](docs/01-overview/competitive-positioning.md)
   → [Quickstart](docs/01-overview/quickstart.md)
@@ -68,6 +72,7 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
+| **User Guide — Start to Finish** | operator | **How do I run one complete case end to end** — install/pre-flight, configure, triage, review findings, approve in the portal, seal the report, and (optionally) escalate to Wazuh? | [docs/01-overview/user-guide.md](docs/01-overview/user-guide.md) |
 | What is Agentropix-SIFT? | operator, examiner | What does the tool do, why, who is it for, and how does it compare to manual DFIR? | [docs/01-overview/what-is-agentropix.md](docs/01-overview/what-is-agentropix.md) |
 | What You Get | operator, examiner | What are the concrete capabilities and the feature/capability matrix? | [docs/01-overview/what-you-get.md](docs/01-overview/what-you-get.md) |
 | Quickstart | operator | How do I install, pre-flight the toolchain, and run my first triage? | [docs/01-overview/quickstart.md](docs/01-overview/quickstart.md) |

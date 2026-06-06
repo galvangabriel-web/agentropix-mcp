@@ -7,6 +7,11 @@
 
 **A local, CLI-driven, bio-agentic DFIR triage engine for the SANS SIFT Workstation.**
 
+> 👋 **New here? Start with the [User Guide — Start to Finish](docs/01-overview/user-guide.md)** —
+> the single end-to-end walkthrough that takes a first-time operator through one complete case:
+> install/pre-flight → configure → run a triage → review findings → approve in the portal →
+> seal the report → (optional) escalate to Wazuh.
+
 Agentropix-SIFT turns a SIFT Workstation into an autonomous-but-accountable triage
 operator. A **Trinity Loop** — an Architect that proposes which agents to run, a
 **7-agent Swarm** that drives deterministic forensic tools, and a **Critic** that scores
@@ -256,8 +261,10 @@ full env-var table.
 Start at the routed [master table of contents](INDEX.md), which maps every chapter to its
 audience (operator / examiner / developer / auditor) and the question it answers. Highlights:
 
-- **New here?** [What is Agentropix-SIFT?](docs/01-overview/what-is-agentropix.md) →
-  [Quickstart](docs/01-overview/quickstart.md)
+- **New here? Start with the [User Guide — Start to Finish](docs/01-overview/user-guide.md)** —
+  one complete case from install/pre-flight through triage, review, approval, seal, and
+  optional Wazuh escalation. Then [What is Agentropix-SIFT?](docs/01-overview/what-is-agentropix.md)
+  → [Quickstart](docs/01-overview/quickstart.md)
 - **How it works:** [Architecture](docs/02-architecture/system-context-c4.md) ·
   [Data Models](docs/03-data/data-models.md)
 - **Operate it:** [Use Cases](docs/06-use-cases/uc-disk-triage.md) ·
