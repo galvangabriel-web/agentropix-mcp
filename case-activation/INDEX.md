@@ -71,6 +71,7 @@ Educational recordings of a real executed activation sequence (live MCP calls, c
 | Case | Sequence | Transcript | Video |
 |---|---|---|---|
 | CTF "Contact Me" | §3A manual | [EXECUTED-RUN.md](./runs/contact-me-memory/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/contact-me-memory/EXECUTED-RUN.mp4) (58s · 23 MB · 1920×1080) |
+| AMF Windows sample001 | §3.A manual | [EXECUTED-RUN.md](./runs/amf-win-sample001/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/amf-win-sample001/EXECUTED-RUN.mp4) (54s · 18.69 MB · 1920×1080) |
 
 The transcript captures the real tool responses/exits step by step; `record_finding` ran `dry_run=true`, the approval step is a human hard-stop performed in the Examiner Portal (documented, not executed), and `report_generate` ran with 0 approved findings (the correct expected result). The MCP host is shown as `<TAILNET-HOST>`; no token is reproduced.
 
