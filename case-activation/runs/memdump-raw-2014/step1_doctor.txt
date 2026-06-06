@@ -1,0 +1,20 @@
+  [OK  /home/admin2/agentropix-sift/.venv/bin/vol] Volatility3 (memory forensics) (vol)
+  [OK  /usr/bin/log2timeline.py] Plaso (timeline) (log2timeline.py)
+  [OK  /usr/bin/fls] Sleuth Kit (filesystem) (fls)
+  [OK  /usr/bin/icat] Sleuth Kit (file extraction) (icat)
+  [OK  /usr/bin/mmls] Sleuth Kit (partitions) (mmls)
+  [OK  /usr/bin/ewfinfo] ewftools (E01 image metadata) (ewfinfo)
+  [OK  /usr/local/bin/evtx_dump.py] python-evtx (Windows Event Log parser) (evtx_dump.py)
+  [OK  /usr/bin/yara] YARA (pattern matching) (yara)
+  [OK  /usr/bin/bulk_extractor] bulk_extractor (bulk_extractor)
+  [OK  /usr/local/bin/rip.pl] RegRipper (registry hives) (rip.pl)
+  [OK  /usr/bin/sccainfo] Prefetch parser (execution evidence) (pf) [via AGENTROPIX_PREFETCH_TOOL=sccainfo]
+  [OK  /usr/local/bin/AmcacheParser] Amcache.hve parser (execution evidence) (amcache_parser) [via AGENTROPIX_AMCACHE_TOOL=AmcacheParser]
+  [OK  /usr/local/bin/AppCompatCacheParser] Shimcache parser (AppCompatCache) (shimcache_parser) [via AGENTROPIX_SHIMCACHE_TOOL=AppCompatCacheParser]
+  [OK  /usr/bin/ssdeep] ssdeep (fuzzy hashing) (ssdeep)
+  [OK  /usr/local/bin/exiftool] ExifTool (metadata) (exiftool)
+  [OK  /usr/bin/foremost] Foremost (carving) (foremost)
+  [OK  /usr/bin/hashdeep] hashdeep (hashing) (hashdeep)
+  [OK  /usr/bin/strings] GNU strings (printable-sequence extraction) (strings)
+
+All tools available.
