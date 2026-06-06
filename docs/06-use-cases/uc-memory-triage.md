@@ -20,6 +20,21 @@ the memory path tells you *the parent/child shape and live network posture* of t
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [How to read this page (two audience tracks)](#how-to-read-this-page-two-audience-tracks) | The two audience tracks (🖥️ expert MCP call vs 💬 end-user prompt), the real-data preface (memory recall **108/118, 91.5%**), and how the GOTCHA boxes work. |
+| [Use-case diagram](#use-case-diagram) | A diagram of the memory triage flow — baseline processes, sockets, injected code, services, then `pivot_on_ioc` across hosts (with the egress-gated intel edge). |
+| [Sequence — memory C2 hunt (granular MCP chain)](#sequence--memory-c2-hunt-granular-mcp-chain) | The interactive tool-by-tool hunt order and why it runs that way, from `get_pslist` baseline through to the cross-host pivot. |
+| [Sequence — autonomous `run` over a memory image (MemoryAgent path)](#sequence--autonomous-run-over-a-memory-image-memoryagent-path) | How the autonomous `agentropix-sift run` drives the SWARM — `MemoryAgent` first, `HuntAgent` last, Critic halt, sealed report. |
+| [Actor, preconditions, steps, postconditions](#actor-preconditions-steps-postconditions) | The full dual-audience walkthrough: preconditions, 9 numbered steps (each with Execution → Output), postconditions, and the CLI commands. |
+| [See also](#see-also) | Links to the disk-triage counterpart, approval gate, Wazuh push, and the tool/agent reference lists. |
+
+---
+
 ## How to read this page (two audience tracks)
 
 This use case is **operational**, so every memory tool below is shown **two ways** — pick the track

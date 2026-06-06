@@ -40,6 +40,27 @@ report-bound fact traces to bytes a named deterministic tool read off
 evidence. Controls 1–4 below are the mechanisms that make grounding hold;
 controls 5–7 keep the loop and the documentation honest about it.
 
+## Contents — what's in this page (and what to expect)
+
+This page walks the seven code-enforced controls that make fabricated findings
+structurally impossible, then maps where they sit along a single tool call.
+
+| Section | What you'll get |
+|---------|-----------------|
+| [The control points](#the-control-points) | A one-table overview of all seven controls — what each guarantees and the source file that enforces it |
+| [1 · Deterministic-tools-only findings (no LLM author)](#1--deterministic-tools-only-findings-no-llm-author) | Why every `Finding` is authored by a deterministic wrapper, and how the Critic scores without an LLM |
+| [2 · Evidence sovereignty](#2--evidence-sovereignty) | How each finding carries its own provenance (wrapper, agent, byte hash) so a reviewer can re-derive it |
+| [3 · The read-only Thymus boundary](#3--the-read-only-thymus-boundary) | The path-allowlist read-only policy that runs before any I/O, plus the layered rejection screens |
+| [4 · The pre/post SHA-256 evidence invariant](#4--the-prepost-sha-256-evidence-invariant) | How the report is cryptographically pinned to the exact evidence bytes, and how tampering is detected |
+| [5 · The deterministic fingerprint halt](#5--the-deterministic-fingerprint-halt) | The fixed-point + threshold stopping rule that never asks a model whether to halt |
+| [6 · Completion-promise tokens (verifiable completion)](#6--completion-promise-tokens-verifiable-completion) | How a silent omission (a scheduled agent that never ran) is made detectable |
+| [7 · Canonical-fact drift gates](#7--canonical-fact-drift-gates) | The CI check that fails the build when docs cite a number that contradicts the canonical facts |
+| [Safety control points along one tool call](#safety-control-points-along-one-tool-call) | A diagram tracing the controls along a single core-loop iteration |
+| [Why this is stronger than "prompt the model to be careful"](#why-this-is-stronger-than-prompt-the-model-to-be-careful) | The structure-and-cryptography argument: each control is a code path an agent cannot route around |
+| [See also](#see-also) | Links to provenance, courtroom sealing, human-in-the-loop, and the canonical-facts table |
+
+---
+
 ## The control points
 
 The first five controls below are the original anti-fabrication core (they gate

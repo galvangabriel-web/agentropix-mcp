@@ -15,6 +15,20 @@ quote any of the rejected literals as if current.
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. Test topology](#1-test-topology) | The `tests/` suite layout — each on-disk directory and the two tiers (always-run mock suites vs host-gated suites that skip-with-reason). |
+| [2. Pytest markers](#2-pytest-markers) | The `@pytest.mark` labels (`chaos`, `integration`, `wazuh_live`, `real_corpus`) that select the gated tiers, plus the `asyncio_mode = "auto"` note. |
+| [3. Coverage gate](#3-coverage-gate) | The correctness gates wired into CI — `pytest-cov`, basedpyright `strict` typing, and the ruff selectors. |
+| [4. The ground-truth E2E recall gate](#4-the-ground-truth-e2e-recall-gate) | The Trinity Loop recall gate: how it scores against the ground-truth YAML, the canonical recall numbers, and the PLASO_TIMEOUT discriminator (W-128). |
+| [See also](#see-also) | Cross-links to the chaos classes, the code under test, and the seal/audit invariants. |
+
+---
+
 ## 1. Test topology
 
 Tests live under `tests/`, partitioned by the layer they exercise. Each suite below is a real

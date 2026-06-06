@@ -12,6 +12,22 @@ Related: [Tool reference](tool-reference.md) · [Schema reference](../03-data/sc
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [The shape, derived from code](#the-shape-derived-from-code) | The two return models (per-tool report vs `ToolError`), the outer discriminator, and the recurring cross-cutting field tables for forensic wrappers and case/reporting results. |
+| [Realistic JSON example](#realistic-json-example) | Worked wire examples: a `get_pslist` success, a W-135 soft failure, a `ToolError`, and a `record_finding` mutation result. |
+| [The `safe_tool` flat error envelope](#the-safe_tool-flat-error-envelope) | The second error contract used by Wazuh tools — `ToolErrorEnvelope`'s flat `{error, details}` shape, stable error categories, message truncation, and how it differs from `ToolError`. |
+| [Mapping the conceptual envelope to the real fields](#mapping-the-conceptual-envelope-to-the-real-fields) | A table mapping the idealized envelope names (`success`, `data`, `caveats`, …) to the real fields the code returns, plus the hard authoring rule. |
+| [Availability & skip signalling](#availability--skip-signalling) | How `tool_available=False` + `skipped_reason` make missing-binary/wrong-input cases deterministic, replayable signalled skips instead of crashes. |
+| [Mutation & approval gating](#mutation--approval-gating) | How state-mutating tools enforce one-shot `mutation_token`s, default to dry-run, stage findings as DRAFT only, and report `indexed`/`indexed_to`. |
+| [The report that aggregates all tool calls](#the-report-that-aggregates-all-tool-calls) | How individual envelopes roll up into the Triage Report with `trace.tool_calls[]` and the court-defensible invariants. |
+
+---
+
 ## The shape, derived from code
 
 Each FastMCP route awaits an inner `mcp_*` coroutine and returns its `.model_dump()`

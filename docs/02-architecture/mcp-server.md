@@ -24,6 +24,23 @@ catalogue see [04-mcp-tools](../04-mcp-tools/) and
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. The FastMCP app](#1-the-fastmcp-app) | How `_build_app()` registers every `@app.tool()`, the 74-decorator → 71-tool arithmetic, and the cheap `health()` probe that reports the live tool count. |
+| [2. Transports: stdio and HTTP+SSE](#2-transports-stdio-and-httpsse) | The two transports (local stdin/stdout vs tailnet-only Bearer-protected HTTP+SSE) and how both funnel into one shared tool core. |
+| [3. The per-tool hardening stack](#3-the-per-tool-hardening-stack) | The ordered tracing → rate-limit → Thymus → wrapper pipeline every tool runs, with the four guarantees and their sources. |
+| [3.5. The wrapper layer and the two error-envelope contracts](#35-the-wrapper-layer-and-the-two-error-envelope-contracts) | How wrappers isolate each SIFT binary, and the two error envelopes (`ToolError` vs `safe_tool`'s `ToolErrorEnvelope`) that keep the agent loop alive. |
+| [4. Thymus — the read-only evidence boundary](#4-thymus--the-read-only-evidence-boundary) | The S-02 evidence-integrity layer: the six-step `check_read()` screen, default read-only zones, why write is structurally impossible, and the audit trail. |
+| [5. Tool tracing](#5-tool-tracing) | The contextvar-based per-agent trace buffer and the `ToolCallRecord` fields that form the L1↔L3 fingerprint for the report seal. |
+| [6. What the boundary guarantees, in one table](#6-what-the-boundary-guarantees-in-one-table) | A one-table summary of every boundary layer (transport, telemetry, rate-limit, read/write policy, errors) and its source. |
+| [7. Where to go next](#7-where-to-go-next) | Pointers onward — Trinity loop, swarm agents, the traced-call sequence diagram, and the full 71-tool catalogue. |
+
+---
+
 ## 1. The FastMCP app
 
 The app is built by `_build_app()` and named `FastMCP("agentropix-sift")`

@@ -35,6 +35,24 @@ it, the Critic reads it to score, and the Architect reads the Critic's verdict t
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. The agent class hierarchy](#1-the-agent-class-hierarchy) | The `SwarmAgent`/`Finding`/`Blackboard`/`Correlation` contracts, the 13-subclass tree, and what the base `run()` does for every agent (cap, stamp, publish). |
+| [2. The seven core specialists](#2-the-seven-core-specialists) | A table of the 7 DFIR specialists — each agent's `name`, completion promise, the wrappers/MCP tools it drives, and what it produces. |
+| [3. ATT&CK detector agents](#3-attck-detector-agents) | The 6 deterministic ATT&CK detectors — their `name`, ATT&CK technique, source file, and findings, as same-contract `SwarmAgent` subclasses. |
+| [4. Run order — why HuntAgent is last](#4-run-order--why-huntagent-is-last) | The fixed `SWARM` order and why it's load-bearing — which agents consume earlier agents' findings, ending with HuntAgent. |
+| [5. The Blackboard](#5-the-blackboard) | The only shared mutable state — how `correlations()` surfaces tokens seen by ≥ quorum agents and feeds HuntAgent and the Critic's score. |
+| [6. The agent contract, summarised](#6-the-agent-contract-summarised) | The three-point contract every agent honours — extend `SwarmAgent`, stay idempotent, stay a pure MCP-boundary coroutine. |
+| [7. Per-agent responsibility map](#7-per-agent-responsibility-map) | The judge's view: exactly which tool call each agent fires and what that surfaces, plus a pointer to the inverse tool→agent map. |
+| [8. Cross-run learning & agent self-correction](#8-cross-run-learning--agent-self-correction) | The four mechanics that carry state across runs — Hippocampus traces, Ralph hooks, the persona chromosome, fingerprinting/promises, and a 9-step end-to-end trace. |
+| [9. Where to go next](#9-where-to-go-next) | Onward links — the Trinity loop, the MCP tools and inverse map, the data contracts, and a full triage sequence diagram. |
+
+---
+
 ## 1. The agent class hierarchy
 
 The four data contracts and how an agent feeds them:

@@ -16,6 +16,24 @@ All of this lives in `src/agentropix_sift/courtroom.py` (ADR-016 / ADR-022,
 BMAD-M8 Phase M8.2 + W-173) and the standalone verifiers under
 `provenance/validate.py` and `audit/verify_seal.py`.
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [The threat model](#the-threat-model) | What the per-run seal defends against (post-hoc JSON tampering, not impersonation) and why it uses the smallest primitive — HMAC-SHA256 over canonical JSON. |
+| [The four invariants](#the-four-invariants) | The four cryptographic guarantees at a glance — evidence hashing, report seal, per-run key, peer-sealed cross-bound audit log — with their functions and source lines. |
+| [HMAC-SHA256 report sealing](#hmac-sha256-report-sealing) | How `seal_report`/`verify_seal` MAC the canonicalised report (fixed `__sealed__` sentinel, ≥32-byte key) and verify in constant time. |
+| [The per-run session key](#the-per-run-session-key) | How `write_session_key` mints 32 random bytes, writes them 0600 beside the report, and ties the audit-log seal to the same key. |
+| [The JSONL audit log and chain-of-custody cross-binding](#the-jsonl-audit-log-and-chain-of-custody-cross-binding) | How `write_sealed_session` drains the JSONL trail and cross-binds the audit seal into the report seal so a swapped audit log fails either check. |
+| [Seal & verify flow](#seal--verify-flow) | A sequence diagram of the full seal-then-verify lifecycle and the asymmetry that makes verification need only the on-disk artifacts plus the key file. |
+| [Integrity verification & classification](#integrity-verification--classification) | The two re-verification CLIs and their category ladders (ok/unsealed/forged/…), including when each exits non-zero on tamper. |
+| [Related sealing primitives](#related-sealing-primitives) | The same HMAC-over-canonical-JSON pattern across the safety spine — report+audit, Wazuh IOC push, approval ledger — each with its verify peer. |
+| [See also](#see-also) | Cross-links to anti-hallucination, provenance/grounding, and the human-in-the-loop approval hash-chain. |
+
+---
+
 ## The threat model
 
 The Courtroom seal is explicit about what it defends against

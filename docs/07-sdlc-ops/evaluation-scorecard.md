@@ -34,6 +34,24 @@ so it is not directly comparable to the BMAD figures.
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. What BMAD is and why it is independent](#1-what-bmad-is-and-why-it-is-independent) | Why ten isolated discipline-specific persona verdicts are hard to game — the independence claim behind the evaluation. |
+| [2. The five dimensions (D1–D5)](#2-the-five-dimensions-d1d5) | The five 20-point scoring dimensions, what each measures, and the primary persona voice (with confidence) that owns it. |
+| [3. The verdict matrix (10 personas)](#3-the-verdict-matrix-10-personas) | The full per-persona × per-dimension score table, verdict bands, and the 67–80 range visualized. |
+| [4. Confidence weighting and the top-5 strengths](#4-confidence-weighting-and-the-top-5-strengths) | How HIGH/MED/LOW confidence weights the synthesis, plus the top-5 cross-discipline strengths. |
+| [5. Honest gaps (named with owners + effort)](#5-honest-gaps-named-with-owners--effort) | The five named weaknesses shipped with owners, effort sizes, and open/closed status. |
+| [6. The Devpost rubric self-grade — 83.83/100](#6-the-devpost-rubric-self-grade--8383100) | The voluntary re-grade against the real Devpost rubric and where each criterion's evidence lives. |
+| [7. The canonical project shape (for context)](#7-the-canonical-project-shape-for-context) | The load-bearing structural numbers (tools, agents, tests, recall) the evaluation scored against. |
+| [Conflicts resolved](#conflicts-resolved) | The two number conflicts (BMAD total, tool/agent/test counts) and how the fact file resolves them. |
+| [See also](#see-also) | Cross-links to Testing, Security Model, Audit & Courtroom Seal, and Canonical Facts. |
+
+---
+
 ## 1. What BMAD is and why it is independent
 
 BMAD (Build / Measure / Analyze / Decide) is the sprint methodology behind the evaluation. A

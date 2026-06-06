@@ -12,6 +12,20 @@ Related pages: [Response envelope](response-envelope.md) · [Tools by agent](too
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+The master reference for the full 71-tool MCP surface. Jump to the section you need:
+
+| Section | What you'll get |
+|---------|-----------------|
+| [How the 71 tools are registered](#how-the-71-tools-are-registered) | How every tool becomes a `@app.tool()` FastMCP route, how 74 decorators reconcile to 71 distinct functions, the live `health`/`tool_count` source of truth, and the wrapper / discovery / case-state taxonomy. |
+| [Auth & mutation model (applies across the catalogue)](#auth--mutation-model-applies-across-the-catalogue) | The cross-cutting access controls — bearer token, `[MUT]` mutation tokens, `[APPR]` HMAC approval, `dry_run` guards, Thymus read-only — enforced at the MCP boundary. |
+| [Master categorized table (all 71 tools)](#master-categorized-table-all-71-tools) | Every tool, grouped by category, with purpose, backing module, and `[SIFT-16]`/`[MUT]`/`[APPR]` markers — plus the row-count reconciliation to 71 distinct functions. |
+| [The 16 SIFT forensic wrappers (deep table)](#the-16-sift-forensic-wrappers-deep-table) | A per-binary deep dive of the 16 forensic wrappers: inputs, parsed return types, caveats, and the W-135 degradation contract. |
+| [Discovery vs execution vs derived — worked examples](#discovery-vs-execution-vs-derived--worked-examples) | Concrete examples distinguishing execution, derived, and state-mutating tools, and which agent drives each. |
+
+---
+
 ## How the 71 tools are registered
 
 Every tool is a `@app.tool()` route on a single FastMCP server. The server module

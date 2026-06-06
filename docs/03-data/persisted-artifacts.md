@@ -14,6 +14,26 @@ detectable.
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [Artifact overview](#artifact-overview) | The at-a-glance table of every run artifact — path/naming, format, who writes/reads it, and lifecycle. |
+| [The triage report — `<report>.json`](#the-triage-report--reportjson) | The sealed top-level JSON report: how it's named, formatted, sealed on write, and the courtroom invariants it carries. |
+| [The session key — `<report>.session-key`](#the-session-key--reportsession-key) | The 32-byte mode-0600 HMAC key — the only secret needed to verify the seals — and its one-per-run lifecycle. |
+| [The sealed audit log — `<report>.audit-log.json`](#the-sealed-audit-log--reportaudit-logjson) | The HMAC-sealed audit peer of the report and the cross-binding that makes neither file replaceable in isolation. |
+| [Thymus JSONL audit log](#thymus-jsonl-audit-log) | The live append-only access-decision trail, its env-var paths, in-memory ring, and how it drains into the sealed log. |
+| [Hippocampus reasoning traces](#hippocampus-reasoning-traces) | The in-memory-only reasoning store, its opt-in flag, and why the durable form lives in `report.iterations[]`. |
+| [Evidence-gate token registry (SQLite)](#evidence-gate-token-registry-sqlite) | The one durable-across-runs store: TTL-bounded one-shot mutation tokens, minting, spending, and revocation. |
+| [MASTER-IOCS aggregate](#master-iocs-aggregate) | The per-case IOC roll-up, its detached `.signature` sidecar, fail-closed signing, and how Wazuh consumes it. |
+| [Approval hash-chain (OpenSearch index)](#approval-hash-chain-opensearch-index) | The append-only, hash-chained examiner sign-off record indexed in OpenSearch, with retention and retraction rules. |
+| [Putting it together — a sealed run on disk](#putting-it-together--a-sealed-run-on-disk) | What the case directory actually looks like after a sealed run, plus the optional artifacts that may accompany it. |
+| [Cross-references](#cross-references) | Pointers to the data dictionary, data models, ER diagram, and env-var reference for deeper detail. |
+
+---
+
 ## Artifact overview
 
 | Artifact | Path / naming | Format | Written by | Read by | Lifecycle |

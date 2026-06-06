@@ -12,6 +12,20 @@ confirmed against the code and the shared inventory artifacts.
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+A decoder ring split into five lookup tables — jump straight to the kind of name you need to resolve.
+
+| Section | What you'll get |
+|---------|-----------------|
+| [Core terms (alphabetized)](#core-terms-alphabetized) | The A-Z definition table for architecture, safety, and forensic terms — each row sourced to code or an ADR. |
+| [Crew / specialist personas](#crew--specialist-personas) | The ten BMAD review personas, their `forge-*` role IDs, and the review lens each one owns. |
+| [Weakness-ledger IDs](#weakness-ledger-ids) | How `W-###` IDs work — discovery stages, status/severity values, and a few load-bearing IDs cited across the portal. |
+| [Story IDs (SANS MVP stories)](#story-ids-sans-mvp-stories) | The `S-0#` MVP stories with their topic and current status anchor. |
+| [Related references](#related-references) | Links to the CLI reference, ADR index, agents list, and canonical facts. |
+
+---
+
 ## Core terms (alphabetized)
 
 | Term | Definition | Source |

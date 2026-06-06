@@ -21,6 +21,20 @@ silent pass), HMAC-sealed (ADR-016), and validated through Thymus STRICT
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [Use-case diagram](#use-case-diagram) | The actor → SIFT tools → Wazuh (kill-switch-gated) flow in one diagram, with the experimental boundary called out. |
+| [Sequence — finding/IOC → Wazuh alert](#sequence--findingioc--wazuh-alert) | The step-by-step interaction trace from `build_executable_registry` through gate, Thymus, index, live push, and retro-hunt. |
+| [Step-by-step — dual-audience (Expert command + End-user prompt)](#step-by-step--dual-audience-expert-command--end-user-prompt) | Every step shown twice (🖥️ MCP call + 💬 plain-language prompt) with shape-faithful sample outputs, the gate-provision box, and the usability matrix. |
+| [Actor, preconditions, steps, postconditions](#actor-preconditions-steps-postconditions) | The full live-push contract: who runs it, the four kill switches + token prereqs, the numbered steps, and what the run leaves behind. |
+| [See also](#see-also) | Cross-links to the Wazuh operator portal, the approval gate, IOC origins, and the tool/env/module references. |
+
+---
+
 ## Use-case diagram
 
 ```mermaid

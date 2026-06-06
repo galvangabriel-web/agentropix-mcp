@@ -13,6 +13,21 @@ shared mutable state is the [Blackboard](swarm-agents.md#5-the-blackboard).
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. The loop, at a glance](#1-the-loop-at-a-glance) | The full `run_triage()` control flow as a Mermaid diagram, plus a plain-language walkthrough of hash-bind → plan → run → score → halt → sealed report. |
+| [2. The Architect — deterministic planner](#2-the-architect--deterministic-planner) | How the planner returns the canonical SWARM order by default, plus the Reflexion-lite stable-agent drop and the optional permutation-only LLM reorder. |
+| [3. The Critic — deterministic scorer and halt authority](#3-the-critic--deterministic-scorer-and-halt-authority) | The closed-form score `min(1.0, max_conf + 0.25·#corr)` and the `TrinityResult` it feeds — no LLM rating. |
+| [4. The deterministic halt logic](#4-the-deterministic-halt-logic) | The fixed precedence of halt guards (threshold, fixed-point, budget) and the two early-halt guards (coverage W-083, min-iterations), with the config knobs table. |
+| [5. What each iteration records](#5-what-each-iteration-records) | The per-iteration audit fields written to `report.iterations[]` and the verifiable completion-proof `<promise>` tokens. |
+| [6. Where to go next](#6-where-to-go-next) | Pointers to swarm agents, the MCP/Thymus boundary, sequence diagrams, and the data contracts. |
+
+---
+
 ## 1. The loop, at a glance
 
 ```mermaid

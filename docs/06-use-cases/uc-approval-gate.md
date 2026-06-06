@@ -35,6 +35,20 @@ the approval step is load-bearing and must precede report tiers
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [Use-case diagram](#use-case-diagram) | The actor/tool map showing who can do what — analyst stages DRAFTs, only the examiner approves, APPROVED flows to the sealed report. |
+| [Sequence — DRAFT → APPROVED → sealed report](#sequence--draft--approved--sealed-report) | The full handshake timeline: draft-gate write, two-leg sidecar challenge/approve, then APPROVED-only generation and seal. |
+| [Actor, preconditions, steps, postconditions](#actor-preconditions-steps-postconditions) | The runbook: actors, what must be true first, numbered steps (expert command + end-user prompt), and the guaranteed end state. |
+| [Walkthrough — gate challenge, approval, resumed run](#walkthrough--gate-challenge-approval-resumed-run) | Copy-pasteable Execution → Output transcripts for the `/challenge` nonce, signed `/approve`, the resumed report, and retraction. |
+| [See also](#see-also) | Links to where DRAFT findings originate, downstream IOC push, and the tool/module references. |
+
+---
+
 ## Use-case diagram
 
 ```mermaid

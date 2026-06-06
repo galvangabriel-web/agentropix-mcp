@@ -43,6 +43,24 @@ re-anchored to the source it can be checked against.
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [The numbers this demo speaks in](#the-numbers-this-demo-speaks-in) | The canonical figures the demo cites (71 MCP tools, 16 SIFT binaries, 7 specialists + 6 detectors, 4464 tests, 0.85 halt, 72/72 and 108/118 recall) and how the old 46/11 counts reconcile. |
+| [Beat map — demo to Devpost rubric](#beat-map--demo-to-devpost-rubric) | The Beat 0→6 flow diagram mapping each beat to the Devpost rubric dimension (D1, D2/D3, D5, D6) and the source that verifies it. |
+| [Beat 0–1 — the problem, then the one-liner](#beat-01--the-problem-then-the-one-liner) | The 3 AM Tier-2 stakes and the single `agentropix-sift run` command, with the verbatim run banner and the `inference_constraint: high` line. |
+| [Beat 2 — the 4-layer build runs visibly (D3 breadth)](#beat-2--the-4-layer-build-runs-visibly-d3-breadth) | How the 4-layer stack runs and the six verifiable completion-promise tokens a memory run emits (with their source lines). |
+| [Beat 3 — the self-correction loop (D1 autonomous execution)](#beat-3--the-self-correction-loop-d1-autonomous-execution) | The Architect→Swarm→Critic loop, the CONTINUE-then-HALT iteration log, the stable-agent drop, and the `pslist→psscan` fallback. |
+| [Beat 4 — finding → tool → replay (D5 audit trail)](#beat-4--finding--tool--replay-d5-audit-trail) | How each finding pivots to its producing tool via `_source` + `args_hash` + `raw_output`, and the deterministic byte-for-byte replay story. |
+| [Beat 5 — seal verify, then tamper (D5 audit trail, continued)](#beat-5--seal-verify-then-tamper-d5-audit-trail-continued) | The HMAC-SHA256 seal demo: a clean verify on the untouched report, then an instant MISMATCH the moment a fabricated finding is injected. |
+| [Beat 6 — mail-domain T1566 end-to-end (D2 accuracy + D3 breadth)](#beat-6--mail-domain-t1566-end-to-end-d2-accuracy--d3-breadth) | The measured PST recovery (10/544 pypff → 534/544 pffexport, 98.2%, 53× improvement) and the byte-identity audit behind the T1566 phishing IOCs. |
+| [See also](#see-also) | Links to the disk, memory, and approval-gate use cases plus the canonical facts and agents lists. |
+
+---
+
 ## The numbers this demo speaks in
 
 Everything narrated below uses the canonical figures — never invent a competing count on screen.

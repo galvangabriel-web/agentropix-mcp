@@ -25,6 +25,21 @@ rather than letting them OOM (exhaust RAM on) the host.
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. The error envelope — failures never escape the boundary](#1-the-error-envelope--failures-never-escape-the-boundary) | How the `safe_tool` decorator returns a flat `{error, details}` dict instead of throwing, so one tool's failure never aborts the agent loop. |
+| [2. Retry & backoff](#2-retry--backoff) | The shared tenacity policy: exponential-jitter waits, ≤5 attempts, transient-HTTP-only classifier — and why auth/4xx/timeouts are *not* retried. |
+| [3. Memory ceilings & timeouts](#3-memory-ceilings--timeouts) | How `run_with_memory_limit` bounds wall-clock and RAM, kills runaway process trees on breach, and auto-scales the cap to evidence size. |
+| [4. The R1–R5 chaos resilience classes](#4-the-r1r5-chaos-resilience-classes) | The five injected-fault contracts (R1–R5) and the named regression test class in `tests/chaos/` that pins each one. |
+| [5. Failure → mitigation summary](#5-failure--mitigation-summary) | The full one-row-per-failure-mode table: each failure, the runtime's response, and the source file that implements it. |
+| [See also](#see-also) | Cross-links to testing, security-model, configuration, and the OOM/timeout deployment runbook. |
+
+---
+
 ## 1. The error envelope — failures never escape the boundary
 
 Every `@app.tool()` callable is wrapped by the `safe_tool` decorator

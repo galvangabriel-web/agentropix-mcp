@@ -32,6 +32,20 @@ green-light is `agentropix-sift doctor` returning all-green across the 16 forens
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. Install on a SANS SIFT Workstation](#1-install-on-a-sans-sift-workstation) | The SANS-host install flow (clone → `uv sync` → env → `doctor`), the don't-`apt`-replacement-binaries rule, and how to verify the 16-wrapper forensic toolchain is all-green. |
+| [2. Serve the MCP server](#2-serve-the-mcp-server) | How to start the `agentropix-sift-mcp` server over stdio or HTTP, the bearer-token gate, the detached-process gotcha, and live-verifying the 71-tool `health` count. |
+| [3. Optional: tailnet exposure of the MCP server](#3-optional-tailnet-exposure-of-the-mcp-server) | The default tailnet-only posture: fronting the loopback FastMCP server with Tailscale Serve, with tailnet membership + bearer token as the auth boundary. |
+| [4. Runbook index](#4-runbook-index) | The catalogue of shipped operational playbooks (deploy, expose, token rotation, OOM/timeout, Wazuh, restore) with one-line descriptions and a currency note. |
+| [See also](#see-also) | Cross-links to implementation, configuration, security-model, and recovery-resilience pages. |
+
+---
+
 ## 1. Install on a SANS SIFT Workstation
 
 Target: SANS SIFT 2024.x (Ubuntu 22.04 base). Per the

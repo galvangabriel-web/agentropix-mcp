@@ -36,6 +36,25 @@ tool dict). Authentication is a single static **bearer token** sent as
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [How to read this page (two audience tracks)](#how-to-read-this-page-two-audience-tracks) | The two tracks every step is shown in — 🖥️ expert command vs 💬 end-user prompt — plus the Execution X → Output X convention and the placeholder rules. |
+| [1. Connection flow at a glance](#1-connection-flow-at-a-glance) | A one-diagram map of the whole setup: join tailnet → install client → verify → pick one client → smoke-test. |
+| [2. Step 1 — Join the tailnet (one-time)](#2-step-1--join-the-tailnet-one-time) | Accept the invite, get device-approved, install Tailscale per OS, and run one combined token+reachability probe. |
+| [3. Step 2 — Pick a client](#3-step-2--pick-a-client) | Wire up exactly one client: Claude Code CLI (`claude mcp add`, recommended) or Claude Desktop (the `mcp-remote` shim). |
+| [4. Step 3 — Smoke-test with the `health` tool](#4-step-3--smoke-test-with-the-health-tool) | Confirm you're connected by calling the `health` tool and reading its authoritative `tool_count`. |
+| [5. Troubleshooting matrix](#5-troubleshooting-matrix) | Symptom → cause → fix for 401s, timeouts, empty Desktop tool lists, wrong transport path, and slow first calls. |
+| [6. The HTTP audit log (operator-side)](#6-the-http-audit-log-operator-side) | The exact JSON line shape logged per request, what each field means, and why `token_hash` is shared today. |
+| [7. Roadmap — per-client tokens](#7-roadmap--per-client-tokens) | The planned per-client `tokens.json` that ends the shared-token problem and enables per-client audit attribution. |
+| [8. Operator runbook — token rotation](#8-operator-runbook--token-rotation) | Operator-only steps to mint, install, and distribute a fresh bearer token, plus the fail-closed boot guard. |
+| [See also](#see-also) | Cross-links to the self-host Quickstart, Security Model, MCP Server, and operator-only oracle runbooks. |
+
+---
+
 ## How to read this page (two audience tracks)
 
 Every connection step below is shown **two ways**, side by side in a callout, so

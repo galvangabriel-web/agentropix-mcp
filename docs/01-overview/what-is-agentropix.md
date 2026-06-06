@@ -29,6 +29,20 @@ See the [Quickstart](quickstart.md) for the full first-run walkthrough and
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [The DFIR problem it solves](#the-dfir-problem-it-solves) | Why manual triage is the bottleneck, and the four forensic requirements (no evidence mutation, tool-attributable findings, reproducibility, verifiable chain of custody) Agentropix-SIFT meets. |
+| [The pipeline at a glance](#the-pipeline-at-a-glance) | The Trinity Loop diagram and walkthrough — deterministic Architect → 7-agent Swarm + ATT&CK detectors → deterministic Critic — and how a run is sealed into three on-disk files. |
+| [Who it is for](#who-it-is-for) | The four target audiences (DFIR analysts, forensic examiners, Wazuh SOC teams, agentic-systems engineers) and why the local-first, offline-by-default design fits each. |
+| [Positioning](#positioning) | How Agentropix-SIFT compares against manual triage and against LLM-only assistants, with the side-by-side architecture table (facts, scoring, stop condition, safety, reproducibility, defensibility). |
+| [Where to go next](#where-to-go-next) | The two follow-on reads — What You Get (capability matrix) and Quickstart (first end-to-end run). |
+
+---
+
 ## The DFIR problem it solves
 
 Incident response begins with **triage**: given a freshly acquired image, an analyst

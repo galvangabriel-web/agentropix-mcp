@@ -62,6 +62,19 @@ Combining the two ends gives the full reading. The five patterns used in this di
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [The persisted-entity ER diagram](#the-persisted-entity-er-diagram) | The full Mermaid `erDiagram` of every persisted entity, its fields, and the crow's-foot relationships between them (plus a zoomable SVG link). |
+| [Entity-by-entity](#entity-by-entity) | A walkthrough of each entity — what it is, where it lives on disk, its relationships, and a jump to its field-level data-dictionary entry. |
+| [Relationship invariants summary](#relationship-invariants-summary) | A table of every relationship with its cardinality, enforcing invariant, and source file. |
+| [Cross-references](#cross-references) | Links to the companion data chapters (object shapes, field dictionary, on-disk artifacts). |
+
+---
+
 ## The persisted-entity ER diagram
 
 ```mermaid

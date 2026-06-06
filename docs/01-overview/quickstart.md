@@ -21,6 +21,20 @@ Get](what-you-get.md).
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [Prerequisites](#prerequisites) | Python ≥ 3.12 and the SANS SIFT forensic toolchain on `PATH`, plus what happens (graceful degradation) when a tool is missing. |
+| [1. Install](#1-install) | Install the Python package and its two console scripts via `uv sync` (or pip), with expected resolve/sync output and what the toolchain does (and doesn't) ship. |
+| [2. Pre-flight: `agentropix-sift doctor`](#2-pre-flight-agentropix-sift-doctor) | Run the pre-flight that confirms every required forensic binary is on `PATH`, read the `OK`/`MISSING` output, and point `doctor` at non-default binaries via override env vars. |
+| [3. First end-to-end triage](#3-first-end-to-end-triage) | Run a full sealed triage over the synthetic fixture, understand the three output files, inspect the findings and cryptographic anchors, and verify the seal. |
+| [Where to go next](#where-to-go-next) | Follow-on reading: the capability matrix, the positioning/pipeline overview, and the shared `.crew` reference files. |
+
+---
+
 ## Prerequisites
 
 | Requirement | Detail |

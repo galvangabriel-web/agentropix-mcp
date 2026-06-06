@@ -20,6 +20,21 @@ MCP tool, sealed with an HMAC-SHA256 envelope.
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [How to read this page](#how-to-read-this-page) | The dual-audience convention (🖥️ expert command vs 💬 end-user prompt), the four-lane usability matrix, the real-data note, and how the GOTCHA boxes work. |
+| [Use-case diagram](#use-case-diagram) | A Mermaid map of the actors and the path from `doctor` pre-flight through autonomous `run` or the MCP chain to a sealed report the examiner verifies. |
+| [Sequence — the autonomous `agentropix-sift run` path](#sequence--the-autonomous-agentropix-sift-run-path) | The one-shot Trinity Loop run end to end — CLI guard rails, Architect→SWARM→Critic, the 0.85 halt, and the three sealed output files (with both audience tracks and validated output). |
+| [Sequence — the granular MCP disk chain](#sequence--the-granular-mcp-disk-chain) | The step-by-step manual tool chain (`get_image_info`→`get_partitions`→`case_init`/`evidence_register`→`fls`→`extract_files`→execution-evidence→`run_hashdeep`), each shown both ways with real CFReDS outputs. |
+| [Actor, preconditions, steps, postconditions](#actor-preconditions-steps-postconditions) | The formal use-case spec — actor, the 16 SIFT binary prerequisites, numbered steps for both paths, the sealed-report postconditions, and the CLI commands used. |
+| [See also](#see-also) | Cross-links to the memory-triage, approval-gate, and Wazuh-push use cases plus the tool and agent catalogues. |
+
+---
+
 ## How to read this page
 
 This page follows the portal's **dual-audience** convention (the gold standard is

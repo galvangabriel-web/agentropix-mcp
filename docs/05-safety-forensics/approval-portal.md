@@ -10,6 +10,24 @@
 > browser form. The LLM **cannot** self-approve. Read this page before you
 > approve anything in a real case.
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [How to read this page](#how-to-read-this-page) | The two lanes (🖥️ expert command vs 💬 end-user prompt), the four-surfaces-one-handshake model, and the placeholder/real-data conventions. |
+| [Prerequisites](#prerequisites) | What must be true first: sidecar running, tailnet/device access, the stable approver credential env vars, and a `DRAFT`-staged finding. |
+| [How to complete each field](#how-to-complete-each-field) | A field-by-field table of every form input, what to enter, and the exact error each wrong value triggers. |
+| [Submitting a decision — step by step](#submitting-a-decision--step-by-step) | The ordered click-through of the browser form and what it does client-side (challenge → derive key → HMAC → approve). |
+| [The approval actions, both ways (Execution → Output)](#the-approval-actions-both-ways-execution--output) | Each sidecar action (challenge, submit, list/verify, one-shot approve) as paired expert command + end-user prompt with real-shaped JSON. |
+| [Retracting / voiding a prior approval](#retracting--voiding-a-prior-approval) | How to append a compensating `APPROVED → REVOKED` entry (append-only, never a delete) both ways. |
+| [What you'll see back](#what-youll-see-back) | A lookup table of every outcome — success plus each `401`/`403`/`409` error — and the next step for each. |
+| [Verifying the decision landed](#verifying-the-decision-landed) | How to confirm the approval persisted: portal response, index doc, audit log, and the `/healthz` liveness check. |
+| [Operational & safety notes](#operational--safety-notes) | The standing guarantees: local-only password handling, single-examiner Phase 1, no destructive actions, and where the deeper crypto guarantees live. |
+
+---
+
 ## How to read this page
 
 This is an **operational / how-to** page, so each approval action is shown **two

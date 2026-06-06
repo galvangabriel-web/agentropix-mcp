@@ -12,6 +12,26 @@ source modules cited inline. `(unverified)` marks a default not confirmed from c
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [0. How to use this page (two audiences)](#0-how-to-use-this-page-two-audiences) | The two audience tracks (🖥️ expert command vs 💬 end-user prompt) and the Execution→Output labelling, plus the env-vars-read-at-boot GOTCHA. |
+| [0.1 Verifying any config change (the universal set-then-check loop)](#01-verifying-any-config-change-the-universal-set-then-check-loop) | The one set→restart→check loop that confirms *any* var took effect — re-query `health` (operator) or ask the session (end-user). |
+| [1. MCP server auth & exposure (W-235, W-242)](#1-mcp-server-auth--exposure-w-235-w-242) | The bearer-token + dev-mode/build-profile/loopback vars that gate server exposure, with a tokenless-vs-authenticated proof. |
+| [2. Core orchestration & Trinity](#2-core-orchestration--trinity) | The Trinity/critic, finding-cap, correlation-token, hippocampus, and run/log vars that tune the orchestration core. |
+| [3. Safety / courtroom / evidence](#3-safety--courtroom--evidence) | The chain-of-custody knobs: audit-log destination, read-only path allowlist, evidence-gate/mutation tokens, HMAC keys, egress gate. |
+| [4. Resource ceilings (server-wide)](#4-resource-ceilings-server-wide) | The per-tool memory ceiling, retry count, rate limit, and result-size caps — and how to verify the server reloads cleanly. |
+| [5. Per-wrapper tuning (pattern catalogue)](#5-per-wrapper-tuning-pattern-catalogue) | The naming patterns for the 200+ per-wrapper vars (binary path / timeout / max-caps / agent thresholds) so you can find any one. |
+| [6. Wazuh integration (kill-switches default-deny)](#6-wazuh-integration-kill-switches-default-deny) | The safe-by-default Wazuh kill-switches and the full set of flags you must flip to permit a write, plus the read-only hunt path. |
+| [7. Approval sidecar (SIFT-W-288/294/296)](#7-approval-sidecar-sift-w-288294296) | The examiner-identity, PBKDF2, bind-host/port, and nonce-TTL vars for the approval sidecar. |
+| [8. Threat-intel & notifications (egress-gated)](#8-threat-intel--notifications-egress-gated) | The egress gate plus the optional threat-intel keys and Telegram token chain (file-pointer form preferred). |
+| [See also](#see-also) | Pointers to the full env-vars reference, security-model, recovery-resilience, and deployment pages. |
+
+---
+
 ## 0. How to use this page (two audiences)
 
 Configuration is an **operator** task — you export environment variables (or write them into the

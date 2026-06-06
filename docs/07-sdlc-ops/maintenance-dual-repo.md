@@ -31,6 +31,23 @@ mirror exists only to give the SANS Find Evil! 2026 submission an open-source fa
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. Two repos, two package names — the reconciliation](#1-two-repos-two-package-names--the-reconciliation) | Why `agentropix_sift` (private oracle) and `agentropix_mcp` (public mirror) coexist, and why the sync is strictly one-way. |
+| [2. When does a `sift` change reach the public mirror?](#2-when-does-a-sift-change-reach-the-public-mirror) | Which kinds of `sift` changes get carried, overwritten, blocked, or stay private. |
+| [3. The sync pipeline — what `sync-from-sift.sh` does, in order](#3-the-sync-pipeline--what-sync-from-siftsh-does-in-order) | The numbered copy→rewrite→drift→diff→apply→gitleaks→pytest→stage steps, plus exit codes. |
+| [4. How to run a sync](#4-how-to-run-a-sync) | The five operator steps (pull → dry-run → apply → review/commit → push) with Execution→Output pairs and the post-sync health check. |
+| [5. When the drift gate fails (exit 1)](#5-when-the-drift-gate-fails-exit-1) | What a leftover `agentropix_sift` reference means and the two ways to resolve it (carry the module or refactor). |
+| [6. Files the sync NEVER touches](#6-files-the-sync-never-touches) | The operator-owned public-repo files preserved across every sync, and why each is mcp-only. |
+| [7. The six failsafes](#7-the-six-failsafes) | The independent safeguards (read-only, no auto-commit/push, gitleaks, drift gate, Ctrl-C recovery) that keep the sync safe. |
+| [See also](#see-also) | Related pages: implementation, security model, testing, and the canonical facts. |
+
+---
+
 ## 1. Two repos, two package names — the reconciliation
 
 | Repo | Package | Visibility | Role |

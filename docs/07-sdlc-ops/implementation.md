@@ -14,6 +14,20 @@ in and how to compile the package. For the per-agent breakdown see
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. Package layout at a glance](#1-package-layout-at-a-glance) | The `src/` layout, the two console scripts, and a dependency diagram showing how the CLI → orchestrator → swarm → MCP boundary fits together. |
+| [2. Top-level modules](#2-top-level-modules) | The single-file modules at the package root (`cli.py`, `orchestrator.py`, `courtroom.py`, `secrets.py`) with their purpose and key symbols. |
+| [3. Packages](#3-packages) | A walkthrough of every sub-package — the DFIR swarm, Trinity loop, MCP server, wrappers, evidence gate, provenance, security, and the rest — and the load-bearing file in each. |
+| [4. Build & tooling](#4-build--tooling) | How to build the wheel (hatchling), the lint/type config (ruff + basedpyright), and how to compile the optional Rust acceleration layer. |
+| [See also](#see-also) | Cross-links to component-architecture, testing, configuration, and deployment. |
+
+---
+
 ## 1. Package layout at a glance
 
 Agentropix-SIFT is a single Python package (`agentropix_sift`) shipped under a **`src/`

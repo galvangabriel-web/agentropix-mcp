@@ -11,6 +11,20 @@ Related: [Tool reference](tool-reference.md) · [Response envelope](response-env
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [The two-layer picture](#the-two-layer-picture) | Why the `SWARM` run order is fixed (Architect → Swarm → Critic), which nodes drive forensic wrappers vs. read the Blackboard, shown as a dependency diagram. |
+| [Core swarm specialists (the "7-agent Swarm") → tools](#core-swarm-specialists-the-7-agent-swarm--tools) | The 7-agent table: each specialist's `name`, source, the MCP tools/wrappers it invokes, what it produces, and notes on the producer/consumer pairs. |
+| [Deterministic ATT&CK detector agents → tools](#deterministic-attck-detector-agents--tools) | The detector `SwarmAgent` subclasses mapped to their ATT&CK techniques, source, tools driven, and completion-promise tokens. |
+| [Tool → invoking agent (reverse index)](#tool--invoking-agent-reverse-index) | The mapping inverted — each forensic tool to the agent(s) that drive it, plus a scope note on orchestrator/CLI/operator-owned tools. |
+| [Why this mapping is deterministic](#why-this-mapping-is-deterministic) | How `SwarmAgent` stamps findings, enforces idempotency, and makes the run replayable with a reproducible (non-LLM) Critic score. |
+
+---
+
 ## The two-layer picture
 
 The Architect proposes the canonical `SWARM` tuple; the Swarm runs deterministic forensic tools; the

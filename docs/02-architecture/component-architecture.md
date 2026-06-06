@@ -34,6 +34,20 @@ handful of architectural concepts; each is defined once here and detailed on its
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. Component diagram (C4 — Level 3)](#1-component-diagram-c4--level-3) | The Level-3 C4 component map split into two narrow views (entry points → engine → tools, then safety spine → outputs → sinks), with the four colour bands and the two key edges to internalise. |
+| [2. The four-layer determinism map](#2-the-four-layer-determinism-map) | How the stochastic boundary is pushed up to Layer 1, what each of the four layers does, where it lives in code, and the one bounded substrate leak (W-077). |
+| [3. The safety spine, layered](#3-the-safety-spine-layered) | The safety invariants (read-only evidence, evidence binding, tamper-evident seal/audit, mutation gating, human sign-off) mapped to their mechanism, layer, and source. |
+| [4. Package inventory (the 17 + 4)](#4-package-inventory-the-17--4) | A table of all 17 packages plus 4 top-level modules — responsibility and a deeper-detail link for each, including the two distinct `wrappers/` packages. |
+| [5. Where to go next](#5-where-to-go-next) | Pointers onward to the Trinity loop, Swarm agents, MCP server, and request-level sequence diagrams. |
+
+---
+
 ## 1. Component diagram (C4 — Level 3)
 
 C4 has no native Mermaid type; per the upstream convention

@@ -12,6 +12,19 @@ Related: [Tool reference](tool-reference.md) (the master 71-tool index) ·
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [The capability map](#the-capability-map) | The 71-tool surface as a DFIR-function table — pick the right tool for each investigation phase. |
+| [Cross-cutting conventions](#cross-cutting-conventions) | The shared rules: `timeout_seconds`, auto-tempdir tools, Thymus path gating, and the EZ-Tools (.NET) family. |
+| [Canonical happy-path ordering](#canonical-happy-path-ordering) | The end-to-end call sequence (case_init → evidence → analysis → approve → persist → report) that backs the User Guide phases. |
+| [Related](#related) | Companion pages: tool reference, tools-by-agent, response envelope, User Guide, and the oracle `.crew` references. |
+
+---
+
 ## The capability map
 
 The bucket counts below sum to the **62-tool** inventory enumerated in the validated 2026-05-29 run;

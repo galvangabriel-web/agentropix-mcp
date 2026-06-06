@@ -28,6 +28,19 @@ make every run court-defensible.
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. System Context (C4 — Level 1)](#1-system-context-c4--level-1) | The Level-1 zoom: Agentropix-SIFT as one box, the DFIR examiner, and the host/evidence/sink systems it uses — plus why no LLM ever authors a finding. |
+| [2. Container View (C4 — Level 2)](#2-container-view-c4--level-2) | The box opened up: two entry points (CLI, FastMCP) feeding one shared wrapper + Thymus + Courtroom engine, with a tech/responsibility/source table per container. |
+| [3. Deployment & exposure (the tailnet boundary)](#3-deployment--exposure-the-tailnet-boundary) | How the parts map onto real hosts, and the three exposure facts: tailnet-only Bearer-token surface, read-only evidence, and default-off optional sinks. |
+| [4. Where to go next](#4-where-to-go-next) | Pointers to the deeper architecture pages — components, Trinity Loop, swarm agents, MCP server, and sequence diagrams. |
+
+---
+
 ## 1. System Context (C4 — Level 1)
 
 ```mermaid

@@ -27,6 +27,20 @@ SIFT forensic tools are installed.
 > run; the exact paths, counts, and hashes vary per evidence image (paths shown as
 > placeholders like `/cases/SRL-2018/…`).
 
+## Contents — what's in this page (and what to expect)
+
+This page documents the two `agentropix-sift` CLI commands line-by-line from `cli.py`. Jump to any section:
+
+| Section | What you'll get |
+|---------|-----------------|
+| [Invocation and global help](#invocation-and-global-help) | The console entry point, a call-flow diagram, and how to read `--help` for both commands (plus the connected-session `health` equivalent). |
+| [`agentropix-sift run`](#agentropix-sift-run) | The primary triage command: synopsis, all arguments/options, preflight guards, the Stop-hook sentinel, sealed output artifacts, console summary, and worked Execution→Output examples. |
+| [`agentropix-sift doctor`](#agentropix-sift-doctor) | The readiness check: the 18 backing binaries it probes, `AGENTROPIX_*_TOOL` overrides, exit codes, and Execution→Output examples for present/override/missing cases. |
+| [The MCP server entry point](#the-mcp-server-entry-point) | Why the 71-tool FastMCP server is launched out-of-band (not a subcommand) and where to find its tool surface and request flow. |
+| [Related references](#related-references) | Cross-links to the glossary, ADR index, agents list, and environment-variable reference. |
+
+---
+
 ## Invocation and global help
 
 ```mermaid

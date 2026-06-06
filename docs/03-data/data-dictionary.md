@@ -22,6 +22,29 @@ they are kept in lock-step (`TriageReport` validates against `report.schema.json
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any model below. Each row tells you what that entry gives you, so you can go straight to the field set you need.
+
+| Section | What you'll get |
+|---|---|
+| [1. `TriageReport` — the top-level report contract](#1-triagereport--the-top-level-report-contract) | The full top-level `report.json` field set — wire-required keys, seals, completion proofs, and the courtroom `inference_constraint`. |
+| [2. `Finding` — the wire finding object](#2-finding--the-wire-finding-object) | Every field of a DFIR finding, the `_source` wire alias, typed `evidence_dict`, and the `to_report_dict()` serialiser rules. |
+| [3. `Correlation` — cross-agent agreement on one token](#3-correlation--cross-agent-agreement-on-one-token) | The quorum correlation model (token, agreeing agents, counts, max confidence) and how the Blackboard produces it. |
+| [4. `iterations[]` entry — per-iteration `TrinityResult` JSON](#4-iterations-entry--per-iteration-trinityresult-json) | The Reflexion-lite per-iteration record — plan, stable/dropped agents, gaps, Critic score, and the deterministic halt fields. |
+| [5. `trace` — the tool-call trace](#5-trace--the-tool-call-trace) | The deterministic MCP audit: top-level trace keys plus each `tool_calls[]` record incl. `raw_output` and dataflow counters. |
+| [6. `thymus_audit[]` entry](#6-thymus_audit-entry) | The Thymus read-only access-trail item shape (timestamp/action/path/reason) and where the durable JSONL trail lives. |
+| [7. `ReasoningTrace` — Hippocampus memory trace](#7-reasoningtrace--hippocampus-memory-trace) | The opt-in per-iteration reasoning trace fields, the dedup `content_hash`, and its in-memory (non-durable) persistence note. |
+| [8. `TokenRow` — evidence-gate mutation token](#8-tokenrow--evidence-gate-mutation-token) | The one-shot, TTL-bounded mutation-token registry row — mint/spend/revoke timestamps and operator identity. |
+| [9. Approval-sidecar models](#9-approval-sidecar-models) | The HMAC human-in-the-loop request/response models (challenge, submit, error) plus the `ApprovalStatus`/`TargetType` aliases. |
+| [10. Wazuh IOC record family](#10-wazuh-ioc-record-family) | First-class `IOCProvenance`, the nine IOC record classes, and the provenance-gate that blocks un-sourced IOCs. |
+| [11. Tool-result schemas (`schema/` package)](#11-tool-result-schemas-schema-package) | The typed per-tool return models — `ArchiveEntry`/`ExtractArchiveManifest` and `PdfPage`/`PdfDocument` field-by-field. |
+| [12. MCP tool envelope — `ToolError`](#12-mcp-tool-envelope--toolerror) | The uniform error envelope every tool returns instead of raising, keeping the trace well-formed. |
+| [13. `ValidateReport` — provenance-chain validation result](#13-validatereport--provenance-chain-validation-result) | The seal-chain validation result dataclass used by the standalone verifiers to confirm a chain is untampered. |
+| [Cross-references](#cross-references) | Links to the companion data chapters (models, ER, persisted artifacts) and the canonical facts file. |
+
+---
+
 ## 1. `TriageReport` — the top-level report contract
 
 The complete triage report. Pydantic `BaseModel` at `src/agentropix_sift/orchestrator.py:33`; its

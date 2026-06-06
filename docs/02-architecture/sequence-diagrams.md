@@ -12,6 +12,22 @@ These tie together the [Trinity Loop](trinity-loop.md), the
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any flow below. Each row tells you what that diagram shows, so you can go straight to the one you need.
+
+| Section | What you'll get |
+|---|---|
+| [1. Full triage run, end-to-end](#1-full-triage-run-end-to-end) | The complete examiner-to-sealed-report path: CLI → `run_triage` → evidence hash → Trinity Loop (plan/swarm/score/halt) → dedup → seal three files on write. |
+| [2. Single MCP tool call through Thymus](#2-single-mcp-tool-call-through-thymus) | The ordered per-tool pipeline — `@traced` span → rate-limiter → Thymus `check_read` gate (ALLOW/REJECT to audit ring + JSONL) → subprocess → typed Pydantic result; no write path exists. |
+| [3. Finding → provenance classification → Courtroom seal](#3-finding--provenance-classification--courtroom-seal) | How a report is sealed at write time (per-run key, cross-bound audit HMAC, canonical-JSON report seal) and how provenance sidecars are later validated row-by-row into ok/unsealed/forged/schema_failed/malformed. |
+| [4. Architect ↔ Swarm ↔ Critic iteration with halt](#4-architect--swarm--critic-iteration-with-halt) | The deterministic halt logic as a sequence: Architect drops stable agents, Critic's closed-form score, and the fixed precedence of guards (coverage, min-iter floor, 0.85 threshold, fixed-point). |
+| [5. Approval-sidecar human gate](#5-approval-sidecar-human-gate) | The optional two-step HMAC challenge/response: single-use nonce → browser PBKDF2 sign → server verify → anti-phantom check → append-only hash-chained write to the OpenSearch approvals index. |
+| [6. Wazuh push (optional sink)](#6-wazuh-push-optional-sink) | The default-off, dry-run-by-default IOC push: four kill switches, priority classify, Thymus + evidence-gate checks, sealed provenance sidecars, and the `--confirm`-only manager write with HMAC stamp + audit row. |
+| [7. Where to go next](#7-where-to-go-next) | Links to the structural counterparts (C4 context, components), the halt logic, the Thymus tool stack, and the data contracts these flows move. |
+
+---
+
 ## 1. Full triage run, end-to-end
 
 ```mermaid

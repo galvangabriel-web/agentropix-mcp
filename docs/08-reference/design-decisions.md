@@ -34,6 +34,22 @@ status verdict here is kept in lock-step with the index's live status audit.
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. Five recurring design principles](#1-five-recurring-design-principles) | The five design principles the ADRs share — fail-closed, structural invariants, deterministic control, evidence-readonly, thin index — each mapped to the ADRs that instantiate it and how it's enforced. |
+| [2. Four documented hard trade-offs](#2-four-documented-hard-trade-offs) | The four places a real cost was accepted on purpose (credential recall, Blackboard growth, SANS-deadline scope, session-key friction), each tied to its ADR and tuning surface. |
+| [3. Six tried-and-discarded approaches](#3-six-tried-and-discarded-approaches) | Six approaches attempted, proven bad, and replaced — with file-and-line post-mortems and the ADR that superseded each. |
+| [4. The quality pyramid](#4-the-quality-pyramid) | The bottom-up quality stack (testability→security) plus the enforced structural metrics (function length, complexity, coverage, type errors). |
+| [5. Why ADR-016 is the most interesting ADR](#5-why-adr-016-is-the-most-interesting-adr) | Why the Courtroom Audit ADR is the one to read first — its concrete chain-of-custody invariants and how it cascaded into ADR-022. |
+| [6. One-paragraph summary](#6-one-paragraph-summary) | The whole design philosophy distilled into a single quotable paragraph. |
+| [Related references](#related-references) | Jump-off links to the ADR Index, Glossary, anti-hallucination, human-in-the-loop, and canonical facts. |
+
+---
+
 ## 1. Five recurring design principles
 
 Across the ADRs, five principles repeat often enough to constitute the project's

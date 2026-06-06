@@ -12,6 +12,25 @@
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. What the integration exposes to you](#1-what-the-integration-exposes-to-you) | What Agentropix‑SIFT surfaces in the Wazuh Dashboard — the three dashboards, two Discover searches, the Approval Portal deep‑link, and where findings/timeline data live. |
+| [2. Accessing the dashboard](#2-accessing-the-dashboard) | How to reach and log into the Wazuh Dashboard (URL, self‑signed cert, admin login, default 30‑day window). |
+| [3. Agentropix Findings Tab (primary view)](#3-agentropix-findings-tab-primary-view) | A tour of the main examiner workspace — stat tiles, findings list, severity donut, MITRE bar chart, and finding deep‑links. |
+| [4. Agentropix Timeline Tab](#4-agentropix-timeline-tab) | How to read the timeline workspace — event tiles, the line chart, and the timeline events list linked back to findings. |
+| [5. Agentropix findings overview](#5-agentropix-findings-overview) | The original three‑panel dashboard plus how to open the two Discover saved searches standalone. |
+| [6. Drilling into a finding](#6-drilling-into-a-finding) | Step‑by‑step on expanding a finding row and switching between the Table and raw JSON views of the sealed document. |
+| [7. Setting the time range and filtering with KQL](#7-setting-the-time-range-and-filtering-with-kql) | How to scope a dashboard with the time‑range picker and KQL filters (with ready‑to‑use query examples). |
+| [8. What each finding status means](#8-what-each-finding-status-means) | The DRAFT / APPROVED / REJECTED / REVOKED approval states and how to approve a finding via the Portal. |
+| [9. Push path — getting findings/IOCs *into* the dashboard (operator quick‑reference)](#9-push-path--getting-findingsiocs-into-the-dashboard-operator-quickreference) | The configure → push → verify loop for getting data behind the views, with expert vs end‑user paths and the live‑write denylist. |
+| [Privacy note](#privacy-note) | Why this doc and its screenshots are internal‑only (real internal IP and live finding data). |
+
+---
+
 ## 1. What the integration exposes to you
 
 Agentropix‑SIFT publishes its case output into a dedicated set of `agentropix-*`

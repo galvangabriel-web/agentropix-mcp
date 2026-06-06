@@ -17,6 +17,20 @@ Related: [User Guide](../01-overview/user-guide.md) (the runbook these scaffolds
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any case below. Each row tells you the attack-chain hypothesis and the tools it steers you toward, so you can go straight to the case you're working.
+
+| Section | What you'll get |
+|---|---|
+| [Case 1 — SRL-2015 (multi-host APT, SANS FOR508)](#case-1--srl-2015-multi-host-apt-sans-for508) | The 4-host APT chain (phish → execution → persistence → LSASS → lateral → exfil) and the delivery/execution/lateral tools to confirm each link. |
+| [Case 2 — SRL-2018 (network-wide APT C2 deployment)](#case-2--srl-2018-network-wide-apt-c2-deployment) | The C2-backbone cascade (DC→file→workstations→TS→DMZ-FTP), the svcsvc32 service lead, and which placeholders to re-derive live. |
+| [Case 3 — cfreds-fresh (the validated example; insider misuse, Win XP)](#case-3--cfreds-fresh-the-validated-example-insider-misuse-win-xp) | The "Mr. Evil" insider-misuse chain (tooling → wireless recon → config → attribution) and the XP-aware tool picks (prefetch, no SRUM/amcache). |
+| [Case 4 — rocba (insider IP theft, 2020)](#case-4--rocba-insider-ip-theft-2020) | The insider-IP-theft hypothesis with its APT-via-insider alternative, plus access/collection/USB/exfil tools and the memory scans that disambiguate. |
+| [Related](#related) | Pointers to the runbook, end-to-end use cases, capability map, and canonical facts. |
+
+---
+
 ## Case 1 — SRL-2015 (multi-host APT, SANS FOR508)
 
 4 hosts (DC `win2008R2-controller` 10.3.58.4; workstations `win7-64-nfury`, `win7-32-nromanoff`,

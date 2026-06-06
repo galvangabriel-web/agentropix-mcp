@@ -17,6 +17,24 @@ dated recall snapshot), never to memory. Numbers that appear elsewhere in this p
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. The two recall framings (read this first)](#1-the-two-recall-framings-read-this-first) | Why the headline reports recall two ways — *tactic-hit* (72/72 + 108/118 canonical) vs stricter *per-IOC* (156/156) — and why you must not add or reconcile them. |
+| [2. Evidence corpus inventory](#2-evidence-corpus-inventory) | The full processed corpus (11 disk E01s + 25 memory dumps) vs the scored SRL-2018 subset, with per-modality counts and ground-truth status. |
+| [3. The SRL-2018 disk corpus (the headline)](#3-the-srl-2018-disk-corpus-the-headline) | The 7 headline disks host-by-host (all 7/7 = 1.000) and the 27-technique MITRE ATT&CK span across the corpus. |
+| [4. Cross-modal coherence (6 hosts)](#4-cross-modal-coherence-6-hosts) | How disk and memory artifacts corroborate per host, and why `base-rd-01`'s 0% coherence is by-design complementarity, not a defect. |
+| [5. The honest gap — SRL-2015 memory pool](#5-the-honest-gap--srl-2015-memory-pool) | The largest coverage hole: 25 unground-truthed SRL-2015 dumps (~1,069 inferred IOCs) and the named action item to close it. |
+| [6. Ground-truth YAML schema](#6-ground-truth-yaml-schema) | The real `expected_tactics` + `expected_findings` file format, the deterministic-keyword rule, and the ≥0.7 confirmed-vs-inference confidence convention. |
+| [7. Provenance & license](#7-provenance--license) | Where every corpus came from (SANS / CyberDefenders public training material) and the license/curation status of each piece. |
+| [8. What is NOT in the dataset](#8-what-is-not-in-the-dataset) | The explicit exclusions — no proprietary case data, no extra PII, no evidence-byte egress, no unvetted third-party corpora. |
+| [See also](#see-also) | Cross-links to Testing, Implementation, Security Model, CANONICAL_FACTS, and the in-repo oracle artifacts. |
+
+---
+
 ## 1. The two recall framings (read this first)
 
 This project reports recall two ways, and the two headlines use **different

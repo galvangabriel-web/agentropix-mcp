@@ -18,6 +18,20 @@ approaches that were tried and discarded — see the companion
 > ADR-008, weakness W-247). Two ADRs are **Proposed** (not shipped) and one is
 > **Deferred**; do not depict those as implemented.
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [Status lifecycle](#status-lifecycle) | The Proposed → Accepted → Deprecated/Superseded (and Deferred) state machine, plus when an ADR is promoted. |
+| [Numbered ADRs](#numbered-adrs) | The routed catalogue of ADR-001 through ADR-024 with live status and a one-line summary each (note the two Proposed and one Deferred). |
+| [Non-numbered ADRs](#non-numbered-adrs) | The milestone-scoped (M6.3) and recall-contribution Defer ADRs, with what each Milestone vs Defer kind records. |
+| [Templates and stale index](#templates-and-stale-index) | Where to find the ADR template and why the original README index is frozen at ADR-008. |
+| [Related references](#related-references) | Companion pages — the Design Decisions rationale layer, CLI reference, glossary, and agents list. |
+
+---
+
 ## Status lifecycle
 
 ```mermaid

@@ -42,6 +42,22 @@ reference):
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. Models used](#1-models-used) | Which Claude models the system uses, the single in-code pin (Haiku reorder, default OFF), and confirmation that nothing is fine-tuned (no LoRA/PEFT). |
+| [2. What the LLM CAN influence — three bounded surfaces](#2-what-the-llm-can-influence--three-bounded-surfaces) | The exact three surfaces of LLM reach — tool choice, argument values, and free-text `description` — and the non-LLM code that bounds each. |
+| [3. What the LLM CANNOT influence — five structural commitments](#3-what-the-llm-cannot-influence--five-structural-commitments) | Five code-level guarantees the LLM can't touch: no write tools, `args_hash` freeze, pure-Python Critic halt, Thymus policy, HMAC seal. |
+| [4. The Anthropic API data boundary](#4-the-anthropic-api-data-boundary) | What does and does not cross the Anthropic API, with a flow diagram and the optional Haiku-reorder payload. |
+| [5. Reproducibility — the replay formula](#5-reproducibility--the-replay-formula) | The three replay primitives and the five-step recipe to re-verify any finding byte-for-byte. |
+| [6. What is NOT deterministic — three honest sources](#6-what-is-not-deterministic--three-honest-sources) | The three honest sources of non-determinism (LLM stochasticity, iteration count, plaso race) and what stays stable in each. |
+| [7. Disclosure summary](#7-disclosure-summary) | The whole AI-disclosure position distilled into five bullet takeaways. |
+
+---
+
 ## 1. Models used
 
 Agentropix-SIFT does **not** train, fine-tune, or ship model weights. It

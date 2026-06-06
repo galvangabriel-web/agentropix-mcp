@@ -73,6 +73,23 @@ credential (`approval_sidecar/__init__.py:1-8`).
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [Using the Approval Portal (browser walkthrough)](#using-the-approval-portal-browser-walkthrough) | Where the examiner signs off (the tailnet-only TLS form) and a pointer to the full operator walkthrough. |
+| [The core invariant](#the-core-invariant) | The one-sentence rule and the two-process split that make LLM self-approval impossible. |
+| [The status state machine](#the-status-state-machine) | The `DRAFT → APPROVED/REJECTED/REVOKED` transitions, the precondition gate, and why revocation is append-only. |
+| [Who can approve](#who-can-approve) | Single-examiner enforcement and the dual-credential env vars (approver identity, PBKDF2 secret, salt, indexer role). |
+| [What it blocks — the HMAC challenge-response](#what-it-blocks--the-hmac-challenge-response) | The two-step challenge/approve flow, the signed message, and a table of attacks each step defeats. |
+| [The append-only approval hash chain](#the-append-only-approval-hash-chain) | How `approval_id` and `prev_approval_hash` make the ledger tamper-evident and replay-proof. |
+| [API surface (Phase 1)](#api-surface-phase-1) | The four sidecar routes (`/healthz`, `/`, `/challenge`, `/approve`), their auth, and the strict request/response models. |
+| [See also](#see-also) | Cross-links to the operator walkthrough, the Thymus input gate, the courtroom seal, and provenance grounding. |
+
+---
+
 ## Using the Approval Portal (browser walkthrough)
 
 The examiner does the sign-off in a self-contained browser form served (tailnet-only,

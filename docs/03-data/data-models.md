@@ -36,6 +36,22 @@ dictionary differ, the dictionary (and the code it cites) wins.
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. The report aggregate](#1-the-report-aggregate) | The `TriageReport` composition root and its owned sub-collections (`findings`, `iterations`, `trace`, `thymus_audit`), plus why `findings` is stored as `list[dict]`. |
+| [2. `Finding` — the unit of evidence and its alias invariant](#2-finding--the-unit-of-evidence-and-its-alias-invariant) | The `Finding` model and its laws: the `_source` wire alias, the `[0,1]` confidence bound, source-vs-agent provenance, idempotency, and the per-agent finding cap. |
+| [3. `Correlation` and the `Blackboard` quorum](#3-correlation-and-the-blackboard-quorum) | How the shared `Blackboard` tokenises evidence and emits derived `Correlation`s for tokens seen across ≥ quorum agents, and the `quorum_threshold >= 2` invariant. |
+| [4. The Critic and `TrinityResult`](#4-the-critic-and-trinityresult) | The deterministic (non-LLM) Critic: the score formula, the halt rule (threshold + fingerprint fixed point), and the Reflexion-lite `stable_agents`/`gaps` feedback channel. |
+| [5. The MCP tool envelope](#5-the-mcp-tool-envelope) | The two-shape tool contract — typed success payload or returned (never raised) `ToolError` — with per-row results and chain-of-custody hashes. |
+| [6. The courtroom invariant chain](#6-the-courtroom-invariant-chain) | The three layered integrity guarantees: evidence binding (image SHA-256), deterministic provenance (`inference_constraint=high`), and the HMAC report seal. |
+| [Cross-references](#cross-references) | Pointers to the field-level data dictionary, the entity-relationship diagram, and the on-disk artifact lifecycle. |
+
+---
+
 ## 1. The report aggregate
 
 ```mermaid

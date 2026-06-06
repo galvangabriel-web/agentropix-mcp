@@ -31,6 +31,22 @@ the second.
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [Executive framing: old reality → new reality](#executive-framing-old-reality--new-reality) | The before/after table positioning the project against the manual-triage status quo (hours of hand-correlation vs minutes of verifiable agentic triage). |
+| [The unique angle](#the-unique-angle) | The four code-enforced properties that, taken together, make Agentropix-SIFT the first DFIR-specific agentic system of its kind. |
+| [Feature matrix vs the field](#feature-matrix-vs-the-field) | A capability-by-capability comparison against five competitors, plus the canonical count reconciliation (16 wrappers, 71 MCP tools, 7 specialists). |
+| [Four positioning statements](#four-positioning-statements) | The four pitch-ready one-liners that frame why the differentiators are structural moats, not feature-list items. |
+| [Where we honestly lose](#where-we-honestly-lose) | The deliberate non-goals where competitors win — case management, Windows collection, and polished reporting UI. |
+| [Six explicit non-goals](#six-explicit-non-goals) | The scope boundaries stated up front so readers know what the project intentionally is not. |
+| [Where to go next](#where-to-go-next) | Curated next-step links into the overview section (what it is, what you get, quickstart). |
+
+---
+
 ## Executive framing: old reality → new reality
 
 The project is positioned against the **manual-triage status quo**, not just other tools.

@@ -8,6 +8,27 @@ not the pitch — see the inline citations and the shared references in
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any capability below. Each row tells you what that section gives you, so you can go straight to the proof you need.
+
+| Section | What you'll get |
+|---|---|
+| [At a glance](#at-a-glance) | The full capability matrix in one table — each row links to its deep-dive page and names the source-code home. |
+| [Trinity Loop — agentic control without self-rating](#trinity-loop--agentic-control-without-self-rating) | How the deterministic Architect → Swarm → Critic loop drives a run with no LLM self-rating, and when it halts. |
+| [71 MCP tools on one FastMCP server](#71-mcp-tools-on-one-fastmcp-server) | The 71 tools grouped into families (with examples) plus the mutation-token / dry-run guards on state-changing tools. |
+| [16 SIFT forensic wrappers](#16-sift-forensic-wrappers) | The 16 trusted SIFT binaries the engine drives and the hardening envelope (timeout, memory ceiling, retry, tracing) around each. |
+| [7-agent Swarm (+ ATT&CK detectors)](#7-agent-swarm--attck-detectors) | What each of the 7 specialists investigates, the 6 deterministic ATT&CK detectors, and the completion-promise proofs. |
+| [Thymus read-only enforcement](#thymus-read-only-enforcement) | How the path-allowlist immune gate keeps evidence structurally read-only, with an audit ring and chain-of-custody log. |
+| [Courtroom seal — chain of custody you can verify](#courtroom-seal--chain-of-custody-you-can-verify) | The SHA-256 evidence binding and HMAC report/audit-log seals that make a report judge-verifiable. |
+| [Provenance & grounding](#provenance--grounding) | The three layers (tool-sourced findings, `inference_constraint = high`, seal-chain validation) that trace every claim to a tool. |
+| [Approval sidecar (human-in-the-loop)](#approval-sidecar-human-in-the-loop) | The optional HMAC examiner sign-off service — PBKDF2 key, nonce, append-only approval hash chain, browser form. |
+| [Wazuh SIEM integration](#wazuh-siem-integration) | How findings/IOCs promote into Wazuh behind default-deny kill switches and the active-response CIDR guard. |
+| [Chaos-tested resilience](#chaos-tested-resilience) | How fault-injection tests prove graceful degradation, plus the 4464-test surface and the real-data recall gates. |
+| [Next](#next) | Where to go next — Quickstart to run it, and the positioning page for the why. |
+
+---
+
 ## At a glance
 
 Each row links to the page that explains that capability in depth — the

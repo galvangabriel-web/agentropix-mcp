@@ -30,6 +30,20 @@ models, and the DRAFT-gate that stamps tiers at the MCP boundary.
 > to the same bytes on both the sealing and verifying sides. *IOC* — an
 > Indicator of Compromise (a hash, IP, domain, etc.) extracted from evidence.
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [Provenance tiers — where an indicator was witnessed](#provenance-tiers--where-an-indicator-was-witnessed) | The ranked `MCP > HOOK > SHELL > NONE` trust vocabulary, the downgrade-only stamping rule at the MCP boundary, and how tier differs from IOC priority. |
+| [Grounding levels — how well a claim is externally supported](#grounding-levels--how-well-a-claim-is-externally-supported) | The five validator buckets (`ok / unsealed / forged / schema_failed / malformed`), what each proves, the required provenance triple, and what the HMAC seal envelope adds. |
+| [How tier and grounding compose](#how-tier-and-grounding-compose) | An ER diagram showing the two axes meeting on one indicator — and which combination is court-defensible vs flagged as tampering. |
+| [Operator workflow](#operator-workflow) | The `provenance.validate` command, what each flag does (incl. schema-only mode), and the per-category report you get back. |
+| [See also](#see-also) | Pointers to Anti-Hallucination, Audit & Courtroom Seal, and the pinned facts. |
+
+---
+
 ## Provenance tiers — where an indicator was witnessed
 
 When a finding/IOC is pushed toward the SIEM, the wrapper stamps a

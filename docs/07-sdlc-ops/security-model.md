@@ -25,6 +25,21 @@ evidence-gate mutation tokens see
 
 ---
 
+## Contents — what's in this page (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [1. Thymus — read-only evidence policy (S-02)](#1-thymus--read-only-evidence-policy-s-02) | How `thymus_policy.py` confines every MCP path to read-only zones — allowed prefixes, forbidden patterns, the 4096-byte path cap, and the dual ring + JSONL audit trail. |
+| [2. Denylists](#2-denylists) | Where path denial lives (Thymus `FORBIDDEN_PATTERNS`) and the Wazuh IOC-push denylists that stop benign/infrastructure indicators reaching the SIEM. |
+| [3. Secret & finding redaction](#3-secret--finding-redaction) | The two separately-keyed redaction layers — log-secret stripping and the fail-closed, DoS-hardened HMAC finding redactor — plus file-pointer secret sourcing. |
+| [4. Server exposure & auth](#4-server-exposure--auth) | Bearer-token auth, the three-condition dev-mode gate, the tailnet-only default posture, and the PBKDF2-backed approval sidecar. |
+| [5. Threat model — defends / does NOT defend](#5-threat-model--defends--does-not-defend) | An honest two-column boundary: what the architecture stops (mutation, traversal, tamper, fabrication, leakage) and what it explicitly does not (root host, trojaned binary, malicious operator, public exposure, untrusted ground truth). |
+| [See also](#see-also) | Cross-links to recovery-resilience, configuration, the safety & forensics section, and deployment. |
+
+---
+
 ## 1. Thymus — read-only evidence policy (S-02)
 
 `mcp_server/thymus_policy.py` validates that every file path an MCP tool touches lies within
