@@ -38,6 +38,7 @@ one-line descriptor of exactly what that page resolves — read that column as t
   across **both** clients (Claude CLI · Claude Desktop, incl. the 1 MB cap), with the **validated
   2026-05-29 CFReDS run** as a worked example (real commands, real outputs, decision points, and a
   troubleshooting ledger).
+- **Operator** (activate a specific case): **[Per-Case Activation Guides](case-activation/INDEX.md)** — a ready-to-run guide for **each `/cases/` image** (13 cases: disk · memory · mixed), instantiating the activation procedure (`case_init → … → report`) with that case's real evidence, plus a numbered **manual and autonomous** prompt sequence to get started. *(Local case inventory + on-disk paths — review before making the repo public.)*
 - **Operator** (runs triage): [What is Agentropix-SIFT?](docs/01-overview/what-is-agentropix.md)
   → [Competitive Positioning](docs/01-overview/competitive-positioning.md)
   → [Quickstart](docs/01-overview/quickstart.md)
