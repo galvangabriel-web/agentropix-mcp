@@ -22,7 +22,7 @@
 | **Suggested `case_id` slug** | **`CTF-CONTACT-ME-MEM`** (matches `^[A-Za-z0-9._-]{1,128}$`; no spaces/slashes) |
 | **OS / scenario** | Unknown at registration (CTF, no ground-truth/readme file present in `/cases/contact_me/`). Assume Windows; the kernel profile is **auto-detected by Volatility3 on the first `windows.*` plugin** (`get_pslist`) — there is no separate info/banners call in the MCP allowlist. |
 | **Recommended path** | **Memory chain** — *not* the disk chain. Skip `mmls`/`fls`/`bulk_extractor`/`scan_yara` (those are for disk images). |
-| **Recommended tool chain** | `get_pslist` (processes — also auto-detects the kernel profile) → `get_netscan` (sockets) → `get_malfind` (injected/RWX code) → `get_svcscan` (services) → `build_process_tree` (PPID forest + LOLBin flags) → escape hatch `run_volatility` for any other allowlisted vol3 plugin (`cmdline`, `dlllist`, `handles`, …) → `get_hashdump` (creds). |
+| **Recommended tool chain** | `get_pslist` (processes — also auto-detects the kernel profile) → `get_netscan` (sockets) → `get_malfind` (injected/RWX code) → `get_svcscan` (services) → `build_process_tree` (PPID forest + LOLBin flags) → escape hatch `run_volatility` for any other allowlisted vol3 plugin (`cmdline`, `dlllist`, `handles`, …). |
 
 > **Why memory, not disk.** `file(1)` returns `data` with no partition/EWF magic and the image has no
 > extension — there is **no MBR/GPT to `mmls`**. The Sleuth Kit / `bulk_extractor` / YARA-on-disk legs
@@ -122,7 +122,6 @@ The standard memory sweep (the first `windows.*` plugin auto-detects the kernel 
 > # escape hatch for any other vol3 plugin (short alias or canonical id), e.g.:
 > run_volatility    { "target":"/cases/contact_me/contact_me", "plugin":"cmdline" }
 > run_volatility    { "target":"/cases/contact_me/contact_me", "plugin":"netstat" }
-> get_hashdump      { "image":"/cases/contact_me/contact_me" }     # credential hashes
 > ```
 > **💬 End-user (prompt):** *"Analyse this memory image: list running processes and network connections, check for injected code, list services, and build the process tree."*
 
@@ -231,7 +230,7 @@ Two lanes, same deterministic MCP engine. Run top-to-bottom; check each **Expect
 > **(b) Expert — add a `cases.json` entry, then launch the detached driver with `--allow-unvalidated`.**
 
 1. 💬 **(a) Interactive autonomous prompt** — paste into a CLI session with the MCP attached:
-   *"You are a DFIR analyst with the Agentropix MCP. Investigate case `CTF-CONTACT-ME-MEM` on the raw **memory** image `/cases/contact_me/contact_me`. This is a memory capture — run the memory sequence (`get_pslist` → `get_netscan` → `get_malfind` → `get_svcscan` → `build_process_tree` — the first plugin auto-detects the kernel profile — plus `run_volatility` for `cmdline`/`hashdump` as warranted). Do NOT run disk tools (mmls/fls/bulk_extractor) — there is no partition table. Stage findings as DRAFT. Do NOT approve findings. Finish by generating the full report and summarising the thread chain."*
+   *"You are a DFIR analyst with the Agentropix MCP. Investigate case `CTF-CONTACT-ME-MEM` on the raw **memory** image `/cases/contact_me/contact_me`. This is a memory capture — run the memory sequence (`get_pslist` → `get_netscan` → `get_malfind` → `get_svcscan` → `build_process_tree` — the first plugin auto-detects the kernel profile — plus `run_volatility` for `cmdline`/`netstat` as warranted). Do NOT run disk tools (mmls/fls/bulk_extractor) — there is no partition table. Stage findings as DRAFT. Do NOT approve findings. Finish by generating the full report and summarising the thread chain."*
    🖥️ Same prompt works one-shot via `claude --print`.
    **Expect:** the agent runs `case_init`→`case_activate`→`evidence_register`→the memory sweep (`get_pslist`→`get_netscan`→`get_malfind`→`get_svcscan`→`build_process_tree`)→`record_finding × N` (DRAFT)→`report_generate{profile:"full"}`, staging all findings DRAFT and **stopping before approval**.
 
@@ -268,7 +267,7 @@ Two lanes, same deterministic MCP engine. Run top-to-bottom; check each **Expect
   (`mcp_tool_count=71`). A live server may report `72` (reproducible +1 over canonical; trust the live
   `health.tool_count`).
 - Memory tool surface verified in `src/agentropix_sift/mcp_server/fastmcp_app.py`: `get_pslist`,
-  `get_netscan`, `get_malfind`, `get_svcscan`, `build_process_tree`, `get_hashdump` (param `image`);
+  `get_netscan`, `get_malfind`, `get_svcscan`, `build_process_tree` (param `image`);
   `run_volatility(target, plugin, args?, timeout_seconds?)` is the generic vol3 escape hatch (W-098).
 - `case_id` regex `^[A-Za-z0-9._-]{1,128}$` — `CTF-CONTACT-ME-MEM` complies.
 - `record_finding` defaults `dry_run=True` (preview only); needs `dry_run=False` + `mutation_token` to

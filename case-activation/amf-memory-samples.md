@@ -32,8 +32,11 @@
 This is a **memory** case, so the chain is the Volatility branch (no `mmls`/`fls`/`bulk_extractor` disk
 path). The agentropix-sift memory tools that resolve to the active case:
 
-- **`get_image_info`** — acquisition/size sanity (the in-band metadata read).
-- **`get_pslist`** → processes · **`get_netscan`** → sockets · **`get_malfind`** → injected/RWX code ·
+- **No `get_image_info` here.** It drives `ewfinfo` and reads E01/EWF metadata only; on a raw `.bin`
+  RAM dump every field returns empty, so it cannot provide acquisition/size sanity. Use `ls`/`du` for
+  size; anchor integrity on the `evidence_register` SHA-256.
+- **`get_pslist`** → processes (this first `windows.*` plugin also auto-detects the kernel symbol
+  table — Volatility3 is profile-less) · **`get_netscan`** → sockets · **`get_malfind`** → injected/RWX code ·
   **`get_svcscan`** → services · **`build_process_tree`** → PPID forest + LOLBin flags.
 - **`run_volatility { plugin, args }`** — the generic escape hatch for any other plugin
   (`pstree`, `cmdline`, `dlllist`, `filescan`, `hivelist`, `printkey`, `malfind`, `netscan`, …).
@@ -52,7 +55,7 @@ path). The agentropix-sift memory tools that resolve to the active case:
 > **What this means for activation:**
 > - **Windows samples (9):** ✅ fully supported end-to-end through the MCP memory chain below.
 > - **Linux (6) + Mac (4):** the case + evidence chain-of-custody steps (`case_init`,
->   `case_activate`, `evidence_register`, `get_image_info`, `record_finding`, `approve`,
+>   `case_activate`, `evidence_register`, `record_finding`, `approve`,
 >   `report_generate`) all work, **but the Volatility analysis plugins for these OSes are not exposed
 >   through the MCP.** Their `linux.*`/`mac.*` plugins must be run with raw `vol3` *outside* the MCP
 >   (and those need the matching ISF symbol pack — that is what `linux/book.zip` /
@@ -156,7 +159,8 @@ worked example: path `/cases/AMF_MemorySamples/windows/sample001.bin`, slug `AMF
 >
 > **Expect:** an `evidence_id`, the evidence **SHA-256**, `size_bytes 536330240` (≈511 MiB), and
 > `indexed: true → agentropix-evidence-YYYY.MM.DD`. (This SHA-256 is the custody anchor — raw dumps have
-> no EWF stored hash.) Optionally confirm media with `get_image_info { "image":"…/sample001.bin" }`.
+> no EWF stored hash.) Do **not** call `get_image_info` here — on a raw memory image it returns
+> all-empty (no EWF container); it is valid only for disk EWF (`.E01`/`.Exx`) cases.
 
 ### Step 5 — Analyze (the memory tool chain)
 
@@ -261,35 +265,30 @@ Both lanes hit the same deterministic MCP engine. Each operator action shows the
    💬 *"Register the sample001 memory dump as evidence and give me its SHA-256."*
    **Expect:** an `evidence_id` + SHA-256, `size_bytes 536330240`, `indexed:true`.
 
-5. **Confirm image metadata (optional).**
-   🖥️ `get_image_info { image:"/cases/AMF_MemorySamples/windows/sample001.bin" }`
-   💬 *"What does Agentropix report about this image's size?"*
-   **Expect:** raw media size ≈511 MiB; no EWF stored-hash field (raw dump).
-
-6. **Analyse — processes / sockets / injection / services / tree.**
+5. **Analyse — processes / sockets / injection / services / tree.**
    🖥️ `get_pslist {…}` · `get_netscan {…}` · `get_malfind {…}` · `get_svcscan {…}` · `build_process_tree {…}`
    💬 *"Analyse this memory image: running processes, open network connections, injected code, and services."*
-   **Expect:** non-empty process + socket sets; `get_malfind` hits (possibly empty = clean); process tree with PPID/LOLBin flags.
+   **Expect:** non-empty process + socket sets; `get_malfind` hits (possibly empty = clean); process tree with PPID/LOLBin flags. (`get_pslist`, the first `windows.*` plugin, auto-detects the kernel symbol table — a populated result confirms the profile resolved.)
 
-7. **Run an extra plugin via the escape hatch (optional).**
+6. **Run an extra plugin via the escape hatch (optional).**
    🖥️ `run_volatility { target:"/cases/AMF_MemorySamples/windows/sample001.bin", plugin:"cmdline" }`
    💬 *"Show me the command lines of the running processes."*
    **Expect:** a `VolatilityReport` with `rows` from `windows.cmdline.CmdLine`. (Only `windows.*` plugins are allowlisted.)
 
-8. **Record a finding (DRAFT).**
+7. **Record a finding (DRAFT).**
    🖥️ `record_finding { finding:{ finding_id:"amf-win-s001-001", host:"amf-win-sample001", mitre_attack:"T1057", confidence:0.6, timestamp:"…Z", severity:"medium", title:"…" } }`
    💬 *"Record a medium-severity finding for the recovered process list, mapped to MITRE T1057, citing the sample001 image."*
    **Expect:** `finding_id amf-win-s001-001`, DRAFT (`indexed:false`); the assistant cannot self-approve.
 
-9. **List findings awaiting approval, then approve in the portal (human).**
+8. **List findings awaiting approval, then approve in the portal (human).**
    🖥️ open `https://siftworkstation.taile7c9ca.ts.net:8443/` → sign & submit DRAFT→APPROVED.
    💬 *"Which findings in AMF-WIN-SAMPLE001 are waiting for my approval and what are their IDs?"*
    **Expect:** the DRAFT id `amf-win-s001-001` listed; you sign off yourself (no plain-language approval shortcut, by design).
 
-10. **Generate the full report.**
+9. **Generate the full report.**
     🖥️ `report_generate { profile:"full", case_id:"AMF-WIN-SAMPLE001" }`
     💬 *"Generate the full report for AMF-WIN-SAMPLE001."*
-    **Expect:** a `report_id` + section counts; `approved_finding_count` reflects approvals (0 until Step 9; a DRAFT-only case may return `case_not_found` until there is indexed state).
+    **Expect:** a `report_id` + section counts; `approved_finding_count` reflects approvals (0 until Step 8; a DRAFT-only case may return `case_not_found` until there is indexed state).
 
 ### 3.B — AUTONOMOUS sequence (launch → monitor → approve → report)
 
@@ -297,7 +296,7 @@ The driver runs the full sequence unattended and **stops at the approval gate** 
 chain-of-custody. Use Claude CLI (not Desktop).
 
 1. **Launch the autonomous investigation (interactive prompt, B.1 lane).**
-   💬 *"You are a DFIR analyst with the Agentropix MCP. Investigate case `AMF-WIN-SAMPLE001` on memory image `/cases/AMF_MemorySamples/windows/sample001.bin`. Run the full memory sequence (`case_init`→`case_activate`→`evidence_register`→`get_image_info`→`get_pslist`/`get_netscan`/`get_malfind`/`get_svcscan`/`build_process_tree`→`record_finding` as DRAFT). This is a RAW memory dump, not a disk image — do NOT run mmls/fls/bulk_extractor. Do NOT approve findings. Finish by generating the full report and summarising the thread chain."*
+   💬 *"You are a DFIR analyst with the Agentropix MCP. Investigate case `AMF-WIN-SAMPLE001` on memory image `/cases/AMF_MemorySamples/windows/sample001.bin`. Run the full memory sequence (`case_init`→`case_activate`→`evidence_register`→`get_pslist`/`get_netscan`/`get_malfind`/`get_svcscan`/`build_process_tree`→`record_finding` as DRAFT). The first OS/profile signal comes from `get_pslist` — Volatility3 auto-detects the kernel symbol table on the first `windows.*` plugin; there is no separate image-metadata step (`get_image_info` is EWF/disk-only and returns empty on raw RAM). This is a RAW memory dump, not a disk image — do NOT run mmls/fls/bulk_extractor. Do NOT approve findings. Finish by generating the full report and summarising the thread chain."*
    🖥️ *Expert detached-driver equivalent (the validated headless pattern; token from ENV, case_key positional):*
    ```bash
    AGENTROPIX_MCP_AUTH_TOKEN="<TOKEN>" \

@@ -36,24 +36,31 @@ disk path (no `mmls`/`fls`/partition offset; `bulk_extractor`/`yara` are optiona
 string/IOC passes). The per-evidence sequence the docs prescribe for a memory image:
 
 ```
-case_init → case_activate → evidence_register (sha256) → get_image_info
-  → get_pslist        (processes)
+case_init → case_activate → evidence_register (sha256)
+  → get_pslist        (processes — first windows.* plugin auto-detects the kernel profile)
   → get_netscan       (sockets / connections)        ← Lab6 (C2) especially
   → get_malfind       (injected / RWX VAD code)
   → get_svcscan       (services / persistence)
   → build_process_tree(PPID forest, LOLBin flags)
-  → run_volatility    (arbitrary Vol3 plugin: hashdump / cmdline / filescan /
-                       dumpfiles / windows.registry.* — the CTF-specific plugins)
+  → run_volatility    (arbitrary Vol3 plugin: cmdline / filescan / dumpfiles /
+                       printkey — alias form; the CTF-specific plugins)
   → record_finding (DRAFT) × N → approve (human) → report_generate
 ```
+
+> **No `get_image_info` in the memory chain.** `get_image_info` drives `ewfinfo` and reads
+> E01/EWF metadata only — on a raw memory dump it returns all-empty fields, so it is omitted
+> here. The OS/kernel profile is **auto-detected by the first `windows.*` plugin** (`get_pslist`)
+> via a Volatility3 symbol-table match — there is no separate "identify OS" step.
 
 > **Why these tools.** `get_pslist`/`get_netscan`/`get_malfind`/`get_svcscan`/`build_process_tree`
 > are the five first-class memory wrappers (verified in
 > [`.crew/tool-list.md`](/home/admin2/docu_agentro/.crew/tool-list.md), category `memory`,
 > backed by `wrappers/volatility.py` + `wrappers/correlation.py`). The CTF flags
-> typically live behind *specific* Volatility plugins (e.g. `windows.cmdline`,
-> `windows.hashdump`, `windows.filescan` + `windows.dumpfiles`,
-> `windows.registry.printkey`) — reach those via **`run_volatility`** (arbitrary Vol3
+> typically live behind *specific* Volatility plugins — reach those via **`run_volatility`**
+> with a supported spelling: `cmdline` (`windows.cmdline.CmdLine`), `filescan`
+> (`windows.filescan.FileScan`), `dumpfiles` (`windows.dumpfiles.DumpFiles`), `printkey`
+> (`windows.registry.printkey.PrintKey`). Bare middle forms (`windows.cmdline`) are rejected,
+> and there is **no `hashdump` plugin** in this MCP's allowlist. `run_volatility` (arbitrary Vol3
 > plugin, `[SIFT-16]`). `get_editbox` (Vol2.6 UI-text) can recover typed text
 > (handy for Lab1's "drawing"/Lab5 prompts). Disk-only tools (`mmls`, `fls`,
 > `extract_files`, `get_registry`/`get_shimcache`/`get_prefetch`, `get_evtx`/`get_evt`)
@@ -65,8 +72,9 @@ case_init → case_activate → evidence_register (sha256) → get_image_info
 > `evidence_register`**, cross-checked against the MemLabs README MD5s when you want a
 > second anchor (e.g. Lab1 dump MD5 `b9fec1a443907d870cb32b048bda9380`,
 > Lab6 dump MD5 `405985dc8ab7651c65cdbc04cb22961c` — full set in the per-Lab READMEs
-> under `/cases/memlabs/MemLabs/Lab N/README.md`). `get_image_info` still runs and
-> reports size/metadata.
+> under `/cases/memlabs/MemLabs/Lab N/README.md`). Note `get_image_info` reads E01/EWF
+> metadata only and returns **all-empty fields** on a raw memory dump — it does not report
+> usable size/metadata here; rely on the SHA-256 and the filesystem size (`ls -la` / `du`).
 
 > 🔎 **One scenario per image.** MemLabs Lab1–6 are **six distinct challenges**, not
 > one case. The cleanest model is **one Agentropix case per Lab** (single active
@@ -152,8 +160,9 @@ Slug: **`NEWDATA-MEMLABS-NIST4-LAB1`** (`^[A-Za-z0-9._-]{1,128}$`; no spaces, no
 > `indexed: true` → `agentropix-evidence-YYYY.MM.DD`. (Optional second anchor: the
 > MemLabs README dump MD5 `b9fec1a443907d870cb32b048bda9380`.)
 
-> **🖥️ MCP call (metadata):** `get_image_info {"image":"/cases/nist4/MemLabs-Lab1/MemoryDump_Lab1.raw"}`
-> **Expect:** size/metadata for the raw dump (no EWF acquisition block — raw format).
+> **No metadata step.** `get_image_info` is EWF/E01-only and returns all-empty fields on a
+> raw memory dump, so it is **not** used here — get the size from `ls -la` / `du` and integrity
+> from the `evidence_register` SHA-256 above.
 
 ### Step 5 — Analyze (the **memory** tool chain)
 
@@ -164,11 +173,10 @@ Slug: **`NEWDATA-MEMLABS-NIST4-LAB1`** (`^[A-Za-z0-9._-]{1,128}$`; no spaces, no
 > get_malfind        { "image":"...MemoryDump_Lab1.raw" }                          # injected / RWX code
 > get_svcscan        { "image":"...MemoryDump_Lab1.raw" }                          # services / persistence
 > build_process_tree { "image":"...MemoryDump_Lab1.raw" }                          # PPID forest, LOLBin flags
-> # CTF-specific plugins via the arbitrary-plugin wrapper:
-> run_volatility { "image":"...MemoryDump_Lab1.raw", "plugin":"windows.cmdline" }      # command lines
-> run_volatility { "image":"...MemoryDump_Lab1.raw", "plugin":"windows.hashdump" }     # NTLM hashes
-> run_volatility { "image":"...MemoryDump_Lab1.raw", "plugin":"windows.filescan" }     # find files to recover
-> run_volatility { "image":"...MemoryDump_Lab1.raw", "plugin":"windows.dumpfiles" }    # carve recovered files
+> # CTF-specific plugins via the arbitrary-plugin wrapper (alias or full *.Class id; bare middle forms rejected):
+> run_volatility { "image":"...MemoryDump_Lab1.raw", "plugin":"cmdline" }      # command lines (windows.cmdline.CmdLine)
+> run_volatility { "image":"...MemoryDump_Lab1.raw", "plugin":"filescan" }     # find files to recover (windows.filescan.FileScan)
+> run_volatility { "image":"...MemoryDump_Lab1.raw", "plugin":"dumpfiles" }    # carve recovered files (windows.dumpfiles.DumpFiles)
 > ```
 > **💬 Prompt:** *"Analyse the Lab 1 memory dump: what processes were running, what
 > network connections were open, is there any injected code, and what files can we
@@ -176,7 +184,8 @@ Slug: **`NEWDATA-MEMLABS-NIST4-LAB1`** (`^[A-Za-z0-9._-]{1,128}$`; no spaces, no
 > **Expect:** the session runs the Volatility-backed memory tools and summarises
 > processes, sockets, injected/RWX code, services, and (via `run_volatility`) the
 > CTF-relevant artifacts (cmdline, hashes, recoverable files). **Scenario steer:** Lab2
-> → browser/password-manager strings & `run_volatility windows.registry.*`; Lab3 →
+> → browser/password-manager strings & `run_volatility` with a concrete registry plugin
+> (`printkey` / `windows.registry.printkey.PrintKey`, `hivelist`, or `userassist`); Lab3 →
 > recover the encrypted/steg artifact (`filescan`+`dumpfiles`, then `steghide` offline);
 > Lab4 → deleted-file recovery (`filescan`+`dumpfiles`); Lab5 → odd alnum filenames +
 > crashing app (`filescan`, `get_malfind`, `get_editbox`); Lab6 → **`get_netscan`** +
@@ -265,43 +274,39 @@ differs. Each operator action shows the **🖥️ command** equivalent and an **
    🖥️ `evidence_register {"path":"/cases/nist4/MemLabs-Lab1/MemoryDump_Lab1.raw", …}`
    **Expect:** `evidence_id`, evidence SHA-256, `size_bytes 1073676288`, `indexed: true`.
 
-5. **💬** *"What does Agentropix report about this image's size and metadata?"*
-   🖥️ `get_image_info {"image":"/cases/nist4/MemLabs-Lab1/MemoryDump_Lab1.raw"}`
-   **Expect:** size/metadata for the raw dump (no EWF acquisition block — raw, not E01).
-
-6. **💬** *"List the running processes in the Lab 1 memory dump."*
+5. **💬** *"List the running processes in the Lab 1 memory dump."*
    🖥️ `get_pslist {"image":"…MemoryDump_Lab1.raw"}`
    **Expect:** a non-empty process list (look for the "black window" / console-launched exec).
+   This first `windows.*` plugin auto-detects the kernel profile via a Volatility3 symbol-table match.
 
-7. **💬** *"Show the open network connections and any injected code in the dump."*
+6. **💬** *"Show the open network connections and any injected code in the dump."*
    🖥️ `get_netscan {…}` then `get_malfind {…}`
    **Expect:** socket/connection list + injected/RWX VAD regions (often empty on Easy Labs — expected).
 
-8. **💬** *"Build the process tree and list the services."*
+7. **💬** *"Build the process tree and list the services."*
    🖥️ `build_process_tree {…}` then `get_svcscan {…}`
    **Expect:** a PPID forest with LOLBin flags + the service list (persistence candidates).
 
-9. **💬** *"Run the command-line and hashdump Volatility plugins, then scan for files we
-   can recover."*
-   🖥️ `run_volatility {"image":"…","plugin":"windows.cmdline"}` ;
-   `… "plugin":"windows.hashdump"` ; `… "plugin":"windows.filescan"`
-   **Expect:** command lines, NTLM hashes, and a filescan offset list for the
-   CTF artifacts (carve later with `windows.dumpfiles`).
+8. **💬** *"Run the command-line Volatility plugin, then scan for files we can recover."*
+   🖥️ `run_volatility {"image":"…","plugin":"cmdline"}` ;
+   `… "plugin":"filescan"`
+   **Expect:** command lines and a filescan offset list for the
+   CTF artifacts (carve later with `dumpfiles`).
 
-10. **💬** *"Record a medium-severity finding for the suspicious execution, mapped to
-    MITRE T1059, citing the memory dump."*
-    🖥️ `record_finding {"finding":{"finding_id":"memlabs-lab1-001", …}}`
-    **Expect:** lands as **DRAFT** (`indexed:false`); the assistant generates a `finding_id`
-    and cannot self-approve.
+9. **💬** *"Record a medium-severity finding for the suspicious execution, mapped to
+   MITRE T1059, citing the memory dump."*
+   🖥️ `record_finding {"finding":{"finding_id":"memlabs-lab1-001", …}}`
+   **Expect:** lands as **DRAFT** (`indexed:false`); the assistant generates a `finding_id`
+   and cannot self-approve.
 
-11. **💬** *"Which Lab 1 findings are waiting for my approval, and what are their IDs?"*
+10. **💬** *"Which Lab 1 findings are waiting for my approval, and what are their IDs?"*
     🖥️ open the portal `https://siftworkstation.taile7c9ca.ts.net:8443/` →
     sign `DRAFT` → `APPROVED`
     **Expect:** the DRAFT list with IDs; **you** approve in the browser (human-only HMAC gate).
 
-12. **💬** *"Generate the full report for the Lab 1 case."*
+11. **💬** *"Generate the full report for the Lab 1 case."*
     🖥️ `report_generate {"profile":"full","case_id":"NEWDATA-MEMLABS-NIST4-LAB1"}`
-    **Expect:** a `report_id` + section counts; `approved_finding_count` reflects Step 11
+    **Expect:** a `report_id` + section counts; `approved_finding_count` reflects Step 10
     (0 until approval; a DRAFT-only case can return `case_not_found` until there's indexed state).
 
 ### Autonomous sequence (launch → monitor → approve → report)
@@ -309,9 +314,10 @@ differs. Each operator action shows the **🖥️ command** equivalent and an **
 1. **💬 (launch driver / one-shot agent)** *"You are a DFIR analyst with the Agentropix
    MCP. Open and activate case `NEWDATA-MEMLABS-NIST4-LAB1` on the memory image
    `/cases/nist4/MemLabs-Lab1/MemoryDump_Lab1.raw`. Run the full memory sequence
-   (`evidence_register` → `get_image_info` → `get_pslist` → `get_netscan` →
+   (`evidence_register` → `get_pslist` → `get_netscan` →
    `get_malfind` → `get_svcscan` → `build_process_tree` → relevant `run_volatility`
-   plugins), staging findings as DRAFT. Do NOT approve findings. Finish by generating
+   plugins), staging findings as DRAFT. (`get_pslist` is the first `windows.*` plugin and
+   triggers Volatility3 kernel-profile auto-detection — no separate `get_image_info` step.) Do NOT approve findings. Finish by generating
    the full report and summarising the thread chain."*
    🖥️ detached headless driver (token from ENV, **case key** positional — never the token):
    ```bash
@@ -360,7 +366,7 @@ differs. Each operator action shows the **🖥️ command** equivalent and an **
 | `ewfverify`/`ewfinfo` "fail" | These are **raw** dumps, not E01 — EWF tools don't apply. Use the `evidence_register` SHA-256 (cross-check the README MD5). |
 | `procee/procee` looks like new evidence | It's a tar holding `Challenge.raw` = the **Lab3** image (same 1,048,510,464 B). Don't double-register; it's the Lab3 source archive. |
 | Reaching for `mmls`/`fls` | Disk-only — irrelevant to memory. No partition offset, no `extract_files`. |
-| Flag is behind a plugin not in the 5 wrappers | Use **`run_volatility`** with the exact Vol3 plugin (`windows.cmdline` / `windows.hashdump` / `windows.filescan` / `windows.dumpfiles` / `windows.registry.printkey`). |
+| Flag is behind a plugin not in the 5 wrappers | Use **`run_volatility`** with a supported spelling — alias (`cmdline` / `filescan` / `dumpfiles` / `printkey`) or full `*.Class` id (`windows.cmdline.CmdLine`, `windows.filescan.FileScan`, `windows.dumpfiles.DumpFiles`, `windows.registry.printkey.PrintKey`). Bare middle forms (`windows.cmdline`) are rejected, and `hashdump` is **not** in this MCP's allowlist. |
 | `case_id` with a space | Rejected (`^[A-Za-z0-9._-]{1,128}$`). The slugs above are pre-cleaned. |
 | "Activate all six Labs" | Impossible — single active pointer. Register each, activate one. |
 | Finding not persisting | `record_finding` defaults to `dry_run=True` — pass `dry_run=False` + `mutation_token`. |

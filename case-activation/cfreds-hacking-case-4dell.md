@@ -246,7 +246,7 @@ equivalent.
    **Expect:** media_size `4.5 GiB (4871301120 bytes)`, MD5 `aee4fcd9301c03b3b054623ca261959a`.
 
 9. 💬 *"What's the partition layout, and where does the NTFS partition start?"*
-   🖥️ MCP `mmls { "image":"…E01" }` (or `get_partitions`)
+   🖥️ MCP `get_partitions { "image":"…E01" }` (shell: `mmls …E01` — the underlying binary)
    **Expect:** NTFS partition starts at **sector 63** (carried forward as the `fls` offset — GOTCHA B2).
 
 10. 💬 *"List all the files on the image, then show me just the deleted files."*

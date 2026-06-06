@@ -355,7 +355,7 @@ at the approval gate** — a bot must not sign chain-of-custody. Use Claude CLI
    disown
    ```
    💬 (non-expert equivalent — interactive autonomous prompt) *"You are a DFIR analyst with the Agentropix MCP. Investigate case `SRL-2015-APT-ENTERPRISE` across all four hosts under /cases/SRL-2015 (each C-drive E01 + raw memory). Run the full SIFT sequence (acquisition → examination → analysis → findings), staging findings as DRAFT. Use mmls-derived offsets for `fls` on the disks; use `get_evt` on XP and `get_evtx`/`get_amcache` on the Win7/2008R2 hosts. Write bulk_extractor out_dir under /tmp/agentropix-sift-srl2015. Do NOT approve findings. Finish by correlating the four hosts and generating the full report."*
-   **Expect:** the run starts detached (survives the shell — GOTCHA B5); the agent/driver walks `case_init`→`case_activate`→`evidence_register` (×8)→`get_image_info`→per-host disk+memory tools→`record_finding` ×N (DRAFT)→`report_generate`, checkpointing `SUMMARY.json` after each step.
+   **Expect:** the run starts detached (survives the shell — GOTCHA B5); the agent/driver walks `case_init`→`case_activate`→`evidence_register` (×8)→`get_image_info` (4 disk E01s only)→per-host disk+memory tools→`record_finding` ×N (DRAFT)→`report_generate`, checkpointing `SUMMARY.json` after each step. (`get_image_info` drives `ewfinfo`/EWF metadata, so it is scoped to the 4 disk E01s only — it is NOT run on the 4 raw memory `.001` images, where it returns all-empty fields. For memory the OS/kernel profile is auto-detected on the first `windows.*` plugin (`get_pslist`), not via `get_image_info`.)
 
 2. **Monitor progress.**
    🖥️ `tail -f run.log` ; read `/home/admin2/.openclaw/workspace/drivers/gearB/SRL-2015/SUMMARY.json` (per-step `ok`/`elapsed`/`error`)

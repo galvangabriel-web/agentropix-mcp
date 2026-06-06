@@ -50,7 +50,7 @@ This is a **per-host, mixed-evidence** activation. Register each host's evidence
 that matches the image type. **Activate one host at a time** (single active-case pointer; see the
 template's "Switching between cases").
 
-- **Disk (E01) →** `mmls` / `get_partitions` (find the partition offset) → `fls` (live + deleted) →
+- **Disk (E01) →** `get_partitions` / `parse_gpt` (find the partition offset) → `fls` (live + deleted) →
   `extract_files` (lift hives to an allowlisted dir) → `get_registry` / `get_shimcache` / `get_amcache`
   (Win7+/Server) / `get_prefetch` → `get_evtx` (Security/System; **7045 / 4697 / 4698** for service +
   scheduled-task persistence; **5140 / 5145** for SMB share sweeps) → `run_bulk_extractor` (IOC carve,
@@ -135,10 +135,10 @@ get_image_info { "image":"/cases/SRL-2018/base-dc-cdrive.E01" }   # in-band ewfi
 
 ```text
 # DISK (E01) — get the offset first, then walk the filesystem + artifacts:
-mmls /cases/SRL-2018/base-dc-cdrive.E01                          # or get_partitions { "image":"...E01" } → start sector
-fls           { "image":"/cases/SRL-2018/base-dc-cdrive.E01", "offset":<mmls-sector>, "recursive":true }
-fls           { "image":"...E01", "offset":<mmls-sector>, "recursive":true, "deleted_only":true }
-extract_files { "image":"...E01", "offset":<mmls-sector>, "paths":["<hive paths>"], "dest":"/tmp/agentropix-sift-srl2018-hives" }
+get_partitions { "image":"/cases/SRL-2018/base-dc-cdrive.E01" }   # → start sector (MCP tool; underlying binary is `mmls`)
+fls           { "image":"/cases/SRL-2018/base-dc-cdrive.E01", "offset":<start-sector>, "recursive":true }
+fls           { "image":"...E01", "offset":<start-sector>, "recursive":true, "deleted_only":true }
+extract_files { "image":"...E01", "offset":<start-sector>, "paths":["<hive paths>"], "dest":"/tmp/agentropix-sift-srl2018-hives" }
 get_registry  { ... }   ;  get_shimcache { ... }   ;  get_amcache { ... }   ;  get_prefetch { ... }
 get_evtx      { "image":"...E01", "event_ids":[7045,4697,4698,5140,5145], "...":"..." }   # persistence + SMB sweep
 run_bulk_extractor { "target":"...E01", "out_dir":"/tmp/agentropix-sift-srl2018-be", "max_features":1000 }
@@ -158,9 +158,9 @@ detect_sweep       { "image":"/cases/SRL-2018/base-dc-cdrive.E01" }   # EID 5140
 threat_intel_lookup{ "indicator":"42.112.153.164" }                   # then wazuh_hunt_ioc for live hunt
 ```
 
-> ⚠️ **GOTCHA (B2):** `fls`/`extract_files`/`get_evtx` on a physical-disk E01 need the **mmls-derived
-> `offset`** — omit it and you get `Cannot determine file system type`. The assistant carries the offset
-> forward for you when you ask it to list files.
+> ⚠️ **GOTCHA (B2):** `fls`/`extract_files`/`get_evtx` on a physical-disk E01 need the
+> **`get_partitions`-derived `offset`** (start sector) — omit it and you get `Cannot determine file
+> system type`. The assistant carries the offset forward for you when you ask it to list files.
 > ⚠️ **GOTCHA (B3):** `run_bulk_extractor` `out_dir` and `extract_files` `dest` must be under a
 > Thymus-allowlisted prefix — `/tmp/agentropix-sift-*`, `/cases/`, `/mnt/`, `/media/`, `/evidence/`.
 > 💡 A prior carve already exists for one host at `/cases/SRL-2018/_carved/base-wkstn-01-memory/be_output/`
@@ -242,7 +242,7 @@ IOCs (the C2 IP, the typosquat domain) to Wazuh via `wazuh_index_findings` (dry-
    **Expect:** media `33 GiB (36110860288 bytes)`, MD5 `e18b450127de04afb3211faa456ada27`, OS `Win 201x`.
 
 9. 💬 *"What's the partition layout of the DC disk, and where does the main partition start?"*
-   🖥️ `mmls /cases/SRL-2018/base-dc-cdrive.E01` (or `get_partitions { image:"...E01" }`)
+   🖥️ `get_partitions { image:"/cases/SRL-2018/base-dc-cdrive.E01" }` (or `parse_gpt`; underlying binary is `mmls`)
    **Expect:** the partition table with the start sector, carried forward as the `offset` for `fls`/`extract_files`.
 
 10. 💬 *"List all the files on the DC disk, then show me just the deleted files."*

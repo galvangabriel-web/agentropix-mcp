@@ -57,19 +57,29 @@ partitioned disk**:
 
 ### Recommended path + tool chain
 
-**Primary — MEMORY (raw RAM, no MBR/header):** profile-detect, then walk the
-Volatility-backed memory tools. Process list → network → injection → services →
-process forest:
+**Primary — MEMORY (raw RAM, no MBR/header):** walk the Volatility-backed memory
+tools. The first `windows.*` plugin (`get_pslist`) auto-detects the kernel profile —
+Volatility 3 is profile-less, so there is no separate "identify OS" step. Process list →
+network → injection → services → process forest:
 
 ```
-get_image_info  →  get_pslist  →  get_netscan  →  get_malfind  →  get_svcscan  →  build_process_tree
+get_pslist  →  get_netscan  →  get_malfind  →  get_svcscan  →  build_process_tree
 ```
+
+> `get_image_info` is **not** in this chain. It drives `ewfinfo`/EWF metadata only; on a
+> raw RAM image it returns all-empty fields and cannot ID the OS/build. The kernel symbol
+> table is auto-detected on the first `windows.*` plugin (`get_pslist`): a populated
+> `pslist` confirms the symbol-table match; an empty result with *"Unable to validate the
+> plugin requirements: kernel.symbol_table_name"* means no profile resolved (i.e. this is
+> not memory — switch to the disk fallback).
 
 `run_volatility { plugin: ... }` is the general escape hatch for any plugin the named
-wrappers don't cover (e.g. `windows.dlllist`, `windows.cmdline`, `windows.handles`,
-`windows.registry.hivelist`). For XP/x86 images, Volatility 3 auto-selects the symbol
-table — let the tool detect it; if it cannot, that is the cue this is *not* memory and
-you switch to the disk fallback.
+wrappers don't cover. Plugin names must be a **short alias** (`dlllist`, `cmdline`,
+`handles`, `hivelist`) or a full **canonical id** (`windows.dlllist.DllList`,
+`windows.cmdline.CmdLine`, `windows.handles.Handles`, `windows.registry.hivelist.HiveList`);
+the bare middle form (`windows.dlllist`, no class suffix) is rejected. For XP/x86 images,
+Volatility 3 auto-selects the symbol table — let the tool detect it on `get_pslist`; if it
+cannot, that is the cue this is *not* memory and you switch to the disk fallback.
 
 **Fallback — DISK (only if a filesystem/partition is confirmed on a deeper read):**
 
@@ -150,18 +160,17 @@ between, re-activate with `case_activate { "case_id":"WIN-XP-LAPTOP-2005" }`.)
 Returns `evidence_id`, evidence **SHA-256**, and `size_bytes 536715264` bound to the
 active case. `evidence_id` is deterministic over (case_id, path, sha256).
 
-### Step 4 — Profile-detect, then analyze (MEMORY chain — primary)
+### Step 4 — Analyze (MEMORY chain — primary)
 
 > **🖥️ MCP calls (memory):**
 > ```text
-> get_image_info     { "image":"/cases/win-xp-laptop-2005-06-25.img/win-xp-laptop-2005-06-25.img" }
-> get_pslist         { "image":"/cases/win-xp-laptop-2005-06-25.img/win-xp-laptop-2005-06-25.img" }
+> get_pslist         { "image":"/cases/win-xp-laptop-2005-06-25.img/win-xp-laptop-2005-06-25.img" }  # first windows.* plugin — auto-detects the kernel profile
 > get_netscan        { "image":"..." }
 > get_malfind        { "image":"..." }
 > get_svcscan        { "image":"..." }
 > build_process_tree { "image":"..." }
-> # general plugin escape hatch:
-> run_volatility     { "image":"...", "plugin":"windows.cmdline" }   # or windows.dlllist / windows.handles / windows.registry.hivelist
+> # general plugin escape hatch (alias or canonical id — never the bare windows.X form):
+> run_volatility     { "image":"...", "plugin":"cmdline" }   # or dlllist / handles / hivelist (canonical: windows.cmdline.CmdLine / windows.dlllist.DllList / windows.handles.Handles / windows.registry.hivelist.HiveList)
 > ```
 > **💬 Prompt:** *"Analyse this memory image: what processes were running, what network connections were open, is there injected code, and what services and process tree look suspicious?"*
 
@@ -245,13 +254,13 @@ equivalent, with an **Expect:** line. Run top-to-bottom; check Expect before con
    > 🖥️ `evidence_register { path:"/cases/win-xp-laptop-2005-06-25.img/win-xp-laptop-2005-06-25.img", … }`
    **Expect:** an `evidence_id` and evidence SHA-256, `size_bytes 536715264`, bound to the active case.
 
-6. > 💬 *"What does Agentropix report about this image — is it a memory capture or a partitioned disk, and what OS?"*
-   > 🖥️ `get_image_info { image:"…win-xp-laptop-2005-06-25.img" }`
-   **Expect:** Windows XP / x86; no EWF/partition metadata (raw image) — the profile-detect that confirms the memory chain.
+6. > 💬 *"Analyse this memory image: list the running processes and confirm the OS."*
+   > 🖥️ `get_pslist { image:"…win-xp-laptop-2005-06-25.img" }`
+   **Expect:** a populated XP process list — `get_pslist` is the first `windows.*` plugin, so it auto-detects the kernel symbol table (no separate OS-ID step). An empty result with a `kernel.symbol_table_name` error means no profile resolved (not memory) — switch to the disk fallback. *(`get_image_info` is EWF-only and returns empty on a raw RAM image, so it is not used here.)*
 
-7. > 💬 *"Analyse this memory image: what processes were running, what network connections were open, and is there any injected code?"*
-   > 🖥️ `get_pslist` → `get_netscan` → `get_malfind` (image=…win-xp-laptop-2005-06-25.img)
-   **Expect:** an XP process list, open sockets, and any RWX/injected regions from `malfind`. *(If Volatility cannot resolve a symbol table, that signals it is not memory — switch to the disk fallback: `get_partitions` → `fls` with the mmls offset.)*
+7. > 💬 *"What network connections were open, and is there any injected code?"*
+   > 🖥️ `get_netscan` → `get_malfind` (image=…win-xp-laptop-2005-06-25.img)
+   **Expect:** open sockets, and any RWX/injected regions from `malfind`. *(If Volatility cannot resolve a symbol table, that signals it is not memory — switch to the disk fallback: `get_partitions` → `fls` with the mmls offset.)*
 
 8. > 💬 *"Show me the services and the full process tree, and flag anything suspicious."*
    > 🖥️ `get_svcscan` → `build_process_tree` (image=…win-xp-laptop-2005-06-25.img)
@@ -271,7 +280,7 @@ equivalent, with an **Expect:** line. Run top-to-bottom; check Expect before con
 
 ### Autonomous path (launch driver → monitor → approve → report)
 
-1. > 💬 *"You are a DFIR analyst with the Agentropix MCP. Investigate case `WIN-XP-LAPTOP-2005` on image `/cases/win-xp-laptop-2005-06-25.img/win-xp-laptop-2005-06-25.img`. Profile-detect the evidence first; the byte-profile indicates a raw Windows XP memory capture, so run the memory sequence (`get_image_info` → `get_pslist` → `get_netscan` → `get_malfind` → `get_svcscan` → `build_process_tree`, plus `run_volatility` for any extra plugin). If a filesystem is detected instead, fall back to the disk chain using mmls-derived offsets for `fls` and an `out_dir` under `/tmp/agentropix-sift-winxp2005`. Stage findings as DRAFT. Do NOT approve. Finish by generating the full report."*
+1. > 💬 *"You are a DFIR analyst with the Agentropix MCP. Investigate case `WIN-XP-LAPTOP-2005` on image `/cases/win-xp-laptop-2005-06-25.img/win-xp-laptop-2005-06-25.img`. The byte-profile indicates a raw Windows XP memory capture, so run the memory sequence (`get_pslist` → `get_netscan` → `get_malfind` → `get_svcscan` → `build_process_tree`, plus `run_volatility` with a short-alias or canonical plugin name for any extra plugin). The first `windows.*` plugin (`get_pslist`) auto-detects the kernel profile, so there is no separate `get_image_info` OS-ID step (it is EWF-only and returns empty on a raw RAM image). If a filesystem is detected instead, fall back to the disk chain using mmls-derived offsets for `fls` and an `out_dir` under `/tmp/agentropix-sift-winxp2005`. Stage findings as DRAFT. Do NOT approve. Finish by generating the full report."*
    > 🖥️ Detached headless driver (token from ENV, case_key positional — never argv):
    > ```bash
    > AGENTROPIX_MCP_AUTH_TOKEN="<BEARER_TOKEN>" \
@@ -303,7 +312,7 @@ equivalent, with an **Expect:** line. Run top-to-bottom; check Expect before con
 
 | Gotcha | Why it bites here | Rule |
 |---|---|---|
-| Profile says `disk`, bytes say memory | No `55 AA` MBR, no NTFS boot sector, IVT at offset 0, RAM environment-block strings | Run the **memory** chain. Confirm with `get_image_info`; only fall back to disk (`mmls`/`fls`) if a filesystem is actually detected. |
+| Profile says `disk`, bytes say memory | No `55 AA` MBR, no NTFS boot sector, IVT at offset 0, RAM environment-block strings | Run the **memory** chain. Confirm with `get_pslist` — a populated pslist (auto-detected kernel symbols) confirms memory; an empty pslist + `kernel.symbol_table_name` error is the cue to fall back to disk (`mmls`/`fls`). `get_image_info` gives no OS signal on a raw memory image (EWF-only). |
 | `ewfverify`/`ewfinfo` fail | This is a raw `.img`, not an EWF container | Skip EWF verify; establish custody via `evidence_register` SHA-256 (Step 3). |
 | No companion hash/ground-truth file | Nothing to cross-check the acquisition against | The `evidence_register` SHA-256 is the custody anchor; record it. |
 | `fls` without offset (disk fallback only) | If you do fall back, starting at offset 0 → `Cannot determine file system type` (B2) | Pass the mmls-derived partition `offset`. |

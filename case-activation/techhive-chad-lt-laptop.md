@@ -64,7 +64,7 @@ This is **disk** evidence → the **disk / artifact** chain, not the memory chai
 
 1. **Partition map** — `get_partitions` (mmls) / `parse_gpt` → confirm the GPT layout and the NTFS start sectors above.
 2. **Filesystem** — `fls` (live + `deleted_only`) on the **plaintext** NTFS partitions using their mmls offsets (`extract_files` to lift hives).
-3. **Registry / execution** — `get_registry`, `get_shimcache`, `get_amcache` (Win10/11 ARM → Amcache present), `get_prefetch` *(ARM Windows prefetch may be absent — tool self-skips if so)*, `get_srum`.
+3. **Registry / execution** — `get_registry`, `get_shimcache`, `get_amcache` (Win10/11 ARM → Amcache present), `get_prefetch` *(ARM Windows prefetch may be absent — tool self-skips if so)*, `srum_extract`.
 4. **Event logs** — `get_evtx` (Vista+ `.evtx`; this is modern Windows, **not** XP `.evt`).
 5. **IOC carving + YARA** — `run_bulk_extractor` (allowlisted `out_dir`), `scan_yara`.
 6. **Timeline** — `get_timeline` (plaso) scoped by parsers/time window.

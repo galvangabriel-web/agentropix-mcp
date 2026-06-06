@@ -69,9 +69,14 @@ Because this is a **mixed** case, run **both** sub-chains (the autonomous driver
 right per-evidence sequence automatically):
 
 - **Memory (`Rocba-Memory.raw`) — Volatility3 chain:**
-  `get_image_info` → `get_pslist` → `get_netscan` → `get_malfind` → `get_svcscan` →
-  `build_process_tree` (PPID forest / LOLBin flags) → `run_volatility` for any specific Win10 plugin
-  (`windows.cmdline`, `windows.amcache`, etc.).
+  `get_pslist` (Volatility3 is profile-less — this **first `windows.*` plugin auto-detects the kernel
+  profile**; a populated `get_pslist` is the real OS/build-confirm step for a memory image) →
+  `get_netscan` → `get_malfind` → `get_svcscan` → `build_process_tree` (PPID forest / LOLBin flags) →
+  `run_volatility` for any specific Win10 plugin — use the **short alias** (`cmdline`) or the **canonical
+  id** (`windows.cmdline.CmdLine`); the bare middle form `windows.cmdline` is **rejected**. (Memory
+  Amcache is not a valid `run_volatility` plugin — disk Amcache is covered by the `get_amcache` wrapper.)
+  Note: `get_image_info` is **not** used here — it drives `ewfinfo`/EWF metadata and returns all-empty
+  fields on a raw memory dump.
 - **Disk (`rocba-cdrive.e01`) — TSK / EZ-Tools chain:**
   `get_partitions`/`mmls` (confirms whole-disk → **offset 0**) → `fls { offset: 0 }` live + deleted →
   `extract_files { offset: 0 }` (lift hives) → `get_registry` / `get_shimcache` / `get_amcache`
@@ -180,10 +185,10 @@ Evidence is already under `/cases/rocba/`. Slug = **`ROCBA-HACKATHON-2026`** (no
 > run_bulk_extractor { "target":"/cases/rocba/rocba-cdrive.e01", "out_dir":"/tmp/agentropix-sift-rocba-be", "max_features":1000 }
 > scan_yara      { "target":"/cases/rocba/rocba-cdrive.e01", "rules":["/cases/yara-rules/local/pf_smoketest.yar"], "max_matches":200 }
 > ```
-> **🖥️ Expert (MCP calls) — memory:**
+> **🖥️ Expert (MCP calls) — memory:** (no `get_image_info` — it reads EWF/E01 metadata only and returns
+> all-empty on a `.raw` dump; `get_pslist`, the first `windows.*` plugin, auto-detects the Win10 profile)
 > ```text
-> get_image_info     { "image":"/cases/rocba/Rocba-Memory/Rocba-Memory.raw" }
-> get_pslist         { "image":"/cases/rocba/Rocba-Memory/Rocba-Memory.raw" }
+> get_pslist         { "image":"/cases/rocba/Rocba-Memory/Rocba-Memory.raw" }   # auto-detects kernel profile = OS confirm
 > get_netscan        { "image":"..." }   # external C2 / RDP sockets
 > get_malfind        { "image":"..." }   # injected / RWX code
 > get_svcscan        { "image":"..." }
@@ -350,9 +355,10 @@ cap bites on the heavy tools). The reference driver is
    sequence (acquisition → examination → analysis → findings), staging findings as DRAFT. This disk is
    whole-disk NTFS — use offset 0 for `fls`. Write `bulk_extractor` `out_dir` under
    `/tmp/agentropix-sift-rocba`. Do NOT approve findings. Finish by generating the full report."*
-   **Expect:** the driver/agent walks `case_init`→`case_activate`→`evidence_register`→`get_image_info`→
-   (disk) `fls`(offset 0) live+deleted → `extract_files`→registry/exec artifacts → carve; (memory)
-   `get_pslist`/`get_netscan`/`get_malfind`/`get_svcscan`/`build_process_tree` → `record_finding`×N DRAFT
+   **Expect:** the driver/agent walks `case_init`→`case_activate`→`evidence_register`→
+   (disk) `get_image_info`(E01 only — EWF metadata) → `fls`(offset 0) live+deleted →
+   `extract_files`→registry/exec artifacts → carve; (memory — **no** `get_image_info`, it returns empty on
+   raw memory) `get_pslist`(auto-detects the Win10 profile)/`get_netscan`/`get_malfind`/`get_svcscan`/`build_process_tree` → `record_finding`×N DRAFT
    → `report_generate{full}`, then **stops before approval**. `--preflight` returns session+health+schema
    OK with no case record. (⚠️ pass only the **case key** positional — never the token as argv.)
 

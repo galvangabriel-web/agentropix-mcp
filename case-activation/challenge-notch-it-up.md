@@ -37,7 +37,7 @@ get_pslist            # running processes — ALSO auto-detects the OS/kernel pr
    ├─ get_malfind     # injected / hidden code regions
    ├─ get_svcscan     # Windows services
    └─ run_volatility(target, plugin=…)   # escape hatch — short alias or canonical id:
-                                          # cmdline, pstree, dlllist, hashdump, hivelist, filescan, …
+                                          # cmdline, pstree, dlllist, hivelist, filescan, …
 ```
 
 > `run_volatility` is the generic Volatility driver for any plugin the named wrappers don't cover.
@@ -166,7 +166,7 @@ Each step shows the 💬 end-user prompt and its 🖥️ command equivalent.
 **7. (As needed) any other Volatility plugin.**
 💬 *"Show the command line for every process (Volatility cmdline)."*
 🖥️ `run_volatility(target="/cases/Challenge_NotchItUp/Challenge.raw", plugin="cmdline")`
-**Expect:** per-process command lines; swap `plugin=` for `pstree`, `hashdump`, etc. (short alias or canonical id like `windows.cmdline.CmdLine` — the bare `windows.cmdline` form is rejected).
+**Expect:** per-process command lines; swap `plugin=` for `pstree`, `dlllist`, `hivelist`, etc. (short alias or canonical id like `windows.cmdline.CmdLine` — the bare `windows.cmdline` form is rejected).
 
 **8. Stage a finding (DRAFT, preview first).**
 💬 *"Draft finding F-001 for what we found, but just preview it — don't persist yet."*
