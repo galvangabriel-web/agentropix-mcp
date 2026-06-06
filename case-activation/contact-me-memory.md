@@ -14,15 +14,15 @@
 | Field | Value |
 |---|---|
 | **Case name** | `contact_me` — CTF-style memory capture ("contact me") |
-| **One-line description** | A single 1 GiB raw RAM image; CTF/training memory-forensics challenge. Treat as an unknown Windows memory capture until `windows.info` confirms the profile. |
+| **One-line description** | A single 1 GiB raw RAM image; CTF/training memory-forensics challenge. Treat as an unknown Windows memory capture; Volatility3 auto-detects the kernel profile on the first `windows.*` plugin (`get_pslist`). |
 | **Evidence type** | **Memory** (raw RAM dump) |
 | **Image file(s)** | `/cases/contact_me/contact_me` (no extension) |
 | **Format** | Raw / dd-style RAM capture — `file(1)` = `data` (no container magic; consistent with a raw memory dump, not EWF/E01). `ewfinfo` is **N/A** here (raw, not EWF). |
 | **Size** | **1073741824 bytes = 1.0 GiB** (exactly 1 GiB; `du -h` → `1.1G` on disk) |
 | **Suggested `case_id` slug** | **`CTF-CONTACT-ME-MEM`** (matches `^[A-Za-z0-9._-]{1,128}$`; no spaces/slashes) |
-| **OS / scenario** | Unknown at registration (CTF, no ground-truth/readme file present in `/cases/contact_me/`). Assume Windows; **let `windows.info` (via `run_volatility`) confirm the build** before deeper plugins. |
+| **OS / scenario** | Unknown at registration (CTF, no ground-truth/readme file present in `/cases/contact_me/`). Assume Windows; the kernel profile is **auto-detected by Volatility3 on the first `windows.*` plugin** (`get_pslist`) — there is no separate info/banners call in the MCP allowlist. |
 | **Recommended path** | **Memory chain** — *not* the disk chain. Skip `mmls`/`fls`/`bulk_extractor`/`scan_yara` (those are for disk images). |
-| **Recommended tool chain** | `run_volatility{plugin:"windows.info"}` (profile) → `get_pslist` (processes) → `get_netscan` (sockets) → `get_malfind` (injected/RWX code) → `get_svcscan` (services) → `build_process_tree` (PPID forest + LOLBin flags) → escape hatch `run_volatility` for any other vol3 plugin (`cmdline`, `dlllist`, `handles`, `hashdump`, …) → `get_hashdump` (creds). |
+| **Recommended tool chain** | `get_pslist` (processes — also auto-detects the kernel profile) → `get_netscan` (sockets) → `get_malfind` (injected/RWX code) → `get_svcscan` (services) → `build_process_tree` (PPID forest + LOLBin flags) → escape hatch `run_volatility` for any other allowlisted vol3 plugin (`cmdline`, `dlllist`, `handles`, …) → `get_hashdump` (creds). |
 
 > **Why memory, not disk.** `file(1)` returns `data` with no partition/EWF magic and the image has no
 > extension — there is **no MBR/GPT to `mmls`**. The Sleuth Kit / `bulk_extractor` / YARA-on-disk legs
@@ -110,12 +110,11 @@ is a raw dump with no EWF header; rely on the SHA-256 + size as the custody anch
 
 ### Step 5 — Analyze (MEMORY tools — all resolve to the active case)
 
-Profile first, then the standard memory sweep:
+The standard memory sweep (the first `windows.*` plugin auto-detects the kernel profile):
 
 > **🖥️ Expert (MCP calls):**
 > ```text
-> run_volatility    { "target":"/cases/contact_me/contact_me", "plugin":"windows.info" }   # confirm OS/build
-> get_pslist        { "image":"/cases/contact_me/contact_me" }     # processes
+> get_pslist        { "image":"/cases/contact_me/contact_me" }     # processes (auto-detects the kernel profile)
 > get_netscan       { "image":"/cases/contact_me/contact_me" }     # sockets/connections
 > get_malfind       { "image":"/cases/contact_me/contact_me" }     # injected / RWX code
 > get_svcscan       { "image":"/cases/contact_me/contact_me" }     # services
@@ -125,7 +124,7 @@ Profile first, then the standard memory sweep:
 > run_volatility    { "target":"/cases/contact_me/contact_me", "plugin":"netstat" }
 > get_hashdump      { "image":"/cases/contact_me/contact_me" }     # credential hashes
 > ```
-> **💬 End-user (prompt):** *"Analyse this memory image: confirm the Windows build, list running processes and network connections, check for injected code, list services, and build the process tree."*
+> **💬 End-user (prompt):** *"Analyse this memory image: list running processes and network connections, check for injected code, list services, and build the process tree."*
 
 Note the parameter split: the dedicated `get_*` tools take **`image`**; `run_volatility` takes
 **`target`** + **`plugin`** (short aliases like `"malfind"`/`"netscan"`/`"cmdline"` or canonical ids
@@ -191,39 +190,35 @@ Two lanes, same deterministic MCP engine. Run top-to-bottom; check each **Expect
    🖥️ `evidence_register { "path":"/cases/contact_me/contact_me", … }`
    **Expect:** returns `evidence_id` + evidence SHA-256, `size_bytes 1073741824`, bound to the active case (`indexed:true`).
 
-6. 💬 *"Confirm the Windows build of this memory image."*
-   🖥️ `run_volatility { "target":"/cases/contact_me/contact_me", "plugin":"windows.info" }`
-   **Expect:** a `VolatilityReport` with the OS/kernel build rows (confirms it is a valid Windows memory capture).
-
-7. 💬 *"List the running processes in this memory image."*
+6. 💬 *"List the running processes in this memory image."*
    🖥️ `get_pslist { "image":"/cases/contact_me/contact_me" }`
-   **Expect:** a non-empty process list (PID/PPID/name/start-time rows).
+   **Expect:** a non-empty process list (PID/PPID/name/start-time rows). This first `windows.*` plugin **auto-detects the kernel profile** — a populated list confirms it is a valid Windows capture and the symbol table matched. There is **no separate `windows.info` step** (the MCP allowlist exposes analysis plugins only).
 
-8. 💬 *"Show the network connections and open sockets."*
+7. 💬 *"Show the network connections and open sockets."*
    🖥️ `get_netscan { "image":"/cases/contact_me/contact_me" }`
    **Expect:** a socket/connection table (local/remote addr, state, owning PID) — possibly empty, which is itself a finding.
 
-9. 💬 *"Check for injected or RWX code."*
+8. 💬 *"Check for injected or RWX code."*
    🖥️ `get_malfind { "image":"/cases/contact_me/contact_me" }`
    **Expect:** a malfind report (suspicious RWX regions per PID, or an empty list = clean).
 
-10. 💬 *"List the Windows services and build the process tree with LOLBin flags."*
-    🖥️ `get_svcscan { "image":"…" }` then `build_process_tree { "image":"…" }`
-    **Expect:** a services table and a PPID forest with any LOLBin/suspicious-parent flags surfaced.
+9. 💬 *"List the Windows services and build the process tree with LOLBin flags."*
+   🖥️ `get_svcscan { "image":"…" }` then `build_process_tree { "image":"…" }`
+   **Expect:** a services table and a PPID forest with any LOLBin/suspicious-parent flags surfaced.
 
-11. 💬 *"Run the cmdline plugin to see each process's command line."*
+10. 💬 *"Run the cmdline plugin to see each process's command line."*
     🖥️ `run_volatility { "target":"/cases/contact_me/contact_me", "plugin":"cmdline" }`
     **Expect:** per-PID command-line rows (vol3 JSON preserved verbatim in `rows`).
 
-12. 💬 *"Record a finding for [your observation], give it a finding_id, and stage it as a draft."*
+11. 💬 *"Record a finding for [your observation], give it a finding_id, and stage it as a draft."*
     🖥️ `record_finding { "finding":{ "finding_id":"ctf-contactme-001", … }, "dry_run":false, "mutation_token":"<token>" }`
     **Expect:** lands as **DRAFT** (`indexed:false`); the assistant cannot self-approve.
 
-13. 💬 *"Which findings are waiting for my approval and what are their IDs?"*
+12. 💬 *"Which findings are waiting for my approval and what are their IDs?"*
     🖥️ (browser) Examiner Portal at `https://<TAILNET-HOST>:8443/`
     **Expect:** the DRAFT list with IDs; **you** sign off yourself in the portal (HMAC) — no plain-language approval shortcut, by design.
 
-14. 💬 *"Generate the full report for `CTF-CONTACT-ME-MEM`."*
+13. 💬 *"Generate the full report for `CTF-CONTACT-ME-MEM`."*
     🖥️ `report_generate { "profile":"full" }`
     **Expect:** a `report_id` + section counts; `approved_finding_count 0` until a finding is approved (a DRAFT-only case can return `case_not_found` until there is indexed state).
 
@@ -236,9 +231,9 @@ Two lanes, same deterministic MCP engine. Run top-to-bottom; check each **Expect
 > **(b) Expert — add a `cases.json` entry, then launch the detached driver with `--allow-unvalidated`.**
 
 1. 💬 **(a) Interactive autonomous prompt** — paste into a CLI session with the MCP attached:
-   *"You are a DFIR analyst with the Agentropix MCP. Investigate case `CTF-CONTACT-ME-MEM` on the raw **memory** image `/cases/contact_me/contact_me`. This is a memory capture — run the memory sequence (`run_volatility{windows.info}` → `get_pslist` → `get_netscan` → `get_malfind` → `get_svcscan` → `build_process_tree`, plus `run_volatility` for `cmdline`/`hashdump` as warranted). Do NOT run disk tools (mmls/fls/bulk_extractor) — there is no partition table. Stage findings as DRAFT. Do NOT approve findings. Finish by generating the full report and summarising the thread chain."*
+   *"You are a DFIR analyst with the Agentropix MCP. Investigate case `CTF-CONTACT-ME-MEM` on the raw **memory** image `/cases/contact_me/contact_me`. This is a memory capture — run the memory sequence (`get_pslist` → `get_netscan` → `get_malfind` → `get_svcscan` → `build_process_tree` — the first plugin auto-detects the kernel profile — plus `run_volatility` for `cmdline`/`hashdump` as warranted). Do NOT run disk tools (mmls/fls/bulk_extractor) — there is no partition table. Stage findings as DRAFT. Do NOT approve findings. Finish by generating the full report and summarising the thread chain."*
    🖥️ Same prompt works one-shot via `claude --print`.
-   **Expect:** the agent runs `case_init`→`case_activate`→`evidence_register`→`windows.info`→the memory sweep→`record_finding × N` (DRAFT)→`report_generate{profile:"full"}`, staging all findings DRAFT and **stopping before approval**.
+   **Expect:** the agent runs `case_init`→`case_activate`→`evidence_register`→the memory sweep (`get_pslist`→`get_netscan`→`get_malfind`→`get_svcscan`→`build_process_tree`)→`record_finding × N` (DRAFT)→`report_generate{profile:"full"}`, staging all findings DRAFT and **stopping before approval**.
 
 2. 🖥️ **(b) Expert — detached driver** (token from ENV, `<case_key>` positional; `--allow-unvalidated` because memory cases aren't live-validated). First add a `contact_me` entry to `/home/admin2/.openclaw/workspace/drivers/cases.json` (`kind:"memory"`, `default_image:"/cases/contact_me/contact_me"`, `validated:false`), then:
    ```bash
