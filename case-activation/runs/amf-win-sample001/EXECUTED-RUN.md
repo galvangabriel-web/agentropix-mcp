@@ -136,12 +136,21 @@ This single triage step bundles **five** analysis tools, all run against the sam
 ```
 No live network endpoints recovered from this (XP-era) image — an honest, empty real result.
 
-**Output C — `get_malfind` (injected / RWX code) — ⏱️ TIMED OUT:**
-```text
-MCP error -32001: Request timed out  (bounded at 180s)
+**Output C — `get_malfind` (injected / RWX code) — ✅ 15 hits (completed in 75 s):**
+```json
+{ "tool": "volatility3.windows.malfind.Malfind", "hit_count": 15, "hits": [
+  { "pid": 604, "process": "csrss.exe",    "protection": "PAGE_EXECUTE_READWRITE", "vad_tag": "Vad"  },
+  { "pid": 628, "process": "winlogon.exe", "protection": "PAGE_EXECUTE_READWRITE", "vad_tag": "VadS" },
+  { "pid": 680, "process": "lsass.exe",    "protection": "PAGE_EXECUTE_READWRITE", "vad_tag": "VadS" },
+  { "pid": "…", "process": "msmsgs.exe",   "protection": "PAGE_EXECUTE_READWRITE", "vad_tag": "VadS" },
+  { "pid": "…", "process": "msimn.exe",    "protection": "PAGE_EXECUTE_READWRITE", "vad_tag": "VadS" }
+  /* … 15 RWX regions total — by process: winlogon.exe ×10, lsass.exe ×2, csrss.exe ×1, msmsgs.exe ×1, msimn.exe ×1 */
+] }
 ```
-`malfind` is the heaviest scanner; it exceeded the 180 s bound on this host and was recorded verbatim,
-not fabricated. Re-run standalone with a longer timeout to complete it.
+15 executable-writable (RWX) regions recovered — concentrated in `winlogon.exe`. On an XP-era image these
+`PAGE_EXECUTE_READWRITE` VADs are exactly the kind of injected/unpacked-code artifact `malfind` exists to
+surface. `malfind` is the heaviest scanner; the first pass exceeded the 180 s SDK request bound, so it was
+re-run standalone with a 300 s `callTool` timeout and completed in **75 s**.
 
 **Output D — `get_svcscan` (services) — ✅ 229 services:**
 ```json
