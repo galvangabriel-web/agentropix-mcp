@@ -182,7 +182,7 @@ approval, executable-artifact registry, and Wazuh integration.
 | Case & finding lifecycle | `record_finding`, `delete_finding`, `case_status`, `generate_report` | [Tool Reference](docs/04-mcp-tools/tool-reference.md) |
 | Provenance & approval | `retract_approval`, provenance/IOC promotion (`promote_iocs`) | [Provenance](docs/05-safety-forensics/provenance-grounding.md) |
 | Executable-artifact registry | `build_executable_registry`, `promote_executable_registry`, `exec_registry_get`, `exec_registry_search` | [Tool Reference](docs/04-mcp-tools/tool-reference.md) |
-| Wazuh integration | `wazuh_hunt_ioc` (+ wrappers) | [Wazuh push](docs/06-use-cases/uc-wazuh-push.md) |
+| Wazuh integration | `wazuh_hunt_ioc` (+ wrappers) | [Wazuh push](docs/06-use-cases/uc-wazuh-push.md) · [Operator's guide](docs/09-integrations/wazuh-portal.md) |
 
 See the full enumeration in the [MCP Tool Reference](docs/04-mcp-tools/tool-reference.md), which
 agent invokes which tool in [Tools by Agent](docs/04-mcp-tools/tool-by-agent.md), and the typed

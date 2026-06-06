@@ -200,6 +200,7 @@ gate; the actual push is driven by the MCP client.
 
 ## See also
 
+- [../09-integrations/wazuh-portal.md](../09-integrations/wazuh-portal.md) — the day-to-day operator's guide to the Wazuh integration (connect the SOC, preview a push, confirm alerts landed, read the dashboards); this page covers the push *mechanics*, that one covers *operating* it.
 - [uc-approval-gate.md](uc-approval-gate.md) — APPROVE findings before indexing them as alerts.
 - [uc-disk-triage.md](uc-disk-triage.md) / [uc-memory-triage.md](uc-memory-triage.md) — where the
   pushed IOCs originate.

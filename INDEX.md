@@ -20,6 +20,9 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
   → [Disk Triage use case](docs/06-use-cases/uc-disk-triage.md)
   → [CLI Reference](docs/08-reference/cli-reference.md)
   → [Configuration](docs/07-sdlc-ops/configuration.md).
+- **Operator** (runs the Wazuh integration): [Push a Finding to Wazuh as an Alert](docs/06-use-cases/uc-wazuh-push.md) (the push mechanics)
+  → [Wazuh Portal — Operator's Guide](docs/09-integrations/wazuh-portal.md) (connect the SOC, preview, confirm alerts, read the dashboards)
+  → [Configuration](docs/07-sdlc-ops/configuration.md) (the `WAZUH_*` env surface).
 - **Examiner** (reviews & approves findings, defends them): [What You Get](docs/01-overview/what-you-get.md)
   → [Anti-Hallucination](docs/05-safety-forensics/anti-hallucination.md)
   → [Provenance & Grounding](docs/05-safety-forensics/provenance-grounding.md)
@@ -124,6 +127,12 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
 | CLI Reference | operator | What are all the `agentropix-sift` commands and flags? | [08-reference/cli-reference.md](docs/08-reference/cli-reference.md) |
 | Glossary | all | What does each term, persona, and weakness ID mean? | [08-reference/glossary.md](docs/08-reference/glossary.md) |
 | ADR Index | developer, auditor | What architecture decisions were made and why (routed list of the ADRs)? | [08-reference/adr-index.md](docs/08-reference/adr-index.md) |
+
+## 9. Integrations
+
+| Title | Audience | What question it answers | Link |
+|-------|----------|--------------------------|------|
+| Wazuh Portal — Operator's Guide | operator | How do I drive the Wazuh integration day-to-day — connect the SOC, preview a push, confirm alerts landed, and read the dashboards — without the MCP-tool internals? | [docs/09-integrations/wazuh-portal.md](docs/09-integrations/wazuh-portal.md) |
 
 ---
 
