@@ -64,4 +64,16 @@ These `/cases/*` folders were classified and **not** turned into activation guid
 
 ---
 
+## Recorded runs
+
+Educational recordings of a real executed activation sequence (live MCP calls, captured output):
+
+| Case | Sequence | Transcript | Video |
+|---|---|---|---|
+| CTF "Contact Me" | §3A manual | [EXECUTED-RUN.md](./runs/contact-me-memory/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/contact-me-memory/EXECUTED-RUN.mp4) (58s · 23 MB · 1920×1080) |
+
+The transcript captures the real tool responses/exits step by step; `record_finding` ran `dry_run=true`, the approval step is a human hard-stop performed in the Examiner Portal (documented, not executed), and `report_generate` ran with 0 approved findings (the correct expected result). The MCP host is shown as `<TAILNET-HOST>`; no token is reproduced.
+
+---
+
 *SIFT MCP surface: 71 tools / 16 wrappers / 4464 tests (`/home/admin2/docu_agentro/.crew/facts.md`). Evidence licensing where applicable (e.g. AMF: CC-BY-NC-SA 3.0) is noted in the individual guides. Approval remains a human hard-stop in every workflow.*
