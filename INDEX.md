@@ -15,10 +15,15 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
 
 ## Reading Paths by Audience
 
-- **Operator** (first run, start to finish): **[User Guide — Start to Finish](docs/01-overview/user-guide.md)**
+- **Operator** (first run, start to finish): **[User Guide — The Complete Operator Runbook](docs/01-overview/user-guide.md)**
   → [Quickstart](docs/01-overview/quickstart.md) (the condensed 3-command path)
-  → [CLI Reference](docs/08-reference/cli-reference.md). The single end-to-end walkthrough:
-  install/pre-flight → configure → triage → review → approve → seal → (optional) Wazuh.
+  → [CLI Reference](docs/08-reference/cli-reference.md). The single deeply-detailed end-to-end
+  runbook: pre-flight → connect/verify MCP → case init/activate → register evidence → the
+  investigation tool chain → record findings → approve in the portal → generate/verify the
+  sealed report → curate/push IOCs to Wazuh. Documents **both** execution paths (manual,
+  tool-by-tool · autonomous, headless driver) across **both** clients (Claude CLI · Claude
+  Desktop, incl. the 1 MB cap), with the **validated 2026-05-29 CFReDS run** as a worked
+  example (real commands, real outputs, decision points, and a troubleshooting ledger).
 - **Operator** (runs triage): [What is Agentropix-SIFT?](docs/01-overview/what-is-agentropix.md)
   → [Competitive Positioning](docs/01-overview/competitive-positioning.md)
   → [Quickstart](docs/01-overview/quickstart.md)
@@ -72,7 +77,7 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
-| **User Guide — Start to Finish** | operator | **How do I run one complete case end to end** — install/pre-flight, configure, triage, review findings, approve in the portal, seal the report, and (optionally) escalate to Wazuh? | [docs/01-overview/user-guide.md](docs/01-overview/user-guide.md) |
+| **User Guide — The Complete Operator Runbook** | operator | **How do I run one complete case end to end, in full operational depth** — pre-flight, connect/verify the MCP, init/activate the case, register evidence, drive the investigation tool chain (**manual tool-by-tool _or_ autonomous headless driver**, on **Claude CLI _or_ Desktop**), record findings, approve in the portal, seal the report, and (optionally) push IOCs to Wazuh — with the validated 2026-05-29 CFReDS run as a worked example and a troubleshooting ledger? | [docs/01-overview/user-guide.md](docs/01-overview/user-guide.md) |
 | What is Agentropix-SIFT? | operator, examiner | What does the tool do, why, who is it for, and how does it compare to manual DFIR? | [docs/01-overview/what-is-agentropix.md](docs/01-overview/what-is-agentropix.md) |
 | What You Get | operator, examiner | What are the concrete capabilities and the feature/capability matrix? | [docs/01-overview/what-you-get.md](docs/01-overview/what-you-get.md) |
 | Quickstart | operator | How do I install, pre-flight the toolchain, and run my first triage? | [docs/01-overview/quickstart.md](docs/01-overview/quickstart.md) |

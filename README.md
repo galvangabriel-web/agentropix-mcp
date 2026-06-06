@@ -7,10 +7,14 @@
 
 **A local, CLI-driven, bio-agentic DFIR triage engine for the SANS SIFT Workstation.**
 
-> 👋 **New here? Start with the [User Guide — Start to Finish](docs/01-overview/user-guide.md)** —
-> the single end-to-end walkthrough that takes a first-time operator through one complete case:
-> install/pre-flight → configure → run a triage → review findings → approve in the portal →
-> seal the report → (optional) escalate to Wazuh.
+> 👋 **New here? Start with the [User Guide — The Complete Operator Runbook](docs/01-overview/user-guide.md)** —
+> the single, deeply-detailed end-to-end runbook that takes a first-time operator through one
+> complete case: pre-flight → connect/verify the MCP → init/activate the case → register
+> evidence → the investigation tool chain → record findings → approve in the portal → seal the
+> report → (optional) push IOCs to Wazuh. It documents **both** execution paths (manual,
+> tool-by-tool · autonomous, headless driver) and **both** clients (Claude CLI · Claude
+> Desktop), with the validated 2026-05-29 CFReDS run as a worked example and a troubleshooting
+> ledger.
 
 Agentropix-SIFT turns a SIFT Workstation into an autonomous-but-accountable triage
 operator. A **Trinity Loop** — an Architect that proposes which agents to run, a
@@ -261,9 +265,10 @@ full env-var table.
 Start at the routed [master table of contents](INDEX.md), which maps every chapter to its
 audience (operator / examiner / developer / auditor) and the question it answers. Highlights:
 
-- **New here? Start with the [User Guide — Start to Finish](docs/01-overview/user-guide.md)** —
-  one complete case from install/pre-flight through triage, review, approval, seal, and
-  optional Wazuh escalation. Then [What is Agentropix-SIFT?](docs/01-overview/what-is-agentropix.md)
+- **New here? Start with the [User Guide — The Complete Operator Runbook](docs/01-overview/user-guide.md)** —
+  one complete case in full operational depth, covering both execution paths (manual ·
+  autonomous) and both clients (Claude CLI · Claude Desktop), with the validated 2026-05-29
+  CFReDS run as a worked example. Then [What is Agentropix-SIFT?](docs/01-overview/what-is-agentropix.md)
   → [Quickstart](docs/01-overview/quickstart.md)
 - **How it works:** [Architecture](docs/02-architecture/system-context-c4.md) ·
   [Data Models](docs/03-data/data-models.md)
