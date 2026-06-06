@@ -13,6 +13,26 @@ total. Both statements are true; when a count is needed, prefer *"7 core special
 ATT&CK detectors"* and cite `agents/__init__.py` ([agents-list.md](../../.crew/agents-list.md),
 [facts.md](../../.crew/facts.md)).
 
+### The Trinity roles, in one paragraph
+
+The Swarm does not run itself — it is driven by the **Trinity Loop**, three deterministic
+(no-LLM) roles defined in full in [trinity-loop.md](trinity-loop.md). You will see them
+named throughout this page, so here is the one-line definition of each:
+
+- **Architect** (`trinity/architect.py`) — the **planner**. Each iteration it returns the
+  ordered tuple of agent classes to run (the canonical `SWARM` order, optionally pruning
+  agents the Critic has marked *stable*). It preserves run order so `HuntAgent` stays last.
+- **Swarm** (`SWARM` tuple, `agents/__init__.py`) — the **doers**. The 13 agent classes
+  described on this page; each investigates one evidence dimension and publishes `Finding`s
+  to the Blackboard.
+- **Critic** (`trinity/critic.py`) — the **scorer and halt authority**. It assigns the run
+  a deterministic score (max finding confidence + `0.25` per correlation, capped at `1.0`)
+  and decides when to stop — when the score crosses the halt threshold (default `0.85`,
+  `AGENTROPIX_CRITIC_HALT_THRESHOLD`) or the per-agent fingerprint reaches a fixed point.
+
+The shared **Blackboard** (§5) is the substrate all three operate over: the Swarm writes to
+it, the Critic reads it to score, and the Architect reads the Critic's verdict to re-plan.
+
 ---
 
 ## 1. The agent class hierarchy
@@ -248,7 +268,9 @@ The `Correlation` and `Finding` data contracts are fully specified in
 
 The §2/§3 tables list each agent's `name`, promise, and wrappers. This view answers a
 different question a SANS judge asks: *what tool call does this agent fire, and what does
-that surface?* (cross-checked against each agent's `investigate()`):
+that surface?* (cross-checked against each agent's `investigate()`). For the inverse
+mapping — *which agent owns each of the 71 MCP tools* — and the full per-tool ownership
+table, see [tool-by-agent.md](../04-mcp-tools/tool-by-agent.md).
 
 | Agent | Tool call fired | What it surfaces |
 |-------|-----------------|------------------|
@@ -410,6 +432,7 @@ plaso multi-worker race, mitigated with `--workers=1`).
 - How the Architect plans these agents and the Critic scores their output →
   [trinity-loop.md](trinity-loop.md)
 - The MCP tools each agent drives → [mcp-server.md](mcp-server.md) and [04-mcp-tools](../04-mcp-tools/)
+- The inverse map — which agent owns each MCP tool → [tool-by-agent.md](../04-mcp-tools/tool-by-agent.md)
 - The `Finding` / `Correlation` / `Blackboard` data contracts → [03-data](../03-data/)
 - A full triage run showing agents filling the Blackboard →
   [sequence-diagrams.md](sequence-diagrams.md#1-full-triage-run-end-to-end)

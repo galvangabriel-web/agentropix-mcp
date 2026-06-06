@@ -44,13 +44,31 @@ The package is a standard Python project with two console scripts
 
 From the repository root:
 
-```bash
-# uv-native (recommended) — resolves the locked dependency set into a venv
-uv sync
+> **🖥️ Expert (command):**
+> ```bash
+> # uv-native (recommended) — resolves the locked dependency set into a venv
+> uv sync
+>
+> # …or with pip
+> python3.12 -m venv .venv && source .venv/bin/activate
+> pip install -e ".[dev]"
+> ```
+> **💬 End-user (prompt):** installing the Python package is an **operator-local** step — there is no MCP
+> tool for it, because the MCP server only exists *after* the package is installed. Ask your administrator
+> to run `uv sync` (or have them follow this page) to stand up the server; once it is connected to your
+> Claude session, every later step in this Quickstart has a plain-language prompt you can use yourself.
 
-# …or with pip
-python3.12 -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev]"
+**Execution A → Output A.**
+
+*Execution A:*
+```bash
+uv sync
+```
+
+*Output A (resolved + synced venv):*
+```text
+Resolved 142 packages in 38ms
+Installed 96 packages in 1.21s
 ```
 
 Runtime dependencies include `volatility3`, `fastmcp`, `yara-python`, `pydantic`,
@@ -72,11 +90,25 @@ binaries are resolvable on `PATH`. For each tool it resolves the binary — hono
 `AGENTROPIX_<TOOL>_TOOL` override env var where one exists, so you can point it at a
 SIFT-installed path without symlinking — and prints `OK <path>` or `MISSING`.
 
+> **🖥️ Expert (command):**
+> ```bash
+> uv run agentropix-sift doctor
+> ```
+> **💬 End-user (prompt):** *"Check that my Agentropix forensic environment is ready — are all the
+> forensic tools installed and is the server healthy?"*
+> The session runs the same pre-flight by calling the **`health`** MCP tool (which reports the live tool
+> count and server status); a non-technical operator gets a plain-language "everything's present" or "X is
+> missing" answer. **A simple, focused question is enough — the session recognises this as an Agentropix
+> capability and routes it to the right check.**
+
+**Execution B → Output B** (all tools present).
+
+*Execution B:*
 ```bash
 uv run agentropix-sift doctor
 ```
 
-Example output (all tools present):
+*Output B (all present):*
 
 ```text
   [OK  /usr/bin/vol] Volatility3 (memory forensics) (vol)
@@ -101,9 +133,21 @@ Example output (all tools present):
 All tools available.
 ```
 
-When something is missing, `doctor` lists it as `MISSING`, prints how many tools are
-absent, and **exits non-zero**:
+> **Note on the count.** `doctor` prints one `[OK …]` line per **binary** it resolves — **18** lines on a
+> full SIFT host (the 16 SIFT forensic wrappers' backing binaries plus `icat` and `strings`, which
+> `doctor` also pre-flights). The canonical figure **"16 forensic wrappers"** counts the wrapper layer,
+> not the resolved-binary lines — both are correct. The closing `All tools available.` is the signal you
+> care about.
 
+**Execution C → Output C** (something missing). When a tool is absent `doctor` lists it as `MISSING`,
+prints how many tools are absent, and **exits non-zero**:
+
+*Execution C:*
+```bash
+uv run agentropix-sift doctor
+```
+
+*Output C (one or more missing):*
 ```text
   [MISSING] Plaso (timeline) (log2timeline.py)
   ...
@@ -129,9 +173,18 @@ documented in [`.crew/env-vars.md`](../../.crew/env-vars.md) §5.
 The repository ships a tiny synthetic fixture (`samples/sample.dd`, a 10 MB ext2 image)
 so you can exercise the full pipeline without real case data:
 
-```bash
-uv run agentropix-sift run samples/sample.dd -o report.json
-```
+> **🖥️ Expert (command):**
+> ```bash
+> uv run agentropix-sift run samples/sample.dd -o report.json
+> ```
+> **💬 End-user (prompt) — paste this to a Claude session that has the Agentropix MCP attached:**
+> *"Open a case for the image at `samples/sample.dd`, register it as evidence, run the full SIFT triage
+> over it staging findings as DRAFT, then generate the report."*
+> The agent runs the same end-to-end sequence the CLI does, calling the real MCP tools in order —
+> `case_init` → `case_activate` → `evidence_register` → the per-evidence analysis tools (e.g.
+> `get_pslist`/`get_netscan` on memory, `fls`/`extract_files`/`get_registry` on disk) → `record_finding`
+> (DRAFT) → `report_generate`. **One plain-language request is enough; the session recognises it as an
+> Agentropix triage and routes the whole tool sequence for you.**
 
 `run` (`src/agentropix_sift/cli.py:50-152`) executes the Trinity Loop over the image,
 then **seals the result**. Useful options:
@@ -143,7 +196,14 @@ then **seals the result**. Useful options:
 | `--out` / `-o` | `report.json` | Output report path |
 | `--verbose` / `-v` | off | Detailed logging |
 
-Example console output:
+**Execution D → Output D.**
+
+*Execution D:*
+```bash
+uv run agentropix-sift run samples/sample.dd -o report.json
+```
+
+*Output D (sealed triage on the synthetic fixture):*
 
 ```text
 Agentropix-SIFT triage: samples/sample.dd
@@ -185,12 +245,34 @@ contract is in [`.crew/schema-dump.md`](../../.crew/schema-dump.md) §1.
 
 ### Inspect the result
 
-```bash
-# Findings, trace size, and audit trail
-jq '.findings, (.trace.tool_calls | length), .thymus_audit' report.json
+> **🖥️ Expert (command):**
+> ```bash
+> # Findings, trace size, and audit trail
+> jq '.findings, (.trace.tool_calls | length), .thymus_audit' report.json
+>
+> # The cryptographic anchors
+> jq '{evidence_image_sha256, report_seal, completion_proofs, status}' report.json
+> ```
+> **💬 End-user (prompt):** *"Summarise the findings for this case and show me the case status."*
+> The session calls **`case_status`** (case state rollup) — and, on an indexed case,
+> **`idx_case_summary`** / **`idx_search`** — to read back the findings and trace in plain language, so a
+> non-technical operator never has to touch `jq`.
 
-# The cryptographic anchors
+**Execution E → Output E.**
+
+*Execution E:*
+```bash
 jq '{evidence_image_sha256, report_seal, completion_proofs, status}' report.json
+```
+
+*Output E (cryptographic anchors):*
+```json
+{
+  "evidence_image_sha256": "9f2c…<64 hex>",
+  "report_seal": "hmac-sha256:…",
+  "completion_proofs": [],
+  "status": "budget_exhausted"
+}
 ```
 
 Every `findings[]` entry names the deterministic tool that produced it in its `_source`
@@ -202,8 +284,34 @@ The report and audit log are HMAC-SHA256 sealed and independently verifiable
 (`courtroom.py`; standalone verifier `audit/verify_seal.py` /
 `scripts/verify_seal.py`):
 
+> **🖥️ Expert (command):**
+> ```bash
+> uv run python scripts/verify_seal.py report.json
+> ```
+> **💬 End-user (prompt):** seal verification is a deliberately **out-of-band, operator-local** check —
+> there is no MCP tool for it, by design. The whole point of the seal is that *anyone* (an examiner, a
+> judge, opposing counsel) can verify the report independently with the standalone script and the
+> `report.session-key`, without trusting the running engine or its MCP. Run the script yourself, or ask
+> your administrator to.
+
+**Execution F → Output F.**
+
+*Execution F:*
 ```bash
 uv run python scripts/verify_seal.py report.json
+```
+
+*Output F (intact seal — the verifier resolves `report.session-key` next to the report automatically):*
+```text
+Reading report.json (1 lines)
+Reading report.session-key (32 bytes, mode 0o600)
+Recomputing HMAC-SHA256 over canonical report JSON ...
+OK Report seal verified.
+Reading report.audit-log.json (11 entries)
+Recomputing HMAC-SHA256 over canonical audit-log JSON ...
+OK Audit-log internal seal verified.
+OK Cross-bind verified - report and audit log are paired.
+Seal verification: ALL PASS - chain-of-custody intact.
 ```
 
 This confirms the report has not been altered since it was sealed — the judge-verifiable

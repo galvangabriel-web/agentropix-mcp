@@ -30,7 +30,9 @@ and a workflow‑notes panel. Findings live in `agentropix-findings-*` (daily in
 bulk‑index it into the `agentropix-*` indices. The write path is **fail‑closed and
 dry‑run‑by‑default** and is gated by kill switches plus a one‑shot mutation token. You do
 **not** need to understand any of that to read the dashboards — see
-[uc-wazuh-push.md](../06-use-cases/uc-wazuh-push.md) for the push mechanics. The dashboard
+[uc-wazuh-push.md](../06-use-cases/uc-wazuh-push.md) for the push mechanics, or **§9** below for a
+dual‑audience operator quick‑reference (configure index → push → verify) if you also run the push.
+The dashboard
 saved‑object bundle itself is *operator‑imported* (Saved Objects Import), not pushed by the
 runtime.
 
@@ -201,6 +203,176 @@ tile and the `approval.status` column update on refresh.
 
 > The Approval Portal is a separate FastAPI app reached through the finding deep‑link; it is
 > not part of the dashboard bundle and is not screenshotted in this guide.
+
+---
+
+## 9. Push path — getting findings/IOCs *into* the dashboard (operator quick‑reference)
+
+> **Sections 1–8 are read‑only** (how to *reach and read* the dashboards). This section is the
+> short operational counterpart: the three steps that put data *behind* those views —
+> **configure the index target → push the IOC/finding → verify it landed**. The push mechanics
+> (kill switches, mutation tokens, dry‑run defaults, idempotency, Indexer‑outage handling) are
+> NOT duplicated here — see [uc-wazuh-push.md](../06-use-cases/uc-wazuh-push.md). This is the
+> day‑to‑day "do the push, then go read it in §3" loop.
+
+> **How to read these callouts.** Each step shows the same action two ways, side by side:
+> **🖥️ Expert (command)** is the exact MCP call / CLI; **💬 End‑user (prompt)** is the
+> plain‑language question you type into a Claude session that has the Agentropix MCP connected —
+> the session recognises it as an Agentropix capability and routes the named MCP tool for you.
+> Every prompt below maps to a **real** tool from [`.crew/tool-list.md`](../../.crew/tool-list.md)
+> (the 5‑tool *Wazuh SIEM integration* family).
+
+> 🛑 **Denylist (these stay manual — autonomy never auto‑confirms them).** A **live** Wazuh write
+> is a Hard‑Stop: it needs **all four** kill switches flipped (`WAZUH_INTEGRATION_ENABLED=true`,
+> `WAZUH_PUSH_ENABLED=true`, `WAZUH_DRY_RUN_ONLY=false`,
+> `AGENTROPIX_INTEGRATION_NOT_PRODUCTION=true`) **plus** a valid one‑shot `mutation_token`
+> (`egt_<ULID>`). The two write tools are marked **[MUT]** in the tool list. Without `dry_run=false`
+> **and** a fresh token the call **fails closed** (returns a structured `error` naming the missing
+> flag — never a silent pass). Findings you index should already be **APPROVED**
+> (see [uc-approval-gate.md](../06-use-cases/uc-approval-gate.md)). **Default for these prompts is
+> a dry‑run preview**; an end‑user prompt alone can never trigger a live write.
+
+> **Placeholders.** Substitute your deployment's real values for `<WAZUH-MANAGER-URL>` (Manager
+> API, `:55000`), `<WAZUH-INDEXER-URL>` (Indexer, `:9200`), the target index pattern
+> `agentropix-findings-*`, and the token `egt_<ULID>`. Never paste a real token, password, or raw
+> internal IP into a ticket, chat, or this doc — the token is one‑shot and sourced from
+> `AGENTROPIX_MUTATION_TOKEN`, never a CLI flag.
+
+### Step 1 — Configure the index target (dry‑run preview)
+
+Confirm *where* findings will land and *what they'll look like* before any write. A dry‑run of
+`wazuh_index_findings` computes the would‑be‑indexed shape (including per‑doc HMAC seals) against
+the date‑suffixed `agentropix-findings-*` pattern **without** touching the Indexer — this is how
+you validate the target index and connectivity safely.
+
+> **🖥️ Expert (MCP call):**
+> ```text
+> wazuh_index_findings { "case_id":"CFReDS-Hacking",
+>                        "findings":[ { "finding_id":"F-0001" } ],
+>                        "index":"agentropix-findings-*",
+>                        "dry_run":true }
+> ```
+> **💬 End‑user (prompt):** *"Do a dry‑run of indexing this case's findings into Wazuh — show me
+> which index they'd go to and what each sealed document would look like. Don't write anything yet."*
+> The session calls `wazuh_index_findings` with `dry_run=true` and reports the target index, the
+> would‑be `indexed_count` / `batch_count`, and that nothing was written.
+
+**Execution A → Output A.**
+
+*Execution A:* `wazuh_index_findings` with `dry_run=true` (as above) — no `mutation_token` needed
+for a preview.
+
+*Output A (preview, nothing written):*
+- `dry_run: true`
+- `index: agentropix-findings-2026.06.05` (resolved from the `agentropix-findings-*` template, UTC date)
+- `indexed_count: 1`, `indexed_failed_count: 0`, `batch_count: 1`
+- `index_template_installed_this_run: false`
+- `outcome: dry_run`, plus a fresh `run_id`
+
+> 🟢 **In plain terms:** this proves the index target and the sealed‑document shape are correct.
+> Nothing reached the dashboard yet — that's Step 2.
+
+### Step 2 — Push the IOC / finding (the live write)
+
+Two write tools cover the two payload kinds. **Findings → alerts** go through
+`wazuh_index_findings`; **IOCs → CDB lists + rules** go through `wazuh_publish_iocs` (which loads
+`MASTER-IOCS.json` from the case directory, classifies each IOC Tier‑1/2/3, validates through
+**Thymus STRICT**, and PUTs CDB lists + rules with one coalesced Manager restart). Both are
+**[MUT]** and require `dry_run=false` **plus** a valid `mutation_token` — the denylist gate above.
+The IOC publish is **idempotent** (`skipped_idempotent`), so a retry after a partial failure is
+safe; pass the whole `case_dir` once rather than looping per‑IOC.
+
+> **🖥️ Expert (MCP call — findings → alerts):**
+> ```text
+> wazuh_index_findings { "case_id":"CFReDS-Hacking",
+>                        "findings":[ { "finding_id":"F-0001" } ],
+>                        "index":"agentropix-findings-*",
+>                        "dry_run":false,
+>                        "mutation_token":"egt_<ULID>" }
+> ```
+> **🖥️ Expert (MCP call — IOCs → CDB lists + rules):**
+> ```text
+> wazuh_publish_iocs { "case_dir":"/cases/cfreds-hacking",
+>                      "dry_run":false,
+>                      "mutation_token":"egt_<ULID>" }
+> ```
+> **💬 End‑user (prompt):** *"The case findings are APPROVED and the Wazuh write switches are on —
+> push them into Wazuh as alerts and publish the case IOCs to the CDB lists, using my mutation
+> token."*
+> The session calls `wazuh_index_findings` (then `wazuh_publish_iocs`) with `dry_run=false`,
+> spends the one‑shot token, HMAC‑seals each write, and reports the counts + `run_id`. If a switch
+> is off or the token is stale it relays the fail‑closed `error` instead of writing.
+
+**Execution B → Output B.**
+
+*Execution B:* `wazuh_index_findings` with `dry_run=false` + `mutation_token` (as above).
+
+*Output B (live index):*
+- `dry_run: false`, `indexed_count: 1`, `indexed_failed_count: 0`, `batch_count: 1`
+- `index: agentropix-findings-2026.06.05`
+- `outcome: indexed` (a degraded Indexer would instead return `outcome=indexer_outage` with the
+  full result shape — that is **not** an `error`)
+- a `run_id` + per‑doc HMAC seal make the write auditable and tamper‑evident
+
+**Execution C → Output C.**
+
+*Execution C:* `wazuh_publish_iocs` with `dry_run=false` + `mutation_token` (as above).
+
+*Output C (live IOC publish):*
+- `case_id: CFReDS-Hacking`
+- `pushed: 12`, `skipped_tier3: 3`, `skipped_idempotent: 0`, `failed: 0`
+- `restart_pending: true` (one coalesced Manager restart)
+- `dry_run: false`, plus `seal` (HMAC‑SHA256, ADR‑016) and `run_id`; an audit row is appended to
+  `wazuh-audit.jsonl`
+
+> ⚠️ **GOTCHA — fail‑closed, not silent.** If you forget a kill switch or the token is already
+> spent, you get e.g. `{"error":"WAZUH_DRY_RUN_ONLY=true prevents --confirm pushes; set
+> WAZUH_DRY_RUN_ONLY=false to enable writes", "dry_run":false}` and **nothing is written**. Fix the
+> named flag (or mint a fresh token) and re‑run — the idempotent publish makes the retry safe.
+
+### Step 3 — Verify it landed
+
+Two ways to confirm the push reached the SOC: **retro‑hunt the IOC** with `wazuh_hunt_ioc` (queries
+`wazuh-alerts-*` directly), and **open the dashboard** to see the new rows. The dashboard check
+closes the loop back to §3 — the *Findings · total* / *APPROVED* tiles and the
+`approval.status` column update on the next refresh.
+
+> **🖥️ Expert (MCP call):**
+> ```text
+> wazuh_hunt_ioc { "ioc_value":"203.0.113.10",
+>                  "ioc_type":"ip",
+>                  "time_range_hours":2160 }
+> ```
+> **💬 End‑user (prompt):** *"Retro‑hunt this IP across the Wazuh alerts for the last 90 days and
+> tell me if the finding I just pushed is showing up."*
+> The session calls `wazuh_hunt_ioc` against `wazuh-alerts-*` and returns the historical hits for
+> that indicator (a read‑only query — no token, no kill switch needed).
+
+**Execution D → Output D.**
+
+*Execution D:* `wazuh_hunt_ioc` (as above; `time_range_hours=2160` = the default 90‑day lookback).
+
+*Output D (retro‑hunt):*
+- `ioc_value: 203.0.113.10` (a documentation‑reserved placeholder IP), `ioc_type: ip`
+- `hits: <n>` historical matches across `wazuh-alerts-*` within the window
+- `time_range_hours: 2160`, plus a `run_id`
+
+**Then confirm visually:** open the **Agentropix Findings Tab** (§3,
+<https://192.168.2.178/app/dashboards#/view/agentropix-findings-tab> on the live host — substitute
+your `<WAZUH-INDEXER-URL>`/dashboard host) and check the new row in the findings list and the bump
+in the *Findings · total* tile. Set the time range and KQL filter (§7) to your case, e.g.
+`finding_id : "F-0001"`.
+
+> 🟢 **In plain terms:** Step 1 proves the target, Step 2 writes it, Step 3 confirms it — both by
+> retro‑hunt **and** by eyeballing the dashboard you learned to read in §3.
+
+### Usability matrix — the push, four ways
+
+| | **🖥️ Expert (types MCP/CLI)** | **💬 Non‑expert (types a prompt)** |
+| --- | --- | --- |
+| **Preview / dry‑run** (safe, no token) | `wazuh_index_findings { … "dry_run":true }` — read the would‑be shape inline | *"Dry‑run indexing this case's findings into Wazuh — don't write anything."* |
+| **Live write** (denylist: all 4 switches + `mutation_token`) | `wazuh_index_findings`/`wazuh_publish_iocs` with `dry_run":false` + `egt_<ULID>` | *"The switches are on and findings are APPROVED — push them with my mutation token."* |
+| **Verify** (read‑only, no token) | `wazuh_hunt_ioc { … "time_range_hours":2160 }` + open the Findings Tab (§3) | *"Retro‑hunt this IOC over 90 days and tell me if my pushed finding shows up."* |
 
 ---
 

@@ -22,6 +22,15 @@ Each FastMCP route awaits an inner `mcp_*` coroutine and returns its `.model_dum
 2. A **`ToolError`** — the structured error model, returned (not raised) on a handled failure such as a
    rate-limit hit or a validation error (`mcp_server/server.py:186`).
 
+> **Definitions used on this page.** *Envelope* = the JSON object a single tool call returns over the
+> wire (one tool call ⇒ one envelope). *Report* = a per-tool success model carrying that tool's data.
+> *Flat* = fields sit at the top level of the JSON object rather than nested under a `data` /
+> `payload` key. *Soft (or signalled) failure* = a handled failure the tool returns as a normal value
+> (a `ToolError`, a `ToolErrorEnvelope`, or `tool_available=False`) instead of raising — so the run
+> stays deterministic and replayable. The architecture chapter calls these the
+> [two error-envelope contracts](../02-architecture/mcp-server.md#35-the-wrapper-layer-and-the-two-error-envelope-contracts);
+> this page documents the **success** shape and both **error** shapes from the code.
+
 ```python
 # mcp_server/server.py:186
 class ToolError(BaseModel):
@@ -35,6 +44,10 @@ So the *outer discriminator* of every response is "did I get a report or a `Tool
 plain JSON objects after `model_dump()`. The `@traced` decorator records the call either way, tagging
 `exit_code` 0 (ok), 1 (`ToolError` returned), or 2 (exception raised and re-raised)
 (`mcp_server/_trace.py:260-300`).
+
+There is one more error shape — the **`safe_tool` envelope** used by the Wazuh tools — covered in
+[The `safe_tool` flat error envelope](#the-safe_tool-flat-error-envelope) below. It is the *second* of
+the two error-envelope contracts; the `ToolError` model above is the first.
 
 ### Recurring cross-cutting fields (forensic wrapper reports)
 
@@ -132,6 +145,75 @@ A **state-mutating** `record_finding` success (`RecordFindingResult`, `case_reco
 
 ---
 
+## The `safe_tool` flat error envelope
+
+The forensic dispatch core (the `mcp_*` functions in `server.py`) catches expected failures and returns
+a `ToolError` Pydantic model, as shown above. The **Wazuh tools take a different route.** Each Wazuh
+`@app.tool()` callable is wrapped by the `@safe_tool(tool_name=…)` decorator
+(`wrappers/_safe_tool.py`), which catches *any* escaped exception — a Pydantic `ValidationError`, an
+`httpx` HTTP error, a `WazuhError` from the Wazuh manager, an `IndexerError` — and returns a
+**`ToolErrorEnvelope`** instead of letting it crash the agent's iteration. This is the *second* of the
+[two error-envelope contracts](../02-architecture/mcp-server.md#35-the-wrapper-layer-and-the-two-error-envelope-contracts);
+the `ToolError` model is the first. (`safe_tool` is applied e.g. at `wrappers/wazuh_intel.py:55` and
+`wrappers/wazuh_tools.py`.)
+
+`ToolErrorEnvelope` is a thin `dict` subclass (`_safe_tool.py:53`), so on the wire it is a plain JSON
+object — **flat `{error, details}`**, with the tool's own data simply absent on the failure path:
+
+```python
+# wrappers/_safe_tool.py:53 — shape (docstring-verbatim)
+class ToolErrorEnvelope(dict):
+    # {
+    #   "error":   str,          # short error CATEGORY, not a sentence
+    #   "details": {
+    #       "exception_class": str,  # e.g. "WazuhError" / "ValidationError"
+    #       "message":         str,  # str(exc), truncated to 500 chars
+    #       "tool":            str,  # the tool_name passed to safe_tool()
+    #   },
+    # }
+```
+
+A realistic `ToolErrorEnvelope` — `wazuh_check_intel` when the Wazuh manager is unreachable:
+
+```json
+{
+  "error": "wazuh_error",
+  "details": {
+    "exception_class": "WazuhError",
+    "message": "connection refused: indexer at <WAZUH-HOST>:9200",
+    "tool": "wazuh_check_intel"
+  }
+}
+```
+
+Three details make this envelope load-bearing and worth understanding:
+
+- **The `error` field is a stable *category*, not free text.** `_classify_exception` maps known
+  exception types to fixed strings — `validation_error`, `http_error`, `wazuh_error`, `indexer_error`
+  — so a consumer can branch on the category without parsing the human `message` (unknown types fall
+  through to the lower-cased class name). The verbatim exception type stays in `details.exception_class`.
+- **The `message` is truncated to 500 chars** because `str(exc)` can carry a multi-kilobyte indexer
+  response body or sensitive argument values — bounding it keeps the audit row small and avoids leaking
+  bulk data into the trace.
+- **Detection is duck-typed.** A caller checks `isinstance(result, ToolErrorEnvelope)` (the marker
+  subclass) or, equivalently after JSON serialization, simply `"error" in result`. The FastMCP layer
+  uses this to branch success vs failure without parsing the dict shape.
+
+`safe_tool` deliberately does **not** catch `KeyboardInterrupt`, `SystemExit`, or
+`asyncio.CancelledError` (`_NEVER_CATCH`, `_safe_tool.py`) — those are control-flow/shutdown signals
+that must propagate. When a Wazuh tool also uses the WZ-002 retry helper, the retry runs *inside*
+`safe_tool`, so the envelope captures only the **final** outcome after retries are exhausted, never an
+intermediate transient failure.
+
+> **`ToolError` vs `ToolErrorEnvelope` — don't conflate them.** Both are flat JSON error objects, but
+> they are distinct types with distinct shapes. `ToolError` is a Pydantic model with `tool` / `error` /
+> `suggestion` returned by the **forensic dispatch core**. `ToolErrorEnvelope` is a `dict` subclass with
+> `error` / `details{exception_class,message,tool}` returned by the **`@safe_tool`-wrapped Wazuh tools**.
+> A consumer that wants one boolean "did this fail?" check can rely on the shared truth that a present,
+> non-empty `error` key (top-level on both) signals failure.
+
+---
+
 ## Mapping the conceptual envelope to the real fields
 
 The project description names an idealized envelope (`success`, `tool`, `data`, `data_provenance`,
@@ -140,7 +222,7 @@ each maps to what the code actually returns — code wins over the conceptual mo
 
 | Conceptual field | Implemented as | Notes |
 |------------------|----------------|-------|
-| `success` | **Implicit** | No boolean `success` field. Success vs failure is the *type* of the returned model (`ToolError` ⇒ failure) plus `@traced` `exit_code`. Soft failures also surface via `tool_available=False` / non-empty `error`. |
+| `success` | **Implicit** | No boolean `success` field. Success vs failure is the *type* of the returned object (`ToolError` *or* `ToolErrorEnvelope` ⇒ failure) plus `@traced` `exit_code`. Soft failures also surface via `tool_available=False` / a non-empty top-level `error` key (present on both error envelopes). |
 | `tool` | **`tool`** | Real field on wrapper reports (`tool="sleuthkit.fls"` etc.) and on `ToolError.tool`. |
 | `data` | **The report body itself** | Tool data is the report's own typed fields (`processes`, `entries`, `findings`, …), not nested under a `data` key. |
 | `data_provenance` | **`raw_stdout_sha256`** (+ `tool`, `raw_stderr`) | Provenance is the SHA-256 of the binary's raw stdout bytes (SIFT-W-082). No field literally named `data_provenance`. |

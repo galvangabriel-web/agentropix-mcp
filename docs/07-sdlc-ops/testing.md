@@ -5,15 +5,21 @@
 > forensic regression from an infrastructure failure.
 
 The suite holds **4464** collected tests (`pytest --collect-only -q`; see
-[CANONICAL_FACTS](../../.crew/facts.md)). The number is forward-drift-gated: doc lines that
-quote it must cite this fact file, and stale literals (`1270`, `1129`, `1084`, `1073`,
-`3881`, `3899`) are actively rejected by the upstream drift check.
+[CANONICAL_FACTS](../../.crew/facts.md)). The number is **forward-drift-gated** — a CI check
+that fails the build if a doc quotes a test count without citing the canonical fact file, or
+quotes a known-outdated value. Concretely: doc lines that quote the count must cite this fact
+file, and the following **stale literals are actively rejected** by the upstream drift check
+(each is a prior, now-superseded count): `1270`, `1129`, `1084`, `1073` (early drafts) and
+`3881`, `3899` (intermediate corrections). The current canonical value is **4464**; never
+quote any of the rejected literals as if current.
 
 ---
 
 ## 1. Test topology
 
-Tests live under `tests/`, partitioned by the layer they exercise:
+Tests live under `tests/`, partitioned by the layer they exercise. Each suite below is a real
+directory in the oracle repo (`/home/admin2/agentropix-sift/tests/`); the **Path** column is
+the exact on-disk location.
 
 | Suite | Path | What it covers |
 |-------|------|----------------|
@@ -56,15 +62,27 @@ graph TB
     style gated fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
-The fast suites run everywhere with no external prerequisites; the gated suites
-**skip with a self-describing reason** (naming every searched path) when the host lacks the
-fixture, so a missing E01 or an unreachable Wazuh never turns into a false failure.
+Two tiers, distinguished by what the host must provide:
+
+- **Fast / always-run** — mock-based suites with no external prerequisites (`unit/`, `chaos/`,
+  `provenance/`, `evidence_gate/`, `approval_sidecar/`, `secrets_gate/`, `wazuh/unit`). These run
+  everywhere, including CI and the pre-commit hook.
+- **Gated on host capabilities** — suites that need a real fixture: SIFT binaries on PATH (and
+  sometimes a staged [E01](../08-reference/glossary.md) disk image) for `integration/`, a reachable
+  Wazuh deployment for `wazuh_live`, or a real case corpus on disk for `real_corpus`.
+
+The gated suites **skip with a self-describing reason** (naming every searched path) when the host
+lacks the fixture, so a missing E01 or an unreachable Wazuh never turns into a false failure — a
+skip is reported as a skip, not silently passed and not failed.
 
 ---
 
 ## 2. Pytest markers
 
-The markers are declared in `pyproject.toml:74-79` and select the host-dependent tiers:
+A **pytest marker** is a label attached to a test (`@pytest.mark.<name>`) that lets a run select
+or deselect a group of tests — e.g. `pytest -m integration` runs only integration tests, and
+`pytest -m "not integration"` skips them. The markers below are declared in `pyproject.toml:74-79`
+and are what selects the host-dependent (gated) tiers from §1:
 
 | Marker | Meaning |
 |--------|---------|
@@ -91,16 +109,20 @@ correctness gate, not just a lint. Lint is **ruff** with the `E,F,W,I,UP,B,SIM` 
 
 ## 4. The ground-truth E2E recall gate
 
-The deepest correctness signal is the **Trinity Loop recall gate**: it runs the full
-`run_triage()` pipeline against a real SANS E01 image and scores the findings against a
-hand-authored ground-truth file.
+The deepest correctness signal is the **Trinity Loop recall gate**. *Recall* here is the
+standard information-retrieval measure — of the findings a known-answer key says *should* be
+discovered, what fraction did the system actually surface (`hits / total`). The gate runs the
+full `run_triage()` pipeline against a real SANS E01 image and scores its findings against a
+hand-authored **ground-truth file** (the known-answer key: the list of findings a correct run
+must produce, plus the pass threshold).
 
 ### How it scores
 
 `tests/integration/test_e2e_dc_recall.py` runs `run_triage(e01_image, max_iterations=5)`,
 then scores the report's findings against the `expected_findings` and `scoring` blocks of
-`samples/ground_truth_dc.yaml`. The ground-truth YAML is the **single evaluator** — there is
-no second scoring implementation that could drift. Per-finding fingerprints are
+`samples/ground_truth_dc.yaml` (the ground-truth file lives at the repo root under `samples/`).
+The ground-truth YAML is the **single evaluator** — there is no second scoring implementation
+that could drift, so the YAML is the only place the pass criteria are defined. Per-finding fingerprints are
 `SHA-256[:16]` of `(source, description, evidence)`, used **only** for recall scoring (this
 is deliberately *not* the Critic's dedup key, which is an unhashed 4-tuple `frozenset`
 element in `critic.py`). Recall is `hits / total`, compared against

@@ -3,13 +3,25 @@
 > **Section 08 · Reference** — the design-history layer behind the ADRs.
 > Related: [ADR Index](adr-index.md) · [Glossary](glossary.md) · [CLI Reference](cli-reference.md) · [Anti-Hallucination](../05-safety-forensics/anti-hallucination.md) · [Human-in-the-Loop](../05-safety-forensics/human-in-the-loop.md)
 
-The [ADR Index](adr-index.md) **routes** every Architecture Decision Record under
+An **Architecture Decision Record (ADR)** captures one architectural decision
+with its context, the options weighed, and the consequences accepted; once
+accepted an ADR is immutable, and a changed decision is *superseded* by a new ADR
+rather than edited. The [ADR Index](adr-index.md) **routes** every ADR under
 [`docs/adr/`](../../../agentropix-sift/docs/adr/) — title, live status, one-line
 summary. This page is the complementary **rationale layer**: the recurring design
 principles the ADRs share, the hard trade-offs where a real cost was accepted on
 purpose, the approaches that were tried and discarded (with file-and-line
 post-mortems), and the quality bar the codebase enforces. For the ADR-001..024
-table itself, use the index — this page does **not** duplicate it.
+table itself, use the index — this page does **not** duplicate it, and every
+status verdict here is kept in lock-step with the index's live status audit.
+
+> **How to read this page.** Sections 1–3 are the *why* behind the ADRs
+> (principles, trade-offs, dead ends); sections 4–6 are the *quality bar* and a
+> reading guide. Nothing here is operational — there are no commands to run, so
+> there are no operator prompt-boxes; treat it as the design-history companion to
+> the [ADR Index](adr-index.md). Bio-agentic terms (**Thymus**, **Critic**,
+> **Architect**, **Trinity Loop**, **Blackboard**) are defined in the
+> [Glossary](glossary.md) and re-explained inline at first use below.
 
 > **Sourcing.** Numeric claims follow [`.crew/facts.md`](../../.crew/facts.md)
 > (CANONICAL_FACTS). Where the upstream design narrative quoted older figures
@@ -31,7 +43,7 @@ design philosophy. None is a slogan; each is enforced in code or schema.
 |---|-----------|--------------------------|-------------|
 | 1 | **Fail closed, not fail open** | [008](../../../agentropix-sift/docs/adr/ADR-008-safety-architecture.md), [016](../../../agentropix-sift/docs/adr/ADR-016-courtroom-audit.md), [018](../../../agentropix-sift/docs/adr/ADR-018-wazuh-ioc-push.md), [019](../../../agentropix-sift/docs/adr/ADR-019-ar-confirmation-gate.md) | Security ops default to REJECT on doubt; the Thymus read-policy rejects ambiguous paths (broken symlink, unresolvable canonical, missing allowlist entry). |
 | 2 | **Structural invariants over policy-by-convention** | [002](../../../agentropix-sift/docs/adr/ADR-002-execution-engine.md), [008](../../../agentropix-sift/docs/adr/ADR-008-safety-architecture.md), [012](../../../agentropix-sift/docs/adr/ADR-012-extract-files.md), [016](../../../agentropix-sift/docs/adr/ADR-016-courtroom-audit.md) | The architecture forces correct behaviour rather than recommending it: there is no write tool to call, and the evidence SHA-256 is baked into the report schema, not optional. |
-| 3 | **Deterministic control points over LLM-driven loops** | [002](../../../agentropix-sift/docs/adr/ADR-002-execution-engine.md), [008](../../../agentropix-sift/docs/adr/ADR-008-safety-architecture.md), [009](../../../agentropix-sift/docs/adr/ADR-009-task-router.md) | Halt detection (Critic fingerprint), task routing, and safety constraints are computational; operators tune via `AGENTROPIX_*` env vars, not prompt heuristics. |
+| 3 | **Deterministic control points over LLM-driven loops** | [002](../../../agentropix-sift/docs/adr/ADR-002-execution-engine.md), [008](../../../agentropix-sift/docs/adr/ADR-008-safety-architecture.md), [009](../../../agentropix-sift/docs/adr/ADR-009-task-router.md) | Halt detection (the *Critic fingerprint* — a computed score over the findings, not the LLM rating itself), task routing, and safety constraints are computational; operators tune via `AGENTROPIX_*` env vars, not prompt heuristics. |
 | 4 | **Evidence-readonly is non-negotiable** | [002](../../../agentropix-sift/docs/adr/ADR-002-execution-engine.md), [011](../../../agentropix-sift/docs/adr/ADR-011-evidence-gates.md), [012](../../../agentropix-sift/docs/adr/ADR-012-extract-files.md), [016](../../../agentropix-sift/docs/adr/ADR-016-courtroom-audit.md), [017](../../../agentropix-sift/docs/adr/ADR-017-tailnet-mcp-exposure.md), [020](../../../agentropix-sift/docs/adr/ADR-020-credential-lifecycle.md) | Extract writes to a session tmpdir, never to evidence; secrets never enter git; the read-only invariant threads through every MCP wrapper. |
 | 5 | **Thin index + load-on-demand context** | [015](../../../agentropix-sift/docs/adr/ADR-015-context-engineering.md), [006](../../../agentropix-sift/docs/adr/ADR-006-memory-system.md), [023](../../../agentropix-sift/docs/adr/ADR-023-pilot-feedback-pipeline.md) | Session starts with a thin `CLAUDE.md` index; skills, domains, and memories load only when triggered, preserving cache hit-rate and bounding cost-per-token. |
 
@@ -61,15 +73,19 @@ this ADR (`docs/SIFT-WEAKNESSES.md`).
 
 ### Trade-off 2 — Multi-iteration accuracy vs Blackboard growth (W-029 / W-040)
 
-The multi-iteration Trinity Loop is the project's single most impactful
-capability, but iterating against real disks grows the Blackboard finding count
-iteration-over-iteration. The loop was deliberately enabled anyway:
+The multi-iteration **Trinity Loop** (the Architect→Swarm→Critic cycle that
+re-runs until the Critic halts) is the project's single most impactful
+capability, but iterating against real disks grows the **Blackboard** — the
+shared, append-only store of findings the agents write to — iteration over
+iteration. The loop was deliberately enabled anyway:
 **W-029 RESOLVED** (Trinity Loop wired and functional) and **W-040 RESOLVED**
 (`docs/SIFT-WEAKNESSES.md`). W-040's documented root cause was Critic-score
 saturation — `ArtifactAgent` always emitted a chain-of-custody finding at
 `confidence=1.0`, so `score = min(1.0, max_conf + 0.25·len(correlations))`
 saturated at `1.0 ≥ halt_threshold=0.85` and Trinity halted after exactly one
-iteration on any E01. The fix lowered the chain-of-custody confidence to `0.5`
+iteration on any E01 (an `.E01` is an EnCase Expert Witness forensic disk image
+— the read-only evidence format the wrappers operate on). The fix lowered the
+chain-of-custody confidence to `0.5`
 via `AGENTROPIX_ARTIFACT_COC_CONFIDENCE`, so the loop survives past iteration 1.
 The accepted residual cost — unbounded Blackboard growth and the Critic's
 correlation re-scan becoming latency-bound at high finding counts — is a
@@ -158,7 +174,9 @@ reviewer could swap the JSONL post-run: the report seal would catch a report
 swap, but the JSONL swap slipped through silently — the "residual 3%" gap the
 2026-05-06 SANS rubric re-grade flagged on Forensic Soundness. **Replacement:**
 [ADR-022](../../../agentropix-sift/docs/adr/ADR-022-audit-log-seal.md) adds an
-independent HMAC seal over the audit log under the same per-run session key and
+independent **HMAC** seal — a keyed hash (HMAC-SHA256) that lets anyone holding
+the key detect any byte change — over the audit log under the same per-run
+session key and
 **cross-binds** `audit_log_seal` into the report before the report seal is
 computed (three new helpers in `courtroom.py`). Tracked as **W-091 RESOLVED**
 (`docs/SIFT-WEAKNESSES.md`).

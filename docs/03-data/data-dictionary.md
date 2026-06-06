@@ -85,7 +85,7 @@ Wire-required keys (`report.schema.json:34`): `_source`, `confidence`, `descript
 and then drops `evidence_dict`, `file_sha256`, and `agent` when each is empty/blank, preserving wire
 parity for legacy consumers and fixtures.
 
-**`Finding.now()` (`_base.py:90`)** — static helper returning `datetime.now(UTC).isoformat()` for
+**`Finding.now()` (`_base.py:91`)** — static helper returning `datetime.now(UTC).isoformat()` for
 stamping `timestamp`.
 
 ---
@@ -94,7 +94,7 @@ stamping `timestamp`.
 
 Pydantic `BaseModel` at `src/agentropix_sift/agents/_blackboard.py:65`. Produced by
 `Blackboard.correlations()` for every token appearing in ≥ `quorum_threshold` distinct agents'
-evidence (default quorum 2 — [`CANONICAL_FACTS.md`](../../.crew/facts.md), `_blackboard.py:90`).
+evidence (default quorum 2 — [`CANONICAL_FACTS.md`](../../.crew/facts.md), `_blackboard.py:86`).
 
 | Field | Type | Required | Semantics / constraint | Source |
 |-------|------|----------|------------------------|--------|
@@ -104,7 +104,8 @@ evidence (default quorum 2 — [`CANONICAL_FACTS.md`](../../.crew/facts.md), `_b
 | `max_confidence` | float | yes | Highest `confidence` among the backing findings. | `_blackboard.py:71`, `:127` |
 
 The `Blackboard` itself is a class (not a model) — an asyncio-locked `list[tuple[str, Finding]]`
-behind `self._lock`, with `quorum_threshold` defaulting to 2 and validated `>= 2` (`_blackboard.py:90`).
+behind `self._lock`, with `quorum_threshold` defaulting to 2 (`_blackboard.py:86`) and validated
+`>= 2` (`_blackboard.py:90`).
 Correlation results are sorted `(-max_confidence, token)` for diff-stability (`_blackboard.py:130`).
 
 ---
@@ -176,18 +177,18 @@ serialised entry is constrained by `report.schema.json:104`.
 
 The Thymus read-only access trail copied into the report. Items are
 `dict[str, str]` (`orchestrator.py:58`); each entry is built by `ThymusEvidencePolicy._log`
-(`thymus_policy.py:371`).
+(`mcp_server/thymus_policy.py:371`).
 
 | Field | Type | Required | Semantics | Source |
 |-------|------|----------|-----------|--------|
-| `timestamp` | string | no | ISO-8601 of the access decision. | `report.schema.json:95`; `thymus_policy.py:373` |
-| `action` | string | no | `ALLOW` or a denial action. | `report.schema.json:96`; `thymus_policy.py:374` |
-| `path` | string | no | The evidence path that was checked. | `report.schema.json:97`; `thymus_policy.py:375` |
-| `reason` | string | no | Why the access was allowed/denied. | `report.schema.json:98`; `thymus_policy.py:376` |
+| `timestamp` | string | no | ISO-8601 of the access decision. | `report.schema.json:95`; `mcp_server/thymus_policy.py:373` |
+| `action` | string | no | `ALLOW` or a denial action. | `report.schema.json:96`; `mcp_server/thymus_policy.py:374` |
+| `path` | string | no | The evidence path that was checked. | `report.schema.json:97`; `mcp_server/thymus_policy.py:375` |
+| `reason` | string | no | Why the access was allowed/denied. | `report.schema.json:98`; `mcp_server/thymus_policy.py:376` |
 
 The same entry is appended to an in-memory ring (`AGENTROPIX_THYMUS_AUDIT_LOG_RING_SIZE`, default
 1000) and, when `AGENTROPIX_AUDIT_LOG` is set, written as a JSONL line to disk — the chain-of-custody
-trail of record (`thymus_policy.py:382`). See
+trail of record (`mcp_server/thymus_policy.py:382`). See
 [persisted-artifacts.md §thymus-jsonl](persisted-artifacts.md#thymus-jsonl-audit-log).
 
 ---
@@ -209,7 +210,7 @@ Pydantic `BaseModel` at `src/agentropix_sift/memory/hippocampus_bridge.py:54`,
 | `critique` | str | no | `""` | The Critic's score + feedback. | `hippocampus_bridge.py:67` |
 | `fitness_score` | float | no | `0.0` | `ge=0.0, le=1.0`. | `hippocampus_bridge.py:68` |
 | `created_at` | datetime | no | `now(UTC)` | Creation time. | `hippocampus_bridge.py:69` |
-| `content_hash` (property) | str | derived | — | `SHA-256(f"{goal}:{iteration}:{','.join(plan)}")[:16]` for dedup. `iteration` is part of the hash so iter-2 of the same (goal, plan) is not deduped against iter-1. | `hippocampus_bridge.py:73`, `:85` |
+| `content_hash` (property) | str | derived | — | `SHA-256(f"{goal}:{iteration}:{','.join(plan)}")[:16]` for dedup. `iteration` is part of the hash so iter-2 of the same (goal, plan) is not deduped against iter-1. | `hippocampus_bridge.py:74`, `:85` |
 
 > **Persistence note.** `HippocampusBridge` uses an **in-memory list** as its backing store
 > (`hippocampus_bridge.py:108`); traces do **not** survive process exit on their own. The durable
@@ -226,7 +227,7 @@ One row in the SQLite-backed mutation-token registry (`TokenRegistry`,
 
 | Field | Type | Required | Semantics / constraint | Source |
 |-------|------|----------|------------------------|--------|
-| `token_id` | str | yes | Token id, prefix `egt_…`. | `registry.py:113` |
+| `token_id` | str | yes | Token id, prefix `egt_…`. | `registry.py:115` |
 | `scope` | str | yes | Authorised mutation scope. | `registry.py` |
 | `created_ts` | float | yes | Mint time (epoch seconds). | `registry.py` |
 | `ttl_seconds` | int | yes | Time-to-live. | `registry.py` |
@@ -312,7 +313,8 @@ Source: `src/agentropix_sift/wazuh/models.py`. Provenance is first-class (WZ-019
 | `analyst` | str | yes | min 1, max 128 |
 
 When `AGENTROPIX_REQUIRE_IOC_PROVENANCE` is set, an IOC record built without `IOCProvenance` raises
-`ProvenanceMissingError` (`wazuh/models.py:178`).
+`ProvenanceMissingError` (the exception type is defined at `wazuh/models.py:178`; the gate that
+raises it fires in `wazuh/orchestrator.py:1269`, before any OpenSearch PUT).
 
 ### IOC record classes (all extend `_IOCBase`, carry an `IOCProvenance`)
 
@@ -427,7 +429,7 @@ returns either its own typed success payload (a Pydantic model dump or dict — 
 
 A tool returns a `ToolError` for rate-limit rejections (`server.py:1048`) and caught exceptions
 (`server.py:1053`) rather than raising, so the trace/report stays well-formed. See
-[data-models.md §envelope](data-models.md#the-mcp-tool-envelope) for the success/error dichotomy.
+[data-models.md §envelope](data-models.md#5-the-mcp-tool-envelope) for the success/error dichotomy.
 
 ---
 

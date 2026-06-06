@@ -9,7 +9,7 @@
 
 The driver is `run_triage()` in `src/agentropix_sift/orchestrator.py`; the two Trinity
 roles are `Architect` (`trinity/architect.py`) and `Critic` (`trinity/critic.py`). The
-shared mutable state is the [Blackboard](swarm-agents.md#the-blackboard).
+shared mutable state is the [Blackboard](swarm-agents.md#5-the-blackboard).
 
 ---
 
@@ -49,7 +49,7 @@ iterates from 1 to `max_iterations` (default 5; `orchestrator.py:82`). Each iter
 
 1. **Architect plans** the swarm slice for this pass.
 2. **Each agent runs** in canonical order, publishing `Finding`s to the Blackboard inside a
-   fresh per-agent [trace scope](mcp-server.md#tool-tracing) so its MCP tool calls are
+   fresh per-agent [trace scope](mcp-server.md#5-tool-tracing) so its MCP tool calls are
    captured (`orchestrator.py:175-222`).
 3. **The Critic scores** the Blackboard and returns a `TrinityResult`.
 4. If `should_halt`, the loop breaks with `status = "complete"`; otherwise it continues
@@ -60,7 +60,7 @@ After the loop, findings are deduplicated by `(source, description, evidence)` f
 and rolled into a schema-compliant [`TriageReport`](../03-data/) along with the full trace,
 the Thymus audit trail, the per-iteration `iterations[]` log, and the
 `completion_proofs` tokens. The CLI seals the final document on write
-(see [sequence-diagrams.md](sequence-diagrams.md#3-finding--provenance--courtroom-seal)).
+(see [sequence-diagrams.md](sequence-diagrams.md#3-finding--provenance-classification--courtroom-seal)).
 
 ---
 
@@ -70,7 +70,7 @@ The Architect (`trinity/architect.py:146`) is a **deterministic planner, not an 
 default**. Its baseline behaviour is simply *"return the canonical `SWARM` tuple in priority
 order"* — and because the canonical order already puts `HuntAgent` last, the run-last
 invariant comes for free (`architect.py` docstring; see
-[swarm-agents.md](swarm-agents.md#run-order-why-huntagent-is-last)).
+[swarm-agents.md](swarm-agents.md#4-run-order--why-huntagent-is-last)).
 
 On top of that baseline sits one default-on optimisation and one default-off escape hatch:
 
@@ -109,7 +109,7 @@ score = min(1.0, max_confidence + 0.25 * len(correlations))
 
 - `max_confidence` — the highest per-finding confidence currently on the Blackboard.
 - `len(correlations)` — the number of cross-agent correlations the Blackboard's quorum
-  surfaces (see [the Blackboard](swarm-agents.md#the-blackboard)); each adds `0.25`
+  surfaces (see [the Blackboard](swarm-agents.md#5-the-blackboard)); each adds `0.25`
   (`_CORRELATION_WEIGHT`), capped at 1.0.
 
 The score feeds a `TrinityResult` NamedTuple

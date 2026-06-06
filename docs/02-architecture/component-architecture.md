@@ -10,6 +10,28 @@ packages** (two asset/stub-only: `chromosomes`, `benchmarks`) plus **4 top-level
 (`orchestrator.py`, `courtroom.py`, `cli.py`, `secrets.py`) — see
 `docs/architecture/_C4-COMPONENT.md` and [module-map.md](../../.crew/module-map.md).
 
+**Key terms used on this page (defined here on first mention).** The diagrams below name a
+handful of architectural concepts; each is defined once here and detailed on its own page:
+
+- **Trinity Loop** — the deterministic orchestration engine: **Architect** (plans which tools
+  to run) → **Swarm** (runs them) → **Critic** (scores findings and decides whether to halt).
+  Pure Python, no RNG, no LLM. Code: `trinity/`, `orchestrator.py` →
+  [trinity-loop.md](trinity-loop.md).
+- **Swarm** — the set of `SwarmAgent` specialists (Memory, Timeline, Filesystem, Artifact,
+  Discovery, Mail, Hunt — the 7 core specialists) plus the deterministic ATT&CK detector
+  agents. Code: `agents/`, `detectors/` → [swarm-agents.md](swarm-agents.md).
+- **Blackboard** — the shared in-memory store where every Swarm agent publishes its `Finding`s
+  and reads others', with a **quorum threshold** (default 2) for correlation. Code:
+  `agents/_blackboard.py`.
+- **Thymus** — the read-only evidence-access policy: a path allow-list plus
+  symlink/traversal screen that gates every code path which reads an evidence path. Code:
+  `mcp_server/thymus_policy.py` → [mcp-server.md](mcp-server.md#4-thymus--the-read-only-evidence-boundary).
+- **Critic** — the deterministic scorer inside the Trinity Loop; halts iteration once the
+  confidence score crosses the halt threshold (default `0.85`). Code: `trinity/critic.py`.
+- **FastMCP** — the single Model Context Protocol (MCP) server process that exposes the
+  **71** forensic tools to MCP clients over a bearer token. Code: `mcp_server/` →
+  [mcp-server.md](mcp-server.md).
+
 ---
 
 ## 1. Component diagram (C4 — Level 3)
@@ -100,7 +122,7 @@ flowchart LR
 
 - **API surface** (blue) — the two ways in (`cli.py`, `mcp_server`) plus the optional
   `approval_sidecar`. Both live inside the tailnet boundary (ADR-017).
-- **Runtime** (green) — the deterministic engine: the orchestrator and Trinity loop, the
+- **Runtime** (green) — the deterministic engine: the orchestrator and Trinity Loop, the
   Swarm agents and ATT&CK detectors, the forensic wrappers, plus the supporting `imaging`,
   `memory`, `schema`, and `reports` packages.
 - **Safety spine** (red) — `thymus_policy` (read-only boundary), `courtroom`
@@ -112,7 +134,7 @@ flowchart LR
 The two key edges to internalise: **the wrappers are the only code that touches the SIFT
 binaries**, and **everything that reads a path goes through Thymus** — both `mcp_server`
 (at dispatch) and the wrappers (before subprocess). See
-[mcp-server.md](mcp-server.md#thymus-the-read-only-evidence-boundary) for why the check
+[mcp-server.md](mcp-server.md#4-thymus--the-read-only-evidence-boundary) for why the check
 runs in both places.
 
 ---
@@ -199,7 +221,7 @@ disable (`docs/MCP-REQUEST-FLOW.md`, "Security model in one sentence").
 | `mcp_server/` | FastMCP server, 71 tools, Thymus, trace, config | [mcp-server.md](mcp-server.md) |
 | `mcp_server/wrappers/` | ~40 forensic drivers over the 16 SIFT binaries + EZ-Tools | [module-map.md](../../.crew/module-map.md) |
 | `agents/` | DFIR Swarm + Blackboard | [swarm-agents.md](swarm-agents.md) |
-| `detectors/` | Deterministic ATT&CK detector agents | [swarm-agents.md](swarm-agents.md#attck-detector-agents) |
+| `detectors/` | Deterministic ATT&CK detector agents | [swarm-agents.md](swarm-agents.md#3-attck-detector-agents) |
 | `trinity/` | Architect + Critic | [trinity-loop.md](trinity-loop.md) |
 | `orchestrator.py` | `run_triage()` — drives the Swarm under Trinity | [trinity-loop.md](trinity-loop.md) |
 | `courtroom.py` | Evidence hash + HMAC seal | `courtroom.py` |

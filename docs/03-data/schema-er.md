@@ -9,9 +9,56 @@ A triage run produces a small constellation of related records. Some are embedde
 document (a `TriageReport` owns its `Finding`s, `ToolCall`s, and `ThymusAuditEntry`s); others are
 peer files cross-bound by HMAC (the audit-log and the session key); still others are independent,
 durable stores (the evidence-gate SQLite registry, the approval hash-chain, the Wazuh IOC inventory).
-The ER diagram below treats each as a logical entity regardless of whether it is an embedded array, a
+The ER diagram below treats each as a logical **entity** regardless of whether it is an embedded array, a
 sidecar file, or a database row — the relationships are what matter for an examiner reconstructing a
 case.
+
+### How to read this page
+
+This is a **reference** chapter, not a how-to: it has no commands or prompts, only the entity model.
+Three terms recur throughout, defined once here:
+
+- **Entity** — a logical record type (a box in the diagram). It may physically be an *embedded array
+  element* inside the report JSON (e.g. a `FINDING`), a *sidecar file* written next to the report
+  (e.g. the `SESSION_KEY`), or a *row* in a standalone database (e.g. a `MUTATION_TOKEN` in the
+  SQLite evidence-gate registry). The ER model abstracts over the storage form.
+- **Relationship** — a named, directed link between two entities (the line connecting two boxes,
+  e.g. *contains*, *sealed-by*, *hash-chains-to-prev*).
+- **Cardinality** — how many instances of each entity participate in a relationship, drawn with
+  crow's-foot notation. The notation is defined in the legend immediately below; read it before the
+  diagram so the symbols on each line are unambiguous.
+
+### Cardinality notation (crow's-foot key)
+
+Mermaid `erDiagram` writes cardinality as a two-character marker at *each end* of the relationship
+line. The marker nearest an entity describes that entity's participation. Read a line as
+`LEFT  <left-marker>--<right-marker>  RIGHT : "relationship"`.
+
+| Marker | Reads as | Meaning |
+|--------|----------|---------|
+| `\|\|` | exactly one | mandatory, exactly 1 (one-and-only-one) |
+| `o\|` | zero or one | optional, at most 1 |
+| `}o` / `o{` | zero or more | optional, 0..* (the crow's foot = "many") |
+| `}\|` / `\|{` | one or more | mandatory, 1..* |
+
+> *(In the markers above and the patterns below, each `\|` is a single literal pipe character — the
+> backslash is Markdown escaping so the table renders; in the diagram source the bars appear plain,
+> e.g. `||--o{`.)*
+
+Combining the two ends gives the full reading. The five patterns used in this diagram:
+
+| Pattern | Reads as | Example on the diagram |
+|---------|----------|------------------------|
+| `\|\|--\|\|` | one-to-one (both mandatory) | `TRIAGE_REPORT \|\|--\|\| TRACE` — every report embeds exactly one trace |
+| `\|\|--o{` | one-to-many | `TRIAGE_REPORT \|\|--o{ FINDING` — one report, zero-or-more findings |
+| `\|\|--o\|` | one-to-zero-or-one | `FINDING \|\|--o\| EVIDENCE_PAYLOAD` — a finding optionally hashes one payload |
+| `}o--o{` | many-to-many | `FINDING }o--o{ CORRELATION` — each side may relate to many of the other |
+| `}o--\|\|` | many-to-one | `IOC_RECORD }o--\|\| IOC_PROVENANCE` — many IOCs could share one provenance shape; here each carries exactly one |
+
+> **Direction note.** The verb label reads left-to-right (`A contains B`). The crow's foot is the
+> "many" end; the double bar `||` is the "exactly one" end. The full cardinality of each relationship
+> — with its enforcing invariant and source file — is tabulated in
+> [Relationship invariants summary](#relationship-invariants-summary) at the foot of this page.
 
 ---
 
@@ -141,9 +188,12 @@ entity hangs off this root or is referenced by it. Detail:
 A finding has no identity outside its report — it is an embedded array element
 (`report.findings[]`, `_base.py:40`). Cardinality `||--o{`: a report contains zero-or-more findings.
 A finding may *back* one or more `CORRELATION`s (many-to-many — one token can be backed by findings
-from several agents, and one finding can contribute several tokens, `_blackboard.py:108`). A finding
+from several agents, and one finding can contribute several tokens, `_blackboard.py:108`; quorum is
+≥ 2 distinct agents per correlated token, `_blackboard.py:86`). A finding
 optionally *hashes* an `EVIDENCE_PAYLOAD` via `file_sha256` (zero-or-one — present only when a byte
-payload was captured, `_base.py:64`).
+payload was captured, `_base.py:64`). Field detail:
+[finding — data-dictionary §2](data-dictionary.md#2-finding--the-wire-finding-object);
+[correlation — data-dictionary §3](data-dictionary.md#3-correlation--cross-agent-agreement-on-one-token).
 
 ### `TRACE` and `TOOL_CALL` — the deterministic-provenance record
 
@@ -151,6 +201,7 @@ Exactly one `TRACE` is embedded per report (`||--||`), and it *records* zero-or-
 (`report.schema.json:56`). The trace is the heart of the `inference_constraint = "high"` invariant:
 every fact in `findings` must trace to a named tool here, replayable via each call's `raw_output`
 snapshot (default 4 KiB, `AGENTROPIX_TRACE_RAW_MAX_BYTES`). `args_hash` makes a call reproducible.
+Field detail: [data-dictionary §5](data-dictionary.md#5-trace--the-tool-call-trace).
 
 ### `THYMUS_AUDIT_ENTRY` — the chain-of-custody trail
 
@@ -158,7 +209,8 @@ An access-decision record built by the Thymus read-only policy (`thymus_policy.p
 entry is embedded in `report.thymus_audit[]` **and** snapshotted into the sealed `AUDIT_LOG_FILE` —
 hence the two relationships in the diagram (`TRIAGE_REPORT ||--o{` and `AUDIT_LOG_FILE ||--o{`). When
 `AGENTROPIX_AUDIT_LOG` is set, each entry is also appended live as a JSONL line — the trail of record
-(`thymus_policy.py:382`).
+(`thymus_policy.py:382`). Field detail:
+[data-dictionary §6](data-dictionary.md#6-thymus_audit-entry).
 
 ### `TRINITY_ITERATION` — the reasoning trail
 
@@ -166,6 +218,7 @@ One embedded entry per Trinity iteration (`report.iterations[]`, serialised `Tri
 `critic.py:47`). Records the plan, Critic score, and halt decision for each Architect → Swarm → Critic
 pass — the durable form of the otherwise-ephemeral Hippocampus `ReasoningTrace`
 (see [persisted-artifacts.md §hippocampus](persisted-artifacts.md#hippocampus-reasoning-traces)).
+Field detail: [data-dictionary §4](data-dictionary.md#4-iterations-entry--per-iteration-trinityresult-json).
 
 ### `SESSION_KEY` and `AUDIT_LOG_FILE` — the seal cross-binding
 
@@ -187,6 +240,7 @@ how an IOC pushed to a SIEM remains traceable back to the exact evidence bytes.
 A one-shot, TTL-bounded token in the SQLite evidence-gate registry (`TokenRow`, `registry.py:113`).
 The relationship to a run is sparse (`}o--o|`): most runs are pure read-only triage and spend no
 token; a mutating operation *authorises-run* by spending exactly one token, stamping `spent_run_id`.
+Field detail: [data-dictionary §8](data-dictionary.md#8-tokenrow--evidence-gate-mutation-token).
 
 ### `IOC_RECORD` and `IOC_PROVENANCE` — the SIEM-bound intelligence
 
@@ -194,7 +248,8 @@ Each IOC record (the `IPIOCRecord` / `SHA256IOCRecord` / … family, `wazuh/mode
 exactly one `IOC_PROVENANCE` (`||`) — provenance is first-class (WZ-019). Without it, when
 `AGENTROPIX_REQUIRE_IOC_PROVENANCE` is set, construction raises `ProvenanceMissingError`
 (`wazuh/models.py:178`). Provenance pins `source_evidence_sha256`, `extraction_tool`, and `analyst`,
-linking the IOC back to the `EVIDENCE_IMAGE`.
+linking the IOC back to the `EVIDENCE_IMAGE`. Field detail:
+[data-dictionary §10](data-dictionary.md#10-wazuh-ioc-record-family).
 
 ### `APPROVAL_ENTRY` — the human-in-the-loop hash chain
 

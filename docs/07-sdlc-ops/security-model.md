@@ -7,9 +7,21 @@
 The guiding principle is **architectural, not advisory**: the agent cannot write to evidence
 because no MCP tool exposes a write operation. Every other control (Thymus, the SHA-256
 evidence invariant, the HMAC courtroom seal) is defense-in-depth layered on top of that
-structural impossibility. For the crypto seal mechanics see the
-[safety & forensics section](../05-safety-forensics/); for the evidence-gate mutation tokens
-see [implementation](implementation.md#evidence_gate--mutation-token-regime).
+structural impossibility. For the crypto seal mechanics see
+[audit & courtroom](../05-safety-forensics/audit-courtroom.md) and
+[provenance & grounding](../05-safety-forensics/provenance-grounding.md); for the
+evidence-gate mutation tokens see
+[implementation](implementation.md#evidence_gate--mutation-token-regime).
+
+> **Terms used on this page.** *Thymus* is the read-only path policy (named for the immune
+> organ that licenses what the body may touch). An *MCP tool* is one of the 71 deterministic
+> functions the agent calls; the agent never runs raw shell. A *wrapper* is the Python module
+> that drives an underlying SIFT forensic binary behind an MCP tool. A *denylist* is an
+> explicit set of inputs that are refused. *Redaction* replaces a secret with a stable
+> placeholder. The *courtroom seal* is an HMAC-SHA256 signature binding a report to its
+> evidence. This page is the **rationale and threat model** — the step-by-step how-to for
+> tuning these controls lives in [configuration](configuration.md) and
+> [approval-portal](../05-safety-forensics/approval-portal.md).
 
 ---
 
@@ -52,10 +64,12 @@ at `AGENTROPIX_MAX_AUTO_PREFIXES`, default 50, to prevent prefix explosion).
 `/dev/`, `/proc/`, `/sys/`. Paths over `_PATH_MAX_BYTES` (4096) are rejected with a typed
 REJECT rather than letting the OS raise `ENAMETOOLONG` inside a wrapper (SIFT-W-109).
 
-**Audit trail** — every ALLOW/REJECT is recorded. The in-memory copy is a *bounded ring*
-(default 1000, `AGENTROPIX_THYMUS_AUDIT_LOG_RING_SIZE`, floor 100 / ceiling 100000) serving
-the `audit_log` inspection helper; the **on-disk JSONL** (`AGENTROPIX_AUDIT_LOG` /
-`AGENTROPIX_AUDIT_LOG_DIR`) is the chain-of-custody source of truth.
+**Audit trail** — every ALLOW/REJECT decision is recorded twice, by design. The in-memory copy
+is a *bounded ring* (a fixed-size circular buffer that overwrites its oldest entries; default
+1000, `AGENTROPIX_THYMUS_AUDIT_LOG_RING_SIZE`, floor 100 / ceiling 100000) that backs the
+`audit_log` inspection helper for live introspection. The **on-disk JSONL** (one JSON object
+per line, written to `AGENTROPIX_AUDIT_LOG` / `AGENTROPIX_AUDIT_LOG_DIR`) is the durable
+chain-of-custody source of truth — the ring is for inspection, the JSONL is for the record.
 
 ---
 
@@ -90,9 +104,11 @@ so the aggregator aborts rather than emitting unredacted output. It is also DoS-
 `MAX_DEPTH = 32` (recursion/cycle guard), `MAX_VALUE_BYTES = 1 MB` per scalar (oversize →
 `[REDACTED-OVERSIZE-<tag>]`, graceful), and `MAX_REGEX_INPUT_BYTES = 64 KiB` (ReDoS guard
 when the timeout-capable `regex` package is unavailable). The 16-hex tag is a deliberate fix
-from a round-4 review: a full SHA-256 of a low-entropy value is preimage-recoverable, so no
-`raw_sha256` field is ever emitted. The redactor key is **separate** from the MASTER-IOCS
-signer key (`AGENTROPIX_MASTER_IOCS_HMAC_KEY`).
+from a round-4 review: a full SHA-256 of a low-entropy value (a short password, a username) can be brute-forced back
+to its input by an attacker who hashes guesses until one matches, so no `raw_sha256` field is
+ever emitted — only the truncated, key-salted 16-hex tag. The redactor key is deliberately
+**separate** from the MASTER-IOCS signer key (`AGENTROPIX_MASTER_IOCS_HMAC_KEY`, which signs
+the promoted-indicator manifest): compromising one key never weakens the other.
 
 Secret *sourcing* prefers the file-pointer form over inline values (e.g.
 `AGENTROPIX_TELEGRAM_TOKEN_FILE` > `AGENTROPIX_TELEGRAM_TOKEN` > legacy
@@ -114,6 +130,12 @@ by default and uses PBKDF2 (`600000` iterations) over per-examiner salts.
 ---
 
 ## 5. Threat model — defends / does NOT defend
+
+An honest security model states its boundaries as plainly as its protections. The two columns
+below are independent lists — the connectors between boxes are layout only (they carry no flow
+or ordering); read each box on its own. The green column is what the architecture stops; the
+red column is what it does **not**, and why no control on this page should be read as covering
+those cases.
 
 ```mermaid
 graph TB

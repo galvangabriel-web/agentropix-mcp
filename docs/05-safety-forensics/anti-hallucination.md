@@ -9,8 +9,10 @@ A forensic triage engine that an examiner cannot trust is worse than no engine
 at all. Agentropix-SIFT is built so that **no fact in a report can originate
 from a language model**. The LLM agents (Architect, Critic) *orchestrate*;
 every finding is authored by a named, deterministic MCP tool that read bytes
-off evidence. This chapter explains the five concrete control points that make
-fabrication structurally impossible — not merely discouraged.
+off evidence. This chapter explains the concrete control points that make
+fabrication structurally impossible — not merely discouraged: five that gate
+every tool call, plus two verification gates (a completion contract and a
+documentation drift gate) that keep the run and its numbers honest.
 
 This is the **High Inference Constraint** contract (ADR-016, BMAD-M8 Phase
 M8.2), documented in the module header of `src/agentropix_sift/courtroom.py:1-10`:
@@ -18,7 +20,33 @@ M8.2), documented in the module header of `src/agentropix_sift/courtroom.py:1-10
 > "the LLM agents (Architect, Critic) only orchestrate; every fact in the
 > report originates from a named deterministic MCP tool."
 
-## The five control points
+### Terms used on this page
+
+This page assumes the following vocabulary. Each term is defined where it first
+does work below, and every term names a real source file or test.
+
+| Term | One-line definition | Defined / cited at |
+|------|---------------------|--------------------|
+| **Grounding** | The property that a claim in a report is anchored to evidence bytes a deterministic tool actually read — not to model output | [§1](#1--deterministic-tools-only-findings-no-llm-author), [§2](#2--evidence-sovereignty) |
+| **Thymus REJECT** | A typed refusal returned by the read-only evidence policy before any I/O when a path is unsafe or out of bounds | [§3](#3--the-read-only-thymus-boundary) |
+| **Evidence invariant (pre/post SHA-256)** | A cryptographic pin from report to the exact evidence bytes, captured at session start and re-checkable after a run | [§4](#4--the-prepost-sha-256-evidence-invariant) |
+| **Deterministic fingerprint halt** | The Trinity loop stopping rule — a `frozenset` fixed-point plus a numeric threshold, never a model self-rating | [§5](#5--the-deterministic-fingerprint-halt) |
+| **Completion-promise token** | A per-agent verifiable-completion contract: a fixed string an agent only emits after it published a real finding without a tool error | [§6](#6--completion-promise-tokens-verifiable-completion) |
+| **Drift gate** | A CI check that fails the build if docs cite a number that contradicts the canonical-facts table (or let a correct number decay) | [§7](#7--canonical-fact-drift-gates) |
+
+**Grounding**, in this system, is not a soft heuristic ("the model tried to
+stay close to the data"). It is the structural guarantee that every
+report-bound fact traces to bytes a named deterministic tool read off
+evidence. Controls 1–4 below are the mechanisms that make grounding hold;
+controls 5–7 keep the loop and the documentation honest about it.
+
+## The control points
+
+The first five controls below are the original anti-fabrication core (they gate
+a single tool call). Controls 6 and 7 are the *verification* layer: a
+completion contract that proves scheduled work actually ran, and a CI drift
+gate that keeps the documentation's numbers honest. All seven are enforced by
+code, not by prompting.
 
 | # | Control | What it guarantees | Source |
 |---|---------|--------------------|--------|
@@ -27,6 +55,8 @@ M8.2), documented in the module header of `src/agentropix_sift/courtroom.py:1-10
 | 3 | **Read-only Thymus boundary** | The agent physically cannot write to evidence — no MCP tool exposes a write op; path allowlist enforced at the boundary | `mcp_server/thymus_policy.py` |
 | 4 | **Pre/post SHA-256 evidence invariant** | The report is provably tied to the exact bytes that were triaged; any byte change is detectable | `courtroom.py:89-142` |
 | 5 | **Deterministic fingerprint halt** | The loop stops on a reproducible fixed point — the Critic never rates its own confidence with an LLM | `trinity/critic.py:42-213` |
+| 6 | **Completion-promise tokens** | A run that delivered findings but skipped a scheduled agent is detectable — the missing promise fails the contract, so a silent wrapper crash can't masquerade as "nothing to report" | `agents/_base.py:102-114`, `orchestrator.py:70-79` |
+| 7 | **Canonical-fact drift gates** | Documentation can't drift away from code-verified numbers; a stale or decayed figure fails CI | `scripts/check_canonical_facts.py` |
 
 The rest of this chapter walks each control, then shows where they sit along a
 single tool call.
@@ -177,6 +207,78 @@ point**. The threshold halt (`score >= halt_threshold`, default `0.85` via
 self-rating, no model in the halt decision. For the loop mechanics see
 [the Trinity Loop chapter](../02-architecture/trinity-loop.md).
 
+## 6 · Completion-promise tokens (verifiable completion)
+
+A subtler failure mode than fabrication is *silent omission*: the report looks
+populated and convincing, but a scheduled analysis never actually ran (the
+wrapper crashed mid-pass, or a tool was disabled by an env flag). A reader has
+no way to tell a clean "nothing to report" apart from a broken "we never
+looked". **Completion-promise tokens** close that gap.
+
+A *completion-promise token* is a fixed, uppercased snake-case string declared
+as a class attribute on a swarm agent — for example `TIMELINE_GENERATED`,
+`MEMORY_TRIAGED`, or `YARA_HUNT_COMPLETE` (`agents/_base.py:102-114`). The base
+class defines the contract (`agents/_base.py:114`):
+
+```python
+completion_promise: str | None = None
+```
+
+The orchestrator appends that token to `report.completion_proofs` **only when
+the agent both completed without raising AND published at least one Finding**
+(`orchestrator.py:189-195`):
+
+```python
+if findings and agent.completion_promise:
+    completion_proofs.add(agent.completion_promise)
+```
+
+The "≥1 finding" condition is deliberate, and the source comment spells out why
+(`orchestrator.py:185-193`): an empty findings list means "ran cleanly but
+nothing to report", which is *not* counted as a promise — because if it were, a
+silently broken wrapper that produced zero findings would still satisfy the
+contract. The token is therefore evidence that the agent did real work, not
+just that it was invoked.
+
+Downstream, the proofs are a **verifiable completion contract**: the Critic (or
+any later verifier) can fail a run that delivered a populated report but is
+missing a required promise — e.g. timeline analysis was scheduled but the
+`timeline.plaso` wrapper crashed, so `TIMELINE_GENERATED` never appears in
+`completion_proofs` (`agents/_base.py:104-110`). One agent — the Memory agent —
+even *clears* its own promise on a degraded path (`memory.py:553-556`), so a
+partial run cannot claim full completion. Tests pin the tokens so they can't
+silently change (`tests/unit/detectors/test_injection_detector.py:338-339`,
+`tests/unit/test_orchestrator.py:53-97`).
+
+Where the deterministic-tools rule (control 1) stops the model from *inventing*
+a finding, completion-promise tokens stop a broken pipeline from *hiding* a
+gap — both are forms of grounding the report against what actually happened.
+
+## 7 · Canonical-fact drift gates
+
+The mechanisms above keep *findings* grounded. A separate gate keeps the
+*documentation's numbers* grounded against the code. A **drift gate** is a CI
+check that fails the build when a tracked file cites a number that contradicts
+the canonical-facts table — or when a number that is currently correct silently
+decays. The gate is `scripts/check_canonical_facts.py`, wired into CI via the
+`canonical-facts` job in `.github/workflows/docs-validation.yml`
+(`check_canonical_facts.py:1-21`).
+
+It runs two checks (`check_canonical_facts.py:6-19`):
+
+| Check | SIFT id | Catches | How |
+|-------|---------|---------|-----|
+| **Backward drift** | W-250 | Stale numbers (e.g. an old test count like `1270`) still cited in tracked `.md` files | Scans tracked Markdown for known-stale literals; a line carrying a whitelist marker (`CANONICAL_FACTS`, `{{ref:CANONICAL_FACTS`, `historical`, `stale`) silences the hit |
+| **Forward drift** | W-252 | A currently-correct number that *should* appear but no longer does (e.g. a regression drops disk recall and `README.md` stops saying `72/72`) | For each row under `## Forward-drift assertions` in `CANONICAL_FACTS.md`, asserts the required literal (or the `{{ref:CANONICAL_FACTS#key}}` citation) is present in the listed file |
+
+The gate exits `0` when both checks pass and `1` if either fails
+(`check_canonical_facts.py:20`). This is why the numbers on this portal — the
+71 MCP tools, the `0.85` halt threshold, the `72/72` disk recall — must all be
+sourced from [`.crew/facts.md`](../../.crew/facts.md) (the portal mirror of the
+upstream table): a contradicting figure is not a stylistic slip, it is a CI
+failure. The drift gate makes documentation accuracy enforceable in exactly the
+same spirit as the evidence invariant makes report accuracy enforceable.
+
 ## Safety control points along one tool call
 
 ```mermaid
@@ -214,8 +316,9 @@ graph TD
     class J sink
 ```
 
-The diagram traces a single iteration. **Three of the five controls gate a
-single call**: the read-only Thymus boundary (the pink decision node) sits
+The diagram traces a single iteration of the core loop (controls 1–5).
+**Three of the five core controls gate a single call**: the read-only Thymus
+boundary (the pink decision node) sits
 *before* any I/O; the deterministic wrapper is the only thing that can author a
 `Finding`; and the Critic (the blue node) decides halt purely from Blackboard
 state. The evidence digest (control 4) is captured once at session start and
@@ -224,7 +327,10 @@ property each emitted `Finding` carries. Every Thymus decision — and every
 rejection — is written to the JSONL audit log, so even a *blocked* hallucination
 attempt leaves a tamper-evident trace. There is no edge in this graph along
 which a language model writes a fact, mutates evidence, or rates its own
-output.
+output. Controls 6 (completion-promise tokens) and 7 (drift gates) wrap this
+loop rather than sitting inside it: the promise tokens are checked once per run
+after the swarm passes complete, and the drift gate runs in CI over the
+documentation — neither is reachable by an agent mid-iteration.
 
 ## Why this is stronger than "prompt the model to be careful"
 
@@ -238,6 +344,11 @@ Each control is enforced by code paths that an agent cannot route around:
   judgment call (`trinity/critic.py:120-129`).
 - The evidence digest is computed by `hashlib.sha256` over real bytes, not
   asserted (`courtroom.py:131-142`).
+- A scheduled agent that produces no finding emits **no** completion-promise
+  token, so an omission is visible in `completion_proofs` rather than silently
+  passing as "nothing to report" (`orchestrator.py:194-195`).
+- A documentation number that contradicts the canonical-facts table is a CI
+  failure, not an editorial judgment call (`scripts/check_canonical_facts.py`).
 
 The result is a system whose forensic soundness rests on **structure and
 cryptography**, with the LLM confined to choosing *which* deterministic tools

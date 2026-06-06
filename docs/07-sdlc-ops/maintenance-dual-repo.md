@@ -14,8 +14,20 @@ mirror exists only to give the SANS Find Evil! 2026 submission an open-source fa
 
 > Source of truth for this page: the live sync script at
 > [`scripts/sync-from-sift.sh`](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/scripts/sync-from-sift.sh)
-> in the public repo (verified against `/home/admin2/agentropix_mcp/scripts/sync-from-sift.sh`),
-> plus `CARRY-MANIFEST.md` in the same repo.
+> in the public repo (verified against `/home/admin2/agentropix_mcp/scripts/sync-from-sift.sh`,
+> re-read 2026-06-06), plus `CARRY-MANIFEST.md` in the same repo.
+
+> **Audience note (read first).** This is a **maintainer/operator** page, not an end-user
+> capability. Running the sync is a shell action on a private workstation — it has **no
+> plain-language prompt equivalent**, exactly like the one-time MCP-wiring step in the
+> [User Guide](../01-overview/user-guide.md) (an end-user can't drive a private build pipeline by
+> talking to a session). The **one** place a `💬` end-user prompt legitimately applies is
+> *verifying* the mirror **after** a sync — confirming the public server still answers and reports
+> its tool count. That maps to the real **`health`** MCP tool
+> ([`.crew/tool-list.md`](../../.crew/tool-list.md)). Where a step genuinely has no prompt form, the
+> callout says so rather than inventing one. Repo paths below use placeholders
+> (`<SIFT-REPO>` = the private oracle clone, `<MCP-REPO>` = the public mirror clone); on this
+> workstation they resolve to `/home/admin2/agentropix-sift` and `/home/admin2/agentropix_mcp`.
 
 ---
 
@@ -106,25 +118,122 @@ It runs the following numbered steps (source:
 
 ## 4. How to run a sync
 
-```bash
-# 1. Pull the latest sift main (the oracle)
-git -C /home/admin2/agentropix-sift pull
+The whole procedure is **five operator steps**: pull the oracle, dry-run, apply, review-and-commit,
+push. Each is shown below as an **🖥️ Expert (command)** action with its **Execution → Output** pair,
+plus a **💬 End-user (prompt)** lane where one genuinely applies. The script flags used here come
+straight from `sync-from-sift.sh` (`--dry-run`, `--sift <path>`, `-h`/`--help`).
 
-# 2. Preview without writing
-cd /home/admin2/agentropix_mcp
-bash scripts/sync-from-sift.sh --dry-run
+> **🖥️ Expert (command) — the full run, end to end:**
+> ```bash
+> # 1. Pull the latest sift main (the oracle)
+> git -C <SIFT-REPO> pull            # e.g. /home/admin2/agentropix-sift
+>
+> # 2. Preview without writing (idempotent, never touches sift)
+> cd <MCP-REPO>                      # e.g. /home/admin2/agentropix_mcp
+> bash scripts/sync-from-sift.sh --dry-run
+>
+> # 3. Apply
+> bash scripts/sync-from-sift.sh
+> #    (override the source with:  --sift /alt/path/to/sift)
+> #    (usage/help, no side effects:  bash scripts/sync-from-sift.sh --help)
+>
+> # 4. Review the staged diff the script printed, then commit
+> git add src/agentropix_mcp/
+> git commit -m "sync: re-sync from agentropix-sift @ <short sha>"
+>
+> # 5. Push to the public remote
+> git push origin main
+> ```
+> **💬 End-user (prompt):** *not applicable for steps 1–5* — the sync is a private-workstation shell
+> pipeline with no MCP surface, so there is no plain-language equivalent (see the Audience note at the
+> top). The only end-user-shaped action is the **post-sync health check** in
+> [§4.1](#41-verify-the-mirror-after-a-sync) below, which maps to the real `health` tool.
 
-# 3. Apply
-bash scripts/sync-from-sift.sh
-#    (override the source with:  --sift /alt/path/to/sift)
+The numbered steps, one Execution → Output pair each:
 
-# 4. Review the staged diff the script printed, then commit
-git add src/agentropix_mcp/
-git commit -m "sync: re-sync from agentropix-sift @ <short sha>"
+**Execution A → Output A — pull the oracle.**
 
-# 5. Push to the public remote
-git push origin main
-```
+*Execution A:* `git -C <SIFT-REPO> pull`
+
+*Output A:* the private oracle clone fast-forwards to the latest `main` (or `Already up to date.`).
+The sync reads from this tree read-only; nothing is written back to it.
+
+**Execution B → Output B — dry-run preview (writes nothing).**
+
+*Execution B:* `cd <MCP-REPO> && bash scripts/sync-from-sift.sh --dry-run`
+
+*Output B (shape):* the script banners Steps 1–4, then prints a diff summary and a
+`files differing: <N>` line, ending with `Dry-run complete. Re-run without --dry-run to apply.` and
+**exit 0** — staging happens in a `mktemp -d` tree, so the public `src/agentropix_mcp/` is untouched:
+> ```text
+> ==> Sync source: <SIFT-REPO>
+> ==> Sync target: <MCP-REPO>
+> ==> Dry-run:     1
+> ==> Step 1: copying tracked modules
+>   copied: mcp_server/ -> .
+>   ... (more) ...
+> ==> Step 2: sed-rewrite imports (agentropix_sift.* -> agentropix_mcp.*)
+> ==> Step 3: drift check (zero agentropix_sift refs expected)
+>   OK — 0 unresolved references
+> ==> Step 4: computing diff against current public tree
+>   (dry-run: showing diff summary only, NOT writing changes)
+>   files differing: <N>
+> Dry-run complete. Re-run without --dry-run to apply.
+> ```
+> If the dry-run instead exits **1**, the drift gate tripped — go to [§5](#5-when-the-drift-gate-fails-exit-1).
+
+**Execution C → Output C — apply.**
+
+*Execution C:* `bash scripts/sync-from-sift.sh`
+
+*Output C (shape, clean run):* Steps 1–3 as above, then **Step 4** `applying changes to
+<MCP-REPO>/src/agentropix_mcp/` (an `rsync -a --delete` from staging), **Step 5** `gitleaks scan` →
+`OK — no leaks`, **Step 6** `pytest baseline` → `OK — Gap-5 regression suite green`, **Step 7** prints
+`git diff --stat` plus the exact `git add` / `git commit` commands, and ends `Done.` at **exit 0**. It
+**never auto-commits**. (Banner step numbers 4–7 here vs the §3 logical-phase table is reconciled in
+the [step-count note](#3-the-sync-pipeline--what-sync-from-siftsh-does-in-order) — trust the script.)
+
+**Execution D → Output D — review and commit.**
+
+*Execution D:* eyeball the `git diff --stat` the script printed, then
+`git add src/agentropix_mcp/ && git commit -m "sync: re-sync from agentropix-sift @ <short sha>"`
+
+*Output D:* a single mirror commit touching **only** `src/agentropix_mcp/`. If the diff includes
+anything outside that path, stop — the sync should never write elsewhere (see [§6](#6-files-the-sync-never-touches)).
+
+**Execution E → Output E — push.**
+
+*Execution E:* `git push origin main`
+
+*Output E:* the public mirror on GitHub now reflects the carried subset. Push is always a manual
+operator action — the script never pushes (failsafe 3, [§7](#7-the-six-failsafes)).
+
+### 4.1 Verify the mirror after a sync
+
+This is the **one** step with a genuine end-user prompt: after a sync + redeploy, confirm the public
+MCP server still answers and reports its tool count. That is exactly what the `health` tool does.
+
+> **🖥️ Expert (command/MCP call):**
+> ```text
+> health  ->  { "status": "ok", "server": "agentropix-...", "tool_count": <N>, "version": "...",
+>               "uptime_seconds": ... }
+> ```
+> **💬 End-user (prompt):** *"Is the Agentropix MCP server healthy, and how many forensic tools does it
+> report right now?"*
+> The session calls the real `health` tool ([`.crew/tool-list.md`](../../.crew/tool-list.md)) and reports
+> the live status and `tool_count`. **A simple, focused question is enough — the session recognises it as
+> an Agentropix capability and routes it to `health`.** Trust this live count, not the startup banner.
+
+**Execution F → Output F.**
+
+*Execution F:* call the `health` tool against the redeployed mirror.
+
+*Output F:* `{ "status": "ok", "server": "agentropix-...", "tool_count": <N>, "version": "...",
+"uptime_seconds": ... }`. The canonical platform figure is **71** tools
+(`{{ref:CANONICAL_FACTS#mcp_tool_count}}`); a live server may report 72 (the `wazuh_hunt_ioc`
+double-registration — see the live-drift note in the [User Guide §1.2](../01-overview/user-guide.md#12-sanity-check--call-health)).
+The sync carries the *same* tool surface to the mirror, so the public server reports the same count as
+the private oracle once both run the carried code.
 
 ---
 
@@ -133,6 +242,29 @@ git push origin main
 A non-zero leftover count means `sift` introduced a new cross-cutting dependency the mirror
 doesn't yet carry. The script lists the offending `agentropix_sift.<something>` lines. Two
 resolutions:
+
+> **🖥️ Expert (command) — see exactly what the gate caught:** the script already prints up to 20
+> offending lines and the two-option remedy. To re-inspect the staging tree the gate scanned, re-run the
+> dry-run — `bash scripts/sync-from-sift.sh --dry-run` — and read the **Step 3** block (`FAIL: <N>
+> unresolved agentropix_sift references after sed`).
+> **💬 End-user (prompt):** *not applicable* — resolving a drift-gate failure is a maintainer code-edit
+> decision (editing `KEEP_LIST`/sed rules or refactoring `sift`), not an MCP capability, so there is no
+> plain-language prompt for it.
+
+**Execution → Output (drift-gate trip).**
+
+*Execution:* `bash scripts/sync-from-sift.sh` (or `--dry-run`) when `sift` added a new dep.
+
+*Output (exit 1):*
+> ```text
+> ==> Step 3: drift check (zero agentropix_sift refs expected)
+> FAIL: <N> unresolved agentropix_sift references after sed:
+>   <file>:<line>:  from agentropix_sift.<something> import ...
+>   ... (up to 20 lines) ...
+> Either (a) add the missing source module to KEEP_LIST in this script,
+> or (b) refactor sift to remove the cross-cutting dependency.
+> ```
+> Pick Option A or B below; nothing was written (the gate runs before the apply).
 
 ### Option A — bring the new module over (most common)
 

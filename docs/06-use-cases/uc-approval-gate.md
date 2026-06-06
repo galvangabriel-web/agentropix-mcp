@@ -13,6 +13,19 @@
 > [Approval Portal walkthrough](../05-safety-forensics/approval-portal.md)
 > (screenshot, every field, how to submit) covers the human side of this use case.
 
+> **How to read this page (two audiences at once).** Like the
+> [gold-standard user guide](../01-overview/user-guide.md), every operator action below is shown
+> **both** ways in an eye-catching callout:
+> - **🖥️ Expert (command):** the exact CLI / MCP / `curl` call to type.
+> - **💬 End-user (prompt):** the plain-language question to type into a Claude session that has the
+>   Agentropix MCP connected. A simple, focused question is enough — the session recognises it as an
+>   Agentropix capability and routes it to the right MCP tool automatically.
+>
+> The **Execution → Output** blocks in [§Walkthrough](#walkthrough--gate-challenge-approval-resumed-run)
+> label what you **run** vs what you **get back**. All nonces, tokens, salts, signatures and approval
+> IDs are **placeholders** (`<nonce>`, `<egt-token>`, `<signature-hex>`, `<approval-id>`) — never paste
+> a real secret into a tracked file.
+
 This is the chain-of-custody spine that separates DRAFT analysis from a court-defensible report.
 Every finding enters as **DRAFT** through the W-286 draft-gate (which strips any caller-supplied
 `approval.*` field — the LLM cannot stamp its own approval), and only an HMAC-signed approval
@@ -159,6 +172,71 @@ seal with `courtroom.seal_report`.
 5. *(Analyst)* `report_generate(profile="full")` then `report_export(tier=..., fmt=...)` — render the
    APPROVED-only report and seal it.
 
+Each step is shown in both audiences below. The Execution → Output transcript for the load-bearing
+trio — **gate challenge → approval → resumed (APPROVED-only) report run** — is in
+[§Walkthrough](#walkthrough--gate-challenge-approval-resumed-run).
+
+#### Step 1–2 — Stage the DRAFT finding *(Analyst)*
+
+> **🖥️ Expert (command):** first mint the one-shot mutation token the live write needs, then call the
+> `record_finding` MCP tool (preview, then commit):
+> ```bash
+> # Mint the one-shot mutation token (prints egt_<26-char-ULID>); export it for the write
+> export AGENTROPIX_MUTATION_TOKEN=$(agentropix-sift evidence-gate mint --emit token)
+> ```
+> ```jsonc
+> // MCP tool call — preview (no token spent)
+> record_finding(finding={...}, dry_run=true)
+> // MCP tool call — commit the DRAFT (spends the one-shot token)
+> record_finding(finding={...}, dry_run=false, mutation_token="egt_<ULID>")
+> ```
+> **💬 End-user (prompt):** *"Record this as a draft finding on the active case: <your finding>."*
+> The session routes to the **`record_finding`** MCP tool, previews, and commits the DRAFT. The
+> **W-286 draft-gate** strips any `approval.*` you (or the LLM) try to supply — the agent surface
+> cannot self-approve.
+
+#### Step 3 — Confirm the counts before approval *(Analyst)*
+
+> **🖥️ Expert (command):**
+> ```jsonc
+> case_status()   // MCP tool call
+> ```
+> **💬 End-user (prompt):** *"How many draft, approved and rejected findings does this case have?"*
+> The session routes to the **`case_status`** MCP tool and reports the DRAFT / APPROVED / REJECTED
+> counts.
+
+#### Step 4 — Examiner approves (HMAC-signed) *(Examiner)*
+
+> **🖥️ Expert (command):** the single-call MCP path (the server runs the two-leg
+> `POST /challenge` → `POST /approve` handshake for you):
+> ```jsonc
+> approve_finding(
+>   finding_id="F-alice-001",
+>   approver_id="<examiner>",
+>   password="<approver-password>",
+>   from_status="DRAFT",
+>   to_status="APPROVED",
+>   reason="verified against source artifact"
+> )   // MCP tool call -> approval_sidecar/
+> ```
+> Prefer to keep the password out of the LLM context entirely? Drive the **two sidecar endpoints
+> directly** with `curl` (or use the [browser Approval Portal](../05-safety-forensics/approval-portal.md)) —
+> the raw handshake is enumerated in [§Walkthrough](#walkthrough--gate-challenge-approval-resumed-run).
+> **💬 End-user (prompt):** *"Approve finding F-alice-001 on this case as <examiner>."*
+> The session routes to the **`approve_finding`** MCP tool. It will need the approver password to sign;
+> for a password-free flow, point the examiner at the browser portal instead.
+
+#### Step 5 — Render the APPROVED-only report *(Analyst)*
+
+> **🖥️ Expert (command):**
+> ```jsonc
+> report_generate(profile="full")            // MCP tool call (APPROVED findings only)
+> report_export(tier="analyst", fmt="md")    // MCP tool call -> courtroom.seal_report
+> ```
+> **💬 End-user (prompt):** *"Generate the analyst report for this case and seal it."*
+> The session routes to **`report_generate`** then **`report_export`**, which filter to APPROVED-only
+> and seal the artifact with `courtroom.seal_report` (HMAC-SHA256).
+
 **Postconditions**
 
 - The finding is `APPROVED` in the sidecar's append-only hash-chain (PBKDF2 + HMAC-SHA256).
@@ -168,20 +246,138 @@ seal with `courtroom.seal_report`.
   entry (the chain is never edited).
 - The exported report is sealed by `courtroom.seal_report` (HMAC-SHA256) and is tamper-evident.
 
-**CLI commands used**
+**CLI commands used (operator-local prerequisites)**
 
-```bash
-# Mint the one-shot mutation token the live record_finding needs
-agentropix-sift evidence-gate mint   # -> egt_<ULID>; export as AGENTROPIX_MUTATION_TOKEN
+These two CLI commands provision the prerequisites; the forensic actions themselves are MCP tool calls.
 
-# Run the approval sidecar (HMAC human-in-the-loop service)
-python -m agentropix_sift.approval_sidecar
-```
+> **🖥️ Expert (command):**
+> ```bash
+> # Mint the one-shot mutation token the live record_finding needs
+> agentropix-sift evidence-gate mint   # -> egt_<ULID>; export as AGENTROPIX_MUTATION_TOKEN
+>
+> # Run the approval sidecar (HMAC human-in-the-loop service)
+> python -m agentropix_sift.approval_sidecar
+> ```
+> **💬 End-user (prompt):** *(no prompt — these are operator-local setup steps.)* As an end-user you
+> never mint tokens or start services; you just ask the session to record/approve/report and it routes
+> the MCP tools. Ask your administrator if the sidecar is not up.
 
 `record_finding`, `case_status`, `approve_finding`, `retract_approval`, `report_generate`, and
 `report_export` are **MCP tool calls** issued by the MCP client against the running server — not CLI
 subcommands. The CLI commands above provision the two prerequisites (the mutation token and the
 sidecar service).
+
+---
+
+## Walkthrough — gate challenge, approval, resumed run
+
+> **Real-data note.** The shapes below are the live request/response schemas
+> (`approval_sidecar/models.py`: `ChallengeResponse`, `ApprovalSubmitRequest`, `ApprovalSubmitResponse`;
+> `reports/export.py: ExportResult`). Every secret-bearing value is a **placeholder** — `<nonce>`,
+> `<salt-hex>`, `<egt-token>`, `<signature-hex>`, `<approval-id>`, `<prev-hash>`. The sidecar binds
+> loopback by default (`http://127.0.0.1:8800`, `AGENTROPIX_APPROVAL_SIDECAR_URL`).
+
+### Execution A → Output A — request the gate challenge (nonce)
+
+The first leg binds a single-use nonce to `(examiner, target)`. The MCP `approve_finding` tool does
+this for you; the raw call (or the browser portal's client-side fetch) is:
+
+*Execution A (POST /challenge):*
+```bash
+curl -fsS http://127.0.0.1:8800/challenge \
+  -H 'content-type: application/json' \
+  -d '{"examiner_id":"<examiner>","target_id":"F-alice-001","target_type":"finding"}'
+```
+
+*Output A (`ChallengeResponse` — nonce + PBKDF2 params, TTL ~60 s):*
+```json
+{
+  "nonce": "<nonce>",
+  "salt_hex": "<salt-hex>",
+  "iterations": 600000,
+  "ttl_seconds": 60.0
+}
+```
+
+> The browser tab (or the MCP server) now derives `PBKDF2(password, salt_hex, iterations)` **locally**
+> and computes `HMAC-SHA256` over the canonical signed message
+> (`nonce ‖ target_id ‖ target_type ‖ from_status ‖ to_status ‖ case_id`, `auth.py:102`). The password
+> is never put on the wire. A nonce older than `ttl_seconds` fails closed → `401 nonce_expired`.
+
+### Execution B → Output B — submit the signed approval
+
+Second leg: send the signature (never the password) with the same nonce.
+
+*Execution B (POST /approve):*
+```bash
+curl -fsS http://127.0.0.1:8800/approve \
+  -H 'content-type: application/json' \
+  -d '{"case_id":"INC-2026-0042","target_id":"F-alice-001","target_type":"finding",
+       "from_status":"DRAFT","to_status":"APPROVED","examiner_id":"<examiner>",
+       "nonce":"<nonce>","signature_hex":"<signature-hex>","reason":"verified against source artifact"}'
+```
+
+*Output B (`ApprovalSubmitResponse` — APPROVED, hash-chained):*
+```json
+{
+  "approval_id": "<approval-id>",
+  "indexed_to": "agentropix-approvals-2026.06.06",
+  "prev_approval_hash": "<prev-hash>",
+  "approved_at": "2026-06-06T14:22:31Z"
+}
+```
+
+> The sidecar consumes the nonce (single-use, target-bound), re-derives the key, verifies the HMAC,
+> then appends an `APPROVED` transition to the **append-only hash-chain** and writes a deterministic
+> doc to the daily `agentropix-approvals-YYYY.MM.DD` index. `prev_approval_hash` is empty on the first
+> approval for a target. Failure tokens are machine-readable: `403 unknown_examiner`,
+> `401 nonce_expired` / `nonce_unknown`, `401 bad_signature`, `409 precondition_failed` (the `from_status`
+> gate). Wrong `from_status` here is the guard that stops a double-approve.
+
+### Execution C → Output C — resume the run (APPROVED-only report)
+
+With the finding APPROVED, the report tiers now include it and the export is sealed.
+
+*Execution C (MCP tool calls):*
+```jsonc
+report_generate(profile="full")            // APPROVED findings only
+report_export(tier="analyst", fmt="md")    // -> courtroom.seal_report
+```
+
+*Output C (`ExportResult` — tamper-evident, APPROVED finding present):*
+```json
+{
+  "tier": "analyst",
+  "fmt": "md",
+  "mime": "text/markdown",
+  "path": "/cases/<case>/reports/analyst.md",
+  "content": "# Analyst Report ... F-alice-001 (APPROVED) ..."
+}
+```
+
+> Run **before** approval, the same `report_generate` returns only the executive/empty shell (no DRAFT
+> finding leaks into any tier). The exported artifact is sealed by `courtroom.seal_report`
+> (HMAC-SHA256 over the canonical report) and is tamper-evident.
+
+> **GOTCHA — `report_generate` on a brand-new DRAFT-only case.** As documented in the
+> [user guide Phase 7](../01-overview/user-guide.md#phase-7--generate-and-verify-the-sealed-report),
+> a `report_generate` against a case with zero APPROVED findings can return `case_not_found` /
+> an empty shell. That is the gate working as designed — approve at least one finding first.
+
+### Reversing an accidental approval
+
+> **🖥️ Expert (command):**
+> ```jsonc
+> retract_approval(
+>   approval_id="<approval-id>",
+>   approver_id="<examiner>",
+>   password="<approver-password>",
+>   reason="approved in error"
+> )   // MCP tool call -> compensating REVOKED entry (append-only)
+> ```
+> **💬 End-user (prompt):** *"Retract approval <approval-id> on this case — it was approved by mistake."*
+> The session routes to the **`retract_approval`** MCP tool, which appends a compensating `REVOKED`
+> entry referencing the prior `approval_id` (the original row is never mutated; ADR-016/022).
 
 ---
 

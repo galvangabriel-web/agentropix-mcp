@@ -10,6 +10,46 @@
 > browser form. The LLM **cannot** self-approve. Read this page before you
 > approve anything in a real case.
 
+## How to read this page
+
+This is an **operational / how-to** page, so each approval action is shown **two
+ways at once** — pick the lane that fits you and follow it consistently:
+
+> **🖥️ Expert (command):** the exact CLI / HMAC `POST /challenge` → `POST /approve`
+> calls (or `curl`) you type in a terminal, with the raw JSON you get back.
+> **💬 End-user (prompt):** the plain-language prompt you type into a Claude
+> session that has the Agentropix MCP connected. A simple, focused question is
+> enough — the session recognises it as an Agentropix capability and routes it to
+> the right **real MCP tool** automatically. You never see the raw JSON unless you
+> ask for it.
+
+Both lanes hit the **same deterministic approval path** and produce the **same
+append-only ledger row** — only the surface differs. The browser form described
+below is a third surface (a non-expert GUI) that performs the very same
+`/challenge` → `/approve` HMAC handshake **entirely client-side**.
+
+> **The four approval surfaces, one handshake.** The browser form, the
+> `curl`/HMAC pair, the `approve_finding` MCP tool, and the `retract_approval` MCP
+> tool all converge on the sidecar's `POST /challenge` → `POST /approve`
+> two-step. Whatever surface you use, the password is turned into an HMAC and the
+> sidecar verifies the signature — **the password itself never reaches the index
+> or the ledger.**
+
+> **Example outputs are real-shaped.** The JSON blocks labelled *Output X* below
+> use the sidecar's actual response fields (`nonce`, `salt_hex`, `iterations`,
+> `approval_id`, `indexed_to`, `approved_at` — defined in the oracle's
+> `src/agentropix_sift/approval_sidecar/models.py`).
+> Tokens, nonces, salts, signatures and timestamps are shown as **placeholders**
+> (`<NONCE>`, `<SALT_HEX>`, `<SIGNATURE_HEX>`, `<APPROVAL_ID>`) — your run yields
+> real values of the same shape. Never paste a real secret into a tracked file.
+
+> **Maps to real MCP tools.** The two End-user lanes on this page route to exactly
+> two tools from the catalogue ([`.crew/tool-list.md`](../../.crew/tool-list.md),
+> *Approval workflow — HMAC sidecar*): **`approve_finding`** (the combined
+> challenge+submit happy path, also used for `REJECTED`) and **`retract_approval`**
+> (the append-only void). Listing/verifying approvals routes to **`idx_search`** /
+> **`idx_case_summary`**, which read the `agentropix-approvals-*` index.
+
 The approval sidecar (`src/agentropix_sift/approval_sidecar/`, SIFT-W-288 / W-294)
 serves a self-contained browser form. On this workstation it is published on the
 **tailnet only**, behind a valid TLS certificate, at:
@@ -72,6 +112,178 @@ never leaves the page.*
    - calls `POST /approve` with the signature — **only the HMAC is sent, never the password.**
 7. **Clear** resets the form without submitting.
 
+## The approval actions, both ways (Execution → Output)
+
+The browser form is the non-expert surface. Below, each underlying sidecar
+**action** — **challenge → submit (approve)**, **list/verify**, and the
+**approve** one-shot via the MCP tool — is shown side by side as an
+**Execution → Output** pair: the 🖥️ Expert command (raw `curl`/HMAC against the
+sidecar) and the 💬 End-user prompt (mapped to a real MCP tool). The expert
+two-step (`/challenge` then `/approve`) is exactly what the browser does in
+JavaScript; the MCP tool collapses both into one call.
+
+### Action 1 — Challenge (get a single-use nonce)
+
+`POST /challenge` issues a nonce bound to `(examiner_id, target_id)`, with a
+TTL of **60 s** (`DEFAULT_NONCE_TTL`), and echoes the PBKDF2 `salt_hex` and
+**600 000** `iterations` (`DEFAULT_PBKDF2_ITERATIONS`) so the signer derives the
+key with identical parameters.
+
+> **🖥️ Expert (command) — Execution A:**
+> ```bash
+> curl -fsS http://127.0.0.1:8800/challenge \
+>   -H 'Content-Type: application/json' \
+>   -d '{"examiner_id":"<EXAMINER>","target_id":"F-alice-001","target_type":"finding"}'
+> ```
+> **💬 End-user (prompt):** *"Start an approval for finding F-alice-001 in case
+> INC-2026-0042."* — the assistant calls **`approve_finding`**, which performs
+> this `/challenge` step for you as part of one tool call (you do not issue a bare
+> challenge by hand).
+
+**Output A** (placeholders for the issued nonce/salt):
+
+```json
+{
+  "nonce": "<NONCE>",
+  "salt_hex": "<SALT_HEX>",
+  "iterations": 600000,
+  "ttl_seconds": 60.0
+}
+```
+
+> ⚠️ The nonce is **single-use and target-bound**: it only validates a `/approve`
+> for the same `examiner_id` + `target_id`, and only within `ttl_seconds`. A
+> challenge for an examiner other than the configured `AGENTROPIX_APPROVER_USER`
+> is refused with **`403 unknown_examiner`** (`app.py` `_challenge_handler`).
+
+### Action 2 — Submit (sign the move and record the decision)
+
+`POST /approve` carries the **HMAC-SHA256** of the canonical signed message
+(`build_signed_message(nonce, target_id, target_type, from_status, to_status,
+case_id)`) keyed by `PBKDF2(password, salt, iterations)`. **Only the
+`signature_hex` is sent — never the password.**
+
+> **🖥️ Expert (command) — Execution B:** (compute the key + HMAC locally, then post)
+> ```bash
+> # SALT_HEX / ITERATIONS / NONCE come from Output A; SIGNATURE_HEX is the
+> # 64-char lowercase HMAC of the canonical message (browser/MCP compute this).
+> curl -fsS http://127.0.0.1:8800/approve \
+>   -H 'Content-Type: application/json' \
+>   -d '{"case_id":"INC-2026-0042","target_id":"F-alice-001","target_type":"finding",
+>        "from_status":"DRAFT","to_status":"APPROVED","examiner_id":"<EXAMINER>",
+>        "nonce":"<NONCE>","signature_hex":"<SIGNATURE_HEX>","reason":"reviewed"}'
+> ```
+> **💬 End-user (prompt):** *"Approve finding F-alice-001 in case INC-2026-0042 —
+> I reviewed it."* → maps to **`approve_finding`** (`finding_id`, `approver_id`,
+> `password`, `case_id`, `to_status="APPROVED"`). The tool runs challenge **and**
+> submit in one shot and reports back the `approval_id`.
+
+**Output B** (success — placeholders for the deterministic id/timestamp):
+
+```json
+{
+  "approval_id": "<APPROVAL_ID>",
+  "indexed_to": "agentropix-approvals-YYYY.MM.DD",
+  "prev_approval_hash": "",
+  "approved_at": "2026-06-05T00:00:00Z"
+}
+```
+
+The same surface declines a finding — set **`to_status":"REJECTED"`** (💬: *"Reject
+finding F-alice-001, insufficient evidence."*). For the failure responses
+(`401 bad_signature`, `401 nonce_expired`, `409 precondition_failed`, …) see
+[What you'll see back](#what-youll-see-back).
+
+### Action 3 — List / verify recorded approvals
+
+There is no bare "list" endpoint on the sidecar; approvals are **read back from
+the `agentropix-approvals-*` index** that `/approve` writes to. The expert reads
+the index directly; the non-expert asks the assistant, which routes to the real
+indexer tools.
+
+> **🖥️ Expert (command) — Execution C:**
+> ```bash
+> curl -fsS "$AGENTROPIX_OS_URL/agentropix-approvals-*/_search" \
+>   -H 'Content-Type: application/json' \
+>   -d '{"query":{"term":{"case_id":"INC-2026-0042"}},"sort":[{"@timestamp":"desc"}]}'
+> ```
+> **💬 End-user (prompt):** *"List the approvals recorded for case INC-2026-0042."*
+> → maps to **`idx_search`** (and **`idx_case_summary`** for the rollup count over
+> `agentropix-approvals-*`).
+
+**Output C** (one ledger row per decision — placeholders):
+
+```json
+{
+  "approval_id": "<APPROVAL_ID>",
+  "target_id": "F-alice-001",
+  "target_type": "finding",
+  "from_status": "DRAFT",
+  "to_status": "APPROVED",
+  "approver": "<EXAMINER>",
+  "reason": "reviewed",
+  "prev_approval_hash": "",
+  "case_id": "INC-2026-0042"
+}
+```
+
+### Action 4 — Approve (the one-shot MCP happy path)
+
+For most operators the **single MCP call** is the right surface: it performs
+Action 1 (challenge) and Action 2 (submit) internally, derives PBKDF2 + HMAC on
+the MCP server, and forwards only the signature.
+
+> **🖥️ Expert (command) — Execution D:** (MCP tool call; the server does
+> challenge+sign+submit)
+> ```json
+> {"tool":"approve_finding","arguments":{
+>   "finding_id":"F-alice-001","approver_id":"<EXAMINER>","password":"<APPROVER_PASSWORD>",
+>   "case_id":"INC-2026-0042","from_status":"DRAFT","to_status":"APPROVED",
+>   "target_type":"finding","reason":"reviewed"}}
+> ```
+> **💬 End-user (prompt):** *"Approve the alice finding for this case, I've reviewed
+> it."* → **`approve_finding`** (the active case supplies `case_id`).
+
+**Output D** (the MCP `ApproveFindingResult` envelope — placeholders):
+
+```json
+{
+  "case_id": "INC-2026-0042",
+  "finding_id": "F-alice-001",
+  "approval_id": "<APPROVAL_ID>",
+  "to_status": "APPROVED",
+  "indexed_to": "agentropix-approvals-YYYY.MM.DD",
+  "approved_at": "2026-06-05T00:00:00Z",
+  "error": "",
+  "error_code": ""
+}
+```
+
+> ⚠️ **Password exposure trade-off.** The `approve_finding` MCP tool takes the
+> approver `password` as an argument — convenient for headless/CLI runs, but the
+> password sits in the LLM request context for the call duration. Operators who
+> want the password to *never* touch the model context use the **browser form**
+> instead, where Web Crypto derives the key in the tab. Both produce an identical
+> signed ledger row.
+
+### The challenge → submit handshake at a glance
+
+```mermaid
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"ui-sans-serif, system-ui","fontSize":"14px","lineColor":"#475569"}}}%%
+sequenceDiagram
+    autonumber
+    participant Op as Operator surface<br/>(browser / curl / approve_finding)
+    participant Sc as Approval sidecar
+    participant Idx as agentropix-approvals-*
+    Op->>Sc: POST /challenge (examiner_id, target_id)
+    Sc-->>Op: nonce, salt_hex, iterations, ttl_seconds
+    Note over Op: derive PBKDF2 key, compute HMAC<br/>password stays local
+    Op->>Sc: POST /approve (signature_hex, from to status)
+    Sc->>Sc: consume nonce, verify HMAC, check precondition
+    Sc->>Idx: write append-only approval doc, extend hash chain
+    Sc-->>Op: approval_id, indexed_to, approved_at
+```
+
 ## Retracting / voiding a prior approval
 
 Approvals are **append-only** — there is no delete (BUG-001). To void one:
@@ -82,6 +294,34 @@ Approvals are **append-only** — there is no delete (BUG-001). To void one:
 4. **Sign & Submit** as above. This appends a compensating `REVOKED` entry that
    references the prior `approval_id`; the original row is never mutated
    (`models.py:16-20`).
+
+Both ways to void — the same `target_type=approval`, `APPROVED → REVOKED` move
+signed through the W-288 HMAC flow:
+
+> **🖥️ Expert (command) — Execution E:** (MCP tool call; server does challenge+sign+submit)
+> ```json
+> {"tool":"retract_approval","arguments":{
+>   "approval_id":"<APPROVAL_ID>","approver_id":"<EXAMINER>","password":"<APPROVER_PASSWORD>",
+>   "case_id":"INC-2026-0042","reason":"signed against a finding that never existed"}}
+> ```
+> **💬 End-user (prompt):** *"Retract approval `<APPROVAL_ID>` for this case — it was
+> signed against a finding that never existed."* → maps to **`retract_approval`**
+> (a non-empty `reason` is **required** for chain-of-custody).
+
+**Output E** (a new compensating ledger row referencing the voided approval —
+placeholders):
+
+```json
+{
+  "approval_id": "<NEW_APPROVAL_ID>",
+  "target_id": "<APPROVAL_ID>",
+  "target_type": "approval",
+  "from_status": "APPROVED",
+  "to_status": "REVOKED",
+  "indexed_to": "agentropix-approvals-YYYY.MM.DD",
+  "approved_at": "2026-06-05T00:00:00Z"
+}
+```
 
 ## What you'll see back
 
@@ -101,6 +341,20 @@ Approvals are **append-only** — there is no delete (BUG-001). To void one:
 - **In the index:** a deterministic approval doc in `agentropix-approvals-YYYY.MM.DD`, extending the append-only hash chain (`app.py:262-310`, `hash_chain.py:48-101`).
 - **In the audit log:** the decision appended to **`/var/log/agentropix/approval-sidecar.log`**.
 - **Liveness:** `curl -fsS http://127.0.0.1:8800/healthz` → `200` (`app.py:99-100`).
+
+> **🖥️ Expert (command) — Execution F:**
+> ```bash
+> curl -fsS http://127.0.0.1:8800/healthz
+> ```
+> **💬 End-user (prompt):** *"Show me the approvals recorded for this case so I can
+> confirm my decision landed."* → maps to **`idx_search`** / **`idx_case_summary`**
+> over `agentropix-approvals-*` (Action 3 above).
+
+**Output F** (sidecar liveness):
+
+```json
+{"status": "ok", "service": "approval-sidecar"}
+```
 
 ## Operational & safety notes
 

@@ -12,9 +12,19 @@ Agentropix-SIFT is a **local, CLI-driven bio-agentic DFIR triage engine** that r
 through one [FastMCP](mcp-server.md) server that exposes **71 MCP tools** (`mcp_tool_count = 71`,
 [`.crew/facts.md`](../../.crew/facts.md)). A deterministic [Trinity Loop](trinity-loop.md)
 (Architect → Swarm → Critic) drives those tools; the
-[Thymus read-only policy](mcp-server.md#thymus-the-read-only-evidence-boundary) and the
-[Courtroom HMAC-SHA256 seal](sequence-diagrams.md#3-finding--provenance--courtroom-seal)
+[Thymus read-only policy](mcp-server.md#4-thymus--the-read-only-evidence-boundary) and the
+[Courtroom HMAC-SHA256 seal](sequence-diagrams.md#3-finding--provenance-classification--courtroom-seal)
 make every run court-defensible.
+
+> **How to read this page.** It is laid out in the **C4 model** — a simple convention for
+> describing software at increasing zoom. **Level 1 (System Context, §1)** shows
+> Agentropix-SIFT as one box and who/what it talks to. **Level 2 (Containers, §2)** opens
+> that box into its major runnable parts. **§3 (Deployment)** then maps those parts onto the
+> real hosts and the tailnet boundary. Because GitLab cannot render native C4 diagrams, the
+> diagrams below are plain Mermaid `flowchart`s coloured to the same intent — *they convey C4
+> levels without C4 syntax*. A **container** here means a separately-runnable process or unit
+> (CLI, server, sidecar), not a Docker container specifically; a **sink** is an external
+> system Agentropix-SIFT writes to or queries.
 
 ---
 
@@ -57,7 +67,7 @@ right is a system Agentropix-SIFT *uses* but does not own:
   enforcement, defensive subprocess handling, rate-limiting, telemetry. It *never*
   re-implements a parser.
 - **Evidence store** — the immutable disk/memory images. Read access is mediated by the
-  [Thymus policy](mcp-server.md#thymus-the-read-only-evidence-boundary)
+  [Thymus policy](mcp-server.md#4-thymus--the-read-only-evidence-boundary)
   (`src/agentropix_sift/mcp_server/thymus_policy.py`); **there is no write tool**, so
   evidence integrity is architectural rather than advisory.
 - **OpenSearch indexer** — the case data store behind the `idx_*` tools.
@@ -168,7 +178,7 @@ flowchart LR
             Cases[("/cases evidence<br/>read-only Thymus")]:::ext
         end
     end
-    subgraph GPU1["gpu1 · 192.168.2.178 · Docker"]
+    subgraph GPU1["GPU host · TAILNET-IP · Docker"]
         direction TB
         Wazuh2["Wazuh single-node<br/>manager + indexer"]:::sink
         OS2["OpenSearch · idx_*"]:::sink
@@ -199,7 +209,9 @@ flowchart LR
    `WAZUH_INTEGRATION_ENABLED=false`, `WAZUH_PUSH_ENABLED=false`, and
    `WAZUH_DRY_RUN_ONLY=true`; threat-intel egress is gated by `AGENTROPIX_ALLOW_EGRESS=0`
    ([env-vars.md](../../.crew/env-vars.md) §Wazuh kill switches, §Threat-intel). The Wazuh
-   stack itself lives on a *separate* Docker host (gpu1), reachable only over the tailnet.
+   stack itself lives on a *separate* Docker host (the GPU host, shown as `TAILNET-IP`
+   above — a placeholder; the real tailnet address is never published here per the
+   no-raw-internal-IPs hygiene rule), reachable only over the tailnet.
 
 > The single-host workstation layout above is the dev/demo reality; the ADR-007 Kubernetes
 > topology supersedes it in production. Neither contradicts the others — the exposure

@@ -42,9 +42,13 @@ cryptographically sealed triage report a human examiner can trust and defend.
 - **Trinity Loop orchestration** — Architect → Swarm → Critic, with a deterministic halt
   condition (a stable *convergence fingerprint*, not an LLM confidence score). See
   [The Trinity Loop](docs/02-architecture/trinity-loop.md).
-- **7-agent forensic Swarm** — Memory, Timeline, Filesystem, Artifact, Discovery, Mail, and
-  Hunt specialists, plus deterministic ATT&CK detector agents, coordinating over a quorum
-  **Blackboard**. See [The Swarm Agents & Blackboard](docs/02-architecture/swarm-agents.md).
+- **7-agent forensic Swarm** — the *Swarm* is the team of seven first-class DFIR specialist
+  agents (Memory, Timeline, Filesystem, Artifact, Discovery, Mail, and Hunt), plus deterministic
+  ATT&CK detector agents, that actually drive the forensic tools. They coordinate over a quorum
+  **Blackboard** — a shared scratchpad where an observation is only promoted to a finding once
+  enough agents corroborate it (the default quorum is 2; see
+  [Canonical Facts](.crew/facts.md)). See
+  [The Swarm Agents & Blackboard](docs/02-architecture/swarm-agents.md).
 - **71 MCP tools over one FastMCP server** — including **16 SIFT forensic tools** wrapped as
   deterministic, fingerprinted callables (Volatility3, Plaso, The Sleuth Kit, EVTX, YARA,
   bulk_extractor, RegRipper, EZ-Tools, and more). See the
@@ -52,11 +56,14 @@ cryptographically sealed triage report a human examiner can trust and defend.
 - **Evidence sovereignty** — a pre/post **SHA-256 evidence invariant** guarantees the engine
   never mutates the artifacts it reads; only *deterministic* tools may produce findings. See
   [Anti-Hallucination](docs/05-safety-forensics/anti-hallucination.md).
-- **Thymus read-only policy** — a deny-by-default safety boundary
-  (`mcp_server/thymus_policy.py`) that blocks any write/exec path before a tool runs. See the
+- **Thymus read-only policy** — the *Thymus* (named for the immune-system organ that screens out
+  harmful cells) is a deny-by-default safety boundary (`mcp_server/thymus_policy.py`) that
+  inspects every tool call and blocks any write/exec path before a tool runs. See the
   [Security Model](docs/07-sdlc-ops/security-model.md).
-- **Courtroom audit seal** — an **HMAC-SHA256** seal over a JSONL chain-of-custody audit log
-  (`courtroom.py`) plus [provenance-chain validation](docs/05-safety-forensics/provenance-grounding.md).
+- **Courtroom audit seal** — the *Courtroom seal* is an **HMAC-SHA256** signature over the
+  JSONL chain-of-custody audit log (`courtroom.py`): a keyed cryptographic seal that makes the
+  log tamper-evident (any later edit invalidates the seal), so the run can be defended like
+  courtroom evidence — plus [provenance-chain validation](docs/05-safety-forensics/provenance-grounding.md).
 - **Optional approval sidecar** — a human gate that holds findings in DRAFT until an examiner
   APPROVES them in a browser **Approval Portal** (tailnet-only, at
   `https://siftworkstation.taile7c9ca.ts.net:8443/`), before any report is sealed. See the
@@ -263,7 +270,26 @@ full env-var table.
 ## Documentation
 
 Start at the routed [master table of contents](INDEX.md), which maps every chapter to its
-audience (operator / examiner / developer / auditor) and the question it answers. Highlights:
+audience (operator / examiner / developer / auditor) and the question it answers.
+
+### The nine sections at a glance
+
+The portal is organized into nine numbered sections under `docs/`. One line each, so a
+newcomer knows where to look:
+
+| # | Section | What it contains |
+|---|---------|------------------|
+| 1 | [Overview](docs/01-overview/what-is-agentropix.md) | What Agentropix-SIFT is and why, the capability matrix, the 3-command Quickstart, the complete operator User Guide, and how it compares to alternatives. |
+| 2 | [Architecture](docs/02-architecture/system-context-c4.md) | How the engine is built — system context, internal components, the Trinity Loop, the Swarm + Blackboard, the FastMCP server (and the Thymus boundary), and step-by-step sequence diagrams. |
+| 3 | [Data](docs/03-data/data-models.md) | The data model — the case/finding/report schemas, the data dictionary, the entity-relationship view, and what gets persisted to disk. |
+| 4 | [MCP Tools](docs/04-mcp-tools/tool-reference.md) | The 71-tool MCP surface — the full tool reference, the typed Response Envelope, which agent invokes which tool, and the capability map for picking a tool by DFIR function. |
+| 5 | [Safety & Forensics](docs/05-safety-forensics/anti-hallucination.md) | Why you can trust the output — anti-hallucination guarantees, provenance grounding, the Courtroom audit seal, the human-in-the-loop gate, the Approval Portal, and the AI disclosure. |
+| 6 | [Use Cases](docs/06-use-cases/uc-disk-triage.md) | End-to-end worked runs — disk triage, memory triage, the approval gate, the Wazuh push, a guided demo walkthrough, and per-case attack-chain hypotheses. |
+| 7 | [SDLC & Operations](docs/07-sdlc-ops/implementation.md) | How to build, run, and operate it — implementation, testing, configuration, deployment, the security model, recovery/resilience, recall methodology, and the evaluation scorecard. |
+| 8 | [Reference](docs/08-reference/cli-reference.md) | Look-up material — the full CLI reference, the glossary, the ADR index, and the design-decision rationale. |
+| 9 | [Integrations](docs/09-integrations/wazuh-portal.md) | Connecting to external systems — the Wazuh/SOC portal operator's guide and how to connect a remote client to a live internal MCP server. |
+
+### Highlights by audience
 
 - **New here? Start with the [User Guide — The Complete Operator Runbook](docs/01-overview/user-guide.md)** —
   one complete case in full operational depth, covering both execution paths (manual ·

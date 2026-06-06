@@ -24,7 +24,7 @@ detectable.
 | Thymus JSONL audit | `$AGENTROPIX_AUDIT_LOG` | JSONL (append) | `ThymusEvidencePolicy._log` (`thymus_policy.py:382`) | drained into sealed audit log; SIEM | Append-only, live during run |
 | Hippocampus traces | (in-memory only) | `ReasoningTrace` objects | `HippocampusBridge.remember` | next-iteration `Architect` | Process-lifetime; not persisted standalone |
 | Evidence-gate DB | `$AGENTROPIX_EVIDENCE_GATE_DB` | SQLite | `TokenRegistry` (`registry.py`) | mutating tool calls | Durable across runs |
-| MASTER-IOCS | `MASTER-IOCS.json` (case dir) | JSON validating `master_iocs.schema.json` | `master_iocs_aggregator.py` | Wazuh push, examiners | Per case; HMAC-sealed |
+| MASTER-IOCS | `<run-dir>/MASTER-IOCS.json` (+ `.signature` sidecar) | JSON validating `master_iocs.schema.json` | `master_iocs_aggregator.py` | Wazuh push, examiners | Per case; signed by a detached HMAC sidecar |
 | Approval chain | OpenSearch `agentropix-approvals-YYYY.MM.DD` | indexed docs, hash-chained | approval sidecar `writer.py` | dashboard, examiners | Append-only |
 
 ---
@@ -165,18 +165,32 @@ runs are pure read-only and spend no token.
 
 ## MASTER-IOCS aggregate
 
-**Path / naming.** `MASTER-IOCS.json` in the operator case directory
-(`AGENTROPIX_RUNNER_CASE_DIR`).
+**Path / naming.** `MASTER-IOCS.json`, written into the **run directory** the aggregator is pointed at
+(`--input` / `--output`; the `run_dir` config field, `master_iocs_aggregator.py:95`). A detached
+signature **sidecar** lands beside it as `MASTER-IOCS.json.signature`
+(`master_iocs_aggregator.py:24`). When this run directory is the operator's case directory, the
+placeholder env var **`<AGENTROPIX_RUNNER_CASE_DIR>`** is what the downstream Wazuh push path points at
+to find the file.
 
 **Format.** JSON validating `schema/master_iocs.schema.json`, produced by
 `wrappers/master_iocs_aggregator.py`. Carries the IOC record family
 ([data-dictionary §10](data-dictionary.md#10-wazuh-ioc-record-family)) — each record bound to its
 `IOCProvenance` (and thereby to the evidence-image SHA-256).
 
-**Lifecycle.** Aggregated per case from the case's IOCs and HMAC-sealed via
-`AGENTROPIX_MASTER_IOCS_HMAC_KEY`. It is the input the W-188 Wazuh push path reads to hunt IOCs in the
-SIEM; provenance travels with every record so a pushed indicator remains traceable to the exact
-evidence bytes it was extracted from.
+**Lifecycle.** Aggregated per case by walking the per-host `report.json` files under the run directory
+(`memory/<host>/` and `disks/<host>/`) and merging their IOCs additively. The aggregator is
+**fail-closed on integrity**: it refuses to write unless the signer key
+`AGENTROPIX_MASTER_IOCS_HMAC_KEY` is set (and at least 32 bytes long, `master_iocs_aggregator.py:70`).
+
+**Integrity (detached sidecar, not an inline seal).** Unlike the report trio — whose seals live
+*inside* the JSON — MASTER-IOCS is signed by a **separate** `MASTER-IOCS.json.signature` file. That
+sidecar records the file's `target_filename`, its `target_sha256`, and a `signature_hex` = HMAC-SHA256
+over the canonical file bytes keyed by `AGENTROPIX_MASTER_IOCS_HMAC_KEY`
+(`master_iocs_aggregator.py:580`). Verification (`verify_master_iocs_signature`) re-hashes the file,
+checks the filename and SHA-256 match the sidecar, then constant-time compares the recomputed HMAC
+against `signature_hex`. It is the input the Wazuh push path reads to hunt IOCs in the SIEM; provenance
+travels with every record so a pushed indicator remains traceable to the exact evidence bytes it was
+extracted from.
 
 ---
 
@@ -207,8 +221,9 @@ case42.session-key       # 32-byte HMAC key, mode 0600  ← the only secret
 case42.audit-log.json    # Thymus access trail, HMAC-sealed, cross-bound to the report
 ```
 
-Plus, depending on configuration: a live JSONL at `$AGENTROPIX_AUDIT_LOG`, a `MASTER-IOCS.json` for
-the case, rows in the evidence-gate SQLite DB, and approval documents in OpenSearch. An examiner with
+Plus, depending on configuration: a live JSONL at `$AGENTROPIX_AUDIT_LOG`, a `MASTER-IOCS.json` (with
+its detached `MASTER-IOCS.json.signature` sidecar) for the case, rows in the evidence-gate SQLite DB,
+and approval documents in OpenSearch. An examiner with
 the `.session-key` can verify — in constant time — that neither the report nor its cross-bound audit
 log has been altered, and can replay every deterministic step from the `raw_output` snapshots in
 `trace.tool_calls`.

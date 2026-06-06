@@ -6,6 +6,12 @@ decision with its context and consequences; ADRs are immutable once accepted —
 a changed decision is superseded by a new ADR
 ([`docs/adr/README.md`](../../../agentropix-sift/docs/adr/README.md)).
 
+This page is a **catalogue**: it routes you to each ADR and reports its live
+status, but it does not duplicate the decisions themselves. For the *why* behind
+the decisions — the recurring design principles, the accepted trade-offs, and the
+approaches that were tried and discarded — see the companion
+[Design Decisions](design-decisions.md) page.
+
 > **Status discipline.** The Status column below is taken from the live status
 > audit ([`docs/adr/_STATUS-AUDIT.md`](../../../agentropix-sift/docs/adr/_STATUS-AUDIT.md),
 > dated 2026-06-03), **not** from the older `README.md` index (which is frozen at
@@ -70,7 +76,12 @@ otherwise below.
 ## Non-numbered ADRs
 
 These cover milestone-specific and recall-contribution **defer** decisions. They
-live in the same directory and are part of the audit trail.
+live in the same directory and are part of the audit trail. The **Kind** column
+distinguishes them: a **Milestone** ADR records a decision scoped to one delivery
+milestone (here the M6.3 Plaso work), while a **Defer** ADR formally parks a
+capability that is built and unit-tested but whose live-recall contribution is
+intentionally held back (so the recall figures in [`.crew/facts.md`](../../.crew/facts.md)
+are not inflated by an unvalidated detector).
 
 | ADR | Title | Kind | One-line summary |
 |-----|-------|------|------------------|
@@ -93,6 +104,7 @@ live in the same directory and are part of the audit trail.
 
 ## Related references
 
+- [Design Decisions](design-decisions.md) — the rationale layer behind this catalogue: shared design principles, accepted trade-offs, and discarded approaches per ADR.
 - [CLI reference](cli-reference.md) — `run` cites ADR-016 / ADR-022 for sealing.
 - [Glossary](glossary.md) — the bio-agentic terms many ADRs map to.
 - [Agents list](../../.crew/agents-list.md) — the Trinity Loop ADR-016 protects.

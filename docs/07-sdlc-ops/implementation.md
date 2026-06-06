@@ -5,17 +5,24 @@
 
 This chapter is the map you read before touching code. It narrates the module tree under
 `src/agentropix_sift/`, names the load-bearing files per package, and documents the build
-backend. For the per-agent breakdown see [agents-list](../../.crew/agents-list.md); for
-the data contract see [the data section](../03-data/); for safety internals see
-[security-model](security-model.md).
+backend. It is the **build-and-module** companion to
+[component-architecture](../02-architecture/component-architecture.md): that page draws the
+runtime layer map and determinism boundaries; this one tells you which file each box lives
+in and how to compile the package. For the per-agent breakdown see
+[agents-list](../../.crew/agents-list.md); for the data contract see
+[the data section](../03-data/); for safety internals see [security-model](security-model.md).
 
 ---
 
 ## 1. Package layout at a glance
 
-Agentropix-SIFT is a single Python package (`agentropix_sift`) shipped under a `src/` layout.
-It targets **Python 3.12+** (`pyproject.toml:6`) and exposes two console scripts
-(`pyproject.toml:60-62`):
+Agentropix-SIFT is a single Python package (`agentropix_sift`) shipped under a **`src/`
+layout** — that is, the importable code lives one directory down in
+`src/agentropix_sift/` rather than at the repo root, so tests always run against the
+*installed* package and never accidentally import loose files from the working tree. It
+targets **Python 3.12+** (`requires-python = ">=3.12"`, `pyproject.toml:6`) and exposes two
+**console scripts** (the `agentropix-sift…` commands that `pip install` puts on your `PATH`,
+defined under `[project.scripts]`, `pyproject.toml:60-62`):
 
 | Console script | Entry point | Role |
 |----------------|-------------|------|
@@ -111,7 +118,7 @@ fixed-point convergence fingerprint or a score threshold — **never** an LLM se
 |----------|---------|
 | `fastmcp_app.py` | Registration site for the in-module tools (+5 wazuh wrappers); `main()` server entry |
 | `server.py` | Tool dispatch helpers (`mcp_get_pslist`, `mcp_fls`, …), `ToolError`, `configure_policy` |
-| `thymus_policy.py` | **Thymus read-only evidence policy (S-02)** — path allowlist + audit ring at the boundary |
+| `thymus_policy.py` | **Thymus read-only evidence policy** — the path allowlist + symlink/traversal screen + audit ring enforced at the tool boundary so no tool can write to or escape the evidence tree. (S-02 is its safety-requirement ID; the rationale lives in [security-model](security-model.md).) |
 | `config.py` | `load_config()` / `get_config()` merge |
 | `_env.py` | `AGENTROPIX_*` env-var readers with floor/ceiling clamping (`get_int`, `get_float`, …) |
 | `_trace.py` | Per-tool-call trace capture (`trace_scope`, raw-output snapshots) |
@@ -208,6 +215,8 @@ performance accelerant, not a correctness dependency.
 
 ## See also
 
+- [component-architecture](../02-architecture/component-architecture.md) — the runtime layer
+  map and determinism boundaries these modules implement.
 - [testing](testing.md) — the test topology and recall gate that guard this codebase.
 - [configuration](configuration.md) — the `AGENTROPIX_*` env-var surface.
 - [deployment](deployment.md) — standing the package up on a SIFT host.

@@ -8,7 +8,11 @@
 
 Agentropix-SIFT is a **local, CLI-driven, bio-agentic Digital Forensics & Incident
 Response (DFIR) triage engine** built for the [SANS SIFT
-Workstation](https://www.sans.org/tools/sift-workstation/). It runs the forensic
+Workstation](https://www.sans.org/tools/sift-workstation/). *Bio-agentic* means its
+safety and orchestration design is mapped to biological metaphors — most importantly
+the **Thymus** (the immune system's self/non-self gate, here a read-only evidence
+policy); each such mapping is recorded in an Architecture Decision Record (ADR). It
+runs the forensic
 binaries that examiners and courts already trust (`volatility3`, `log2timeline`,
 The Sleuth Kit, RegRipper, YARA, `bulk_extractor`, …) and orchestrates them with an
 agentic control loop that is **deterministic where it counts**: every fact in the

@@ -122,6 +122,16 @@ seal and the report seal (`courtroom.py:241-250`). The function returns the
 three surfaces — `{"report": ..., "key": ..., "audit": ...}` — so the operator
 can echo all of them (`courtroom.py:363-364, 397`).
 
+The audit seal has its own constant-time verify peer, `verify_audit_seal`
+(`courtroom.py:284-288`), the exact mirror of `verify_seal` for the report: it
+recomputes `seal_audit_log` over the canonicalised audit dict and compares with
+`hmac.compare_digest`. So the two on-disk artifacts are checked symmetrically —
+`verify_seal` against `<report>.json`'s `report_seal`, and `verify_audit_seal`
+against `<report>.audit-log.json`'s `audit_log_seal` — and the cross-bind makes
+either check sufficient to catch a swapped audit log (see
+[Persisted Artifacts](../03-data/persisted-artifacts.md#the-sealed-audit-log--reportaudit-logjson)
+for the on-disk view of these files).
+
 > New code should prefer `write_sealed_session`; the older
 > `write_sealed_report` (`courtroom.py:205-227`) seals only the report and is
 > retained for callers with no audit entries (legacy/test paths).
@@ -149,7 +159,7 @@ sequenceDiagram
     CR->>CR: cross-bind audit_log_seal into report dict
     CR->>CR: seal_report(report_dict, key) → report_seal
     CR->>FS: write report.json + <stem>.session-key + <stem>.audit-log.json
-    CR-->>ORCH: {report, key, audit} paths
+    CR-->>ORCH: report, key, audit paths
 
     Note over V: Later — independent verification
     V->>FS: read report.json + audit-log.json + session-key
@@ -207,14 +217,17 @@ each historical key, or scope with `--current-run-id`.
 
 ## Related sealing primitives
 
-The same HMAC-SHA256-over-canonical-JSON pattern recurs across the safety spine,
-each with a `verify_*` peer that recomputes in constant time:
+The same HMAC-SHA256-over-canonical-JSON pattern recurs across the safety spine.
+Each seal is paired with a constant-time check that **recomputes** the digest
+from the on-disk bytes (via `hmac.compare_digest`) rather than trusting any
+stored value — a `verify_*` peer for the HMAC seals, or chain-hash
+recomputation for the approval ledger:
 
-| Surface | Module | Seal envelope binds |
-|---------|--------|---------------------|
-| Report + audit log | `courtroom.py` | report dict; audit dict; cross-bound `audit_log_seal` |
-| Wazuh IOC push | `wazuh/seal.py:1-32` | operator, case_id, ts, evidence_token_id, endpoint, req/resp sha256, status |
-| Approval ledger | `approval_sidecar/hash_chain.py` | deterministic `approval_id` + `prev_approval_hash` chain (see [Human-in-the-Loop](human-in-the-loop.md)) |
+| Surface | Module | Seal envelope binds | Verify peer |
+|---------|--------|---------------------|-------------|
+| Report + audit log | `courtroom.py` | report dict; audit dict; cross-bound `audit_log_seal` | `verify_seal` / `verify_audit_seal` |
+| Wazuh IOC push | `wazuh/seal.py:1-32` | operator, case_id, ts, evidence_token_id, endpoint, req/resp sha256, status | `verify_seal` (`wazuh/seal.py:187-218`) |
+| Approval ledger | `approval_sidecar/hash_chain.py` | deterministic `approval_id` + `prev_approval_hash` chain (see [Human-in-the-Loop](human-in-the-loop.md)) | recompute `approval_id` + `prev_approval_hash` and compare the chain |
 
 ## See also
 

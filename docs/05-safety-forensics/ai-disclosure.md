@@ -16,6 +16,30 @@ influence, what data does and does not cross the Anthropic API boundary, and
 which parts of a run are reproducible versus stochastic. Every claim below is
 grounded to a source file in `agentropix-sift`.
 
+**Terms used on this page** (defined where they first appear, collected here for
+reference):
+
+- **LLM** — large language model; here, a Claude model. It can be *stochastic*
+  (the same input may yield a different choice on different runs).
+- **MCP tool** — a deterministic Python function exposed over the Model Context
+  Protocol that reads or derives forensic facts. These are the only authors of
+  findings.
+- **Trinity loop** — the orchestration cycle of two LLM agents: the **Architect**
+  (planner — picks which agents/tools to run next) and the **Critic** (reviewer —
+  decides when to halt). See [The Trinity Loop](../02-architecture/trinity-loop.md).
+- **Blackboard** — the shared in-memory state the Trinity agents read and write
+  during a run (findings so far, planned agents, scores).
+- **Thymus** — the read-only-zone policy layer that validates every tool's path
+  argument before a subprocess runs.
+- **Courtroom** — the sealing layer that HMAC-signs the report and audit log.
+- **`args_hash`** — the SHA-256 of a tool call's arguments, recorded *before* the
+  call runs, so the call can never be silently re-described afterward.
+- **`evidence_dict`** — the typed, source-of-truth IOC fields on a finding, taken
+  directly from tool output (as opposed to the optional free-text `description`).
+- **Layers 1–4** — the four-layer determinism map: Layer 1 is the stochastic LLM
+  Consumer, Layers 2–4 are deterministic given the LLM's choices. See
+  [the determinism map](../02-architecture/component-architecture.md#2-the-four-layer-determinism-map).
+
 ---
 
 ## 1. Models used
@@ -42,8 +66,9 @@ versions may produce different tool *sequences*; Layers 2–4 are deterministic
 ### The only in-code pin — optional Haiku reorder (default OFF)
 
 When `AGENTROPIX_ARCHITECT_LLM_REORDER=true` is explicitly opted in (default is
-`false`), the planner (codename **Architect**) makes one meta-reasoning call per
-iteration to Claude Haiku, pinned at `trinity/architect.py:71`:
+`false`), the planner (codename **Architect** — the LLM agent that decides which
+specialist agents to run next) makes one meta-reasoning call per iteration to
+Claude Haiku, pinned at `trinity/architect.py:71`:
 
 ```python
 _LLM_REORDER_MODEL = "claude-haiku-4-5-20251001"
@@ -79,7 +104,7 @@ non-LLM Python.
 |---------|-----------|----------|
 | **Tool choice** — which MCP tool to call next | Stochastic Layer-1 selection | Frozen via `args_hash` (SHA-256 of the call signature) recorded in the trace ledger *before* the subprocess runs (`mcp_server/_trace.py`) |
 | **Argument values** — parameters to the chosen tool | LLM proposes; deterministic wrappers apply env-var floor/ceiling guards | `args_hash` freeze + Thymus path validation (`thymus_policy.py:236` `check_read`) + Pydantic argument typing |
-| **Natural-language `description`** in finding records | Optional LLM summarization | The `description` is *never* source-of-truth; the source-of-truth is `evidence_dict` — typed IOC keys taken directly from tool output |
+| **Natural-language `description`** in finding records | Optional LLM summarization | The `description` is *never* source-of-truth (it is human-readable prose only); the source-of-truth is `evidence_dict` — the typed IOC fields taken directly from tool output |
 
 These three surfaces are the **entirety** of LLM influence. Everything else is
 enforced by code the LLM does not control.
@@ -101,18 +126,22 @@ that either do not exist or are gated by non-LLM Python checks.
    the SHA-256 of args+kwargs *before* invoking the subprocess
    (`_trace.py:280-297`). Any post-hoc "I really meant different arguments" is
    contradicted by the recorded hash.
-3. **Critic halt is pure-Python.** The Critic (`trinity/critic.py`) halts when
-   `score >= halt_threshold` (default **0.85**, `AGENTROPIX_CRITIC_HALT_THRESHOLD`)
-   **or** when the pass added no new findings, subject to the coverage guard
+3. **Critic halt is pure-Python.** The Critic (`trinity/critic.py` — the LLM
+   agent that reviews each pass) does *not* decide when to stop; a deterministic
+   Python rule does. The loop halts when `score >= halt_threshold` (default
+   **0.85**, `AGENTROPIX_CRITIC_HALT_THRESHOLD`, `critic.py:42`) **or** when the
+   pass added no new findings, subject to the coverage guard
    (W-083: refuse to halt while any planned agent produced zero findings) and a
    `min_iterations` floor (default 2, `AGENTROPIX_CRITIC_MIN_ITERATIONS`). None
    of these are LLM-rated (`critic.py:1-32`).
-4. **Thymus read-only-zone policy.** `thymus_policy.py:check_read()` validates
-   every tool's path argument against an allowlist + forbidden patterns +
-   symlink resolution + path-length cap *before* the subprocess spawns. The LLM
-   has no say.
-5. **HMAC seal + audit-log cross-bind.** `courtroom.seal_report()` HMAC-SHA256s
-   the canonicalized report under a per-run session key
+4. **Thymus read-only-zone policy.** Thymus is the path-policy layer:
+   `thymus_policy.py:check_read()` validates every tool's path argument against an
+   allowlist + forbidden patterns + symlink resolution + path-length cap *before*
+   the subprocess spawns. The LLM has no say.
+5. **HMAC seal + audit-log cross-bind.** HMAC (hash-based message authentication
+   code) is a keyed integrity tag: tamper with the sealed bytes and verification
+   fails. `courtroom.seal_report()` HMAC-SHA256s the canonicalized report under a
+   per-run session key
    (`courtroom.py:161-170`); the audit log is independently HMAC-sealed
    (`courtroom.py:270-281`, W-173 / ADR-022) and cross-bound into the report
    *before* the report seal is computed. The LLM cannot alter either
@@ -150,8 +179,8 @@ flowchart LR
     Names --> Prompt
     Prompt --> Feedback
 
-    classDef never fill:#fde,stroke:#c33
-    classDef ok fill:#dfe,stroke:#3a3
+    classDef never fill:#fde,stroke:#c33,color:#333
+    classDef ok fill:#dfe,stroke:#3a3,color:#333
     class E01,Stdout,Extracted never
     class Names,JSON,Prompt,Feedback ok
 ```

@@ -12,6 +12,60 @@ Only a human holding the approver credential can move a finding from `DRAFT` to
 `APPROVED`. This chapter explains the state machine, who can approve, what it
 blocks, and the cryptography that makes self-approval impossible.
 
+> **What this page is.** This is the **design rationale** for the
+> human-in-the-loop (HITL) gate — *why* the gate exists, what guarantee it
+> enforces, and how it composes with the rest of the safety architecture. The
+> hands-on operator procedure — the browser form, every field, error messages —
+> lives on its own page:
+> [The Approval Portal — Operator Walkthrough](approval-portal.md).
+
+### Terms used on this page
+
+| Term | Meaning |
+|------|---------|
+| **Gate** | A control that a finding must pass through before it can change state. The platform has two: the **Thymus** gate on the *input* (access) side and the **approval** gate on the *promotion* (sign-off) side. |
+| **HITL (human-in-the-loop)** | A required human decision in the middle of an otherwise-automated pipeline. Here: the examiner's cryptographic sign-off that promotes a finding out of `DRAFT`. |
+| **Approval sidecar** | The separate process (`src/agentropix_sift/approval_sidecar/`) that holds the approver credential and runs the approval gate. "Sidecar" = it runs *beside* the MCP server, not inside it, so the LLM-driven MCP process can never reach the credential. |
+| **DRAFT** | The status every machine-produced finding starts in. Nothing leaves `DRAFT` without a signed human transition. |
+| **Hard-Stop deny-list** | The short, fixed list of decisions an autonomous agent may **never** take on its own — examiner crypto sign-off is on it. Defined in [The gate model](#the-gate-model). |
+| **HMAC** | A keyed hash (here HMAC-SHA256). Proves the message was signed by someone who holds the approver secret, without ever sending that secret. |
+| **Nonce** | A single-use, short-lived random token the server issues per approval attempt, so a captured request cannot be replayed. |
+
+### The gate model
+
+A finding produced by Agentropix passes **two independent gates**, each owned by
+a different process and guarding a different direction:
+
+1. **The Thymus gate (input / access side).** Before any evidence is read, every
+   MCP tool call passes the read-only **Thymus** policy
+   (`mcp_server/thymus_policy.py`, ADR-008) — a *self/non-self* gate that
+   rejects any write to evidence and pins findings to deterministic tools. The
+   agent *physically cannot* mutate evidence. See
+   [Anti-Hallucination §3](anti-hallucination.md#3--the-read-only-thymus-boundary).
+2. **The approval gate (promotion / sign-off side).** Before any finding leaves
+   `DRAFT`, a human must sign the transition. The agent *physically cannot*
+   approve its own work, because the approver credential lives in a separate
+   process. This is the gate this chapter documents.
+
+The two gates are complementary halves of the same principle — **the autonomous
+system may gather and reason, but it may not alter the evidence and it may not
+bless its own conclusions.** Thymus protects what comes *in*; the approval
+sidecar controls what goes *out*.
+
+**The Hard-Stop deny-list.** Agentropix can run autonomously, but a fixed set of
+decisions are *hard stops*: an agent must always defer them to a human and may
+never adopt them on its own. **Examiner cryptographic sign-off is the first item
+on that list** — no agent, however confident, can promote a finding to
+`APPROVED`. (The platform-wide deny-list also covers credential handling, data
+egress, destructive/irreversible actions, and architecture-decision changes; the
+approval gate is the mechanical enforcement of the sign-off item.) The deny-list
+is a *policy* concept; the approval sidecar is the *cryptographic* mechanism that
+makes the sign-off item non-bypassable even if the policy were ignored.
+
+The rest of this chapter explains the approval gate in detail: the core
+invariant, the state machine, who can approve, the HMAC challenge-response, and
+the tamper-evident hash chain.
+
 The gate is a separate process — `src/agentropix_sift/approval_sidecar/` — a
 small Starlette app (SIFT-W-288) bound by default to port 8800
 (`AGENTROPIX_APPROVAL_SIDECAR_PORT` / config `port`) holding the approver
@@ -194,7 +248,11 @@ rejected at index time — these models are the only safe surface"
 
 ## See also
 
-- [Anti-Hallucination](anti-hallucination.md) — why findings arrive at the gate
+- [The Approval Portal — Operator Walkthrough](approval-portal.md) — the
+  hands-on procedure (browser form, fields, errors) that this design page sits
+  behind.
+- [Anti-Hallucination](anti-hallucination.md) — the **Thymus** input gate (the
+  other half of the gate model) and why findings arrive at the approval gate
   already authored by deterministic tools and stamped `DRAFT`.
 - [Audit & Courtroom Seal](audit-courtroom.md) — the HMAC/cross-binding pattern
   the approval hash chain mirrors.

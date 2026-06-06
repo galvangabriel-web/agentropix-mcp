@@ -18,6 +18,22 @@ beat, with each beat landing a specific rubric dimension. The beat structure is 
 upstream demo script (`docs/DEMO-SCRIPT.md` in the main repo, BMAD-M8 era); every claim below is
 re-anchored to the source it can be checked against.
 
+> **How to read this page (two tracks per beat).** Each operational beat carries an eye-catching
+> dual-audience callout so two very different evaluators can both follow along:
+> - **🖥️ Expert track** — copy the `🖥️` command (the exact `agentropix-sift` CLI invocation or
+>   forensic binary for that beat), run it, and read the verbatim token in the matching **Output**
+>   block.
+> - **💬 End-user track** — type the `💬` plain-language prompt into a Claude session that has the
+>   Agentropix MCP connected. A single focused question is enough — the session recognises it as an
+>   Agentropix capability and routes it to the **real MCP tool** named in the callout (every tool is
+>   listed in [`.crew/tool-list.md`](../../.crew/tool-list.md)).
+>
+> Command/result pairs are enumerated **Execution X → Output X** so it is unambiguous what the judge
+> **runs** versus what they **get back**. Every output token shown is a verbatim string in the source
+> tree (the completion-promise constants, the Thymus REJECT strings, the seal-verifier print lines,
+> the `volatility.py` fallback message) — not a marketing paraphrase. The strings here are real even
+> though the recorded media is not (see the honest note below).
+
 > **Honest note on recorded media.** Two captioned-MP4 recording attempts were made and **both were
 > withdrawn by the operator as incorrect**; the MP4/GIF render artifacts were deleted. This
 > walkthrough is therefore a **text artifact only** — the narrated structure plus the in-code
@@ -68,9 +84,9 @@ flowchart TD
     B6 -.lands.-> D2D3["D2 accuracy + D3 breadth"]
     B2 -.lands.-> D3
 
-    style D1 fill:#e8f6f3,stroke:#117a65
-    style D5 fill:#fff4e1,stroke:#d68910
-    style D2D3 fill:#eaf2f8,stroke:#2874a6
+    style D1 fill:#e8f6f3,stroke:#117a65,color:#0b3d2e
+    style D5 fill:#fff4e1,stroke:#d68910,color:#5c4400
+    style D2D3 fill:#eaf2f8,stroke:#2874a6,color:#163a52
 ```
 
 | Beat | Rubric dimension | What the judge sees | Verifiable in |
@@ -90,15 +106,51 @@ flowchart TD
 The cold open frames the cost: a Tier-2 analyst paged at 3 AM with a compromised Windows domain
 controller, a disk image and a memory dump, and one hour before the IR lead expects findings — today
 that means running plaso, Volatility, Sleuth Kit, RegRipper and YARA by hand and mentally joining
-their outputs. The demo's answer is a single command:
+their outputs. The demo's answer is a single command — no profile to select, no setup wizard.
 
-```bash
-agentropix-sift run /evidence/srl2018/win2008r2-controller-memory.001 --max-iterations 5
-```
+> **🖥️ Expert (command):**
+> ```bash
+> agentropix-sift run /evidence/srl2018/win2008r2-controller-memory.001 --max-iterations 5
+> ```
+> **💬 End-user (prompt):** *"Triage this evidence image end to end and stage your findings as DRAFT —
+> don't approve anything: `/evidence/srl2018/win2008r2-controller-memory.001`."*
+> The session launches the autonomous swarm exactly as the CLI does and persists each result with the
+> `record_finding` MCP tool (the same tool the `run` orchestrator calls under the hood), narrating
+> progress as it goes. **One plain instruction is enough — the session recognises this as an
+> Agentropix triage and drives the full sequence.** (`record_finding`; see
+> [`.crew/tool-list.md`](../../.crew/tool-list.md) §"Findings, IOCs & reporting".)
 
 Behind that one line the CLI hashes the evidence (so the report binds to the bytes), validates every
 path against the operator-defined read-only zones (the Thymus gate, Beat 5), and launches the Trinity
 Loop over the swarm. There is no profile to select. (`src/agentropix_sift/cli.py`.)
+
+**Execution 1 → Output 1.**
+
+*Execution 1:*
+```bash
+agentropix-sift run /evidence/srl2018/win2008r2-controller-memory.001 --max-iterations 5
+```
+
+*Output 1 (the run banner the CLI echoes; verbatim `typer.echo` lines from `cli.py:79-81`, then the
+sealed-session summary from `cli.py:144-152`):*
+```text
+Agentropix-SIFT triage: /evidence/srl2018/win2008r2-controller-memory.001
+  max-iterations: 5
+  output: report.json
+...
+Findings: <n>
+Tool calls: <n>
+Status: complete
+Report written to report.json
+Audit log (sealed) at report.audit-log.json (<n> entries)
+Session key (mode 0600) at report.session-key
+Inference constraint: high (LLM is orchestrator; facts from MCP tools)
+```
+
+> **Why this banner matters (D6 usability).** The closing line —
+> `Inference constraint: high (LLM is orchestrator; facts from MCP tools)` — is emitted on every run
+> (`cli.py:152`) and is the one-line statement of the ADR-016 design: the AI orchestrates, the SIFT
+> tools generate the facts. The judge sees it without asking.
 
 ---
 
@@ -113,6 +165,17 @@ A verifier can fail a run that delivered findings but is missing a required prom
 (`src/agentropix_sift/schema/report.schema.json`; the emit logic is `orchestrator.py:194-195` —
 `if findings and agent.completion_promise: completion_proofs.add(...)`).
 
+> **🖥️ Expert (command):**
+> ```bash
+> # After the run, read the verifiable completion-promise tokens out of the report:
+> jq -r '.completion_proofs[]' report.json
+> ```
+> **💬 End-user (prompt):** *"Which specialists actually contributed findings on that run? Show me the
+> completion proofs."*
+> The session reads the same `completion_proofs[]` array (populated by the swarm and queryable through
+> the report the `report_generate` MCP tool renders) and lists the tokens in plain language.
+> (`report_generate`; [`.crew/tool-list.md`](../../.crew/tool-list.md) §"Findings, IOCs & reporting".)
+
 On a real memory run, the six tokens emitted are:
 
 | Promise token | Emitting agent / detector | Source |
@@ -123,6 +186,24 @@ On a real memory run, the six tokens emitted are:
 | `T1059_001_IEX_LOOPBACK_SCAN_COMPLETE` | IEX loopback C2 detector | `detectors/t1059_001_iex_loopback_c2.py:436` |
 | `T1546_008_ACCESSIBILITY_IFEO_HIJACK_COMPLETE` | IFEO accessibility-hijack detector | `detectors/t1546_008_accessibility_ifeo_hijack.py:619` |
 | `YARA_HUNT_COMPLETE` | YARA hunt detector | `detectors/yara_hunt.py:164` |
+
+**Execution 2 → Output 2.**
+
+*Execution 2:*
+```bash
+jq -r '.completion_proofs[]' report.json
+```
+
+*Output 2 (the six tokens, sorted for diff-stability — each constant is verbatim in the cited source
+file):*
+```text
+CROSS_AGENT_CORRELATION_DONE
+INJECTION_DETECTION_COMPLETE
+MEMORY_TRIAGED
+T1059_001_IEX_LOOPBACK_SCAN_COMPLETE
+T1546_008_ACCESSIBILITY_IFEO_HIJACK_COMPLETE
+YARA_HUNT_COMPLETE
+```
 
 > **Why these six and not the disk set.** The disk-triage path emits a different token set
 > (`TIMELINE_GENERATED`, `ARTIFACTS_PARSED`, `FILESYSTEM_WALKED`, …; `cli.py` `_REQUIRED_PROMISES`).
@@ -169,6 +250,33 @@ Two distinct self-corrections are visible:
    `agents/memory.py:7-10` and `wrappers/volatility.py:236`. The result row carries
    `used_fallback=True` (`volatility.py:172`) so the self-correction is itself audited.
 
+This is the fallback a judge can reproduce by hand — the same `get_pslist` MCP tool the MemoryAgent
+calls inside the loop:
+
+> **🖥️ Expert (command):**
+> ```bash
+> # Drive the same memory list the MemoryAgent runs; on a paused-VM image it self-corrects:
+> agentropix-sift run /evidence/srl2018/win2008r2-controller-memory.001 --max-iterations 5 --verbose
+> ```
+> **💬 End-user (prompt):** *"List the running processes from this memory image — and if the process
+> list looks empty or corrupted, fall back to a pool-tag scan."*
+> The session calls the `get_pslist` MCP tool, which auto-falls-back to `psscan` on a corrupted
+> `ActiveProcessLinks` and returns the rows with `used_fallback=True`. **The end-user does not have to
+> know the plugin names — the focused question routes to the tool, which handles the fallback.**
+> (`get_pslist`; [`.crew/tool-list.md`](../../.crew/tool-list.md) §"Memory forensics — Volatility".)
+
+**Execution 3 → Output 3.**
+
+*Execution 3:* run the memory triage above with `--verbose`; the `get_pslist` path hits the
+paused-VM branch.
+
+*Output 3 (the verbatim self-correction log line; `volatility.py:1339`):*
+```text
+pslist returned 0 processes (corrupted ActiveProcessLinks); falling back to psscan (pool tag scanning)
+```
+The recovered rows then carry `used_fallback=True` (`volatility.py:172`) so the self-correction is
+itself part of the audit trail Beats 4–5 seal.
+
 ---
 
 ## Beat 4 — finding → tool → replay (D5 audit trail)
@@ -178,10 +286,34 @@ recorded in the report's trace with the SHA-256 of its arguments (`args_hash`), 
 `duration_ms`, and the binary's `raw_output` captured **before** any LLM summarizes it
 (`schema/report.schema.json`; the `@traced` span in `docs/DEMO-SCRIPT.md`'s architecture diagram).
 
+> **🖥️ Expert (command):**
+> ```bash
+> # Pivot from a finding to the exact tool call that produced it:
+> jq '.findings[] | select(._source=="memory.injection")' report.json
+> jq '.trace.tool_calls[] | select(.args_hash=="f7e2c4d8...")' report.json
+> ```
+> **💬 End-user (prompt):** *"Show me the injection finding and the exact tool call that produced it,
+> then export the report so I can hand it to the IR lead."*
+> The session reads the finding's `_source` and matching trace entry, then renders/exports the report
+> through the `report_export` MCP tool — the same sealed document the CLI writes.
+> (`report_export`; [`.crew/tool-list.md`](../../.crew/tool-list.md) §"Findings, IOCs & reporting".)
+
+**Execution 4 → Output 4.**
+
+*Execution 4:*
 ```bash
-# Pivot from a finding to the exact tool call that produced it:
 jq '.findings[] | select(._source=="memory.injection")' report.json
-jq '.trace.tool_calls[] | select(.args_hash=="f7e2c4d8...")' report.json
+```
+
+*Output 4 (a finding row naming its producing MCP tool in `_source`, with the trace linkage fields
+defined in `schema/report.schema.json`):*
+```json
+{
+  "_source": "memory.injection",
+  "confidence": 0.9,
+  "args_hash": "f7e2c4d8...",
+  "raw_output": "<binary output captured before any LLM summarized it>"
+}
 ```
 
 The replay story: extract a finding's `args_hash`, find the matching trace entry, and re-invoke the
@@ -199,18 +331,47 @@ The report is sealed with **HMAC-SHA256** under a per-run key written to a mode-
 so swapping the audit log post-run breaks the report seal too. Verification is a dependency-free
 Python script a judge runs on any machine:
 
-```bash
-$ python scripts/verify_seal.py report.json
-Recomputing HMAC-SHA256 over canonical JSON ...
-✓ Seal verified — report not tampered since SIFT wrote it.
+> **🖥️ Expert (command):**
+> ```bash
+> python scripts/verify_seal.py report.json     # verify the untouched report
+> python scripts/verify_seal.py tampered.json   # verify a fabricated copy
+> ```
+> **💬 End-user (prompt):** *"Is this triage report still sealed and trustworthy, or has it been
+> altered since SIFT wrote it?"*
+> The session reports whether the HMAC-SHA256 seal still verifies. The seal itself is laid down by the
+> HMAC-approval surface (`approve_finding`, an **[APPR]** MCP tool); the *verification* step is the
+> dependency-free `scripts/verify_seal.py` script — a judge runs it on any machine, no MCP needed,
+> which is the point of an offline chain-of-custody proof. (`approve_finding`;
+> [`.crew/tool-list.md`](../../.crew/tool-list.md) §"Approval workflow — HMAC sidecar".)
 
-$ jq '.findings += [{"_source":"FAKE","confidence":1.0,"description":"fabricated"}]' \
-       report.json > tampered.json
-$ python scripts/verify_seal.py tampered.json
-✗ Seal MISMATCH — report has been altered. Reject as evidence.
+**Execution 5 → Output 5 (untouched report).**
+
+*Execution 5:*
+```bash
+python scripts/verify_seal.py report.json
 ```
 
-Green tick on the untouched report; instant red mismatch the moment a fabricated finding is injected.
+*Output 5 (verbatim print line; `verify_seal.py:143`, exit 0):*
+```text
+OK Report seal verified.
+```
+
+**Execution 6 → Output 6 (fabricated finding injected).**
+
+*Execution 6:*
+```bash
+jq '.findings += [{"_source":"FAKE","confidence":1.0,"description":"fabricated"}]' \
+       report.json > tampered.json
+python scripts/verify_seal.py tampered.json
+```
+
+*Output 6 (verbatim print lines; `verify_seal.py:138,141`, exit non-zero):*
+```text
+X Report seal MISMATCH - report has been altered.
+   Reject this report as evidence.
+```
+
+Clean verify on the untouched report; instant mismatch the moment a fabricated finding is injected.
 The chain-of-custody story is a script you can run, not a marketing claim
 (`scripts/verify_seal.py`; `docs/DEMO-SCRIPT.md` Beat 4).
 
@@ -220,6 +381,31 @@ The chain-of-custody story is a script you can run, not a marketing claim
 
 The mail domain is where the accuracy story is most concrete, because it is a measured recovery on a
 real PST. On the SRL-2015 nromanoff corpus (544 messages total):
+
+> **🖥️ Expert (command):**
+> ```bash
+> # Carve the PST, recover messages, and index attachment-hash IOCs:
+> agentropix-sift run /evidence/srl2015/nromanoff.pst --max-iterations 5
+> ```
+> **💬 End-user (prompt):** *"Carve this PST for phishing IOCs — recover as many messages and
+> attachments as you can and give me the attachment hashes: `/evidence/srl2015/nromanoff.pst`."*
+> The session calls the `carve_pst_iocs` MCP tool, which runs the `pffexport` recovery path on top of
+> `pypff` and returns the recovered-message count plus hash-pivotable attachment IOC rows. A confirmed
+> attachment hash can then be fanned across hosts with the `pivot_on_ioc` MCP tool.
+> (`carve_pst_iocs`, `pivot_on_ioc`; [`.crew/tool-list.md`](../../.crew/tool-list.md) §"Mail / maldoc
+> / documents" and §"Findings, IOCs & reporting".)
+
+**Execution 7 → Output 7.**
+
+*Execution 7:* run the carve above (or call `carve_pst_iocs` directly).
+
+*Output 7 (the measured recovery — `pypff` baseline vs the `pffexport` recovery path; numbers anchor
+to the merged PRs in `docs/SIFT-WEAKNESSES.md`):*
+```text
+pypff baseline:      10 / 544 messages
+pffexport recovery: 534 / 544 messages  (98.2%)  → 53x coverage improvement
+parser_note on recovered rows: pffexport_recovered:synthesized_eml
+```
 
 | Stage | Engine | Messages recovered | Source |
 |---|---|---|---|

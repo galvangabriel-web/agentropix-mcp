@@ -12,6 +12,21 @@ SIFT forensic tools are installed.
 > below). Do not invent flags; this reference is derived line-by-line from
 > `cli.py`.
 
+> **How to read this page (two audiences).** This is an **operational** page, so every
+> command below carries a side-by-side callout:
+> - **🖥️ Expert (command):** the exact shell command — copy it, run it, read the raw
+>   output in the `Output X` block.
+> - **💬 End-user (prompt):** the plain-language question you type into a Claude session
+>   that has the Agentropix MCP connected. The session recognises it as an Agentropix
+>   capability and **routes it to the real MCP tool named in the callout** — you never
+>   type the tool name yourself. *(Each `💬` prompt is mapped to a real tool from
+>   [`.crew/tool-list.md`](../../.crew/tool-list.md).)*
+>
+> Command/result pairs are labelled **Execution X → Output X** so it is unambiguous what
+> you **run** versus what you **get back**. Sample outputs are illustrative of a real
+> run; the exact paths, counts, and hashes vary per evidence image (paths shown as
+> placeholders like `/cases/SRL-2018/…`).
+
 ## Invocation and global help
 
 ```mermaid
@@ -38,11 +53,37 @@ shim at `cli.py:220` simply calls `app()` and is the registered console
 entry point. Invoke either command with `--help` to see Typer's auto-generated
 usage:
 
-```console
-$ agentropix-sift --help
-$ agentropix-sift run --help
-$ agentropix-sift doctor --help
+> **🖥️ Expert (command):**
+> ```bash
+> agentropix-sift --help
+> agentropix-sift run --help
+> agentropix-sift doctor --help
+> ```
+> **💬 End-user (prompt):** *"What can the Agentropix forensic engine do, and is it ready
+> to run?"*
+> The session answers in plain language and, to confirm the engine is live, routes the
+> question to the **`health`** MCP tool (server name + tool count + version) — the
+> connected-session equivalent of probing the CLI. *(Mapped tool: `health`.)*
+
+**Execution Z → Output Z.**
+
+*Execution Z:*
+```bash
+agentropix-sift --help
 ```
+
+*Output Z (Typer auto-generated usage; abridged):*
+```text
+ Usage: agentropix-sift [OPTIONS] COMMAND [ARGS]...
+
+ Bio-agentic DFIR triage on SANS SIFT Workstation.
+
+╭─ Commands ───────────────────────────────────────────────╮
+│ run      Run autonomous DFIR triage on an evidence image. │
+│ doctor   Check that required SIFT tools are available.    │
+╰──────────────────────────────────────────────────────────╯
+```
+Exit code: `0` (help is always a clean exit).
 
 ---
 
@@ -60,6 +101,24 @@ scores findings and halts on a deterministic convergence fingerprint). See
 ```console
 agentropix-sift run IMAGE [--max-iterations N] [--out PATH] [--verbose]
 ```
+
+> **🖥️ Expert (command):**
+> ```bash
+> agentropix-sift run /cases/SRL-2018/base-dc-cdrive.E01 -n 3 -o dc-triage.json -v
+> ```
+> **💬 End-user (prompt):** *"Investigate this disk image end to end — run the full triage,
+> stage every finding as DRAFT, and give me the sealed report. Don't approve anything."*
+> The session drives the same autonomous **Trinity Loop** over the 71 MCP tools and, when
+> it finishes, hands back the sealed document by routing to the **`report_generate`** tool
+> (and `case_status` for progress). A simple, focused request is enough — the session
+> recognises this as the Agentropix triage capability and orchestrates the swarm for you.
+> *(Mapped tools: `report_generate`, `case_status`; the loop itself consumes the full
+> 71-tool surface — see [tool list](../../.crew/tool-list.md).)*
+>
+> *Why no single "run" MCP tool?* The CLI `run` command is an orchestrator, not a tool —
+> it launches the swarm that *calls* the MCP tools. The end-user equivalent is the
+> autonomous prompt above; the concrete result tool the session returns is
+> `report_generate`.
 
 ### Arguments and options
 
@@ -148,19 +207,64 @@ The fixed `Inference constraint: high` line is the operator-visible assertion
 that the LLM only *orchestrates* while deterministic MCP tools generate the
 facts — the core [ADR-016](adr-index.md#adr-016) "Courtroom" guarantee.
 
-### Examples
+### Examples (Execution → Output)
 
-```console
-# Minimal run over a SANS SRL-2018 disk image
+Each example is a command/result pair. Paths are placeholders — substitute your own
+evidence image and output stem.
+
+**Execution A → Output A** (minimal run over a SANS SRL-2018 disk image).
+
+*Execution A:*
+```bash
 agentropix-sift run /cases/SRL-2018/base-dc-cdrive.E01
+```
 
-# Cap the loop at 3 iterations, write to a named report, show config + INFO logs
+*Output A (illustrative; counts/hashes vary per image):*
+```text
+Agentropix-SIFT triage: /cases/SRL-2018/base-dc-cdrive.E01
+  max-iterations: 5
+  output: report.json
+
+Findings: 7
+Tool calls: 41
+Status: converged
+Report written to report.json
+Audit log (sealed) at report.audit-log.json (0 entries)
+Session key (mode 0600) at report.session-key
+Inference constraint: high (LLM is orchestrator; facts from MCP tools)
+```
+Exit code: `0` on a completed run. (The `Evidence SHA-256:` line appears only when
+`report.evidence_image_sha256` is set; the `Audit log … (0 entries)` count is non-zero
+only when `AGENTROPIX_AUDIT_LOG` points at a populated trail — see Execution C.)
+
+**Execution B → Output B** (cap the loop at 3 iterations, named report, config + INFO logs).
+
+*Execution B:*
+```bash
 agentropix-sift run /cases/SRL-2018/base-dc-cdrive.E01 -n 3 -o dc-triage.json -v
+```
 
-# Seal the Thymus audit trail alongside the report
+*Output B (the `-v` flag adds the echoed `max-iterations`/`output`/`config keys` preamble
+and turns on INFO logging from the orchestrator and swarm; the closing summary block is as
+in Output A but with `Report written to dc-triage.json`).* Exit code: `0`.
+
+**Execution C → Output C** (seal the Thymus audit trail alongside the report).
+
+*Execution C:*
+```bash
 AGENTROPIX_AUDIT_LOG=/tmp/agentropix-audit.jsonl \
   agentropix-sift run /cases/SRL-2018/base-dc-cdrive.E01 -o dc-triage.json
 ```
+
+*Output C:* identical summary to Output A, except the audit line now reports the drained,
+independently sealed Thymus access trail — e.g. `Audit log (sealed) at dc-triage.audit-log.json (128 entries)`.
+Exit code: `0`.
+
+> ⚠️ **GOTCHA (preflight exits).** If `IMAGE` does not exist the command prints
+> `Error: image not found: <path>` to **stderr** and exits `1` *before* any tool runs. A
+> dangling evidence symlink is rejected by Typer with a `BadParameter` carrying a
+> `Repair hint: ln -sfn …` line (also a non-zero exit) — see [Preflight checks](#preflight-checks).
+> Neither failure writes a report or a session key.
 
 ---
 
@@ -178,12 +282,26 @@ agentropix-sift doctor
 
 `doctor` takes no arguments and no options.
 
+> **🖥️ Expert (command):**
+> ```bash
+> agentropix-sift doctor
+> ```
+> **💬 End-user (prompt):** *"Check that my Agentropix forensic environment is ready — are
+> all the forensic tools installed?"*
+> The session runs the same readiness check and reports in plain language whether everything
+> is present or what is missing. In a connected session this is surfaced via the
+> **`health`** MCP tool (it returns the live tool count and server status — the connected
+> equivalent of the binary pre-flight). *(Mapped tool: `health`.)*
+
 ### What it checks
 
 `doctor` iterates a fixed dictionary of **18** binaries that back the project's
 **16** forensic SIFT wrappers (`cli.py:178-197`). For each, it resolves the name —
 honouring the `AGENTROPIX_*_TOOL` override map at `cli.py:160-172` — then calls
-`shutil.which()` and prints `OK <path>` or `MISSING`.
+`shutil.which()` and prints one line per binary in the exact form
+`  [OK  <path>] <description> (<cmd>)` or `  [MISSING] <description> (<cmd>)`
+(`cli.py:204-208`). When a binary was resolved through an env-var override, the line
+gains a `[via <ENV_VAR>=<resolved>]` suffix.
 
 | Binary (`doctor` key) | Description | Env-var override (`_DOCTOR_ENV_OVERRIDES`) |
 |-----------------------|-------------|--------------------------------------------|
@@ -237,15 +355,63 @@ If one or more tools are missing, `doctor` prints a remediation line —
 env var to a working binary."* — and exits `1` (`cli.py:210-215`). If everything
 resolves, it prints `All tools available.` and exits `0` (`cli.py:216-217`).
 
-### Examples
+### Examples (Execution → Output)
 
-```console
-# Verify the workstation before a run
+**Execution D → Output D** (verify the workstation before a run).
+
+*Execution D:*
+```bash
 agentropix-sift doctor
+```
 
-# Point doctor at a non-default YARA build, then re-check
+*Output D (all present; one `[OK …]` line per binary, abridged):*
+```text
+  [OK  /usr/bin/vol] Volatility3 (memory forensics) (vol)
+  [OK  /usr/bin/log2timeline.py] Plaso (timeline) (log2timeline.py)
+  [OK  /usr/bin/fls] Sleuth Kit (filesystem) (fls)
+  [OK  /usr/bin/mmls] Sleuth Kit (partitions) (mmls)
+  [OK  /usr/bin/ewfinfo] ewftools (E01 image metadata) (ewfinfo)
+  ... (13 more lines) ...
+
+All tools available.
+```
+Exit code: `0` when every binary resolves.
+
+> **Note on the line count.** `doctor` prints one line per **binary** (18 lines on a stock
+> SIFT box — the 16 forensic wrappers' backing binaries plus `icat` and `strings`, which
+> `doctor` also pre-flights). The prose figure **"16 forensic SIFT wrappers"** counts the
+> wrapper layer, not the resolved-binary lines; both are correct. The signal you act on is
+> the closing `All tools available.` (exit `0`) versus the `<n> tool(s) missing.` line
+> (exit `1`).
+
+**Execution E → Output E** (point `doctor` at a non-default YARA build, then re-check).
+
+*Execution E:*
+```bash
 AGENTROPIX_YARA_TOOL=/opt/yara/4.5/bin/yara agentropix-sift doctor
 ```
+
+*Output E (the YARA line is now annotated with the resolved override; other lines as in
+Output D):*
+```text
+  [OK  /opt/yara/4.5/bin/yara] YARA (pattern matching) (yara) [via AGENTROPIX_YARA_TOOL=/opt/yara/4.5/bin/yara]
+```
+Exit code: `0` (assuming the override path resolves and all other binaries are present).
+
+**Execution F → Output F** (a missing binary — the failure path).
+
+*Execution F:* run `doctor` on a host where (for example) `bulk_extractor` is not installed.
+
+*Output F:*
+```text
+  [MISSING] bulk_extractor (bulk_extractor)
+  ... (other lines) ...
+
+1 tool(s) missing. Install, or set the corresponding AGENTROPIX_*_TOOL env var to a working binary.
+```
+Exit code: `1` whenever one or more binaries are missing (`cli.py:210-215`). A `MISSING`
+tool degrades gracefully at run time (the relevant agent self-skips) but lowers recall —
+resolve it, or set the binary's `AGENTROPIX_*_TOOL` override, before a real run.
 
 ---
 

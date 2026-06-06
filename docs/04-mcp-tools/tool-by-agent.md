@@ -31,8 +31,9 @@ graph TB
   class D,H derived;
 ```
 
-DiscoveryAgent and HuntAgent (shaded) run **no wrappers at all** — they read prior findings/correlations
-off the Blackboard. Everyone upstream of them must have published first, which is why run order is
+**Legend:** green nodes drive forensic wrappers (the binaries listed below); the two
+yellow/derived nodes (DiscoveryAgent, HuntAgent) run **no wrappers at all** — they read prior
+findings/correlations off the Blackboard. Everyone upstream of them must have published first, which is why run order is
 fixed and HuntAgent is always last (`.crew/agents-list.md`). This is the structural reason the
 correlation/derived tools in the [tool reference](tool-reference.md#three-kinds-of-tool) exist as a
 distinct class.
@@ -41,8 +42,13 @@ distinct class.
 
 ## Core swarm specialists (the "7-agent Swarm") → tools
 
-Each specialist declares a `name` and a `completion_promise` token appended to
-`report.completion_proofs` when it publishes ≥1 Finding without a tool error (M8.3d).
+Each specialist declares a `name` (its stable identity, stamped onto every `Finding` it
+publishes — see [Why this mapping is deterministic](#why-this-mapping-is-deterministic)) and a
+`completion_promise` — a fixed string token (e.g. `MEMORY_TRIAGED`) that the agent appends to
+`report.completion_proofs` once it has published ≥1 Finding without a tool error. The promise tokens
+are the audit trail that proves a planned agent actually ran and produced output (milestone M8.3d);
+the Critic refuses to halt while any planned agent's promise is missing. The full token list is in
+[`.crew/agents-list.md`](../../.crew/agents-list.md).
 
 | Agent (`name`) | Source | MCP tools / wrappers it invokes | Produces |
 |----------------|--------|---------------------------------|----------|

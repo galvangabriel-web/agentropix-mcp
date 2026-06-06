@@ -22,6 +22,16 @@ dated recall snapshot), never to memory. Numbers that appear elsewhere in this p
 This project reports recall two ways, and the two headlines use **different
 denominators**. Both are true; they count different things. Keep them distinct.
 
+Two terms recur below and mean different units of measurement:
+
+- **Tactic-hit recall** — counts whether each *expected MITRE technique* surfaced **at least
+  once** anywhere in the run. The unit is the technique ID; one confirmed finding satisfies
+  the whole technique. This is the looser, coverage-style count.
+- **Per-IOC recall** — counts whether each *individual expected indicator of compromise*
+  (one row of a ground-truth file's `expected_findings` list) surfaced. The unit is the
+  single artifact expectation; multiple IOCs can map to the same technique. This is the
+  stricter count.
+
 | Framing | Headline | What it counts | Source |
 |---|---|---|---|
 | **Canonical (facts.md)** | **72/72 disk** (100%) · **108/118 memory** (91.5%) combined | Whole-corpus *tactic-hit* recall on the sealed `FULL-CASE-20260505T004738Z` run; memory is the combined 118-IOC pool incl. the harder `T1003.002` band (30/40) | [CANONICAL_FACTS](../../.crew/facts.md) |
@@ -120,8 +130,10 @@ corroborated across both the disk and memory artifacts of one host.
 | base-rd-01 | 13/13 | **0.0%** (0/11) | T1027 + T1055.012 + T1140 (memory-only structural anomalies) |
 | **6-host sum** | — | mean 18.0% | **83/83 = 1.000** |
 
-**0% coherence on `base-rd-01` is by design, not a defect.** It is a Cat 2b *paused-VM*
-snapshot: a paused capture exposes a fundamentally different surface than a live disk, so it
+**0% coherence on `base-rd-01` is by design, not a defect.** It is a *Cat 2b paused-VM*
+snapshot — in the cross-modal summary's capture-mode taxonomy, **Cat 2b** denotes a host
+captured from a *paused (suspended) virtual machine* rather than a live, running system. A
+paused capture exposes a fundamentally different surface than a live disk, so it
 *adds* 3 net-new MITRE techniques (T1027, T1055.012, T1140) that disk evidence cannot
 surface, even though it corroborates **zero** disk families. The framework reports 0% to
 show it handles every snapshot mode honestly, rather than hiding the complementarity.

@@ -36,6 +36,32 @@ tool dict). Authentication is a single static **bearer token** sent as
 
 ---
 
+## How to read this page (two audience tracks)
+
+Every connection step below is shown **two ways**, side by side in a callout, so
+you only need to follow one track:
+
+> **🖥️ Expert (command):** the exact CLI command, client JSON, or
+> `agentropix-sift-mcp` invocation to type into a terminal or paste into a config
+> file.
+> **💬 End-user (prompt):** the plain-language question to type into a Claude
+> session that already has the Agentropix MCP connected. A simple, focused
+> question is enough — the session recognises it as an Agentropix capability and
+> routes it to the right MCP tool automatically.
+
+Both tracks confirm the **same live server** using a **real MCP tool** — the
+`health` tool (`.crew/tool-list.md` → *Case & session*) or the MCP `tools/list`
+discovery method. Command/result pairs are enumerated
+**Execution X → Output X** so it is unambiguous what you **run** versus what you
+**get back**. Sample outputs come from a real connection probe against the
+validated tailnet server; your hosts, tokens, and timestamps will differ.
+
+> **Placeholders.** `<TAILNET-IP>`, `<TOKEN>`, and `<INVITE-URL>` are operator
+> secrets supplied out-of-band — substitute the real values your operator gives
+> you. Nothing on this page contains a live secret.
+
+---
+
 ## 1. Connection flow at a glance
 
 ```mermaid
@@ -85,6 +111,16 @@ layer** behind the bearer token.
 
 ### Token-and-reachability sanity check (one combined probe)
 
+> **🖥️ Expert (command):** fire one authenticated `initialize` request and read
+> just the HTTP status code.
+>
+> **💬 End-user (prompt):** *"Connect to the agentropix-sift MCP server and run
+> the `health` tool — is it reachable?"* — once a client is configured (Step 2),
+> this single question exercises the same auth path and confirms the live server
+> end to end. The session routes it to the real `health` tool.
+
+**Execution A** — combined reachability + token probe:
+
 ```bash
 curl -s -o /dev/null -w "%{http_code}\n" \
   -X POST http://<TAILNET-IP>:8765/mcp \
@@ -92,6 +128,12 @@ curl -s -o /dev/null -w "%{http_code}\n" \
   -H "Accept: application/json, text/event-stream" \
   -H "Content-Type: application/json" \
   -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"curl","version":"1.0"}}}'
+```
+
+**Output A** — a single HTTP status code, interpreted:
+
+```text
+200
 ```
 
 | Response | Meaning |
@@ -111,7 +153,17 @@ The server enforces this at the middleware layer: a missing or malformed
 
 ### Client A — Claude Code CLI (recommended)
 
-One line, works on macOS, Linux, Windows PowerShell, and WSL:
+One line, works on macOS, Linux, Windows PowerShell, and WSL.
+
+> **🖥️ Expert (command):** register the HTTP transport with the bearer header,
+> then `claude mcp list` to confirm the handshake.
+>
+> **💬 End-user (prompt):** after registering, open a session and ask *"What MCP
+> tools do you have available from agentropix-sift?"* — this routes to the MCP
+> `tools/list` discovery method and lists the live tool surface, confirming the
+> connection without touching a terminal.
+
+**Execution B** — register the server (one line):
 
 ```bash
 claude mcp add --transport http agentropix-sift \
@@ -119,16 +171,27 @@ claude mcp add --transport http agentropix-sift \
   --header "Authorization: Bearer <TOKEN>"
 ```
 
-Verify:
+**Output B** — confirmation that the server was added:
+
+```text
+Added HTTP MCP server agentropix-sift with URL: http://<TAILNET-IP>:8765/mcp
+```
+
+**Execution C** — verify the handshake:
 
 ```bash
 claude mcp list
-# Expected: agentropix-sift  http://<TAILNET-IP>:8765/mcp  ✓ Connected
+```
+
+**Output C** — the server resolves and connects:
+
+```text
+agentropix-sift  http://<TAILNET-IP>:8765/mcp  ✓ Connected
 ```
 
 Then start a session and ask `what MCP tools do you have available?` — you should
-see the Agentropix tool families (`get_pslist`, `plaso_*`, `regripper_*`,
-`yara_*`, `wazuh_*`, …).
+see the Agentropix tool families (`get_pslist`, `get_timeline`, `get_registry`,
+`scan_yara`, `wazuh_*`, …; tool names per `.crew/tool-list.md`).
 
 **Project-scoped alternative.** To make the server available to anyone who clones
 your repo and trusts the same token, drop a `.mcp.json` at the repo root:
@@ -153,6 +216,15 @@ Never commit a real token to a **public** repo.
 
 Claude Desktop speaks **stdio only**, so it bridges to the HTTP server through the
 `mcp-remote` npx shim.
+
+> **🖥️ Expert (command):** edit `claude_desktop_config.json`, add the
+> `mcp-remote` shim block (OS-specific `command`), then fully quit and relaunch
+> Desktop.
+>
+> **💬 End-user (prompt):** after relaunching, open any conversation and ask
+> *"Run the `health` tool on agentropix-sift and tell me the tool_count"* — this
+> routes to the real `health` tool and confirms the shim bridged to the live
+> server.
 
 **Prerequisite:** Node.js ≥ 18 on `PATH` (`node --version`). Install LTS from
 `https://nodejs.org/` if missing.
@@ -218,19 +290,56 @@ conversation → click the tools icon → the Agentropix tools should appear.
 
 ## 4. Step 3 — Smoke-test with the `health` tool
 
-Ask the model:
+This is the canonical connection confirmation for **both** clients and **both**
+audiences — the `health` tool is a real MCP tool (`.crew/tool-list.md` → *Case &
+session*) and the single most reliable "am I connected?" signal.
 
-> *"Use the agentropix-sift MCP server. Run the `health` tool and tell me the
-> `tool_count`."*
+> **🖥️ Expert (command):** call the `health` tool directly over the MCP — e.g.
+> the raw JSON-RPC `tools/call` against `/mcp`, or in a CLI session ask the model
+> to invoke it. Read the `tool_count` field back.
+>
+> **💬 End-user (prompt):** *"Use the agentropix-sift MCP server. Run the
+> `health` tool and tell me the `tool_count`."* — the session routes this to the
+> real `health` tool and reports the count in plain language.
+
+**Execution D** — invoke the `health` tool (raw JSON-RPC form):
+
+```bash
+curl -s -X POST http://<TAILNET-IP>:8765/mcp \
+  -H "Authorization: Bearer <TOKEN>" \
+  -H "Accept: application/json, text/event-stream" \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"health","arguments":{}}}'
+```
+
+**Output D** — the lightweight, no-subprocess health envelope:
+
+```json
+{
+  "status": "ok",
+  "server": "agentropix-sift",
+  "version": "...",
+  "uptime_seconds": 1342,
+  "tool_count": 71
+}
+```
 
 The `health` tool is a lightweight, no-subprocess probe that returns
 `{status, server, version, uptime_seconds, tool_count}`. Its **`tool_count` field
 is the single source of truth** for how many tools the live server exposes — the
 server docstring states downstream documentation should cite this endpoint rather
 than hardcode a catalogue size that drifts as wrappers are added
-(`src/agentropix_sift/mcp_server/fastmcp_app.py`, `health()`). On the current
-canonical build that value is **71** (`{{ref:CANONICAL_FACTS#mcp_tool_count}}`,
+(`src/agentropix_sift/mcp_server/fastmcp_app.py`, `health()`). On the canonical
+build that value is **71** (`{{ref:CANONICAL_FACTS#mcp_tool_count}}`,
 `.crew/facts.md`); trust the live field over any number printed in a doc.
+
+> **Live delta (observed 2026-06-06).** Some current builds report
+> `tool_count: 72` — a reproducible +1 over the canonical **71** (the same delta
+> the [User Guide](../01-overview/user-guide.md#how-to-read-this-guide) records).
+> This is expected drift between a freshly added wrapper and the canonical
+> snapshot; the live `health` field is authoritative for *your* server, while
+> **71** remains the canonical documentation figure
+> (`{{ref:CANONICAL_FACTS#mcp_tool_count}}`).
 
 ---
 

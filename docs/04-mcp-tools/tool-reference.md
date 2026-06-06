@@ -24,9 +24,34 @@ read-only policy, rate limiting, and `@traced` instrumentation already on the in
 through unchanged (`fastmcp_app.py:1-35`).
 
 > **Authoritative count.** The `health` tool returns a live `tool_count` from `app.list_tools()`
-> (`fastmcp_app.py:355`) — the single source of truth that narrative docs should cite rather than
-> hard-coding a catalogue size that drifts as wrappers land. When an exact number is load-bearing,
-> re-query the running server's `tools/list` and cite `mcp_tool_count = 71`.
+> (`fastmcp_app.py:369`, returned at `:375`) — the single source of truth that narrative docs should
+> cite rather than hard-coding a catalogue size that drifts as wrappers land. When an exact number is
+> load-bearing, re-query the running server's `tools/list` and cite `mcp_tool_count = 71` from
+> [`.crew/facts.md`](../../.crew/facts.md).
+
+#### Verified sample I/O — `health`
+
+`health` is the one tool that runs **no subprocess and no Thymus check**, so its shape is deterministic
+and safe to show verbatim. It is the canary the orchestrators (Trinity, Critic, `scripts/probe_mcp.py`)
+probe instead of invoking a full forensic tool (`fastmcp_app.py:354-376`).
+
+```jsonc
+// health()  -> dict   (no arguments)
+{
+  "status": "ok",
+  "server": "agentropix-sift",
+  "version": "<semver>",        // _SIFT_VERSION at startup
+  "uptime_seconds": 12.481,     // monotonic since process start
+  "tool_count": 71              // live len(app.list_tools()) — matches mcp_tool_count = 71
+}
+```
+
+The `tool_count` field is what the canonical `mcp_tool_count = 71` is reconciled against; if a live
+probe ever returns a different number, the running server — not this page — is authoritative (re-derive
+the catalogue and update `.crew/facts.md`). Every other tool wraps its payload in the standard response
+envelope (`tool_available`, `raw_stdout_sha256`, `skipped_reason`, …) documented on
+[Response envelope](response-envelope.md); `health` is intentionally the lone exception (no
+chain-of-custody fields because it touches no evidence).
 
 ### Three kinds of tool
 
@@ -78,7 +103,7 @@ package that implements the tool; the FastMCP route lives in `fastmcp_app.py` an
 | `case_init` | Create a case context and stamp the active-case pointer | `wrappers/case_lifecycle.py` |
 | `case_activate` | Set the active case | `wrappers/case_lifecycle.py` |
 | `case_status` | Report case state + per-index doc counts | `wrappers/case_lifecycle.py` |
-| `health` | Server health probe + live `tool_count` (no subprocess, no Thymus) | `fastmcp_app.py:355` |
+| `health` | Server health probe + live `tool_count` (no subprocess, no Thymus) | `fastmcp_app.py:354-376` |
 
 ### Evidence intake & disk imaging (10)
 

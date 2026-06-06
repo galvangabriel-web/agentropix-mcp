@@ -19,6 +19,17 @@ courtroom asks:
 Both are derived from the `provenance/` validation code, the Wazuh provenance
 models, and the DRAFT-gate that stamps tiers at the MCP boundary.
 
+> **Terms used throughout.** *MCP boundary* — the Model Context Protocol tool
+> layer, the only channel through which an agent can reach evidence; every call
+> crosses the deterministic, Thymus-guarded wrappers there (see
+> [Anti-Hallucination](anti-hallucination.md)). *HMAC-SHA256* — a keyed message
+> authentication code: `HMAC-SHA256(key, bytes)` produces a tag that only a
+> holder of the secret `key` can compute, so any change to `bytes` makes the tag
+> stop matching. *Canonical JSON* — a single, deterministic serialization
+> (sorted keys, no whitespace, ASCII-only) so the same logical row always hashes
+> to the same bytes on both the sealing and verifying sides. *IOC* — an
+> Indicator of Compromise (a hash, IP, domain, etc.) extracted from evidence.
+
 ## Provenance tiers — where an indicator was witnessed
 
 When a finding/IOC is pushed toward the SIEM, the wrapper stamps a
@@ -115,18 +126,26 @@ minimum needed to re-derive the indicator from primary evidence"
 ### What "sealed & verified" adds — the HMAC envelope
 
 Reaching the strongest grounding level (`ok`) additionally requires the per-row
-HMAC seal to recompute. The validator reconstructs the canonical bytes the
-orchestrator hashed (`_row_canonical_sans_seal`, stripping the `seal` field
-before re-canonicalising, `validate.py:103-110`) and re-verifies the seal
-envelope, which binds (`validate.py:35-41`, `validate.py:176-188`):
+HMAC seal to recompute. A *seal* here is the `seal` field on the row — a string
+of the form `hmac-sha256:<hex>` written by the orchestrator at push time. The
+validator reconstructs the exact canonical bytes the orchestrator hashed
+(`_row_canonical_sans_seal`, which strips the `seal` field before
+re-canonicalising — the seal cannot be inside the bytes it signs,
+`validate.py:103-110`) and re-verifies the **seal envelope**: the structured
+record that the HMAC is actually computed over. That envelope binds the
+following fields together (`validate.py:35-41`, `validate.py:176-188`):
 
 ```text
-endpoint   = f"/provenance/{list_name}"
-req_sha256 = sha256(canonical_json(row sans `seal`))
-resp_sha256 = sha256(b"")
-status     = 0
-+ operator, case_id, evidence_token_id, run_id
+endpoint    = f"/provenance/{list_name}"   # which provenance list this row belongs to
+req_sha256  = sha256(canonical_json(row sans `seal`))  # digest of the row itself
+resp_sha256 = sha256(b"")                  # no HTTP response body for a sidecar row
+status      = 0                            # success sentinel
++ operator, case_id, evidence_token_id, run_id   # who/what/which-case/which-run
 ```
+
+Because all of these are folded into one envelope, the seal does not merely
+attest the row's bytes — it ties the row to the specific operator, case,
+evidence token, and run that produced it. Changing any of them breaks the MAC.
 
 Verification is over `wazuh.seal.verify_seal`, which recomputes
 `HMAC-SHA256(session_key, canonical_json(envelope))` and compares in constant
@@ -204,6 +223,15 @@ python -m agentropix_sift.provenance.validate \
   --emit human
 # Exit code: 0 only if forged + schema_failed + malformed == 0.
 ```
+
+The flags map to the verification inputs described above:
+
+| Flag | Purpose |
+|------|---------|
+| `--in <dir>` | Directory to walk; every `*.provenance.jsonl` under it is validated (`validate.py:280-283`) |
+| `--key <path>` | The per-run session-key file. **Omit it** to run in [schema-only mode](#what-schema-grounded-requires--the-provenance-triple) — sealed rows are reclassified `unsealed` rather than verified (`validate.py:284-288`) |
+| `--operator <name>` | The operator identity folded into the seal envelope; must match the value at seal time or the MAC won't recompute (default `victor`, `validate.py:289-292`) |
+| `--emit human\|json` | `human` prints the readable per-category report; `json` (the default) emits a machine-readable `ValidateReport` for pipelines (`validate.py:306-309`) |
 
 The aggregate report (`ValidateReport`, `validate.py:67-91`) prints per-category
 counts (`ok / unsealed / forged / schema_failed / malformed`) plus up to ten

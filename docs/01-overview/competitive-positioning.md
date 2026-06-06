@@ -6,42 +6,82 @@
 > [What You Get](what-you-get.md) · [Quickstart](quickstart.md)
 
 The first question a SANS judge asks is blunt: **"how is this different from
-Velociraptor plus an LLM?"** The upstream
-`agentropix-sift/docs/COMPETITIVE-DFIR.md` answers it directly, and this page mirrors that answer with the
-counts reconciled to the portal's [canonical facts](../../.crew/facts.md). The short
-version: the differentiators are **capability absences and deterministic control points**
-— things a competitor cannot bolt on with a prompt — not feature-list length.
+Velociraptor plus an LLM?"** (*Velociraptor* is an open-source endpoint-collection
+and live-response agent that queries hosts with its own VQL query language.) The upstream
+`agentropix-sift/docs/COMPETITIVE-DFIR.md` answers that question directly, and this page
+mirrors its answer with the counts reconciled to the portal's
+[canonical facts](../../.crew/facts.md).
+
+The short version: Agentropix-SIFT's differentiators are **structural**, not
+feature-list length. Two phrases recur on this page, so it is worth defining them up
+front:
+
+- **Structural differentiator** — a property that holds because of *how the system is
+  built*, so a competitor cannot reproduce it by adding configuration or a prompt.
+  Example: the agent cannot mutate evidence because **no write tool exists** in the MCP
+  surface — there is literally no verb to call. The guarantee is a *capability absence*
+  and a *deterministic control point* (a check in plain Python, not an LLM judgement),
+  not a setting.
+- **Feature-list differentiator** — a property a competitor can claim by shipping one
+  more menu item (another parser, another dashboard widget). These are easy to copy and
+  therefore not a durable advantage.
+
+The rest of this page argues that the items in the matrix below are the first kind, not
+the second.
 
 ---
 
 ## Executive framing: old reality → new reality
 
 The project is positioned against the **manual-triage status quo**, not just other tools.
-Both framings below are quoted from the upstream big-picture report
-(`PROJECT-ONBOARDING.md` / `DEMO-SCRIPT.md`, via `PROJECT-DESCRIPTION.md`):
+Both framings below come from the upstream big-picture report
+(`PROJECT-ONBOARDING.md` §1, corroborated in `DEMO-SCRIPT.md`).
 
-| | The user's **old reality** | The user's **new reality** |
+The table is read left-to-right as *before Agentropix / after Agentropix*. To keep the
+voice consistent, both columns are written in the same descriptive third person — the
+"old reality" describes the analyst's day today, the "new reality" describes the same day
+run through Agentropix-SIFT (the marketing-style quotes from the source are reproduced as
+quotes so they read as claims, not as plain assertions).
+
+The CLI tools named in the first row are the long-standing open-source forensic binaries
+an examiner reaches for by hand; they are defined once here and reused throughout the page:
+
+- **plaso** (`log2timeline`) — a super-timeline engine that parses dozens of artefact
+  types into one chronological event stream.
+- **Volatility 3** — the volatile-memory (RAM) analysis framework: process lists,
+  injected code, network sockets, and the like from a memory image.
+- **Sleuth Kit** (TSK) — a suite of file-system forensics tools (`fls`, `icat`, `ifind`,
+  `istat`) that walk a disk image without mounting it.
+- **RegRipper** — a Windows Registry-hive parser that extracts persistence keys, user
+  activity, and configuration artefacts.
+
+| | The analyst's **old reality** (manual) | The analyst's **new reality** (Agentropix-SIFT) |
 |--|----------------------------|-----------------------------|
-| **Workflow** | Incident responders arrive at hour-3 of a breach with a stack of `.E01` images and a menu of CLI tools (plaso, Volatility 3, Sleuth Kit, RegRipper). They must extract artefacts, correlate across sources, and write a report — **without mutating evidence** — under a clock. | One command ingests the image; a deterministic loop drives the same trusted binaries, correlates across a 7-agent swarm, and emits a sealed JSON report. |
-| **Time** | 4–8 hours per disk image, ×N hosts | "What used to be 4 hours of manual cross-correlation is 3 minutes of agentic triage." |
-| **Trust** | "I ran a yara scan, got a hit, I think." (hand-kept notes) | Every finding carries `_source` → a tool call → an `args_hash`; the report is HMAC-sealed and **verifiable in court**. |
+| **Workflow** | Incident responders arrive at hour-3 of a breach with a stack of `.E01` disk images and a menu of CLI tools (plaso, Volatility 3, Sleuth Kit, RegRipper). They must extract artefacts, correlate across sources, and write a report — **without mutating evidence** — under a clock. | One command ingests the image, a deterministic loop drives the same trusted binaries, the run correlates across a 7-agent swarm, and the system emits a sealed JSON report. |
+| **Time** | 4–8 hours per disk image, multiplied across N hosts. | Minutes per image. As the source puts it: *"What used to be 4 hours of manual cross-correlation is 3 minutes of agentic triage."* |
+| **Trust** | Findings live in hand-kept notes — *"I ran a YARA scan, got a hit, I think."* | Every finding carries `_source` → a tool call → an `args_hash`; the report is HMAC-sealed and **verifiable in court**. |
 
-> The architecture exists to make the second sentence honest — *verifiable*, not merely
-> *fast*. (`PROJECT-DESCRIPTION.md` §10)
+> The architecture exists to make the "new reality" column honest — *verifiable*, not
+> merely *fast*. (`COMPETITIVE-DFIR.md` §"Honest where we lose"; `PROJECT-ONBOARDING.md` §1.)
 
 ---
 
 ## The unique angle
 
 Agentropix-SIFT is the first DFIR-specific agentic system that unifies four properties,
-each enforced in code (per `COMPETITIVE-DFIR.md` and `DESIGN-DECISIONS.md` §5):
+each enforced in code (per `COMPETITIVE-DFIR.md`; the in-portal
+[Design Decisions](../08-reference/design-decisions.md) page restates them):
 
-1. **Real SANS SIFT toolkit as MCP** — the forensic binaries examiners already trust,
-   exposed as uniformly-typed, uniformly-gated `mcp_*` tools (**16 SIFT forensic
-   wrappers** on the **71-tool MCP surface**; see the count reconciliation below).
+1. **Real SANS SIFT toolkit as MCP** — the forensic binaries examiners already trust
+   (plaso, Volatility 3, Sleuth Kit, RegRipper, and the rest), exposed as
+   uniformly-typed, uniformly-gated `mcp_*` tools (**16 SIFT forensic wrappers** on the
+   **71-tool MCP surface** per [`.crew/facts.md`](../../.crew/facts.md); see the count
+   reconciliation below). *MCP* (Model Context Protocol) is the typed tool-call interface
+   the agent speaks; `mcp_*` is the naming prefix for those tools.
 2. **Structural evidence safety** — no write tool exists; the agent cannot mutate
-   evidence because there is no verb to call. The **Thymus** read-only policy rejects
-   every write before any subprocess spawns.
+   evidence because there is no verb to call. The **Thymus** (the project's
+   immune-system-inspired read-only policy layer at the MCP boundary) rejects every write
+   before any subprocess spawns.
 3. **Multi-agent orchestration with deterministic halt** — a pure-Python
    Architect → Swarm → Critic loop whose termination is a fingerprint no-progress
    detector, with **no LLM in the halt path**.
@@ -55,8 +95,27 @@ each enforced in code (per `COMPETITIVE-DFIR.md` and `DESIGN-DECISIONS.md` §5):
 
 Imported from the oracle's `docs/COMPETITIVE-DFIR.md` feature matrix (2026-04-22), with
 the SIFT-binary count rendered as **16 forensic wrappers**, the agent count as **7 core
-specialists**, and the MCP surface as **71 tools** to match
-[`.crew/facts.md`](../../.crew/facts.md) and `src/agentropix_sift/agents/__init__.py`.
+specialists**, and the MCP surface as **71 tools** — all three pinned to
+[`.crew/facts.md`](../../.crew/facts.md) (`mcp_tool_count = 71`; SIFT forensic tools =
+`16`) and `src/agentropix_sift/agents/__init__.py` (the runnable `SWARM` tuple).
+
+The five comparators across the top are defined once here so the columns are readable on
+their own:
+
+- **Velociraptor + LLM** — the endpoint-collection agent (above) with an LLM bolted on
+  *after* collection to summarise its VQL output.
+- **Autopsy + AI plugin** — Autopsy is the open-source GUI front-end to Sleuth Kit; the
+  "AI plugin" is an LLM that reads the output of a selected Autopsy module.
+- **TheHive / Cortex** — an incident-response case-management platform (TheHive) plus its
+  analyser/responder engine (Cortex); a ticket-and-workflow bus, not a DFIR tool itself.
+- **CADO Response** — a commercial cloud-native DFIR platform with proprietary collection,
+  carving, and an "AI investigator".
+- **Magnet AXIOM Copilot** — the LLM assistant inside Magnet AXIOM, a commercial desktop
+  forensics suite.
+
+A few tool names also appear in the matrix rows: **YARA** is the pattern-matching engine
+used to flag known-malicious file/byte signatures; **bulk_extractor** scans raw bytes for
+emails, URLs, and other artefacts without parsing the file system.
 
 | Capability | Agentropix-SIFT | Velociraptor + LLM | Autopsy + AI plugin | TheHive / Cortex | CADO Response | Magnet AXIOM Copilot |
 |---|---|---|---|---|---|---|
@@ -117,8 +176,9 @@ flowchart LR
 
 ## Four positioning statements
 
-Imported verbatim-in-substance from `COMPETITIVE-DFIR.md` §"Four positioning statements"
-and `DESIGN-DECISIONS.md` §5:
+Imported verbatim-in-substance from `COMPETITIVE-DFIR.md`
+§"Four positioning statements (for the pitch)" (the in-portal
+[Design Decisions](../08-reference/design-decisions.md) page restates the same four):
 
 1. **"We pick up where VQL-on-Velociraptor stops."** Velociraptor is best-in-class for
    agent-side collection, but the LLM step is still *"read my JSON and explain it."*
@@ -161,8 +221,11 @@ The project names its losses explicitly — these are deliberate non-goals, not 
 
 ## Six explicit non-goals
 
-To prevent scope confusion, the project states its non-goals up front
-(`PROJECT-DESCRIPTION.md` §7):
+To prevent scope confusion, the project states its non-goals up front. These are the
+**deliberate non-goals** the oracle records in `COMPETITIVE-DFIR.md`
+§"Honest where we lose" and the deferral list in `docs/REVIEW-2026-04-20.md`; non-goal
+#5 (no active response) is the subject of its own ADR
+(`docs/adr/ADR-021-two-person-rule-defer.md`):
 
 1. **Not a GUI / dashboard.** CLI + JSON output is the primary interface.
 2. **Not a training tool.** It automates what an analyst already knows; it doesn't teach

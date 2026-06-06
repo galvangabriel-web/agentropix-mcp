@@ -11,6 +11,16 @@ Workstation — a Trinity Loop (Architect → 7-agent Swarm → Critic) driving 
 (**16** of them SIFT forensic wrappers) over one FastMCP server, with a forensic safety spine.
 Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/facts.md).
 
+**The four audiences** used in the **Audience** column below (and in the reading paths) are:
+
+- **operator** — runs triage day to day (drives the engine, registers evidence, executes cases).
+- **examiner** — the human-in-the-loop who reviews, approves, and defends findings before the seal.
+- **developer** — extends or maintains the engine (code, architecture, tools, tests).
+- **auditor** — independently verifies forensic soundness, chain of custody, and reproducibility.
+
+Each page below lists its primary audience(s) and, in the **What question it answers** column, a
+one-line descriptor of exactly what that page resolves — read that column as the page's summary.
+
 ---
 
 ## Reading Paths by Audience
@@ -84,7 +94,7 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
 | **User Guide — The Complete Operator Runbook** | operator (expert + non-technical end-user) | **How do I run one complete case end to end, in full operational depth** — pre-flight, connect/verify the MCP, init/activate the case, register evidence, drive the investigation tool chain (**manual tool-by-tool _or_ autonomous headless driver**, on **Claude CLI _or_ Desktop**), record findings, approve in the portal, seal the report, and (optionally) push IOCs to Wazuh? Written for **two audiences at once** — every action carries the **expert CLI/MCP command** *and* the **plain-language end-user prompt** for the same result — with the validated 2026-05-29 CFReDS run as a worked example and a troubleshooting ledger. | [docs/01-overview/user-guide.md](docs/01-overview/user-guide.md) |
 | What is Agentropix-SIFT? | operator, examiner | What does the tool do, why, who is it for, and how does it compare to manual DFIR? | [docs/01-overview/what-is-agentropix.md](docs/01-overview/what-is-agentropix.md) |
 | What You Get | operator, examiner | What are the concrete capabilities and the feature/capability matrix? | [docs/01-overview/what-you-get.md](docs/01-overview/what-you-get.md) |
-| Quickstart | operator | How do I install, pre-flight the toolchain, and run my first triage? | [docs/01-overview/quickstart.md](docs/01-overview/quickstart.md) |
+| Quickstart | operator (expert + end-user) | How do I install, pre-flight the toolchain, and run my first triage? The condensed path, dual-audience — each step carries the **expert CLI/MCP command** and the **plain-language end-user prompt** for the same result. | [docs/01-overview/quickstart.md](docs/01-overview/quickstart.md) |
 | Competitive Positioning | operator, examiner | How is this different from Velociraptor + an LLM, and where does it honestly lose? | [docs/01-overview/competitive-positioning.md](docs/01-overview/competitive-positioning.md) |
 
 ## 2. Architecture
@@ -131,11 +141,11 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
-| Triage an E01 Disk Image End to End | operator | How do I run a full disk-image triage from start to finish? | [docs/06-use-cases/uc-disk-triage.md](docs/06-use-cases/uc-disk-triage.md) |
-| Memory Triage with Volatility | operator | How do I triage a memory dump with the Volatility-backed agents? | [docs/06-use-cases/uc-memory-triage.md](docs/06-use-cases/uc-memory-triage.md) |
-| Examiner Reviews & Approves Before the Seal | examiner | How do I review findings and approve them before anything is sealed? | [docs/06-use-cases/uc-approval-gate.md](docs/06-use-cases/uc-approval-gate.md) |
-| Push a Finding to Wazuh as an Alert | operator, auditor | How do I escalate an APPROVED finding to Wazuh (experimental integration)? | [docs/06-use-cases/uc-wazuh-push.md](docs/06-use-cases/uc-wazuh-push.md) |
-| Guided Demo Walkthrough (Judge-Facing) | examiner, all | What does a single end-to-end run look like, beat by beat, mapped to the Devpost rubric with verifiable runtime evidence? | [docs/06-use-cases/demo-walkthrough.md](docs/06-use-cases/demo-walkthrough.md) |
+| Triage an E01 Disk Image End to End | operator (expert + end-user) | How do I run a full disk-image triage from start to finish? Dual-audience — every step pairs the **expert CLI/MCP command** with the **plain-language end-user prompt**, laid out Execution → Output. | [docs/06-use-cases/uc-disk-triage.md](docs/06-use-cases/uc-disk-triage.md) |
+| Memory Triage with Volatility | operator (expert + end-user) | How do I triage a memory dump with the Volatility-backed agents? Dual-audience — each tool step carries both the **expert command** and the **end-user prompt** for the same result, Execution → Output. | [docs/06-use-cases/uc-memory-triage.md](docs/06-use-cases/uc-memory-triage.md) |
+| Examiner Reviews & Approves Before the Seal | examiner (expert + end-user) | How do I review findings and approve them before anything is sealed? Dual-audience — the review/approve actions are shown both as the **expert CLI/MCP command** and as the **plain-language end-user prompt**. | [docs/06-use-cases/uc-approval-gate.md](docs/06-use-cases/uc-approval-gate.md) |
+| Push a Finding to Wazuh as an Alert | operator, auditor (expert + end-user) | How do I escalate an APPROVED finding to Wazuh (experimental integration)? Dual-audience — each push step pairs the **expert MCP call** with the **end-user prompt** (which defaults to a dry-run preview). | [docs/06-use-cases/uc-wazuh-push.md](docs/06-use-cases/uc-wazuh-push.md) |
+| Guided Demo Walkthrough (Judge-Facing) | examiner, all (expert + end-user) | What does a single end-to-end run look like, beat by beat, mapped to the Devpost rubric with verifiable runtime evidence? Dual-audience — each beat carries both the **expert command** and the **end-user prompt**. | [docs/06-use-cases/demo-walkthrough.md](docs/06-use-cases/demo-walkthrough.md) |
 | Per-Case Attack-Chain Hypotheses | operator, examiner | For each in-scope test case, which attack chain is likely and which tools confirm/refute each link (bias-checks, not findings)? | [docs/06-use-cases/case-hypotheses.md](docs/06-use-cases/case-hypotheses.md) |
 
 ## 7. SDLC & Operations
@@ -146,17 +156,17 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
 | Testing — Topology, Gates & Recall | developer, auditor | What is the test topology, the gates, and the ground-truth recall (4464 tests; 72/72 disk; 108/118 memory)? | [docs/07-sdlc-ops/testing.md](docs/07-sdlc-ops/testing.md) |
 | Recovery & Resilience | auditor, developer | What are the failure modes and the chaos/recovery classes? | [docs/07-sdlc-ops/recovery-resilience.md](docs/07-sdlc-ops/recovery-resilience.md) |
 | Security Model | auditor | What is the threat model — Thymus, denylists, redaction, read-only boundary? | [docs/07-sdlc-ops/security-model.md](docs/07-sdlc-ops/security-model.md) |
-| Configuration | operator, developer | What `AGENTROPIX_*` env vars exist and what do they tune? | [docs/07-sdlc-ops/configuration.md](docs/07-sdlc-ops/configuration.md) |
-| Deployment | operator | How do I install on SIFT, expose over a tailnet, and find the runbooks? | [docs/07-sdlc-ops/deployment.md](docs/07-sdlc-ops/deployment.md) |
+| Configuration | operator, developer (expert + end-user) | What `AGENTROPIX_*` env vars exist and what do they tune? Dual-audience — common settings show both the **expert command** to set them and the **end-user prompt** that asks the session to apply/verify the same. | [docs/07-sdlc-ops/configuration.md](docs/07-sdlc-ops/configuration.md) |
+| Deployment | operator (expert + end-user) | How do I install on SIFT, expose over a tailnet, and find the runbooks? Dual-audience — install/expose steps pair the **expert CLI command** with the **plain-language end-user prompt**, Execution → Output. | [docs/07-sdlc-ops/deployment.md](docs/07-sdlc-ops/deployment.md) |
 | Evaluation Scorecard — BMAD & Rubric | examiner, auditor | What did the independent 10-persona BMAD evaluation and the Devpost rubric self-grade conclude? | [docs/07-sdlc-ops/evaluation-scorecard.md](docs/07-sdlc-ops/evaluation-scorecard.md) |
 | Evaluation Corpus & Recall Methodology | examiner, auditor | What evidence corpus are the recall numbers measured against, and how is ground truth defined? | [docs/07-sdlc-ops/dataset-recall.md](docs/07-sdlc-ops/dataset-recall.md) |
-| Maintenance — The Dual-Repo Sync | developer | Why are there two repos/package names, and how does the one-way `sift` → `mcp` sync stay faithful? | [docs/07-sdlc-ops/maintenance-dual-repo.md](docs/07-sdlc-ops/maintenance-dual-repo.md) |
+| Maintenance — The Dual-Repo Sync | developer (expert + end-user) | Why are there two repos/package names, and how does the one-way `sift` → `mcp` sync stay faithful? Dual-audience for the sync/verify steps — the **expert command** alongside the **plain-language end-user prompt**, Execution → Output. | [docs/07-sdlc-ops/maintenance-dual-repo.md](docs/07-sdlc-ops/maintenance-dual-repo.md) |
 
 ## 8. Reference
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
-| CLI Reference | operator | What are all the `agentropix-sift` commands and flags? | [08-reference/cli-reference.md](docs/08-reference/cli-reference.md) |
+| CLI Reference | operator (expert + end-user) | What are all the `agentropix-sift` commands and flags? Dual-audience — the headline commands also show the **plain-language end-user prompt** that drives the same MCP tool, Execution → Output. | [08-reference/cli-reference.md](docs/08-reference/cli-reference.md) |
 | Glossary | all | What does each term, persona, and weakness ID mean? | [08-reference/glossary.md](docs/08-reference/glossary.md) |
 | ADR Index | developer, auditor | What architecture decisions were made and why (routed list of the ADRs)? | [08-reference/adr-index.md](docs/08-reference/adr-index.md) |
 | Design Decisions — Rationale & History | developer, auditor | What recurring design principles, hard trade-offs, and discarded approaches sit behind the ADRs? | [08-reference/design-decisions.md](docs/08-reference/design-decisions.md) |
@@ -172,15 +182,17 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
 
 ## Shared Reference Artifacts
 
-These inventory-phase artifacts under `.crew/` are the source-of-truth substrate the chapters
-are derived from. [Canonical Facts](.crew/facts.md) is the governing authority for every
-numeric claim.
+`.crew/` is the inventory directory: machine-extracted, low-level reference tables (facts, tool
+inventory, schema, module map, env surface, agent roster) that were pulled directly from the oracle
+source repo and that the prose chapters above are derived from. Read them when you need the raw
+substrate behind a chapter. [Canonical Facts](.crew/facts.md) is the governing authority for every
+numeric claim — it wins over any prose anywhere in the docs.
 
 | Artifact | What it holds | Link |
 |----------|---------------|------|
 | Canonical Facts | The locked numeric table (tool count, tests, recall) — wins over prose | [.crew/facts.md](.crew/facts.md) |
-| Tool List | Inventory of the 71 MCP tools | [.crew/tool-list.md](.crew/tool-list.md) |
-| Schema Dump | Extracted Pydantic schema | [.crew/schema-dump.md](.crew/schema-dump.md) |
-| Module Map | Code module map | [.crew/module-map.md](.crew/module-map.md) |
-| Env Vars | `AGENTROPIX_*` environment surface | [.crew/env-vars.md](.crew/env-vars.md) |
-| Agents List | The Swarm agent inventory | [.crew/agents-list.md](.crew/agents-list.md) |
+| Tool List | Inventory of all 71 MCP tools, with the 16 SIFT forensic wrappers flagged | [.crew/tool-list.md](.crew/tool-list.md) |
+| Schema Dump | The extracted Pydantic model schema (field names, types, constraints) behind the data chapter | [.crew/schema-dump.md](.crew/schema-dump.md) |
+| Module Map | The code module map (where each package and component lives in `src/`) | [.crew/module-map.md](.crew/module-map.md) |
+| Env Vars | The full `AGENTROPIX_*` environment-variable surface and what each tunes | [.crew/env-vars.md](.crew/env-vars.md) |
+| Agents List | The Swarm agent inventory — the 7 core specialists plus the ATT&CK detectors | [.crew/agents-list.md](.crew/agents-list.md) |

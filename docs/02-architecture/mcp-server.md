@@ -4,7 +4,7 @@
 > tools** (`mcp_tool_count = 71`, [facts.md](../../.crew/facts.md)) over a **single
 > FastMCP server**. Every tool is a typed wrapper around an external SIFT binary or an
 > in-process analysis function, and every tool inherits the same hardening stack: tracing,
-> rate-limiting, the [Thymus](#thymus-the-read-only-evidence-boundary) read-only boundary,
+> rate-limiting, the [Thymus](#4-thymus--the-read-only-evidence-boundary) read-only boundary,
 > and structured errors. **There is no opt-out** (`docs/MCP-REQUEST-FLOW.md`).
 
 The server module is `src/agentropix_sift/mcp_server/fastmcp_app.py` (the protocol surface
@@ -13,6 +13,14 @@ and `main()` entry point); the inner `mcp_*` dispatch functions live in
 test suite never spins up the protocol (`fastmcp_app.py` docstring). For the full per-tool
 catalogue see [04-mcp-tools](../04-mcp-tools/) and
 [tool-list.md](../../.crew/tool-list.md).
+
+**Three module roles to keep distinct as you read this page:**
+
+| Module | Role |
+|--------|------|
+| `mcp_server/fastmcp_app.py` | The **protocol surface** — builds the FastMCP app, registers every `@app.tool()`, parses `--transport`/`--public`, owns `main()`. |
+| `mcp_server/server.py` | The **dispatch core** — the inner `mcp_*` functions that run the per-tool hardening stack (tracing → rate-limit → Thymus → wrapper) and return typed results. |
+| `mcp_server/wrappers/` | The **wrapper layer** — one `.py` per forensic capability that builds the subprocess command line, runs the SIFT binary, and parses stdout into a Pydantic model (see §3.5). |
 
 ---
 
@@ -112,6 +120,53 @@ to add the evidence directory to the allow-list at the start of a run
 
 ---
 
+## 3.5. The wrapper layer and the two error-envelope contracts
+
+### Wrapper layout
+
+The dispatch core never shells out directly. Each forensic capability is isolated in its own
+module under `src/agentropix_sift/mcp_server/wrappers/`, so a fragile binary's quirks
+(argument format, stderr noise, timeout behaviour) stay contained in one file. A wrapper
+module is the unit that:
+
+1. builds the subprocess command line for one SIFT binary (or EZ-Tool / correlation helper),
+2. runs it through the shared subprocess harness (`wrappers/_subprocess.py` — timeout,
+   memory-ceiling, retry, stderr capture, tracing), and
+3. parses the binary's stdout into a typed **Pydantic model** that becomes the tool's
+   structured response.
+
+The directory mixes three kinds of file: **public wrappers** (e.g. `volatility.py`,
+`plaso.py`, `tsk.py` — one per capability), **shared helpers** prefixed with `_`
+(`_subprocess.py`, `_safe_tool.py`, `_versions.py`, the `_*_dsl.py` query parsers), and the
+**Wazuh wrappers** (`wazuh_tools.py`, `wazuh_intel.py`) that register their own
+`@app.tool()` callables. The canonical **16 SIFT forensic wrappers**
+(`mcp_tool_count`-adjacent count of 16, [facts.md](../../.crew/facts.md);
+[tool-list.md](../../.crew/tool-list.md)) are the subset that drive the 16 pre-flighted SIFT
+binaries; the rest layer EZ-Tools, correlation, mail, and registry helpers on top.
+
+### Two error-envelope contracts
+
+Errors never reach the JSON-RPC wire as raw exceptions, but **which** envelope catches them
+depends on the path a tool takes:
+
+| Path | Envelope | What it does | Source |
+|------|----------|--------------|--------|
+| **Dispatch core** (the `mcp_*` functions in `server.py`) | `ToolError(tool, error, suggestion)` (a Pydantic model) | Each `mcp_*` function returns this structured value for an expected failure (rate-limit hit, Thymus reject, wrapper error) — exceptions are converted at the dispatch boundary | `server.py:186-191` |
+| **Decorated `@app.tool()` callables** (the Wazuh tools) | `safe_tool` → `ToolErrorEnvelope` — a flat `{"error": str, "details": dict}` `dict` subclass | The `@safe_tool(tool_name=…)` decorator wraps the async tool so *any* escaped exception (Pydantic `ValidationError`, an `httpx` 5xx, a `WazuhError`) is caught, logged, and returned as the envelope instead of crashing the agent's iteration | `wrappers/_safe_tool.py`; applied e.g. at `wrappers/wazuh_intel.py:55` |
+
+Both contracts have the same goal — **a single, predictable error shape so the agent
+recovery loop never dies on a tool failure** — and they compose: where a Wazuh tool also
+uses the WZ-002 retry helper (`_wazuh_retry_policy()`), the retry runs *inside* `safe_tool`,
+so the envelope captures only the final outcome after retries are exhausted
+(`wrappers/_safe_tool.py` docstring). `safe_tool` deliberately does **not** swallow
+programming-control exceptions: `KeyboardInterrupt`, `SystemExit`, and
+`asyncio.CancelledError` propagate untouched.
+
+For the canonical end-user view of the success/error response shape, see
+[response-envelope.md](../04-mcp-tools/response-envelope.md).
+
+---
+
 ## 4. Thymus — the read-only evidence boundary
 
 Thymus (`mcp_server/thymus_policy.py`) is the **architectural evidence-integrity layer
@@ -151,7 +206,7 @@ Every decision is logged to a bounded in-memory **audit ring**
 `AGENTROPIX_AUDIT_LOG` is set, appended to an on-disk JSONL chain-of-custody trail
 (`thymus_policy.py:371-394`). The in-memory ring is what becomes `report.thymus_audit[]`
 (`orchestrator.py:307`); the on-disk JSONL is the trail-of-record that the
-[Courtroom audit seal](sequence-diagrams.md#3-finding--provenance--courtroom-seal) (ADR-022)
+[Courtroom audit seal](sequence-diagrams.md#3-finding--provenance-classification--courtroom-seal) (ADR-022)
 binds into the report seal.
 
 > **Why the check runs twice.** Both the MCP dispatch layer (`server.py`) and the wrappers

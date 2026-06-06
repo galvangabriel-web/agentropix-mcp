@@ -19,6 +19,12 @@ math. This page records the canonical scores; **every number here cites
 | BMAD 10-persona synthesis | **75.6 / 100** (mean) · **80 / 100** top (Winston + Victor) | `bmad_synthesis_score` — [CANONICAL_FACTS](../../.crew/facts.md) |
 | Devpost rubric self-grade | **83.83 / 100** | `rubric_score_self` — [CANONICAL_FACTS](../../.crew/facts.md) |
 
+Two numbers describe the BMAD result and both are canonical: the **mean** (75.6) is the
+unweighted average of all ten persona totals — the central estimate; the **top** (80) is the
+highest single persona total, tied by Victor and Winston. The rubric self-grade (83.83) is a
+separate exercise against a different scorecard (the Devpost criteria, [§6](#6-the-devpost-rubric-self-grade--8383100)),
+so it is not directly comparable to the BMAD figures.
+
 > **Number discipline (conflict resolved).** An earlier presentation draft quoted a
 > *confidence-weighted* total of 77.95/100 for the BMAD synthesis. The canonical figure is the
 > **unweighted mean of 75.6/100** as registered in `CANONICAL_FACTS.md` under
@@ -30,12 +36,16 @@ math. This page records the canonical scores; **every number here cites
 
 ## 1. What BMAD is and why it is independent
 
-BMAD (Build / Measure / Analyze / Decide) is the sprint methodology behind the evaluation: a
-crew of **10 personas** each scored the project *in isolation*, across five dimensions, from a
-distinct professional lens — analyst, PM, business strategist, architect, UX, dev, solo-dev,
-test architect, tech-writer, and scrum master. No persona saw another's score before
-submitting, so agreement between personas is a real cross-discipline signal rather than an
-echo. The per-persona outputs were then folded into one weighted synthesis.
+BMAD (Build / Measure / Analyze / Decide) is the sprint methodology behind the evaluation. A
+**persona** here is a named reviewer archetype that scores the project through one professional
+discipline's eyes — and only that discipline's. A crew of **10 personas** each scored the
+project *in isolation*, across five dimensions, from a distinct professional lens — analyst,
+PM, business strategist, architect, UX, dev, solo-dev, test architect, tech-writer, and scrum
+master. No persona saw another's score before submitting, so agreement between personas is a
+real cross-discipline signal rather than an echo. The per-persona outputs were then folded
+into one **weighted synthesis** — a single roll-up that combines the ten verdicts, weighting
+each claim by the confidence the persona attached to it (the weighting scheme is defined in
+[§4](#4-confidence-weighting-and-the-top-5-strengths)).
 
 The independence is the point: a single self-assessment is easy to game; **ten isolated
 discipline-specific verdicts that all land in the same band** is hard to game. The full
@@ -49,7 +59,9 @@ Docs Local-Only Policy.
 ## 2. The five dimensions (D1–D5)
 
 Each persona scored five dimensions, each out of 20, for a 100-point total. The dimensions map
-directly onto what a DFIR judge cares about:
+directly onto what a DFIR judge cares about. The **Primary voice (confidence)** column names
+the persona whose lens most directly owns each dimension, with the confidence tag they attached
+to that score — HIGH, MED, or LOW, defined in [§4](#4-confidence-weighting-and-the-top-5-strengths):
 
 | Dim | Name | What it measures | Primary voice (confidence) |
 |---|---|---|---|

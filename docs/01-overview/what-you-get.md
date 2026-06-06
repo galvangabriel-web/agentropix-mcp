@@ -10,18 +10,22 @@ not the pitch — see the inline citations and the shared references in
 
 ## At a glance
 
-| Capability | What you get | Where it lives |
-|------------|--------------|----------------|
-| **Trinity Loop** | Deterministic Architect → Swarm → Critic control loop with fingerprint-based halt; **no LLM self-rating** | `trinity/architect.py`, `trinity/critic.py`, `orchestrator.py` |
-| **71 MCP tools** | A single FastMCP server exposing **71 distinct forensic tools** over stdio + HTTP | `mcp_server/fastmcp_app.py` |
-| **16 SIFT forensic wrappers** | Hardened drivers around the 16 trusted SIFT binaries (timeout, memory ceiling, retry, stderr capture, tracing) | `mcp_server/wrappers/` |
-| **7-agent Swarm** | Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt specialists + 6 ATT&CK detectors | `agents/`, `detectors/` |
-| **Thymus read-only policy** | Path-allowlist enforcement of evidence read-only at the MCP boundary, with an audit ring | `mcp_server/thymus_policy.py` |
-| **Courtroom seal** | SHA-256 evidence binding + HMAC-SHA256 report/audit-log sealing, mode-0600 session keys | `courtroom.py` |
-| **Provenance & grounding** | Tool-sourced findings (`_source`), `inference_constraint = high`, per-row HMAC seal-chain validation | `agents/_base.py`, `provenance/validate.py` |
-| **Approval sidecar** | Optional HMAC human-in-the-loop examiner sign-off (PBKDF2 + nonce + hash chain) | `approval_sidecar/` |
-| **Wazuh integration** | Promote findings/IOCs into a Wazuh SIEM behind default-deny kill switches | `wazuh/` |
-| **Chaos-tested resilience** | Fault-injection tests over the failure paths (timeout, OOM, malformed output, …) | `tests/chaos/test_fault_paths.py` |
+Each row links to the page that explains that capability in depth — the
+**Where it lives** column is the source-code home, and **Go deeper** routes you to the
+reference or architecture page for the full treatment.
+
+| Capability | What you get | Where it lives | Go deeper |
+|------------|--------------|----------------|-----------|
+| **Trinity Loop** | Deterministic Architect → Swarm → Critic control loop with fingerprint-based halt; **no LLM self-rating** | `trinity/architect.py`, `trinity/critic.py`, `orchestrator.py` | [Trinity Loop](../02-architecture/trinity-loop.md) |
+| **71 MCP tools** | A single FastMCP server exposing **71 distinct forensic tools** over stdio + HTTP | `mcp_server/fastmcp_app.py` | [MCP Server](../02-architecture/mcp-server.md) · [Tool Reference](../04-mcp-tools/tool-reference.md) |
+| **16 SIFT forensic wrappers** | Hardened drivers around the 16 trusted SIFT binaries (timeout, memory ceiling, retry, stderr capture, tracing) | `mcp_server/wrappers/` | [MCP Server](../02-architecture/mcp-server.md) |
+| **7-agent Swarm** | Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt specialists + 6 ATT&CK detectors | `agents/`, `detectors/` | [Swarm Agents](../02-architecture/swarm-agents.md) |
+| **Thymus read-only policy** | Path-allowlist enforcement of evidence read-only at the MCP boundary, with an audit ring | `mcp_server/thymus_policy.py` | [Anti-Hallucination](../05-safety-forensics/anti-hallucination.md) |
+| **Courtroom seal** | SHA-256 evidence binding + HMAC-SHA256 report/audit-log sealing, mode-0600 session keys | `courtroom.py` | [Audit & Courtroom Seal](../05-safety-forensics/audit-courtroom.md) |
+| **Provenance & grounding** | Tool-sourced findings (`_source`), `inference_constraint = high`, per-row HMAC seal-chain validation | `agents/_base.py`, `provenance/validate.py` | [Provenance & Grounding](../05-safety-forensics/provenance-grounding.md) |
+| **Approval sidecar** | Optional HMAC human-in-the-loop examiner sign-off (PBKDF2 + nonce + hash chain) | `approval_sidecar/` | [Human-in-the-Loop](../05-safety-forensics/human-in-the-loop.md) |
+| **Wazuh integration** | Promote findings/IOCs into a Wazuh SIEM behind default-deny kill switches | `wazuh/` | [Wazuh Integration](../09-integrations/wazuh-portal.md) |
+| **Chaos-tested resilience** | Fault-injection tests over the failure paths (timeout, OOM, malformed output, …) | `tests/chaos/test_fault_paths.py` | [Testing](../07-sdlc-ops/testing.md) |
 
 > **Canonical counts** (`71` tools, `16` wrappers, `4464` tests, recall `72/72` /
 > `108/118`) are pinned in [`.crew/facts.md`](../../.crew/facts.md) (mirroring upstream
@@ -32,9 +36,15 @@ not the pitch — see the inline citations and the shared references in
 
 ## Trinity Loop — agentic control without self-rating
 
-The Trinity Loop is the engine's brain, and its defining property is that the
-*non-deterministic* part (an LLM) only **orchestrates** — it never authors a finding,
-never assigns a confidence, and never decides "done."
+> **Deep dive:** [The Trinity Loop](../02-architecture/trinity-loop.md) (architecture).
+
+The **Trinity Loop** is the engine's brain — a three-role control loop (Architect →
+Swarm → Critic) that drives a triage run to completion. Its defining property is that
+the *non-deterministic* part (an LLM, the model that orchestrates the run) only
+**orchestrates** — it never authors a finding, never assigns a confidence, and never
+decides "done." A **finding** is a single tool-grounded forensic observation; a
+**fingerprint** is a hash of one pass's output used to detect when the run has stopped
+changing.
 
 - **Architect** (`trinity/architect.py`) — deterministic planner. Returns the canonical
   ordered `SWARM`, may prune agents the Critic marked *stable*, preserves run order so
@@ -54,8 +64,14 @@ all preserved in the report's `iterations[]` for audit (see
 
 ## 71 MCP tools on one FastMCP server
 
+> **Deep dive:** [The FastMCP Server](../02-architecture/mcp-server.md) (architecture) ·
+> [MCP Tool Reference](../04-mcp-tools/tool-reference.md) (per-tool signatures).
+
+**MCP** is the Model Context Protocol — the open standard a model client (Claude Desktop,
+Claude CLI) uses to call tools. **FastMCP** is the Python framework that serves them.
 A single FastMCP server (`mcp_server/fastmcp_app.py`) exposes **71 distinct tool
-functions** (`.crew/facts.md`, `mcp_tool_count = 71`) over both stdio and HTTP. The
+functions** (`.crew/facts.md`, `mcp_tool_count = 71`) over both **stdio** (the client
+launches the server as a subprocess) and **HTTP** transports. The
 running server's `tools/list` is the authoritative argument schema; the full
 categorized catalogue is in [`.crew/tool-list.md`](../../.crew/tool-list.md). The tool
 families:
@@ -83,11 +99,19 @@ authorization; every promote/ingest/publish/delete tool carries a `dry_run` guar
 
 ## 16 SIFT forensic wrappers
 
-The canonical **16 forensic wrappers / 16 SIFT tools** are the trusted command-line
-binaries the engine drives and that `agentropix-sift doctor` pre-flights. Each wrapper
-ships a consistent hardening envelope — **timeout, memory ceiling, retry,
-stderr-capture, tracing** — and resolves its binary via an `AGENTROPIX_<TOOL>_TOOL`
-override so it can point at a SIFT-installed path.
+> **Deep dive:** [The FastMCP Server](../02-architecture/mcp-server.md) (how wrappers are
+> driven and hardened).
+
+A **wrapper** is a Python module that drives one external forensic binary as a safe,
+uniform subprocess. **SIFT** is the SANS Investigative Forensic Toolkit — the Linux
+distribution whose curated forensic binaries this project targets. The canonical
+**16 forensic wrappers / 16 SIFT tools** are the trusted command-line binaries the
+engine drives and that `agentropix-sift doctor` (the install pre-flight check)
+verifies are present. Each wrapper ships a consistent **hardening envelope** —
+**timeout** (kill a hung tool), **memory ceiling** (cap RAM), **retry**,
+**stderr-capture**, and **tracing** (record the exact command for the audit trail) —
+and resolves its binary via an `AGENTROPIX_<TOOL>_TOOL` environment-variable override
+so it can point at a SIFT-installed path.
 
 | # | Binary | Provides | Wrapper |
 |---|--------|----------|---------|
@@ -117,10 +141,18 @@ Source: `README.md:151`, `CHANGELOG.md:449`, and the `doctor` tool dict in
 
 ## 7-agent Swarm (+ ATT&CK detectors)
 
-The "7-agent Swarm" is the seven first-class DFIR specialists. The runnable `SWARM`
-tuple (`agents/__init__.py`) additionally interleaves six deterministic ATT&CK detector
-agents — full per-agent breakdown in
-[`.crew/agents-list.md`](../../.crew/agents-list.md).
+> **Deep dive:** [The Swarm Agents & Blackboard](../02-architecture/swarm-agents.md)
+> (architecture) · [`.crew/agents-list.md`](../../.crew/agents-list.md)
+> (per-agent breakdown).
+
+A **Swarm** is the set of independent specialist agents that run each iteration; the
+**Blackboard** is the shared store they all read from and write findings to. The
+"7-agent Swarm" is the seven first-class **DFIR** (Digital Forensics & Incident
+Response) specialists. The runnable `SWARM` tuple (`agents/__init__.py`) additionally
+interleaves six deterministic **ATT&CK detector** agents — small rule-based agents that
+emit findings tagged with MITRE ATT&CK technique IDs (e.g. `T1055` = process injection).
+The total of 13 `SWARM` classes (7 specialists + 6 detectors) and the "7-agent Swarm"
+framing are both reconciled in [`.crew/facts.md`](../../.crew/facts.md).
 
 | Specialist | Investigates | Drives |
 |------------|--------------|--------|
@@ -146,7 +178,13 @@ actually ran.
 
 ## Thymus read-only enforcement
 
-The **Thymus** policy (`mcp_server/thymus_policy.py`, "S-02") is the immune-system gate:
+> **Deep dive:** [Anti-Hallucination](../05-safety-forensics/anti-hallucination.md)
+> (how fabricated findings are prevented).
+
+The **Thymus** policy (`mcp_server/thymus_policy.py`, "S-02") is the immune-system gate
+(named for the organ that screens what the immune system is allowed to act on). An
+**allowlist** is the explicit set of evidence paths a tool is permitted to read; an
+**audit ring** is a fixed-size, in-memory circular log of those accesses. The gate is:
 **every** `mcp_*` tool call is checked against a path allowlist *before* any subprocess
 spawns. Evidence is structurally read-only — **no agent is given a write tool to call**.
 Each access is recorded to an in-memory audit ring (size
@@ -159,8 +197,13 @@ Each access is recorded to an in-memory audit ring (size
 
 ## Courtroom seal — chain of custody you can verify
 
-`courtroom.py` (ADR-016 / ADR-022) provides the cryptographic anchor that makes a report
-judge-verifiable:
+> **Deep dive:** [Audit & Courtroom Seal](../05-safety-forensics/audit-courtroom.md).
+
+A **chain of custody** is the documented, tamper-evident record of who touched the
+evidence and when; **HMAC** is a keyed cryptographic signature that proves a file has not
+been altered since it was sealed. `courtroom.py` (ADR-016 / ADR-022 — see the
+[ADR index](../08-reference/adr-index.md) for what an ADR is) provides the cryptographic
+anchor that makes a report judge-verifiable:
 
 - **`evidence_image_sha256`** — SHA-256 of the evidence image at session start, binding
   the report to the exact bytes triaged (operator-suppliable via
@@ -178,7 +221,12 @@ verify them independently.
 
 ## Provenance & grounding
 
-Grounding is enforced at three layers:
+> **Deep dive:** [Provenance & Grounding](../05-safety-forensics/provenance-grounding.md).
+
+**Grounding** means every claim in a report traces back to a deterministic tool's output
+rather than to model invention; **provenance** is the recorded lineage of where each
+finding or IOC (Indicator of Compromise) came from. Grounding is enforced at three
+layers:
 
 1. **Tool-sourced findings** — every `Finding` carries `_source` naming the deterministic
    tool that produced it; `file_sha256` carries the SHA-256 of the byte payload behind the
@@ -196,7 +244,13 @@ Grounding is enforced at three layers:
 
 ## Approval sidecar (human-in-the-loop)
 
-For findings that need an examiner's signature, the optional **approval sidecar**
+> **Deep dive:** [Human-in-the-Loop](../05-safety-forensics/human-in-the-loop.md)
+> (the gate) · [The Approval Portal](../05-safety-forensics/approval-portal.md)
+> (operator walkthrough).
+
+A **sidecar** is a small companion service that runs alongside the main server and adds
+one capability without being baked into it. For findings that need an examiner's
+signature, the optional **approval sidecar**
 (`approval_sidecar/`) is a standalone Starlette HMAC service implementing a
 challenge/submit handshake: PBKDF2-derived examiner key (default **600,000**
 iterations), TTL-bounded nonce (default 60 s), exactly-64-hex HMAC signature, and an
@@ -211,7 +265,14 @@ and the compensating, append-only `retract_approval` — and ships a browser app
 
 ## Wazuh SIEM integration
 
-The `wazuh/` package promotes case findings and IOCs into a Wazuh SIEM — finding→alert
+> **Deep dive:** [Wazuh Integration — Operator Guide](../09-integrations/wazuh-portal.md)
+> · [Use Case: Push a Finding to Wazuh](../06-use-cases/uc-wazuh-push.md).
+
+A **SIEM** (Security Information and Event Management) is a platform that aggregates
+security alerts for monitoring; **Wazuh** is the open-source SIEM this integration
+targets. A **kill switch** here is an environment flag that defaults the integration to
+*off* so nothing is published unless an operator explicitly enables it. The `wazuh/`
+package promotes case findings and IOCs into a Wazuh SIEM — finding→alert
 mapping, CDB-list IOC publishing, index templates, and ISM retention — through five MCP
 tools (`wazuh_hunt_ioc`, `wazuh_check_intel`, `wazuh_index_findings`,
 `wazuh_publish_iocs`, `wazuh_vuln_query`). The integration is **default-deny**: it stays
@@ -226,7 +287,13 @@ the full kill-switch matrix.
 
 ## Chaos-tested resilience
 
-Forensic tools fail in hostile ways — they time out, run out of memory, emit malformed
+> **Deep dive:** [Testing](../07-sdlc-ops/testing.md) (the full test taxonomy) ·
+> [Recovery & Resilience](../07-sdlc-ops/recovery-resilience.md).
+
+**Chaos testing** (fault injection) deliberately makes dependencies fail — timeouts,
+out-of-memory, garbage output, missing binaries — to prove the system degrades safely
+instead of crashing. Forensic tools fail in hostile ways — they time out, run out of
+memory, emit malformed
 output, or are missing entirely. Agentropix-SIFT treats those as first-class paths:
 fault-injection (**chaos**) tests in `tests/chaos/test_fault_paths.py` exercise the
 failure paths (the suite is marked `chaos` in `pyproject.toml` as

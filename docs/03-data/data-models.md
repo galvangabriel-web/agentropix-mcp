@@ -11,6 +11,29 @@ and that validates against [`report.schema.json`](data-dictionary.md#1-triagerep
 `trace`, `iterations`) or describes how it is produced (`TrinityResult`, `Correlation`,
 `ReasoningTrace`) and proven (`report_seal`, `ToolError`).
 
+### How to read these diagrams
+
+Every diagram on this page is a Mermaid **`classDiagram`** drawn with standard UML notation. If you
+are not fluent in UML, this legend makes every symbol unambiguous:
+
+| Notation | Meaning |
+|----------|---------|
+| `+field`  | a public attribute of the class (its type follows the name, e.g. `+float confidence`). |
+| `name() type` | a method that returns `type`; a trailing `$` (e.g. `now()$`) marks a **static** method. |
+| `+list~T~` | a generic collection — Mermaid writes `list[T]` as `list~T~`. So `list~str~` reads "list of str". |
+| `« … »`  | a **stereotype annotation** — inline metadata that is not a separate field. We use it for Pydantic constraints and wire aliases, e.g. `«alias=_source»` (the JSON key differs from the Python name) or `«ge=0.0 le=1.0»` (a validated numeric bound). |
+| `<<Stereotype>>` | a **class stereotype** naming the kind of class — `<<BaseModel>>` (Pydantic), `<<NamedTuple>>`, `<<abstract>>`, `<<union>>`, or a role label such as `<<guarantee>>`. |
+| `A "1" *-- "0..*" B` | **composition** (filled diamond): `B` is *owned by* `A` and has no identity without it. The `"1"`/`"0..*"` are multiplicities (exactly one `A`, zero-or-more `B`). |
+| `A "1" o-- "0..*" B` | **aggregation** (hollow diamond): `A` *holds* `B`, but `B` can exist independently. |
+| `A ..> B` | **dependency**: `A` uses or produces `B` transiently, without owning it (the dashed arrow). |
+| `A --> B` | **association**: `A` keeps a reference to / talks to `B`. |
+| `A <\|-- B` | **realization / inheritance**: `B` is a variant (subtype) of `A` — used here for the `ToolResult` union. |
+
+Node colors are decorative aids, not semantics: **green** = the aggregate root / anchor, **blue** =
+an owned sub-model, **red** = a courtroom integrity guarantee. Field-level types, defaults, and the
+exact constraint expressions live in the [data-dictionary](data-dictionary.md); when this page and the
+dictionary differ, the dictionary (and the code it cites) wins.
+
 ---
 
 ## 1. The report aggregate
@@ -152,11 +175,13 @@ classDiagram
 
 **Invariants.**
 
-- **Alias invariant.** `source` carries the wire alias `_source` (`_base.py:51`). The model is
-  configured `populate_by_name=True` so it accepts either name on construction, but
-  `model_dump(by_alias=True)` always emits `_source` — the form `report.schema.json` requires
-  (`_base.py:46`). Any code that hand-builds a finding dict for the report MUST use `_source`, not
-  `source`.
+- **Alias invariant.** `source` carries the wire alias `_source` (`_base.py:51`). The model sets
+  `populate_by_name=True` (a Pydantic config flag that lets a model be constructed using *either* the
+  Python attribute name `source` *or* the wire alias `_source`), but `model_dump(by_alias=True)`
+  always emits `_source` — the form `report.schema.json` requires (`_base.py:46`). The leading
+  underscore is a SANS convention: provenance fields are "private" metadata about the finding rather
+  than analyst-authored content. Any code that hand-builds a finding dict for the report MUST use
+  `_source`, not `source`.
 - **Confidence bound.** `confidence ∈ [0.0, 1.0]` is enforced at construction (`ge=0.0, le=1.0`,
   `_base.py:52`). The Critic's score derives from `max(confidence)` (see [§4](#4-the-critic-and-trinityresult)).
 - **Provenance separation.** `source` names the **wrapper/tool** that produced the finding; `agent`
@@ -198,10 +223,18 @@ classDiagram
 
 The `Blackboard` (`src/agentropix_sift/agents/_blackboard.py:74`) is the only mutable state shared
 between agents; it holds `(agent, Finding)` tuples behind an `asyncio.Lock`, so individual agents stay
-lock-free. `correlations()` (`_blackboard.py:108`) tokenises each finding's evidence, indexes tokens
-by agent, and emits a `Correlation` for every token seen in ≥ `quorum_threshold` distinct agents
-(default 2, validated `>= 2`, `_blackboard.py:90`). Results are sorted `(-max_confidence, token)` for
-diff-stability.
+lock-free. `correlations()` (`_blackboard.py:108`) **tokenises** each finding's evidence (splits the
+evidence string into discrete tokens — IOC-like substrings such as a hash, IP, or filename), indexes
+those tokens by agent, and emits a `Correlation` for every token seen in ≥ `quorum_threshold` distinct
+agents (default 2, validated `>= 2`, `_blackboard.py:90`). Results are sorted `(-max_confidence, token)`
+for diff-stability.
+
+A `Correlation` is therefore a derived, read-only summary — it is not stored, it is recomputed on each
+`correlations()` call. Its fields describe the agreement: `token` is the shared evidence token,
+`agents` is the distinct agents that emitted it, `finding_count` is how many findings carried it, and
+`max_confidence` is the highest confidence among them. The two dependency edges in the diagram read:
+`Blackboard ..> Correlation` (the board *emits* correlations on demand) and `Correlation ..> Finding`
+(each correlation is *backed by* the findings whose evidence produced the shared token).
 
 **Invariant.** `quorum_threshold >= 2` is enforced in `__init__` — a quorum of 1 would mean a single
 agent "agreeing with itself," which is meaningless (`_blackboard.py:91`). Correlations are the
@@ -242,12 +275,17 @@ iteration yields. The Critic is **deterministic — there is no LLM self-rating*
   (`_CORRELATION_WEIGHT = 0.25`, `critic.py:44`). High-confidence single findings or any correlated
   multi-agent agreement push the score toward the halt threshold.
 - **Halt rule.** `should_halt` is True when `score ≥ halt_threshold` (default 0.85,
-  `AGENTROPIX_CRITIC_HALT_THRESHOLD`, `critic.py:42`) **OR** the per-pass finding fingerprint reaches a
-  fixed point (no new findings since the previous iteration). Both paths are gated by
+  `AGENTROPIX_CRITIC_HALT_THRESHOLD`, `critic.py:42`) **OR** the per-pass finding *fingerprint* reaches
+  a fixed point. The **fingerprint** is a stable hash of the set of findings published so far; a
+  *fixed point* means the current iteration added no findings the previous one did not already have, so
+  further iterations cannot change the report. Both paths are gated by
   `AGENTROPIX_CRITIC_MIN_ITERATIONS` (default 2, `critic.py:43`) and a coverage guard that refuses to
   halt while any *planned* agent produced zero findings (W-083, `critic.py:16`).
-- **Reflexion-lite channel.** `stable_agents` (unchanged-fingerprint agents) and `gaps`
-  (zero-finding agents) are the forward channel the `Architect` consumes next iteration when
+- **Reflexion-lite channel.** *Reflexion* is the technique of feeding a run's own self-assessment back
+  into the next planning step; the "-lite" qualifier signals this is a deterministic, non-LLM version —
+  the channel carries only two computed agent sets, never free-form model commentary. `stable_agents`
+  (agents whose finding fingerprint did not change) and `gaps`
+  (agents that produced zero findings) are the forward channel the `Architect` consumes next iteration when
   `AGENTROPIX_TRINITY_FEEDBACK=1` to prune stable agents. `dropped_agents` is filled by the
   orchestrator *after* the Architect picks the next plan — the Critic leaves it empty (`critic.py:52`).
 

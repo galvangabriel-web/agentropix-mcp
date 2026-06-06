@@ -12,6 +12,66 @@ source modules cited inline. `(unverified)` marks a default not confirmed from c
 
 ---
 
+## 0. How to use this page (two audiences)
+
+Configuration is an **operator** task — you export environment variables (or write them into the
+gitignored `.env`) before launching the MCP server. But every setting has a visible *effect* a
+non-technical user can confirm by simply asking the connected Claude session. So each procedure
+below is shown two ways, side by side:
+
+> **🖥️ Expert (command):** the exact `export …` / config command an operator runs in a shell, then
+> the verify step that proves it took effect.
+> **💬 End-user (prompt):** the plain-language question a non-technical user types into Claude
+> Desktop / Claude CLI (with the Agentropix MCP connected). The session answers by calling a **real
+> MCP tool** — almost always [`health`](../../.crew/tool-list.md) (server health + live tool count +
+> profile/exposure flags) or [`case_status`](../../.crew/tool-list.md) (case + evidence/audit state).
+> **A simple, focused question is enough — the session recognises it as an Agentropix capability and
+> routes it to the right check.**
+
+Command/result pairs are labelled **Execution X → Output X** so it is unambiguous what you **run**
+versus what you **get back**. Paths and secrets are shown as placeholders (`<EVIDENCE-DIR>`,
+`<32-BYTE-TOKEN>`); never paste a real secret into a tracked file — prefer the `*_FILE` pointer form
+and keep `.env` at mode `0600`.
+
+> **GOTCHA — env vars are read at server start.** The MCP server reads `AGENTROPIX_*` once, at boot.
+> After any `export`/`.env` edit you must **restart the server** for it to take effect; the `💬`
+> verify prompts (which hit the live `health`/`case_status` tools) only ever reflect the *running*
+> process, so a stale answer usually means "you changed the env but didn't restart yet."
+
+---
+
+## 0.1 Verifying any config change (the universal set-then-check loop)
+
+Whatever variable you set, the confirm step is the same shape: set it in the operator shell, restart
+the server, then either re-query `health` (operator) or ask the session (end-user).
+
+> **🖥️ Expert (command):**
+> ```bash
+> # 1. set the variable (example: raise the tool-call rate limit)
+> export AGENTROPIX_RATE_LIMIT=120
+> # 2. restart the MCP server so it re-reads the environment, then
+> # 3. confirm the server is back up and healthy
+> curl -s -H "Authorization: Bearer <32-BYTE-TOKEN>" http://127.0.0.1:<PORT>/health | jq .
+> ```
+> **💬 End-user (prompt):** *"Is the Agentropix MCP server running and healthy, and how many forensic
+> tools are available right now?"*
+> The session calls the `health` tool and tells you in plain language whether the server is up and how
+> many tools it exposes — your signal that a restart succeeded after a config change.
+
+**Execution A → Output A.**
+
+*Execution A:* call the `health` tool (the `💬` prompt above, or the operator `curl`).
+
+*Output A (healthy):*
+```json
+{ "status": "ok", "server": "agentropix-sift", "tool_count": 71, "version": "..." }
+```
+
+`status: ok` with `tool_count: 71` (the canonical figure — see [`.crew/facts.md`](../../.crew/facts.md))
+confirms the restart picked up your new environment.
+
+---
+
 ## 1. MCP server auth & exposure (W-235, W-242)
 
 | Var | Default | Description |
@@ -23,6 +83,26 @@ source modules cited inline. `(unverified)` marks a default not confirmed from c
 
 See [security-model](security-model.md#4-server-exposure--auth) for why dev-mode requires all
 three conditions.
+
+> **🖥️ Expert (command):**
+> ```bash
+> # mint a strong bearer token and export it (prefer the *_FILE pointer in production)
+> export AGENTROPIX_MCP_AUTH_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+> # restart the server, then prove the token is enforced: a tokenless call must be rejected
+> curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:<PORT>/health        # expect 401
+> curl -s -H "Authorization: Bearer $AGENTROPIX_MCP_AUTH_TOKEN" \
+>   http://127.0.0.1:<PORT>/health | jq .status                                  # expect "ok"
+> ```
+> **💬 End-user (prompt):** *"Is the Agentropix server up and reachable for me?"*
+> The session calls the `health` tool *through the already-authenticated client connection*, so it
+> answers "yes, healthy" only when your token is correct — a non-technical confirmation that auth is
+> wired. (Minting/rotating the token itself is an operator-only `🖥️` step; the session can't set it.)
+
+**Execution B → Output B.**
+
+*Execution B:* tokenless `health` request, then an authenticated one.
+
+*Output B:* `401` for the tokenless request (auth is enforced); `"ok"` for the authenticated request.
 
 ---
 
@@ -62,6 +142,54 @@ three conditions.
 | `AGENTROPIX_VERIFY_TOOL_PINS` | unset | Verify tool binary pins on startup | `mcp_server/_tool_pins.py` |
 | `AGENTROPIX_ALLOW_EGRESS` | `0` (off) | Gate for any network egress (threat-intel) | `mcp_server/_env` |
 
+The two most-touched knobs here are the **audit log destination** (`AGENTROPIX_AUDIT_LOG` —
+the on-disk Thymus JSONL chain of custody) and the **read-only path allowlist**
+(`READONLY_PATHS` is the built-in base list in `thymus_policy.py`; extend it at runtime with
+`AGENTROPIX_THYMUS_ALLOWED_PREFIXES`). Both are shown below.
+
+### 3.1 Point the audit log at your case directory (`AGENTROPIX_AUDIT_LOG`)
+
+> **🖥️ Expert (command):**
+> ```bash
+> # write the tamper-evident Thymus audit JSONL into the case dir (placeholder path)
+> export AGENTROPIX_AUDIT_LOG="<EVIDENCE-DIR>/audit/thymus-audit.jsonl"
+> # restart the server, then confirm the file is being appended on the next tool call
+> tail -n 1 "$AGENTROPIX_AUDIT_LOG" | jq .          # one JSON record per audited action
+> ```
+> **💬 End-user (prompt):** *"Is Agentropix recording an audit trail for this case, and where?"*
+> The session reports case state via the `case_status` tool — including whether chain-of-custody
+> auditing is active — so a non-technical examiner can confirm the trail exists without reading files.
+
+**Execution C → Output C.**
+
+*Execution C:* set `AGENTROPIX_AUDIT_LOG`, restart, run any tool, then `tail` the file.
+
+*Output C:* a one-line-per-action JSONL record (actor, tool, target path, decision, timestamp) appended
+to `<EVIDENCE-DIR>/audit/thymus-audit.jsonl` — the on-disk half of the Thymus chain of custody.
+(Source: `thymus_policy.py` reads `AGENTROPIX_AUDIT_LOG`; if unset it falls back to the system log dir
+or `AGENTROPIX_AUDIT_LOG_DIR`.)
+
+### 3.2 Allow an extra read-only evidence prefix (`READONLY_PATHS` / `AGENTROPIX_THYMUS_ALLOWED_PREFIXES`)
+
+> **🖥️ Expert (command):**
+> ```bash
+> # READONLY_PATHS is the built-in base allowlist (thymus_policy.py); extend it without editing code:
+> export AGENTROPIX_THYMUS_ALLOWED_PREFIXES="<EVIDENCE-DIR>:/mnt/cases"   # colon-separated prefixes
+> # restart, then verify a read under the new prefix is permitted while writes stay blocked
+> ```
+> **💬 End-user (prompt):** *"Can Agentropix read the evidence I put under `<EVIDENCE-DIR>`?"*
+> Ask the session to list or examine a file under that path — it routes to a read-only tool
+> (e.g. `list_files` / `fls`) and succeeds only if the prefix is allowlisted, so a clean read **is**
+> the confirmation. (Adding the prefix itself is an operator `🖥️` step.)
+
+**Execution D → Output D.**
+
+*Execution D:* export `AGENTROPIX_THYMUS_ALLOWED_PREFIXES`, restart, then read a file under the prefix.
+
+*Output D:* reads under `<EVIDENCE-DIR>` and `/mnt/cases` are now permitted (the prefixes are appended
+to the built-in `READONLY_PATHS` list); any **write** to those paths is still denied by Thymus.
+`AGENTROPIX_MAX_AUTO_PREFIXES` (default `50`) caps how many evidence-dir prefixes auto-allowlist.
+
 ---
 
 ## 4. Resource ceilings (server-wide)
@@ -77,6 +205,26 @@ three conditions.
 
 Memory-limit resolution and the R4/R5 enforcement paths are covered in
 [recovery-resilience](recovery-resilience.md#3-memory-ceilings--timeouts).
+
+> **🖥️ Expert (command):**
+> ```bash
+> # tighten the per-tool memory ceiling and the tool-call rate limit, then restart
+> export AGENTROPIX_MEM_LIMIT_MB=8192          # 0 disables the guard; floor 4096
+> export AGENTROPIX_RATE_LIMIT=120             # floor 1, ceiling 10000
+> # confirm the server came back healthy after the restart
+> curl -s -H "Authorization: Bearer <32-BYTE-TOKEN>" http://127.0.0.1:<PORT>/health | jq .status
+> ```
+> **💬 End-user (prompt):** *"Is the Agentropix server healthy and ready to take requests?"*
+> The session calls `health`; an `ok` status after your restart confirms the new ceilings loaded
+> cleanly. (The ceilings are operator `🖥️` knobs — the session can read health, not rewrite limits.)
+
+**Execution E → Output E.**
+
+*Execution E:* set the two ceilings, restart, then call `health`.
+
+*Output E:* `"status": "ok"` — the server is back up under the new ceilings. Per-tool runs that exceed
+`AGENTROPIX_MEM_LIMIT_MB` are now killed and surfaced via the R4/R5 recovery path; calls beyond
+`AGENTROPIX_RATE_LIMIT`/min are throttled.
 
 ---
 
@@ -114,6 +262,29 @@ Connectivity (`WAZUH_MANAGER_URL` `:55000`, `WAZUH_INDEXER_URL` `:9200`), creden
 (prefer `AGENTROPIX_WAZUH_API_PASSWORD_FILE` over inline), index/ISM patterns, and the W-188
 runner caps are enumerated in [env-vars §1, §7](../../.crew/env-vars.md). TLS verify must stay
 `true` outside `AGENTROPIX_ENV=development` (ADR-016 S-4 / ADR-018).
+
+> **🖥️ Expert (command):**
+> ```bash
+> # default-deny: everything below ships off / dry-run. Enabling a WRITE needs ALL of these:
+> export WAZUH_INTEGRATION_ENABLED=true        # master enable (default false)
+> export WAZUH_PUSH_ENABLED=true               # allow IOC push/write (default false)
+> export WAZUH_DRY_RUN_ONLY=false              # lift dry-run (default true — leave true to preview)
+> export AGENTROPIX_INTEGRATION_NOT_PRODUCTION=true   # affirm target is NOT prod (W-188 gate)
+> # restart, then confirm the wazuh tools are live in the running server
+> curl -s -H "Authorization: Bearer <32-BYTE-TOKEN>" http://127.0.0.1:<PORT>/health | jq .tool_count
+> ```
+> **💬 End-user (prompt):** *"Hunt this IOC across our Wazuh data: <IOC>."*
+> The session routes to the read-only `wazuh_hunt_ioc` tool — which works regardless of the write
+> kill-switches, so a non-technical analyst can query Wazuh safely without ever touching the push flags.
+> (Flipping the write kill-switches is an operator `🖥️`-only action by design.)
+
+**Execution F → Output F.**
+
+*Execution F:* leave the defaults (all off / dry-run) and ask the session to hunt an IOC.
+
+*Output F:* `wazuh_hunt_ioc` returns matches read-only; no write occurs. To enable a *write*
+(`wazuh_publish_iocs` / `wazuh_index_findings`) every kill-switch above must be flipped **and**
+`AGENTROPIX_INTEGRATION_NOT_PRODUCTION=true` — any one missing leaves the integration default-denied.
 
 ---
 

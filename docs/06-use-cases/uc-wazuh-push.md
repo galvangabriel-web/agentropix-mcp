@@ -134,6 +134,279 @@ with the full result shape, distinct from an `error` envelope.
 
 ---
 
+## Step-by-step — dual-audience (Expert command + End-user prompt)
+
+This page is **operational**, so every step below is shown **two ways at once** — the exact CLI/MCP
+call an **expert** issues (`🖥️`), and the plain-language prompt a **non-technical end-user** types
+into a Claude session that has the Agentropix MCP connected (`💬`). Both hit the **same deterministic
+MCP tool** (verify each tool name against [`.crew/tool-list.md`](../../.crew/tool-list.md) §"Wazuh SIEM
+integration (5)" and the EAR row `build_executable_registry`); only the surface differs.
+
+> **🖥️ Expert track** — issue the `🖥️` MCP call, read the raw JSON (the *Output X* block).
+> **💬 End-user track** — type the `💬` prompt; the session recognises it as an Agentropix capability,
+> routes the **same** MCP tool, and explains the result in plain language. *A simple, focused question
+> is enough — adapt Agentropix to the user, not the user to Agentropix.*
+
+> **How to read the sample outputs.** The *Output X* blocks below are **shape-faithful**: their keys
+> are the verified return keys of each tool (`wazuh_publish_iocs` → `case_id, pushed, skipped_tier3,
+> skipped_idempotent, failed, restart_pending, dry_run, seal, run_id`; `wazuh_index_findings` →
+> `indexed_count, indexed_failed_count, batch_count, index, dry_run, run_id, outcome`; `wazuh_hunt_ioc`
+> → `ioc_digest, ioc_type, time_range_hours, indexer_reachable, total_hits, returned_hits, hits` —
+> from each tool's docstring in `wrappers/wazuh_tools.py`). Values (counts, run IDs, the `hmac-sha256:…`
+> seal digest) are illustrative; your run produces different numbers. Wazuh host/index are shown as
+> `<WAZUH-MANAGER-URL>` / `<WAZUH-INDEXER-URL>` / `agentropix-findings-*` placeholders — never raw IPs.
+
+> ⚠️ **GOTCHA — the gate must be flipped first.** Every `dry_run=false` call below returns a structured
+> `error` envelope naming the env var to flip (e.g. `"Wazuh integration is disabled; set
+> WAZUH_INTEGRATION_ENABLED=true"`) until **all four** kill switches are on AND a valid one-shot
+> `mutation_token` is supplied. It never throws or silently writes. Run the
+> [Provision the gate](#provision-the-gate-once-per-session-operator-local) box once per session before
+> Step 2.
+
+### Provision the gate (once per session, operator-local)
+
+This is the only genuinely operator-local prerequisite — it mints the token and flips the experimental
+kill switches for **this shell** (never against production). The end-user track has no equivalent: a
+non-technical user cannot flip a server-side kill switch by prompting; an operator does this first.
+
+> **🖥️ Expert (command):**
+> ```bash
+> agentropix-sift evidence-gate mint   # -> egt_<ULID>; export as AGENTROPIX_MUTATION_TOKEN
+> export AGENTROPIX_MUTATION_TOKEN=egt_01J...        # the minted token
+> export WAZUH_INTEGRATION_ENABLED=true              # master enable (default false)
+> export WAZUH_PUSH_ENABLED=true                     # enable IOC push (default false)
+> export WAZUH_DRY_RUN_ONLY=false                    # allow live writes (default true)
+> export AGENTROPIX_INTEGRATION_NOT_PRODUCTION=true  # W-188: target is NOT prod (default false)
+> ```
+> **💬 End-user (prompt):** *"Is the Wazuh push gate ready in this session — are the kill switches on
+> and do I have a live mutation token?"* The session reports the gate state back; if anything is off it
+> tells you which switch your **operator** must flip. (Flipping it is an operator-local step.)
+
+### Step 1 — Materialise `MASTER-IOCS.json` (`build_executable_registry`)
+
+Build the executable registry the push consumes. `dry_run=false` writes `MASTER-IOCS.json` under the
+case's allowed prefix; `dry_run=true` previews it.
+
+> **🖥️ Expert (MCP call):**
+> ```json
+> build_executable_registry(
+>   case_id="INC-2026-0605-WZ",
+>   executables=[{"sha256": "<exe-sha256>", "path": "/Windows/Temp/x.exe"}],
+>   dry_run=false,
+>   case_dir="/cases/INC-2026-0605-WZ"
+> )
+> ```
+> **💬 End-user (prompt):** *"Build the executable registry for this case and write MASTER-IOCS.json."*
+
+**Execution A → Output A.**
+
+*Execution A:* the MCP call above (or the `💬` prompt).
+
+*Output A (shape-faithful):*
+```json
+{
+  "case_id": "INC-2026-0605-WZ",
+  "written": true,
+  "path": "/cases/INC-2026-0605-WZ/MASTER-IOCS.json",
+  "executable_count": 3,
+  "dry_run": false
+}
+```
+
+### Step 2 — Index findings as Wazuh alerts (`wazuh_index_findings` [MUT])
+
+Preview first (`dry_run=true`), then index live (`dry_run=false` + `mutation_token`). Each finding's
+confidence maps to a Wazuh rule level (2–14) via
+`wazuh/finding_to_alert.py::confidence_to_wazuh_level`; each doc is HMAC-sealed and written batched
+`_bulk` to `agentropix-findings-*`.
+
+> **🖥️ Expert (MCP calls):**
+> ```json
+> wazuh_index_findings(case_id="INC-2026-0605-WZ", findings=[{"finding_id": "F-001", "severity": "high"}], dry_run=true)
+> wazuh_index_findings(case_id="INC-2026-0605-WZ", findings=[{"finding_id": "F-001", "severity": "high"}], dry_run=false, mutation_token="egt_01J...")
+> ```
+> **💬 End-user (prompt):** *"Preview indexing my approved findings into Wazuh, then index them for
+> real as sealed alerts."*
+
+**Execution B → Output B (dry-run preview).**
+
+*Execution B:* `wazuh_index_findings(..., dry_run=true)`.
+
+*Output B:*
+```json
+{
+  "indexed_count": 1,
+  "indexed_failed_count": 0,
+  "batch_count": 1,
+  "index_template_installed_this_run": false,
+  "index": "agentropix-findings-2026.06.05",
+  "dry_run": true,
+  "run_id": "wz-idx-01J9XR...",
+  "outcome": "ok"
+}
+```
+
+**Execution C → Output C (live index).**
+
+*Execution C:* `wazuh_index_findings(..., dry_run=false, mutation_token="egt_01J...")`.
+
+*Output C:*
+```json
+{
+  "indexed_count": 1,
+  "indexed_failed_count": 0,
+  "batch_count": 1,
+  "index_template_installed_this_run": true,
+  "index": "agentropix-findings-2026.06.05",
+  "dry_run": false,
+  "run_id": "wz-idx-01J9XS...",
+  "outcome": "ok"
+}
+```
+
+> **`outcome=indexer_outage` is NOT an error.** If the Indexer (`<WAZUH-INDEXER-URL>`) is down, a live
+> index returns the **full result shape** with `outcome="indexer_outage"` (and an `error` field
+> describing it), distinct from the `{"error": …, "case_id": …, "dry_run": …}` envelope that means the
+> call never reached the orchestrator (bad config / gate / token). Treat the two differently.
+
+### Step 3 — Preview the IOC push plan (`wazuh_publish_iocs`, dry-run)
+
+Load `MASTER-IOCS.json`, classify each IOC Tier-1/2/3, validate through **Thymus STRICT**, and return
+the would-be-push plan **without writing**. This is where the **push denylist** shows up as
+`skipped_tier3`.
+
+> **🖥️ Expert (MCP call):**
+> ```json
+> wazuh_publish_iocs(case_dir="/cases/INC-2026-0605-WZ", dry_run=true)
+> ```
+> **💬 End-user (prompt):** *"Show me the Wazuh push plan for this case — which IOCs would publish and
+> which get skipped?"*
+
+**Execution D → Output D.**
+
+*Execution D:* `wazuh_publish_iocs(case_dir="/cases/INC-2026-0605-WZ", dry_run=true)`.
+
+*Output D:*
+```json
+{
+  "case_id": "INC-2026-0605-WZ",
+  "pushed": 4,
+  "skipped_tier3": 2,
+  "skipped_idempotent": 0,
+  "failed": 0,
+  "restart_pending": false,
+  "dry_run": true,
+  "seal": null,
+  "run_id": "wz-push-01J9XT..."
+}
+```
+
+> ⚠️ **GOTCHA — respect the push denylist (`skipped_tier3`).** The orchestrator **never** publishes
+> Tier-3 hard exclusions, defined in `wazuh/denylists.py`: the `INFRA_IP_DENYLIST` (the lab DC, file
+> server, and F-Response controller IPs), the `F_RESPONSE_BENIGN` process set (e.g. `subject_srv.exe`,
+> matched case-insensitively after normalisation), and the Windows-installer-GUID hash set / installer
+> path provenance. RFC1918 addresses are **not** hard-blocked here — they are gated separately via the
+> `accept_internal_ips` flag / `WAZUH_OPERATOR_TRUSTED_CIDRS`. Anything denylisted lands in
+> `skipped_tier3`, not `pushed` — do not try to force it through; that is a safety control, not a bug.
+
+### Step 4 — Live push: CDB lists + rules + sealed restart (`wazuh_publish_iocs` [MUT])
+
+Same call with `dry_run=false` + `mutation_token`: it transforms IOCs to pipe-separated CDB payloads,
+PUTs CDB lists + rules to the Manager API (`<WAZUH-MANAGER-URL>` `:55000`), triggers **one coalesced**
+manager restart, stamps an `hmac-sha256:…` seal (ADR-016), and appends to `wazuh-audit.jsonl`. The
+push is **idempotent** — a retry after a partial failure is safe (re-runs land in `skipped_idempotent`);
+pass the whole `case_dir` once, do **not** loop per-IOC.
+
+> **🖥️ Expert (MCP call):**
+> ```json
+> wazuh_publish_iocs(case_dir="/cases/INC-2026-0605-WZ", dry_run=false, mutation_token="egt_01J...")
+> ```
+> **💬 End-user (prompt):** *"Publish the approved IOCs to Wazuh for real — push the CDB lists and
+> rules and seal the run."*
+
+**Execution E → Output E.**
+
+*Execution E:* `wazuh_publish_iocs(case_dir="/cases/INC-2026-0605-WZ", dry_run=false, mutation_token="egt_01J...")`.
+
+*Output E:*
+```json
+{
+  "case_id": "INC-2026-0605-WZ",
+  "pushed": 4,
+  "skipped_tier3": 2,
+  "skipped_idempotent": 0,
+  "failed": 0,
+  "restart_pending": true,
+  "dry_run": false,
+  "seal": "hmac-sha256:3f9c1a7e8b2d4c5f6a0e1d2c3b4a5968...",
+  "run_id": "wz-push-01J9XU..."
+}
+```
+
+`restart_pending: true` confirms the single coalesced manager restart was queued; the non-null `seal`
+makes the push tamper-evident and auditable (cross-check `run_id` in `wazuh-audit.jsonl`).
+
+### Step 5 — Retro-hunt the pushed IOC (`wazuh_hunt_ioc`)
+
+Confirm the push landed and surface prior exposure by hunting the IOC across `wazuh-alerts-*`. The
+default window is 90 days (`time_range_hours=2160`). Supported `ioc_type` values include `ip`,
+`sha256`, `md5`, and `domain`.
+
+> **🖥️ Expert (MCP call):**
+> ```json
+> wazuh_hunt_ioc(ioc_value="203.0.113.7", ioc_type="ip", time_range_hours=2160)
+> ```
+> **💬 End-user (prompt):** *"Has this IP shown up in Wazuh in the last 90 days? Retro-hunt it."*
+
+**Execution F → Output F.**
+
+*Execution F:* `wazuh_hunt_ioc(ioc_value="203.0.113.7", ioc_type="ip", time_range_hours=2160)`.
+
+*Output F:*
+```json
+{
+  "ioc_digest": "sha256:9a1b...",
+  "ioc_type": "ip",
+  "time_range_hours": 2160,
+  "indexer_reachable": true,
+  "total_hits": 3,
+  "returned_hits": 3,
+  "hits": [
+    {"rule_id": 100200, "rule_level": 10, "rule_description": "agentropix IOC match", "srcip": "203.0.113.7"}
+  ]
+}
+```
+
+> The IOC value is hashed to `ioc_digest` in the response — the raw value is not echoed back. An Indexer
+> outage returns the same shape with `indexer_reachable: false`, `total_hits: 0`, and a `warning`
+> (retry with a narrower `time_range_hours`) — again, a degraded *result*, not an `error` envelope.
+
+### Step 6 (optional) — Intel / vuln lookups (`wazuh_check_intel` · `wazuh_vuln_query`)
+
+> **🖥️ Expert (MCP calls):**
+> ```json
+> wazuh_check_intel(ioc_value="evil.example.com", ioc_type="domain")
+> wazuh_vuln_query(cve="CVE-2024-3094", time_range_hours=720)
+> ```
+> **💬 End-user (prompt):** *"Is this domain already on a Wazuh CDB list, and is CVE-2024-3094 reported
+> anywhere in our Wazuh vuln data?"*
+
+These two are **read-only** (no `mutation_token`, no kill switch) — `wazuh_check_intel` tests CDB-list
+membership; `wazuh_vuln_query` queries CVE/vuln data. Both return the same degraded-vs-error
+distinction as the hunt.
+
+### Usability matrix — find your lane
+
+| | **🖥️ Expert (types CLI/MCP calls)** | **💬 Non-expert (types a plain-language prompt)** |
+|---|---|---|
+| **Manual** (you drive each step, inspecting output before the next) | Issue each `🖥️` MCP call yourself; read the raw JSON inline. Best for the dry-run review and the approval gate. | Ask the assistant one focused question per step ("show me the push plan", "publish the IOCs for real"). It calls the same tool and explains the answer. |
+| **Autonomous** (the agent runs the whole push sequence) | Drive the W-188 live runner (`AGENTROPIX_RUNNER_CASE_DIR`, `AGENTROPIX_RUNNER_HEADLESS_CONFIRM=YES`) after minting the token + flipping the switches; monitor `wazuh-audit.jsonl`. | Paste one prompt ("index my approved findings, preview the Wazuh push, then publish it") and let the assistant run Steps 2→4, narrating progress — the gate still fails closed if a switch is off. |
+
+> Both tracks hit the **same deterministic MCP tools** and get the **same facts** — only the surface
+> differs. The kill-switch gate and the Tier-3 denylist apply identically to every lane.
+
+---
+
 ## Actor, preconditions, steps, postconditions
 
 **Actor:** DFIR analyst / SOC operator, or an MCP client agent with Wazuh access.

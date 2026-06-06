@@ -53,7 +53,7 @@ sequenceDiagram
     Orch->>Orch: dedup findings, build TriageReport
     Orch-->>CLI: TriageReport (unsealed)
     CLI->>Seal: write_sealed_session(report, audit_entries, out)
-    Seal-->>CLI: {report.json, audit-log.json, session-key (0600)}
+    Seal-->>CLI: report.json, audit-log.json, session-key (0600)
     CLI-->>Examiner: findings, tool-call count, status, evidence SHA-256
 ```
 
@@ -108,7 +108,7 @@ sequenceDiagram
 args; the rate-limiter enforces a per-tool calls/minute cap; **Thymus `check_read` is the
 read-only gate** — a rejected path (traversal `..`, broken symlink, outside the allow-list)
 returns a typed `ToolError` and logs a REJECT to the
-[audit ring + JSONL](mcp-server.md#thymus-the-read-only-evidence-boundary). Only on ALLOW
+[audit ring + JSONL](mcp-server.md#4-thymus--the-read-only-evidence-boundary). Only on ALLOW
 does the wrapper launch the subprocess. The result is typed into a Pydantic model, the
 `raw_output` is snapshotted *before* any LLM summarisation, and the
 `(args_hash, exit_code, raw_output)` record is pushed to the trace. **No write path exists**
@@ -131,7 +131,8 @@ sequenceDiagram
     Court->>Court: seal_audit_log(audit_dict, key) -> audit HMAC
     Court->>Court: embed audit_log_seal into report_dict (cross-bind)
     Court->>Court: seal_report(report_dict, key) -> HMAC-SHA256
-    Note over Court: canonical JSON: sort_keys, no whitespace,<br/>report_seal forced to sentinel before MAC
+    Note over Court: canonical JSON, sort_keys, no whitespace
+    Note over Court: report_seal forced to sentinel before MAC
     Court->>FS: write report.json + audit-log.json + .session-key
     Court-->>Orch: paths
 
@@ -287,7 +288,8 @@ sequenceDiagram
     participant Audit as AuditLogger
 
     Tool->>Orch: push_iocs(case, dry_run, mutation_token)
-    Note over Orch: kill switches — WAZUH_INTEGRATION_ENABLED,<br/>WAZUH_PUSH_ENABLED, WAZUH_DRY_RUN_ONLY,<br/>AGENTROPIX_INTEGRATION_NOT_PRODUCTION
+    Note over Orch: kill switches — WAZUH_INTEGRATION_ENABLED, WAZUH_PUSH_ENABLED
+    Note over Orch: WAZUH_DRY_RUN_ONLY, AGENTROPIX_INTEGRATION_NOT_PRODUCTION
     Orch->>Orch: CaseLoader -> IOCInventory
     Orch->>Pri: classify -> Tier 1+2 / excluded
     Orch->>Thy: validate_inventory (S-1)
@@ -314,7 +316,7 @@ plus the `AGENTROPIX_INTEGRATION_NOT_PRODUCTION` operator affirmation;
 classifies priority tiers, validates through the **Thymus bridge** and the **evidence gate**
 (verifying the one-shot, TTL-bound `mutation_token`), transforms to CDB lists + rules XML,
 and writes **HMAC-sealed provenance sidecars** (the rows
-[§3](#3-finding--provenance--courtroom-seal) later validates). With `dry_run` (the default)
+[§3](#3-finding--provenance-classification--courtroom-seal) later validates). With `dry_run` (the default)
 the orchestrator only *plans* and returns `outcome=dry_run`; only `--confirm` actually
 writes to the Wazuh manager and restarts it, stamping each PUT with a Courtroom HMAC and
 appending a JSONL audit row. The Wazuh stack itself runs on a separate Docker host reachable
