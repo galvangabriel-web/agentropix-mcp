@@ -118,6 +118,9 @@ Persisted findings land as **DRAFT** — they cannot self-approve.
 HMAC challenge-response via the Examiner Portal / `approve_finding`: DRAFT → APPROVED.
 **Deliberately not automated** — this is the cryptographic chain-of-custody sign-off (Hard-Stop).
 
+> **▶ Do it:** open the **Examiner Portal** at `https://<TAILNET-HOST>:8443/` and sign off DRAFT → APPROVED. Demo credentials (examiner ID + approver password) live in [approval-portal.md](../docs/05-safety-forensics/approval-portal.md).
+> **⚠ SIMULATED examiner approval (demo only):** in the recorded run this sign-off was driven by **Playwright (automated), not a human** — see [runs/challenge-notchitup/EXECUTED-RUN.md](./runs/challenge-notchitup/EXECUTED-RUN.md). A **real case requires a human examiner** to perform the HMAC sign-off in the portal.
+
 ### Step 8 — Report & (optional) push IOCs
 ```python
 report_generate(profile="full", case_id=None)     # sealed SIFT report for this case

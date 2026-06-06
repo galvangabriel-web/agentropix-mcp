@@ -1,5 +1,19 @@
 # The Approval Portal — Operator Walkthrough
 
+> # 🔑 DEMO APPROVAL CREDENTIALS — READ FIRST
+> **For this demo exercise, use these to approve findings in the portal:**
+>
+> | Field | Value |
+> |---|---|
+> | **Examiner ID** | `victor.galvan` |
+> | **Approver password** | **`Win1253***`** |
+>
+> Enter the password in the **Approver password** field (step 5 of
+> [Submitting a decision](#submitting-a-decision--step-by-step)); it is used only to derive the
+> PBKDF2 key locally and **never crosses the wire**.
+> ⚠️ **Demo only.** This credential is shared for a time-boxed demonstration on a **closed network**
+> and will be **rotated** afterward. Do not reuse it elsewhere.
+
 > **Section 05 · Safety & Forensics** — the human side of the approval gate.
 > Related: [Human-in-the-Loop](human-in-the-loop.md) (how the gate works) ·
 > [Approval-Gate use case](../06-use-cases/uc-approval-gate.md) ·

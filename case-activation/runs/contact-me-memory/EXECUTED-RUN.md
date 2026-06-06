@@ -3,6 +3,8 @@
 This is a real execution of the **3A — MANUAL sequence** against `/cases/contact_me/contact_me`
 (case `CTF-CONTACT-ME-MEM`). Every output below was captured live from the Agentropix MCP server — nothing is mocked; where Volatility produced degraded results, that real outcome is shown verbatim.
 
+Source guide: [contact-me-memory.md](../../contact-me-memory.md) — Approval mechanism: [approval-portal.md](../../../docs/05-safety-forensics/approval-portal.md).
+
 ---
 
 ## Step 1 — Check the Agentropix forensic environment: are all tools installed and is the MCP server healthy?
@@ -191,29 +193,60 @@ cannot self-approve; sign-off is a separate human action.
 
 ---
 
-## Step 12 — Which findings are waiting for my approval and what are their IDs?
+## Step 12 — Index the finding for real, then approve it (SIMULATED examiner — demo only)
 
-**Command:** (browser) Examiner Portal at `https://<TAILNET-HOST>:8443/`
+To complete the loop we re-recorded the same observation as a **real indexed finding**
+(`record_finding { dry_run:false }`, gated by a one-shot `index_findings` evidence-gate token),
+giving `finding_id` **`F-CONTACTME-001`**, then drove the Examiner Portal to sign it off.
 
-**Output:** *Human-only step — not executed by the agent.* Approval is performed by a human in the
-Examiner Portal via HMAC challenge-response; there is no plain-language approval shortcut, by design.
-The DRAFT from Step 11 (`ctf-contactme-001`) is what an examiner would see and sign off there.
+> **💬 End-user prompt:** *"Index my contact_me finding for real and approve `F-CONTACTME-001`
+> for case `CTF-CONTACT-ME-MEM`."*
+
+**record_finding (real index):**
+```json
+{"case_id":"CTF-CONTACT-ME-MEM","finding_id":"F-CONTACTME-001",
+ "indexed":true,"indexed_to":"agentropix-findings-2026.06.06","duplicate":false,"error":""}
+```
+
+**Portal action:** Examiner Portal at `https://<TAILNET-HOST>:8443/` — `examiner_id victor.galvan`,
+`target_id F-CONTACTME-001`, `target_type finding`, `DRAFT → APPROVED`, HMAC challenge-response.
+
+**Approval result (captured live):**
+```json
+{"approval_id":"837a4ad5f033953b2cbcbd2d5baf9daf9c60993bce449089dc776a9b131bc7cc",
+ "indexed_to":"agentropix-approvals-2026.06.06","prev_approval_hash":"",
+ "approved_at":"2026-06-06T23:17:38.803965+00:00"}
+```
+
+![approval](./approval-portal.png)
+
+> ⚠️ **SIMULATED examiner approval (demo only).** This sign-off was **automated** for the demo:
+> Playwright drove the Examiner Portal (HMAC challenge-response) end-to-end — **no human examiner
+> clicked Approve.** In a real case the `DRAFT → APPROVED` transition requires a human examiner to
+> perform the HMAC sign-off; the agent cannot self-approve.
 
 ---
 
-## Step 13 — Generate the full report for `CTF-CONTACT-ME-MEM`.
+## Step 13 — Sealed report (now with the approved finding)
 
-**Command:** `report_generate { "profile":"full" }`
+**Command:** `report_generate { "case_id":"CTF-CONTACT-ME-MEM", "profile":"full" }`
 
 **Output:**
 ```json
-{"case_id":"CTF-CONTACT-ME-MEM","profile":"full","report_id":"",
- "approved_finding_count":0,"sections":{},"result_bytes":0,
- "error":"case_not_found: no documents for case_id 'CTF-CONTACT-ME-MEM'"}
+{"case_id":"CTF-CONTACT-ME-MEM","profile":"full",
+ "report_id":"e32c39061ea4b68770b82c066eb8d6c6687dd4808e3ad8212de04a116fcfa361",
+ "snapshot_at":"2026-06-06T23:17:47.213836+00:00",
+ "approved_finding_count":1,
+ "sections":{"executive_summary":{"approved_finding_count":1,
+   "severity_mix":[{"severity":"medium","count":1}]}},
+ "result_bytes":1345,"error":"","warning":""}
 ```
-`approved_finding_count: 0` (nothing was approved) and **`case_not_found`** — exactly the documented
-behaviour for a **DRAFT-only** case with no indexed findings yet. Honest, expected result.
+`approved_finding_count: 1` and a real `report_id` — the **same** `case_not_found` case from the
+earlier DRAFT-only run now seals a report containing exactly one **APPROVED** finding
+(`F-CONTACTME-001`, severity mix `medium: 1`).
 
----
-
-**Takeaway:** Every case-management step worked end-to-end (init → activate → status → evidence with a real SHA-256), but Volatility3 2.28.0 could not validate a kernel symbol table for this raw capture, so the windows.* plugins returned placeholder/empty data — a real reminder that a populated process list, not a 200 status, is the true signal that a memory profile matched.
+**Takeaway:** the human-approval → sealed-report loop is now **complete** end-to-end: init → activate →
+status → evidence (real SHA-256) → indexed finding → (simulated) examiner approval → sealed report with
+`approved_finding_count: 1`. Volatility3 2.28.0 still could not validate a kernel symbol table for this
+raw capture, so the approved finding honestly records the **unprofileable** outcome — a real reminder
+that a populated process list, not a 200 status, is the true signal that a memory profile matched.

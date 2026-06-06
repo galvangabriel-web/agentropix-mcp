@@ -147,9 +147,10 @@ Evidence is already staged at `/cases/memdump/memdump.mem`. Slug = **`MEMDUMP-RA
 
 ### Step 7 — Approve (examiner gate, human-only)
 
-> **🖥️ Operator action:** sign off in the **Examiner Portal** (`approve_finding`, HMAC challenge-response): DRAFT → APPROVED.
+> **🖥️ Operator action:** sign off in the **Examiner Portal** at `https://<TAILNET-HOST>:8443/` (`approve_finding`, HMAC challenge-response): DRAFT → APPROVED. Demo credentials (examiner ID + approver password) live in [approval-portal.md](../docs/05-safety-forensics/approval-portal.md).
 > **💬 End-user (prompt):** *"List the DRAFT findings for `MEMDUMP-RAW-2014` and their IDs."* (then approve yourself in the browser)
 > **Expect:** the session lists DRAFT findings + IDs; **you** approve in the portal. There is no plain-language approval shortcut — this is the cryptographic chain-of-custody sign-off, deliberately separate.
+> **⚠ SIMULATED examiner approval (demo only):** in the recorded run this sign-off was driven by **Playwright (automated), not a human** — see [runs/memdump-raw-2014/EXECUTED-RUN.md](./runs/memdump-raw-2014/EXECUTED-RUN.md). A **real case requires a human examiner** to perform the HMAC sign-off in the portal.
 
 ### Step 8 — `report_generate`
 

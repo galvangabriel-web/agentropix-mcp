@@ -3,6 +3,8 @@
 A real execution of the **MANUAL sequence** from the memdump case-activation guide on `/cases/memdump/memdump.mem` (case `MEMDUMP-RAW-2014`).
 Every output below is **real**, captured live from the Agentropix-SIFT MCP server on the tailnet — nothing is fabricated, including the steps that surfaced limits.
 
+Source guide: [memdump-mem.md](../../memdump-mem.md) - Approval mechanism: [approval-portal.md](../../../docs/05-safety-forensics/approval-portal.md).
+
 > **How to read this page.** Each step shows the plain-language **prompt** an end-user would type, the underlying **Command** (CLI or MCP tool call), and the **Output** actually returned. A `GOTCHA` box flags a real-data quirk: this generic 2014 image carries **no scenario metadata and no declared OS profile**, so Volatility3 cannot match a Windows kernel symbol table — the wrappers return cleanly with empty/placeholder results and an honest reason string rather than crashing. That is the expected behavior for an unattributed raw capture.
 
 ---
@@ -231,15 +233,59 @@ Ran with `dry_run=true`, so nothing was persisted (`indexed: false`) — the wri
 
 ---
 
-## Step 12 — List the DRAFT findings, then approve them in the portal.
+## Step 12 — Record the honest-negative finding for real (committed) and confirm it indexed.
 
-**Command:** approve in the Examiner Portal (`approve_finding`, HMAC sign-off)
+**Command:** `record_finding {"case_id":"MEMDUMP-RAW-2014","dry_run":false,"mutation_token":"<evidence-gate>","finding":{"finding_id":"F-MEMDUMP-001",…,"severity":"low","confidence":0.9}}`
 
-**Output:** *Human-only step — not executed by this run.* Approval (with the examiner HMAC sign-off) is **performed by a human in the Examiner Portal**; it is an intentional human-in-the-loop gate and is not automated here. No automated output.
+The finding records the **real outcome** of Steps 6–10: this unattributed 2014 raw image has **no profile-matchable kernel symbol table**, so every triage plugin returned empty — the honest negative, not an invented process.
+
+**Output:**
+```json
+{
+  "case_id": "MEMDUMP-RAW-2014",
+  "finding_id": "F-MEMDUMP-001",
+  "indexed": true,
+  "indexed_to": "agentropix-findings-2026.06.06",
+  "error": "",
+  "duplicate": false
+}
+```
+A write-scoped **evidence-gate mutation token** (`scope=index_findings`) was minted for this single committed write; `indexed: true` confirms the DRAFT finding persisted.
 
 ---
 
-## Step 13 — Generate the full SIFT report for `MEMDUMP-RAW-2014`.
+## Step 13 — Approve the finding (SIMULATED examiner — demo only)
+
+> **HONEST DISCLOSURE.** The approval below was **automated for this demo** by Playwright driving the
+> Examiner Portal — it is **NOT a human sign-off**. A real case requires a human examiner to enter their
+> credentials in the portal and produce the HMAC sign-off interactively. The reason string is recorded
+> verbatim as `"SIMULATED examiner approval (demo only)"` so the provenance is unambiguous in the chain.
+
+**💬 End-user prompt:** *"Approve finding F-MEMDUMP-001 on case MEMDUMP-RAW-2014 — I'm victor.galvan."*
+
+**Portal action:** the [Examiner Approval Portal](../../../docs/05-safety-forensics/approval-portal.md) at
+`https://<TAILNET-HOST>:8443/` — fields `examiner_id=victor.galvan`, `case_id=MEMDUMP-RAW-2014`,
+`target_id=F-MEMDUMP-001`, transition `DRAFT → APPROVED`, with the demo approver password — driven
+headlessly by Playwright (`approve.cjs`).
+
+**Output (captured `#result`):**
+```json
+{
+  "approval_id": "4004aa9b4ac5a880c9b620ce714f1027291d572bd3e71d8140441b18062fa783",
+  "indexed_to": "agentropix-approvals-2026.06.06",
+  "prev_approval_hash": "",
+  "approved_at": "2026-06-06T23:17:43.356836+00:00"
+}
+```
+
+![approval](./approval-portal.png)
+
+The portal returned a real `approval_id` and a hash-chained `approved_at` — the same gate a human
+examiner drives, here exercised by automation purely to make the demo loop reproducible.
+
+---
+
+## Step 14 — Sealed report (now with the approved finding)
 
 **Command:** `report_generate {"profile":"full","case_id":"MEMDUMP-RAW-2014"}`
 
@@ -248,14 +294,21 @@ Ran with `dry_run=true`, so nothing was persisted (`indexed: false`) — the wri
 {
   "case_id": "MEMDUMP-RAW-2014",
   "profile": "full",
-  "approved_finding_count": 0,
-  "sections": {},
-  "result_bytes": 0,
-  "error": "case_not_found: no documents for case_id 'MEMDUMP-RAW-2014'"
+  "report_id": "d21719a1972a20f9782ea85ac72a873863cc77a6171928c3dd9b1d6463e6eea6",
+  "approved_finding_count": 1,
+  "severity_mix": [ { "severity": "low", "count": 1 } ],
+  "result_bytes": 1370,
+  "error": ""
 }
 ```
-> **Expected / correct.** With **0 approved findings** (Step 11 was dry-run; Step 12 approval is human-only and was not performed), the report has nothing to assemble. A DRAFT-only case returns `approved_finding_count: 0` and `case_not_found` — recorded honestly as the correct end-state of this manual sequence.
+The full report now assembles with **`approved_finding_count: 1`** (severity mix: **1 low**) — the
+approved honest-negative finding `F-MEMDUMP-001` carried into the sealed report with its HMAC seal.
 
 ---
 
-**Takeaway:** The full manual chain executed end-to-end against a real live MCP server — and on this unattributed 2014 raw image, Agentropix-SIFT honestly reports that **no Windows kernel symbol table matches** (empty results + explicit reason strings) rather than inventing processes, sockets, or findings — exactly the anti-hallucination, human-in-the-loop behavior the platform is built for.
+**Takeaway:** The full manual chain executed end-to-end against a real live MCP server — and on this
+unattributed 2014 raw image, Agentropix-SIFT honestly reports that **no Windows kernel symbol table
+matches** (empty results + explicit reason strings) rather than inventing processes, sockets, or
+findings. That honest negative was then **recorded, approved through the portal gate (SIMULATED
+examiner — demo only), and sealed into a full report** — closing the record → approve → report loop
+end-to-end while preserving the anti-hallucination, human-in-the-loop guarantees the platform is built for.

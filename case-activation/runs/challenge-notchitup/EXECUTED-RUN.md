@@ -3,6 +3,8 @@
 A real execution of the **MANUAL sequence** from the case-activation runbook, run end-to-end against `/cases/Challenge_NotchItUp/Challenge.raw` over the live Agentropix-SIFT MCP at `http://<TAILNET-HOST>:8765/mcp`.
 Every output below is **real** — captured from the live MCP run (case `CHALLENGE-NOTCHITUP`, examiner `victor.galvan`), not mocked.
 
+Source guide: [challenge-notch-it-up.md](../../challenge-notch-it-up.md) - Approval mechanism: [approval-portal.md](../../../docs/05-safety-forensics/approval-portal.md).
+
 ---
 
 ## Step 1 — Open/activate the case
@@ -172,13 +174,33 @@ The short alias `cmdline` resolves to the canonical `windows.cmdline.CmdLine`. F
 
 ---
 
-## Step 9 — Approve the finding (examiner gate — human-only)
+## Step 9 — Approve the finding (SIMULATED examiner — demo only)
 
-**No automated output.** DRAFT → APPROVED is an HMAC challenge-response performed **by a human in the Examiner Portal** (`approve_finding`). It is the cryptographic chain-of-custody sign-off — a deliberate Hard-Stop that is **never** automated, so this run does not execute it.
+> **SIMULATED examiner approval (demo only).** The DRAFT → APPROVED transition below was driven by a **Playwright script** against the Approval Sidecar portal for this showcase — it was **automated, not performed by a human**. In a real case this is an HMAC challenge-response that a human examiner signs off in the Examiner Portal (a deliberate Hard-Stop, never automated); see [approval-portal.md](../../../docs/05-safety-forensics/approval-portal.md) for the human sign-off mechanism.
+
+First the DRAFT finding was persisted (`record_finding(dry_run=False)` with a fresh `index_findings` mutation token), then approved through the portal.
+
+💬 **End-user prompt (the non-technical path):** *"Approve finding F-NOTCH-001 in case CHALLENGE-NOTCHITUP — the explorer.exe RWX injection — I'm victor.galvan."* The session routes this to the `approve_finding` capability, which opens the same examiner gate.
+
+**Portal action:** open the Agentropix Approval Sidecar at `https://<TAILNET-HOST>:8443/`, fill examiner `victor.galvan`, case `CHALLENGE-NOTCHITUP`, target `F-NOTCH-001` (type `finding`), DRAFT → APPROVED, reason *"SIMULATED examiner approval (demo only)"*, and submit. The PBKDF2 + HMAC-SHA256 are computed in-browser; the password never leaves the page.
+
+**Captured result:**
+```json
+{
+  "approval_id": "6434ea81cb6a14e553d7c1ba844ef58ff766564f192822cb566b2dc707fb1c0c",
+  "indexed_to": "agentropix-approvals-2026.06.06",
+  "prev_approval_hash": "",
+  "approved_at": "2026-06-06T23:17:47.963702+00:00"
+}
+```
+
+![approval](./approval-portal.png)
+
+**Note:** this approval was **Playwright-automated for the demo**. A real case requires a human examiner to perform the HMAC sign-off interactively — the automation here only stands in for that human step so the showcase can complete the full loop.
 
 ---
 
-## Step 10 — Generate the sealed report
+## Step 10 — Sealed report (now with the approved finding)
 
 **Command:** `report_generate(profile="full", case_id="CHALLENGE-NOTCHITUP")`
 
@@ -187,14 +209,32 @@ The short alias `cmdline` resolves to the canonical `windows.cmdline.CmdLine`. F
 {
   "case_id": "CHALLENGE-NOTCHITUP",
   "profile": "full",
-  "approved_finding_count": 0,
-  "sections": {},
-  "result_bytes": 0,
-  "error": "case_not_found: no documents for case_id 'CHALLENGE-NOTCHITUP'"
+  "report_id": "8c5ab7a63ef10b96d29c75b873ceffd9964371b06fbbefdae9dfcb2eeb94186a",
+  "snapshot_at": "2026-06-06T23:17:58Z",
+  "approved_finding_count": 1,
+  "sections": {
+    "executive_summary": {
+      "approved_finding_count": 1,
+      "severity_mix": [{ "severity": "high", "count": 1 }]
+    },
+    "findings": {
+      "approved_findings": [
+        {
+          "finding_id": "F-NOTCH-001",
+          "host": "notch-it-up",
+          "title": "PAGE_EXECUTE_READWRITE injected region in explorer.exe (PID 1944)",
+          "severity": "high",
+          "mitre_attack": "T1055",
+          "hmac_seal": "hmac-sha256:5961ef92…a1a3fd7b"
+        }
+      ],
+      "count": 1
+    }
+  }
 }
 ```
-This is the **correct, expected** result for a DRAFT-only case: `approved_finding_count: 0` and `case_not_found` because no approved findings or analysis documents have been indexed yet. A sealed report materializes only once the human approval gate (Step 9) has promoted at least one finding.
+The report is now **sealed with a real approved finding**: `approved_finding_count: 1`, severity mix `high: 1`, report id `8c5ab7a6…b94186a`, carrying the HMAC seal of the approved finding. Contrast with the earlier DRAFT-only run, which returned `case_not_found` / `approved_finding_count: 0` by design.
 
 ---
 
-**Takeaway:** From a single 1.6 GB raw RAM image, the manual sequence walked register → triage (53 procs, 97 sockets, 4 RWX injection hits) → DRAFT finding in a few prompts — and the report stayed empty by design until a human signs off.
+**Takeaway:** From a single 1.6 GB raw RAM image, the loop is now **complete** — register → triage (53 procs, 97 sockets, 4 RWX injection hits) → DRAFT finding → (SIMULATED) approval → **sealed report with one approved high-severity finding** (`T1055` code injection in explorer.exe).

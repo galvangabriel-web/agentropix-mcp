@@ -215,7 +215,8 @@ worked example: path `/cases/AMF_MemorySamples/windows/sample001.bin`, slug `AMF
 DRAFT → APPROVED happens **only** in the browser Approval Portal (HMAC challenge-response). The LLM
 **cannot** self-approve — this is a Hard-Stop.
 
-> **🔗 Portal:** `https://siftworkstation.taile7c9ca.ts.net:8443/` (or local `http://127.0.0.1:8800/`).
+> **🔗 Portal:** `https://<TAILNET-HOST>:8443/` (or local `http://127.0.0.1:8800/`). Demo credentials
+> (examiner ID + approver password) live in [approval-portal.md](../docs/05-safety-forensics/approval-portal.md).
 > Fill Examiner ID (= `AGENTROPIX_APPROVER_USER`) + Case ID `AMF-WIN-SAMPLE001`, paste the finding ID
 > `amf-win-s001-001`, set From=`DRAFT` To=`APPROVED`, enter the approver password, Sign & Submit.
 > **💬 Prompt (discovery only):** *"Which findings in AMF-WIN-SAMPLE001 are waiting for my approval and
@@ -224,6 +225,10 @@ DRAFT → APPROVED happens **only** in the browser Approval Portal (HMAC challen
 > **Expect:** the finding moves out of DRAFT; a deterministic approval doc is written to
 > `agentropix-approvals-YYYY.MM.DD` and the append-only hash chain extends. Approvals are append-only
 > (correct mistakes with a `REVOKED`/`retract_approval`, never a delete).
+>
+> **⚠ SIMULATED examiner approval (demo only):** in the recorded run this sign-off was driven by
+> **Playwright (automated), not a human** — see [runs/amf-win-sample001/EXECUTED-RUN.md](./runs/amf-win-sample001/EXECUTED-RUN.md).
+> A **real case requires a human examiner** to perform the HMAC sign-off in the portal.
 
 ### Step 8 — `report_generate` (sealed report)
 
