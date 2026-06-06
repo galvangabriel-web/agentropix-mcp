@@ -244,7 +244,168 @@ The `Correlation` and `Finding` data contracts are fully specified in
 
 ---
 
-## 7. Where to go next
+## 7. Per-agent responsibility map
+
+The §2/§3 tables list each agent's `name`, promise, and wrappers. This view answers a
+different question a SANS judge asks: *what tool call does this agent fire, and what does
+that surface?* (cross-checked against each agent's `investigate()`):
+
+| Agent | Tool call fired | What it surfaces |
+|-------|-----------------|------------------|
+| **MemoryAgent** | `get_pslist`, `get_malfind`, `get_netscan`, `windows.info` (`wrappers/volatility.py`) | Process listings, injection candidates (RWX/malfind), network sockets, paused-VM snapshot detection; optional offline NTLM/LSA via `impacket-secretsdump` when `AGENTROPIX_IMPACKET_ENABLED=1` |
+| **TimelineAgent** | `get_timeline` (plaso `log2timeline.py` + `psort.py`) | LOLBin execution (PowerShell, cmd, wscript, regsvcs, rundll32, certutil, bitsadmin, schtasks); logon events (T1078); Run-key persistence (T1547.001); MFT/prefetch anomalies |
+| **FilesystemAgent** | `fls` (Sleuth Kit) + `tsk._read_inode` | Deleted-entry inodes matching known-bad filename patterns; optional SHA-256 of suspicious inodes (`file_sha256`, W-010) |
+| **ArtifactAgent** | `get_image_info`, `extract_files` → RegRipper/Amcache/Shimcache | E01 provenance, registry hive parsing, scheduled-task XML (T1053.005); per-source cap of 50 |
+| **DiscoveryAgent** | *no MCP call* — reads Blackboard | MITRE Discovery T1018/T1069/T1083/T1087/T1135 via regex over EID 4688 evidence TimelineAgent already published; disk-only |
+| **MailAgent** | `memory_mail_carve`, PST/OST/MSG/EML parsers, `_mail_maldoc_chain` (oletools) | T1566 phishing chain end-to-end: attachment → tempdir spill → maldoc analysis → IOC extraction |
+| **HuntAgent** | *no MCP call* — reads `blackboard.correlations()` | Cross-modal correlation: any normalized token in ≥2 agents' findings raises a `Correlation`. Runs **last** |
+
+The detectors (§3) follow the same shape: each fires its scoped tool (`scan_yara` for
+`YARAHuntAgent`; memory/registry/network artefacts for the ATT&CK detectors) and emits
+ATT&CK-tagged findings to the same Blackboard.
+
+---
+
+## 8. Cross-run learning & agent self-correction
+
+The Swarm is not just a static run order — four oracle-verified mechanics let it *carry
+state across iterations and runs* and correct its own course. None of these change the
+"7 core specialists + 6 ATT&CK detectors = 13 `SwarmAgent` classes" framing
+(`agents/__init__.py`, [facts.md](../../.crew/facts.md)); they layer on top of it.
+
+> **Note on agent count.** The upstream deep-dive prose once called the Swarm "11 agents";
+> the runnable `SWARM` tuple is **13 classes** (`agents/__init__.py` — `NullSessionBaselineAgent`
+> and `T1071SvchostOutboundHttpDetector` were added after that prose). This page uses the
+> canonical 13 throughout, per [facts.md](../../.crew/facts.md).
+
+### 8.1 Hippocampus — Lamarckian inheritance of reasoning traces
+
+When `AGENTROPIX_HIPPOCAMPUS_ENABLED=1` (default **off**, MVP-safe), the orchestrator
+records every iteration's reasoning trace through the **HippocampusBridge**
+(`memory/hippocampus_bridge.py:90`). Each trace is a `ReasoningTrace` carrying the
+`goal`, the `plan` (agent class names), the `result` (finding count), the Critic
+`critique`, and a clamped `fitness_score` (`orchestrator.py:255` calls
+`hippocampus.remember(...)`):
+
+```python
+hippocampus.remember(
+    ReasoningTrace(
+        iteration=iteration,
+        goal=goal,
+        plan=[cls.__name__ for cls in plan],
+        result={"finding_count": len(blackboard.all)},
+        critique=last_feedback or "",
+        fitness_score=max(0.0, min(1.0, last_result.score)),
+    )
+)
+```
+
+On the next iteration the Architect calls `hippocampus.recall(goal)`
+(`orchestrator.py:151`, W-017), which returns up to **K** prior traces — default **3**,
+tunable via `AGENTROPIX_HIPPOCAMPUS_TOP_K` (floor 1, ceiling 50;
+`hippocampus_bridge.py:156`) — ranked by word-overlap similarity. The traces are passed
+to `architect.plan(..., prior_traces=...)`. This is the *Lamarckian inheritance* seam:
+iteration N's score↔plan correlation is preserved for iteration N+1 (and, when persisted,
+future runs) to consult, with **no model fine-tuning**. The deterministic planner stores
+them on `self.last_prior_traces` for introspection but does not yet alter its output from
+traces — the documented seam for future LLM-backed reordering.
+
+### 8.2 The three Ralph hooks — the LLM ↔ tools boundary
+
+The Claude Code hook system (internally **Ralph**, `.claude/hooks/ralph_*.py`) enforces
+three boundaries at the LLM-tools seam. They are *separate from* the in-process Trinity
+loop — they fire at Claude Code's pre/post/stop points, observability + retry-cap only,
+never a write-blocker:
+
+- **PreToolUse** (`ralph_pre_tool_use.py`) — logs each Bash call to `.claude/ralph.jsonl`,
+  injects a "this command failed before" hint, and enforces a per-fingerprint retry cap
+  (`AGENTROPIX_RALPH_MAX_RETRIES`, default 3; `ralph_pre_tool_use.py:51`). On cap it emits
+  `{"continue": false, "stopReason": "Ralph-loop cap reached…"}` — but **always approves
+  the call** (the cap rides the stop response, not approval refusal). It is the
+  courtroom-grade *visible* cap; the Trinity `max_iterations` cap is the primary one.
+- **PostToolUse** (`ralph_post_tool_use.py`) — captures the stderr fragment into
+  `.claude/ralph_state.json` and pattern-matches it against a DFIR rulebook
+  (`HYPOTHESIS_RULES`, `ralph_post_tool_use.py:53`) to propose an *advisory* fix for the
+  next attempt:
+  - `"unable to validate the plugin requirements"` → *vol3 plugin failed; likely a disk
+    image masquerading as memory — check the archive picker.*
+  - `"unable to locate symbols"` → *use `windows.netscan` instead of `windows.netstat`
+    (W-075 default).*
+  - `"PSORT_TIMEOUT_SECONDS exceeded"` → *raise `AGENTROPIX_PLASO_TIMEOUT` or pass
+    `--workers=1` (W-077 plaso non-determinism).*
+- **Stop** (`ralph_stop.py`) — an **active-triage guard**: if `.claude/active-triage.json`
+  exists and is < 24 h old (`SENTINEL_MAX_AGE_HOURS=24`), a run is in progress, so the
+  hook prints `"CONTINUE: triage still running for <image>"` and exits 2 to keep the
+  session alive. The sentinel is written by `cli.py` before `run_triage()` and deleted
+  after `write_sealed_report()`. If any fingerprint exceeded the retry cap it also writes
+  `BUDGET_EXHAUSTED.md` (diagnostic, non-blocking).
+
+### 8.3 The chromosome — a persona profile, not a genetic search
+
+`chromosomes/` holds a single file, `senior-analyst.yaml`. Despite the biological
+metaphor, the **runnable** specialist agents (MemoryAgent, TimelineAgent, …) are
+pure-Python detectors with no LLM coupling — they are **not** parameterised by a
+chromosome and there is no genetic search across multiple profiles. The chromosome is a
+**static persona profile** for an *external* Claude session that wants to consume SIFT's
+MCP output as a "senior analyst": it declares `persona`, a `system_prompt`, named
+`instincts` (`memory_first`, `cite_or_refuse`, `hypothesis_driven`, …), a
+`triage_sequence`, and an `output_format` (`chromosomes/senior-analyst.yaml`). The Lamarckian-evolution
+framing in `docs/architecture/chromosomes.md` (instinct injection from `ReasoningTrace`)
+is the *design intent*; today the scope is one reference persona.
+
+### 8.4 Per-agent fingerprinting (W-045) + completion-promise tokens
+
+Two complementary self-correction signals close the loop:
+
+- **Per-agent fingerprints (W-045).** The Critic hashes each agent's contribution as the
+  tuple `(agent, source, description, evidence)` and exposes a `stable_agents` set on every
+  `TrinityResult` — agents whose fingerprint is non-empty **and** unchanged from the prior
+  pass (`critic.py:128-133`). Because `investigate()` is idempotent, a plateaued agent is
+  detectable and the Architect prunes it from the next plan — the visible self-correction:
+  *"memory and timeline plateaued; drop them; let the rest surface new material."*
+- **Completion-promise tokens.** Each `SwarmAgent` declares a `completion_promise` string;
+  when it publishes ≥1 Finding without a tool error, the orchestrator adds the token to
+  `report.completion_proofs` (`orchestrator.py:194-195`), emitted in sorted/canonical order
+  (`orchestrator.py:319`) so the report is diff-stable. A downstream verifier can fail any
+  run that delivered findings but is missing a required promise — *"the agent silently
+  failed but no error was logged."* Unlike the upstream deep-dive's stale claim that most
+  agents emit no token, **all 13 agents now declare one** in code (e.g. `MEMORY_TRIAGED`,
+  `TIMELINE_GENERATED`, `ARTIFACTS_PARSED`, `CROSS_AGENT_CORRELATION_DONE`); see §2/§3.
+
+### 8.5 One end-to-end trace — TimelineAgent, 9 steps
+
+How a single agent invocation threads the whole machine (`orchestrator.py`,
+`agents/timeline.py`, `mcp_server/server.py`):
+
+1. **Input** — `image = Path("/evidence/base-dc-cdrive.E01")`, `iteration = 1`, a fresh
+   `Blackboard(config={…})`.
+2. **Architect picks TimelineAgent** — the plan tuple includes it; `agent = agent_cls(blackboard)`
+   stores the Blackboard ref.
+3. **Invoke** — `findings = await agent.run(image)` → `SwarmAgent.run` → `TimelineAgent.investigate`.
+4. **Inside `investigate()`** — preflight `looks_like_memory(image)?` (return `[]` if memory),
+   then `events = await mcp_get_timeline(str(image), parsers=…, timeout_seconds=…)`.
+5. **Across the MCP boundary** — `mcp_get_timeline` (`@traced`) records `args_hash` + start
+   time, passes the rate limiter (60/min) and the Thymus read-policy gate (ALLOW for the
+   evidence path), spawns `log2timeline.py` then `psort.py -o json_line`, Pydantic-parses
+   `TimelineEvents`, records `exit_code=0` + `duration_ms` + a ≤4 KiB raw-output snapshot,
+   returns the typed object.
+6. **Process events → Findings** — for each LOLBin-keyword match, build a `Finding(source="timeline.plaso", confidence=0.85, mitre_attack="T1059.003", …)`, dedupe, return `findings[:cap]`.
+7. **Back in `run()`** — stamp `finding.agent = "timeline"` (W-196) and
+   `await blackboard.publish("timeline", finding)` for each.
+8. **Orchestrator appends the promise** — `if findings and agent.completion_promise:`
+   adds `TIMELINE_GENERATED` to `completion_proofs`; moves to FilesystemAgent.
+9. **After the plan runs, Critic scores** — `critic.score(blackboard, planned_agents=[…], iteration=1)`
+   returns a `TrinityResult` (score, feedback, `should_halt`, `stable_agents`, `gaps`); the
+   loop halts or re-plans with `prior_traces` from §8.1.
+
+The trace ledger now holds one replayable entry for `mcp_get_timeline` (`args_hash`,
+`exit_code`, `duration_ms`, raw-output snapshot) — so *"prove the LOLBin finding"* is
+answered by replaying the wrapper with the same arguments (modulo the documented W-077
+plaso multi-worker race, mitigated with `--workers=1`).
+
+---
+
+## 9. Where to go next
 
 - How the Architect plans these agents and the Critic scores their output →
   [trinity-loop.md](trinity-loop.md)
