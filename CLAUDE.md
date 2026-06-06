@@ -58,7 +58,7 @@ GitLab renders Mermaid client-side; respect its limits:
   `issues/*.png`. Confirm `git status` won't stage these before committing.
 
 ## Validate before every push
-1. **Links/images** — every relative link + `![](…)` resolves (0 broken).
+1. **Links/images** — every relative link and image reference resolves (0 broken).
 2. **Canonical facts** — no number contradicts `.crew/facts.md`.
 3. **Mermaid** — every `mermaid` block renders (mermaid-cli) and is GitLab-safe.
 4. Mirror changed files into `/home/admin2/agentropix-sift/docs/portal/` (the in-repo copy).

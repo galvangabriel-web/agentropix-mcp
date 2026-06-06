@@ -1131,6 +1131,126 @@ uv run python scripts/verify_seal.py inc-0042-triage.json
 
 ---
 
+## Appendix — Prompt Playbook (run it prompt-by-prompt)
+
+These two playbooks are for the **💬 non-technical end-user** who drives Agentropix by typing plain-language
+prompts into a Claude session that already has the Agentropix MCP connected. Run the prompts **top-to-bottom**,
+and check the **Expect:** line against what the session reports before moving to the next one. Both lanes hit the
+**same deterministic MCP engine** and reach the same sealed result — only *who drives the tool chain* (you, step
+by step, vs. the autonomous driver) differs.
+
+### Prompt Playbook — Manual path
+
+The hands-on lane: you ask one focused question per step (Phase 0 → 8) and inspect each answer before the next.
+
+1. > *"Check that my Agentropix forensic environment is ready — are all the forensic tools installed?"*
+
+   **Expect:** the session runs the `doctor`/`health` pre-flight and reports each backing binary as `OK <path>` or `MISSING`, ending with `All tools available.` (see §Phase 0.2).
+
+2. > *"Is the Agentropix MCP server running and healthy?"*
+
+   **Expect:** the session calls the `health` tool and confirms the server is up (it returns `status: "ok"` with a live `tool_count`); starting the server is an operator-local step (see §Phase 0.3).
+
+3. > *"Verify the integrity of the CFReDS E01 image — does its stored hash match?"*
+
+   **Expect:** the session runs `ewfverify` and reports `SUCCESS` with stored MD5 == calculated MD5 (`aee4fcd9301c03b3b054623ca261959a`) (see §Phase 0.4).
+
+4. > *"Show me the acquisition details of the CFReDS image — who acquired it, when, and what OS is on it."*
+
+   **Expect:** the session calls `ewfinfo` and summarises case_number `Greg Schardt`, examiner `Shane Robinson`, acquisition_date `Wed Sep 22 14:06:04 2004`, OS `Windows XP`, format `EnCase 4` (see §Phase 0.4).
+
+5. > *"How many Agentropix forensic tools are available right now?"*
+
+   **Expect:** the session calls `health` and returns the live `tool_count` (canonical `71`; trust the live number, not the startup banner) (see §Phase 1.2).
+
+6. > *"Open a new high-severity case for the CFReDS hacking image (Greg Schardt / Mr. Evil), examiner victor.galvan, and make it the active case."*
+
+   **Expect:** the session calls `case_init` then `case_activate` and returns the new `case_id` (e.g. `INC-2026-0529224443`), status `active`, with the active-case pointer written (see §Phase 2).
+
+7. > *"Register the CFReDS E01 image as evidence in this case and give me its SHA-256 custody hash."*
+
+   **Expect:** the session calls `evidence_register` and returns the `evidence_id`, evidence SHA-256 (`96bebe80f00541bf28fbc2ef0b02b580082ee6ad58837e991852ae66f077ec31`), `size_bytes 671094597`, bound to the active case (see §Phase 3).
+
+8. > *"What does Agentropix report about this image's media size and MD5?"*
+
+   **Expect:** the session calls `get_image_info` (drives `ewfinfo`) and reports media_size `4.5 GiB (4871301120 bytes)` and MD5 `aee4fcd9301c03b3b054623ca261959a` (see §Phase 3).
+
+9. > *"What's the partition layout of the CFReDS image, and where does the NTFS partition start?"*
+
+   **Expect:** the session calls `mmls`/`get_partitions` and reports the NTFS partition start sector (**63**), carried forward as the `offset` for the next step (see §Phase 4 · A.1).
+
+10. > *"List all the files on the CFReDS image, then show me just the deleted files."*
+
+    **Expect:** the session runs `fls` twice with `offset 63` — live `entry_count 12545`, then deleted-only `entry_count 365` (see §Phase 4 · A.2).
+
+11. > *"Carve out all the indicators — emails, domains, IPs, URLs — from the CFReDS image."*
+
+    **Expect:** the session runs `run_bulk_extractor` into an allowlisted `out_dir` and reports the feature totals (25 feature types, ~124,729 features; counts vary run-to-run) (see §Phase 4 · A.3).
+
+12. > *"Run a YARA scan over the CFReDS image and tell me if anything matched."*
+
+    **Expect:** the session runs `scan_yara` and reports `match_count 0` with `raw_stdout_sha256 e3b0c442…` — the success signature of a clean smoke-test, not a failure (see §Phase 4 · A.4).
+
+13. > *"Analyse this memory image: what processes were running, what network connections were open, and is there any injected code?"*
+
+    **Expect:** for a memory image, the session runs the Volatility-backed tools (`get_pslist`, `get_netscan`, `get_malfind`, `get_svcscan`, `build_process_tree`) and summarises processes, sockets, and injected/RWX code (see §Phase 4 · A.5).
+
+14. > *"Correlate the timelines across all the hosts in this case, then pivot on the C2 IP to see which machines it touched."*
+
+    **Expect:** the session runs `correlate_timeline` (merging host events into one UTC stream) and `pivot_on_ioc` (substring hunt across images) and reports where the indicator appears (see §Phase 4 · A.6).
+
+15. > *"Pull the registry hives off this disk image and tell me what programs were executed, what's set to auto-run, and what the event logs show."*
+
+    **Expect:** the session calls `extract_files` to lift hives to an allowlisted dir, then `get_registry`/`get_shimcache`/`get_prefetch` (plus `get_amcache` on Win7+, `get_evt` for XP `.evt` / `get_evtx` for Vista+) and summarises execution + persistence artifacts (see §Phase 4 · A.7).
+
+16. > *"Record a medium-severity finding for the hacking-tool emails we carved, mapped to MITRE T1588.002, citing the email.txt artifact."*
+
+    **Expect:** the session shapes a valid finding (generating the required `finding_id`) and calls `record_finding`; it lands as `DRAFT` (`indexed:false`) — the assistant cannot self-approve (see §Phase 5).
+
+17. > *"which findings are waiting for my approval and what are their IDs?"*
+
+    **Expect:** the session lists the `DRAFT` findings and their IDs (e.g. `cfreds-acq-001`); you then sign off **yourself** in the browser approval portal — there is no plain-language approval shortcut, by design (see §Phase 6).
+
+18. > *"Generate the full report for this case."*
+
+    **Expect:** the session calls `report_generate { profile:"full" }` and returns the `report_id` and section counts; `approved_finding_count` stays `0` until a finding is approved (a DRAFT-only case can return `case_not_found` until there is indexed state) (see §Phase 7).
+
+19. > *"Verify the seal on this report — confirm it hasn't been tampered with since it was generated."*
+
+    **Expect:** the session runs the seal verifier (`verify_seal.py`) and confirms the report and audit log are unaltered since sealing (HMAC-SHA256 seal, `evidence_image_sha256`-bound) (see §Phase 7).
+
+20. > *"Dry-run the Wazuh push of the curated IOCs and tell me what would be indexed."*
+
+    **Expect:** the session runs `wazuh_index_findings { dry_run:true }` and reports the curated set that would be indexed with no errors; the live push (with an `egt_` token) is an operator-gated follow-up (see §Phase 8).
+
+### Prompt Playbook — Autonomous path
+
+The hands-off lane: you launch the autonomous driver once, monitor it, approve in the portal, then generate and
+verify the sealed report. The driver runs the full SIFT sequence and **stops at the approval gate** — a bot must
+not sign chain-of-custody.
+
+1. > *"You are a DFIR analyst with the Agentropix MCP. Investigate case `<case_id>` on image `<path>`. Run the full SIFT sequence (acquisition → examination → analysis → findings), staging findings as DRAFT. Use mmls-derived offsets for `fls` on physical disks. Write `bulk_extractor` `out_dir` under `/tmp/agentropix-sift-<case>`. Do NOT approve findings. Finish by generating the full report and summarising the thread chain."*
+
+   **Expect:** the agent runs the whole sequence itself (`case_init`→`case_activate`→`evidence_register`→`get_image_info`→`fls` live+deleted→`run_bulk_extractor`→[memory tools if applicable]→`record_finding` × N as DRAFT→`report_generate { profile:"full" }`), staging all findings as `DRAFT` and stopping before approval (see §Phase 4 · B.1).
+
+2. > *"How's the investigation going — which steps are done?"*
+
+   **Expect:** the agent reports its progress through the sequence; the validated CFReDS run completes **10/10 steps OK**, with the final `record_finding` `indexed:false` (DRAFT) and the `full` report `approved_finding_count 0` (the approval gate working as designed) (see §Phase 4 · B.2).
+
+3. > *"which findings are waiting for my approval and what are their IDs?"*
+
+   **Expect:** the session lists the staged `DRAFT` findings and their IDs (e.g. `cfreds-acq-001`); you then approve **yourself** in the browser portal (HMAC sign-off, append-only) — the assistant will not and cannot approve on your behalf (see §Phase 6).
+
+4. > *"Generate the full report for this case."*
+
+   **Expect:** the session calls `report_generate { profile:"full" }` and returns the `report_id` and section counts; once findings are approved, `approved_finding_count` and the report sections populate (see §Phase 7).
+
+5. > *"Verify the seal on this report — confirm it hasn't been tampered with since it was generated."*
+
+   **Expect:** the session runs the seal verifier (`verify_seal.py`) and confirms the report and audit log are intact and unaltered since sealing (see §Phase 7).
+
+---
+
 ## Where to go next
 
 - **[Quickstart](quickstart.md)** — the condensed 3-command path and seal verification.
