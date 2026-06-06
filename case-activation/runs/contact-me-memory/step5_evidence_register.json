@@ -1,0 +1,33 @@
+{
+  "tool": "evidence_register",
+  "args": {
+    "path": "/cases/contact_me/contact_me",
+    "description": "Raw RAM capture (1 GiB, no extension; file(1)=data)",
+    "examiner_id": "victor.galvan"
+  },
+  "ok": true,
+  "isError": false,
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"evidence\":{\"evidence_id\":\"6d9dcf5ffe92f6da401d60745402ba19c42d4db7a48ee6ffb27bd461bbb4f142\",\"case_id\":\"CTF-CONTACT-ME-MEM\",\"path\":\"/cases/contact_me/contact_me\",\"description\":\"Raw RAM capture (1 GiB, no extension; file(1)=data)\",\"sha256\":\"1ab5eb6c3b87a0604f75a00cb4a64d91aaf7ab4e303bb7337b40f7e3df8ad61a\",\"size_bytes\":1073741824,\"examiner_id\":\"victor.galvan\",\"registered_at\":\"2026-06-06T22:05:39.139910+00:00\",\"audit_id\":\"\",\"payload\":{}},\"indexed_to\":\"agentropix-evidence-2026.06.06\",\"indexed\":true,\"error\":\"\"}"
+    }
+  ],
+  "structuredContent": {
+    "evidence": {
+      "evidence_id": "6d9dcf5ffe92f6da401d60745402ba19c42d4db7a48ee6ffb27bd461bbb4f142",
+      "case_id": "CTF-CONTACT-ME-MEM",
+      "path": "/cases/contact_me/contact_me",
+      "description": "Raw RAM capture (1 GiB, no extension; file(1)=data)",
+      "sha256": "1ab5eb6c3b87a0604f75a00cb4a64d91aaf7ab4e303bb7337b40f7e3df8ad61a",
+      "size_bytes": 1073741824,
+      "examiner_id": "victor.galvan",
+      "registered_at": "2026-06-06T22:05:39.139910+00:00",
+      "audit_id": "",
+      "payload": {}
+    },
+    "indexed_to": "agentropix-evidence-2026.06.06",
+    "indexed": true,
+    "error": ""
+  }
+}

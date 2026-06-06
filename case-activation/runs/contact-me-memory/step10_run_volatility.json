@@ -1,0 +1,20 @@
+{
+  "tool": "run_volatility",
+  "args": {
+    "target": "/cases/contact_me/contact_me",
+    "plugin": "cmdline"
+  },
+  "ok": true,
+  "isError": false,
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"tool\":\"run_volatility\",\"error\":\"vol3 emitted non-JSON output: Expecting value: line 2 column 1 (char 1)\",\"suggestion\":\"\"}"
+    }
+  ],
+  "structuredContent": {
+    "tool": "run_volatility",
+    "error": "vol3 emitted non-JSON output: Expecting value: line 2 column 1 (char 1)",
+    "suggestion": ""
+  }
+}

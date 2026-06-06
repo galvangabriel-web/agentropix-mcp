@@ -70,7 +70,7 @@ Educational recordings of a real executed activation sequence (live MCP calls, c
 
 | Case | Sequence | Transcript | Video |
 |---|---|---|---|
-| CTF "Contact Me" | §3A manual | [EXECUTED-RUN.md](./runs/contact-me-memory/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/contact-me-memory/EXECUTED-RUN.mp4) (58s · 23 MB · 1920×1080) |
+| CTF "Contact Me" | §3A manual | [EXECUTED-RUN.md](./runs/contact-me-memory/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/contact-me-memory/EXECUTED-RUN.mp4) (50.7s · 19.48 MB · 1920×1080) |
 | AMF Windows sample001 | §3.A manual | [EXECUTED-RUN.md](./runs/amf-win-sample001/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/amf-win-sample001/EXECUTED-RUN.mp4) (56s · 20 MB · 1920×1080) |
 | memdump (raw 2014) | MANUAL | [EXECUTED-RUN.md](./runs/memdump-raw-2014/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/memdump-raw-2014/EXECUTED-RUN.mp4) (63s · 22 MB · 1920×1080) |
 

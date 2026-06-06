@@ -1,0 +1,28 @@
+{
+  "tool": "get_malfind",
+  "args": {
+    "image": "/cases/contact_me/contact_me"
+  },
+  "ok": true,
+  "isError": false,
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"image_path\":\"/cases/contact_me/contact_me\",\"hit_count\":0,\"hits\":[],\"tool\":\"volatility3.windows.malfind.Malfind\",\"raw_stderr\":\"Volatility 3 Framework 2.28.0\\n\\rProgress:    0.00\\t\\tScanning FileLayer using PageMapScanner\\r\\rProgress:   15.11\\t\\tScanning FileLayer using PageMapScanner\\r\\rProgress:   64.75\\t\\tScanning FileLayer using PageMapScanner\\r\\rProgress:    0.00\\t\\tScanning FileLayer using PageMapScanner\\r\\rProgress:  100.00\\t\\tStacking attempts finished             \\r\\rProgress:  100.00\\t\\tPDB scanning finished                  \\rUnable to validate the plugin requirements: ['plugins.Malfind.kernel.layer_name', 'plugins.Malfind.kernel.symbol_table_name']\\n\",\"raw_stdout_sha256\":\"a1b1148e94522b49973e1a747a6a67c16934317d9daf4b7320bd20c3bb9c5ba1\",\"tool_available\":true,\"skipped_reason\":\"\",\"image_class_detected\":\"\",\"status\":\"ok\",\"reason\":\"\",\"reason_detail\":\"\"}"
+    }
+  ],
+  "structuredContent": {
+    "image_path": "/cases/contact_me/contact_me",
+    "hit_count": 0,
+    "hits": [],
+    "tool": "volatility3.windows.malfind.Malfind",
+    "raw_stderr": "Volatility 3 Framework 2.28.0\n\rProgress:    0.00\t\tScanning FileLayer using PageMapScanner\r\rProgress:   15.11\t\tScanning FileLayer using PageMapScanner\r\rProgress:   64.75\t\tScanning FileLayer using PageMapScanner\r\rProgress:    0.00\t\tScanning FileLayer using PageMapScanner\r\rProgress:  100.00\t\tStacking attempts finished             \r\rProgress:  100.00\t\tPDB scanning finished                  \rUnable to validate the plugin requirements: ['plugins.Malfind.kernel.layer_name', 'plugins.Malfind.kernel.symbol_table_name']\n",
+    "raw_stdout_sha256": "a1b1148e94522b49973e1a747a6a67c16934317d9daf4b7320bd20c3bb9c5ba1",
+    "tool_available": true,
+    "skipped_reason": "",
+    "image_class_detected": "",
+    "status": "ok",
+    "reason": "",
+    "reason_detail": ""
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "tool": "case_status",
+  "args": {
+    "case_id": "CTF-CONTACT-ME-MEM"
+  },
+  "ok": true,
+  "isError": false,
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"case_id\":\"CTF-CONTACT-ME-MEM\",\"case\":{\"case_id\":\"CTF-CONTACT-ME-MEM\",\"case_name\":\"CTF contact_me (raw memory)\",\"description\":\"\",\"status\":\"active\",\"examiner_id\":\"victor.galvan\",\"incident_type\":\"\",\"severity\":\"medium\",\"started_at\":\"2026-06-06T20:26:57.177010+00:00\",\"ended_at\":null,\"scope\":\"\",\"team\":[],\"tags\":[],\"case_dir\":\"/cases/contact_me/contact_me\",\"payload\":{}},\"active\":true,\"counts\":{\"findings\":0,\"timeline\":0,\"evidence\":1,\"iocs\":0,\"approvals\":0},\"indexer_reachable\":true,\"error\":\"\"}"
+    }
+  ],
+  "structuredContent": {
+    "case_id": "CTF-CONTACT-ME-MEM",
+    "case": {
+      "case_id": "CTF-CONTACT-ME-MEM",
+      "case_name": "CTF contact_me (raw memory)",
+      "description": "",
+      "status": "active",
+      "examiner_id": "victor.galvan",
+      "incident_type": "",
+      "severity": "medium",
+      "started_at": "2026-06-06T20:26:57.177010+00:00",
+      "ended_at": null,
+      "scope": "",
+      "team": [],
+      "tags": [],
+      "case_dir": "/cases/contact_me/contact_me",
+      "payload": {}
+    },
+    "active": true,
+    "counts": {
+      "findings": 0,
+      "timeline": 0,
+      "evidence": 1,
+      "iocs": 0,
+      "approvals": 0
+    },
+    "indexer_reachable": true,
+    "error": ""
+  }
+}
