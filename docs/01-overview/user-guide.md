@@ -1,45 +1,101 @@
 # Agentropix-SIFT User Guide — The Complete Operator Runbook
 
-> **Section 01 · Overview** — the single, deeply-detailed end-to-end walkthrough for an operator.
+> **Section 01 · Overview** — the single, deeply-detailed end-to-end walkthrough, written for **two
+> audiences at once**: the **expert** who types CLI/MCP commands and reads raw output, and the
+> **non-technical end-user** who types a plain-language prompt into Claude Desktop / Claude CLI (with
+> the Agentropix MCP connected) and reads the result.
 > Related: [Quickstart](quickstart.md) (the 3-command fast path) ·
 > [What is Agentropix-SIFT?](what-is-agentropix.md) ·
 > [What You Get](what-you-get.md) ·
 > [Client Setup (Desktop & CLI)](../09-integrations/client-setup.md) ·
 > [CLI Reference](../08-reference/cli-reference.md) ·
+> [Tool capability map](../04-mcp-tools/capability-map.md) ·
+> [Per-case attack-chain hypotheses](../06-use-cases/case-hypotheses.md) ·
 > [Approval Portal](../05-safety-forensics/approval-portal.md) ·
 > [Audit & Courtroom Seal](../05-safety-forensics/audit-courtroom.md) ·
 > [Wazuh Integration](../09-integrations/wazuh-portal.md)
 
-This guide takes you through one **complete DFIR case** the way a real examiner runs it,
-in full operational depth: **prerequisites & clients → connect/verify the MCP →
-case init/activate → register evidence (chain-of-custody hash) → the investigation tool
-chain → record findings → approve in the portal → generate & verify the sealed report →
-curate & push IOCs to Wazuh.**
+This guide takes you through one **complete DFIR case** the way a real examiner runs it, in full
+operational depth: **prerequisites & clients → connect/verify the MCP → case init/activate → register
+evidence (chain-of-custody hash) → the investigation tool chain → record findings → approve in the
+portal → generate & verify the sealed report → curate & push IOCs to Wazuh.**
 
-There are **two ways to drive a triage**, and this guide documents *both* as full,
-standalone procedures you can follow verbatim:
+**The core principle: adapt Agentropix to the user, not the user to Agentropix.** Every operator
+action in this guide is shown **two ways** — the exact command an expert runs, and the plain-language
+prompt a non-technical user types to get the *same result*. You only need to follow one track.
 
-- **Path A — Manual:** you call each MCP tool yourself, one at a time, inspecting output
-  before the next step. Best for interactive examination, demos, and the approval gate.
-- **Path B — Autonomous:** you launch a headless driver and let the engine run the whole
-  sequence unattended (the "Trinity Loop"), staging findings as `DRAFT`. Best for heavy,
-  long-running, or overnight runs.
+---
+
+## HOW TO READ THIS GUIDE
+
+Read this short preface first — it tells you how the guide is structured and how to follow your track.
+
+### (a) The example outputs are from a REAL run
+
+Every "validated output" you see below — case IDs, SHA-256 hashes, entry counts, feature counts — comes
+from a **real prior execution: the validated 2026-05-29 CFReDS run.** These are not invented examples.
+You will see real artifacts and real IDs (e.g. `case_id INC-2026-0529224443`, evidence SHA-256
+`96bebe80…`). Your own run will produce *different* IDs and timestamps, but the *shape* of the output
+will match. Where we quote a number, it is what the platform actually returned that day.
+
+### (b) What a GOTCHA box is
+
+> ⚠️ **GOTCHA** boxes flag real-data quirks and genuine bugs found during the proving run. Because the
+> examples are from a real run, real-world snags appear — a tool that needs a partition offset, a path
+> the policy engine rejects, a background process that gets killed. Each GOTCHA explains the snag for
+> **both** audiences: what the symptom looks like, and how to avoid it. The valuable bugs (B2–B5) are
+> introduced together in the [Gotchas at a glance](#gotchas-at-a-glance) section below so you meet them
+> before you hit them.
+
+### (c) The two audience tracks
+
+Throughout the guide, every single-command action carries a **dual-representation box**:
+
+> **🖥️ Expert (command):** the exact CLI/MCP call to type into a terminal or pass over the MCP.
+> **💬 End-user (prompt):** the plain-language question to type into a Claude session that has the
+> Agentropix MCP connected. A simple, focused question is enough — the session recognises it as an
+> Agentropix capability and routes it to the right MCP tool automatically.
+
+**How to follow each track:**
+- **Expert track** — copy the `🖥️` command, run it, read the raw JSON/text output (the "Output X" block).
+- **End-user track** — type the `💬` prompt into Claude Desktop or Claude CLI. The assistant calls the
+  same MCP tool behind the scenes and explains the result back to you in plain language. You never see
+  the JSON unless you ask for it.
+
+Both tracks hit the **same deterministic MCP tool** and get the **same facts** — only the surface differs.
+
+---
+
+## Usability matrix — find your lane
+
+There are **two ways to drive a triage** (Manual vs Autonomous) and **two ways to interact** (Expert
+CLI vs Non-expert prompt). That makes **four lanes**. Find yours, then follow it consistently through
+the guide. All four operate on the **same real CFReDS data** and reach the **same sealed result**.
+
+| | **🖥️ Expert (types CLI/MCP commands)** | **💬 Non-expert (types a plain-language prompt)** |
+|---|---|---|
+| **Path A — Manual** (you/the assistant drive each tool one at a time, inspecting output before the next step) | **Lane A-Expert.** Call each MCP tool yourself in a CLI session or run the operator shell commands (`mmls`, `ewfverify`). Read raw output inline. Best for demos and the approval gate. → [Path A](#path-a--manual-execution-you-drive-each-tool) | **Lane A-User.** Ask the assistant one focused question per step ("check the partition layout", "list deleted files"). It calls the tool and explains the answer. → use the `💬` prompts in [Path A](#path-a--manual-execution-you-drive-each-tool) |
+| **Path B — Autonomous** (the engine runs the whole sequence unattended, staging findings as DRAFT) | **Lane B-Expert.** Launch the detached headless driver (`agx_gearb.py`-class) with the bearer token; monitor `run.log` + `SUMMARY.json`. The validated production pattern. → [Path B.2](#b2--headless-driver-fully-unattended-the-validated-pattern) | **Lane B-User.** Paste one autonomous prompt ("investigate this case end to end, stage findings as DRAFT, don't approve") and let the assistant run the full sequence, narrating progress. → [Path B.1](#b1--interactive-autonomous-prompt-desktop-or-cli) |
+
+> **The four lanes stay separated through the doc.** Phase 4 is where Manual (A) and Autonomous (B)
+> diverge — both are documented in full. Within each, the `🖥️`/`💬` boxes keep the Expert and Non-expert
+> tracks side by side.
 
 …and **two clients**, which differ architecturally:
 
-- **Claude CLI** — speaks HTTP natively, scriptable/headless, no size cap. The recommended
-  client for autonomous chains.
-- **Claude Desktop** — GUI, human-in-the-loop, speaks stdio only (needs an `mcp-remote`
-  shim) and enforces a hard **~1 MB single-tool-result cap**.
+- **Claude CLI** — speaks HTTP natively, scriptable/headless, no size cap. The recommended client for
+  autonomous chains. (Lanes A-Expert and B-Expert live here.)
+- **Claude Desktop** — GUI, human-in-the-loop, speaks stdio only (needs an `mcp-remote` shim) and
+  enforces a hard **~1 MB single-tool-result cap**. (A great home for the `💬` non-expert prompts and
+  the approval gate.)
 
-> **Platform capability vs. validated example run.** Agentropix-SIFT *orchestrates* the
-> SANS SIFT toolchain you already have. The platform exposes **71 deterministic MCP tools**
-> across **16 forensic SIFT wrappers**, with **4464 tests** (cite
-> [`.crew/facts.md`](../../.crew/facts.md): `mcp_tool_count=71`, `test_count=4464`). The LLM
-> only *orchestrates*; the facts come from deterministic tools. Throughout this guide the
-> **validated 2026-05-29 CFReDS run** is quoted as a worked example — that run was captured
-> against an earlier build whose live `tools/list` enumerated **62** tools; treat 62 as the
-> snapshot inventory and **71** as the current platform figure.
+> **Platform capability vs. validated example run.** Agentropix-SIFT *orchestrates* the SANS SIFT
+> toolchain you already have. The platform exposes **71 deterministic MCP tools** across **16 forensic
+> SIFT wrappers**, with **4464 tests** (cite [`.crew/facts.md`](../../.crew/facts.md):
+> `mcp_tool_count=71`, `test_count=4464`). The LLM only *orchestrates*; the facts come from
+> deterministic tools. Throughout this guide the **validated 2026-05-29 CFReDS run** is quoted as a
+> worked example — that run was captured against an earlier build whose live `tools/list` enumerated
+> **62** tools; treat 62 as the snapshot inventory and **71** as the current platform figure.
 
 ---
 
@@ -67,24 +123,31 @@ flowchart LR
   style P8 fill:#7c3aed,color:#fff
 ```
 
-*The operator phases. Phase 4 (the investigation tool chain) is where Path A (manual) and
-Path B (autonomous) diverge — both are documented in full below.*
+*The operator phases. Phase 4 (the investigation tool chain) is where Path A (manual) and Path B
+(autonomous) diverge — both are documented in full below.*
 
 ---
 
-## Dual-client × dual-path matrix — choosing how to run
+## Tool capability map (summary)
 
-| | **Path A — Manual** (you drive each tool) | **Path B — Autonomous** (engine drives) |
-|---|---|---|
-| **Claude CLI** (HTTP-native, no cap) | Interactive examiner-driven triage in a CLI session. Full control, full tool output inline. | **The recommended autonomous client.** `claude --print` runs full chains headless; the `agx_gearb.py`-style driver runs detached. No 1 MB cap. |
-| **Claude Desktop** (stdio + `mcp-remote`, ~1 MB cap) | GUI triage with a per-call (or batched) approval prompt. Ideal for sub-1 MB calls, demos, and the **approval gate**. | Possible via an interactive autonomous prompt, but **not** suited to unattended/overnight runs: no headless mode, no worktrees, and the heavy tools you'd want unattended hit the 1 MB cap. |
-| **When to choose** | You want to inspect each result and reason step by step; you are doing the examiner approval. | You want the full sequence run end-to-end without supervision; the image is large; the run is long (`get_timeline` on a multi-GB E01 can take 30–45 min). |
+The platform's **71 tools** group into DFIR functions — discovery/health, disk/partition, memory,
+registry & execution artifacts, filesystem/MFT, timeline, event logs, email/PST, YARA/carve/strings,
+IOC pivot, threat intel, Wazuh, and case/findings/reporting. Use the map to pick the right tool for the
+phase you're in.
 
-**The 1 MB cap (Desktop-only).** Claude Desktop enforces a hard ~1 MB cap on a *single*
-MCP tool result; it is not configurable. The identical chain that fails in Desktop runs
-inline in CLI. **Mitigation principle:** prefer a tool's file-path / `out_dir` / `dest`
-return mode over inline payload, and scope queries. Most carving/extraction wrappers accept
-`out_dir`/`dest` precisely so they return a path, not megabytes of inline data.
+→ **Full map:** [Tool capability map (by DFIR function)](../04-mcp-tools/capability-map.md) — the
+per-function tool table, cross-cutting conventions (Thymus path policy, auto-tempdirs,
+`timeout_seconds`), and the canonical happy-path ordering. The complete per-tool catalogue is in
+[`.crew/tool-list.md`](../../.crew/tool-list.md) and [Tool reference](../04-mcp-tools/tool-reference.md).
+
+---
+
+## The 1 MB cap (Desktop-only) and how to size tool output
+
+Claude Desktop enforces a hard ~1 MB cap on a *single* MCP tool result; it is not configurable. The
+identical chain that fails in Desktop runs inline in CLI. **Mitigation principle:** prefer a tool's
+file-path / `out_dir` / `dest` return mode over inline payload, and scope queries. Most
+carving/extraction wrappers accept `out_dir`/`dest` precisely so they return a path, not megabytes.
 
 High-risk-in-Desktop tools and their mitigation:
 
@@ -107,53 +170,39 @@ Inherently safe in Desktop (small results): `health`, `case_init`/`case_activate
 
 ---
 
-## Tool capability map (by DFIR function)
+## Gotchas at a glance
 
-The platform's **71 tools** group into DFIR functions as below. The bucket counts sum to the
-**62-tool** inventory enumerated in the validated 2026-05-29 run; the current platform total
-is **71** (cite [`.crew/facts.md`](../../.crew/facts.md)). The full per-tool catalogue is in
-[`.crew/tool-list.md`](../../.crew/tool-list.md).
+Meet the real-data snags before you hit them. Each is explained for **both** audiences. They recur in
+context at the relevant phase, and the full troubleshooting ledger is at the [end of this guide](#troubleshooting-ledger).
 
-| DFIR function | Tools | Notes |
-|---|---|---|
-| **Discovery / health / meta** | `health`, `get_image_info` | `health.tool_count` is the source of truth for the live inventory; `get_image_info` = `ewfinfo` E01 metadata |
-| **Disk / container / partition / path** | `parse_gpt`, `unwrap_disk_container`, `glob_paths`, `list_files` (+`get_image_info`) | `unwrap_disk_container` converts VHD/VMDK/QCOW2→raw with SHA-256; `glob_paths`/`list_files` Thymus-gated |
-| **Memory / Volatility** | `get_pslist`, `run_volatility`, `get_netscan`, `get_malfind`, `get_svcscan`, `get_editbox`, `build_process_tree` | vol3 plugins; `build_process_tree` = PPID forest + LOLBin flags + DKOM orphans |
-| **Registry & execution artifacts** | `get_registry`, `get_amcache`, `get_shimcache`, `get_recmd`, `get_sbecmd` | `get_amcache` is Win7+ only (XP has none); `get_sbecmd` = ShellBags |
-| **Filesystem / MFT / TSK** | `fls`, `extract_files`, `get_mftecmd`, `get_lecmd`, `get_jlecmd` | `fls` lists deleted (T1070.004); `offset` in **sectors**; `get_mftecmd` = $MFT/$J/$I30 |
-| **Timeline** | `get_timeline`, `correlate_timeline` | plaso super-timeline; `correlate_timeline` merges EVTX across hosts into one UTC stream |
-| **Event logs / execution / SRUM** | `get_evtx`, `get_prefetch`, `srum_extract` | `get_evtx` = `.evtx` (Vista+); XP `.evt` is **not** supported; `srum_extract` = per-process net bytes (Win8+) |
-| **Email / PST** | `email_header_matrix`, `carve_pst_iocs` | SPF/DKIM/DMARC matrix; PST→per-message + per-attachment IOC report |
-| **YARA / carve / strings / hash / meta / maldoc / archive / PDF / SQLite** | `scan_yara`, `run_bulk_extractor`, `run_foremost`, `run_strings`, `get_bstrings`, `run_hashdeep`, `run_exiftool`, `analyze_maldoc`, `extract_archive`, `pdf_extract_text`, `get_sqlecmd` | `run_bulk_extractor` = feature carving (emails/IPs/URLs); `analyze_maldoc` = olevba/oleid/rtfobj |
-| **IOC pivot / detection analytics** | `pivot_on_ioc`, `detect_sweep` | substring hunt across artifacts/hosts; SMB share-enum burst detector |
-| **Threat intel (egress-gated)** | `threat_intel_lookup` | VT/OTX; needs `AGENTROPIX_ALLOW_EGRESS=1`, else no network call |
-| **Wazuh** | `wazuh_check_intel`, `wazuh_hunt_ioc`, `wazuh_vuln_query`, `wazuh_publish_iocs`, `wazuh_index_findings` | last two are **mutations** (need `dry_run=False` + `egt_<ULID>` token) |
-| **Case / findings / reporting / index** | `case_init`, `case_activate`, `case_status`, `evidence_register`, `record_finding`, `record_timeline_event`, `approve_finding`, `report_generate`, `idx_ingest`, `idx_search`, `idx_aggregate`, `idx_timeline`, `idx_case_summary` | case-scoped; `record_finding`/`idx_ingest` are draft-gated mutations; `approve_finding` is human-only |
+| ID | What happens (expert symptom) | In plain terms (end-user) | The fix |
+|----|-------------------------------|---------------------------|---------|
+| **B2** | `fls` on a physical disk → `Cannot determine file system type` | "list the files" came back empty/errored because the tool started at the very front of the disk instead of inside the partition | Pass the partition `offset` (sectors) from `mmls`. For CFReDS, NTFS starts at **sector 63**. The assistant does this for you when you ask it to list files. |
+| **B3** | `run_bulk_extractor` → `Thymus REJECT: path not found` | the place you asked it to write results to isn't on the allowed list | Write `out_dir` under an allowlisted prefix: `/tmp/agentropix-sift-*`, `/cases/`, `/mnt/`, `/media/`, `/evidence/` |
+| **B4** | `record_finding` → `finding must contain non-empty finding_id` | the finding had no ID, so the system wouldn't file it | Always give every finding a `finding_id` (the assistant generates one) |
+| **B5** (the big one) | An autonomous driver dies mid-run; later steps never log even though the server-side job finished | the unattended run got killed when its shell closed | Launch the driver **detached** (`setsid` + `nohup` + `disown`) and checkpoint per step. Non-experts: use the interactive autonomous prompt (Path B.1) instead, which avoids this entirely. |
 
-**Cross-cutting conventions.** Most subprocess tools accept `timeout_seconds` (clamped, safe
-to raise per-call without a server restart). Auto-tempdir tools (`extract_files`, `extract_archive`,
-`run_bulk_extractor`, `run_foremost`, `unwrap_disk_container`) create a fresh Thymus-allowed
-`/tmp/agentropix-sift-*` dir when `dest`/`out_dir` is omitted. **Thymus** path policy gates every
-path: out-of-allowlist paths are silently dropped, `..` is rejected, symlinks dropped unless
-opted in. The EZ-Tools (.NET) family is `get_recmd`, `get_mftecmd`, `get_lecmd`, `get_jlecmd`,
-`get_sbecmd`, `get_sqlecmd`, `get_bstrings`.
+Platform notes that look like bugs but are **working as designed**:
 
-**Canonical happy-path ordering:** `case_init` (or `case_activate` to resume) →
-`evidence_register` → **[ANALYSIS primitives]** → `record_finding`/`idx_ingest` (stage DRAFT) →
-`approve_finding` (human, DRAFT→APPROVED) → `wazuh_index_findings`/`idx_ingest(dry_run=False)` →
-`report_generate`.
+- **YARA smoke-test returns 0 matches** with `raw_stdout_sha256` = the empty-string hash. That is the
+  *success* signature of a clean scan, not a failure. (Only `pf_smoketest.yar` is installed — add a
+  production ruleset before relying on YARA.)
+- **A `full` report shows `approved_finding_count 0`** right after recording a finding. Correct — DRAFT
+  findings are not surfaced until an examiner approves (Phase 6).
+- **Wazuh Discover shows 0 docs** on a 2004 image. The default time range doesn't cover 2004 — use the
+  `@timestamp` field and widen the range.
 
 ---
 
 ## Phase 0 — Prerequisites and clients
 
-> 🟢 **In plain terms:** put the evidence in the right place, make sure the forensic tools
-> exist, start the MCP server, and pick your client (CLI or Desktop).
+> 🟢 **In plain terms:** put the evidence in the right place, make sure the forensic tools exist, start
+> the MCP server, and pick your client (CLI or Desktop).
 
 ### 0.1 Evidence location and in-scope cases
 
-Evidence lives under `/cases/` (**lowercase** — `/Cases/` does not exist). The in-scope test
-cases used throughout this guide:
+Evidence lives under `/cases/` (**lowercase** — `/Cases/` does not exist). The in-scope test cases used
+throughout this guide:
 
 | Case key | Scenario | Evidence shape |
 |---|---|---|
@@ -162,18 +211,33 @@ cases used throughout this guide:
 | `SRL-2018` | Stark Research Labs network-wide APT C2 deployment | many E01s + memory `.img` (each with `.md5`) |
 | `rocba` | Stark Research Labs insider IP theft — Fred Rocba, 2020 | Single host: `rocba-cdrive.e01` (23.7 GB) + `Rocba-Memory.raw` (19.0 GB) |
 
+Per-case attack-chain hypotheses (which tools to reach for first in each scenario) live in
+[Per-case attack-chain hypotheses](../06-use-cases/case-hypotheses.md).
+
 ### 0.2 Forensic toolchain pre-flight (`doctor`)
 
-Agentropix-SIFT does **not** ship the forensic binaries — it drives the SANS SIFT toolchain.
-`doctor` resolves the binaries that back the **16** forensic SIFT wrappers, honoring any
-`AGENTROPIX_*_TOOL` override, and prints `OK <path>` or `MISSING` for each.
+Agentropix-SIFT does **not** ship the forensic binaries — it drives the SANS SIFT toolchain. `doctor`
+resolves the binaries that back the **16** forensic SIFT wrappers, honoring any `AGENTROPIX_*_TOOL`
+override, and prints `OK <path>` or `MISSING` for each.
 
+> **🖥️ Expert (command):**
+> ```bash
+> uv run agentropix-sift doctor
+> ```
+> **💬 End-user (prompt):** *"Check that my Agentropix forensic environment is ready — are all the
+> forensic tools installed?"*
+> The session runs the same pre-flight (`doctor` / the `health` check) and tells you in plain language
+> whether everything is present or what's missing. **A simple, focused question is enough — the session
+> recognises this as an Agentropix capability and routes it to the right check.**
+
+**Execution A → Output A.**
+
+*Execution A:*
 ```bash
 uv run agentropix-sift doctor
 ```
 
-**Expected output (all present):**
-
+*Output A (all present):*
 ```text
   [OK  /usr/bin/vol] Volatility3 (memory forensics) (vol)
   [OK  /usr/bin/log2timeline.py] Plaso (timeline) (log2timeline.py)
@@ -184,8 +248,8 @@ uv run agentropix-sift doctor
 All tools available.
 ```
 
-A `MISSING` tool degrades gracefully (the relevant agent self-skips) but lowers recall — resolve
-each before a real run. Point at a non-default path with the override var (no symlink needed):
+A `MISSING` tool degrades gracefully (the relevant agent self-skips) but lowers recall — resolve each
+before a real run. Point at a non-default path with the override var (no symlink needed):
 
 ```bash
 export AGENTROPIX_YARA_TOOL=/opt/sift/bin/yara
@@ -197,60 +261,101 @@ Deep reference: [CLI Reference · `doctor`](../08-reference/cli-reference.md#age
 
 ### 0.3 Start / verify the MCP server (operator-local)
 
-```bash
-bash /home/admin2/.openclaw/workspace/scripts/start-agentropix-mcp.sh start
-bash /home/admin2/.openclaw/workspace/scripts/start-agentropix-mcp.sh status   # expect health: HTTP 200
-```
+> **🖥️ Expert (command):**
+> ```bash
+> bash /home/admin2/.openclaw/workspace/scripts/start-agentropix-mcp.sh start
+> bash /home/admin2/.openclaw/workspace/scripts/start-agentropix-mcp.sh status   # expect health: HTTP 200
+> ```
+> **💬 End-user (prompt):** *"Is the Agentropix MCP server running and healthy?"*
+> If the MCP is already connected to your session, the assistant calls `health` and confirms. (Starting
+> the server itself is an operator-local step — ask your administrator if it isn't up.)
 
 The launcher pins the bearer token and binds the MCP endpoint on the tailnet.
 
-> ⚠️ **GOTCHA (autonomous runs):** the server is reaped if the shell that started it exits
-> inside a sandbox. For an unattended Path B run, start the server from a **detached / long-lived**
-> process so it survives the launching shell.
+> ⚠️ **GOTCHA (autonomous runs):** the server is reaped if the shell that started it exits inside a
+> sandbox. For an unattended Path B run, start the server from a **detached / long-lived** process so it
+> survives the launching shell. (Non-experts on the interactive autonomous prompt don't need to worry
+> about this — it only affects the headless driver.)
 
 ### 0.4 Verify image integrity (chain of custody)
 
-Before any tool opens a descriptor, confirm the image is byte-intact — its stored MD5 must
-equal its calculated MD5.
+Before any tool opens a descriptor, confirm the image is byte-intact — its stored MD5 must equal its
+calculated MD5.
 
+> **🖥️ Expert (command):**
+> ```bash
+> ewfverify /cases/cfreds-fresh/4Dell-Latitude-CPi.E01
+> ```
+> **💬 End-user (prompt):** *"Verify the integrity of the CFReDS E01 image — does its stored hash match?"*
+> The session runs the same verification and reports SUCCESS plus the matching MD5, or warns you if the
+> image is corrupt. **One plain question routes to `ewfverify` automatically.**
+
+**Execution B → Output B.**
+
+*Execution B:*
 ```bash
 ewfverify /cases/cfreds-fresh/4Dell-Latitude-CPi.E01
-ewfinfo   /cases/cfreds-fresh/4Dell-Latitude-CPi.E01   # acquisition metadata
 ```
 
-- **Expect:** `ewfverify` reports `SUCCESS`; stored MD5 == calculated MD5.
-- **CFReDS verified:** `ewfverify SUCCESS`, MD5 `aee4fcd9301c03b3b054623ca261959a`.
-- If `ewfinfo` reports `corrupted: yes`, **re-acquire** from your canonical source — a corrupt
-  EWF chunk silently blocks hive/artifact extraction.
+*Output B (validated):* `ewfverify` reports **`SUCCESS`**; stored MD5 == calculated MD5 ==
+**`aee4fcd9301c03b3b054623ca261959a`**.
 
-> ⚠️ **CONFIDENTIAL — Investigative Pre-Decisional.** Never submit indicators flagged *NEVER
-> SUBMIT TO TI* (e.g. a packet-capture SHA-256) to any external service. All verification here
-> is local and read-only.
+And the acquisition metadata:
+
+> **🖥️ Expert (command):**
+> ```bash
+> ewfinfo /cases/cfreds-fresh/4Dell-Latitude-CPi.E01
+> ```
+> **💬 End-user (prompt):** *"Show me the acquisition details of the CFReDS image — who acquired it, when, and what OS is on it."*
+> The session calls `ewfinfo` (the same metadata the `get_image_info` MCP tool returns) and summarises it.
+
+**Execution C → Output C.**
+
+*Execution C:*
+```bash
+ewfinfo /cases/cfreds-fresh/4Dell-Latitude-CPi.E01
+```
+
+*Output C (validated, `ewfinfo 20140816`):* case_number `Greg Schardt`, examiner `Shane Robinson`,
+acquisition_date `Wed Sep 22 14:06:04 2004`, OS `Windows XP`, format `EnCase 4`.
+
+- If `ewfinfo` reports `corrupted: yes`, **re-acquire** from your canonical source — a corrupt EWF
+  chunk silently blocks hive/artifact extraction.
+
+> ⚠️ **CONFIDENTIAL — Investigative Pre-Decisional.** Never submit indicators flagged *NEVER SUBMIT TO
+> TI* (e.g. a packet-capture SHA-256) to any external service. All verification here is local and
+> read-only.
 
 ---
 
 ## Phase 1 — Connect a client and verify the MCP
 
-> 🟢 **In plain terms:** wire your client to the MCP endpoint, then call `health` and trust the
-> live tool count — not the startup banner, not the docs.
+> 🟢 **In plain terms:** wire your client to the MCP endpoint, then call `health` and trust the live
+> tool count — not the startup banner, not the docs.
 
 The two clients differ at the **transport layer**, which cascades into everything else:
 
-- **Claude CLI** speaks HTTP natively — it connects straight to the MCP endpoint over the
-  tailnet, with the bearer token as a real HTTP header. **No bridge process.**
-- **Claude Desktop** speaks stdio only — it cannot open an HTTP MCP connection itself, so it
-  spawns a local **`mcp-remote`** shim (an `npx` package) that talks HTTP to the server and
-  proxies JSON-RPC over stdio. **Prerequisite:** Node.js ≥ 18 on `PATH`.
+- **Claude CLI** speaks HTTP natively — it connects straight to the MCP endpoint over the tailnet, with
+  the bearer token as a real HTTP header. **No bridge process.**
+- **Claude Desktop** speaks stdio only — it cannot open an HTTP MCP connection itself, so it spawns a
+  local **`mcp-remote`** shim (an `npx` package) that talks HTTP to the server and proxies JSON-RPC over
+  stdio. **Prerequisite:** Node.js ≥ 18 on `PATH`.
 
-Server transport is HTTP + SSE (FastMCP). Auth is a static bearer token compared
-constant-time server-side; no TTL, no refresh. The endpoint has the documented shape
-`http://<TAILNET-IP>:8765/mcp` and is reachable **only** from tailnet members. The operator's
-real tailnet host and token are not reproduced here — get them from
-[Client Setup](../09-integrations/client-setup.md).
+Server transport is HTTP + SSE (FastMCP). Auth is a static bearer token compared constant-time
+server-side; no TTL, no refresh. The endpoint has the documented shape `http://<TAILNET-IP>:8765/mcp`
+and is reachable **only** from tailnet members. The operator's real tailnet host and token are not
+reproduced here — get them from [Client Setup](../09-integrations/client-setup.md).
 
-> ⚠️ **Server-side gotcha (defense-relevant):** if `AGENTROPIX_MCP_AUTH_TOKEN` is unset on the
-> server, the auth middleware short-circuits and accepts **all** requests unauthenticated.
-> Always confirm the token is set.
+> ⚠️ **Server-side gotcha (defense-relevant):** if `AGENTROPIX_MCP_AUTH_TOKEN` is unset on the server,
+> the auth middleware short-circuits and accepts **all** requests unauthenticated. Always confirm the
+> token is set.
+
+> **Dual-audience note for Phase 1 wiring.** Connecting a client to the MCP is a **one-time operator
+> setup step** — it is the only action in this guide with no plain-language prompt equivalent, because an
+> end-user can't add an MCP server by talking to a session that isn't connected yet. **💬 End-user:** if
+> the Agentropix MCP is already wired into your Claude Desktop / CLI (your administrator did 1A or 1B
+> below), skip to [§1.2](#12-sanity-check--call-health) and just ask *"how many Agentropix forensic tools
+> are available?"* to confirm you're connected. If it isn't, ask your administrator to run the wiring step.
 
 ### 1A — Connect with Claude CLI (recommended)
 
@@ -269,8 +374,8 @@ claude mcp list
 
 This persists in `~/.claude.json` under `mcpServers` as
 `{type:"http", url:..., headers:{Authorization:"Bearer <TOKEN>"}}`. Scope is user by default
-(`-s user`) or project via a repo-root `.mcp.json`. **`~/.claude.json` is not hot-reloaded** —
-a manual edit needs a full CLI restart.
+(`-s user`) or project via a repo-root `.mcp.json`. **`~/.claude.json` is not hot-reloaded** — a manual
+edit needs a full CLI restart.
 
 ### 1B — Connect with Claude Desktop (stdio shim)
 
@@ -293,48 +398,65 @@ Desktop platform gotchas:
 - Lock the config `0600` (it embeds the token in cleartext). Desktop MCP log (Linux):
   `~/.config/Claude/logs/mcp-server-agentropix-sift.log`.
 
-**Token rules (both clients):** same value, different layer (CLI = HTTP header; Desktop = literal
-string in the `mcp-remote --header` arg). Neither client expands `${VAR}` — paste the literal
-token. It must be exactly `Authorization: Bearer <token>` (case-sensitive `Bearer`, single space,
-no quotes); a trailing newline or smart-quote → `401`.
+**Token rules (both clients):** same value, different layer (CLI = HTTP header; Desktop = literal string
+in the `mcp-remote --header` arg). Neither client expands `${VAR}` — paste the literal token. It must be
+exactly `Authorization: Bearer <token>` (case-sensitive `Bearer`, single space, no quotes); a trailing
+newline or smart-quote → `401`.
 
 ### 1.2 Sanity check — call `health`
 
-From any connected client, call the `health` tool. Expect a small JSON object including a
-live `tool_count`.
+From any connected client, call the `health` tool. Expect a small JSON object including a live
+`tool_count`.
 
-```text
-health  ->  { "status": "ok", "tool_count": 71, "version": "...", "uptime": ... }
-```
+> **🖥️ Expert (command/MCP call):**
+> ```text
+> health  ->  { "status": "ok", "tool_count": 71, "version": "...", "uptime": ... }
+> ```
+> **💬 End-user (prompt):** *"How many Agentropix forensic tools are available right now?"*
+> The session calls `health` and tells you the live count. **Trust this live number, not any banner.**
 
-> ⚠️ **Always live-verify the tool count.** The startup banner under-reports (it once showed
-> `38`). Trust the live `health.tool_count` / `tools/list`, never the banner or stale docs. The
-> 2026-05-29 snapshot showed `62`; the current platform is `71`.
+**Execution D → Output D.**
+
+*Execution D:* call the `health` tool.
+
+*Output D:* `{ "status": "ok", "tool_count": 71, "version": "...", "uptime": ... }`
+
+> ⚠️ **Always live-verify the tool count.** The startup banner under-reports (it once showed `38`).
+> Trust the live `health.tool_count` / `tools/list`, never the banner or stale docs. The 2026-05-29
+> snapshot showed `62`; the current platform is `71`.
 
 ---
 
 ## Phase 2 — Open and activate the case (chain of custody)
 
-> 🟢 **In plain terms:** create the case record (idempotent) and make it the *active* case so
-> every later tool stamps to it.
+> 🟢 **In plain terms:** create the case record (idempotent) and make it the *active* case so every
+> later tool stamps to it.
 
-```text
-case_init     { "case_name":"CFReDS Hacking Case (Greg Schardt / Mr. Evil)",
-                "examiner_id":"victor.galvan",
-                "incident_type":"intrusion/hacking-tools",
-                "severity":"high",
-                "scope":"/cases/cfreds-fresh/4Dell-Latitude-CPi.E01" }
-                ->  returns case_id, e.g. INC-2026-0529224443
-case_activate { "case_id":"<case_id from above>" }
-```
+> **🖥️ Expert (MCP calls):**
+> ```text
+> case_init     { "case_name":"CFReDS Hacking Case (Greg Schardt / Mr. Evil)",
+>                 "examiner_id":"victor.galvan",
+>                 "incident_type":"intrusion/hacking-tools",
+>                 "severity":"high",
+>                 "scope":"/cases/cfreds-fresh/4Dell-Latitude-CPi.E01" }
+>                 ->  returns case_id, e.g. INC-2026-0529224443
+> case_activate { "case_id":"<case_id from above>" }
+> ```
+> **💬 End-user (prompt):** *"Open a new high-severity case for the CFReDS hacking image (Greg Schardt /
+> Mr. Evil), examiner victor.galvan, and make it the active case."*
+> The session calls `case_init` then `case_activate`, then tells you the new case ID to quote later.
 
-**CFReDS validated output:**
+**Execution E → Output E.**
+
+*Execution E:* `case_init` then `case_activate` (as above).
+
+*Output E (CFReDS validated):*
 - `case_init` → `case_id` = **`INC-2026-0529224443`**, status `active`,
   `started_at 2026-05-29T22:44:43.131054+00:00`.
 - `case_activate` → pointer written to **`/home/admin2/.agentropix/active_case`**.
 
-The active-case pointer is implicit state. If you skip activation, pass an explicit `case_id`
-to later case-scoped tools. `case_init` is idempotent on `case_id`.
+The active-case pointer is implicit state. If you skip activation, pass an explicit `case_id` to later
+case-scoped tools. `case_init` is idempotent on `case_id`.
 
 ---
 
@@ -342,233 +464,312 @@ to later case-scoped tools. `case_init` is idempotent on `case_id`.
 
 > 🟢 **In plain terms:** hash the image and bind it to the active case. This is your custody anchor.
 
-```text
-evidence_register { "path":"/cases/cfreds-fresh/4Dell-Latitude-CPi.E01",
-                    "description":"Windows XP system disk (EWF/E01)",
-                    "examiner_id":"victor.galvan" }
-```
+> **🖥️ Expert (MCP call):**
+> ```text
+> evidence_register { "path":"/cases/cfreds-fresh/4Dell-Latitude-CPi.E01",
+>                     "description":"Windows XP system disk (EWF/E01)",
+>                     "examiner_id":"victor.galvan" }
+> ```
+> **💬 End-user (prompt):** *"Register the CFReDS E01 image as evidence in this case and give me its
+> SHA-256 custody hash."*
+> The session calls `evidence_register`, returns the evidence ID and SHA-256, and confirms it's bound to
+> the active case.
 
-**CFReDS validated output:**
+**Execution F → Output F.**
+
+*Execution F:* `evidence_register` (as above).
+
+*Output F (CFReDS validated):*
 - `evidence_id` `235c7a7a998fc82e6ac812655983ccb5408e5d8c5ecaf6dc038bdd6bb1c35d38`
 - evidence **SHA-256 `96bebe80f00541bf28fbc2ef0b02b580082ee6ad58837e991852ae66f077ec31`**
 - `size_bytes` **`671094597`** (≈640 MiB on-disk EWF container)
 - `indexed: true` → `agentropix-evidence-2026.05.29`
 
-Confirm image metadata:
+Confirm image metadata via the MCP tool (the in-band equivalent of the `ewfinfo` you ran in Phase 0.4):
 
-```text
-get_image_info { "image":"/cases/cfreds-fresh/4Dell-Latitude-CPi.E01" }
-```
+> **🖥️ Expert (MCP call):**
+> ```text
+> get_image_info { "image":"/cases/cfreds-fresh/4Dell-Latitude-CPi.E01" }
+> ```
+> **💬 End-user (prompt):** *"What does Agentropix report about this image's media size and MD5?"*
+> The session calls `get_image_info` (which drives `ewfinfo`) and summarises the acquisition metadata.
 
-**CFReDS validated output** (`ewfinfo 20140816`): case_number `Greg Schardt`, examiner
-`Shane Robinson`, acquisition_date `Wed Sep 22 14:06:04 2004`, OS `Windows XP`, format
-`EnCase 4`, bytes/sector `512`, sectors `9514260`, **media_size `4.5 GiB (4871301120 bytes)`**,
-**MD5 `aee4fcd9301c03b3b054623ca261959a`**.
+**Execution G → Output G.**
 
-> 🔎 **Decision-point note:** `get_image_info` reports **4.5 GiB** (logical media) while
-> `evidence_register` reports `671094597` bytes (~640 MiB). The latter is the *compressed EWF
+*Execution G:* `get_image_info` (as above).
+
+*Output G (CFReDS validated, `ewfinfo 20140816`):* case_number `Greg Schardt`, examiner `Shane
+Robinson`, acquisition_date `Wed Sep 22 14:06:04 2004`, OS `Windows XP`, format `EnCase 4`,
+bytes/sector `512`, sectors `9514260`, **media_size `4.5 GiB (4871301120 bytes)`**, **MD5
+`aee4fcd9301c03b3b054623ca261959a`**.
+
+> 🔎 **Decision-point note (for both tracks):** `get_image_info` reports **4.5 GiB** (logical media)
+> while `evidence_register` reports `671094597` bytes (~640 MiB). The latter is the *compressed EWF
 > container on disk*; the former is the *logical media size*. Both are correct — don't be confused.
 
-`evidence_register` is idempotent and audited; `evidence_id` is deterministic over
-(case_id, path, sha256).
+`evidence_register` is idempotent and audited; `evidence_id` is deterministic over (case_id, path,
+sha256).
 
 ---
 
 ## Phase 4 — The investigation tool chain
 
-This is where the two paths diverge. **Path A (manual)** and **Path B (autonomous)** below are
-each complete, standalone procedures. Read the one you intend to run; the analysis tools and
-their meaning are identical — only *who drives them* differs.
+This is where the two paths diverge. **Path A (manual)** and **Path B (autonomous)** below are each
+complete, standalone procedures. Read the one you intend to run; the analysis tools and their meaning
+are identical — only *who drives them* differs.
 
-The analysis primitives are **case-agnostic** — their outputs are **not** auto-persisted. You
-turn an analysis result into case state by shaping it into `record_finding`/`idx_ingest`
-(Phase 5). That seam is intentional.
+The analysis primitives are **case-agnostic** — their outputs are **not** auto-persisted. You turn an
+analysis result into case state by shaping it into `record_finding`/`idx_ingest` (Phase 5). That seam is
+intentional.
+
+> **Steering which tools to run.** Which analysis primitives matter most depends on the scenario. The
+> per-case attack-chain hypotheses (and the recommended tool order for each) live in
+> [Per-case attack-chain hypotheses](../06-use-cases/case-hypotheses.md).
 
 ---
 
 ### Path A — MANUAL execution (you drive each tool)
 
-> 🟢 **When to choose Path A:** you want to inspect each result before the next step; you're
-> doing interactive examination, a demo, or the approval gate; the result of each call informs
-> what you call next. Works in **both** CLI and Desktop (mind the 1 MB cap in Desktop).
+> 🟢 **When to choose Path A:** you want to inspect each result before the next step; you're doing
+> interactive examination, a demo, or the approval gate; the result of each call informs what you call
+> next. Works in **both** CLI and Desktop (mind the 1 MB cap in Desktop).
+> **Lanes:** A-Expert (run the commands) and A-User (ask the `💬` questions one at a time).
 
-**Prerequisites:** Phases 0–3 done (server up, client connected, `health` ok, case active,
-evidence registered).
+**Prerequisites:** Phases 0–3 done (server up, client connected, `health` ok, case active, evidence
+registered).
 
-**A.1 — Get the partition offset (operator shell first).** Disk images have a partition table;
-`fls` needs the partition **offset in sectors**. Run `mmls` in your operator shell and note the
-NTFS slot's start sector:
+**A.1 — Get the partition offset.** Disk images have a partition table; `fls` needs the partition
+**offset in sectors**. Find the NTFS slot's start sector.
 
-```bash
-mmls /cases/cfreds-fresh/4Dell-Latitude-CPi.E01
-```
+> **🖥️ Expert (command):**
+> ```bash
+> mmls /cases/cfreds-fresh/4Dell-Latitude-CPi.E01
+> ```
+> (Or the in-band MCP tool: `get_partitions { "image":"...E01" }`.)
+> **💬 End-user (prompt):** *"What's the partition layout of the CFReDS image, and where does the NTFS
+> partition start?"*
+> The session calls `mmls` / `get_partitions` and tells you the start sector you'll need for the next
+> step (it carries that offset forward automatically when you ask it to list files).
 
-For CFReDS the NTFS partition starts at sector **63**.
+**Execution H → Output H.**
 
-> ⚠️ **GOTCHA (bug B2):** omitting `offset` on a physical-disk image makes `fls` run at the MBR
-> and fail with `Cannot determine file system type`. Always pass the mmls-derived `offset`.
+*Execution H:* `mmls /cases/cfreds-fresh/4Dell-Latitude-CPi.E01`
+
+*Output H (validated):* the NTFS partition starts at sector **63**.
+
+> ⚠️ **GOTCHA (bug B2):** omitting `offset` on a physical-disk image makes `fls` run at the MBR and fail
+> with `Cannot determine file system type`. Always pass the mmls-derived `offset`. *(End-user: the
+> assistant does this for you — that's why it checks the partition layout first.)*
 
 **A.2 — File system listing (live + deleted).**
 
-```text
-fls { "image":"/cases/cfreds-fresh/4Dell-Latitude-CPi.E01", "offset":63, "recursive":true }
-fls { "image":"...E01", "offset":63, "recursive":true, "deleted_only":true }    # T1070.004
-```
+> **🖥️ Expert (MCP calls):**
+> ```text
+> fls { "image":"/cases/cfreds-fresh/4Dell-Latitude-CPi.E01", "offset":63, "recursive":true }
+> fls { "image":"...E01", "offset":63, "recursive":true, "deleted_only":true }    # T1070.004
+> ```
+> **💬 End-user (prompt):** *"List all the files on the CFReDS image, then show me just the deleted
+> files."*
+> The session runs `fls` twice (live, then deleted-only) using the offset it found in A.1, and reports
+> the counts plus notable entries.
 
-Inspect: `entry_count` and the per-entry MAC timestamps.
+**Execution I → Output I.**
 
-**CFReDS validated output:**
-- Live: `entry_count` **`12545`** (allocated 12180, unallocated 365; regular files 11508,
-  directories 766). First entry: `/Documents and Settings` (inode `3671-144-7`,
-  modified `2004-08-19 23:04:05 UTC`).
-- Deleted-only: `entry_count` **`365`** (e.g. `/Documents and Settings/Default User/MPC7A4.tmp`,
-  inode 0, zeroed timestamps).
+*Execution I:* `fls` live, then `fls` deleted-only (as above).
+
+*Output I (CFReDS validated):*
+- Live: `entry_count` **`12545`** (allocated 12180, unallocated 365; regular files 11508, directories
+  766). First entry: `/Documents and Settings` (inode `3671-144-7`, modified `2004-08-19 23:04:05 UTC`).
+- Deleted-only: `entry_count` **`365`** (e.g. `/Documents and Settings/Default User/MPC7A4.tmp`, inode
+  0, zeroed timestamps).
 
 Move on once you have a non-zero live `entry_count` and have eyeballed the deleted set.
 
 **A.3 — IOC carving (feature extraction).**
 
-```text
-run_bulk_extractor { "target":"/cases/cfreds-fresh/4Dell-Latitude-CPi.E01",
-                     "out_dir":"/tmp/agentropix-sift-cfreds-be",
-                     "max_features":1000 }
-```
+> **🖥️ Expert (MCP call):**
+> ```text
+> run_bulk_extractor { "target":"/cases/cfreds-fresh/4Dell-Latitude-CPi.E01",
+>                      "out_dir":"/tmp/agentropix-sift-cfreds-be",
+>                      "max_features":1000 }
+> ```
+> **💬 End-user (prompt):** *"Carve out all the indicators — emails, domains, IPs, URLs — from the
+> CFReDS image."*
+> The session runs `run_bulk_extractor` into an allowlisted output directory and reports how many
+> features of each type it found.
+
+**Execution J → Output J.**
+
+*Execution J:* `run_bulk_extractor` (as above).
+
+*Output J (CFReDS validated):* 25 feature types, **124,729 total features**. Notable: domain
+**52,270**, email **30,452**, url **17,296**, ip **1,797**, telephone 1,774, winprefetch 88, winlnk
+195, ether (MAC) 927, **aes_keys 1**, alerts 6. (On a first run this carves from scratch and takes
+longer; a re-run reuses the existing carve — `reused_existing:true`, 0.0 s — with identical counts.)
 
 > ⚠️ **GOTCHA (bug B3):** `out_dir` MUST be under a Thymus-allowlisted prefix —
-> `/tmp/agentropix-sift-*`, `/cases/`, `/mnt/`, `/media/`, `/evidence/`. Otherwise Thymus rejects
-> it with `path not found`. On Desktop the result returns as the **out_dir path** (not inline),
-> which is correct — raw feature files exceed the 1 MB cap.
-
-Inspect: the populated `out_dir` (`email.txt`, `domain.txt`, `url.txt`, `ip.txt`,
-`winprefetch.txt`, …) and the feature counts.
-
-**CFReDS validated output:** 25 feature types, **124,729 total features**. Notable: domain
-**52,270**, email **30,452**, url **17,296**, ip **1,797**, telephone 1,774, winprefetch 88,
-winlnk 195, ether (MAC) 927, **aes_keys 1**, alerts 6. (On a first run this carves from scratch
-and takes longer; a re-run reuses the existing carve — `reused_existing:true`, 0.0 s — with
-identical counts.)
+> `/tmp/agentropix-sift-*`, `/cases/`, `/mnt/`, `/media/`, `/evidence/`. Otherwise Thymus rejects it
+> with `path not found`. On Desktop the result returns as the **out_dir path** (not inline), which is
+> correct — raw feature files exceed the 1 MB cap. *(End-user: the assistant picks an allowlisted
+> location for you.)*
 
 **A.4 — YARA (optional; currently weak).**
 
-```text
-scan_yara { "target":"/cases/cfreds-fresh/4Dell-Latitude-CPi.E01",
-            "rules":["/cases/yara-rules/local/pf_smoketest.yar"],
-            "max_matches":200 }
-```
+> **🖥️ Expert (MCP call):**
+> ```text
+> scan_yara { "target":"/cases/cfreds-fresh/4Dell-Latitude-CPi.E01",
+>             "rules":["/cases/yara-rules/local/pf_smoketest.yar"],
+>             "max_matches":200 }
+> ```
+> **💬 End-user (prompt):** *"Run a YARA scan over the CFReDS image and tell me if anything matched."*
+> The session runs `scan_yara` and reports the match count. Zero matches on the smoke-test ruleset is
+> the expected clean result — it does not mean the scan failed.
 
-**CFReDS validated output:** `match_count 0`, `matches []`, `tool_available true`,
+**Execution K → Output K.**
+
+*Execution K:* `scan_yara` (as above).
+
+*Output K (CFReDS validated):* `match_count 0`, `matches []`, `tool_available true`,
 `compile_failures []`, `raw_stdout_sha256 e3b0c44298…` (the SHA-256 of the empty string).
 
-> 🔎 **Read this correctly:** `match_count 0` with `raw_stdout_sha256` == the empty-string hash
-> is the **success signature of a clean smoke-test**, not a failure. **GAP:** only the
-> `pf_smoketest.yar` ruleset is installed; drop a production ruleset under an allowlisted prefix
-> (e.g. `/usr/share/yara-rules/`) before relying on YARA.
+> 🔎 **Read this correctly:** `match_count 0` with `raw_stdout_sha256` == the empty-string hash is the
+> **success signature of a clean smoke-test**, not a failure. **GAP:** only the `pf_smoketest.yar`
+> ruleset is installed; drop a production ruleset under an allowlisted prefix (e.g.
+> `/usr/share/yara-rules/`) before relying on YARA.
 
-**A.5 — Memory-image cases (SRL-2015, SRL-2018, rocba).** After `case_init` + `evidence_register`
-on the `.img`/`.raw`/`.001`:
+**A.5 — Memory-image cases (SRL-2015, SRL-2018, rocba).** After `case_init` + `evidence_register` on the
+`.img`/`.raw`/`.001`:
 
-```text
-get_pslist         { "image":"/cases/SRL-2018/base-wkstn-01-memory.img" }   # processes
-get_netscan        { "image":"..." }                                        # sockets
-get_malfind        { "image":"..." }                                        # injected / RWX code
-get_svcscan        { "image":"..." }                                        # services
-build_process_tree { "image":"..." }                                        # PPID forest, LOLBin flags
-```
+> **🖥️ Expert (MCP calls):**
+> ```text
+> get_pslist         { "image":"/cases/SRL-2018/base-wkstn-01-memory.img" }   # processes
+> get_netscan        { "image":"..." }                                        # sockets
+> get_malfind        { "image":"..." }                                        # injected / RWX code
+> get_svcscan        { "image":"..." }                                        # services
+> build_process_tree { "image":"..." }                                        # PPID forest, LOLBin flags
+> ```
+> **💬 End-user (prompt):** *"Analyse this memory image: what processes were running, what network
+> connections were open, and is there any injected code?"*
+> The session runs the Volatility-backed tools (`get_pslist`, `get_netscan`, `get_malfind`,
+> `get_svcscan`, `build_process_tree`) and summarises the findings.
 
-Cross-host correlation (multi-image cases):
+**A.6 — Cross-host correlation (multi-image cases).**
 
-```text
-correlate_timeline { "images":["host1.img","host2.img"], "event_ids":[...] }
-pivot_on_ioc       { "ioc":"<value>", "images":[...] }
-```
+> **🖥️ Expert (MCP calls):**
+> ```text
+> correlate_timeline { "images":["host1.img","host2.img"], "event_ids":[...] }
+> pivot_on_ioc       { "ioc":"<value>", "images":[...] }
+> ```
+> **💬 End-user (prompt):** *"Correlate the timelines across all the hosts in this case, then pivot on
+> the C2 IP to see which machines it touched."*
+> The session runs `correlate_timeline` (merging events across hosts into one UTC stream) and
+> `pivot_on_ioc` (the substring hunt across images) and tells you where the indicator appears.
 
-Disk-image registry/EVTX: `extract_files { image, paths:[hive paths], dest }` then
-`get_registry` / `get_shimcache` (+ `get_amcache` **only Win7+**; XP has none). `get_evtx` is
-Vista+ (`.evtx`); **XP uses `.evt`, which `get_evtx` does not support.** Also encode
-`get_prefetch` (XP *does* have prefetch).
+**A.7 — Disk-image registry / execution / event-log artifacts.** Extract the hives first, then parse
+them. `get_amcache` is **Win7+ only** (XP has none); `get_evtx` is Vista+ (`.evtx`), while **XP uses
+`.evt`, handled by `get_evt`**; `get_prefetch` works on XP (it *does* have prefetch).
 
-When you've gathered enough analysis output to support your hypotheses, proceed to **Phase 5**
-to stage findings.
+> **🖥️ Expert (MCP calls):**
+> ```text
+> extract_files { "image":"...E01", "offset":63, "paths":["<hive paths>"], "dest":"/tmp/agentropix-sift-hives" }
+> get_registry  { ... }   # RegRipper hive analysis
+> get_shimcache { ... }   # AppCompatCache execution evidence
+> get_amcache   { ... }   # Win7+ only
+> get_prefetch  { ... }   # XP-compatible
+> get_evtx      { ... }   # Vista+ (.evtx)  —  XP: get_evt (.evt)
+> ```
+> **💬 End-user (prompt):** *"Pull the registry hives off this disk image and tell me what programs were
+> executed, what's set to auto-run, and what the event logs show."*
+> The session calls `extract_files` to lift the hives to an allowlisted dir, then runs
+> `get_registry`/`get_shimcache`/`get_prefetch` (and `get_amcache` on Win7+, `get_evtx`/`get_evt` for the
+> event logs) and summarises the execution and persistence artifacts — automatically picking `get_evt`
+> for an XP image and skipping Amcache where the OS has none.
+
+When you've gathered enough analysis output to support your hypotheses, proceed to **Phase 5** to stage
+findings.
 
 ---
 
 ### Path B — AUTONOMOUS execution (the engine drives)
 
-> 🟢 **When to choose Path B:** you want the full sequence run end-to-end without supervision;
-> the image is large; the run is long; you want overnight/fan-out runs. **Use Claude CLI** —
-> Desktop is human-in-the-loop only and will hit the 1 MB cap on the heavy tools.
+> 🟢 **When to choose Path B:** you want the full sequence run end-to-end without supervision; the image
+> is large; the run is long; you want overnight/fan-out runs. **Use Claude CLI** — Desktop is
+> human-in-the-loop only and will hit the 1 MB cap on the heavy tools.
+> **Lanes:** B-User (paste the autonomous prompt, B.1) and B-Expert (run the detached driver, B.2).
 
-The autonomous path stages findings as **DRAFT** and **stops at the approval gate** — a bot must
-not sign chain-of-custody. There are two flavors: B.1 an interactive autonomous *prompt*, and
-B.2 a fully-unattended headless *driver* (the validated production pattern).
+The autonomous path stages findings as **DRAFT** and **stops at the approval gate** — a bot must not
+sign chain-of-custody. There are two flavors: B.1 an interactive autonomous *prompt* (the non-expert
+lane), and B.2 a fully-unattended headless *driver* (the validated production pattern, the expert lane).
 
-**Prerequisites:** Phases 0–1 done. For the unattended driver, start the MCP server from a
-**detached** process (Phase 0.3 gotcha) so it isn't reaped.
+**Prerequisites:** Phases 0–1 done. For the unattended driver, start the MCP server from a **detached**
+process (Phase 0.3 gotcha) so it isn't reaped.
 
 #### B.1 — Interactive autonomous prompt (Desktop or CLI)
 
-Paste this to a client that has the MCP attached. The agent will run the whole sequence itself,
-handling OS differences (e.g. XP has no Amcache/`.evtx`):
-
-> "You are a DFIR analyst with the Agentropix MCP. Investigate case `<case_id>` on image
-> `<path>`. Run the full SIFT sequence (acquisition → examination → analysis → findings),
-> staging findings as DRAFT. Use mmls-derived offsets for `fls` on physical disks. Write
-> `bulk_extractor` `out_dir` under `/tmp/agentropix-sift-<case>`. Do NOT approve findings.
-> Finish by generating the full report and summarising the thread chain."
-
-The sequence the agent follows per case: 1) `case_init`→`case_activate`; 2) `evidence_register`
-(hash); 3) `get_image_info`; 4) `fls` (offset from mmls) live + deleted; 5) `run_bulk_extractor`
-(allowlisted out_dir); 6) [memory images] `get_pslist`/`get_netscan`/`get_malfind`/`get_svcscan`/`build_process_tree`;
-7) `record_finding` (DRAFT) × N; 8) `report_generate { profile:"full" }`.
+> **💬 End-user (prompt) — paste this to a client that has the MCP attached.** The agent runs the whole
+> sequence itself, handling OS differences (e.g. XP has no Amcache/`.evtx`):
+>
+> *"You are a DFIR analyst with the Agentropix MCP. Investigate case `<case_id>` on image `<path>`. Run
+> the full SIFT sequence (acquisition → examination → analysis → findings), staging findings as DRAFT.
+> Use mmls-derived offsets for `fls` on physical disks. Write `bulk_extractor` `out_dir` under
+> `/tmp/agentropix-sift-<case>`. Do NOT approve findings. Finish by generating the full report and
+> summarising the thread chain."*
+>
+> **🖥️ Expert note:** the same prompt works in `claude --print` for a one-shot headless run; the
+> sequence the agent follows per case is: 1) `case_init`→`case_activate`; 2) `evidence_register` (hash);
+> 3) `get_image_info`; 4) `fls` (offset from mmls) live + deleted; 5) `run_bulk_extractor` (allowlisted
+> out_dir); 6) [memory images] `get_pslist`/`get_netscan`/`get_malfind`/`get_svcscan`/`build_process_tree`;
+> 7) `record_finding` (DRAFT) × N; 8) `report_generate { profile:"full" }`.
 
 #### B.2 — Headless driver, fully unattended (the VALIDATED pattern)
 
-The reference driver (`agx_gearb.py`-class) holds **one persistent MCP session** (initialize →
-capture `Mcp-Session-Id` → `notifications/initialized` → `tools/call`), validates every param
-against the live schema, treats a non-empty `result.error` as a failure (no false "ok"),
-**checkpoints `SUMMARY.json` after every step** (so a death never loses prior progress), and is
+This is the **B-Expert** lane. The reference driver (`agx_gearb.py`-class) holds **one persistent MCP
+session** (initialize → capture `Mcp-Session-Id` → `notifications/initialized` → `tools/call`),
+validates every param against the live schema, treats a non-empty `result.error` as a failure (no false
+"ok"), **checkpoints `SUMMARY.json` after every step** (so a death never loses prior progress), and is
 **idempotent** (reuses an existing carve rather than re-running it).
 
-**Launch it DETACHED** — this is the single most important step:
+> **🖥️ Expert (command) — launch it DETACHED.** This is the single most important step:
+> ```bash
+> setsid nohup bash -c "python3 /path/to/agx_gearb.py '<BEARER_TOKEN>' <case_key> > run.log 2>&1" </dev/null >/dev/null 2>&1 &
+> disown
+> ```
+> **💬 End-user equivalent:** non-experts don't run the detached driver — use the interactive autonomous
+> prompt in **B.1** instead, which gets the same investigation without any shell-detachment concerns.
 
-```bash
-setsid nohup bash -c "python3 /path/to/agx_gearb.py '<BEARER_TOKEN>' <case_key> > run.log 2>&1" </dev/null >/dev/null 2>&1 &
-disown
-```
-
-> ⚠️ **GOTCHA (bug B5, the big one):** a long-blocking tool call (e.g. `run_bulk_extractor` on a
-> 20 GB image) is killed if the driver is **not** detached — the server-side job finishes but the
-> client dies at a turn/shell boundary before it captures the result. `setsid` + `nohup` +
-> `disown` (own session/pgroup, all fds redirected) plus per-step checkpointing makes the run
-> **survivable**.
+> ⚠️ **GOTCHA (bug B5, the big one):** a long-blocking tool call (e.g. `run_bulk_extractor` on a 20 GB
+> image) is killed if the driver is **not** detached — the server-side job finishes but the client dies
+> at a turn/shell boundary before it captures the result. `setsid` + `nohup` + `disown` (own
+> session/pgroup, all fds redirected) plus per-step checkpointing makes the run **survivable**.
 
 **What happens each iteration.** The driver walks the per-evidence sequence:
 - **Memory** (`.img`/`.raw`/`.001`): `get_pslist`, `get_netscan`, `get_malfind`, `get_svcscan`,
   `build_process_tree`.
 - **Disk** (E01): `fls` (mmls offset), `extract_files` for hives → `get_registry`/`get_shimcache`
-  (+`get_amcache` Win7+ only), `get_prefetch`, `get_evtx` (Vista+; XP `.evt` = N/A).
+  (+`get_amcache` Win7+ only), `get_prefetch`, `get_evtx` (Vista+; XP `.evt` → `get_evt`).
 
 After each tool it writes the step's `ok`/`elapsed`/`error` into `SUMMARY.json`.
 
-**How to monitor progress:**
+> **🖥️ Expert (command) — monitor progress:**
+> ```bash
+> tail -f run.log
+> # and read the per-step checkpoint:
+> #   gearB/<case>/SUMMARY.json   (per-step ok / elapsed / error)
+> ```
+> **💬 End-user (prompt) — on the interactive lane:** *"How's the investigation going — which steps are
+> done?"* The assistant reports its progress as it works through the sequence.
 
-```bash
-tail -f run.log
-# and read the per-step checkpoint:
-#   gearB/<case>/SUMMARY.json   (per-step ok / elapsed / error)
-```
+**Survivability / halt behavior.** Findings are staged DRAFT and the driver **stops before approval**
+(the examiner gate). If the driver process is killed, the incremental `SUMMARY.json` preserves completed
+steps; relaunching resumes idempotently (an existing complete carve is detected via
+`<out_dir>/report.xml` and skipped). If the MCP server died mid-run, the driver re-initializes the
+session on the next failure.
 
-**Survivability / halt behavior.** Findings are staged DRAFT and the driver **stops before
-approval** (the examiner gate). If the driver process is killed, the incremental `SUMMARY.json`
-preserves completed steps; relaunching resumes idempotently (an existing complete carve is
-detected via `<out_dir>/report.xml` and skipped). If the MCP server died mid-run, the driver
-re-initializes the session on the next failure.
-
-**How to read the result — CFReDS validated 10/10-step run.** Final session
+**Execution L → Output L — the CFReDS validated 10/10-step run.** Final session
 `8f34067e702e40ef92242a665d8999c8` (run3), finished `2026-05-29T22:44:45Z`, **10/10 steps OK**,
 detached. Step-by-step:
 
-| # | Step | Result (validated) |
+| # | Step (Execution) | Result (Output, validated) |
 |---|---|---|
 | 01 | `case_init` | `case_id INC-2026-0529224443`, status `active` |
 | 02 | `case_activate` | pointer `/home/admin2/.agentropix/active_case` |
@@ -582,51 +783,59 @@ detached. Step-by-step:
 | 10 | `report_generate full` | `report_id f5bde7c3…`, **`approved_finding_count 0`** |
 
 > 🔎 The 09→10 result (`record_finding` shows `indexed:false`; the `full` report shows
-> `approved_finding_count 0`) is the **approval gate working as designed** — DRAFT findings are
-> not indexed or surfaced in the report until an examiner approves. That is Phase 6.
+> `approved_finding_count 0`) is the **approval gate working as designed** — DRAFT findings are not
+> indexed or surfaced in the report until an examiner approves. That is Phase 6.
 
 ---
 
 ## Phase 5 — Record findings (staged DRAFT)
 
-> 🟢 **In plain terms:** turn an analysis result into a case finding. It lands as `DRAFT`; the
-> engine (and any LLM) **cannot** self-approve.
+> 🟢 **In plain terms:** turn an analysis result into a case finding. It lands as `DRAFT`; the engine
+> (and any LLM) **cannot** self-approve.
 
-```text
-record_finding { "finding": {
-  "finding_id":"cfreds-acq-001",
-  "host":"cfreds-schardt-xp",
-  "mitre_attack":"T1588.002",
-  "confidence":0.6,
-  "timestamp":"2004-09-22T14:06:04Z",
-  "severity":"medium",
-  "title":"...",
-  "ioc_value":"...", "ioc_type":"...",
-  "source_artifact":"/tmp/agentropix-sift-cfreds-be/email.txt" } }
-```
+> **🖥️ Expert (MCP call):**
+> ```text
+> record_finding { "finding": {
+>   "finding_id":"cfreds-acq-001",
+>   "host":"cfreds-schardt-xp",
+>   "mitre_attack":"T1588.002",
+>   "confidence":0.6,
+>   "timestamp":"2004-09-22T14:06:04Z",
+>   "severity":"medium",
+>   "title":"...",
+>   "ioc_value":"...", "ioc_type":"...",
+>   "source_artifact":"/tmp/agentropix-sift-cfreds-be/email.txt" } }
+> ```
+> **💬 End-user (prompt):** *"Record a medium-severity finding for the hacking-tool emails we carved,
+> mapped to MITRE T1588.002, citing the email.txt artifact."*
+> The session shapes a valid finding (generating the required `finding_id`) and calls `record_finding`.
+> It will land as DRAFT — the assistant cannot approve it.
 
-**Required fields (FindingsValidator):** `finding_id`, `host`, `mitre_attack` (a valid
-technique), `confidence` (0.0–1.0), `timestamp` (ISO-8601). **Coherence:** `severity:high`
-needs `confidence ≥ 0.70`; `critical` needs `≥ 0.85`. Findings land `DRAFT`; the draft-gate
-(W-286) strips any caller-supplied `approval.*` and stamps provenance.
+**Required fields (FindingsValidator):** `finding_id`, `host`, `mitre_attack` (a valid technique),
+`confidence` (0.0–1.0), `timestamp` (ISO-8601). **Coherence:** `severity:high` needs `confidence ≥
+0.70`; `critical` needs `≥ 0.85`. Findings land `DRAFT`; the draft-gate (W-286) strips any
+caller-supplied `approval.*` and stamps provenance.
 
-> ⚠️ **GOTCHA (bug B4):** a missing `finding_id` → `finding must contain non-empty finding_id`.
-> Always include it.
+> ⚠️ **GOTCHA (bug B4):** a missing `finding_id` → `finding must contain non-empty finding_id`. Always
+> include it. *(End-user: the assistant generates one for you.)*
 
-**CFReDS validated output:** `finding_id cfreds-acq-001`, `indexed:false`,
-`indexed_to agentropix-findings-2026.05.29`, error empty. (DRAFT findings are intentionally not
-pushed to the index.)
+**Execution M → Output M.**
+
+*Execution M:* `record_finding` (as above).
+
+*Output M (CFReDS validated):* `finding_id cfreds-acq-001`, `indexed:false`, `indexed_to
+agentropix-findings-2026.05.29`, error empty. (DRAFT findings are intentionally not pushed to the index.)
 
 ---
 
 ## Phase 6 — Approve findings in the portal (human-only gate)
 
-> 🟢 **In plain terms:** every finding stays `DRAFT` until a human signs off in a browser form.
-> The LLM **cannot** self-approve — this is your primary touchpoint with the platform, and both
-> execution paths stop here.
+> 🟢 **In plain terms:** every finding stays `DRAFT` until a human signs off in a browser form. The LLM
+> **cannot** self-approve — this is your primary touchpoint with the platform, and both execution paths
+> stop here.
 
-Promotion to `APPROVED` happens only through the HMAC approval sidecar — a self-contained
-browser form, published on the **tailnet only**, behind a valid TLS certificate:
+Promotion to `APPROVED` happens only through the HMAC approval sidecar — a self-contained browser form,
+published on the **tailnet only**, behind a valid TLS certificate:
 
 **🔗 `https://siftworkstation.taile7c9ca.ts.net:8443/`** (or, on the workstation itself,
 `http://127.0.0.1:8800/`).
@@ -634,26 +843,27 @@ browser form, published on the **tailnet only**, behind a valid TLS certificate:
 To submit a decision (the page does all crypto client-side — your password never leaves the tab):
 
 1. **Open** the portal (you must be on the tailnet and device-approved).
-2. **Identify** — fill **Examiner ID** (must equal `AGENTROPIX_APPROVER_USER`) and **Case ID**
-   (e.g. `INC-2026-0529224443`).
-3. **Target** — paste the `DRAFT` finding's **Finding / Event / Approval ID** (e.g.
-   `cfreds-acq-001`) and pick the matching **Target Type**.
-4. **Transition** — **From** = `DRAFT`, **To** = `APPROVED` / `REJECTED` / `REVOKED`; optional
-   **Reason**.
-5. **Enter the Approver password** and **Sign & Submit.** The page fetches a single-use nonce,
-   derives the PBKDF2 key locally, and sends only the HMAC.
+2. **Identify** — fill **Examiner ID** (must equal `AGENTROPIX_APPROVER_USER`) and **Case ID** (e.g.
+   `INC-2026-0529224443`).
+3. **Target** — paste the `DRAFT` finding's **Finding / Event / Approval ID** (e.g. `cfreds-acq-001`)
+   and pick the matching **Target Type**.
+4. **Transition** — **From** = `DRAFT`, **To** = `APPROVED` / `REJECTED` / `REVOKED`; optional **Reason**.
+5. **Enter the Approver password** and **Sign & Submit.** The page fetches a single-use nonce, derives
+   the PBKDF2 key locally, and sends only the HMAC.
 
-CLI equivalent (the same human attestation):
+> **🖥️ Expert (MCP call) — the same human attestation in-band:**
+> ```text
+> approve_finding { "finding_id":"cfreds-acq-001",
+>                   "approver_id":"victor.galvan",
+>                   "password":"<examiner pw>" }
+> ```
+> **💬 End-user (prompt):** you do this step **yourself in the browser form** — there is no plain-language
+> shortcut, by design. Ask the assistant *"which findings are waiting for my approval and what are their
+> IDs?"*, then open the portal and approve. The assistant will not (and cannot) approve on your behalf.
 
-```text
-approve_finding { "finding_id":"cfreds-acq-001",
-                  "approver_id":"victor.galvan",
-                  "password":"<examiner pw>" }
-```
-
-A success writes a deterministic approval doc to the daily `agentropix-approvals-YYYY.MM.DD`
-index, extends an append-only hash chain, and moves the finding out of `DRAFT`. Approvals are
-**append-only** — correct a mistake with a `REVOKED` retraction, never a delete.
+A success writes a deterministic approval doc to the daily `agentropix-approvals-YYYY.MM.DD` index,
+extends an append-only hash chain, and moves the finding out of `DRAFT`. Approvals are **append-only** —
+correct a mistake with a `REVOKED` retraction, never a delete.
 
 > **Hard stop.** Examiner crypto sign-off is a human-only decision. Only the configured
 > `AGENTROPIX_APPROVER_USER` is accepted. Deep dive:
@@ -665,27 +875,40 @@ index, extends an append-only hash chain, and moves the finding out of `DRAFT`. 
 
 ## Phase 7 — Generate and verify the sealed report
 
-> 🟢 **In plain terms:** build the report and confirm its seal so a third party can trust it
-> hasn't changed.
+> 🟢 **In plain terms:** build the report and confirm its seal so a third party can trust it hasn't
+> changed.
 
-```text
-report_generate { "profile":"full", "case_id":"INC-2026-0529224443" }
-```
+> **🖥️ Expert (MCP call):**
+> ```text
+> report_generate { "profile":"full", "case_id":"INC-2026-0529224443" }
+> ```
+> **💬 End-user (prompt):** *"Generate the full report for this case."*
+> The session calls `report_generate` with the `full` profile and returns the report ID and section
+> counts. Remember: sections stay empty until findings are approved (Phase 6).
 
-**Profiles:** `full` / `executive` / `timeline` (APPROVED only) / `ioc` / `findings` (APPROVED
-only) / `status` (all states). Report profiles respect approval state — an empty `findings`
-section *before any approval* is expected, not a bug.
+**Profiles:** `full` / `executive` / `timeline` (APPROVED only) / `ioc` / `findings` (APPROVED only) /
+`status` (all states). Report profiles respect approval state — an empty `findings` section *before any
+approval* is expected, not a bug.
 
-**CFReDS validated output:** `report_id f5bde7c3b24de511fd67cd7f6769dd12580c0c6fdf7b80a59ceb3a1e9b8c787d`,
-`snapshot_at 2026-05-29T22:44:45.764637+00:00`, **`approved_finding_count 0`** (the one finding
-is still DRAFT), sections executive_summary/findings/timeline/iocs all count 0, error empty.
+**Execution N → Output N.**
 
-For the CLI `run`-based flow, a single `run` writes three files next to `--out` and seals the
-report; verify the seal with the standalone verifier:
+*Execution N:* `report_generate { profile:"full", case_id:"INC-2026-0529224443" }`
 
-```bash
-uv run python scripts/verify_seal.py inc-0042-triage.json
-```
+*Output N (CFReDS validated):* `report_id
+f5bde7c3b24de511fd67cd7f6769dd12580c0c6fdf7b80a59ceb3a1e9b8c787d`, `snapshot_at
+2026-05-29T22:44:45.764637+00:00`, **`approved_finding_count 0`** (the one finding is still DRAFT),
+sections executive_summary/findings/timeline/iocs all count 0, error empty.
+
+For the CLI `run`-based flow, a single `run` writes three files next to `--out` and seals the report;
+verify the seal with the standalone verifier:
+
+> **🖥️ Expert (command):**
+> ```bash
+> uv run python scripts/verify_seal.py inc-0042-triage.json
+> ```
+> **💬 End-user (prompt):** *"Verify the seal on this report — confirm it hasn't been tampered with since
+> it was generated."*
+> The session runs the seal verifier and tells you whether the report and audit log are intact.
 
 This confirms the report and audit log are unaltered since sealing — the judge-verifiable
 chain-of-custody property at the heart of the engine (`report_seal` = HMAC-SHA256, audit seal
@@ -697,131 +920,87 @@ cross-bound, `evidence_image_sha256` binds the report to the exact image). Deep 
 
 ## Phase 8 — Curate and push IOCs to Wazuh
 
-> 🟢 **In plain terms:** push only a curated, provenance-tagged IOC set to Wazuh — never the raw
-> carve. The push is a guarded mutation.
+> 🟢 **In plain terms:** push only a curated, provenance-tagged IOC set to Wazuh — never the raw carve.
+> The push is a guarded mutation.
 
-> **Status: EXPERIMENTAL / OPT-IN.** The Wazuh integration is disabled by default and gated
-> behind kill switches plus a one-shot `mutation_token`. See
-> [`.crew/env-vars.md`](../../.crew/env-vars.md).
+> **Status: EXPERIMENTAL / OPT-IN.** The Wazuh integration is disabled by default and gated behind kill
+> switches plus a one-shot `mutation_token`. See [`.crew/env-vars.md`](../../.crew/env-vars.md).
 
-**8.1 — Curate first (accountability).** Raw carve features are *candidate* strings, not IOCs;
-~99% are noise (usenet message-ids → `@4ax.com`, RFC/vendor domains, slack space). Pushing raw
-(100k+ candidates) would pollute Wazuh. Run the pipeline: de-noise → dedup (`sort -u`) →
-tier-tag (Tier-1/2) → attach provenance (source file, case_id, evidence_id, MD5/SHA-256) → a
-single consolidated `findings.json`. Drop non-IOC families: `winprefetch`/`winlnk` become
-finding/timeline records with MITRE (T1204/exec), and `aes_keys`/carved jpeg/zip are evidence
-artifacts, **not** IOCs.
+**8.1 — Curate first (accountability).** Raw carve features are *candidate* strings, not IOCs; ~99% are
+noise (usenet message-ids → `@4ax.com`, RFC/vendor domains, slack space). Pushing raw (100k+ candidates)
+would pollute Wazuh. Run the pipeline: de-noise → dedup (`sort -u`) → tier-tag (Tier-1/2) → attach
+provenance (source file, case_id, evidence_id, MD5/SHA-256) → a single consolidated `findings.json`.
+Drop non-IOC families: `winprefetch`/`winlnk` become finding/timeline records with MITRE (T1204/exec),
+and `aes_keys`/carved jpeg/zip are evidence artifacts, **not** IOCs.
 
-**8.2 — Mint an evidence-gate token (mutation guard).** Live writes need a token
-`egt_<26-char-ULID>` whose scope matches the op:
+**8.2 — Mint an evidence-gate token (mutation guard).** Live writes need a token `egt_<26-char-ULID>`
+whose scope matches the op:
 
-```bash
-python3 -c "import agentropix_sift.evidence_gate as e; print(e.mint(scope='index_findings', ttl_seconds=3600, operator='victor.galvan'))"
-```
+> **🖥️ Expert (command):**
+> ```bash
+> python3 -c "import agentropix_sift.evidence_gate as e; print(e.mint(scope='index_findings', ttl_seconds=3600, operator='victor.galvan'))"
+> ```
+> **💬 End-user (prompt):** minting a mutation token is a guarded operator step. Ask the assistant to
+> *"prepare the curated IOC set and dry-run the Wazuh push"* — the live push (with token) is an
+> operator-confirmed action.
 
 **8.3 — Dry-run, then live.**
 
-```text
-wazuh_index_findings { "findings":[...], "case_id":"INC-2026-0529224443", "dry_run":true }                              # gate: expect ok, no errors
-wazuh_index_findings { "findings":[...], "case_id":"INC-2026-0529224443", "dry_run":false, "mutation_token":"egt_..." }
-```
+> **🖥️ Expert (MCP calls):**
+> ```text
+> wazuh_index_findings { "findings":[...], "case_id":"INC-2026-0529224443", "dry_run":true }                              # gate: expect ok, no errors
+> wazuh_index_findings { "findings":[...], "case_id":"INC-2026-0529224443", "dry_run":false, "mutation_token":"egt_..." }
+> ```
+> **💬 End-user (prompt):** *"Dry-run the Wazuh push of the curated IOCs and tell me what would be
+> indexed."* (The live push is the operator-gated follow-up.)
 
-> ⚠️ **GOTCHA:** a live push without the token → `EvidenceGateRequired`. Mint a token scoped to
-> the op (`index_findings`).
+> ⚠️ **GOTCHA:** a live push without the token → `EvidenceGateRequired`. Mint a token scoped to the op
+> (`index_findings`).
 
-**CFReDS validated result — SUCCESS.** Evidence gate minted (scope `index_findings`, ttl 3600 s,
-operator victor.galvan). Push: **`indexed_count=607, indexed_failed_count=0, batch_count=2,
-outcome=indexed`**, run_id `b2d8aa6c`, index `agentropix-findings-2026.05.29`. **Independently
-verified on the indexer:** total docs `607`; docs matching `case_id INC-2026-0529224443` = `607`
-(100% accounted). Sample doc: `cfreds-ip-…` `{host=cfreds-schardt-xp, ioc=207.68.174.248,
-type=ipv4, mitre=T1071.001, tier=2}`.
+**Execution O → Output O — CFReDS validated, SUCCESS.** Evidence gate minted (scope `index_findings`,
+ttl 3600 s, operator victor.galvan). Push: **`indexed_count=607, indexed_failed_count=0, batch_count=2,
+outcome=indexed`**, run_id `b2d8aa6c`, index `agentropix-findings-2026.05.29`. **Independently verified
+on the indexer:** total docs `607`; docs matching `case_id INC-2026-0529224443` = `607` (100%
+accounted). Sample doc: `cfreds-ip-…` `{host=cfreds-schardt-xp, ioc=207.68.174.248, type=ipv4,
+mitre=T1071.001, tier=2}`.
 
-**What was pushed (curated, NOT raw):** 7 public IPs (tier-2) + 300 domains (capped) + 300
-emails (capped) = **607 findings**, each carrying provenance (case_id + E01 MD5 `aee4fcd9…` +
-SHA-256 `96bebe80…` + source_artifact). The highest-signal findings were tool-author emails —
-`fyodor@insecure.org` (nmap), `dugsong@monkey.org` (dsniff), `ylo@cs.hut.fi` (ssh) — a
-hacking-tool fingerprint consistent with the Mr. Evil scenario.
+**What was pushed (curated, NOT raw):** 7 public IPs (tier-2) + 300 domains (capped) + 300 emails
+(capped) = **607 findings**, each carrying provenance (case_id + E01 MD5 `aee4fcd9…` + SHA-256
+`96bebe80…` + source_artifact). The highest-signal findings were tool-author emails —
+`fyodor@insecure.org` (nmap), `dugsong@monkey.org` (dsniff), `ylo@cs.hut.fi` (ssh) — a hacking-tool
+fingerprint consistent with the Mr. Evil scenario.
 
 **8.4 — Verify in Wazuh.** Create an index pattern `agentropix-findings-*` with time field
 **`@timestamp`** (NOT `timestamp`, which is the 2004 acquisition date), then Discover → filter
 `case_id`. Or Dev Tools: `GET agentropix-findings-*/_count {query:{term:{case_id:"..."}}}`.
 
-> ⚠️ **GOTCHA:** Wazuh Discover shows 0 if the default time range doesn't cover the evidence
-> timestamps — use `@timestamp` / widen the range.
+> ⚠️ **GOTCHA:** Wazuh Discover shows 0 if the default time range doesn't cover the evidence timestamps
+> — use `@timestamp` / widen the range.
 
 **Honest caveats.** The 2004 CFReDS image is a training image; the IOCs are carved candidates
-(provenance-tagged, tier-tagged) with modest live-threat value. Domain/email were capped at 300
-each. Full procedure + dashboards: [Wazuh-Push use case](../06-use-cases/uc-wazuh-push.md) ·
+(provenance-tagged, tier-tagged) with modest live-threat value. Domain/email were capped at 300 each.
+Full procedure + dashboards: [Wazuh-Push use case](../06-use-cases/uc-wazuh-push.md) ·
 [Wazuh Integration](../09-integrations/wazuh-portal.md).
 
 ---
 
-## Per-case attack-chain hypotheses (steer your tool selection)
+## Per-case attack-chain hypotheses (summary)
 
-These are **hypothesis-only scaffolds** to direct tool choice — prove each link against live
-tool output before treating it as fact.
+Each in-scope case (SRL-2015 multi-host APT, SRL-2018 network-wide C2, cfreds-fresh insider misuse,
+rocba insider IP theft) has a **hypothesis-only scaffold** that steers which tools to reach for first.
+These are bias-checks, not conclusions — prove each link against live tool output before treating it as
+fact.
 
-### Case 1 — SRL-2015 (multi-host APT, SANS FOR508)
-
-4 hosts (DC `win2008R2-controller` 10.3.58.4; workstations `win7-64-nfury`, `win7-32-nromanoff`,
-`xp-tdungan`), each with C-drive E01 + memory raw + Mandiant `.mans`. Baselines for diffing:
-`Win7SP1x86-baseline.img`, `XPSP3x86-baseline.img`. nromanoff has VSS (`volume-shadow.zip`).
-**Chain:** spear-phish/web payload → execution (injected/RWX, prefetch/shimcache/amcache) →
-persistence (Run keys/service/task) → credential access (LSASS) → lateral movement
-workstation→DC → collection/exfil. **Key tools:** delivery `run_bulk_extractor`/`analyze_maldoc`/`carve_pst_iocs`;
-execution `get_malfind`/`build_process_tree`/`get_prefetch`; lateral `get_evtx` (4624 type 3/10,
-4776) + `correlate_timeline` + `detect_sweep` + `pivot_on_ioc`. *Confidence: MEDIUM on macro
-shape; LOW on host-of-initial-access until confirmed.* `.mans` files are SQLite — query the
-**Processes** table for parent walks.
-
-### Case 2 — SRL-2018 (network-wide APT C2 deployment)
-
-Many E01s (`base-dc`, `base-file`, `base-rd-01/02`, `base-wkstn-01/05`, `dmz-ftp`) + per-host
-memory `.img` (each with `.md5`). **Backbone (MEDIUM-HIGH):** C2 IP **42.112.153.164:8080**
-(VT/OTX MALICIOUS); deployment window **2018-05-03 14:22:15 → 15:15:45 UTC (~53 min)** cascading
-DC→file→workstations→terminal servers→DMZ-FTP. Concrete malware lead: the **svcsvc32-class
-service binary** across DC/file/rd-01/wkstn-01; typosquat delivery domain
-**`stark-research-labs.co`**. **CAUTION (re-derive live):** "svchost.exe PID 1234 / parent System
-PID 4", service "SuspiciousService", task `\Microsoft\Windows\Update Check` are PLACEHOLDER.
-**Key tools:** `get_svcscan`+`scan_yara`(svcsvc32)+`get_malfind`; persistence `get_evtx`
-(7045/4697/4698); cascade `detect_sweep`+`correlate_timeline`+`pivot_on_ioc` on the C2; intel
-`threat_intel_lookup`/`wazuh_hunt_ioc`. *Confidence: MEDIUM-HIGH on C2+cascade; LOW on exact
-process/service names.*
-
-### Case 3 — cfreds-fresh (the validated example; insider misuse, Win XP)
-
-Single XP disk (`4Dell-Latitude-CPi.E01` + `.E02`). **Chain:** identity (alias "Mr. Evil" /
-Greg Schardt) → tooling (sniffer Ethereal/look@LAN, wardriving NetStumbler, IRC, keyloggers) →
-wireless recon (NetStumbler `.ns1` logs) → persistence/config (install locations, Run keys) →
-intent/attribution (emails, chat, docs tying alias to serial `sn# VLQLW`). **Key tools:**
-`get_prefetch` (XP has prefetch; NO SRUM/amcache), `get_registry`/`get_shimcache`,
-`get_bstrings`+`glob_paths` for NetStumbler, `run_bulk_extractor`/`email_header_matrix`/`carve_pst_iocs`,
-`get_timeline`+`get_mftecmd`. *Confidence: MEDIUM-HIGH on scenario shape.*
-
-### Case 4 — rocba (insider IP theft, 2020)
-
-Single host: `rocba-cdrive.e01` (23.7 GB) + `Rocba-Memory.raw` (19.0 GB, zip→7z→raw wrapped);
-read `ROCBA-BACKGROUND.pptx` first; case_id `ROCBA-HACKATHON-2026`. Host TZ EST5EDT — normalize
-to UTC. **Leading hypothesis = insider IP theft; ALTERNATIVE = APT-via-insider — disambiguate,
-don't confirm-bias.** **Chain:** legitimate interactive logon (expect 4624 **type 2**, not
-external) → collection (R&D files, archives, shares) → exfil via personal webmail
-(`fred.rocba@gmail.com`/`@outlook.com`), USB, or cloud sync → optional anti-forensics →
-attribution. **Key tools:** access `get_evtx`(4624 type 2)/`get_timeline`; collection
-`get_mftecmd`($MFT/$J)/`get_sbecmd`(ShellBags)/`get_lecmd`; USB `get_registry`(USBSTOR/MountedDevices);
-exfil `srum_extract`(per-app net bytes)/`get_sqlecmd`(browser history)/`get_netscan`;
-**disambiguation** `scan_yara`(Cobalt Strike)+`get_malfind`+`get_netscan` on memory — a
-C2/beacon flips toward APT, absence supports pure insider. *Confidence: MEDIUM on insider frame;
-actively test the APT alternative.*
-
-> **Cross-case operator notes:** verify each E01/raw with `get_image_info`/`.md5`/`ewfverify`
-> before reading; `.mans` files are SQLite, not zip; XP hosts (cfreds, xp-tdungan) have prefetch
-> but NO SRUM/amcache.
+→ **Full scaffolds:** [Per-case attack-chain hypotheses](../06-use-cases/case-hypotheses.md) — the
+per-case chains, key tools, confidence ratings, and cross-case operator notes (e.g. `.mans` files are
+SQLite; XP hosts have prefetch but no SRUM/amcache).
 
 ---
 
 ## Troubleshooting ledger
 
-The six bugs found and fixed during the validated proving run, plus the inline tips.
+The six bugs found and fixed during the validated proving run, plus the inline tips. (Bugs B2–B5 are
+also previewed up front in [Gotchas at a glance](#gotchas-at-a-glance).)
 
 ### The six bugs (symptom → root cause → fix → exit criteria)
 
@@ -895,6 +1074,8 @@ uv run python scripts/verify_seal.py inc-0042-triage.json
 - **[Quickstart](quickstart.md)** — the condensed 3-command path and seal verification.
 - **[Client Setup](../09-integrations/client-setup.md)** — exact CLI/Desktop wiring, tailnet endpoint, token handling.
 - **[CLI Reference](../08-reference/cli-reference.md)** — every flag, exit code, and output line of `run` and `doctor`.
+- **[Tool capability map](../04-mcp-tools/capability-map.md)** — pick the right tool by DFIR function.
+- **[Per-case attack-chain hypotheses](../06-use-cases/case-hypotheses.md)** — what to look for, per case.
 - **Use cases** — [Disk triage](../06-use-cases/uc-disk-triage.md) ·
   [Memory triage](../06-use-cases/uc-memory-triage.md) ·
   [Approval gate](../06-use-cases/uc-approval-gate.md) ·
@@ -906,4 +1087,3 @@ uv run python scripts/verify_seal.py inc-0042-triage.json
   71 MCP tools, 16 wrappers, 4464 tests), [`.crew/tool-list.md`](../../.crew/tool-list.md) (all
   71 tools), [`.crew/env-vars.md`](../../.crew/env-vars.md),
   [`.crew/agents-list.md`](../../.crew/agents-list.md).
-```

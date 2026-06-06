@@ -15,15 +15,19 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
 
 ## Reading Paths by Audience
 
-- **Operator** (first run, start to finish): **[User Guide — The Complete Operator Runbook](docs/01-overview/user-guide.md)**
+- **Operator** (first run, start to finish — **expert _or_ non-technical end-user**): **[User Guide — The Complete Operator Runbook](docs/01-overview/user-guide.md)**
+  → [Tool Capability Map](docs/04-mcp-tools/capability-map.md) (pick the right tool by DFIR function)
+  → [Per-Case Attack-Chain Hypotheses](docs/06-use-cases/case-hypotheses.md) (which tools to reach for, per case)
   → [Quickstart](docs/01-overview/quickstart.md) (the condensed 3-command path)
   → [CLI Reference](docs/08-reference/cli-reference.md). The single deeply-detailed end-to-end
   runbook: pre-flight → connect/verify MCP → case init/activate → register evidence → the
   investigation tool chain → record findings → approve in the portal → generate/verify the
-  sealed report → curate/push IOCs to Wazuh. Documents **both** execution paths (manual,
-  tool-by-tool · autonomous, headless driver) across **both** clients (Claude CLI · Claude
-  Desktop, incl. the 1 MB cap), with the **validated 2026-05-29 CFReDS run** as a worked
-  example (real commands, real outputs, decision points, and a troubleshooting ledger).
+  sealed report → curate/push IOCs to Wazuh. Written for **two audiences at once** — every action
+  carries the **expert CLI/MCP command** and the **plain-language end-user prompt** for the same
+  result. Documents **both** execution paths (manual, tool-by-tool · autonomous, headless driver)
+  across **both** clients (Claude CLI · Claude Desktop, incl. the 1 MB cap), with the **validated
+  2026-05-29 CFReDS run** as a worked example (real commands, real outputs, decision points, and a
+  troubleshooting ledger).
 - **Operator** (runs triage): [What is Agentropix-SIFT?](docs/01-overview/what-is-agentropix.md)
   → [Competitive Positioning](docs/01-overview/competitive-positioning.md)
   → [Quickstart](docs/01-overview/quickstart.md)
@@ -77,7 +81,7 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
-| **User Guide — The Complete Operator Runbook** | operator | **How do I run one complete case end to end, in full operational depth** — pre-flight, connect/verify the MCP, init/activate the case, register evidence, drive the investigation tool chain (**manual tool-by-tool _or_ autonomous headless driver**, on **Claude CLI _or_ Desktop**), record findings, approve in the portal, seal the report, and (optionally) push IOCs to Wazuh — with the validated 2026-05-29 CFReDS run as a worked example and a troubleshooting ledger? | [docs/01-overview/user-guide.md](docs/01-overview/user-guide.md) |
+| **User Guide — The Complete Operator Runbook** | operator (expert + non-technical end-user) | **How do I run one complete case end to end, in full operational depth** — pre-flight, connect/verify the MCP, init/activate the case, register evidence, drive the investigation tool chain (**manual tool-by-tool _or_ autonomous headless driver**, on **Claude CLI _or_ Desktop**), record findings, approve in the portal, seal the report, and (optionally) push IOCs to Wazuh? Written for **two audiences at once** — every action carries the **expert CLI/MCP command** *and* the **plain-language end-user prompt** for the same result — with the validated 2026-05-29 CFReDS run as a worked example and a troubleshooting ledger. | [docs/01-overview/user-guide.md](docs/01-overview/user-guide.md) |
 | What is Agentropix-SIFT? | operator, examiner | What does the tool do, why, who is it for, and how does it compare to manual DFIR? | [docs/01-overview/what-is-agentropix.md](docs/01-overview/what-is-agentropix.md) |
 | What You Get | operator, examiner | What are the concrete capabilities and the feature/capability matrix? | [docs/01-overview/what-you-get.md](docs/01-overview/what-you-get.md) |
 | Quickstart | operator | How do I install, pre-flight the toolchain, and run my first triage? | [docs/01-overview/quickstart.md](docs/01-overview/quickstart.md) |
@@ -108,6 +112,7 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
 | MCP Tool Reference | developer, operator | What are all 71 MCP tools and the 16 forensic wrappers, in detail? | [04-mcp-tools/tool-reference.md](docs/04-mcp-tools/tool-reference.md) |
+| Tool Capability Map (by DFIR function) | operator, examiner, developer | Which tool do I reach for to *do* a thing — the 71-tool surface grouped by DFIR function, with the canonical happy-path ordering? | [04-mcp-tools/capability-map.md](docs/04-mcp-tools/capability-map.md) |
 | Tool Response Envelope | developer, auditor | What does a tool call actually return, including the provenance fingerprint and error shape? | [04-mcp-tools/response-envelope.md](docs/04-mcp-tools/response-envelope.md) |
 | Tools by Agent | developer | Which Swarm agent invokes which tools? | [04-mcp-tools/tool-by-agent.md](docs/04-mcp-tools/tool-by-agent.md) |
 
@@ -131,6 +136,7 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
 | Examiner Reviews & Approves Before the Seal | examiner | How do I review findings and approve them before anything is sealed? | [docs/06-use-cases/uc-approval-gate.md](docs/06-use-cases/uc-approval-gate.md) |
 | Push a Finding to Wazuh as an Alert | operator, auditor | How do I escalate an APPROVED finding to Wazuh (experimental integration)? | [docs/06-use-cases/uc-wazuh-push.md](docs/06-use-cases/uc-wazuh-push.md) |
 | Guided Demo Walkthrough (Judge-Facing) | examiner, all | What does a single end-to-end run look like, beat by beat, mapped to the Devpost rubric with verifiable runtime evidence? | [docs/06-use-cases/demo-walkthrough.md](docs/06-use-cases/demo-walkthrough.md) |
+| Per-Case Attack-Chain Hypotheses | operator, examiner | For each in-scope test case, which attack chain is likely and which tools confirm/refute each link (bias-checks, not findings)? | [docs/06-use-cases/case-hypotheses.md](docs/06-use-cases/case-hypotheses.md) |
 
 ## 7. SDLC & Operations
 
