@@ -38,6 +38,20 @@ You will see real artifacts and real IDs (e.g. `case_id INC-2026-0529224443`, ev
 `96bebe80…`). Your own run will produce *different* IDs and timestamps, but the *shape* of the output
 will match. Where we quote a number, it is what the platform actually returned that day.
 
+> **Validation status (re-verified live 2026-06-06).** This guide was independently re-executed
+> end-to-end against the same validated case (`/cases/cfreds-fresh/4Dell-Latitude-CPi.E01`) two ways —
+> the operator-shell Phase 0 (`doctor`, `ewfverify`, `ewfinfo`, `mmls`) and the full MCP happy-path
+> chain over a real session — plus a bounded smoke run of the autonomous Path B driver. **14 of 16
+> single-command steps reproduced exactly**, including every load-bearing forensic constant (MD5
+> `aee4fcd9…`, evidence SHA-256 `96bebe80…`, `size_bytes 671094597`, media `4.5 GiB / 4871301120`,
+> NTFS @ sector 63, `fls` first-entry `/Documents and Settings` inode `3671-144-7`, YARA empty-string
+> hash `e3b0c442…`, DRAFT finding `indexed:false`). GOTCHAs B2 (offset 63), B3 (allowlisted `out_dir`),
+> B4 (`finding_id` required) all behaved as documented. Two live deltas are called out inline where they
+> occur: the live `health.tool_count` now reports **72** (a reproducible +1 over the canonical **71**;
+> see the note at [§1.2](#12-sanity-check--call-health)) and `report_generate` on a brand-new
+> DRAFT-only case can return `case_not_found` (see [Phase 7](#phase-7--generate-and-verify-the-sealed-report)).
+> `bulk_extractor` feature totals are snapshot-specific and vary run-to-run (expected).
+
 ### (b) What a GOTCHA box is
 
 > ⚠️ **GOTCHA** boxes flag real-data quirks and genuine bugs found during the proving run. Because the
@@ -248,6 +262,12 @@ uv run agentropix-sift doctor
 All tools available.
 ```
 
+> **Note on the count.** `doctor` prints an `[OK …]` line per **binary** it resolves, and on this
+> workstation that is **18** lines (the 16 SIFT forensic wrappers' backing binaries plus `icat` and
+> `strings`, which `doctor` also pre-flights). The prose figure **"16 forensic SIFT wrappers"** counts
+> the wrapper layer, not the resolved-binary lines — both are correct; don't be thrown if you count 18
+> `[OK]` lines. The closing `All tools available.` is the signal you care about.
+
 A `MISSING` tool degrades gracefully (the relevant agent self-skips) but lowers recall — resolve each
 before a real run. Point at a non-default path with the override var (no symlink needed):
 
@@ -410,7 +430,8 @@ From any connected client, call the `health` tool. Expect a small JSON object in
 
 > **🖥️ Expert (command/MCP call):**
 > ```text
-> health  ->  { "status": "ok", "tool_count": 71, "version": "...", "uptime": ... }
+> health  ->  { "status": "ok", "server": "agentropix-sift", "tool_count": 71,
+>               "version": "...", "uptime_seconds": ... }
 > ```
 > **💬 End-user (prompt):** *"How many Agentropix forensic tools are available right now?"*
 > The session calls `health` and tells you the live count. **Trust this live number, not any banner.**
@@ -419,11 +440,23 @@ From any connected client, call the `health` tool. Expect a small JSON object in
 
 *Execution D:* call the `health` tool.
 
-*Output D:* `{ "status": "ok", "tool_count": 71, "version": "...", "uptime": ... }`
+*Output D:* `{ "status": "ok", "server": "agentropix-sift", "tool_count": 71, "version": "...",
+"uptime_seconds": ... }`. (The `version` field here is the server's internal build string, e.g.
+`0.1.0-dev`, which is **distinct** from the MCP `serverInfo.version` reported during `initialize`,
+e.g. `3.2.4` — don't conflate the two. The uptime field is named `uptime_seconds`.)
 
 > ⚠️ **Always live-verify the tool count.** The startup banner under-reports (it once showed `38`).
 > Trust the live `health.tool_count` / `tools/list`, never the banner or stale docs. The 2026-05-29
-> snapshot showed `62`; the current platform is `71`.
+> snapshot showed `62`; the canonical platform figure is `71` (`{{ref:CANONICAL_FACTS#mcp_tool_count}}`).
+>
+> **Live drift note (2026-06-06):** a live re-verification returned `health.tool_count = 72` and
+> `tools/list` likewise enumerated **72** distinct tools — a reproducible **+1** over the canonical
+> `71`. The extra tool is *not* a new capability: the running server has always exposed 72 distinct
+> tool names (the same 72 tabled in [`.crew/tool-list.md`](../../.crew/tool-list.md)); the canonical
+> `71` is a derivation-arithmetic figure that over-subtracts the `wazuh_hunt_ioc` double-registration.
+> The canonical number stays **71** in this guide until the operator re-runs the `CANONICAL_FACTS`
+> refresh (which must update every doc + the drift gate atomically). When in doubt, trust your own
+> live `health.tool_count`.
 
 ---
 
@@ -723,19 +756,36 @@ process (Phase 0.3 gotcha) so it isn't reaped.
 
 #### B.2 — Headless driver, fully unattended (the VALIDATED pattern)
 
-This is the **B-Expert** lane. The reference driver (`agx_gearb.py`-class) holds **one persistent MCP
-session** (initialize → capture `Mcp-Session-Id` → `notifications/initialized` → `tools/call`),
-validates every param against the live schema, treats a non-empty `result.error` as a failure (no false
-"ok"), **checkpoints `SUMMARY.json` after every step** (so a death never loses prior progress), and is
-**idempotent** (reuses an existing carve rather than re-running it).
+This is the **B-Expert** lane. The reference driver (`agx_gearb.py`, on this workstation at
+`/home/admin2/.openclaw/workspace/drivers/agx_gearb.py`) holds **one persistent MCP session**
+(initialize → capture `Mcp-Session-Id` → `notifications/initialized` → `tools/call`), validates every
+param against the live schema, treats a non-empty `result.error` as a failure (no false "ok"),
+**checkpoints `SUMMARY.json` after every step** (so a death never loses prior progress), and is
+**idempotent** (reuses an existing carve rather than re-running it). It takes a logical **`<case_key>`**
+(resolved through its `cases.json`, e.g. `cfreds`) — *not* an image path or a token — as its first and
+only positional argument; useful flags include `--preflight` (session+health+schema+`get_image_info`
+only, no case record — a safe smoke test), `--image`, `--offset`, `--step-timeout`, and `--global-cap`.
 
-> **🖥️ Expert (command) — launch it DETACHED.** This is the single most important step:
+> **🖥️ Expert (command) — launch it DETACHED.** This is the single most important step. **The bearer
+> token is read from the environment (`AGENTROPIX_MCP_AUTH_TOKEN`, or `AGX_BEARER`) — never passed as an
+> argv positional** (so it is never visible in `ps` or logged):
 > ```bash
-> setsid nohup bash -c "python3 /path/to/agx_gearb.py '<BEARER_TOKEN>' <case_key> > run.log 2>&1" </dev/null >/dev/null 2>&1 &
+> AGENTROPIX_MCP_AUTH_TOKEN="<BEARER_TOKEN>" \
+>   setsid nohup bash -c "python3 /home/admin2/.openclaw/workspace/drivers/agx_gearb.py <case_key> > run.log 2>&1" </dev/null >/dev/null 2>&1 &
 > disown
 > ```
+> (Smoke-test first with `--preflight` appended after `<case_key>` to validate session+health+schema
+> without creating any case record.)
 > **💬 End-user equivalent:** non-experts don't run the detached driver — use the interactive autonomous
 > prompt in **B.1** instead, which gets the same investigation without any shell-detachment concerns.
+
+> ⚠️ **GOTCHA (launch invocation).** Do **not** pass the bearer token as the first positional argument
+> (`agx_gearb.py '<TOKEN>' <case_key>`). The driver reads the token from the environment only and treats
+> its first positional as the **`<case_key>`** — passing the token there makes it fail-closed (the token
+> isn't a known case key) and shifts `<case_key>` into an unexpected extra argument. Export the token,
+> pass only the case key. (A separate `--strict-count` flag exists that hard-stops if the live tool
+> count differs from the driver's expected default — leave it off unless you have refreshed that default
+> to match the live `health.tool_count`.)
 
 > ⚠️ **GOTCHA (bug B5, the big one):** a long-blocking tool call (e.g. `run_bulk_extractor` on a 20 GB
 > image) is killed if the driver is **not** detached — the server-side job finishes but the client dies
@@ -753,8 +803,8 @@ After each tool it writes the step's `ok`/`elapsed`/`error` into `SUMMARY.json`.
 > **🖥️ Expert (command) — monitor progress:**
 > ```bash
 > tail -f run.log
-> # and read the per-step checkpoint:
-> #   gearB/<case>/SUMMARY.json   (per-step ok / elapsed / error)
+> # and read the per-step checkpoint (default --out-root is <drivers_dir>/gearB):
+> #   /home/admin2/.openclaw/workspace/drivers/gearB/<case>/SUMMARY.json   (per-step ok / elapsed / error)
 > ```
 > **💬 End-user (prompt) — on the interactive lane:** *"How's the investigation going — which steps are
 > done?"* The assistant reports its progress as it works through the sequence.
@@ -898,6 +948,17 @@ approval* is expected, not a bug.
 f5bde7c3b24de511fd67cd7f6769dd12580c0c6fdf7b80a59ceb3a1e9b8c787d`, `snapshot_at
 2026-05-29T22:44:45.764637+00:00`, **`approved_finding_count 0`** (the one finding is still DRAFT),
 sections executive_summary/findings/timeline/iocs all count 0, error empty.
+
+> ⚠️ **GOTCHA (fresh DRAFT-only case → `case_not_found`).** A live re-run (2026-06-06) showed that
+> `report_generate` on a **brand-new** case whose only state is a single **DRAFT** finding returns
+> `result.error = "case_not_found: no documents for case_id <id>"` with an empty `report_id` and empty
+> `sections` — *not* the populated-but-zero-count report shown above. `report_generate` builds from
+> **indexed** case documents, and a DRAFT finding is intentionally not indexed (Phase 5), so a case with
+> no indexed documents yet has nothing for the report to read. The validated Output N above came from a
+> run that had additional indexed case state (the autonomous driver's full 10-step chain). **If you hit
+> `case_not_found`:** it means the case has no indexed documents yet — register evidence and/or approve
+> at least one finding (Phase 6) so there is indexed state, then re-generate. This is expected gating
+> behavior, not a failure of the case.
 
 For the CLI `run`-based flow, a single `run` writes three files next to `--out` and seals the report;
 verify the seal with the standalone verifier:
@@ -1054,8 +1115,9 @@ claude mcp list        # ✓ Connected ; then call health -> tool_count
 # Phase 4A — manual: mmls -> fls(offset) live+deleted -> run_bulk_extractor(out_dir) -> scan_yara
 mmls /cases/cfreds-fresh/4Dell-Latitude-CPi.E01
 
-# Phase 4B — autonomous (detached driver)
-setsid nohup bash -c "python3 /path/to/agx_gearb.py '<TOKEN>' cfreds > run.log 2>&1" </dev/null >/dev/null 2>&1 &
+# Phase 4B — autonomous (detached driver; token from ENV, case_key positional)
+AGENTROPIX_MCP_AUTH_TOKEN="<TOKEN>" \
+  setsid nohup bash -c "python3 /home/admin2/.openclaw/workspace/drivers/agx_gearb.py cfreds > run.log 2>&1" </dev/null >/dev/null 2>&1 &
 disown ; tail -f run.log
 
 # Phases 5-6 — record_finding (DRAFT) ; approve in portal (human):
