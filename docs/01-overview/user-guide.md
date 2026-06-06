@@ -26,6 +26,35 @@ prompt a non-technical user types to get the *same result*. You only need to fol
 
 ---
 
+## Contents — what's in this guide (and what to expect)
+
+> Jump to any section below. Each row tells you what that part gives you, so you can go straight to your point.
+
+| Section | What you'll get |
+|---|---|
+| [How to read this guide](#how-to-read-this-guide) | The two audience tracks (🖥️ expert command vs 💬 end-user prompt), the real-data note, and how the GOTCHA boxes work. |
+| [Usability matrix — find your lane](#usability-matrix--find-your-lane) | Pick your lane: **Manual ↔ Autonomous** × **Expert (CLI) ↔ Non-expert (prompt)**. |
+| [The end-to-end pipeline at a glance](#the-end-to-end-pipeline-at-a-glance) | The whole investigation lifecycle (install → triage → review → approve → seal → escalate) in one diagram. |
+| [Tool capability map (summary)](#tool-capability-map-summary) | The 71 MCP tools grouped by DFIR function (full table in the [capability map](../04-mcp-tools/capability-map.md)). |
+| [The 1 MB cap (Desktop-only)](#the-1-mb-cap-desktop-only-and-how-to-size-tool-output) | Claude Desktop's 1 MB response limit and how to bound tool output. |
+| [Gotchas at a glance](#gotchas-at-a-glance) | The real-data quirks/bugs you'll encounter, collected up front. |
+| [Phase 0 — Prerequisites and clients](#phase-0--prerequisites-and-clients) | Install, pre-flight (`doctor`), and choosing Claude Desktop vs the CLI. |
+| [Phase 1 — Connect a client and verify the MCP](#phase-1--connect-a-client-and-verify-the-mcp) | Connect your client and confirm the MCP server is healthy. |
+| [Phase 2 — Open and activate the case](#phase-2--open-and-activate-the-case-chain-of-custody) | Create/activate a case (chain of custody). |
+| [Phase 3 — Register evidence](#phase-3--register-evidence-sha-256-chain-of-custody) | SHA-256-register the evidence image. |
+| [Phase 4 — The investigation tool chain](#phase-4--the-investigation-tool-chain) | The core analysis — **Path A (manual, tool-by-tool)** vs **Path B (autonomous driver)**. |
+| [Phase 5 — Record findings (DRAFT)](#phase-5--record-findings-staged-draft) | Stage findings as `DRAFT`. |
+| [Phase 6 — Approve in the portal](#phase-6--approve-findings-in-the-portal-human-only-gate) | Human-only cryptographic sign-off in the Approval Portal. |
+| [Phase 7 — Generate & verify the sealed report](#phase-7--generate-and-verify-the-sealed-report) | Produce and verify the HMAC-sealed report. |
+| [Phase 8 — Push IOCs to Wazuh](#phase-8--curate-and-push-iocs-to-wazuh) | Optional: curate and push IOCs to the SIEM. |
+| [Per-case attack-chain hypotheses (summary)](#per-case-attack-chain-hypotheses-summary) | Hypotheses to steer tool choice (full set in [case hypotheses](../06-use-cases/case-hypotheses.md)). |
+| [Troubleshooting ledger](#troubleshooting-ledger) | Known errors → fixes (bugs B2–B5 + tips). |
+| [Quick command recap](#quick-command-recap) | Every phase as a one-line command, manual vs autonomous. |
+| [Appendix — Prompt Playbook](#appendix--prompt-playbook-run-it-prompt-by-prompt) | Copy-paste, **numbered run-by-prompt** sheet (Manual 20 / Autonomous 5), each with an "Expect:". |
+| [Where to go next](#where-to-go-next) | Links to the deeper reference pages. |
+
+---
+
 ## HOW TO READ THIS GUIDE
 
 Read this short preface first — it tells you how the guide is structured and how to follow your track.
