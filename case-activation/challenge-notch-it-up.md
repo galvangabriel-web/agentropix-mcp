@@ -22,7 +22,7 @@
 | **Size** | **1.5 GiB on disk · `1610547200` bytes** (= 1.6 GB) |
 | **`file(1)` caveat** | misreports as `Windows Event Trace Log` — that magic is **wrong**; the bytes are a RAM dump. Trust the size + provenance, not `file`. |
 | **Suggested `case_id` slug** | `CHALLENGE-NOTCHITUP` (matches `^[A-Za-z0-9._-]{1,128}$`, no spaces/slashes) |
-| **OS / scenario** | Windows memory image (resolve the exact build at analysis time via `get_image_info`). Standalone CTF "Notch It Up" — same byte size (`1610547200`) as a MemLabs Lab6 dump, but treated here as an independent single-evidence case. No `readme`/`ground_truth`/`solution` file ships in the folder — derive everything from the image. |
+| **OS / scenario** | Windows memory image (the OS/kernel profile is auto-detected by Volatility3 on the first `windows.*` plugin, `get_pslist` — there is no separate info/banners call, and `get_image_info`/ewfinfo is EWF-only). Standalone CTF "Notch It Up" — same byte size (`1610547200`) as a MemLabs Lab6 dump, but treated here as an independent single-evidence case. No `readme`/`ground_truth`/`solution` file ships in the folder — derive everything from the image. |
 
 ### Recommended path + tool chain (memory)
 
@@ -30,14 +30,14 @@ This is a **memory** image, so the **memory** branch of the swarm applies (the d
 `mmls` / `fls` / `bulk_extractor` / `yara` — does **not**):
 
 ```
-get_image_info        # confirm it parses as RAM + identify OS/profile  (START HERE)
-   │
-   ├─ get_pslist      # running processes (Volatility pslist)
+get_pslist            # running processes — ALSO auto-detects the OS/kernel profile  (START HERE)
+   │                  # (Vol3 is profile-less; the first windows.* plugin matches the symbol table.
+   │                  #  get_image_info/ewfinfo is EWF-only and returns nothing on a raw dump.)
    ├─ get_netscan     # network connections / sockets
    ├─ get_malfind     # injected / hidden code regions
    ├─ get_svcscan     # Windows services
-   └─ run_volatility(target, plugin=…)   # escape hatch: cmdline, pstree, dlllist,
-                                          # hashdump, hivelist, consoles, filescan, …
+   └─ run_volatility(target, plugin=…)   # escape hatch — short alias or canonical id:
+                                          # cmdline, pstree, dlllist, hashdump, hivelist, filescan, …
 ```
 
 > `run_volatility` is the generic Volatility driver for any plugin the named wrappers don't cover.
@@ -93,14 +93,13 @@ Hashes the file (sha256 + size) → `agentropix-evidence-YYYY.MM.DD`. Expect `si
 
 ### Step 5 — Analyze the evidence (memory branch)
 ```python
-get_image_info(image="/cases/Challenge_NotchItUp/Challenge.raw")   # confirm RAM + OS first
-get_pslist(image="/cases/Challenge_NotchItUp/Challenge.raw")
+get_pslist(image="/cases/Challenge_NotchItUp/Challenge.raw")    # processes — also auto-detects the OS/kernel profile
 get_netscan(image="/cases/Challenge_NotchItUp/Challenge.raw")
 get_malfind(image="/cases/Challenge_NotchItUp/Challenge.raw")
 get_svcscan(image="/cases/Challenge_NotchItUp/Challenge.raw")
-# escape hatch for any other Volatility plugin:
-run_volatility(target="/cases/Challenge_NotchItUp/Challenge.raw", plugin="windows.cmdline")
-run_volatility(target="/cases/Challenge_NotchItUp/Challenge.raw", plugin="windows.pstree")
+# escape hatch for any other allowlisted plugin (short alias or canonical id):
+run_volatility(target="/cases/Challenge_NotchItUp/Challenge.raw", plugin="cmdline")
+run_volatility(target="/cases/Challenge_NotchItUp/Challenge.raw", plugin="pstree")
 ```
 
 ### Step 6 — Record findings — `record_finding` (DRAFT-gated)
@@ -149,32 +148,27 @@ Each step shows the 💬 end-user prompt and its 🖥️ command equivalent.
 🖥️ `evidence_register(path="/cases/Challenge_NotchItUp/Challenge.raw", description="Notch It Up raw memory image", examiner_id="victor.galvan")`
 **Expect:** an sha256, `size_bytes 1610547200`, record under `agentropix-evidence-<today>`.
 
-**4. Confirm the image parses as RAM and identify the OS.**
-💬 *"Confirm /cases/Challenge_NotchItUp/Challenge.raw is a memory image and tell me the OS/profile."*
-🖥️ `get_image_info(image="/cases/Challenge_NotchItUp/Challenge.raw")`
-**Expect:** it parses as a Windows RAM dump (NOT an Event Trace Log — `file(1)` mislabels it); an OS/build is reported.
-
-**5. List running processes.**
-💬 *"Show me the process list from the Notch It Up memory image."*
+**4. List running processes (this also auto-detects the OS/kernel profile).**
+💬 *"Show me the process list from the Notch It Up memory image, and tell me the OS/profile."*
 🖥️ `get_pslist(image="/cases/Challenge_NotchItUp/Challenge.raw")`
-**Expect:** a process table (pid/ppid/name) — your first real analysis result; you are now "started".
+**Expect:** a process table (pid/ppid/name) — your first real analysis result. This first `windows.*` plugin **auto-detects the kernel profile**, so a populated list confirms it's a valid Windows RAM dump and the symbol table matched. (No separate OS-id call — `get_image_info`/ewfinfo is EWF-only and returns nothing on a raw dump; `file(1)` mislabelling it as an Event Trace Log is irrelevant.) You are now "started".
 
-**6. Check network connections.**
+**5. Check network connections.**
 💬 *"What network connections were in memory?"*
 🖥️ `get_netscan(image="/cases/Challenge_NotchItUp/Challenge.raw")`
 **Expect:** a sockets/connections table.
 
-**7. Hunt injected code.**
+**6. Hunt injected code.**
 💬 *"Run malfind on the image and flag any injected regions."*
 🖥️ `get_malfind(image="/cases/Challenge_NotchItUp/Challenge.raw")`
 **Expect:** zero or more suspicious VAD regions with disassembly.
 
-**8. (As needed) any other Volatility plugin.**
+**7. (As needed) any other Volatility plugin.**
 💬 *"Show the command line for every process (Volatility cmdline)."*
-🖥️ `run_volatility(target="/cases/Challenge_NotchItUp/Challenge.raw", plugin="windows.cmdline")`
-**Expect:** per-process command lines; swap `plugin=` for `windows.pstree`, `windows.hashdump`, etc.
+🖥️ `run_volatility(target="/cases/Challenge_NotchItUp/Challenge.raw", plugin="cmdline")`
+**Expect:** per-process command lines; swap `plugin=` for `pstree`, `hashdump`, etc. (short alias or canonical id like `windows.cmdline.CmdLine` — the bare `windows.cmdline` form is rejected).
 
-**9. Stage a finding (DRAFT, preview first).**
+**8. Stage a finding (DRAFT, preview first).**
 💬 *"Draft finding F-001 for what we found, but just preview it — don't persist yet."*
 🖥️ `record_finding(finding={"finding_id":"F-001","title":"...","severity":"high"}, dry_run=True)`
 **Expect:** a preview; nothing written (`dry_run=True` is the default). Persist later with `dry_run=False` + `mutation_token`.
@@ -197,7 +191,7 @@ Each step shows the 💬 end-user prompt and its 🖥️ command equivalent.
 AGENTROPIX_MCP_AUTH_TOKEN="<BEARER_TOKEN>" \
   python3 /home/admin2/.openclaw/workspace/drivers/agx_gearb.py challenge-notchitup --preflight
 ```
-**Expect:** session initialized, `health` OK, schema validated, `get_image_info` returns RAM/OS; **no** case written.
+**Expect:** session initialized, `health` OK, schema validated; **no** case written. (OS/profile is resolved later by the first analysis plugin, not a preflight call.)
 
 **2. Launch the driver DETACHED.**
 💬 *"Investigate the Notch It Up memory case end to end, stage findings as DRAFT, and do not approve anything."* (interactive autonomous lane — no shell detachment needed)
@@ -207,7 +201,7 @@ AGENTROPIX_MCP_AUTH_TOKEN="<BEARER_TOKEN>" \
   setsid nohup bash -c "python3 /home/admin2/.openclaw/workspace/drivers/agx_gearb.py challenge-notchitup > run.log 2>&1" </dev/null >/dev/null 2>&1 &
 disown
 ```
-**Expect:** the driver runs `case_init` → `case_activate` → `get_image_info` → `evidence_register` → the memory tool chain; survives shell close. (Token is read from env only — never pass it as a positional.)
+**Expect:** the driver runs `case_init` → `case_activate` → `evidence_register` → the memory tool chain (`get_pslist` first, which auto-detects the profile); survives shell close. (Token is read from env only — never pass it as a positional.)
 
 **3. Monitor progress.**
 💬 *"How's the investigation going — which steps are done?"*
@@ -230,7 +224,7 @@ disown
 
 | Gotcha | Rule |
 |---|---|
-| `file(1)` says "Windows Event Trace Log" | **Ignore it.** The bytes are a raw RAM dump; trust size `1610547200` + provenance. Confirm with `get_image_info`. |
+| `file(1)` says "Windows Event Trace Log" | **Ignore it.** The bytes are a raw RAM dump; trust size `1610547200` + provenance. Confirm by running `get_pslist` — a populated process list proves Vol3 matched a kernel symbol table (a valid RAM capture). `get_image_info`/ewfinfo is EWF-only and returns nothing here. |
 | Tempted to run `mmls`/`fls`/`bulk_extractor`/`yara` | **Wrong branch** — this is memory, not disk. Use the Volatility/memory tools. |
 | `ewfinfo` errors out | Expected — this is **raw**, not EWF/E01. `ewfinfo` is disk/EWF only. |
 | Driver fed a path or token as arg 1 | **Fail-closed.** Pass only the logical `<case_key>`; export the token via `AGENTROPIX_MCP_AUTH_TOKEN`. |
