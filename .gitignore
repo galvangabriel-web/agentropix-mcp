@@ -4,4 +4,4 @@ issues/*.png
 compare/
 end-user/
 /2026-05-29-agentropix-prodtest-runbook/
-# 2026-06-01-report-engine-design/ — un-ignored 2026-06-07 to publish the generated multi-tier reports
+/2026-06-01-report-engine-design/

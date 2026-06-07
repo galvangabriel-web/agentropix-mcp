@@ -68,12 +68,12 @@ These `/cases/*` folders were classified and **not** turned into activation guid
 
 Educational recordings of a real executed activation sequence (live MCP calls, captured output):
 
-| Case | Sequence | Transcript | Video | Approval + sealed report |
-|---|---|---|---|---|
-| CTF "Contact Me" | §3A manual | [EXECUTED-RUN.md](./runs/contact-me-memory/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/contact-me-memory/EXECUTED-RUN.mp4) (50.7s · 19.48 MB · 1920×1080) | ✅ approved finding + sealed report (SIMULATED examiner approval, demo only) |
-| AMF Windows sample001 | §3.A manual | [EXECUTED-RUN.md](./runs/amf-win-sample001/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/amf-win-sample001/EXECUTED-RUN.mp4) (56s · 20 MB · 1920×1080) | ✅ approved finding + sealed report (SIMULATED examiner approval, demo only) |
-| memdump (raw 2014) | MANUAL | [EXECUTED-RUN.md](./runs/memdump-raw-2014/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/memdump-raw-2014/EXECUTED-RUN.mp4) (63s · 22 MB · 1920×1080) | ✅ approved finding + sealed report (SIMULATED examiner approval, demo only) |
-| Challenge "Notch It Up" | MANUAL | [EXECUTED-RUN.md](./runs/challenge-notchitup/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/challenge-notchitup/EXECUTED-RUN.mp4) (50.6s · 16.78 MB · 1920×1080) | ✅ approved finding + sealed report (SIMULATED examiner approval, demo only) |
+| Case | Sequence | Transcript | Video | Sealed report | Multi-tier reports (analyst · exec · business) |
+|---|---|---|---|---|---|
+| CTF "Contact Me" | §3A manual | [EXECUTED-RUN.md](./runs/contact-me-memory/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/contact-me-memory/EXECUTED-RUN.mp4) (50.7s) | ✅ SIMULATED demo | [analyst](./runs/contact-me-memory/reports/analyst.md) · [exec](./runs/contact-me-memory/reports/executive.md) · [business](./runs/contact-me-memory/reports/business.md) (+ .html/.pdf) |
+| AMF Windows sample001 | §3.A manual | [EXECUTED-RUN.md](./runs/amf-win-sample001/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/amf-win-sample001/EXECUTED-RUN.mp4) (56s) | ✅ SIMULATED demo | [analyst](./runs/amf-win-sample001/reports/analyst.md) · [exec](./runs/amf-win-sample001/reports/executive.md) · [business](./runs/amf-win-sample001/reports/business.md) (+ .html/.pdf) |
+| memdump (raw 2014) | MANUAL | [EXECUTED-RUN.md](./runs/memdump-raw-2014/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/memdump-raw-2014/EXECUTED-RUN.mp4) (63s) | ✅ SIMULATED demo | [analyst](./runs/memdump-raw-2014/reports/analyst.md) · [exec](./runs/memdump-raw-2014/reports/executive.md) · [business](./runs/memdump-raw-2014/reports/business.md) (+ .html/.pdf) |
+| Challenge "Notch It Up" | MANUAL | [EXECUTED-RUN.md](./runs/challenge-notchitup/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/challenge-notchitup/EXECUTED-RUN.mp4) (50.6s) | ✅ SIMULATED demo | [analyst](./runs/challenge-notchitup/reports/analyst.md) · [exec](./runs/challenge-notchitup/reports/executive.md) · [business](./runs/challenge-notchitup/reports/business.md) (+ .html/.pdf) |
 
 The transcript captures the real tool responses/exits step by step. Each recorded run now completes the **full human-approval → sealed-report loop**: at least one finding moves DRAFT → APPROVED and `report_generate` returns `approved_finding_count >= 1` with a sealed report. **The approval was SIMULATED for the demo** — driven by Playwright against the Examiner Portal, **not** performed by a human; a real case requires a human examiner's HMAC sign-off. The **demo credentials** (examiner ID + approver password) live in [approval-portal.md](../docs/05-safety-forensics/approval-portal.md). The MCP host is shown as `<TAILNET-HOST>`; no token is reproduced.
 
