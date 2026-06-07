@@ -83,6 +83,8 @@ graph TD
     style WAZUH fill:#e9ecef,stroke:#495057,color:#212529,stroke-dasharray: 6 4
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/uc-wazuh-push-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 The operator first materialises `MASTER-IOCS.json` (`build_executable_registry`), previews the push
 (`wazuh_publish_iocs` dry-run), then executes the live push (CDB lists + rules to the Manager API)
 and indexes findings as alerts into the Indexer. `wazuh_hunt_ioc` retro-hunts the just-pushed IOC.
@@ -134,6 +136,8 @@ sequenceDiagram
     MCP->>Idx: query wazuh-alerts-*
     Idx-->>Operator: prior historical hits (retro-hunt)
 ```
+
+> 🔍 **[Open as SVG — full size, zoomable](assets/uc-wazuh-push-2.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
 
 `wazuh_index_findings` maps each finding's confidence to a Wazuh rule level (2–14) via
 `wazuh/finding_to_alert.py::confidence_to_wazuh_level`, HMAC-seals each doc, and writes batched

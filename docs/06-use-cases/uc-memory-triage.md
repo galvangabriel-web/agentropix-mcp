@@ -148,6 +148,8 @@ sequenceDiagram
     end
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/uc-memory-triage-2.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 The hunt order is intentional: `get_pslist` (`windows.pslist`) establishes the baseline PIDs;
 `build_process_tree` links them by PPID with a `psscan` fallback for paused-VM images and flags
 **LOLBins** (e.g. `rubyw.exe`, `mshta.exe`) spawned under sensitive parents (`services.exe`,
@@ -188,6 +190,8 @@ sequenceDiagram
     Critic-->>Orch: TrinityResult (halt on >=0.85 or fingerprint)
     Orch-->>CLI: TriageReport (sealed by CLI)
 ```
+
+> 🔍 **[Open as SVG — full size, zoomable](assets/uc-memory-triage-3.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
 
 In the autonomous path the `MemoryAgent` (`agents/memory.py`) runs **first** in the SWARM — it drives
 `mcp_get_pslist`, `build_process_tree`, and the `wrappers/credentials` secretsdump path, then sets

@@ -109,6 +109,8 @@ graph TD
     style Agentropix-SIFT fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/uc-disk-triage-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 The analyst pre-flights the toolchain (`doctor`), then chooses either the autonomous `run` command
 or the granular MCP chain. Both bind evidence via `evidence_register` and converge on a sealed
 report the examiner can later verify. The dashed `verifies seal` edge is the cross-link into
@@ -158,6 +160,8 @@ sequenceDiagram
     CLI->>CLI: unlink sentinel (finally)
     CLI-->>Analyst: Findings / Tool calls / Status / Evidence SHA-256
 ```
+
+> 🔍 **[Open as SVG — full size, zoomable](assets/uc-disk-triage-2.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
 
 Steps 1–5 are CLI guard rails: the file must exist, the evidence symlink must not be dangling
 (`_load_preflight_validator`, `cli.py:19-41`; W-164 — a broken symlink silently collapses recall
@@ -234,6 +238,8 @@ sequenceDiagram
     Agent->>MCP: run_hashdeep(extracted executables)
     MCP-->>Agent: IOC-candidate hashes
 ```
+
+> 🔍 **[Open as SVG — full size, zoomable](assets/uc-disk-triage-3.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
 
 The **load-bearing ordering rule**: you must capture the NTFS start sector from `get_partitions`
 (`filesystem_offsets`) and pass it as `offset` to `fls` and `extract_files`. Reading offset 0 lands

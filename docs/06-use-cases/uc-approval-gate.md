@@ -138,6 +138,8 @@ sequenceDiagram
     Court-->>Agent: {tier, fmt, mime, path, content} (tamper-evident)
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/uc-approval-gate-2.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 Findings are staged with `dry_run=true` first for preview, then committed with `dry_run=false` and a
 valid one-shot `mutation_token` (`egt_<ULID>` from `AGENTROPIX_MUTATION_TOKEN`); the **W-286
 draft-gate** strips any `approval.*` and stamps `DRAFT` + provenance, so the agent surface cannot
