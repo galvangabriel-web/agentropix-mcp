@@ -1,0 +1,59 @@
+
+========== STEP 0 — Pre-flight: the installed CLI surface ==========
+$ agentropix-sift --help 2>&1 | sed 's/\x1b\[[0-9;]*m//g' | grep -A4 Commands
+╭─ Commands ───────────────────────────────────────────────────────────────────╮
+│ run      Run autonomous DFIR triage on an evidence image.                    │
+│ doctor   Check that required SIFT tools are available.                       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+# runbook drift check — evidence-gate is NOT in v0.1.0.dev0:
+$ agentropix-sift evidence-gate mint 2>&1 | sed 's/\x1b\[[0-9;]*m//g' | grep -i 'no such' || true
+│ No such command 'evidence-gate'.                                             │
+
+========== STEP 1 — Evidence metadata (ewfinfo): chain-of-custody hash ==========
+$ ewfinfo /cases/SRL-2018/base-dc-cdrive.E01 2>&1 | sed -n '4,11p;28,33p'
+	Case number:		20180905-001
+	Description:		base-dc C-Drive
+	Examiner name:		Clint Barton
+	Evidence number:	 
+	Notes:			Acquired over network via F-Response
+	Acquisition date:	Fri Sep  7 21:13:10 2018
+	System date:		Fri Sep  7 21:13:10 2018
+	Operating system used:	Win 201x
+Digest hash information
+	MD5:			e18b450127de04afb3211faa456ada27
+	SHA1:			15f1215e824a3319020cb74addcbe22d90fc6c18
+
+
+========== STEP 2 — Partition reality: these E01s are VOLUME images (NTFS @ offset 0) ==========
+$ fls -i ewf -o 0 /cases/SRL-2018/base-dc-cdrive.E01 2>&1 | head -3
+d/d 85385-144-1:	Documents and Settings
+d/d 304-144-6:	ProgramData
+d/d 465-144-5:	Users
+# offset 63 fails (no DOS/MBR partition table on a volume image):
+$ fls -i ewf -o 63 /cases/SRL-2018/base-dc-cdrive.E01 2>&1 | head -1
+Cannot determine file system type
+
+========== STEP 3 — Case inventory: 7 E01 / 22 .img / 21 .md5 ==========
+$ printf 'E01=%s  img=%s  md5=%s\n' $(ls /cases/SRL-2018/*.E01|wc -l) $(ls /cases/SRL-2018/*.img|wc -l) $(ls /cases/SRL-2018/*.md5|wc -l)
+E01=7  img=22  md5=21
+$ for i in /cases/SRL-2018/*.img; do b=${i%.img}; [ -f "$b.md5" ] || echo "   only .img w/o .md5: $(basename $i)"; done
+   only .img w/o .md5: base-wkstn-01-mem.img
+
+========== STEP 4 — Memory image to be triaged + its custody md5 ==========
+$ ls -lh /cases/SRL-2018/base-hunt-memory.img | awk '{print $5, $9}'
+5.0G /cases/SRL-2018/base-hunt-memory.img
+$ cat /cases/SRL-2018/base-hunt-memory.md5
+38c59764b927e863262bfbbf1802a0fe  base-hunt-memory.img
+
+========== STEP 5 — Autonomous Trinity run (this is the MCP/SWARM layer, run separately) ==========
+# command: agentropix-sift run /cases/SRL-2018/base-hunt-memory.img -n 5 -o hunt-mem.report.json -v
+# its report.json carries the per-tool trace (the MCP 'command->response' record).
+# live self-correction observed this run (volatility.py): 
+    pslist returned 0 processes (corrupted ActiveProcessLinks); falling back to psscan
+
+========== STEP 6 — Seal verifier is present (off-PATH absolute path) ==========
+$ ls -la /home/admin2/agentropix-sift/scripts/verify_seal.py
+-rw-rw-r-- 1 admin2 admin2 6080 May 11 22:24 /home/admin2/agentropix-sift/scripts/verify_seal.py
+
+========== capture complete ==========

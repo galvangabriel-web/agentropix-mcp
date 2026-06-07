@@ -285,6 +285,11 @@ transcript, all run live against `/cases/SRL-2018/`) lives in
 [`assets/srl-2018-capture/`](assets/srl-2018-capture/README.md) — including a format evaluation
 (asciinema vs GIF vs MP4) with measured sizes and the rationale for not using MP4.
 
+A **full live-execution report** — the runbook actually run against `/cases/SRL-2018/`, with an MP4 of
+the shell layer **plus** a real autonomous `agentropix-sift run` (12 findings, critic_score 1.0, 9
+completion proofs, sealed + tamper-proven) and Mermaid diagrams — is in
+[`assets/srl-2018-execution/execution-report-srl-2018.md`](assets/srl-2018-execution/execution-report-srl-2018.md).
+
 ![SRL-2018 CLI capture](assets/srl-2018-capture/srl-2018-cli.gif)
 
 ---
