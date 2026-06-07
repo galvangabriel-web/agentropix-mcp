@@ -169,38 +169,38 @@ flowchart LR
     case --> t4
     v5["dmz-ftp (6 backdoor local accts)"]
     t4 --> v5
+    classDef ev fill:#dbeafe,stroke:#1e40af,color:#0f172a;
+    class case,t0,t1,t2,t3,t4,v0,v1,v2,v3,v4,v5,v6,v7 ev;
 ```
 
 ## Timeline
 
 ```mermaid
-timeline
-    title Kill-Chain Timeline
-    section Initial Access
-        2018-03-14 2048Z : DMZ FTP foothold on dmz-ftp, EID 4624 + 4672 valid creds
-    section Persistence - Accounts
-        2018-04 (4 dates) : 6 backdoor local accounts on dmz-ftp, EID 4720 + 4728
-    section Lateral Movement
-        2018-05-04 : PsExec/Impacket EID 7045 bursts to base-dc, base-rd-01, pdo-win2016
-        2018-05-04 : Pass-the-hash EID 4648 + 4672 sub-100ms clusters
-    section Persistence - Service
-        2018-05-04 to 2018-09-06 : Bi-daily EID 7045 on base-dc, 3 schedule rotations
-    section Credential Access
-        memory window : findstr.exe x2 credential harvest on base-dc
-    section Discovery
-        memory window : tasklist.exe x2 process recon on base-dc
-    section Command and Control
-        2018-09-07 2123Z : 36s jitter-free beacon, two waves, terminal event
+flowchart TD
+    e0["2018-03-14 20:48Z<br/>Initial Access — DMZ FTP foothold on dmz-ftp, EID 4624 + 4672 valid creds"]
+    e1["2018-04 (4 dates)<br/>Persistence (Accounts) — 6 backdoor local accounts on dmz-ftp, EID 4720 + 4728"]
+    e2["2018-05-04<br/>Lateral Movement — PsExec/Impacket EID 7045 bursts to base-dc, base-rd-01, pdo-win2016"]
+    e3["2018-05-04<br/>Lateral Movement — Pass-the-hash EID 4648 + 4672 sub-100ms clusters"]
+    e4["2018-05-04 to 2018-09-06<br/>Persistence (Service) — Bi-daily EID 7045 on base-dc, 3 schedule rotations"]
+    e5["memory window<br/>Credential Access — findstr.exe x2 credential harvest on base-dc"]
+    e6["memory window<br/>Discovery — tasklist.exe x2 process recon on base-dc"]
+    e7["2018-09-07 21:23:15Z<br/>Command and Control — 36s jitter-free beacon, two waves, terminal event"]
+    e0 --> e1 --> e2 --> e3 --> e4 --> e5 --> e6 --> e7
+    classDef ev fill:#dbeafe,stroke:#1e40af,color:#0f172a;
+    class e0,e1,e2,e3,e4,e5,e6,e7 ev;
 ```
 
 <!--
-  GITLAB/MERMAID-SAFE TIMELINE: Mermaid `timeline` uses ` : ` to split period from
-  event, so a COLON inside the period token (e.g. "20:48Z", "21:23:15Z") is a parse
-  error. Wall-clock timestamps are therefore rendered colon-free here ("2048Z");
-  the precise colon-bearing timestamps are preserved in the Timeline TABLE below,
-  which is plain Markdown and unaffected. This is a real emitter fidelity gap:
-  diagrams.kill_chain_timeline -> sanitize_label() does NOT strip colons, so a live
-  export whose TimelineRow.timestamp carries colons emits an unrenderable block.
+  GITLAB/MERMAID-SAFE TIMELINE: Mermaid's `timeline` diagram type is unreliable —
+  it errors in mermaid 11 ("Syntax error in text") and renders as raw text in
+  GitLab, and its ` : ` period/event split makes any COLON in the period token
+  (e.g. "20:48Z", "21:23:15Z") a parse error. The kill-chain is therefore rendered
+  as a vertical `flowchart TD` (one node per event, chained top->down, every label
+  quoted), which both engines render and which tolerates colons — so the precise
+  colon-bearing timestamps are now carried verbatim in the diagram AND in the
+  Timeline TABLE below. Real emitter fidelity gap to fix upstream:
+  diagrams.kill_chain_timeline still emits a `timeline` block, and
+  sanitize_label() does NOT strip colons; a live export should emit `flowchart TD`.
 -->
 
 

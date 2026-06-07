@@ -68,14 +68,15 @@ _No IOCs extracted._
 
 ## Timeline
 ```mermaid
-timeline
-    title Kill-Chain Timeline
-    section Activity
-        2026-06-06T20:36:37Z : case_init: AMF-WIN-SAMPLE001 created and set active, exam...
-        2026-06-06T20:48:49Z : evidence_register: sample001.bin sha256 03242077eb3364fb2...
-        2026-06-06T20:50:05Z : get_pslist 21 processes, get_netscan 0 sockets (empty rea...
-        2026-06-06T23:17:43Z : approve_finding DRAFT->APPROVED for F-AMF-S001-001, exami...
-        2026-06-06T20:50:00Z : get_malfind (volatility3.windows.malfind.Malfind) complet...
+flowchart TD
+    TL1["2026-06-06T20:36:37Z<br/>case_init: AMF-WIN-SAMPLE001 created and set active, exam..."]
+    TL2["2026-06-06T20:48:49Z<br/>evidence_register: sample001.bin sha256 03242077eb3364fb2..."]
+    TL3["2026-06-06T20:50:05Z<br/>get_pslist 21 processes, get_netscan 0 sockets (empty rea..."]
+    TL4["2026-06-06T23:17:43Z<br/>approve_finding DRAFT to APPROVED for F-AMF-S001-001, exami..."]
+    TL5["2026-06-06T20:50:00Z<br/>get_malfind (volatility3.windows.malfind.Malfind) complet..."]
+    TL1 --> TL2 --> TL3 --> TL4 --> TL5
+    classDef ev fill:#dbeafe,stroke:#1e40af,color:#0f172a;
+    class TL1,TL2,TL3,TL4,TL5 ev;
 ```
 
 | Timestamp | Host | Event | Phase | Description |

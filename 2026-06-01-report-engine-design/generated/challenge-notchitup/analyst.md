@@ -79,18 +79,21 @@ flowchart LR
     case --> t2
     v4["80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c..."]
     t2 --> v4
+    classDef ioc fill:#dbeafe,stroke:#1e40af,color:#0f172a;
+    class case,t0,t1,t2,v0,v1,v2,v3,v4 ioc;
 ```
 
 ## Timeline
 ```mermaid
-timeline
-    title Kill-Chain Timeline
-    section Activity
-        2019-08-19T14:40:07Z : System boot - System (PID 4) and smss.exe (PID 264) start...
-        2019-08-19T14:40:11Z : Core Windows service stack started: wininit.exe (384), se...
-        2019-08-19T14:40:07Z : Code injection observed: explorer.exe (PID 1944) holds RW...
-        2019-08-19T14:40:07Z : WmiPrvSE.exe (PID 2292) carries a 512KB RWX VAD at 0x1bd0...
-        2019-08-19T14:40:11Z : Active browser network sessions in memory: firefox.exe (P...
+flowchart TD
+    e0["2019-08-19T14:40:07Z<br/>System boot - System (PID 4) and smss.exe (PID 264) start..."]
+    e1["2019-08-19T14:40:11Z<br/>Core Windows service stack started: wininit.exe (384), se..."]
+    e2["2019-08-19T14:40:07Z<br/>Code injection observed: explorer.exe (PID 1944) holds RW..."]
+    e3["2019-08-19T14:40:07Z<br/>WmiPrvSE.exe (PID 2292) carries a 512KB RWX VAD at 0x1bd0..."]
+    e4["2019-08-19T14:40:11Z<br/>Active browser network sessions in memory: firefox.exe (P..."]
+    e0 --> e1 --> e2 --> e3 --> e4
+    classDef ev fill:#dbeafe,stroke:#1e40af,color:#0f172a;
+    class e0,e1,e2,e3,e4 ev;
 ```
 
 | Timestamp | Host | Event | Phase | Description |
