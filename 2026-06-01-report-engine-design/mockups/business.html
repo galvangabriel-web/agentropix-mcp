@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SRL-2018 — Tier 3: Business &amp; Risk Report</title>
+<style>
+  :root{
+    --bg:#16181d; --panel:#1c1f26; --panel2:#21252e; --ink:#e6e8ec; --muted:#9aa3b2;
+    --line:#2c313c; --accent:#e8612b; --accent2:#f0884f;
+    --crit:#e8612b; --high:#d9a441; --med:#5aa9e6; --low:#4ec98a;
+    --mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    font-size:15px;line-height:1.6;}
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 28px 80px;}
+  header.masthead{border-left:4px solid var(--accent);padding:6px 0 6px 18px;margin-bottom:8px;}
+  .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent2);}
+  h1{font-size:30px;line-height:1.2;margin:6px 0 4px;font-weight:700;}
+  h2{font-size:21px;margin:46px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line);}
+  h3{font-size:16px;margin:26px 0 8px;color:var(--accent2);font-family:var(--mono);}
+  .seclabel{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);display:block;margin-bottom:-6px;}
+  p{margin:10px 0;}
+  a{color:var(--accent2);text-decoration:none;border-bottom:1px dotted var(--accent2);}
+  code,.mono{font-family:var(--mono);font-size:.86em;background:var(--panel2);
+    padding:1px 5px;border-radius:3px;color:#cfd6e0;}
+  blockquote{margin:18px 0;padding:12px 16px;background:var(--panel);
+    border-left:3px solid var(--accent);color:var(--muted);font-size:14px;}
+  .lede{font-size:16px;color:var(--ink);}
+  .lede b{color:var(--accent2);}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  thead th{background:var(--panel2);font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);}
+  tbody tr:hover{background:#1f232b;}
+  .meta-table td:first-child{font-family:var(--mono);color:var(--muted);width:34%;white-space:nowrap;}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:4px 18px;margin:14px 0;}
+  /* exec stat grid */
+  .statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0;}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+    border-top:3px solid var(--accent);}
+  .stat .n{font-size:26px;font-weight:700;font-family:var(--mono);line-height:1;}
+  .stat .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:6px;}
+  /* badges */
+  .b{font-family:var(--mono);font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;
+    display:inline-block;letter-spacing:.04em;}
+  .b-crit{background:rgba(232,97,43,.16);color:var(--crit);border:1px solid var(--crit);}
+  .b-high{background:rgba(217,164,65,.14);color:var(--high);border:1px solid var(--high);}
+  .b-med{background:rgba(90,169,230,.14);color:var(--med);border:1px solid var(--med);}
+  .b-low{background:rgba(78,201,138,.14);color:var(--low);border:1px solid var(--low);}
+  .b-p0{background:var(--accent);color:#16181d;}
+  .b-p1{background:rgba(217,164,65,.18);color:var(--high);border:1px solid var(--high);}
+  .b-p2{background:rgba(90,169,230,.18);color:var(--med);border:1px solid var(--med);}
+  /* risk card */
+  .riskcard{background:var(--panel);border:1px solid var(--line);border-radius:8px;
+    padding:6px 18px 14px;margin:18px 0;border-left:4px solid var(--accent);}
+  .riskcard.high{border-left-color:var(--high);}
+  .riskcard h3{margin-top:14px;}
+  .riskcard table{margin:6px 0;}
+  .riskcard td:first-child{font-family:var(--mono);color:var(--muted);width:26%;white-space:nowrap;}
+  /* mitre grid */
+  .mitre{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:14px 0;}
+  .tech{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:8px 10px;}
+  .tech .id{font-family:var(--mono);color:var(--accent2);font-size:12px;font-weight:700;}
+  .tech .nm{font-size:12px;color:var(--ink);}
+  .tech .ph{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:3px;}
+  figure{margin:18px 0;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px;}
+  figcaption{font-family:var(--mono);font-size:11px;color:var(--muted);text-transform:uppercase;
+    letter-spacing:.1em;margin-bottom:10px;}
+  svg{max-width:100%;height:auto;display:block;}
+  .legend-pill{font-family:var(--mono);font-size:11px;color:var(--muted);}
+  footer{margin-top:60px;padding-top:18px;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:11px;color:var(--muted);}
+  hr{border:none;border-top:1px solid var(--line);margin:30px 0;}
+  .note{color:var(--muted);font-size:13px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <span class="kicker">agentropix-sift · multi-tier report engine · Tier 3 / Business-Risk · TEMPLATE MOCKUP</span>
+  <h1>Business / Risk Report — SRL-2018</h1>
+  <div class="legend-pill">Domain <code>shieldbase.lan</code> · Severity <span class="b b-crit">CRITICAL</span> · Dwell ~143 days</div>
+</header>
+
+<blockquote>
+  Governing design: <b>ADR-024</b> (Multi-Tier Report Generation Engine). This document is a
+  <i>projection</i> of the single canonical SRL-2018 finding set, not a re-authored narrative.
+  Every register row back-links to its analyst-tier finding by the analyst&apos;s real slug anchor (e.g. <code>F-01</code> → <code>analyst.md#dc-persistence</code>) so business and
+  technical tiers cannot drift.
+</blockquote>
+
+<table class="meta-table">
+  <tr><td>Case</td><td>SRL-2018</td></tr>
+  <tr><td>Report tier</td><td>3 — Business / Risk</td></tr>
+  <tr><td>Classification</td><td>Severity <b>CRITICAL</b></td></tr>
+  <tr><td>Domain</td><td><code>shieldbase.lan</code></td></tr>
+  <tr><td>Dwell time</td><td>~143 days (2018-03-14 → 2018-09-07)</td></tr>
+  <tr><td>Evidence base</td><td>7 disk images + 20 memory images (operator-supplied DFIR corpus)</td></tr>
+  <tr><td>Generated</td><td>2026-06-01 (mockup)</td></tr>
+  <tr><td>Source of truth</td><td><code>business.md</code> · <code>business.html</code> mirrors it</td></tr>
+</table>
+
+<h2><span class="seclabel">Orientation</span>How to read this report</h2>
+<p>This tier scores each finding on <b>two independent axes</b> that ADR-024 mandates be kept
+separate. Conflating them is a reporting error.</p>
+<div class="panel">
+  <p><b>Likelihood (FIRST 5-tier)</b> — estimative probability the risk event occurs / recurs
+  if unremediated: <span class="legend-pill">almost_certain &gt; highly_likely &gt; likely &gt; unlikely &gt; remote</span></p>
+  <p><b>Analytic confidence (LCA)</b> — trust in the <i>evidence &amp; reasoning</i>, independent of
+  likelihood: <span class="legend-pill">High · Moderate · Low</span></p>
+</div>
+<p class="note">A finding can be <i>highly likely</i> with only <i>Moderate</i> confidence.
+<b>Inherent risk</b> = Likelihood × Impact before controls. <b>Residual risk</b> = what remains
+after the recommended remediation. <b>Relative cost</b> = Low / Med / High effort + disruption.</p>
+
+<h2><span class="seclabel">Section 1</span>Executive risk posture</h2>
+<p class="lede">The SRL-2018 intrusion is a <b>fully realized domain compromise</b> with ~143 days
+of undetected dwell. An external actor entered through an internet-facing DMZ FTP host, established
+credential-theft and scheduled-task persistence on the domain controller, planted six backdoor
+local accounts, and stood up a Cobalt-Strike-class C2 beacon. <b>Domain trust integrity can no
+longer be assumed</b> — every Kerberos ticket, cached credential, and trust relationship in
+<code>shieldbase.lan</code> is potentially attacker-controlled until the krbtgt secret is rotated.</p>
+
+<figure>
+  <figcaption>Figure 1 — Risk matrix: Likelihood (FIRST) × Impact</figcaption>
+  <svg viewBox="0 0 720 460" role="img" aria-label="Risk matrix scatter of R1-R7 by likelihood and impact">
+    <!-- quadrant backgrounds -->
+    <rect x="60" y="30" width="320" height="190" fill="#21252e"/>
+    <rect x="380" y="30" width="300" height="190" fill="#2a1f1c"/>
+    <rect x="60" y="220" width="320" height="190" fill="#1c1f26"/>
+    <rect x="380" y="220" width="300" height="190" fill="#241f22"/>
+    <!-- grid -->
+    <line x1="60" y1="220" x2="680" y2="220" stroke="#2c313c"/>
+    <line x1="380" y1="30" x2="380" y2="410" stroke="#2c313c"/>
+    <rect x="60" y="30" width="620" height="380" fill="none" stroke="#2c313c"/>
+    <!-- quadrant labels -->
+    <text x="392" y="50" fill="#e8612b" font-family="monospace" font-size="12" font-weight="bold">ACT NOW (P0)</text>
+    <text x="72" y="50" fill="#9aa3b2" font-family="monospace" font-size="12">PLAN (P1)</text>
+    <text x="72" y="404" fill="#9aa3b2" font-family="monospace" font-size="12">MONITOR (P2)</text>
+    <text x="392" y="404" fill="#d9a441" font-family="monospace" font-size="12">URGENT-TACTICAL</text>
+    <!-- axes -->
+    <text x="370" y="445" fill="#9aa3b2" font-family="monospace" font-size="11" text-anchor="middle">Likelihood (FIRST) →</text>
+    <text x="22" y="220" fill="#9aa3b2" font-family="monospace" font-size="11" text-anchor="middle" transform="rotate(-90 22 220)">Impact →</text>
+    <!-- points: x maps likelihood 0..1 over 60..680 ; y maps impact 0..1 over 410..30 -->
+    <!-- R1 0.93,0.97 -->
+    <circle cx="637" cy="41" r="9" fill="#e8612b"/><text x="650" y="45" fill="#e6e8ec" font-family="monospace" font-size="11">R1</text>
+    <!-- R2 0.90,0.85 -->
+    <circle cx="618" cy="86" r="9" fill="#e8612b"/><text x="631" y="90" fill="#e6e8ec" font-family="monospace" font-size="11">R2</text>
+    <!-- R4 0.72,0.90 -->
+    <circle cx="506" cy="68" r="9" fill="#e8612b"/><text x="519" y="72" fill="#e6e8ec" font-family="monospace" font-size="11">R4</text>
+    <!-- R3 0.88,0.80 -->
+    <circle cx="606" cy="106" r="9" fill="#d9a441"/><text x="619" y="110" fill="#e6e8ec" font-family="monospace" font-size="11">R3</text>
+    <!-- R5 0.85,0.78 -->
+    <circle cx="587" cy="114" r="9" fill="#d9a441"/><text x="600" y="118" fill="#e6e8ec" font-family="monospace" font-size="11">R5</text>
+    <!-- R6 0.80,0.70 -->
+    <circle cx="556" cy="144" r="9" fill="#d9a441"/><text x="569" y="148" fill="#e6e8ec" font-family="monospace" font-size="11">R6</text>
+    <!-- R7 0.78,0.45 -->
+    <circle cx="544" cy="259" r="9" fill="#5aa9e6"/><text x="557" y="263" fill="#e6e8ec" font-family="monospace" font-size="11">R7</text>
+  </svg>
+</figure>
+
+<h3>Risk posture at a glance</h3>
+<div class="statgrid">
+  <div class="stat"><div class="n">7</div><div class="l">Open risks scored</div></div>
+  <div class="stat"><div class="n">3</div><div class="l">Inherent = Critical (R1,R2,R4)</div></div>
+  <div class="stat"><div class="n">3</div><div class="l">Inherent = High (R3,R5,R6)</div></div>
+  <div class="stat"><div class="n">2</div><div class="l">P0 remediations</div></div>
+  <div class="stat"><div class="n">6</div><div class="l">Hosts compromised</div></div>
+  <div class="stat"><div class="n">10</div><div class="l">MITRE techniques</div></div>
+  <div class="stat"><div class="n">Low–Med</div><div class="l">Residual after full plan</div></div>
+</div>
+
+<h2><span class="seclabel">Risk Register</span>Risk Register</h2>
+<p class="note"><b>This is the emitter's actual output:</b> a single 8-column table — one <code>RiskItem</code> row per finding, sorted by risk score descending, each back-anchored to its analyst finding (no-drift). Score = likelihood_weight × severity_impact_weight (0..25). The per-risk detail cards that follow are <b>enrichment</b> over these same rows.</p>
+<table>
+  <thead><tr><th>Risk</th><th>Likelihood</th><th>Severity</th><th>Score</th><th>Business impact</th><th>Compliance</th><th>Owner</th><th>Analyst ref</th></tr></thead>
+  <tbody>
+    <tr><td>Domain controller fully compromised — bi-daily service persistence + terminal C2 (base-dc)</td><td class="mono">highly_likely</td><td class="mono">critical</td><td class="mono">20</td><td>Catastrophic: control of the DC is control of every domain identity; trust in all credentials is void until a krbtgt double-reset completes.</td><td>NIST 800-53 AC-2/IA-5, ISO 27001 A.5.17, PCI-DSS 8.3, GDPR Art.32</td><td>Identity / AD</td><td><a href="analyst.md#dc-persistence">F-01</a></td></tr>
+    <tr><td>Pass-the-hash domain traversal across the DMZ→internal boundary</td><td class="mono">highly_likely</td><td class="mono">critical</td><td class="mono">20</td><td>Catastrophic for identity: any replayed credential is a standing re-entry key; the flat DMZ→internal trust converts one FTP foothold into domain compromise.</td><td>NIST 800-53 IA-5/SC-7, ISO 27001 A.5.17/A.8.22, PCI-DSS 1.3/8.3.1</td><td>Identity / Network</td><td><a href="analyst.md#pass-the-hash">F-02</a></td></tr>
+    <tr><td>Active C2 channel live at the edge of collection (36s jitter-free beacon)</td><td class="mono">highly_likely</td><td class="mono">critical</td><td class="mono">20</td><td>High: an active operator held a live channel out of the network at containment; unconfirmed exfil keeps a disclosure-liability tail.</td><td>GDPR Art.33/34, NIS2, PCI-DSS 10.x</td><td>SOC + Legal/DPO</td><td><a href="analyst.md#c2-beacon">F-03</a></td></tr>
+    <tr><td>Six persistent backdoor local accounts on dmz-ftp</td><td class="mono">highly_likely</td><td class="mono">high</td><td class="mono">16</td><td>High: standing re-entry vector that survives credential resets; must be removed before any all-clear.</td><td>NIST 800-53 AC-2, ISO 27001 A.5.16, PCI-DSS 8.1.3</td><td>DMZ / infra ops</td><td><a href="analyst.md#backdoor-accounts">F-04</a></td></tr>
+    <tr><td>Scheduled-task / service persistence on the DC (3 rotations)</td><td class="mono">highly_likely</td><td class="mono">high</td><td class="mono">16</td><td>High: durable re-entry independent of the C2 beacon; presence beyond base-dc inferred, not yet enumerated.</td><td>NIST 800-53 SI-4, ISO 27001 A.8.16</td><td>SOC / threat hunt</td><td><a href="analyst.md#sched-task-persistence">F-05</a></td></tr>
+    <tr><td>Credential harvesting in DC memory (findstr against credential stores)</td><td class="mono">likely</td><td class="mono">high</td><td class="mono">12</td><td>High: any secret recovered from the DC is a re-entry key; folds into the estate-wide credential rotation.</td><td>NIST 800-53 IA-5, ISO 27001 A.5.17, PCI-DSS 8.3.1</td><td>Identity / endpoint</td><td><a href="analyst.md#cred-harvest">F-06</a></td></tr>
+    <tr><td>Host / process reconnaissance on the DC (tasklist)</td><td class="mono">likely</td><td class="mono">medium</td><td class="mono">9</td><td>Medium: deliberate target selection on the DC raises credibility of follow-on actions.</td><td>NIST 800-53 SI-4, ISO 27001 A.8.16</td><td>SOC engineering</td><td><a href="analyst.md#process-recon">F-07</a></td></tr>
+    <tr><td>Defense evasion — event-log manipulation alongside DKOM unlinking</td><td class="mono">likely</td><td class="mono">medium</td><td class="mono">9</td><td>Medium: degrades timeline completeness and inflates analytic uncertainty across the case.</td><td>NIST 800-53 AU-9, ISO 27001 A.8.15</td><td>SOC engineering</td><td><a href="analyst.md#defense-evasion">F-08</a></td></tr>
+    <tr><td>Detection / audit-visibility gap — no EID 4688 command-line auditing</td><td class="mono">likely</td><td class="mono">medium</td><td class="mono">9</td><td>Medium: slow detection multiplies every other finding's blast radius; highest-leverage detective control to add.</td><td>NIST 800-53 AU-2/AU-12/SI-4, ISO 27001 A.8.15/A.8.16, PCI-DSS 10.x</td><td>SOC engineering</td><td><a href="analyst.md#audit-gap">F-09</a></td></tr>
+  </tbody>
+</table>
+
+<h2><span class="seclabel">Section 2 (enrichment)</span>Per-risk detail cards</h2>
+<p class="note">Beyond the emitter's single table, each register row is expanded here with inherent/residual bands, MITRE mapping, remediation, and cost. The <code>§A-N</code> shorthand denotes analyst finding <b>F-0N</b>; every card back-anchors to a real analyst finding ID (no synthesized risks).</p>
+
+<div class="riskcard">
+  <h3>R1 — Domain trust integrity compromised (krbtgt / DC persistence)</h3>
+  <table>
+    <tr><td>Anchor</td><td><code>§A-1</code> → F-01 (DC persistence, <code>analyst.md#dc-persistence</code>), <code>§A-2</code> → F-02 (PtH clusters, <code>analyst.md#pass-the-hash</code>)</td></tr>
+    <tr><td>Likelihood</td><td><b>highly_likely</b> (&gt;90%) — DC-level persistence held ~4 months</td></tr>
+    <tr><td>Confidence</td><td><b>High</b> — bi-daily EID 7045 on <code>base-dc</code> 2018-05-04…09-06, 3 schedule rotations</td></tr>
+    <tr><td>Impact</td><td><span class="b b-crit">Critical</span> — golden-ticket capability; all identities suspect</td></tr>
+    <tr><td>Inherent risk</td><td><span class="b b-crit">CRITICAL</span></td></tr>
+    <tr><td>MITRE</td><td>T1053.005, T1543.003, T1550.002</td></tr>
+    <tr><td>Compliance</td><td>NIST AC-2/IA-5; ISO A.5.17/A.8.5; PCI 8.3; GDPR Art.32</td></tr>
+    <tr><td>Remediation</td><td><span class="b b-p0">P0</span> krbtgt <b>double-reset</b>; reset privileged + service passwords; invalidate TGTs</td></tr>
+    <tr><td>Owner / Cost</td><td>Identity/AD · <b>Med</b></td></tr>
+    <tr><td>Residual</td><td><span class="b b-low">Low</span> after double-reset + ticket reissue</td></tr>
+  </table>
+</div>
+
+<div class="riskcard">
+  <h3>R2 — Persistent backdoor access via rogue local accounts</h3>
+  <table>
+    <tr><td>Anchor</td><td><code>§A-4</code> → F-04 (6 backdoor accounts on <code>dmz-ftp</code>, <code>analyst.md#backdoor-accounts</code>)</td></tr>
+    <tr><td>Likelihood</td><td><b>highly_likely</b> (&gt;90%) — accounts exist now; usable until removed</td></tr>
+    <tr><td>Confidence</td><td><b>High</b> — EID 4720 (create) + 4728 (group add) across 4 dates</td></tr>
+    <tr><td>Impact</td><td><span class="b b-high">High</span> — re-entry surviving credential resets</td></tr>
+    <tr><td>Inherent risk</td><td><span class="b b-crit">CRITICAL</span></td></tr>
+    <tr><td>MITRE</td><td>T1136.001</td></tr>
+    <tr><td>Compliance</td><td>NIST AC-2; ISO A.5.16; PCI 8.1.3</td></tr>
+    <tr><td>Remediation</td><td><span class="b b-p0">P0</span> remove all 6 accounts on <code>dmz-ftp</code>; audit groups; rebuild if integrity unprovable</td></tr>
+    <tr><td>Owner / Cost</td><td>DMZ ops · <b>Low</b> (Med if rebuild)</td></tr>
+    <tr><td>Residual</td><td><span class="b b-low">Low</span> after removal + group audit</td></tr>
+  </table>
+</div>
+
+<div class="riskcard high">
+  <h3>R3 — Re-persistence via hidden scheduled tasks</h3>
+  <table>
+    <tr><td>Anchor</td><td><code>§A-5</code> → F-05 (3 schedule rotations, bi-daily, <code>analyst.md#sched-task-persistence</code>)</td></tr>
+    <tr><td>Likelihood</td><td><b>Likely</b> (60–90%) — rotated 3×, may exist beyond <code>base-dc</code></td></tr>
+    <tr><td>Confidence</td><td><b>Moderate</b> — DC cadence firm; other-host presence inferred</td></tr>
+    <tr><td>Impact</td><td><span class="b b-high">High</span> — undetected re-entry / re-beaconing</td></tr>
+    <tr><td>Inherent risk</td><td><span class="b b-high">HIGH</span></td></tr>
+    <tr><td>MITRE</td><td>T1053.005</td></tr>
+    <tr><td>Compliance</td><td>NIST SI-4; ISO A.8.16</td></tr>
+    <tr><td>Remediation</td><td><span class="b b-p1">P1</span> fleet-wide task hunt; baseline + alert on EID 4698/7045</td></tr>
+    <tr><td>Owner / Cost</td><td>SOC/hunt · <b>Med</b></td></tr>
+    <tr><td>Residual</td><td><span class="b b-med">Medium</span> — task abuse remains a living technique</td></tr>
+  </table>
+</div>
+
+<div class="riskcard">
+  <h3>R4 — Active C2 / data-exfiltration channel</h3>
+  <table>
+    <tr><td>Anchor</td><td><code>§A-3</code> → F-03 (36-sec jitter-free beacon, two waves, last 2018-09-07 21:23:15Z, <code>analyst.md#c2-beacon</code>)</td></tr>
+    <tr><td>Likelihood</td><td><b>Likely</b> (60–90%) — beacon live at containment; exfil over 143 days probable</td></tr>
+    <tr><td>Confidence</td><td><b>High</b> for beacon (36s cadence = automation); <b>Moderate</b> for exfil volume (no payload sizing)</td></tr>
+    <tr><td>Impact</td><td><span class="b b-crit">Critical</span> — potential confidentiality loss across estate</td></tr>
+    <tr><td>Inherent risk</td><td><span class="b b-crit">CRITICAL</span></td></tr>
+    <tr><td>MITRE</td><td>T1071, T1070.001</td></tr>
+    <tr><td>Compliance</td><td>GDPR Art.33/34; NIS2; PCI 10.x; breach-disclosure statutes</td></tr>
+    <tr><td>Remediation</td><td><span class="b b-p1">P1</span> block C2 egress; preserve PCAP/netflow; <b>trigger breach-notification assessment</b></td></tr>
+    <tr><td>Owner / Cost</td><td>SOC + Legal/DPO · <b>Med</b></td></tr>
+    <tr><td>Residual</td><td><span class="b b-med">Medium</span> — channel killed, unconfirmed exfil keeps a liability tail</td></tr>
+  </table>
+</div>
+
+<div class="riskcard high">
+  <h3>R5 — Credential harvesting &amp; lateral reuse (Pass-the-Hash)</h3>
+  <table>
+    <tr><td>Anchor</td><td><code>§A-2</code> → F-02 (4648+4672 sub-100ms PtH clusters, <code>analyst.md#pass-the-hash</code>), <code>§A-6</code> → F-06 (memory: findstr cred-harvest, <code>analyst.md#cred-harvest</code>)</td></tr>
+    <tr><td>Likelihood</td><td><b>highly_likely</b> (&gt;90%) — harvesting + PtH already executed</td></tr>
+    <tr><td>Confidence</td><td><b>High</b> — sub-100ms clusters from <code>MICROSO-8N79483</code> &amp; <code>base-ftp</code>; 2 findstr.exe in DC memory</td></tr>
+    <tr><td>Impact</td><td><span class="b b-high">High</span> — any harvested credential is a standing re-entry key</td></tr>
+    <tr><td>Inherent risk</td><td><span class="b b-high">HIGH</span></td></tr>
+    <tr><td>MITRE</td><td>T1550.002, T1552.001</td></tr>
+    <tr><td>Compliance</td><td>NIST IA-5; ISO A.5.17; PCI 8.3.1</td></tr>
+    <tr><td>Remediation</td><td><span class="b b-p0">P0</span> (folded into R1) estate-wide rotation; Credential Guard / LSASS protection</td></tr>
+    <tr><td>Owner / Cost</td><td>Identity/EP · <b>Med</b></td></tr>
+    <tr><td>Residual</td><td><span class="b b-low">Low</span> after rotation + LSASS hardening</td></tr>
+  </table>
+</div>
+
+<div class="riskcard high">
+  <h3>R6 — DMZ-to-internal lateral path (flat trust)</h3>
+  <table>
+    <tr><td>Anchor</td><td><code>§A-2</code> → F-02 (PtH traversal across the DMZ→internal boundary via PsExec/Impacket EID 7045 bursts to <code>base-dc</code>/<code>base-rd-01</code>/<code>pdo-win2016</code>, <code>analyst.md#pass-the-hash</code>)</td></tr>
+    <tr><td>Likelihood</td><td><b>Likely</b> (60–90%) — path is architectural; reopens for next intruder</td></tr>
+    <tr><td>Confidence</td><td><b>High</b> — service-install bursts trace exact DMZ→internal hops</td></tr>
+    <tr><td>Impact</td><td><span class="b b-high">High</span> — one DMZ foothold reaches crown jewels</td></tr>
+    <tr><td>Inherent risk</td><td><span class="b b-high">HIGH</span></td></tr>
+    <tr><td>MITRE</td><td>T1021.002, T1190</td></tr>
+    <tr><td>Compliance</td><td>NIST SC-7; ISO A.8.22; PCI 1.3</td></tr>
+    <tr><td>Remediation</td><td><span class="b b-p2">P2</span> segment DMZ→internal auth; deny SMB/admin-share from DMZ; tiered-admin</td></tr>
+    <tr><td>Owner / Cost</td><td>Network · <b>High</b></td></tr>
+    <tr><td>Residual</td><td><span class="b b-low">Low–Medium</span> after segmentation</td></tr>
+  </table>
+</div>
+
+<div class="riskcard high">
+  <h3>R7 — Detection / audit-visibility gap</h3>
+  <table>
+    <tr><td>Anchor</td><td><code>§A-9</code> → F-09 (detection/audit-visibility gap: no EID 4688 cmdline auditing, cleared Security logs T1070.001, <code>analyst.md#audit-gap</code>)</td></tr>
+    <tr><td>Likelihood</td><td><b>Likely</b> (60–90%) — gap persists until tooling changes</td></tr>
+    <tr><td>Confidence</td><td><b>Moderate</b> — gap inferred from dwell + cleared logs, not a control test</td></tr>
+    <tr><td>Impact</td><td><span class="b b-med">Medium</span> — slow detection magnifies every other blast radius</td></tr>
+    <tr><td>Inherent risk</td><td><span class="b b-high">HIGH</span></td></tr>
+    <tr><td>MITRE</td><td>T1057, T1070.001</td></tr>
+    <tr><td>Compliance</td><td>NIST AU-2/AU-12/SI-4; ISO A.8.15/A.8.16; PCI 10.x</td></tr>
+    <tr><td>Remediation</td><td><span class="b b-p1">P1</span> EID 4688 cmdline auditing; tamper-evident SIEM; beacon-cadence analytics</td></tr>
+    <tr><td>Owner / Cost</td><td>SOC eng · <b>Low</b></td></tr>
+    <tr><td>Residual</td><td><span class="b b-low">Low</span> after cmdline auditing + off-host retention</td></tr>
+  </table>
+</div>
+
+<h2><span class="seclabel">Section 3 · enrichment</span>Risk-matrix summary table</h2>
+<table>
+  <thead><tr>
+    <th>ID</th><th>Risk</th><th>Likelihood</th><th>Confidence</th><th>Impact</th>
+    <th>Inherent</th><th>Pri</th><th>Owner</th><th>Cost</th><th>Residual</th>
+  </tr></thead>
+  <tbody>
+    <tr><td><b>R1</b></td><td>Domain trust (krbtgt/DC)</td><td>highly_likely</td><td>High</td><td><span class="b b-crit">Critical</span></td><td><span class="b b-crit">CRITICAL</span></td><td><span class="b b-p0">P0</span></td><td>Identity/AD</td><td>Med</td><td><span class="b b-low">Low</span></td></tr>
+    <tr><td><b>R2</b></td><td>Backdoor accounts</td><td>highly_likely</td><td>High</td><td><span class="b b-high">High</span></td><td><span class="b b-crit">CRITICAL</span></td><td><span class="b b-p0">P0</span></td><td>DMZ ops</td><td>Low</td><td><span class="b b-low">Low</span></td></tr>
+    <tr><td><b>R3</b></td><td>Sched-task re-persist</td><td>Likely</td><td>Moderate</td><td><span class="b b-high">High</span></td><td><span class="b b-high">HIGH</span></td><td><span class="b b-p1">P1</span></td><td>SOC/hunt</td><td>Med</td><td><span class="b b-med">Medium</span></td></tr>
+    <tr><td><b>R4</b></td><td>C2 / exfil channel</td><td>Likely</td><td>High*</td><td><span class="b b-crit">Critical</span></td><td><span class="b b-crit">CRITICAL</span></td><td><span class="b b-p1">P1</span></td><td>SOC+Legal</td><td>Med</td><td><span class="b b-med">Medium</span></td></tr>
+    <tr><td><b>R5</b></td><td>Cred harvest / PtH</td><td>highly_likely</td><td>High</td><td><span class="b b-high">High</span></td><td><span class="b b-high">HIGH</span></td><td><span class="b b-p0">P0</span></td><td>Identity/EP</td><td>Med</td><td><span class="b b-low">Low</span></td></tr>
+    <tr><td><b>R6</b></td><td>DMZ→internal path</td><td>Likely</td><td>High</td><td><span class="b b-high">High</span></td><td><span class="b b-high">HIGH</span></td><td><span class="b b-p2">P2</span></td><td>Network</td><td>High</td><td><span class="b b-low">Low–Med</span></td></tr>
+    <tr><td><b>R7</b></td><td>Detection / audit gap</td><td>Likely</td><td>Moderate</td><td><span class="b b-med">Medium</span></td><td><span class="b b-high">HIGH</span></td><td><span class="b b-p1">P1</span></td><td>SOC eng</td><td>Low</td><td><span class="b b-low">Low</span></td></tr>
+  </tbody>
+</table>
+<p class="note">* R4 confidence is <b>High</b> for beacon existence, <b>Moderate</b> for exfil volume — see R4 detail.</p>
+
+<h2><span class="seclabel">Section 4 · enrichment</span>Remediation roadmap</h2>
+<figure>
+  <figcaption>Figure 2 — Remediation roadmap (relative, post-containment)</figcaption>
+  <svg viewBox="0 0 720 300" role="img" aria-label="Gantt-style remediation roadmap">
+    <!-- timeline axis -->
+    <line x1="250" y1="30" x2="700" y2="30" stroke="#2c313c"/>
+    <text x="250" y="22" fill="#9aa3b2" font-family="monospace" font-size="10">Jun-02</text>
+    <text x="400" y="22" fill="#9aa3b2" font-family="monospace" font-size="10">Jun-06</text>
+    <text x="550" y="22" fill="#9aa3b2" font-family="monospace" font-size="10">Jun-10</text>
+    <text x="660" y="22" fill="#9aa3b2" font-family="monospace" font-size="10">Jun-24</text>
+    <!-- P0 -->
+    <text x="10" y="64" fill="#e8612b" font-family="monospace" font-size="11" font-weight="bold">P0 ERADICATE</text>
+    <rect x="250" y="52" width="90" height="16" rx="3" fill="#e8612b"/><text x="14" y="64" fill="#e8612b" opacity="0"></text>
+    <text x="250" y="48" fill="#cfd6e0" font-family="monospace" font-size="10">krbtgt + priv reset (R1,R5)</text>
+    <rect x="250" y="78" width="34" height="16" rx="3" fill="#e8612b"/>
+    <text x="250" y="106" fill="#cfd6e0" font-family="monospace" font-size="10">remove backdoor accts (R2)</text>
+    <!-- P1 -->
+    <text x="10" y="146" fill="#d9a441" font-family="monospace" font-size="11" font-weight="bold">P1 HUNT</text>
+    <rect x="290" y="134" width="110" height="16" rx="3" fill="#d9a441"/>
+    <text x="290" y="130" fill="#cfd6e0" font-family="monospace" font-size="10">block C2 + exfil scope (R4)</text>
+    <rect x="320" y="160" width="130" height="16" rx="3" fill="#d9a441"/>
+    <text x="320" y="190" fill="#cfd6e0" font-family="monospace" font-size="10">sched-task hunt (R3)</text>
+    <rect x="350" y="200" width="110" height="16" rx="3" fill="#d9a441"/>
+    <text x="350" y="230" fill="#cfd6e0" font-family="monospace" font-size="10">EID 4688 + SIEM (R7)</text>
+    <!-- P2 -->
+    <text x="10" y="268" fill="#5aa9e6" font-family="monospace" font-size="11" font-weight="bold">P2 ARCHITECT</text>
+    <rect x="500" y="256" width="180" height="16" rx="3" fill="#5aa9e6"/>
+    <text x="500" y="252" fill="#cfd6e0" font-family="monospace" font-size="10">DMZ→internal segmentation (R6)</text>
+  </svg>
+</figure>
+
+<table>
+  <thead><tr><th>Phase</th><th>Risks closed</th><th>Outcome</th></tr></thead>
+  <tbody>
+    <tr><td><span class="b b-p0">P0 Eradicate</span></td><td>R1, R2, R5</td><td>Domain trust restored; standing re-entry vectors removed</td></tr>
+    <tr><td><span class="b b-p1">P1 Hunt &amp; contain</span></td><td>R3, R4, R7</td><td>Active channels killed; detection gap closed; breach clock assessed</td></tr>
+    <tr><td><span class="b b-p2">P2 Architect</span></td><td>R6</td><td>Structural lateral path removed; recurrence likelihood drops</td></tr>
+  </tbody>
+</table>
+<blockquote><b>Sequencing rationale:</b> R1 (krbtgt) is gated first — every downstream reset is void
+if the actor still holds golden-ticket capability. R2 runs in parallel (independent host). R4's
+egress block is fast, but its legal/breach-notification track is the longest pole and starts day 1.</blockquote>
+
+<h2><span class="seclabel">Section 5 · enrichment</span>Compliance &amp; regulatory mapping</h2>
+<table>
+  <thead><tr><th>Framework</th><th>Touched by</th><th>Business consequence if unremediated</th></tr></thead>
+  <tbody>
+    <tr><td><b>GDPR</b> (Art.32/33/34)</td><td>R1, R4, R5</td><td>Integrity-of-processing failure; <b>72h breach-notification clock</b> if exfil confirmed</td></tr>
+    <tr><td><b>NIS2</b></td><td>R4, R6, R7</td><td>Significant-incident reporting; essential-entity obligations</td></tr>
+    <tr><td><b>PCI-DSS</b> (1.3, 8.x, 10.x)</td><td>R2, R5, R6, R7</td><td>DMZ-segmentation + access-control + logging control failures</td></tr>
+    <tr><td><b>ISO 27001:2022</b> (A.5.16/17, A.8.x)</td><td>R1–R7</td><td>Access, crypto, logging, network-security control gaps</td></tr>
+    <tr><td><b>NIST 800-53</b> (AC,IA,SC,AU,SI)</td><td>R1–R7</td><td>Each technical control gap mapped to a named control family</td></tr>
+  </tbody>
+</table>
+<blockquote><b>Legal/DPO action (R4):</b> confirm or rule out exfiltration <i>before</i> the
+notification-window assumption hardens. Absence of captured payload sizing is an evidence gap,
+<b>not</b> evidence of no exfiltration.</blockquote>
+
+<h2><span class="seclabel">Section 6 · enrichment</span>Strategic recommendations</h2>
+<div class="panel">
+<ol>
+  <li><b>Treat the domain as compromised, not the host.</b> Sequence around krbtgt rotation and
+  estate-wide credential reset (R1/R5), not single-server cleanup.</li>
+  <li><b>Close the 143-day detection gap as a program, not a patch (R7).</b> Cmdline auditing +
+  tamper-evident off-host logging + beacon-cadence analytics would have surfaced a 36-second
+  jitter-free beacon in hours.</li>
+  <li><b>Retire the flat DMZ→internal trust (R6).</b> Highest-leverage architectural change:
+  converts "one FTP foothold = domain compromise" into "one FTP foothold = one contained host."</li>
+  <li><b>Stand up the breach-notification track on day one (R4).</b> The regulatory clock, not
+  technical eradication, is the dominant business-liability driver.</li>
+  <li><b>Adopt this tiered report cadence.</b> Pair with Executive and Analyst tiers so leadership
+  decisions and technical evidence stay provably linked (ADR-024).</li>
+</ol>
+</div>
+
+<h2><span class="seclabel">Appendix A</span>MITRE ATT&amp;CK coverage (business view)</h2>
+<div class="mitre">
+  <div class="tech"><div class="id">T1190</div><div class="nm">Exploit Public-Facing App</div><div class="ph">Initial Access · R6</div></div>
+  <div class="tech"><div class="id">T1550.002</div><div class="nm">Pass-the-Hash</div><div class="ph">Lateral/Cred · R1,R5</div></div>
+  <div class="tech"><div class="id">T1021.002</div><div class="nm">SMB / Admin Shares</div><div class="ph">Lateral · R6</div></div>
+  <div class="tech"><div class="id">T1543.003</div><div class="nm">Windows Service</div><div class="ph">Persistence · R1</div></div>
+  <div class="tech"><div class="id">T1053.005</div><div class="nm">Scheduled Task/Job</div><div class="ph">Persistence · R1,R3</div></div>
+  <div class="tech"><div class="id">T1136.001</div><div class="nm">Create Local Account</div><div class="ph">Persistence · R2</div></div>
+  <div class="tech"><div class="id">T1071</div><div class="nm">App-Layer Protocol (C2)</div><div class="ph">C2 · R4</div></div>
+  <div class="tech"><div class="id">T1070.001</div><div class="nm">Indicator Removal</div><div class="ph">Defense Evasion · R4,R7</div></div>
+  <div class="tech"><div class="id">T1057</div><div class="nm">Process Discovery</div><div class="ph">Discovery · R7</div></div>
+  <div class="tech"><div class="id">T1552.001</div><div class="nm">Credentials in Files</div><div class="ph">Cred Access · R5</div></div>
+</div>
+
+<h2><span class="seclabel">Appendix B</span>Confidence &amp; likelihood legend</h2>
+<table>
+  <tbody>
+    <tr><td><b>Likelihood — FIRST 5-tier</b></td><td class="mono">almost_certain (5) · highly_likely (4) · likely (3) · unlikely (2) · remote (1)</td></tr>
+    <tr><td><b>Analytic confidence — LCA</b></td><td>High · Moderate · Low</td></tr>
+  </tbody>
+</table>
+<p class="note">These axes are <b>independent</b> (ADR-024 §Provenance/confidence) and are never
+collapsed into a single score.</p>
+
+<h2><span class="seclabel">Appendix C</span>Provenance &amp; chain-of-custody</h2>
+<table class="meta-table">
+  <tr><td>Source dataset</td><td>SRL-2018 (7 disk + 20 memory images)</td></tr>
+  <tr><td>Canonical JSON</td><td><code>report.generate(case_id="SRL-2018").sections</code></td></tr>
+  <tr><td>Approval gate</td><td>APPROVED findings only (EvidenceGate)</td></tr>
+  <tr><td>Seal</td><td><code>courtroom.seal_report()</code> HMAC-SHA256 (ADR-016) — <i>placeholder in mockup</i></td></tr>
+  <tr><td>Examiner ID</td><td><code>&lt;examiner_id&gt;</code> <span class="note">(populated at seal time)</span></td></tr>
+  <tr><td>Seal hex</td><td><code>&lt;seal_hex&gt;</code> <span class="note">(populated at seal time)</span></td></tr>
+</table>
+
+<footer>
+  agentropix-sift · multi-tier report engine · Tier 3 (Business/Risk) · case SRL-2018 ·
+  TEMPLATE MOCKUP for operator review (templates-first gate, ADR-024) · source-of-truth: business.md ·
+  self-contained (no external assets)
+</footer>
+
+</div>
+</body>
+</html>

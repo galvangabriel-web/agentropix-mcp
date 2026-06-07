@@ -1,0 +1,68 @@
+{
+  "case_id": "MEMDUMP-RAW-2014",
+  "profile": "full",
+  "report_id": "f88af671285cb767c774789b8c5862126be94c157308a69dc72f236e90de971e",
+  "snapshot_at": "2026-06-07T01:35:39.033443+00:00",
+  "approved_finding_count": 1,
+  "sections": {
+    "executive_summary": {
+      "approved_finding_count": 1,
+      "top_tactics": [],
+      "top_hosts": [],
+      "severity_mix": [
+        {
+          "severity": "low",
+          "count": 1
+        }
+      ]
+    },
+    "findings": {
+      "approved_findings": [
+        {
+          "finding_id": "F-MEMDUMP-001",
+          "host": "memdump-raw-2014",
+          "title": "Raw 512 MiB memory image has no profile-matchable kernel symbol table (Volatility3 cannot validate kernel.layer_name/symbol_table_name); pslist/netscan/malfind/svcscan all return empty - unattributed 2014 capture, no injected/RWX code assessable",
+          "severity": "low",
+          "confidence": 0.9,
+          "mitre_attack": "",
+          "timestamp": "2026-06-06T00:00:00Z",
+          "evidence_refs": [
+            "evidence: /cases/memdump/memdump.mem sha256=d3b13f2224cab20440a4bb3c5c971662be6e61f431340f319cef7312bb6177f4 (512 MiB / 536870912 bytes), evidence_id=aa320ff2106af0ebd72e36342f537fc5672c8a94d95f9106fd2c87bf3db2a04f",
+            "Volatility3 2.28.0 get_pslist: process_count=11 (pid-0 'unknown' placeholders) - raw_stderr 'Unable to validate the plugin requirements: plugins.PsList.kernel.layer_name/symbol_table_name'",
+            "Volatility3 get_netscan: socket_count=0 - 'Unable to validate the plugin requirements: plugins.NetScan.kernel.layer_name/symbol_table_name'",
+            "Volatility3 get_malfind: hit_count=0 (no injected/RWX code assessable) - 'Unable to validate the plugin requirements: plugins.Malfind.kernel.layer_name/symbol_table_name'",
+            "Volatility3 get_svcscan: service_count=0 - 'Unable to validate the plugin requirements: plugins.SvcScan.kernel.layer_name/symbol_table_name'",
+            "build_process_tree: process_count=11, root_count=1, orphan_count=0, suspicious_count=0 (one 'unknown' root, 0 LOLBin flags)"
+          ],
+          "provenance": "MCP",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "case_id": "MEMDUMP-RAW-2014",
+          "@timestamp": "2026-06-07T01:23:01.988798+00:00",
+          "source_run_id": "a8e6beee",
+          "hmac_seal": "hmac-sha256:886603aa09077e2ed2a44fb138a150f8e11f6a15f06ba6c95a2daac0fba9ec07"
+        }
+      ],
+      "count": 1
+    },
+    "timeline": {
+      "approved_timeline_events": [],
+      "count": 0
+    },
+    "iocs": {
+      "iocs": [],
+      "count": 0,
+      "by_type": [],
+      "by_mitre_technique": []
+    }
+  },
+  "truncated": false,
+  "result_bytes": 2387,
+  "error": "",
+  "warning": ""
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SIFT Report — Analyst (CTF-CONTACT-ME-MEM)</title>
+<style>@page { size: A4; margin: 18mm; }
+body { font-family: sans-serif; line-height: 1.4; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #888; padding: 4px 6px; text-align: left; }
+pre, table, figure, .mermaid { break-inside: avoid; page-break-inside: avoid; }
+.pagebreak { break-before: page; }
+</style>
+</head>
+<body>
+<h1 id="analyst-technical-report-ctf-contact-me-mem">Analyst / Technical Report — CTF-CONTACT-ME-MEM</h1>
+<p><em>Report ID:</em> <code>65edb19d6a108c6036b55d1c3516abee06a99719e79417d9c6cbda7669c01166</code>  ·  <em>Snapshot:</em> 2026-06-07T01:33:07.469554+00:00</p>
+<blockquote>
+<p><strong>Likelihood scale (FIRST 5-tier):</strong> almost_certain &gt; highly_likely &gt; likely &gt; unlikely &gt; remote. Likelihood estimates the probability of the assessed activity; it is kept separate from analytic confidence.</p>
+<p><strong>Confidence (LCA):</strong> high / moderate / low — the analyst's confidence in the assessment given evidence quality and corroboration. Distinct from likelihood.</p>
+</blockquote>
+<h2 id="findings">Findings</h2>
+<p><a id="memory-image-unprofileable-volatility3-2-28-0-could-not-validate-a-windows-kernel-symbol-table-so-pslist-netscan-malfind-svcscan-returned-placeholder-empty-results-no-clean-or-compromised-determination-possible"></a></p>
+<h3 id="memory-image-unprofileable-volatility3-2280-could-not-validate-a-windows-kernel-symbol-table-so-pslistnetscanmalfindsvcscan-returned-placeholderempty-results-no-clean-or-compromised-determination-possible">Memory image unprofileable: Volatility3 2.28.0 could not validate a Windows kernel symbol table, so pslist/netscan/malfind/svcscan returned placeholder/empty results (no clean-or-compromised determination possible)</h3>
+<ul>
+<li><strong>Finding ID:</strong> <code>F-CONTACTME-001</code>  ·  <strong>Severity:</strong> medium  ·  <strong>Likelihood:</strong> unlikely  ·  <strong>Confidence:</strong> high  ·  <strong>Risk score:</strong> 6</li>
+</ul>
+<p><em>Evidence:</em> <code>evidence SHA-256 1ab5eb6c3b87a0604f75a00cb4a64d91aaf7ab4e303bb7337b40f7e3df8ad61a (/cases/contact_me/contact_me, 1073741824 bytes = 1 GiB)</code><br><code>get_pslist: process_count=11, all rows placeholder pid:0 name:'unknown'; raw_stderr 'Unable to validate the plugin requirements: [plugins.PsList.kernel.layer_name, plugins.PsList.kernel.symbol_table_name]'</code><br><code>get_netscan: socket_count=0 (volatility3.windows.netscan.NetScan), raw_stderr 'Unable to validate the plugin requirements: [plugins.NetScan.kernel.layer_name, plugins.NetScan.kernel.symbol_table_name]'</code><br><code>get_malfind: hit_count=0 (volatility3.windows.malfind.Malfind), raw_stderr 'Unable to validate the plugin requirements: [plugins.Malfind.kernel.layer_name, plugins.Malfind.kernel.symbol_table_name]'</code><br><code>get_svcscan: service_count=0 (volatility3.windows.svcscan.SvcScan); build_process_tree: process_count=11 root_count=1 single pid:0 'unknown' root, suspicious_count=0</code><br><code>run_volatility plugin=cmdline: error 'vol3 emitted non-JSON output: Expecting value: line 2 column 1 (char 1)'</code></p>
+<h2 id="indicators-of-compromise">Indicators of Compromise</h2>
+<p><em>No IOCs extracted.</em></p>
+<h2 id="timeline">Timeline</h2>
+<p><em>No approved timeline events.</em></p>
+</body>
+</html>

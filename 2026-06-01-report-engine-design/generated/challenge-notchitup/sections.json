@@ -1,0 +1,415 @@
+{
+  "executive_summary": {
+    "approved_finding_count": 5,
+    "top_tactics": [],
+    "top_hosts": [],
+    "severity_mix": [
+      {
+        "severity": "high",
+        "count": 2
+      },
+      {
+        "severity": "medium",
+        "count": 2
+      },
+      {
+        "severity": "info",
+        "count": 1
+      }
+    ]
+  },
+  "findings": {
+    "approved_findings": [
+      {
+        "finding_id": "F-NOTCH-001",
+        "host": "notch-it-up",
+        "title": "PAGE_EXECUTE_READWRITE injected region in explorer.exe (PID 1944)",
+        "severity": "high",
+        "confidence": 0.9,
+        "mitre_attack": "T1055",
+        "mitre_techniques": [
+          "T1055"
+        ],
+        "timestamp": "2019-08-19T14:40:07Z",
+        "description": "malfind flagged a 64KB PAGE_EXECUTE_READWRITE VAD at 0x4320000 in explorer.exe (PID 1944) carrying executable indirect-jump shellcode bytes (41 ba 80 00 00 00 48 b8 ... 48 ff 20). Classic code-injection signature.",
+        "iocs": [
+          {
+            "type": "process",
+            "value": "explorer.exe",
+            "mitre_techniques": [
+              "T1055"
+            ]
+          },
+          {
+            "type": "memory_region",
+            "value": "explorer.exe:PID1944:0x4320000:RWX",
+            "mitre_techniques": [
+              "T1055"
+            ]
+          }
+        ],
+        "evidence_refs": [
+          "windows.malfind: PID 1944 explorer.exe VAD 0x4320000 PAGE_EXECUTE_READWRITE 65536B (executable bytes 41 ba 80 00 00 00 48 b8 ...)",
+          "carved region payload_sha256 65196e1a65d8e4bfcf42f03b7db79cd07a2573f57c6aad40a97c37791726ca6f",
+          "source_evidence_sha256 80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23"
+        ],
+        "provenance": "MCP",
+        "approval": {
+          "status": "DRAFT",
+          "approver": null,
+          "approved_at": null,
+          "hmac_signature": null,
+          "prev_doc_hash": null
+        },
+        "case_id": "CHALLENGE-NOTCHITUP",
+        "@timestamp": "2026-06-07T01:25:46.796447+00:00",
+        "source_run_id": "3dee10c2",
+        "hmac_seal": "hmac-sha256:bbbe885b29ff07418442af3fdf784e3e366cbea20ce5459617608a50ed394500"
+      },
+      {
+        "finding_id": "F-NOTCH-002",
+        "host": "notch-it-up",
+        "title": "PAGE_EXECUTE_READWRITE zeroed RWX region in explorer.exe (PID 1944)",
+        "severity": "medium",
+        "confidence": 0.6,
+        "mitre_attack": "T1055",
+        "mitre_techniques": [
+          "T1055"
+        ],
+        "timestamp": "2019-08-19T14:40:07Z",
+        "description": "malfind flagged a second 4KB PAGE_EXECUTE_READWRITE VAD at 0x3ce0000 in explorer.exe (PID 1944), zeroed - a second RWX VAD in the same injected host process.",
+        "iocs": [
+          {
+            "type": "memory_region",
+            "value": "explorer.exe:PID1944:0x3ce0000:RWX",
+            "mitre_techniques": [
+              "T1055"
+            ]
+          }
+        ],
+        "evidence_refs": [
+          "windows.malfind: PID 1944 explorer.exe VAD 0x3ce0000 PAGE_EXECUTE_READWRITE 4096B (zeroed)",
+          "carved region payload_sha256 3da12179ac97a8fdcfbdfc5318ba0da46974e1c1ae648dc37e861a926e8563ca",
+          "source_evidence_sha256 80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23"
+        ],
+        "provenance": "MCP",
+        "approval": {
+          "status": "DRAFT",
+          "approver": null,
+          "approved_at": null,
+          "hmac_signature": null,
+          "prev_doc_hash": null
+        },
+        "case_id": "CHALLENGE-NOTCHITUP",
+        "@timestamp": "2026-06-07T01:25:47.964577+00:00",
+        "source_run_id": "87675539",
+        "hmac_seal": "hmac-sha256:6c1749e9807c2ede560d8151fd7ad96341dc29372322d2fb024841cdcfc09f30"
+      },
+      {
+        "finding_id": "F-NOTCH-003",
+        "host": "notch-it-up",
+        "title": "PAGE_EXECUTE_READWRITE RWX region in chrome.exe (PID 2124)",
+        "severity": "medium",
+        "confidence": 0.6,
+        "mitre_attack": "T1055",
+        "mitre_techniques": [
+          "T1055"
+        ],
+        "timestamp": "2019-08-19T14:40:07Z",
+        "description": "malfind flagged a 4KB PAGE_EXECUTE_READWRITE VAD at 0x4830000 in chrome.exe (PID 2124), zeroed.",
+        "iocs": [
+          {
+            "type": "memory_region",
+            "value": "chrome.exe:PID2124:0x4830000:RWX",
+            "mitre_techniques": [
+              "T1055"
+            ]
+          }
+        ],
+        "evidence_refs": [
+          "windows.malfind: PID 2124 chrome.exe VAD 0x4830000 PAGE_EXECUTE_READWRITE 4096B (zeroed)",
+          "carved region payload_sha256 3243bcc13c7c564288355046c5bc1123888837aeb8ada9ed5cf7800d9c462c1d",
+          "source_evidence_sha256 80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23"
+        ],
+        "provenance": "MCP",
+        "approval": {
+          "status": "DRAFT",
+          "approver": null,
+          "approved_at": null,
+          "hmac_signature": null,
+          "prev_doc_hash": null
+        },
+        "case_id": "CHALLENGE-NOTCHITUP",
+        "@timestamp": "2026-06-07T01:25:49.516720+00:00",
+        "source_run_id": "5d9034d7",
+        "hmac_seal": "hmac-sha256:16c7a4ea40d791634a3f2fda35fb8760343d85d412bc790000e0c3818f5eb4db"
+      },
+      {
+        "finding_id": "F-NOTCH-004",
+        "host": "notch-it-up",
+        "title": "Large PAGE_EXECUTE_READWRITE region in WmiPrvSE.exe (PID 2292)",
+        "severity": "high",
+        "confidence": 0.9,
+        "mitre_attack": "T1047",
+        "mitre_techniques": [
+          "T1047",
+          "T1055"
+        ],
+        "timestamp": "2019-08-19T14:40:07Z",
+        "description": "malfind flagged a 512KB PAGE_EXECUTE_READWRITE VAD at 0x1bd0000 in WmiPrvSE.exe (PID 2292) - WMI provider host carrying a large RWX region.",
+        "iocs": [
+          {
+            "type": "process",
+            "value": "WmiPrvSE.exe",
+            "mitre_techniques": [
+              "T1047",
+              "T1055"
+            ]
+          },
+          {
+            "type": "memory_region",
+            "value": "WmiPrvSE.exe:PID2292:0x1bd0000:RWX",
+            "mitre_techniques": [
+              "T1047",
+              "T1055"
+            ]
+          }
+        ],
+        "evidence_refs": [
+          "windows.malfind: PID 2292 WmiPrvSE.exe VAD 0x1bd0000 PAGE_EXECUTE_READWRITE 524288B (512KB)",
+          "carved region payload_sha256 75b4c5d8fc85525f97106ddf84197731942bb9acb2d992de50b8a4b7bcfad9a2",
+          "source_evidence_sha256 80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23"
+        ],
+        "provenance": "MCP",
+        "approval": {
+          "status": "DRAFT",
+          "approver": null,
+          "approved_at": null,
+          "hmac_signature": null,
+          "prev_doc_hash": null
+        },
+        "case_id": "CHALLENGE-NOTCHITUP",
+        "@timestamp": "2026-06-07T01:25:51.131092+00:00",
+        "source_run_id": "09ea803f",
+        "hmac_seal": "hmac-sha256:1907771e425d4e0b381a2571638d4f2cbf201dcb4086d51c68f2444b033c69c6"
+      },
+      {
+        "finding_id": "F-NOTCH-005",
+        "host": "notch-it-up",
+        "title": "Evidence image registered (chain-of-custody hash)",
+        "severity": "info",
+        "confidence": 0.9,
+        "mitre_attack": "",
+        "timestamp": "2026-06-06T22:27:26Z",
+        "description": "evidence_register computed the chain-of-custody SHA-256 for the 1.6GB raw memory image.",
+        "iocs": [
+          {
+            "type": "sha256",
+            "value": "80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23"
+          }
+        ],
+        "evidence_refs": [
+          "evidence_register: /cases/Challenge_NotchItUp/Challenge.raw sha256 80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23 size 1610547200 bytes",
+          "source_evidence_sha256 80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23"
+        ],
+        "provenance": "MCP",
+        "approval": {
+          "status": "DRAFT",
+          "approver": null,
+          "approved_at": null,
+          "hmac_signature": null,
+          "prev_doc_hash": null
+        },
+        "case_id": "CHALLENGE-NOTCHITUP",
+        "@timestamp": "2026-06-07T01:25:52.463286+00:00",
+        "source_run_id": "c1d05f9d",
+        "hmac_seal": "hmac-sha256:24963789b016f28fd1bad0b10db3cf9206bb13dfaff86333493940540401f5b0"
+      }
+    ],
+    "count": 5
+  },
+  "timeline": {
+    "approved_timeline_events": [
+      {
+        "event_id": "TL-NOTCH-001",
+        "timestamp": "2019-08-19T14:40:07Z",
+        "description": "System boot - System (PID 4) and smss.exe (PID 264) started; Windows x64 kernel symbols matched by Volatility3 (53 processes)",
+        "source": "windows.pslist",
+        "host": "notch-it-up",
+        "approval": {
+          "status": "DRAFT",
+          "approver": null,
+          "approved_at": null,
+          "hmac_signature": null,
+          "prev_doc_hash": null
+        },
+        "provenance": "MCP",
+        "case_id": "CHALLENGE-NOTCHITUP",
+        "@timestamp": "2026-06-07T00:57:31.804741+00:00"
+      },
+      {
+        "event_id": "TL-NOTCH-002",
+        "timestamp": "2019-08-19T14:40:11Z",
+        "description": "Core Windows service stack started: wininit.exe (384), services.exe (480), lsass.exe (496), svchost.exe (608), VBoxService.exe (668) - VirtualBox guest",
+        "source": "windows.pslist",
+        "host": "notch-it-up",
+        "approval": {
+          "status": "DRAFT",
+          "approver": null,
+          "approved_at": null,
+          "hmac_signature": null,
+          "prev_doc_hash": null
+        },
+        "provenance": "MCP",
+        "case_id": "CHALLENGE-NOTCHITUP",
+        "@timestamp": "2026-06-07T00:57:31.862588+00:00"
+      },
+      {
+        "event_id": "TL-NOTCH-003",
+        "timestamp": "2019-08-19T14:40:07Z",
+        "description": "Code injection observed: explorer.exe (PID 1944) holds RWX VAD at 0x4320000 with 64KB executable shellcode (41 ba ... 48 b8 ...) and a zeroed RWX VAD at 0x3ce0000",
+        "source": "windows.malfind",
+        "host": "notch-it-up",
+        "approval": {
+          "status": "DRAFT",
+          "approver": null,
+          "approved_at": null,
+          "hmac_signature": null,
+          "prev_doc_hash": null
+        },
+        "provenance": "MCP",
+        "case_id": "CHALLENGE-NOTCHITUP",
+        "@timestamp": "2026-06-07T00:57:31.890573+00:00"
+      },
+      {
+        "event_id": "TL-NOTCH-004",
+        "timestamp": "2019-08-19T14:40:07Z",
+        "description": "WmiPrvSE.exe (PID 2292) carries a 512KB RWX VAD at 0x1bd0000; chrome.exe (PID 2124) holds a 4KB RWX VAD at 0x4830000",
+        "source": "windows.malfind",
+        "host": "notch-it-up",
+        "approval": {
+          "status": "DRAFT",
+          "approver": null,
+          "approved_at": null,
+          "hmac_signature": null,
+          "prev_doc_hash": null
+        },
+        "provenance": "MCP",
+        "case_id": "CHALLENGE-NOTCHITUP",
+        "@timestamp": "2026-06-07T00:57:31.921131+00:00"
+      },
+      {
+        "event_id": "TL-NOTCH-005",
+        "timestamp": "2019-08-19T14:40:11Z",
+        "description": "Active browser network sessions in memory: firefox.exe (PID 2080) ESTABLISHED to Google ranges (172.217.160.131:80, 172.217.194.189:443) from guest 10.0.2.15; chrome.exe (PID 2124) UDP 5353 mDNS",
+        "source": "windows.netscan",
+        "host": "notch-it-up",
+        "approval": {
+          "status": "DRAFT",
+          "approver": null,
+          "approved_at": null,
+          "hmac_signature": null,
+          "prev_doc_hash": null
+        },
+        "provenance": "MCP",
+        "case_id": "CHALLENGE-NOTCHITUP",
+        "@timestamp": "2026-06-07T00:57:31.945658+00:00"
+      }
+    ],
+    "count": 5
+  },
+  "iocs": {
+    "iocs": [
+      {
+        "ioc_type": "memory_region",
+        "ioc_value": "explorer.exe:PID1944:0x4320000:RWX",
+        "mitre_techniques": [
+          "T1055"
+        ],
+        "finding_refs": [
+          "F-NOTCH-001"
+        ],
+        "case_id": "CHALLENGE-NOTCHITUP",
+        "@timestamp": "2026-06-07T01:00:06.564086+00:00",
+        "provenance": "MCP"
+      },
+      {
+        "ioc_type": "memory_region",
+        "ioc_value": "WmiPrvSE.exe:PID2292:0x1bd0000:RWX",
+        "mitre_techniques": [
+          "T1047",
+          "T1055"
+        ],
+        "finding_refs": [
+          "F-NOTCH-004"
+        ],
+        "case_id": "CHALLENGE-NOTCHITUP",
+        "@timestamp": "2026-06-07T01:00:06.587677+00:00",
+        "provenance": "MCP"
+      },
+      {
+        "ioc_type": "process",
+        "ioc_value": "explorer.exe",
+        "mitre_techniques": [
+          "T1055"
+        ],
+        "finding_refs": [
+          "F-NOTCH-001"
+        ],
+        "case_id": "CHALLENGE-NOTCHITUP",
+        "@timestamp": "2026-06-07T01:00:06.596919+00:00",
+        "provenance": "MCP"
+      },
+      {
+        "ioc_type": "process",
+        "ioc_value": "WmiPrvSE.exe",
+        "mitre_techniques": [
+          "T1047",
+          "T1055"
+        ],
+        "finding_refs": [
+          "F-NOTCH-004"
+        ],
+        "case_id": "CHALLENGE-NOTCHITUP",
+        "@timestamp": "2026-06-07T01:00:06.605912+00:00",
+        "provenance": "MCP"
+      },
+      {
+        "ioc_type": "sha256",
+        "ioc_value": "80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23",
+        "mitre_techniques": [],
+        "finding_refs": [
+          "F-NOTCH-005"
+        ],
+        "case_id": "CHALLENGE-NOTCHITUP",
+        "@timestamp": "2026-06-07T01:00:06.614981+00:00",
+        "provenance": "MCP"
+      }
+    ],
+    "count": 5,
+    "by_type": [
+      {
+        "ioc_type": "memory_region",
+        "count": 2
+      },
+      {
+        "ioc_type": "process",
+        "count": 2
+      },
+      {
+        "ioc_type": "sha256",
+        "count": 1
+      }
+    ],
+    "by_mitre_technique": [
+      {
+        "technique": "T1055",
+        "count": 4
+      },
+      {
+        "technique": "T1047",
+        "count": 2
+      }
+    ]
+  }
+}

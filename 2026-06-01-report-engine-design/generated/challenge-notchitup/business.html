@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SIFT Report — Business (CHALLENGE-NOTCHITUP)</title>
+<style>@page { size: A4; margin: 18mm; }
+body { font-family: sans-serif; line-height: 1.4; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #888; padding: 4px 6px; text-align: left; }
+pre, table, figure, .mermaid { break-inside: avoid; page-break-inside: avoid; }
+.pagebreak { break-before: page; }
+</style>
+</head>
+<body>
+<h1 id="business-risk-report-challenge-notchitup">Business / Risk Report — CHALLENGE-NOTCHITUP</h1>
+<blockquote>
+<p><strong>Likelihood scale (FIRST 5-tier):</strong> almost_certain &gt; highly_likely &gt; likely &gt; unlikely &gt; remote. Likelihood estimates the probability of the assessed activity; it is kept separate from analytic confidence.</p>
+<p><strong>Confidence (LCA):</strong> high / moderate / low — the analyst's confidence in the assessment given evidence quality and corroboration. Distinct from likelihood.</p>
+</blockquote>
+<h2 id="risk-register">Risk Register</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Likelihood</th>
+<th>Severity</th>
+<th>Score</th>
+<th>Business impact</th>
+<th>Compliance</th>
+<th>Owner</th>
+<th>Analyst ref</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Large PAGE_EXECUTE_READWRITE region in WmiPrvSE.exe (PID 2292)</td>
+<td>unlikely</td>
+<td>high</td>
+<td>8</td>
+<td>Large PAGE_EXECUTE_READWRITE region in WmiPrvSE.exe (PID 2292)</td>
+<td>—</td>
+<td>—</td>
+<td><a href="#large-page-execute-readwrite-region-in-wmiprvse-exe-pid-2292">F-NOTCH-004</a></td>
+</tr>
+<tr>
+<td>PAGE_EXECUTE_READWRITE injected region in explorer.exe (PID 1944)</td>
+<td>unlikely</td>
+<td>high</td>
+<td>8</td>
+<td>PAGE_EXECUTE_READWRITE injected region in explorer.exe (PID 1944)</td>
+<td>—</td>
+<td>—</td>
+<td><a href="#page-execute-readwrite-injected-region-in-explorer-exe-pid-1944">F-NOTCH-001</a></td>
+</tr>
+<tr>
+<td>PAGE_EXECUTE_READWRITE RWX region in chrome.exe (PID 2124)</td>
+<td>unlikely</td>
+<td>medium</td>
+<td>6</td>
+<td>PAGE_EXECUTE_READWRITE RWX region in chrome.exe (PID 2124)</td>
+<td>—</td>
+<td>—</td>
+<td><a href="#page-execute-readwrite-rwx-region-in-chrome-exe-pid-2124">F-NOTCH-003</a></td>
+</tr>
+<tr>
+<td>PAGE_EXECUTE_READWRITE zeroed RWX region in explorer.exe (PID 1944)</td>
+<td>unlikely</td>
+<td>medium</td>
+<td>6</td>
+<td>PAGE_EXECUTE_READWRITE zeroed RWX region in explorer.exe (PID 1944)</td>
+<td>—</td>
+<td>—</td>
+<td><a href="#page-execute-readwrite-zeroed-rwx-region-in-explorer-exe-pid-1944">F-NOTCH-002</a></td>
+</tr>
+<tr>
+<td>Evidence image registered (chain-of-custody hash)</td>
+<td>unlikely</td>
+<td>info</td>
+<td>0</td>
+<td>Evidence image registered (chain-of-custody hash)</td>
+<td>—</td>
+<td>—</td>
+<td><a href="#evidence-image-registered-chain-of-custody-hash">F-NOTCH-005</a></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

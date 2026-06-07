@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<!--
+  agentropix-sift • Multi-Tier Report Engine (ADR-024)
+  TIER 2 — EXECUTIVE  |  TEMPLATE MOCKUP (templates-first gate)
+  Sample data: SRL-2018 case corpus. Self-contained: inline CSS, NO external/CDN assets.
+  Mirrors executive.md (source-of-truth). Kill-chain is pre-rendered inline (per ADR-024 SVG-prerender decision).
+  NOT live code.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SRL-2018 — Executive Incident Summary</title>
+<style>
+  :root{
+    --bg:#13161b; --panel:#1a1d23; --panel2:#20242b; --ink:#f5f0ec; --mut:#c9cdd4;
+    --dim:#9aa0aa; --line:#2c313a; --accent:#e8612b; --accent-d:#b8431a;
+    --crit:#e8612b; --warn:#e0a64b; --ok:#5aa0e8; --good:#4fb286;
+    --mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 28px 80px;}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent-d);}
+  a:hover{color:#ff7a45;}
+  code,.mono{font-family:var(--mono);font-size:.86em;}
+
+  /* Masthead */
+  header.mast{border-bottom:2px solid var(--accent);padding:34px 0 18px;margin-bottom:8px;}
+  .mast .kbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+  .chip{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    background:var(--panel);border:1px solid var(--line);color:var(--mut);
+    padding:4px 9px;border-radius:3px;}
+  .chip.accent{border-color:var(--accent);color:var(--accent);background:#2a1410;}
+  .chip.legal{border-color:var(--warn);color:var(--warn);}
+  h1{font-size:30px;line-height:1.15;margin:6px 0 4px;font-weight:700;letter-spacing:-.01em;}
+  .mast .sub{color:var(--dim);font-size:13.5px;}
+
+  /* Section labels */
+  h2{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+    font-family:var(--mono);font-weight:600;margin:46px 0 4px;padding-bottom:8px;
+    border-bottom:1px solid var(--line);}
+  h2 .num{color:var(--dim);margin-right:10px;}
+  h3{font-size:18px;margin:26px 0 6px;font-weight:650;color:var(--ink);}
+  h4{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);
+    font-family:var(--mono);margin:22px 0 8px;}
+  p{margin:10px 0;}
+
+  /* Callouts */
+  .note{background:var(--panel);border-left:3px solid var(--accent);padding:12px 16px;
+    margin:16px 0;color:var(--mut);font-size:14px;border-radius:0 4px 4px 0;}
+  .note b,.note strong{color:var(--ink);}
+  .buf{background:#2a1410;border:1px solid var(--accent);border-left-width:4px;
+    padding:16px 18px;margin:18px 0;border-radius:4px;}
+  .buf p:first-child{margin-top:0;} .buf p:last-child{margin-bottom:0;}
+
+  /* Exec stat grid */
+  .statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;margin:18px 0;}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:5px;
+    padding:14px 16px;position:relative;overflow:hidden;}
+  .stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);}
+  .stat .v{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--ink);line-height:1.1;}
+  .stat .v.crit{color:var(--crit);}
+  .stat .k{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);
+    margin-top:6px;font-family:var(--mono);}
+
+  /* verdict box */
+  .verdict{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);
+    border-radius:5px;overflow:hidden;margin:18px 0;}
+  .verdict .row{display:contents;}
+  .verdict .vk,.verdict .vv{padding:11px 16px;border-bottom:1px solid var(--line);}
+  .verdict .vk{background:var(--panel2);color:var(--mut);font-size:13.5px;}
+  .verdict .vv{background:var(--panel);font-weight:600;}
+  .verdict .vv.crit{color:var(--crit);}
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;}
+  thead th{background:var(--panel2);color:var(--accent);text-align:left;
+    font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    padding:9px 12px;border-bottom:1px solid var(--accent);}
+  td,th{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tbody tr:nth-child(even){background:rgba(255,255,255,.015);}
+  td.mono,td .mono{font-family:var(--mono);}
+  .tid{font-family:var(--mono);color:var(--accent);font-weight:600;white-space:nowrap;}
+
+  /* kill chain storyboard (pre-rendered, no CDN) */
+  .killchain{margin:20px 0;}
+  .kc-track{display:flex;flex-direction:column;gap:0;}
+  .kc-stage{display:flex;align-items:stretch;gap:14px;}
+  .kc-rail{display:flex;flex-direction:column;align-items:center;width:30px;flex:0 0 30px;}
+  .kc-dot{width:14px;height:14px;border-radius:50%;background:var(--accent);
+    border:2px solid var(--bg);box-shadow:0 0 0 2px var(--accent);margin-top:20px;}
+  .kc-dot.wait{background:#5a6270;box-shadow:0 0 0 2px #5a6270;}
+  .kc-line{flex:1;width:2px;background:var(--line);margin:4px 0;}
+  .kc-card{flex:1;background:#2a1410;border:1px solid var(--accent);border-radius:5px;
+    padding:13px 16px;margin:10px 0;}
+  .kc-card.wait{background:var(--panel);border-color:#5a6270;}
+  .kc-phase{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;}
+  .kc-card.wait .kc-phase{color:#8a93a3;}
+  .kc-when{font-family:var(--mono);font-size:12px;color:var(--dim);margin:3px 0;}
+  .kc-desc{font-size:13.5px;color:var(--mut);margin:4px 0 2px;}
+  .kc-tt{font-family:var(--mono);font-size:11.5px;color:var(--accent);font-weight:600;margin-top:5px;}
+  .kc-card.wait .kc-tt{color:#8a93a3;}
+  .figcap{font-size:12px;color:var(--dim);font-style:italic;margin-top:8px;}
+
+  /* findings */
+  .finding{border:1px solid var(--line);border-radius:5px;background:var(--panel);
+    padding:4px 18px 14px;margin:16px 0;}
+  .finding h3{display:flex;gap:10px;align-items:baseline;}
+  .fnum{font-family:var(--mono);background:var(--accent);color:#13161b;font-weight:700;
+    font-size:13px;border-radius:4px;padding:2px 9px;flex:0 0 auto;}
+  .impact{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;
+    text-transform:uppercase;padding:2px 8px;border-radius:3px;font-weight:600;}
+  .impact.cat{background:#3a1208;color:#ff8b5e;border:1px solid var(--accent);}
+  .impact.high{background:#3a2a08;color:var(--warn);border:1px solid var(--warn);}
+  .frow{font-size:13.5px;margin:7px 0;}
+  .flabel{color:var(--dim);font-family:var(--mono);font-size:11px;text-transform:uppercase;
+    letter-spacing:.06em;}
+  .rate{font-family:var(--mono);font-size:12px;color:var(--mut);margin-top:8px;
+    padding-top:8px;border-top:1px dashed var(--line);}
+  .rate .hl{color:var(--good);font-weight:600;}
+  .rate .cf{color:var(--ok);font-weight:600;}
+
+  ul{margin:8px 0;padding-left:22px;} li{margin:4px 0;}
+
+  /* priority pills */
+  .p0{color:#13161b;background:var(--accent);font-family:var(--mono);font-weight:700;
+    padding:2px 8px;border-radius:3px;font-size:12px;}
+  .p1{color:var(--warn);border:1px solid var(--warn);font-family:var(--mono);font-weight:600;
+    padding:1px 7px;border-radius:3px;font-size:12px;}
+  .p2{color:var(--ok);border:1px solid var(--ok);font-family:var(--mono);font-weight:600;
+    padding:1px 7px;border-radius:3px;font-size:12px;}
+
+  ol.dec{counter-reset:d;list-style:none;padding-left:0;}
+  ol.dec li{counter-increment:d;padding:10px 0 10px 44px;position:relative;border-bottom:1px solid var(--line);}
+  ol.dec li::before{content:counter(d);position:absolute;left:0;top:9px;width:28px;height:28px;
+    background:var(--accent);color:#13161b;border-radius:50%;display:flex;align-items:center;
+    justify-content:center;font-family:var(--mono);font-weight:700;}
+
+  footer{margin-top:54px;padding-top:18px;border-top:1px solid var(--line);
+    color:var(--dim);font-size:11.5px;font-family:var(--mono);line-height:1.7;}
+  .anchor-jump{font-family:var(--mono);font-size:11px;color:var(--dim);}
+  hr{border:none;border-top:1px solid var(--line);margin:34px 0;}
+  @media (max-width:560px){ .verdict{grid-template-columns:1fr;} h1{font-size:24px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="mast">
+  <div class="kbar">
+    <span class="chip accent">Case SRL-2018</span>
+    <span class="chip">Tier 2 / Executive</span>
+    <span class="chip legal">Confidential — Legal Hold</span>
+    <span class="chip">ADR-024 · Template Mockup</span>
+  </div>
+  <h1>Executive Summary — SRL-2018</h1>
+  <div class="sub">Business impact, severity, and decisions for executive leadership, legal, and incident steering. Sample data — SRL-2018 corpus.</div>
+</header>
+
+<div class="note">
+  <b>Scope of this document:</b> business impact, severity, and decisions — <i>not</i> raw evidence.
+  Every finding carries an <b>[A#] anchor</b> that links to the full technical proof in the
+  <b>Analyst Tier</b> report (<code>analyst.md</code>). No claim here stands without that backing.
+</div>
+
+<h2><span class="num">00</span> Bottom line up front</h2>
+<p>A confirmed, hands-on-keyboard intrusion sat inside the <b>shieldbase.lan</b> environment for roughly
+<b>143 days</b> (≈ 4.7 months) before the captured evidence window closed. The attacker entered through an
+internet-facing file-transfer server, went quiet for over a month, then moved laterally to the
+<b>domain controller</b> and stood up durable, automated persistence. By the final captured day the operation
+was running a disciplined, machine-grade command-and-control beacon — the signature of a capable, organized
+adversary, not opportunistic malware.</p>
+
+<div class="buf">
+  <p><b>This is a domain-controller compromise.</b> The blast radius is the entire Windows identity fabric.
+  We must treat <b>every credential in the domain as exposed</b> until the recovery actions below are complete.</p>
+</div>
+
+<div class="verdict">
+  <div class="vk">Overall severity</div><div class="vv crit">CRITICAL</div>
+  <div class="vk">Assessed likelihood this is a real, targeted intrusion</div><div class="vv">highly_likely · FIRST 5-tier</div>
+  <div class="vk">Analytic confidence in this assessment</div><div class="vv">high · LCA scale</div>
+  <div class="vk">Recommended posture</div><div class="vv">Activate IR retainer; execute P0 identity recovery now</div>
+</div>
+
+<div class="note">
+  <b>Two separate scales, on purpose.</b> <i>Likelihood</i> answers "did this happen?" (FIRST 5-tier Literal: remote → almost_certain). <i>Confidence</i> answers "how good is our evidence?" (LCA: High / Moderate / Low).
+  They are reported independently and never blended. Full legend at the end.
+</div>
+
+<h2><span class="num">01</span> Key Performance Indicators</h2>
+<p style="color:var(--mut);font-size:13.5px">These are the executive tier's KPI rollups — deterministic counts over the APPROVED finding set (<code>KPIRollup</code>, view_models.py). The fixed 6-row table is exactly what the emitter prints; the stat cards and business-meaning column are presentation enrichment over the same numbers.</p>
+<div class="statgrid">
+  <div class="stat"><div class="v">9</div><div class="k">Approved findings</div></div>
+  <div class="stat"><div class="v crit">3</div><div class="k">Critical</div></div>
+  <div class="stat"><div class="v">3</div><div class="k">High</div></div>
+  <div class="stat"><div class="v">6</div><div class="k">Affected hosts</div></div>
+  <div class="stat"><div class="v">10</div><div class="k">Unique ATT&amp;CK techniques</div></div>
+  <div class="stat"><div class="v crit">143.0</div><div class="k">Dwell time (days)</div></div>
+</div>
+
+<table>
+  <thead><tr><th>Metric</th><th>Value</th><th>What it means for the business</th></tr></thead>
+  <tbody>
+    <tr><td><b>Approved findings</b></td><td class="mono">9</td><td>Every finding cleared the EvidenceGate approval ledger; medium/low items (F-07/08/09) count here but are not surfaced as critical-or-high below.</td></tr>
+    <tr><td><b>Critical</b></td><td class="mono">3</td><td>F-01 DC compromise, F-02 pass-the-hash, F-03 live C2 — domain-wide identity exposure.</td></tr>
+    <tr><td><b>High</b></td><td class="mono">3</td><td>F-04 backdoor accounts, F-05 scheduled-task persistence, F-06 credential harvest.</td></tr>
+    <tr><td><b>Affected hosts</b></td><td class="mono">6</td><td>dmz-ftp, base-dc, base-rd-01, pdo-win2016, MICROSO-8N79483, base-ftp.</td></tr>
+    <tr><td><b>Unique ATT&amp;CK techniques</b></td><td class="mono">10</td><td>Initial access through command-and-control — the full intrusion lifecycle.</td></tr>
+    <tr><td><b>Dwell time (days)</b></td><td class="mono">143.0</td><td>last_event − first_event (2018-03-14 20:48Z → 2018-09-07 21:23:15Z); ~4.7 months undetected.</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>Top tactics:</b> Persistence, Lateral Movement, Credential Access, Command &amp; Control, Defense Evasion — the most-frequent kill-chain phases across the finding set (the emitter prints this line only when non-empty).</div>
+
+<h2><span class="num">02</span> What happened — the attack story</h2>
+<div class="killchain">
+  <div class="kc-track">
+
+    <div class="kc-stage">
+      <div class="kc-rail"><div class="kc-dot"></div><div class="kc-line"></div></div>
+      <div class="kc-card">
+        <div class="kc-phase">☣ Initial Access</div>
+        <div class="kc-when">2018-03-14 20:48 UTC</div>
+        <div class="kc-desc">Internet-facing FTP server (DMZ) entered with valid stolen credentials.</div>
+        <div class="kc-tt">T1190</div>
+      </div>
+    </div>
+
+    <div class="kc-stage">
+      <div class="kc-rail"><div class="kc-dot wait"></div><div class="kc-line"></div></div>
+      <div class="kc-card wait">
+        <div class="kc-phase">⏳ Dormancy</div>
+        <div class="kc-when">~5.5 weeks quiet</div>
+        <div class="kc-desc">Attacker waits and watches to evade quick detection.</div>
+      </div>
+    </div>
+
+    <div class="kc-stage">
+      <div class="kc-rail"><div class="kc-dot"></div><div class="kc-line"></div></div>
+      <div class="kc-card">
+        <div class="kc-phase">↔ Lateral Movement</div>
+        <div class="kc-when">PsExec / Impacket service installs</div>
+        <div class="kc-desc">Spread to Domain Controller, an RDP host, and one more.</div>
+        <div class="kc-tt">T1021.002 · T1550.002</div>
+      </div>
+    </div>
+
+    <div class="kc-stage">
+      <div class="kc-rail"><div class="kc-dot"></div><div class="kc-line"></div></div>
+      <div class="kc-card">
+        <div class="kc-phase">🗝 Credential Theft</div>
+        <div class="kc-when">In-memory on the DC</div>
+        <div class="kc-desc">Pass-the-Hash; credential-search & recon tooling in DC memory.</div>
+        <div class="kc-tt">T1550.002 · T1552.001</div>
+      </div>
+    </div>
+
+    <div class="kc-stage">
+      <div class="kc-rail"><div class="kc-dot"></div><div class="kc-line"></div></div>
+      <div class="kc-card">
+        <div class="kc-phase">⚓ Persistence</div>
+        <div class="kc-when">May – Sep 2018</div>
+        <div class="kc-desc">Bi-daily scheduled tasks on the DC + 6 hidden backdoor accounts.</div>
+        <div class="kc-tt">T1053.005 · T1136.001 · T1543.003</div>
+      </div>
+    </div>
+
+    <div class="kc-stage">
+      <div class="kc-rail"><div class="kc-dot"></div></div>
+      <div class="kc-card">
+        <div class="kc-phase">📡 Command &amp; Control</div>
+        <div class="kc-when">2018-09-07 · last event 21:23:15 UTC</div>
+        <div class="kc-desc">Disciplined 36-second jitter-free beacon, two waves — Cobalt Strike / Meterpreter-class.</div>
+        <div class="kc-tt">T1071</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="figcap">Storyboard maps to the Lockheed Martin Cyber Kill Chain. Each stage is proven in the Analyst Tier — see anchors in the findings below.</div>
+</div>
+
+<h2><span class="num">03</span> Critical &amp; High Findings</h2>
+<p>The executive tier surfaces every <b>critical</b> and <b>high</b> finding (6 of the 9), each as one
+back-anchored line. Card title, severity, and the business-impact sentence are projected verbatim from the
+analyst finding; the <code>[A#]</code> proof link resolves into <code>analyst.md</code> (no-drift). Plain-language
+gloss is added for executive reading. Medium findings (F-07/08/09) are counted in the KPIs but not shown here.</p>
+
+<div class="finding" id="f1">
+  <h3><span class="fnum">F-01</span> Domain controller fully compromised — bi-daily persistence + terminal C2 <span class="impact cat">critical</span></h3>
+  <p>The attacker installed <b>scheduled tasks on the domain controller that re-ran twice a day for four months</b>
+  (May–Sep 2018), rotating the schedule three times to stay hidden. The DC is the master key to every login in the company.</p>
+  <div class="frow"><span class="flabel">Business impact</span> &nbsp;<span class="impact cat">Catastrophic</span> &nbsp;Control of the DC means the attacker could potentially authenticate as any user or service. <b>Trust in every credential is broken until recovery completes.</b></div>
+  <div class="frow"><span class="flabel">Downtime / regulatory</span> &nbsp;Identity recovery requires a controlled, scheduled disruption. Breach-notification obligations may be triggered — <b>legal should be engaged now.</b></div>
+  <div class="rate">Likelihood: <span class="hl">highly_likely</span> · Confidence: <span class="cf">high</span> · Proof: <span class="anchor-jump">[A1] analyst.md#dc-persistence</span></div>
+</div>
+
+<div class="finding" id="f2">
+  <h3><span class="fnum">F-02</span> Pass-the-hash domain traversal across the DMZ→internal boundary <span class="impact cat">critical</span></h3>
+  <p>Sub-100ms <code>EID 4648</code>+<code>4672</code> credential-replay clusters from <code>MICROSO-8N79483</code> and <code>base-ftp</code> drove PsExec/Impacket service installs into the internal zone. In plain terms: the attacker logged in with stolen password <i>hashes</i> and rode a single perimeter foothold all the way to the domain crown jewels — because explicit-credential auth was allowed to cross the DMZ→internal boundary.</p>
+  <div class="frow"><span class="flabel">Business impact</span> &nbsp;<span class="impact cat">Catastrophic for identity</span> &nbsp;Any replayed credential is a standing re-entry key; the flat DMZ→internal trust converts one FTP foothold into domain compromise.</div>
+  <div class="rate">Likelihood: <span class="hl">highly_likely</span> · Confidence: <span class="cf">high</span> · Proof: <span class="anchor-jump">[A2] analyst.md#pass-the-hash</span></div>
+</div>
+
+<div class="finding" id="f3">
+  <h3><span class="fnum">F-04</span> Six persistent backdoor local accounts on dmz-ftp <span class="impact high">high</span></h3>
+  <p>The attacker created <b>6 local backdoor accounts</b> on the DMZ FTP host across <b>4 different dates</b>, adding several to privileged groups. These are independent re-entry points that survive a single password change.</p>
+  <div class="frow"><span class="flabel">Business impact</span> &nbsp;<span class="impact high">High</span> &nbsp;Even after we close the front door, these accounts let the attacker walk back in. <b>They must be removed before any all-clear.</b></div>
+  <div class="frow"><span class="flabel">Downtime</span> &nbsp;Removal is low-disruption but <b>time-critical</b> — it is a P0 action.</div>
+  <div class="rate">Likelihood: <span class="hl">highly_likely</span> · Confidence: <span class="cf">high</span> · Proof: <span class="anchor-jump">[A3] analyst.md#backdoor-accounts</span></div>
+</div>
+
+<div class="finding" id="f4">
+  <h3><span class="fnum">F-06</span> Credential harvesting in DC memory <span class="impact high">high</span></h3>
+  <p>Memory carving recovered <code>findstr.exe</code>×2 on the DC, parented to the orphaned command shells — searching files and registry exports for stored secrets. In plain terms: the attacker hunted for passwords directly inside the domain controller's memory.</p>
+  <div class="frow"><span class="flabel">Business impact</span> &nbsp;<span class="impact high">High</span> &nbsp;Any secret recovered from the DC is a re-entry key; reinforces the assume-all-credentials-exposed posture and the krbtgt double-reset.</div>
+  <div class="rate">Likelihood: <span class="hl" style="color:var(--warn)">likely</span> · Confidence: <span class="cf">moderate</span> · Proof: <span class="anchor-jump">[A6] analyst.md#cred-harvest</span></div>
+</div>
+
+<div class="finding" id="f5">
+  <h3><span class="fnum">F-03</span> Active C2 channel live at the edge of collection <span class="impact cat">critical</span></h3>
+  <p>On the final captured day (<b>2018-09-07</b>), the host was beaconing out every <b>36 seconds with no jitter</b>
+  in two waves — the disciplined, machine-timed pattern of a commercial offensive toolkit
+  (<b>Cobalt Strike / Meterpreter-class</b>). The last recorded event was <b>21:23:15 UTC</b>.</p>
+  <div class="frow"><span class="flabel">Business impact</span> &nbsp;<span class="impact high">High</span> &nbsp;Indicates an active, capable operator with a live channel out of our network — not dormant malware.</div>
+  <div class="frow"><span class="flabel">Trust framing</span> &nbsp;Professional tooling implies a deliberate, resourced adversary; assume intent to exfiltrate or extort.</div>
+  <div class="rate">Likelihood: <span class="hl">highly_likely</span> · Confidence: <span class="cf">moderate</span> · Proof: <span class="anchor-jump">[A3] analyst.md#c2-beacon</span></div>
+</div>
+
+<div class="finding" id="f6">
+  <h3><span class="fnum">F-05</span> Scheduled-task / service persistence on the DC (3 rotations) <span class="impact high">high</span></h3>
+  <p>The bi-daily service-install cadence on the DC resolves to <b>3 schedule rotations</b> across May–Sep 2018 — the attacker changed the task definition three times to dodge static detection while keeping a re-entry mechanism that works even if the beacon is killed. In plain terms: a second, independent way back in, hidden on the domain controller.</p>
+  <div class="frow"><span class="flabel">Business impact</span> &nbsp;<span class="impact high">High</span> &nbsp;Durable re-entry independent of the C2 beacon; killing the beacon alone does not evict the actor. Presence beyond the DC is inferred, not yet enumerated — so the hunt is fleet-wide.</div>
+  <div class="rate">Likelihood: <span class="hl">highly_likely</span> · Confidence: <span class="cf">high</span> · Proof: <span class="anchor-jump">[A5] analyst.md#sched-task-persistence</span></div>
+</div>
+
+<h2><span class="num">04</span> What we are facing — adversary techniques <span style="font-size:11px;color:var(--dim);font-family:var(--mono)">(enrichment)</span></h2>
+<p>The 10 unique ATT&amp;CK techniques behind the KPI count, glossed for executive reading. <i>(Enrichment beyond the bare emitter output — the technique inventory is derived from the same finding set.)</i></p>
+<table>
+  <thead><tr><th>ID</th><th>Technique</th><th>Plain language</th></tr></thead>
+  <tbody>
+    <tr><td class="tid">T1190</td><td>Exploit Public-Facing Application</td><td>Got in via the internet-facing server</td></tr>
+    <tr><td class="tid">T1550.002</td><td>Pass-the-Hash</td><td>Logged in with stolen password hashes</td></tr>
+    <tr><td class="tid">T1021.002</td><td>SMB / Admin Shares</td><td>Moved between machines over Windows file-sharing</td></tr>
+    <tr><td class="tid">T1543.003</td><td>Windows Service</td><td>Installed services to run their tools</td></tr>
+    <tr><td class="tid">T1053.005</td><td>Scheduled Task</td><td>Auto-ran their access twice a day</td></tr>
+    <tr><td class="tid">T1136.001</td><td>Create Local Account</td><td>Planted hidden backdoor accounts</td></tr>
+    <tr><td class="tid">T1071</td><td>Application-Layer C2</td><td>Phoned home for remote control</td></tr>
+    <tr><td class="tid">T1070.001</td><td>Clear Windows Event Logs</td><td>Covered their tracks</td></tr>
+    <tr><td class="tid">T1057</td><td>Process Discovery</td><td>Looked around for what to attack next</td></tr>
+    <tr><td class="tid">T1552.001</td><td>Credentials in Files</td><td>Hunted for stored passwords</td></tr>
+  </tbody>
+</table>
+
+<h2><span class="num">05</span> What we must do — remediation priorities <span style="font-size:11px;color:var(--dim);font-family:var(--mono)">(enrichment)</span></h2>
+<p>Priorities: <span class="p0">P0</span> do now · <span class="p1">P1</span> this week · <span class="p2">P2</span> this quarter. Owners are role placeholders for steering to assign.</p>
+<table>
+  <thead><tr><th>#</th><th>Priority</th><th>Action</th><th>Why it matters</th><th>Owner</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><span class="p0">P0</span></td><td><b>Double-reset the krbtgt account</b> + reset all privileged passwords</td><td>Only way to revoke domain-wide access after DC compromise — see <a href="#f1">F-01</a></td><td>Identity / AD Team</td></tr>
+    <tr><td>2</td><td><span class="p0">P0</span></td><td><b>Remove the 6 backdoor accounts</b> on dmz-ftp</td><td>Independent re-entry points; close before all-clear — see <a href="#f3">F-04</a></td><td>Windows / Server Ops</td></tr>
+    <tr><td>3</td><td><span class="p1">P1</span></td><td><b>Hunt and purge malicious scheduled tasks</b> across the domain</td><td>DC persistence may be replicated elsewhere — see <a href="#f5">F-05</a></td><td>Threat Hunt / SOC</td></tr>
+    <tr><td>4</td><td><span class="p1">P1</span></td><td><b>Enable command-line auditing (EID 4688)</b></td><td>We were partly blind to <i>what</i> ran; closes the gap for next time</td><td>SecOps / GPO</td></tr>
+    <tr><td>5</td><td><span class="p2">P2</span></td><td><b>Segment DMZ → internal authentication</b></td><td>Stops a perimeter foothold from reaching the DC again — see <a href="#f2">F-02</a></td><td>Network / Architecture</td></tr>
+  </tbody>
+</table>
+<div class="note">
+  <b>Sequencing for steering:</b> P0 #1 and P0 #2 should be planned together in a single change window —
+  resetting krbtgt while backdoor accounts still exist leaves a re-entry path open. Legal engagement on
+  notification obligations runs in parallel, starting now.
+</div>
+
+<h2><span class="num">06</span> Decisions requested from steering <span style="font-size:11px;color:var(--dim);font-family:var(--mono)">(enrichment)</span></h2>
+<ol class="dec">
+  <li><b>Authorize the P0 identity-recovery change window</b> (krbtgt double-reset + privileged resets + backdoor removal).</li>
+  <li><b>Engage legal / compliance</b> on breach-notification scope, given confirmed DC and credential compromise.</li>
+  <li><b>Approve continued IR engagement</b> to complete P1/P2 hardening and confirm eradication.</li>
+</ol>
+
+<h2><span class="num">07</span> How to read the two ratings (legend)</h2>
+<h4>Likelihood — FIRST 5-tier (did it happen?)</h4>
+<p style="color:var(--mut);font-size:13px">The engine carries the FIRST 5-tier scale as a closed Literal — these are the exact tokens that appear in the analyst tier and the no-drift back-anchors:</p>
+<table>
+  <thead><tr><th>Term (engine Literal)</th><th>Ordinal weight</th><th>Reads as</th></tr></thead>
+  <tbody>
+    <tr><td class="mono">almost_certain</td><td class="mono">5</td><td>near-certain the activity occurred</td></tr>
+    <tr><td class="mono"><b>highly_likely</b></td><td class="mono">4</td><td>strong, corroborated evidence</td></tr>
+    <tr><td class="mono">likely</td><td class="mono">3</td><td>probable; some corroboration</td></tr>
+    <tr><td class="mono">unlikely</td><td class="mono">2</td><td>weak / contested signal</td></tr>
+    <tr><td class="mono">remote</td><td class="mono">1</td><td>improbable on current evidence</td></tr>
+  </tbody>
+</table>
+<p style="color:var(--mut);font-size:13px">Ordinal weight feeds the Business tier risk score (likelihood_weight x severity_impact_weight, 0..25). Likelihood is the same scale the analyst tier prints per finding.</p>
+<p><b>Confidence — LCA (how good is our evidence?):</b> <b>High</b> / Moderate / Low. Reflects source
+reliability, corroboration, and analytic rigor — reported <i>separately</i> from likelihood and never
+combined into a single number.</p>
+
+<h2><span class="num">08</span> Provenance &amp; chain of custody</h2>
+<ul>
+  <li><b>Evidence basis:</b> 7 disk images + 20 memory images, shieldbase.lan domain.</li>
+  <li><b>Per-finding provenance:</b> every Analyst-Tier finding carries the <code>IOCProvenance</code> 5-tuple
+  (source, evidence ID, SHA-256, collector, timestamp) and a confidence rating. This Executive Tier is a
+  <i>filtered projection</i> of those approved findings — it adds no new evidence and links back via the
+  <code>[A#]</code> anchors.</li>
+  <li><b>Approval gate:</b> only findings cleared through the EvidenceGate / approval ledger appear here.</li>
+  <li><b>Seal:</b> the canonical case JSON is sealed via <code>courtroom.seal_report()</code> (HMAC-SHA256, ADR-016);
+  examiner ID, approval time, and seal hex appear in this footer for chain-of-custody.</li>
+</ul>
+
+<footer>
+  agentropix-sift multi-tier report engine · Tier 2 (Executive) · governed by ADR-024<br>
+  TEMPLATE MOCKUP — sample SRL-2018 data, for operator review, not a live case export.<br>
+  Source-of-truth: executive.md · rendered mirror: executive.html · Seal: [examiner_id] / [approved_at] / [seal_hex] embedded at render time.
+</footer>
+
+</div>
+</body>
+</html>

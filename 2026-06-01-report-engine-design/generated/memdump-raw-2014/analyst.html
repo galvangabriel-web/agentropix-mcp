@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SIFT Report — Analyst (MEMDUMP-RAW-2014)</title>
+<style>@page { size: A4; margin: 18mm; }
+body { font-family: sans-serif; line-height: 1.4; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #888; padding: 4px 6px; text-align: left; }
+pre, table, figure, .mermaid { break-inside: avoid; page-break-inside: avoid; }
+.pagebreak { break-before: page; }
+</style>
+</head>
+<body>
+<h1 id="analyst-technical-report-memdump-raw-2014">Analyst / Technical Report — MEMDUMP-RAW-2014</h1>
+<p><em>Report ID:</em> <code>f88af671285cb767c774789b8c5862126be94c157308a69dc72f236e90de971e</code>  ·  <em>Snapshot:</em> 2026-06-07T01:35:39.033443+00:00</p>
+<blockquote>
+<p><strong>Likelihood scale (FIRST 5-tier):</strong> almost_certain &gt; highly_likely &gt; likely &gt; unlikely &gt; remote. Likelihood estimates the probability of the assessed activity; it is kept separate from analytic confidence.</p>
+<p><strong>Confidence (LCA):</strong> high / moderate / low — the analyst's confidence in the assessment given evidence quality and corroboration. Distinct from likelihood.</p>
+</blockquote>
+<h2 id="findings">Findings</h2>
+<p><a id="raw-512-mib-memory-image-has-no-profile-matchable-kernel-symbol-table-volatility3-cannot-validate-kernel-layer-name-symbol-table-name-pslist-netscan-malfind-svcscan-all-return-empty-unattributed-2014-capture-no-injected-rwx-code-assessable"></a></p>
+<h3 id="raw-512-mib-memory-image-has-no-profile-matchable-kernel-symbol-table-volatility3-cannot-validate-kernellayer_namesymbol_table_name-pslistnetscanmalfindsvcscan-all-return-empty-unattributed-2014-capture-no-injectedrwx-code-assessable">Raw 512 MiB memory image has no profile-matchable kernel symbol table (Volatility3 cannot validate kernel.layer_name/symbol_table_name); pslist/netscan/malfind/svcscan all return empty - unattributed 2014 capture, no injected/RWX code assessable</h3>
+<ul>
+<li><strong>Finding ID:</strong> <code>F-MEMDUMP-001</code>  ·  <strong>Severity:</strong> low  ·  <strong>Likelihood:</strong> unlikely  ·  <strong>Confidence:</strong> high  ·  <strong>Risk score:</strong> 4</li>
+</ul>
+<p><em>Evidence:</em> <code>evidence: /cases/memdump/memdump.mem sha256=d3b13f2224cab20440a4bb3c5c971662be6e61f431340f319cef7312bb6177f4 (512 MiB / 536870912 bytes), evidence_id=aa320ff2106af0ebd72e36342f537fc5672c8a94d95f9106fd2c87bf3db2a04f</code><br><code>Volatility3 2.28.0 get_pslist: process_count=11 (pid-0 'unknown' placeholders) - raw_stderr 'Unable to validate the plugin requirements: plugins.PsList.kernel.layer_name/symbol_table_name'</code><br><code>Volatility3 get_netscan: socket_count=0 - 'Unable to validate the plugin requirements: plugins.NetScan.kernel.layer_name/symbol_table_name'</code><br><code>Volatility3 get_malfind: hit_count=0 (no injected/RWX code assessable) - 'Unable to validate the plugin requirements: plugins.Malfind.kernel.layer_name/symbol_table_name'</code><br><code>Volatility3 get_svcscan: service_count=0 - 'Unable to validate the plugin requirements: plugins.SvcScan.kernel.layer_name/symbol_table_name'</code><br><code>build_process_tree: process_count=11, root_count=1, orphan_count=0, suspicious_count=0 (one 'unknown' root, 0 LOLBin flags)</code></p>
+<h2 id="indicators-of-compromise">Indicators of Compromise</h2>
+<p><em>No IOCs extracted.</em></p>
+<h2 id="timeline">Timeline</h2>
+<p><em>No approved timeline events.</em></p>
+</body>
+</html>

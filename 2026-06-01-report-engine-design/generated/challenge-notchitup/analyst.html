@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SIFT Report — Analyst (CHALLENGE-NOTCHITUP)</title>
+<style>@page { size: A4; margin: 18mm; }
+body { font-family: sans-serif; line-height: 1.4; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #888; padding: 4px 6px; text-align: left; }
+pre, table, figure, .mermaid { break-inside: avoid; page-break-inside: avoid; }
+.pagebreak { break-before: page; }
+</style>
+</head>
+<body>
+<h1 id="analyst-technical-report-challenge-notchitup">Analyst / Technical Report — CHALLENGE-NOTCHITUP</h1>
+<blockquote>
+<p><strong>Likelihood scale (FIRST 5-tier):</strong> almost_certain &gt; highly_likely &gt; likely &gt; unlikely &gt; remote. Likelihood estimates the probability of the assessed activity; it is kept separate from analytic confidence.</p>
+<p><strong>Confidence (LCA):</strong> high / moderate / low — the analyst's confidence in the assessment given evidence quality and corroboration. Distinct from likelihood.</p>
+</blockquote>
+<h2 id="findings">Findings</h2>
+<p><a id="page-execute-readwrite-injected-region-in-explorer-exe-pid-1944"></a></p>
+<h3 id="page_execute_readwrite-injected-region-in-explorerexe-pid-1944">PAGE_EXECUTE_READWRITE injected region in explorer.exe (PID 1944)</h3>
+<ul>
+<li><strong>Finding ID:</strong> <code>F-NOTCH-001</code>  ·  <strong>Severity:</strong> high  ·  <strong>Likelihood:</strong> unlikely  ·  <strong>Confidence:</strong> high  ·  <strong>Risk score:</strong> 8</li>
+<li><strong>MITRE ATT&amp;CK:</strong> <code>T1055</code></li>
+</ul>
+<p>malfind flagged a 64KB PAGE_EXECUTE_READWRITE VAD at 0x4320000 in explorer.exe (PID 1944) carrying executable indirect-jump shellcode bytes (41 ba 80 00 00 00 48 b8 ... 48 ff 20). Classic code-injection signature.</p>
+<p><em>Evidence:</em> <code>windows.malfind: PID 1944 explorer.exe VAD 0x4320000 PAGE_EXECUTE_READWRITE 65536B (executable bytes 41 ba 80 00 00 00 48 b8 ...)</code><br><code>carved region payload_sha256 65196e1a65d8e4bfcf42f03b7db79cd07a2573f57c6aad40a97c37791726ca6f</code><br><code>source_evidence_sha256 80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23</code></p>
+<p><a id="page-execute-readwrite-zeroed-rwx-region-in-explorer-exe-pid-1944"></a></p>
+<h3 id="page_execute_readwrite-zeroed-rwx-region-in-explorerexe-pid-1944">PAGE_EXECUTE_READWRITE zeroed RWX region in explorer.exe (PID 1944)</h3>
+<ul>
+<li><strong>Finding ID:</strong> <code>F-NOTCH-002</code>  ·  <strong>Severity:</strong> medium  ·  <strong>Likelihood:</strong> unlikely  ·  <strong>Confidence:</strong> moderate  ·  <strong>Risk score:</strong> 6</li>
+<li><strong>MITRE ATT&amp;CK:</strong> <code>T1055</code></li>
+</ul>
+<p>malfind flagged a second 4KB PAGE_EXECUTE_READWRITE VAD at 0x3ce0000 in explorer.exe (PID 1944), zeroed - a second RWX VAD in the same injected host process.</p>
+<p><em>Evidence:</em> <code>windows.malfind: PID 1944 explorer.exe VAD 0x3ce0000 PAGE_EXECUTE_READWRITE 4096B (zeroed)</code><br><code>carved region payload_sha256 3da12179ac97a8fdcfbdfc5318ba0da46974e1c1ae648dc37e861a926e8563ca</code><br><code>source_evidence_sha256 80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23</code></p>
+<p><a id="page-execute-readwrite-rwx-region-in-chrome-exe-pid-2124"></a></p>
+<h3 id="page_execute_readwrite-rwx-region-in-chromeexe-pid-2124">PAGE_EXECUTE_READWRITE RWX region in chrome.exe (PID 2124)</h3>
+<ul>
+<li><strong>Finding ID:</strong> <code>F-NOTCH-003</code>  ·  <strong>Severity:</strong> medium  ·  <strong>Likelihood:</strong> unlikely  ·  <strong>Confidence:</strong> moderate  ·  <strong>Risk score:</strong> 6</li>
+<li><strong>MITRE ATT&amp;CK:</strong> <code>T1055</code></li>
+</ul>
+<p>malfind flagged a 4KB PAGE_EXECUTE_READWRITE VAD at 0x4830000 in chrome.exe (PID 2124), zeroed.</p>
+<p><em>Evidence:</em> <code>windows.malfind: PID 2124 chrome.exe VAD 0x4830000 PAGE_EXECUTE_READWRITE 4096B (zeroed)</code><br><code>carved region payload_sha256 3243bcc13c7c564288355046c5bc1123888837aeb8ada9ed5cf7800d9c462c1d</code><br><code>source_evidence_sha256 80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23</code></p>
+<p><a id="large-page-execute-readwrite-region-in-wmiprvse-exe-pid-2292"></a></p>
+<h3 id="large-page_execute_readwrite-region-in-wmiprvseexe-pid-2292">Large PAGE_EXECUTE_READWRITE region in WmiPrvSE.exe (PID 2292)</h3>
+<ul>
+<li><strong>Finding ID:</strong> <code>F-NOTCH-004</code>  ·  <strong>Severity:</strong> high  ·  <strong>Likelihood:</strong> unlikely  ·  <strong>Confidence:</strong> high  ·  <strong>Risk score:</strong> 8</li>
+<li><strong>MITRE ATT&amp;CK:</strong> <code>T1047</code>, <code>T1055</code></li>
+</ul>
+<p>malfind flagged a 512KB PAGE_EXECUTE_READWRITE VAD at 0x1bd0000 in WmiPrvSE.exe (PID 2292) - WMI provider host carrying a large RWX region.</p>
+<p><em>Evidence:</em> <code>windows.malfind: PID 2292 WmiPrvSE.exe VAD 0x1bd0000 PAGE_EXECUTE_READWRITE 524288B (512KB)</code><br><code>carved region payload_sha256 75b4c5d8fc85525f97106ddf84197731942bb9acb2d992de50b8a4b7bcfad9a2</code><br><code>source_evidence_sha256 80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23</code></p>
+<p><a id="evidence-image-registered-chain-of-custody-hash"></a></p>
+<h3 id="evidence-image-registered-chain-of-custody-hash">Evidence image registered (chain-of-custody hash)</h3>
+<ul>
+<li><strong>Finding ID:</strong> <code>F-NOTCH-005</code>  ·  <strong>Severity:</strong> info  ·  <strong>Likelihood:</strong> unlikely  ·  <strong>Confidence:</strong> high  ·  <strong>Risk score:</strong> 0</li>
+</ul>
+<p>evidence_register computed the chain-of-custody SHA-256 for the 1.6GB raw memory image.</p>
+<p><em>Evidence:</em> <code>evidence_register: /cases/Challenge_NotchItUp/Challenge.raw sha256 80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23 size 1610547200 bytes</code><br><code>source_evidence_sha256 80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23</code></p>
+<h2 id="indicators-of-compromise">Indicators of Compromise</h2>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Type</th>
+<th>Confidence</th>
+<th>MITRE</th>
+<th>Provenance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>explorer.exe:PID1944:0x4320000:RWX</code></td>
+<td>memory_region</td>
+<td>—</td>
+<td>T1055</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>WmiPrvSE.exe:PID2292:0x1bd0000:RWX</code></td>
+<td>memory_region</td>
+<td>—</td>
+<td>T1047, T1055</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>explorer.exe</code></td>
+<td>process</td>
+<td>—</td>
+<td>T1055</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>WmiPrvSE.exe</code></td>
+<td>process</td>
+<td>—</td>
+<td>T1047, T1055</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23</code></td>
+<td>sha256</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-mermaid">flowchart LR
+    case((&quot;Case&quot;))
+    t0[&quot;memory_region&quot;]
+    case --&gt; t0
+    v0[&quot;explorer.exe:PID1944:0x4320000:RWX&quot;]
+    t0 --&gt; v0
+    v1[&quot;WmiPrvSE.exe:PID2292:0x1bd0000:RWX&quot;]
+    t0 --&gt; v1
+    t1[&quot;process&quot;]
+    case --&gt; t1
+    v2[&quot;explorer.exe&quot;]
+    t1 --&gt; v2
+    v3[&quot;WmiPrvSE.exe&quot;]
+    t1 --&gt; v3
+    t2[&quot;sha256&quot;]
+    case --&gt; t2
+    v4[&quot;80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c...&quot;]
+    t2 --&gt; v4
+</code></pre>
+<h2 id="timeline">Timeline</h2>
+<pre><code class="language-mermaid">timeline
+    title Kill-Chain Timeline
+    section Activity
+        2019-08-19T14:40:07Z : System boot - System (PID 4) and smss.exe (PID 264) start...
+        2019-08-19T14:40:11Z : Core Windows service stack started: wininit.exe (384), se...
+        2019-08-19T14:40:07Z : Code injection observed: explorer.exe (PID 1944) holds RW...
+        2019-08-19T14:40:07Z : WmiPrvSE.exe (PID 2292) carries a 512KB RWX VAD at 0x1bd0...
+        2019-08-19T14:40:11Z : Active browser network sessions in memory: firefox.exe (P...
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Timestamp</th>
+<th>Host</th>
+<th>Event</th>
+<th>Phase</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2019-08-19T14:40:07Z</td>
+<td>notch-it-up</td>
+<td>TL-NOTCH-001</td>
+<td>—</td>
+<td>System boot - System (PID 4) and smss.exe (PID 264) started; Windows x64 kernel symbols matched by Volatility3 (53 processes)</td>
+</tr>
+<tr>
+<td>2019-08-19T14:40:11Z</td>
+<td>notch-it-up</td>
+<td>TL-NOTCH-002</td>
+<td>—</td>
+<td>Core Windows service stack started: wininit.exe (384), services.exe (480), lsass.exe (496), svchost.exe (608), VBoxService.exe (668) - VirtualBox guest</td>
+</tr>
+<tr>
+<td>2019-08-19T14:40:07Z</td>
+<td>notch-it-up</td>
+<td>TL-NOTCH-003</td>
+<td>—</td>
+<td>Code injection observed: explorer.exe (PID 1944) holds RWX VAD at 0x4320000 with 64KB executable shellcode (41 ba ... 48 b8 ...) and a zeroed RWX VAD at 0x3ce0000</td>
+</tr>
+<tr>
+<td>2019-08-19T14:40:07Z</td>
+<td>notch-it-up</td>
+<td>TL-NOTCH-004</td>
+<td>—</td>
+<td>WmiPrvSE.exe (PID 2292) carries a 512KB RWX VAD at 0x1bd0000; chrome.exe (PID 2124) holds a 4KB RWX VAD at 0x4830000</td>
+</tr>
+<tr>
+<td>2019-08-19T14:40:11Z</td>
+<td>notch-it-up</td>
+<td>TL-NOTCH-005</td>
+<td>—</td>
+<td>Active browser network sessions in memory: firefox.exe (PID 2080) ESTABLISHED to Google ranges (172.217.160.131:80, 172.217.194.189:443) from guest 10.0.2.15; chrome.exe (PID 2124) UDP 5353 mDNS</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
