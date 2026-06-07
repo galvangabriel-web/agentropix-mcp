@@ -430,8 +430,7 @@ Built on the shoulders of the open-source DFIR ecosystem: the **SANS SIFT Workst
 the forensic tools it bundles — **Volatility3**, **Plaso/log2timeline**, **The Sleuth Kit**,
 **python-evtx**, **YARA**, **bulk_extractor**, **RegRipper**, the **EZ-Tools** family, and the
 mail-parsing libraries (`libpff`, `extract-msg`). The MCP surface is served by
-[**FastMCP**](https://github.com/jlowin/fastmcp). The structural model for this documentation
-portal follows the Valhuntir / SIFT-MCP README.
+[**FastMCP**](https://github.com/jlowin/fastmcp).
 
 ## License
 

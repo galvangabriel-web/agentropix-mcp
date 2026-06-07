@@ -48,7 +48,7 @@ models, and the DRAFT-gate that stamps tiers at the MCP boundary.
 
 When a finding/IOC is pushed toward the SIEM, the wrapper stamps a
 **provenance tier** describing the trust of the channel that witnessed it. The
-ranked vocabulary (borrowed from the Valhuntir architecture model) lives in
+ranked vocabulary lives in
 `mcp_server/wrappers/wazuh_tools.py:32-37`:
 
 ```python
