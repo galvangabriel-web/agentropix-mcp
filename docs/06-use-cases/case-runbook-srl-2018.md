@@ -278,6 +278,17 @@ threat_intel_lookup { "indicator":"stark-research-labs.co", "indicator_type":"do
 
 ---
 
+## Live capture
+
+A hybrid terminal capture of the **runnable shell subset** of this runbook (asciinema `.cast` + GIF +
+transcript, all run live against `/cases/SRL-2018/`) lives in
+[`assets/srl-2018-capture/`](assets/srl-2018-capture/README.md) — including a format evaluation
+(asciinema vs GIF vs MP4) with measured sizes and the rationale for not using MP4.
+
+![SRL-2018 CLI capture](assets/srl-2018-capture/srl-2018-cli.gif)
+
+---
+
 ## See also
 
 - [command-cheatsheet.md](command-cheatsheet.md) — the generic template this runbook is built from.
