@@ -68,12 +68,14 @@ These `/cases/*` folders were classified and **not** turned into activation guid
 
 Educational recordings of a real executed activation sequence (live MCP calls, captured output):
 
-| Case | Sequence | Transcript | Video | Sealed report | Multi-tier reports (analyst · exec · business) |
-|---|---|---|---|---|---|
-| CTF "Contact Me" | §3A manual | [EXECUTED-RUN.md](./runs/contact-me-memory/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/contact-me-memory/EXECUTED-RUN.mp4) (50.7s) | ✅ SIMULATED demo | [analyst](./runs/contact-me-memory/reports/analyst.md) · [exec](./runs/contact-me-memory/reports/executive.md) · [business](./runs/contact-me-memory/reports/business.md) (+ .html/.pdf) |
-| AMF Windows sample001 | §3.A manual | [EXECUTED-RUN.md](./runs/amf-win-sample001/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/amf-win-sample001/EXECUTED-RUN.mp4) (56s) | ✅ SIMULATED demo | [analyst](./runs/amf-win-sample001/reports/analyst.md) · [exec](./runs/amf-win-sample001/reports/executive.md) · [business](./runs/amf-win-sample001/reports/business.md) (+ .html/.pdf) |
-| memdump (raw 2014) | MANUAL | [EXECUTED-RUN.md](./runs/memdump-raw-2014/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/memdump-raw-2014/EXECUTED-RUN.mp4) (63s) | ✅ SIMULATED demo | [analyst](./runs/memdump-raw-2014/reports/analyst.md) · [exec](./runs/memdump-raw-2014/reports/executive.md) · [business](./runs/memdump-raw-2014/reports/business.md) (+ .html/.pdf) |
-| Challenge "Notch It Up" | MANUAL | [EXECUTED-RUN.md](./runs/challenge-notchitup/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/challenge-notchitup/EXECUTED-RUN.mp4) (50.6s) | ✅ SIMULATED demo | [analyst](./runs/challenge-notchitup/reports/analyst.md) · [exec](./runs/challenge-notchitup/reports/executive.md) · [business](./runs/challenge-notchitup/reports/business.md) (+ .html/.pdf) |
+| Case | Sequence | Transcript | Video | Sealed report |
+|---|---|---|---|---|
+| CTF "Contact Me" | §3A manual | [EXECUTED-RUN.md](./runs/contact-me-memory/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/contact-me-memory/EXECUTED-RUN.mp4) (50.7s) | ✅ SIMULATED demo |
+| AMF Windows sample001 | §3.A manual | [EXECUTED-RUN.md](./runs/amf-win-sample001/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/amf-win-sample001/EXECUTED-RUN.mp4) (56s) | ✅ SIMULATED demo |
+| memdump (raw 2014) | MANUAL | [EXECUTED-RUN.md](./runs/memdump-raw-2014/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/memdump-raw-2014/EXECUTED-RUN.mp4) (63s) | ✅ SIMULATED demo |
+| Challenge "Notch It Up" | MANUAL | [EXECUTED-RUN.md](./runs/challenge-notchitup/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/challenge-notchitup/EXECUTED-RUN.mp4) (50.6s) | ✅ SIMULATED demo |
+
+The per-case **report** (comprehensive + exec one-pager) is in the table just below.
 
 **Outstanding multi-audience reports.** Beyond the three focused tiers, each run also ships a **comprehensive report** — one big document fusing an executive dashboard (KPI tiles, risk matrix), full forensic sections (IOC catalogue, host/network artefacts, malware + MITRE ATT&CK, process tree, timeline), and coverage attestation — plus a **1-page executive summary**, both grounded in the case's real data and rendered with diagrams:
 
