@@ -3,169 +3,75 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#license)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
 [![MCP tools: 71](https://img.shields.io/badge/MCP%20tools-71-green.svg)](docs/04-mcp-tools/tool-reference.md)
+[![SIFT wrappers: 16](https://img.shields.io/badge/SIFT%20wrappers-16-brightgreen.svg)](docs/04-mcp-tools/tool-reference.md)
 [![Tests: 4464](https://img.shields.io/badge/tests-4464-brightgreen.svg)](docs/07-sdlc-ops/testing.md)
+[![Disk recall: 72/72](https://img.shields.io/badge/disk%20recall-72%2F72-success.svg)](docs/07-sdlc-ops/dataset-recall.md)
+
+> ## Autonomous DFIR triage on the SANS SIFT Workstation — that never lets the LLM rate its own findings.
+> Point it at a Windows disk or memory image. It drives **16 real SIFT forensic tools** through **one
+> MCP server (71 tools)**, correlates across a **7-agent swarm** on a quorum blackboard, and emits a
+> cryptographically sealed, schema-validated JSON triage report — in minutes, on the local host, with
+> **no LLM ever in the halt path**. *(Source: [`what-is-agentropix.md`](docs/01-overview/what-is-agentropix.md).)*
 
 **A local, CLI-driven, bio-agentic DFIR triage engine for the SANS SIFT Workstation.**
 
-> 👋 **New here? Start with the [User Guide — The Complete Operator Runbook](docs/01-overview/user-guide.md)** —
-> the single, deeply-detailed end-to-end runbook that takes a first-time operator through one
-> complete case: pre-flight → connect/verify the MCP → init/activate the case → register
-> evidence → the investigation tool chain → record findings → approve in the portal → seal the
-> report → (optional) push IOCs to Wazuh. It documents **both** execution paths (manual,
-> tool-by-tool · autonomous, headless driver) and **both** clients (Claude CLI · Claude
-> Desktop), with the validated 2026-05-29 CFReDS run as a worked example and a troubleshooting
-> ledger.
+---
 
-Agentropix-SIFT turns a SIFT Workstation into an autonomous-but-accountable triage
-operator. A **Trinity Loop** — an Architect that proposes which agents to run, a
-**7-agent Swarm** that drives deterministic forensic tools, and a **Critic** that scores
-findings and halts on a *deterministic* convergence fingerprint (with **no LLM
-self-rating**) — orchestrates **71 MCP tools** over a single
-[FastMCP](docs/02-architecture/mcp-server.md) server. The result is a fast first pass over
-disk images, memory dumps, and Windows artifacts that produces an evidence-grounded,
-cryptographically sealed triage report a human examiner can trust and defend.
+## Start here — pick your lane
 
-You drive it **two ways from one engine**: as a plain `agentropix-sift run` command, or
-by talking to an LLM (Claude Desktop / Claude Code) that has the MCP server connected —
-the **AI is just another consumer of the same [FastMCP](https://github.com/jlowin/fastmcp)
-tool surface**. A non-technical examiner can type *"open a case for this disk image and run
-the SIFT triage"* and the session routes it to the real MCP tools; an expert can call the
-exact tool. The point: *adapt Agentropix to the user, not the user to Agentropix.*
+Four audiences, four fast paths. Each row is an ordered reading trail; the full routing lives in the
+[Documentation Index](INDEX.md#reading-paths-by-audience).
+
+| You are a… | You want to… | Start here → then |
+|---|---|---|
+| 🧑‍💻 **Software engineer** | understand the architecture, build/test/extend it | [Implementation](docs/07-sdlc-ops/implementation.md) → [Trinity Loop](docs/02-architecture/trinity-loop.md) → [Swarm & Blackboard](docs/02-architecture/swarm-agents.md) → [FastMCP Server](docs/02-architecture/mcp-server.md) → [Testing](docs/07-sdlc-ops/testing.md) → [ADRs (decision contract)](docs/11-ADR/README.md) |
+| 🛡️ **SOC analyst** | run a triage, hunt IOCs, push to the SIEM | [User Guide (runbook)](docs/01-overview/user-guide.md) → [Disk triage](docs/06-use-cases/uc-disk-triage.md) → [Memory triage](docs/06-use-cases/uc-memory-triage.md) → [Wazuh push](docs/06-use-cases/uc-wazuh-push.md) → [CLI Reference](docs/08-reference/cli-reference.md) |
+| ⚖️ **Evaluator / judge** | verify the claims, soundness, chain of custody | [Canonical Facts](docs/08-reference/canonical-facts.md) → [Anti-Hallucination](docs/05-safety-forensics/anti-hallucination.md) → [Audit & Courtroom Seal](docs/05-safety-forensics/audit-courtroom.md) → [Recall methodology](docs/07-sdlc-ops/dataset-recall.md) → [Evaluation scorecard](docs/07-sdlc-ops/evaluation-scorecard.md) → [SWOT](#swot--strategic-assessment) |
+| 💬 **End-user (non-technical)** | get answers by just *asking* Claude | the [Two Paths table](#two-paths-operator-expert-and-end-user) below → end-user lanes in the [User Guide](docs/01-overview/user-guide.md) → [Tool Capability Map](docs/04-mcp-tools/capability-map.md) |
+
+> 👋 **First time?** The single best entry point is the
+> **[User Guide — The Complete Operator Runbook](docs/01-overview/user-guide.md)**: one complete case,
+> end-to-end (pre-flight → connect/verify the MCP → init/activate the case → register evidence → the
+> investigation tool chain → record findings → approve in the portal → seal the report → optional Wazuh
+> push), documenting **both** execution paths (manual · autonomous) and **both** clients (Claude CLI ·
+> Claude Desktop), with the validated 2026-05-29 CFReDS run as a worked example.
+
+---
+
+## What it is — and why
+
+Agentropix-SIFT turns a SIFT Workstation into an autonomous-but-accountable triage operator. A
+**Trinity Loop** — an Architect that proposes which agents to run, a **7-agent Swarm** that drives
+deterministic forensic tools, and a **Critic** that scores findings and halts on a *deterministic*
+convergence fingerprint (with **no LLM self-rating**) — orchestrates **71 MCP tools** over a single
+[FastMCP](docs/02-architecture/mcp-server.md) server. The result is a fast first pass over disk images,
+memory dumps, and Windows artifacts that produces an evidence-grounded, cryptographically sealed triage
+report a human examiner can trust and defend.
+
+Its central claim is simple and load-bearing: **the LLM never touches a fact.** Every finding it records
+is produced by a deterministic forensic binary, fingerprinted with SHA-256, and tagged with a provenance
+tier — precisely so a human can verify it.
 
 > **Important — this is a triage accelerator, not an oracle.**
-> Agentropix-SIFT is built to be *checked*, not *believed*. Every finding it records is
-> produced by a deterministic forensic binary, fingerprinted with SHA-256, and tagged with
-> a provenance tier — precisely so a human can verify it. The LLM proposes and narrates;
-> it never rates its own work and never becomes the source of a finding. **You remain the
-> examiner of record.** Review the findings, confirm the underlying artifacts, and use the
-> optional [human-in-the-loop approval gate](docs/05-safety-forensics/human-in-the-loop.md)
-> before anything is sealed or escalated. Do not blindly trust AI output — verify against
-> the evidence. See [Anti-Hallucination](docs/05-safety-forensics/anti-hallucination.md).
-
----
-
-## What You Get
-
-- **Trinity Loop orchestration** — Architect → Swarm → Critic, with a deterministic halt
-  condition (a stable *convergence fingerprint*, not an LLM confidence score). See
-  [The Trinity Loop](docs/02-architecture/trinity-loop.md).
-- **7-agent forensic Swarm** — the *Swarm* is the team of seven first-class DFIR specialist
-  agents (Memory, Timeline, Filesystem, Artifact, Discovery, Mail, and Hunt), plus deterministic
-  ATT&CK detector agents, that actually drive the forensic tools. They coordinate over a quorum
-  **Blackboard** — a shared scratchpad where an observation is only promoted to a finding once
-  enough agents corroborate it (the default quorum is 2; see
-  [Canonical Facts](docs/08-reference/canonical-facts.md)). See
-  [The Swarm Agents & Blackboard](docs/02-architecture/swarm-agents.md).
-- **71 MCP tools over one FastMCP server** — including **16 SIFT forensic tools** wrapped as
-  deterministic, fingerprinted callables (Volatility3, Plaso, The Sleuth Kit, EVTX, YARA,
-  bulk_extractor, RegRipper, EZ-Tools, and more). See the
-  [MCP Tool Reference](docs/04-mcp-tools/tool-reference.md).
-- **Evidence sovereignty** — a pre/post **SHA-256 evidence invariant** guarantees the engine
-  never mutates the artifacts it reads; only *deterministic* tools may produce findings. See
-  [Anti-Hallucination](docs/05-safety-forensics/anti-hallucination.md).
-- **Thymus read-only policy** — the *Thymus* (named for the immune-system organ that screens out
-  harmful cells) is a deny-by-default safety boundary (`mcp_server/thymus_policy.py`) that
-  inspects every tool call and blocks any write/exec path before a tool runs. See the
-  [Security Model](docs/07-sdlc-ops/security-model.md).
-- **Courtroom audit seal** — the *Courtroom seal* is an **HMAC-SHA256** signature over the
-  JSONL chain-of-custody audit log (`courtroom.py`): a keyed cryptographic seal that makes the
-  log tamper-evident (any later edit invalidates the seal), so the run can be defended like
-  courtroom evidence — plus [provenance-chain validation](docs/05-safety-forensics/provenance-grounding.md).
-- **Optional approval sidecar** — a human gate that holds findings in DRAFT until an examiner
-  APPROVES them in a browser **Approval Portal** (tailnet-only, at
-  `https://siftworkstation.taile7c9ca.ts.net:8443/`), before any report is sealed. See the
-  [Approval Portal walkthrough](docs/05-safety-forensics/approval-portal.md).
-- **Typed, provenance-tagged responses** — every tool returns a Pydantic model carrying a
-  `raw_stdout_sha256` provenance fingerprint, not a free-form dict. See the
-  [Response Envelope](docs/04-mcp-tools/response-envelope.md).
-- **Ground-truth recall you can audit** — **72/72 (100%)** disk recall (regression) and
-  **108/118 (91.5%)** combined memory recall, with **4464** tests. See
-  [Testing](docs/07-sdlc-ops/testing.md) (numbers per
-  [Canonical Facts](docs/08-reference/canonical-facts.md)).
-
-Full capability matrix: [What You Get](docs/01-overview/what-you-get.md).
-
----
-
-## Recommended Investigation Workflow
-
-```text
-1. doctor      Pre-flight the SIFT toolchain on PATH.
-               $ uv run agentropix-sift doctor
-
-2. run         Trinity Loop triages the image end-to-end.
-               $ uv run agentropix-sift run /cases/INC-0605/disk.E01 -o report.json
-               → Architect proposes agents → Swarm runs deterministic tools
-               → Critic scores findings → halt on convergence fingerprint.
-
-3. review      A human examiner reads the findings and verifies them
-               against the underlying artifacts (raw_stdout_sha256, paths).
-
-4. approve     (optional) Promote reviewed findings DRAFT → APPROVED
-               through the approval sidecar before anything is sealed.
-
-5. seal        Courtroom emits the HMAC-SHA256 audit seal + provenance chain.
-
-6. escalate    (optional) Push APPROVED findings to Wazuh as alerts.
-```
-
-Each step is documented as a worked use case:
-[Disk triage](docs/06-use-cases/uc-disk-triage.md) ·
-[Memory triage](docs/06-use-cases/uc-memory-triage.md) ·
-[Approval gate](docs/06-use-cases/uc-approval-gate.md) ·
-[Wazuh push](docs/06-use-cases/uc-wazuh-push.md).
-
----
-
-## Architecture
-
-```mermaid
-flowchart TB
-    classDef actor fill:#d0bfff,stroke:#7048e8,color:#2b1a52,stroke-width:2px
-    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f,stroke-width:2px
-    classDef ext fill:#e9ecef,stroke:#495057,color:#212529,stroke-width:1px
-    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400,stroke-width:1.5px
-
-    Examiner(["DFIR Examiner<br/>runs triage · reviews · approves findings"]):::actor
-
-    subgraph Host["SANS SIFT Workstation — local host"]
-        Agentropix["Agentropix-SIFT<br/>Trinity Loop engine + FastMCP server (71 tools)"]:::core
-        Toolchain["SIFT Forensic Toolchain<br/>Volatility3 · Plaso · Sleuth Kit · EVTX · YARA · … (16 tools)"]:::ext
-        Evidence[("Evidence Store<br/>E01 / raw / memory — read-only")]:::ext
-    end
-
-    Wazuh["Wazuh / SIEM<br/>optional alert sink for APPROVED findings"]:::sink
-
-    Examiner -->|"agentropix-sift run / review / approve"| Agentropix
-    Agentropix -->|"invokes deterministic binaries (read-only)"| Toolchain
-    Agentropix -->|"reads + SHA-256 fingerprints, never mutates"| Evidence
-    Agentropix -->|"pushes APPROVED findings (optional)"| Wazuh
-
-    style Host fill:#f1f3f5,stroke:#868e96,color:#212529
-```
-
-A DFIR examiner drives Agentropix-SIFT from the CLI on a local SIFT host. The engine never
-reaches outside that host except for the *optional* Wazuh push of already-APPROVED findings.
-Internally, the **Architect** proposes which agents to spawn, the **Swarm** invokes the 16
-wrapped SIFT forensic tools through the FastMCP server's 71-tool surface, and the **Critic**
-scores the accumulated findings — halting deterministically when the findings stop changing
-(a convergence fingerprint), never on an LLM's self-assessed confidence. The **Thymus**
-read-only policy and the **pre/post SHA-256 evidence invariant** sit between every tool and
-the evidence store, guaranteeing the artifacts are read but never altered. Finally the
-**Courtroom** seals the audit log with HMAC-SHA256 and validates the provenance chain.
-
-For the full picture: [System Context & Containers](docs/02-architecture/system-context-c4.md) ·
-[Component Architecture & Layer Map](docs/02-architecture/component-architecture.md) ·
-[Sequence Diagrams](docs/02-architecture/sequence-diagrams.md).
+> Agentropix-SIFT is built to be *checked*, not *believed*. The LLM proposes and narrates; it never rates
+> its own work and never becomes the source of a finding. **You remain the examiner of record.** Review
+> the findings, confirm the underlying artifacts, and use the optional
+> [human-in-the-loop approval gate](docs/05-safety-forensics/human-in-the-loop.md) before anything is
+> sealed or escalated. See [Anti-Hallucination](docs/05-safety-forensics/anti-hallucination.md).
 
 ---
 
 ## How AI drives Agentropix — the consumer model
 
-The novel angle is *where the AI sits*. Agentropix-SIFT is **three deterministic layers with the
-stochastic LLM confined to the top**. The LLM is not an oracle wired into the findings — it is
-simply **a consumer of the same FastMCP tool surface** that the CLI uses. From the MCP boundary
-down, everything is pure Python driving classical forensic binaries.
+The novel angle is *where the AI sits*. Agentropix-SIFT is **deterministic layers with the stochastic
+LLM confined to the top**. The LLM is not an oracle wired into the findings — it is simply **a consumer
+of the same FastMCP tool surface** that the CLI uses. From the MCP boundary down, everything is pure
+Python driving classical forensic binaries: no RNG, no LLM self-rating.
+
+You drive it **two ways from one engine**: as a plain `agentropix-sift run` command, or by talking to an
+LLM (Claude Desktop / Claude Code) that has the MCP server connected. A non-technical examiner can type
+*"open a case for this disk image and run the SIFT triage"* and the session routes it to the real MCP
+tools; an expert calls the exact tool. *Adapt Agentropix to the user, not the user to Agentropix.*
 
 ```mermaid
 flowchart TB
@@ -200,64 +106,144 @@ flowchart TB
     CRIT -- "stable_agents (next iteration)" --> ARCH
 ```
 
-- **One tool surface, two consumers.** The same `@app.tool()` functions that the swarm calls are
-  also exposed to an LLM client — the server is built by `_build_app()` /
-  `FastMCP("agentropix-sift")` (`mcp_server/fastmcp_app.py`). The package installs two console
-  scripts: `agentropix-sift` (the triage CLI) and `agentropix-sift-mcp` (the MCP server,
-  `pyproject.toml` `[project.scripts]`). An LLM connects to the latter; the CLI bypasses it and
+> 📐 Renders wider than the column on GitLab — [**Open as SVG** (full size, zoomable)](assets/readme-1.svg).
+
+- **One tool surface, two consumers.** The same `@app.tool()` functions the swarm calls are also exposed
+  to an LLM client; the server is built by `_build_app()` / `FastMCP("agentropix-sift")`
+  (`mcp_server/fastmcp_app.py`). The package installs two console scripts: `agentropix-sift` (triage CLI)
+  and `agentropix-sift-mcp` (the MCP server). An LLM connects to the latter; the CLI bypasses it and
   drives the engine directly. See [The FastMCP Server](docs/02-architecture/mcp-server.md).
-- **Two transports.** The MCP server speaks **stdio** (the default — paired with a Claude
-  Desktop / Claude Code `mcp.json` `"command"` entry) or **HTTP+SSE** under `/mcp` (tailnet-only,
-  Bearer-gated, default port 8765). Both transports funnel into the **same tool core**. See
-  [Connect a Client to a Live Internal MCP Server](docs/09-integrations/client-setup.md).
-- **The LLM proposes, never authors.** The `args_hash` + bounded `raw_output` snapshot is captured
-  **at the MCP boundary**, so a sealed report can prove the LLM phrased a request three ways but
-  never authored — or touched — a fact. Agents are *pure async coroutines over the MCP boundary,
-  with no LLM coupling* (`agents/_base.py`). See
-  [The Agentic Architecture](docs/10-agents/agentic-architecture.md) and
-  [FastMCP Execution](docs/10-agents/fastmcp-execution.md).
+- **Two transports.** The MCP server speaks **stdio** (default — paired with a Claude Desktop / Claude
+  Code `mcp.json` entry) or **HTTP+SSE** under `/mcp` (tailnet-only, Bearer-gated, default port 8765).
+  Both funnel into the **same tool core**. See [Connect a Client](docs/09-integrations/client-setup.md).
+- **The LLM proposes, never authors.** The `args_hash` + bounded `raw_output` snapshot is captured **at
+  the MCP boundary**, so a sealed report can prove the LLM phrased a request three ways but never authored
+  — or touched — a fact. Agents are *pure async coroutines over the MCP boundary, with no LLM coupling*
+  (`agents/_base.py`).
 
-> **"Agent" means two different things here.** The **runtime DFIR swarm agent** (a `SwarmAgent`
-> subclass that investigates evidence) is unrelated to the **build-time BMAD dev-crew persona**
-> (a reviewer's hat that helped build the system, never a process on the host). Section 10
-> disambiguates them — read [The Agentic Architecture](docs/10-agents/agentic-architecture.md)
-> first whenever the word is ambiguous.
+> **"Agent" means two different things here.** The **runtime DFIR swarm agent** (a `SwarmAgent` subclass
+> that investigates evidence) is unrelated to the **build-time BMAD dev-crew persona**. Section 10
+> disambiguates them — read [The Agentic Architecture](docs/10-agents/agentic-architecture.md) first
+> whenever the word is ambiguous.
 
 ---
 
-## Two Paths: Operator (Expert) and End-User
+## What you get — capability highlights
 
-Agentropix-SIFT adapts to the user, not the other way around. The same triage capability is
-reachable two ways — the **expert command**, or the **plain-language prompt** a non-technical
-examiner types into Claude (with the Agentropix MCP connected), which routes to a **real MCP
-tool**. Every operational page in the portal documents both lanes side by side.
+| Capability | The one-line value | Canonical figure | Source-code home |
+|---|---|---|---|
+| **Trinity Loop** | Deterministic Architect → Swarm → Critic control loop; halts on a convergence fingerprint, **never on an LLM self-rating** | Critic halt default **0.85** | `trinity/architect.py`, `trinity/critic.py`, `orchestrator.py` |
+| **71 MCP tools** | One FastMCP server exposes **71 distinct forensic tools** over stdio + HTTP | **71** tools | `mcp_server/fastmcp_app.py` |
+| **16 SIFT wrappers** | Hardened drivers (timeout, memory ceiling, retry, stderr capture, tracing) around the 16 trusted SIFT binaries | **16** wrappers | `mcp_server/wrappers/` |
+| **7-agent Swarm + ATT&CK detectors** | Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt specialists + 6 deterministic MITRE ATT&CK detectors | **7** specialists (**13** `SWARM` classes) | `agents/`, `detectors/` |
+| **Quorum Blackboard** | An observation is promoted to a `Correlation` only when enough agents corroborate the same token | quorum default **2** | `agents/_blackboard.py` |
+| **Thymus read-only policy** | Every `mcp_*` call is checked against a path allowlist *before* any subprocess spawns — evidence is structurally read-only (no write tool exists) | deny-by-default | `mcp_server/thymus_policy.py` |
+| **Courtroom seal** | SHA-256 evidence byte-binding + HMAC-SHA256 report/audit-log seal → a report a judge can independently verify | mode-0600 session key | `courtroom.py` |
+| **Provenance & grounding** | Every `Finding._source` names the tool that produced it; `inference_constraint = high`; per-row HMAC chain validation | 3 grounding layers | `agents/_base.py`, `provenance/validate.py` |
+| **Approval sidecar (HITL)** | Optional HMAC examiner sign-off: PBKDF2 key (600k iters) + nonce + append-only approval hash chain + browser form | 2 MCP tools | `approval_sidecar/` |
+| **Wazuh SIEM push** | Promote findings/IOCs into Wazuh behind **default-deny** kill switches + active-response CIDR guard | 5 Wazuh tools | `wazuh/` |
+| **Chaos-tested resilience** | Fault-injection tests prove graceful degradation: a missing tool skips an agent, not the run | `chaos` test marker | `tests/chaos/` |
 
-| | 🖥️ Operator / Expert (command) | 💬 End-user (prompt) |
-|---|---|---|
-| **Pre-flight** | `uv run agentropix-sift doctor` | *"Check that my SIFT forensic tools are installed and ready."* |
-| **Run a triage** | `uv run agentropix-sift run /cases/INC-0605/disk.E01 -o report.json` | *"Open a case for the image at `/cases/INC-0605/disk.E01`, register it as evidence, run the full SIFT triage, and save the report."* |
-| **List memory processes** | MCP tool `get_pslist` | *"List the processes in the memory image and flag anything suspicious."* |
-| **Approve a finding** | promote DRAFT → APPROVED in the Approval Portal | *"Show me the findings waiting for review so I can approve them."* |
-
-The end-user prompts map to real MCP tools (verify against the
-[Tool Capability Map](docs/04-mcp-tools/capability-map.md)). The gold-standard treatment of both
-lanes — manual ↔ autonomous × expert ↔ non-expert — is the
-[User Guide](docs/01-overview/user-guide.md).
+Full capability matrix: [What You Get](docs/01-overview/what-you-get.md).
 
 ---
 
-## Deployment & Requirements
+## Architecture
 
-| Requirement | Detail |
-|-------------|--------|
-| **Python** | **3.12+** (`pyproject.toml`: `requires-python = ">=3.12"`). Stock SIFT ships 3.10 — provide 3.12 via `uv`, `pyenv`, or the `deadsnakes` PPA. |
-| **Host** | A SANS SIFT Workstation (or Ubuntu host with the GIFT PPA toolchain). Runs **fully local** — no API keys, no cloud dependency for the forensic path. |
-| **Toolchain on `PATH`** | The 16 SIFT forensic binaries: Volatility3, `log2timeline`, Sleuth Kit (`fls`/`icat`/`mmls`), `ewf-tools`, YARA, `bulk_extractor`, RegRipper, EVTX, EZ-Tools, mail parsers. Agentropix-SIFT *drives* these — it does not ship them. |
-| **Degradation** | Missing tools degrade gracefully (the agent is skipped, not the run) — but recall drops, so run `doctor` first. |
+**The shape: one deterministic loop over one tool server, with a safety spine.**
 
-See [Deployment](docs/07-sdlc-ops/deployment.md) for SIFT install, tailnet exposure, and the
-runbook index, and [Recovery & Resilience](docs/07-sdlc-ops/recovery-resilience.md) for the
-failure-mode catalogue.
+A DFIR examiner drives Agentropix-SIFT from the CLI on a local SIFT host. The engine never reaches
+outside that host except for the *optional* Wazuh push of already-APPROVED findings.
+
+```mermaid
+flowchart TB
+    classDef actor fill:#d0bfff,stroke:#7048e8,color:#2b1a52,stroke-width:2px
+    classDef core fill:#b2f2bb,stroke:#2f9e44,color:#15391f,stroke-width:2px
+    classDef ext fill:#e9ecef,stroke:#495057,color:#212529,stroke-width:1px
+    classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400,stroke-width:1.5px
+
+    Examiner(["DFIR Examiner<br/>runs triage · reviews · approves findings"]):::actor
+
+    subgraph Host["SANS SIFT Workstation — local host"]
+        Agentropix["Agentropix-SIFT<br/>Trinity Loop engine + FastMCP server (71 tools)"]:::core
+        Toolchain["SIFT Forensic Toolchain<br/>Volatility3 · Plaso · Sleuth Kit · EVTX · YARA · … (16 tools)"]:::ext
+        Evidence[("Evidence Store<br/>E01 / raw / memory — read-only")]:::ext
+    end
+
+    Wazuh["Wazuh / SIEM<br/>optional alert sink for APPROVED findings"]:::sink
+
+    Examiner -->|"agentropix-sift run / review / approve"| Agentropix
+    Agentropix -->|"invokes deterministic binaries (read-only)"| Toolchain
+    Agentropix -->|"reads + SHA-256 fingerprints, never mutates"| Evidence
+    Agentropix -->|"pushes APPROVED findings (optional)"| Wazuh
+
+    style Host fill:#f1f3f5,stroke:#868e96,color:#212529
+```
+
+> 📐 Renders wider than the column on GitLab — [**Open as SVG** (full size, zoomable)](assets/readme-2.svg).
+
+Internally, the **Architect** proposes which agents to spawn (by default it returns the canonical
+`SWARM` tuple in priority order; a default-on Reflexion-lite step drops agents the Critic marked
+*stable*). The **7-agent Swarm** invokes the 16 wrapped SIFT forensic tools through the FastMCP server's
+71-tool surface, writing `Finding`s to a shared **Blackboard**; cross-agent agreement at a **quorum** of
+2 becomes a `Correlation`. The **Critic** scores the accumulated findings with a *closed-form* rule —
+`score = min(1.0, max_confidence + 0.25 · len(correlations))` — and halts deterministically when the
+findings stop changing (a convergence fingerprint), bounded by a hard `max_iterations` budget, **never
+on an LLM's self-assessed confidence**. The **Thymus** read-only policy and the **pre/post SHA-256
+evidence invariant** sit between every tool and the evidence store. Finally the **Courtroom** seals the
+audit log with HMAC-SHA256 and validates the provenance chain.
+
+For the full picture: [System Context & Containers](docs/02-architecture/system-context-c4.md) ·
+[Component Architecture & Layer Map](docs/02-architecture/component-architecture.md) ·
+[The Trinity Loop](docs/02-architecture/trinity-loop.md) ·
+[Sequence Diagrams](docs/02-architecture/sequence-diagrams.md).
+
+### Key design decisions (the decision contract)
+
+The architecture is contracted in immutable **Architecture Decision Records** mirrored from the oracle.
+The load-bearing ones for newcomers:
+
+| ADR | Decision |
+|---|---|
+| [ADR-002 — Execution engine](docs/11-ADR/ADR-002-execution-engine.md) | The deterministic Trinity Loop as the execution model. |
+| [ADR-008 — Safety architecture](docs/11-ADR/ADR-008-safety-architecture.md) | The deny-by-default Thymus boundary + evidence read-only invariant. |
+| [ADR-011 — Evidence gates](docs/11-ADR/ADR-011-evidence-gates.md) | Pre/post SHA-256 evidence-integrity gates. |
+| [ADR-016 — Courtroom audit](docs/11-ADR/ADR-016-courtroom-audit.md) / [ADR-022 — Audit-log seal](docs/11-ADR/ADR-022-audit-log-seal.md) | HMAC-SHA256 tamper-evident chain of custody. |
+| [ADR-017 — Tailnet MCP exposure](docs/11-ADR/ADR-017-tailnet-mcp-exposure.md) | HTTP transport is tailnet-only + Bearer-gated. |
+| [ADR-018 — Wazuh IOC push](docs/11-ADR/ADR-018-wazuh-ioc-push.md) / [ADR-019 — AR confirmation gate](docs/11-ADR/ADR-019-ar-confirmation-gate.md) | Default-deny SIEM push + active-response confirmation. |
+
+Read the status column literally (Proposed ⇒ not shipped; Deferred ⇒ documented, not implemented). Full
+index: [ADR Index](docs/08-reference/adr-index.md) · [Section 11 — ADRs](docs/11-ADR/README.md) ·
+rationale narratives in [Design Decisions](docs/08-reference/design-decisions.md).
+
+---
+
+## Recommended investigation workflow
+
+```text
+1. doctor      Pre-flight the SIFT toolchain on PATH.
+               $ uv run agentropix-sift doctor
+
+2. run         Trinity Loop triages the image end-to-end.
+               $ uv run agentropix-sift run /cases/INC-0605/disk.E01 -o report.json
+               → Architect proposes agents → Swarm runs deterministic tools
+               → Critic scores findings → halt on convergence fingerprint.
+
+3. review      A human examiner reads the findings and verifies them
+               against the underlying artifacts (raw_stdout_sha256, paths).
+
+4. approve     (optional) Promote reviewed findings DRAFT → APPROVED
+               through the approval sidecar before anything is sealed.
+
+5. seal        Courtroom emits the HMAC-SHA256 audit seal + provenance chain.
+
+6. escalate    (optional) Push APPROVED findings to Wazuh as alerts.
+```
+
+Each step is a worked use case: [Disk triage](docs/06-use-cases/uc-disk-triage.md) ·
+[Memory triage](docs/06-use-cases/uc-memory-triage.md) ·
+[Approval gate](docs/06-use-cases/uc-approval-gate.md) ·
+[Wazuh push](docs/06-use-cases/uc-wazuh-push.md).
 
 ---
 
@@ -269,38 +255,68 @@ uv run agentropix-sift doctor                                 # 2. pre-flight th
 uv run agentropix-sift run samples/sample.dd -o report.json   # 3. first triage
 ```
 
-The package installs two console scripts — `agentropix-sift` (the triage CLI) and
-`agentropix-sift-mcp` (the MCP server). The full step-by-step, including `pip` install and
-example `doctor` output, is in the [Quickstart](docs/01-overview/quickstart.md). Every CLI
-command and flag is enumerated in the [CLI Reference](docs/08-reference/cli-reference.md).
+The package installs two console scripts — `agentropix-sift` (the triage CLI) and `agentropix-sift-mcp`
+(the MCP server). The full step-by-step, including `pip` install and example `doctor` output, is in the
+[Quickstart](docs/01-overview/quickstart.md). Every CLI command and flag is enumerated in the
+[CLI Reference](docs/08-reference/cli-reference.md).
+
+### Deployment & requirements
+
+| Requirement | Detail |
+|-------------|--------|
+| **Python** | **3.12+** (`pyproject.toml`: `requires-python = ">=3.12"`). Stock SIFT ships 3.10 — provide 3.12 via `uv`, `pyenv`, or the `deadsnakes` PPA. |
+| **Host** | A SANS SIFT Workstation (or Ubuntu host with the GIFT PPA toolchain). Runs **fully local** — no API keys, no cloud dependency for the forensic path. |
+| **Toolchain on `PATH`** | The 16 SIFT forensic binaries: Volatility3, `log2timeline`, Sleuth Kit (`fls`/`icat`/`mmls`), `ewf-tools`, YARA, `bulk_extractor`, RegRipper, EVTX, EZ-Tools, mail parsers. Agentropix-SIFT *drives* these — it does not ship them. |
+| **Degradation** | Missing tools degrade gracefully (the agent is skipped, not the run) — but recall drops, so run `doctor` first. |
+
+See [Deployment](docs/07-sdlc-ops/deployment.md) for SIFT install + tailnet exposure, and
+[Recovery & Resilience](docs/07-sdlc-ops/recovery-resilience.md) for the failure-mode catalogue.
 
 ---
 
-## MCP Tools
+## Two Paths: Operator (Expert) and End-User
 
-Agentropix-SIFT exposes **71 distinct MCP tools** over a single FastMCP server (verified live
-via `tools/list` and `health.tool_count`; see [Canonical Facts](docs/08-reference/canonical-facts.md)). Of these,
-**16 are SIFT forensic tools** — deterministic binaries wrapped under
-`mcp_server/wrappers/` so each call captures the binary's raw stdout and fingerprints it with
-SHA-256. The remainder cover case lifecycle, finding records, reporting, provenance,
-approval, executable-artifact registry, and Wazuh integration.
+The same triage capability is reachable two ways — the **expert command**, or the **plain-language
+prompt** a non-technical examiner types into Claude (with the Agentropix MCP connected), which routes to
+a **real MCP tool**. Every operational page in the portal documents both lanes side by side.
+
+| | 🖥️ Operator / Expert (command) | 💬 End-user (prompt) |
+|---|---|---|
+| **Pre-flight** | `uv run agentropix-sift doctor` | *"Check that my SIFT forensic tools are installed and ready."* |
+| **Run a triage** | `uv run agentropix-sift run /cases/INC-0605/disk.E01 -o report.json` | *"Open a case for the image at `/cases/INC-0605/disk.E01`, register it as evidence, run the full SIFT triage, and save the report."* |
+| **List memory processes** | MCP tool `get_pslist` | *"List the processes in the memory image and flag anything suspicious."* |
+| **Approve a finding** | promote DRAFT → APPROVED in the Approval Portal | *"Show me the findings waiting for review so I can approve them."* |
+
+End-user prompts map to real MCP tools (verify against the
+[Tool Capability Map](docs/04-mcp-tools/capability-map.md)). The gold-standard treatment of both lanes —
+manual ↔ autonomous × expert ↔ non-expert — is the [User Guide](docs/01-overview/user-guide.md).
+
+---
+
+## MCP surface
+
+Agentropix-SIFT exposes **71 distinct MCP tools** over a single FastMCP server (verified live via
+`tools/list` and `health.tool_count`; see [Canonical Facts](docs/08-reference/canonical-facts.md)). Of
+these, **16 are SIFT forensic tools** — deterministic binaries wrapped under `mcp_server/wrappers/` so
+each call captures the binary's raw stdout and fingerprints it with SHA-256. The remainder cover case
+lifecycle, finding records, reporting, provenance, approval, executable-artifact registry, and Wazuh.
 
 | Family | Examples | Reference |
 |--------|----------|-----------|
 | Forensic wrappers (16 SIFT tools) | `get_pslist`, `fls`, `get_evtx`, `yara_scan`, `get_partitions`, `get_evt` | [Tool Reference](docs/04-mcp-tools/tool-reference.md) |
 | Case & finding lifecycle | `record_finding`, `delete_finding`, `case_status`, `generate_report` | [Tool Reference](docs/04-mcp-tools/tool-reference.md) |
-| Provenance & approval | `retract_approval`, provenance/IOC promotion (`promote_iocs`) | [Provenance](docs/05-safety-forensics/provenance-grounding.md) |
+| Provenance & approval | `retract_approval`, IOC promotion (`promote_iocs`) | [Provenance](docs/05-safety-forensics/provenance-grounding.md) |
 | Executable-artifact registry | `build_executable_registry`, `promote_executable_registry`, `exec_registry_get`, `exec_registry_search` | [Tool Reference](docs/04-mcp-tools/tool-reference.md) |
 | Wazuh integration | `wazuh_hunt_ioc` (+ wrappers) | [Wazuh push](docs/06-use-cases/uc-wazuh-push.md) · [Operator's guide](docs/09-integrations/wazuh-portal.md) |
 
-See the full enumeration in the [MCP Tool Reference](docs/04-mcp-tools/tool-reference.md), which
-agent invokes which tool in [Tools by Agent](docs/04-mcp-tools/tool-by-agent.md), and the typed
-return shape in the [Response Envelope](docs/04-mcp-tools/response-envelope.md).
+Full enumeration: [MCP Tool Reference](docs/04-mcp-tools/tool-reference.md) · who calls what:
+[Tools by Agent](docs/04-mcp-tools/tool-by-agent.md) · per-tool breakdown:
+[Tool List](docs/04-mcp-tools/tool-list.md).
 
 ### Response envelope (example)
 
-Every tool returns a typed Pydantic model serialized with `model_dump()` — never a free-form
-dict. A successful `get_pslist` against a memory image:
+Every tool returns a typed Pydantic model serialized with `model_dump()` — never a free-form dict. A
+successful `get_pslist` against a memory image:
 
 ```json
 {
@@ -318,31 +334,29 @@ dict. A successful `get_pslist` against a memory image:
 }
 ```
 
-The load-bearing field is **`raw_stdout_sha256`** — the SHA-256 of the binary's raw stdout
-bytes, the provenance fingerprint that ties the finding back to the exact tool output. Soft
-failures return the same model with `tool_available: false` and a `skipped_reason`; handled
-errors return a structured `ToolError`. Full field tables:
-[Response Envelope](docs/04-mcp-tools/response-envelope.md).
+The load-bearing field is **`raw_stdout_sha256`** — the SHA-256 of the binary's raw stdout bytes, the
+provenance fingerprint that ties the finding back to the exact tool output. Soft failures return the same
+model with `tool_available: false` and a `skipped_reason`; handled errors return a structured
+`ToolError`. Full field tables: [Response Envelope](docs/04-mcp-tools/response-envelope.md).
 
 ---
 
-## Security & Anti-Hallucination
+## Safety & anti-hallucination
 
-Agentropix-SIFT is engineered so that the LLM **cannot** become the source of a forensic
-claim:
+Agentropix-SIFT is engineered so that the LLM **cannot** become the source of a forensic claim:
 
 - **Deterministic-tools-only findings** — a finding may only be recorded from the output of a
   deterministic forensic binary; the LLM narrates and proposes but never authors evidence.
-- **No LLM self-rating** — the Critic halts on a deterministic *convergence fingerprint*
-  (default threshold 0.85, `trinity/critic.py`), not on a model's self-assessed confidence.
-- **Pre/post SHA-256 evidence invariant** — evidence is hashed before and after every run;
-  any mutation aborts the run. The engine reads but never alters the image.
-- **Thymus read-only policy** — deny-by-default boundary (`mcp_server/thymus_policy.py`)
-  blocking write/exec paths before a tool executes.
-- **Courtroom HMAC-SHA256 seal** — the audit log (JSONL) is sealed and the provenance chain
-  validated (`courtroom.py`, `provenance/`), giving a tamper-evident chain of custody.
-- **Human-in-the-loop** — the optional approval sidecar (`approval_sidecar/`) holds findings
-  in DRAFT until an examiner APPROVES them.
+- **No LLM self-rating** — the Critic halts on a deterministic *convergence fingerprint* (default
+  threshold **0.85**, `trinity/critic.py`), not on a model's self-assessed confidence.
+- **Pre/post SHA-256 evidence invariant** — evidence is hashed before and after every run; any mutation
+  aborts the run. The engine reads but never alters the image.
+- **Thymus read-only policy** — deny-by-default boundary (`mcp_server/thymus_policy.py`) blocking
+  write/exec paths *before* a tool executes; no write tool exists in the surface.
+- **Courtroom HMAC-SHA256 seal** — the audit log (JSONL) is sealed and the provenance chain validated
+  (`courtroom.py`, `provenance/`), giving a tamper-evident chain of custody.
+- **Human-in-the-loop** — the optional approval sidecar (`approval_sidecar/`) holds findings in DRAFT
+  until an examiner APPROVES them.
 
 Deep dives: [Anti-Hallucination](docs/05-safety-forensics/anti-hallucination.md) ·
 [Provenance & Grounding](docs/05-safety-forensics/provenance-grounding.md) ·
@@ -351,86 +365,111 @@ Deep dives: [Anti-Hallucination](docs/05-safety-forensics/anti-hallucination.md)
 
 ---
 
-## Configuration
+## Engineering & evaluation (SDLC depth)
 
-Behavior is tuned through the `AGENTROPIX_*` environment surface — Critic halt threshold,
-Blackboard quorum, status taxonomy, tool-path overrides, and more — with safe defaults so the
-engine runs out of the box. See [Configuration](docs/07-sdlc-ops/configuration.md) for the
-full env-var table.
+*For the advanced engineer and the evaluator/judge.* The SDLC + quality spine: how the system is tested,
+deployed, hardened, kept resilient, scored, and how its decisions are contracted. Every number tracks
+[Canonical Facts](docs/08-reference/canonical-facts.md).
+
+**Quick links:** [Testing](docs/07-sdlc-ops/testing.md) · [Recall corpus](docs/07-sdlc-ops/dataset-recall.md) ·
+[Eval scorecard](docs/07-sdlc-ops/evaluation-scorecard.md) · [Security model](docs/07-sdlc-ops/security-model.md) ·
+[Recovery & resilience](docs/07-sdlc-ops/recovery-resilience.md) · [Deployment](docs/07-sdlc-ops/deployment.md) ·
+[Implementation](docs/07-sdlc-ops/implementation.md) · [ADR index](docs/11-ADR/README.md)
+
+- **Testing — 4464 collected tests** (`pytest --collect-only -q`) in two tiers. *Fast / always-run*
+  (mock-based, CI + pre-commit): `tests/unit/`, `chaos/`, `provenance/`, `evidence_gate/`,
+  `approval_sidecar/`, `secrets_gate/`, `wazuh/`. *Host-gated* (skip-with-reason when the fixture is
+  absent): `integration/` (SIFT binaries + a staged E01), `wazuh_live`, `real_corpus`. A missing E01 or
+  unreachable Wazuh is a **skip naming every searched path** — never a false failure.
+- **Correctness gates wired into CI:** `pytest-cov`, **basedpyright `strict`** typing as a correctness
+  gate (not a lint), **ruff** selectors `E,F,W,I,UP,B,SIM`, and `asyncio_mode = "auto"` (fitting — every
+  agent is an async coroutine over the MCP boundary).
+- **Forward-drift gate (for evaluators):** the test count is CI-enforced — a doc quoting the count
+  without citing the canonical fact file fails the build, and known-stale literals are *actively
+  rejected*. See [Canonical Facts](docs/08-reference/canonical-facts.md).
+- **Ground-truth recall you can audit:** **72/72 (100%)** disk recall (regression) and **108/118
+  (91.5%)** combined memory recall. Methodology, including the post-hoc ground-truth caveat:
+  [Dataset Recall](docs/07-sdlc-ops/dataset-recall.md) · scoring rubric:
+  [Evaluation Scorecard](docs/07-sdlc-ops/evaluation-scorecard.md).
 
 ---
 
-## Documentation
+## SWOT — strategic assessment
 
-Start at the routed [master table of contents](INDEX.md), which maps every chapter to its
-audience (operator / examiner / developer / auditor) and the question it answers.
+A structured strategic assessment for evaluators, engineers, and adopters. Each cell is grounded in the
+repository corpus (`docs/COMPETITIVE-DFIR.md` oracle, [Canonical Facts](docs/08-reference/canonical-facts.md),
+[Competitive Positioning](docs/01-overview/competitive-positioning.md)).
 
-### The eleven sections at a glance
+| | **Helpful** | **Harmful** |
+|---|---|---|
+| **Internal** | **Strengths** — *Structural* evidence safety, not a policy promise: agents have **no write tool**; the Thymus policy refuses every write call before the subprocess spawns. Real SANS DFIR tools driven **inside** the agent loop (**16/16 wrappers**, **71 MCP tools**) — rivals explain JSON *after* collection. Deterministic, auditable execution: a fingerprint no-progress detector halts the Trinity Loop with **no LLM in the halt path**, backed by a hash-chained decision ledger. | **Weaknesses** — A **triage engine, not a case-management product**: no HTML report generator, no commercial case-file UX (vs Magnet AXIOM, CADO); output is JSON + the audit ledger. **Read-only consumer**, no host-collection ecosystem (vs Velociraptor's agent fleet) — caps it at post-collection triage. Memory-forensics recall (**108/118**) trails disk (**72/72**) and is the active improvement front. |
+| **External** | **Opportunities** — The MCP consumer model means *any* MCP-speaking LLM client becomes a forensic front-end with zero retraining. Default-local, no-API-key posture fits air-gapped / sovereign SOCs. The ATT&CK detector lane is extensible — deferred detectors (W051/W052/W054) are wired and unit-tested, ready to promote into live recall. | **Threats** — Forensic admissibility scrutiny of any AI-assisted pipeline raises the documentation bar (mitigated by the courtroom seal + provenance chain). Upstream SIFT tool drift (binary flags / output format) can silently shift wrapper parsing — covered by host-gated integration tests. Commercial incumbents move fast on AI features. |
 
-The portal is organized into eleven numbered sections under `docs/`. One line each, so a
-newcomer knows where to look:
+Full competitive analysis: [Competitive Positioning](docs/01-overview/competitive-positioning.md).
+
+---
+
+## Configuration
+
+Behavior is tuned through the `AGENTROPIX_*` environment surface — Critic halt threshold, Blackboard
+quorum, status taxonomy, tool-path overrides, and more — with safe defaults so the engine runs out of the
+box. See [Configuration](docs/07-sdlc-ops/configuration.md) and the
+[env-var table](docs/07-sdlc-ops/env-vars.md).
+
+---
+
+## Canonical facts
+
+> **Single source of truth for every numeric claim** — never state a number that contradicts it.
+
+| Fact | Value |
+|------|-------|
+| MCP tools | **71** distinct tool functions |
+| SIFT forensic wrappers | **16** |
+| Tests collected | **4464** |
+| Disk recall (regression) | **72/72 (100%)** |
+| Memory recall (combined) | **108/118 (91.5%)** |
+| Core swarm specialists | **7** (Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt) |
+| `SWARM` classes (incl. ATT&CK detectors) | **13** |
+| Critic halt threshold (default) | **0.85** |
+| Blackboard quorum (default) | **2** |
+| Python | **3.12+** |
+
+Full table with per-row sources and verification dates:
+[Canonical Facts](docs/08-reference/canonical-facts.md).
+
+---
+
+## Documentation map
+
+Start at the routed [master table of contents](INDEX.md), which maps every chapter to its audience and
+the question it answers. The portal is organized into eleven numbered sections under `docs/`:
 
 | # | Section | What it contains |
 |---|---------|------------------|
 | 1 | [Overview](docs/01-overview/what-is-agentropix.md) | What Agentropix-SIFT is and why, the capability matrix, the 3-command Quickstart, the complete operator User Guide, and how it compares to alternatives. |
-| 2 | [Architecture](docs/02-architecture/system-context-c4.md) | How the engine is built — system context, internal components, the Trinity Loop, the Swarm + Blackboard, the FastMCP server (and the Thymus boundary), and step-by-step sequence diagrams. |
-| 3 | [Data](docs/03-data/data-models.md) | The data model — the case/finding/report schemas, the data dictionary, the entity-relationship view, and what gets persisted to disk. |
-| 4 | [MCP Tools](docs/04-mcp-tools/tool-reference.md) | The 71-tool MCP surface — the full tool reference, the typed Response Envelope, which agent invokes which tool, and the capability map for picking a tool by DFIR function. |
+| 2 | [Architecture](docs/02-architecture/system-context-c4.md) | How the engine is built — system context, internal components, the Trinity Loop, the Swarm + Blackboard, the FastMCP server (and the Thymus boundary), and sequence diagrams. |
+| 3 | [Data](docs/03-data/data-models.md) | The data model — case/finding/report schemas, the data dictionary, the entity-relationship view, and what gets persisted to disk. |
+| 4 | [MCP Tools](docs/04-mcp-tools/tool-reference.md) | The 71-tool MCP surface — the full tool reference, the typed Response Envelope, which agent invokes which tool, and the capability map. |
 | 5 | [Safety & Forensics](docs/05-safety-forensics/anti-hallucination.md) | Why you can trust the output — anti-hallucination guarantees, provenance grounding, the Courtroom audit seal, the human-in-the-loop gate, the Approval Portal, and the AI disclosure. |
 | 6 | [Use Cases](docs/06-use-cases/uc-disk-triage.md) | End-to-end worked runs — disk triage, memory triage, the approval gate, the Wazuh push, a guided demo walkthrough, and per-case attack-chain hypotheses. |
 | 7 | [SDLC & Operations](docs/07-sdlc-ops/implementation.md) | How to build, run, and operate it — implementation, testing, configuration, deployment, the security model, recovery/resilience, recall methodology, and the evaluation scorecard. |
 | 8 | [Reference](docs/08-reference/cli-reference.md) | Look-up material — the full CLI reference, the glossary, the ADR index, and the design-decision rationale. |
 | 9 | [Integrations](docs/09-integrations/wazuh-portal.md) | Connecting to external systems — the Wazuh/SOC portal operator's guide and how to connect a remote client to a live internal MCP server. |
 | 10 | [Agents](docs/10-agents/agentic-architecture.md) | What "agent" means here — the agentic architecture, the build-time delegation model, the FastMCP tool-execution path, and the canonical runtime swarm roster. |
-| 11 | [ADRs](docs/11-ADR/README.md) | The **decision contract** — the immutable Architecture Decision Records mirrored from the oracle: the eight strategic foundations (001–008), the capability/forensic ADRs (009–024, incl. the Courtroom seal, Wazuh push, and the AR confirmation gate), and the milestone/defer records. Read the status column literally (Proposed ⇒ not shipped; Deferred ⇒ documented, not implemented). |
+| 11 | [ADRs](docs/11-ADR/README.md) | The **decision contract** — the immutable Architecture Decision Records mirrored from the oracle (001–024 + milestone/defer records). Read the status column literally. |
 
 The portal's documentation-QA working notes (render audits, case-guide sweeps) live under
-[`docs/issues/`](docs/issues/) — maintainer-facing, not reader chapters; their screenshots
-(`docs/issues/*.png`) are gitignored.
-
-### Getting started by role
-
-Pick your lane — each is a short, ordered reading path. The full per-audience routing lives in the
-[Documentation Index](INDEX.md#reading-paths-by-audience).
-
-- **Operator / examiner (run a case):** start with the
-  **[User Guide — The Complete Operator Runbook](docs/01-overview/user-guide.md)** — one complete
-  case in full operational depth, covering both execution paths (manual · autonomous) and both
-  clients (Claude CLI · Claude Desktop), with the validated 2026-05-29 CFReDS run as a worked
-  example. Then [What is Agentropix-SIFT?](docs/01-overview/what-is-agentropix.md) →
-  [Quickstart](docs/01-overview/quickstart.md) →
-  [Disk Triage](docs/06-use-cases/uc-disk-triage.md) →
-  [CLI Reference](docs/08-reference/cli-reference.md).
-- **End-user (non-technical, prompt-driven):** read the **Two Paths** table above, then the
-  end-user lanes in the [User Guide](docs/01-overview/user-guide.md) and the
-  [Tool Capability Map](docs/04-mcp-tools/capability-map.md) — every action shows the plain-language
-  prompt that drives the same MCP tool.
-- **Developer / SDLC (build, test, extend):** [Implementation](docs/07-sdlc-ops/implementation.md) →
-  [The Trinity Loop](docs/02-architecture/trinity-loop.md) →
-  [The Swarm Agents & Blackboard](docs/02-architecture/swarm-agents.md) →
-  [The FastMCP Server](docs/02-architecture/mcp-server.md) →
-  [Data Models](docs/03-data/data-models.md) →
-  [MCP Tool Reference](docs/04-mcp-tools/tool-reference.md) →
-  [Testing](docs/07-sdlc-ops/testing.md) → [ADR Index](docs/08-reference/adr-index.md) →
-  [Architecture Decision Records (Section 11)](docs/11-ADR/README.md) (the immutable decision contract) →
-  [Maintenance — The Dual-Repo Sync](docs/07-sdlc-ops/maintenance-dual-repo.md).
-- **Auditor (verify soundness & chain of custody):**
-  [Security Model](docs/07-sdlc-ops/security-model.md) →
-  [Audit & Courtroom Seal](docs/05-safety-forensics/audit-courtroom.md) →
-  [Provenance & Grounding](docs/05-safety-forensics/provenance-grounding.md) →
-  [Persisted Artifacts](docs/03-data/persisted-artifacts.md) →
-  [Evaluation Corpus & Recall Methodology](docs/07-sdlc-ops/dataset-recall.md) →
-  [Canonical Facts](docs/08-reference/canonical-facts.md).
+[`docs/issues/`](docs/issues/) — maintainer-facing, not reader chapters.
 
 ---
 
 ## Acknowledgments
 
-Built on the shoulders of the open-source DFIR ecosystem: the **SANS SIFT Workstation** and
-the forensic tools it bundles — **Volatility3**, **Plaso/log2timeline**, **The Sleuth Kit**,
-**python-evtx**, **YARA**, **bulk_extractor**, **RegRipper**, the **EZ-Tools** family, and the
-mail-parsing libraries (`libpff`, `extract-msg`). The MCP surface is served by
-[**FastMCP**](https://github.com/jlowin/fastmcp).
+Built on the shoulders of the open-source DFIR ecosystem: the **SANS SIFT Workstation** and the forensic
+tools it bundles — **Volatility3**, **Plaso/log2timeline**, **The Sleuth Kit**, **python-evtx**,
+**YARA**, **bulk_extractor**, **RegRipper**, the **EZ-Tools** family, and the mail-parsing libraries
+(`libpff`, `extract-msg`). The MCP surface is served by [**FastMCP**](https://github.com/jlowin/fastmcp).
 
 ## License
 
