@@ -105,6 +105,18 @@ each enforced in code (per `COMPETITIVE-DFIR.md`; the in-portal
    independently-sealed audit log cross-bound into the report + evidence-image SHA-256
    anchor.
 
+> **Genesis of these four (ADRs).** Each property is a deliberate, recorded decision in
+> [Section 11 — ADRs](../11-ADR/README.md): (1) the SIFT-toolkit-as-MCP substrate →
+> [ADR-001 · SDK Selection](../11-ADR/ADR-001-sdk-selection.md) (plus per-tool wrappers
+> [ADR-012](../11-ADR/ADR-012-extract-files.md) / [ADR-013](../11-ADR/ADR-013-evtx-wrapper.md));
+> (2) structural evidence safety / Thymus →
+> [ADR-008 · Safety Architecture](../11-ADR/ADR-008-safety-architecture.md);
+> (3) deterministic halt →
+> [ADR-002 · Execution Engine](../11-ADR/ADR-002-execution-engine.md);
+> (4) cryptographic chain-of-custody →
+> [ADR-016 · Courtroom Audit + Sealing](../11-ADR/ADR-016-courtroom-audit.md) +
+> [ADR-022 · Audit-Log Seal](../11-ADR/ADR-022-audit-log-seal.md).
+
 ---
 
 ## Feature matrix vs the field
@@ -240,8 +252,9 @@ The project names its losses explicitly — these are deliberate non-goals, not 
 To prevent scope confusion, the project states its non-goals up front. These are the
 **deliberate non-goals** the oracle records in `COMPETITIVE-DFIR.md`
 §"Honest where we lose" and the deferral list in `docs/REVIEW-2026-04-20.md`; non-goal
-#5 (no active response) is the subject of its own ADR
-(`docs/adr/ADR-021-two-person-rule-defer.md`):
+#5 (no active response) is the subject of its own ADR —
+[ADR-021 · Two-Person Rule for Active Response (Deferred)](../11-ADR/ADR-021-two-person-rule-defer.md)
+(oracle: `docs/adr/ADR-021-two-person-rule-defer.md`):
 
 1. **Not a GUI / dashboard.** CLI + JSON output is the primary interface.
 2. **Not a training tool.** It automates what an analyst already knows; it doesn't teach
@@ -251,7 +264,8 @@ To prevent scope confusion, the project states its non-goals up front. These are
 4. **Not a fine-tuning platform.** Existing Claude models are orchestrated; no model
    training.
 5. **Not attacker-facing.** The agent is read-only by design — no remediation, no
-   process-kill, no file-delete. Active Response is a separate, deferred tier (ADR-021).
+   process-kill, no file-delete. Active Response is a separate, deferred tier
+   ([ADR-021](../11-ADR/ADR-021-two-person-rule-defer.md)).
 6. **Not "give me the answer."** The analyst still reads, interprets, and contextualizes
    the findings; the system accelerates the legwork, not the thinking.
 

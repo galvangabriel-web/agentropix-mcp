@@ -20,6 +20,11 @@
 >   [Tool List](../04-mcp-tools/tool-list.md) (the 71-tool catalogue, EZ wrappers flagged).
 > - **Reference:** [Design Decisions](../08-reference/design-decisions.md) (the hybrid
 >   genuine-binary-vs-substitute rationale).
+> - **ADRs (decision rationale):** [ADR-013 · `mcp_get_evtx`
+>   wrapper](../11-ADR/ADR-013-evtx-wrapper.md) (Accepted) — the dual-format event-log wrapper
+>   and the `evtx_dump 0.11.2` digest pin that §5 governs · [ADR-012 ·
+>   `mcp_extract_files`](../11-ADR/ADR-012-extract-files.md) (Accepted) — the typed
+>   extraction tool many EZ wrappers consume before parsing.
 > - **Oracle source of truth:** `docs/EZ-TOOLS-MAPPING.md` (the SANS Find-Evil mapping of each EZ
 >   Tool category to its SIFT/Linux or genuine-`.NET` driver), plus the wrapper modules under
 >   `src/agentropix_sift/mcp_server/wrappers/` — these are authoritative; the narrative

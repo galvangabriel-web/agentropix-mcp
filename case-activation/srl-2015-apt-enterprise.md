@@ -90,7 +90,7 @@ correlate across hosts:
   per-host images into one UTC stream, then `pivot_on_ioc` on any C2 indicator
   (e.g. an attacker IP/hash) to see which of the four hosts it touched.
 
-Platform facts (cite [`.crew/facts.md`](/home/admin2/docu_agentro/.crew/facts.md)):
+Platform facts (cite [`.crew/facts.md`](../docs/08-reference/canonical-facts.md)):
 **71** MCP tools, **16** SIFT forensic wrappers, **4464** tests. Trust the live
 `health.tool_count`, not any banner.
 
@@ -383,7 +383,7 @@ at the approval gate** — a bot must not sign chain-of-custody. Use Claude CLI
 > [`END-USER-CASE-GUIDE.md`](/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md);
 > house style + dual-audience + numbered-playbook from
 > [`docs/01-overview/user-guide.md`](/home/admin2/docu_agentro/docs/01-overview/user-guide.md);
-> canonical numbers from [`.crew/facts.md`](/home/admin2/docu_agentro/.crew/facts.md)
+> canonical numbers from [`.crew/facts.md`](../docs/08-reference/canonical-facts.md)
 > (71 tools / 16 wrappers / 4464 tests). Evidence inventory re-confirmed
 > metadata-only (`file` / `ewfinfo` / `du`) against `/cases/SRL-2015/` on 2026-06-06.
 > The `10.3.58.x` values are **evidence-host IPs embedded in the image acquisition

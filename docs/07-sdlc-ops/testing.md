@@ -185,4 +185,22 @@ staged, so the regression fails fast even where the live E01 cannot run.
 - [implementation](implementation.md) — the code the tests exercise.
 - [security-model](security-model.md) — the Thymus / seal invariants the audit suite checks.
 
+### Recall-gate decisions (ADRs)
+
+The deferral decisions behind "code landed + unit-tested, live recall measurement postponed"
+— exactly the pattern the recall gate enforces — are recorded in the
+[Architecture Decision Records](../11-ADR/):
+
+- [ADR-W051-defer](../11-ADR/ADR-W051-defer.md) (EventID 4624 detector) and
+  [ADR-W054-defer](../11-ADR/ADR-W054-defer.md) (MFT timestomp detector) — code shipped and
+  unit-tested; live-recall contribution deferred to M6.3.
+- [ADR-W052-T2-defer](../11-ADR/ADR-W052-T2-defer.md) and
+  [ADR-W052-T6-defer](../11-ADR/ADR-W052-T6-defer.md) — defer crediting ground-truth #2 / #6
+  pending stronger evidence keywords (the deterministic-substring rule the recall gate scores on).
+- The PLASO_TIMEOUT discriminator (§4, W-128) traces to the Plaso-wrapper sampling/priority work
+  in [ADR-M6.3-event-window](../11-ADR/ADR-M6.3-event-window.md) and the documented
+  wrapper-OK-but-detector-silent gap in [ADR-M6.3-residual-gap](../11-ADR/ADR-M6.3-residual-gap.md).
+- The `tests/evidence_gate/` suite pins the regime decided in
+  [ADR-011](../11-ADR/ADR-011-evidence-gates.md) (evidence-type gate consolidation).
+
 [setup-pre-commit]: deployment.md

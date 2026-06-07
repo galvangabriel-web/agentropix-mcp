@@ -69,7 +69,9 @@ It validates against [`report.schema.json`](data-dictionary.md#1-triagereport--t
 **Integrity.** Carries the three courtroom invariants — `evidence_image_sha256` (binds to the image
 bytes), `inference_constraint = "high"` (every fact ← a named MCP tool in `trace.tool_calls`), and
 `report_seal` (HMAC over the canonical JSON). See
-[data-models.md §courtroom-invariant-chain](data-models.md#6-the-courtroom-invariant-chain).
+[data-models.md §courtroom-invariant-chain](data-models.md#6-the-courtroom-invariant-chain). These
+invariants — and the per-run session key + HMAC seal below — were established by
+[ADR-016 (Courtroom Audit)](../11-ADR/ADR-016-courtroom-audit.md).
 
 ---
 
@@ -119,6 +121,10 @@ with a valid internal `audit_log_seal` — produces a different cross-bound valu
 fails (`courtroom.py:385`). Neither file can be replaced in isolation. The legacy
 `write_sealed_report` (`courtroom.py:205`) seals only the report and is retained for callers with no
 audit entries (legacy/test paths); new code uses `write_sealed_session`.
+
+> **Why this exists (ADR).** Giving the Thymus access trail its *own* HMAC envelope and cross-binding
+> it to the report seal was decided in [ADR-022 (Audit-Log Seal)](../11-ADR/ADR-022-audit-log-seal.md),
+> which extends the report-seal work of [ADR-016 (Courtroom Audit)](../11-ADR/ADR-016-courtroom-audit.md).
 
 ---
 
@@ -181,6 +187,12 @@ a mutating tool call consumes it (one-shot spend, stamping `spent_run_id` and `s
 be revoked. The token is sourced from `AGENTROPIX_MUTATION_TOKEN` (env, never a CLI flag). Most triage
 runs are pure read-only and spend no token.
 
+> **Why this exists (ADR).** The mutation-token regime (`egt_…` format, explicit scope binding,
+> fail-closed gate, token-id audit) was defined in
+> [ADR-018 Decision 8](../11-ADR/ADR-018-wazuh-ioc-push.md). ADR-018 itself flags that
+> [ADR-011](../11-ADR/ADR-011-evidence-gates.md) covers evidence *file-type* detection — **not** the
+> mutation-token regime.
+
 ---
 
 ## MASTER-IOCS aggregate
@@ -211,6 +223,10 @@ checks the filename and SHA-256 match the sidecar, then constant-time compares t
 against `signature_hex`. It is the input the Wazuh push path reads to hunt IOCs in the SIEM; provenance
 travels with every record so a pushed indicator remains traceable to the exact evidence bytes it was
 extracted from.
+
+> **Why this exists (ADR).** The Wazuh IOC push pipeline this aggregate feeds — Tier-1/2/3 priority
+> taxonomy, fail-closed provenance gate, and IOC→evidence-image binding — originates in
+> [ADR-018 (Wazuh IOC Push)](../11-ADR/ADR-018-wazuh-ioc-push.md).
 
 ---
 
@@ -257,3 +273,12 @@ log has been altered, and can replay every deterministic step from the `raw_outp
 - How these entities relate: [schema-er.md](schema-er.md)
 - Environment variables governing paths/keys: [`env-vars.md`](../07-sdlc-ops/env-vars.md)
 - Canonical numbers: [`canonical-facts.md`](../08-reference/canonical-facts.md)
+
+### Decision rationale (ADRs)
+
+| Artifact | ADR (genesis / rationale) |
+|---|---|
+| `<report>.json` + `<report>.session-key` seal | [ADR-016 — Courtroom Audit](../11-ADR/ADR-016-courtroom-audit.md) |
+| `<report>.audit-log.json` independent seal + cross-binding | [ADR-022 — Audit-Log Seal](../11-ADR/ADR-022-audit-log-seal.md) |
+| Evidence-gate token registry (`TokenRow`) | [ADR-018 Decision 8 — Mutation token regime](../11-ADR/ADR-018-wazuh-ioc-push.md) (≠ [ADR-011](../11-ADR/ADR-011-evidence-gates.md) evidence-type gate) |
+| `MASTER-IOCS.json` + Wazuh push | [ADR-018 — Wazuh IOC Push](../11-ADR/ADR-018-wazuh-ioc-push.md) |

@@ -45,7 +45,7 @@ refers to the underlying SIFT command-line forensic binaries that the wrapper la
 | Mechanism | Applies to | Source |
 |---|---|---|
 | Bearer-token middleware | All HTTP-exposed tools (tailnet-only) | ADR-017 |
-| `mutation_token` arg | `record_finding`, `idx_ingest`, `promote_iocs`, `promote_executable_registry`, `wazuh_index_findings`, `wazuh_publish_iocs` | per-tool signature |
+| `mutation_token` arg | `record_finding`, `idx_ingest`, `promote_iocs`, `promote_executable_registry`, `wazuh_index_findings`, `wazuh_publish_iocs` | per-tool signature; ADR-011 |
 | `password` (HMAC approval) | `approve_finding`, `retract_approval` | approval sidecar; ADR-016/022 |
 | `dry_run` guard | all promote/ingest/publish/delete tools | per-tool signature |
 
@@ -180,3 +180,33 @@ reconciliation: 74 decorator occurrences, `wazuh_hunt_ioc` registered in two mod
 count matters in a chapter, cite `mcp_tool_count = 71` from [`canonical-facts.md`](../08-reference/canonical-facts.md) and re-query the live
 `tools/list`. Backing-module attributions for a few tools are best-effort from wrapper names; confirm
 against `fastmcp_app.py` registration before asserting a non-obvious module in prose.
+
+---
+
+## Related
+
+**Sibling 04-mcp-tools references:**
+
+- [Tool reference](tool-reference.md) — the master per-tool reference (args, envelopes, examples).
+- [Tools by agent](tool-by-agent.md) — which swarm agent invokes which of these tools.
+- [Capability map](capability-map.md) — tools grouped by forensic capability.
+- [Response envelope](response-envelope.md) — the common result shape every tool returns.
+
+**Related elsewhere in the portal:**
+
+- [MCP server architecture](../02-architecture/mcp-server.md) — the single FastMCP server that
+  registers and exposes these 71 tools.
+- [Swarm agents](../10-agents/README.md) · [Agents list](../10-agents/agents-list.md) — the agents
+  that call these tools.
+- [Canonical facts](../08-reference/canonical-facts.md) — oracle for `mcp_tool_count = 71`, the 16
+  forensic wrappers, and other figures cited above.
+- [Data dictionary](../03-data/data-dictionary.md) — the case artifacts the mutating tools persist.
+
+**Relevant ADRs:**
+
+- [ADR-017 — Tailnet MCP exposure](../11-ADR/ADR-017-tailnet-mcp-exposure.md) — bearer-token
+  middleware for all HTTP-exposed tools.
+- [ADR-011 — Evidence-type gate consolidation](../11-ADR/ADR-011-evidence-gates.md) — the shared
+  evidence-type helper and `mutation_token` model behind the **[MUT]** tools.
+- [ADR-016 — Courtroom audit](../11-ADR/ADR-016-courtroom-audit.md) · [ADR-022 — Audit-log seal](../11-ADR/ADR-022-audit-log-seal.md)
+  — the HMAC approval / append-only model behind `approve_finding` and `retract_approval`.

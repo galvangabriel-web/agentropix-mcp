@@ -239,3 +239,24 @@ performance accelerant, not a correctness dependency.
 - [testing](testing.md) — the test topology and recall gate that guard this codebase.
 - [configuration](configuration.md) — the `AGENTROPIX_*` env-var surface.
 - [deployment](deployment.md) — standing the package up on a SIFT host.
+
+### Why these modules exist (ADRs)
+
+The rationale (genesis / why-implemented) for several packages above lives in the
+[Architecture Decision Records](../11-ADR/):
+
+- `courtroom.py` chain-of-custody crypto — already cited inline:
+  [ADR-016](../11-ADR/ADR-016-courtroom-audit.md) (courtroom audit + cryptographic sealing) and
+  [ADR-022](../11-ADR/ADR-022-audit-log-seal.md) (the cross-bound audit-log seal).
+- `chromosomes/` + the Genesis mathematical layer —
+  [ADR-010](../11-ADR/ADR-010-genesis-module.md) (Genesis Module as a pure mathematical layer).
+- `evidence_gate/` mutation-token regime and the shared evidence-type helper the data agents
+  call — [ADR-011](../11-ADR/ADR-011-evidence-gates.md) (evidence-type gate consolidation).
+- `mcp_server/wrappers/extract.py` (`extract_files`) —
+  [ADR-012](../11-ADR/ADR-012-extract-files.md); `evtx.py` (`get_evtx` dual-format wrapper) —
+  [ADR-013](../11-ADR/ADR-013-evtx-wrapper.md).
+- `mcp_server/thymus_policy.py` read-only boundary and HTTP transport defaults —
+  [ADR-008](../11-ADR/ADR-008-safety-architecture.md) (bio-agentic safety model) and
+  [ADR-017](../11-ADR/ADR-017-tailnet-mcp-exposure.md) (tailnet-only MCP exposure).
+- `reports/` tiered rendering — [ADR-024](../11-ADR/ADR-024-multi-tier-report-engine.md)
+  (multi-tier report engine; status: Proposed — audit notes the `report_export` tool shipped).

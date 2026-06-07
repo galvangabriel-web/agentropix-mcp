@@ -289,6 +289,21 @@ output is byte-identical (modulo the W-077 race below).
 
 ---
 
+## Decision records (why this works the way it does)
+
+- [ADR-015 — Context Engineering: Progressive Disclosure](../11-ADR/ADR-015-context-engineering.md)
+  — the rationale for the thin-nav-hub + load-on-demand skills model behind the
+  "system prompts + loaded skills" that cross the API (§4).
+- [ADR-016 — Courtroom Audit: High Inference Constraint + Cryptographic
+  Sealing](../11-ADR/ADR-016-courtroom-audit.md) — the genesis of the
+  inference-constraint declaration and the HMAC report seal (§3 commitment 5, §5
+  replay primitive 3).
+- [ADR-022 — Audit-Log Seal](../11-ADR/ADR-022-audit-log-seal.md) — the W-173
+  decision behind the independently-sealed, cross-bound audit log cited in §3
+  (commitment 5).
+
+---
+
 > **Reconciliation note.** Earlier draft material referenced "46 tools",
 > "11 agents", and the package name "agentropix_mcp". Per
 > [`canonical-facts.md`](../08-reference/canonical-facts.md) and the live code, the correct

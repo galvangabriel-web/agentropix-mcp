@@ -8,7 +8,7 @@
 > Dual-audience throughout: **🖥️ command** (expert CLI/MCP) and **💬 prompt**
 > (plain-language to a Claude session with the Agentropix MCP attached).
 >
-> Canonical numbers cited from [`.crew/facts.md`](/home/admin2/docu_agentro/.crew/facts.md):
+> Canonical numbers cited from [`.crew/facts.md`](../docs/08-reference/canonical-facts.md):
 > **71 MCP tools**, **16 SIFT forensic wrappers**, **4464 tests**, memory recall
 > **108/118 (91.5 %)**. MCP endpoint shape: `http://<TAILNET-HOST>:8765/mcp`
 > (tailnet-only; get the real host + bearer token from Client Setup — never inlined here).
@@ -54,7 +54,7 @@ case_init → case_activate → evidence_register (sha256)
 
 > **Why these tools.** `get_pslist`/`get_netscan`/`get_malfind`/`get_svcscan`/`build_process_tree`
 > are the five first-class memory wrappers (verified in
-> [`.crew/tool-list.md`](/home/admin2/docu_agentro/.crew/tool-list.md), category `memory`,
+> [`.crew/tool-list.md`](../docs/04-mcp-tools/tool-list.md), category `memory`,
 > backed by `wrappers/volatility.py` + `wrappers/correlation.py`). The CTF flags
 > typically live behind *specific* Volatility plugins — reach those via **`run_volatility`**
 > with a supported spelling: `cmdline` (`windows.cmdline.CmdLine`), `filescan`

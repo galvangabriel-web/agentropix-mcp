@@ -275,3 +275,17 @@ rejected at index time — these models are the only safe surface"
   the approval hash chain mirrors.
 - [Provenance & Grounding](provenance-grounding.md) — provenance tiers stamped
   on the same DRAFT-gate path (`wazuh_tools._apply_draft_gate`).
+
+### Decision records (why this gate exists)
+
+- [ADR-008 — Safety Architecture (Bio-Agentic Safety
+  Model)](../11-ADR/ADR-008-safety-architecture.md) — the Oncologist principle
+  ("irreversible agent actions require human oversight at the decision point")
+  and the Thymus self/non-self gate that is the input half of the gate model.
+- [ADR-019 — Active Response Confirmation Gate](../11-ADR/ADR-019-ar-confirmation-gate.md)
+  — why no autonomous agent may take an irreversible/sign-off action on its own
+  (the LLM07 / Oncologist rationale behind the Hard-Stop deny-list).
+- [ADR-021 — Two-Person Rule for Active Response (DEFERRED)](../11-ADR/ADR-021-two-person-rule-defer.md)
+  — why dual control is *not* yet required: the single-examiner gate documented
+  here is sufficient for the current phase, with the two-person rule recorded as
+  a deferred commitment.

@@ -285,3 +285,36 @@ Individual tool envelopes are the leaves; the run as a whole rolls up into the *
 snapshot and `output_hash`), and the report carries the court-defensible invariants
 (`inference_constraint="high"`, `evidence_image_sha256`, HMAC `report_seal`). For the full report
 contract see the [schema reference](../03-data/schema-er.md).
+
+---
+
+## Related
+
+**Within this section (04 · MCP Tools)**
+
+- [Tool reference](tool-reference.md) — the master categorized index of all 71 tools, with the
+  [degradation contract (W-135)](tool-reference.md#degradation-contract-w-135) and
+  [auth & mutation model](tool-reference.md#auth--mutation-model-applies-across-the-catalogue) this page cross-references.
+- [Capability map](capability-map.md) — what the catalogue lets you *do*, grouped by capability.
+- [Tools by agent](tool-by-agent.md) — which swarm agent invokes which tools (the callers that consume these envelopes).
+- [Tool list](tool-list.md) — the flat alphabetical roster of every tool.
+
+**Architecture & execution**
+
+- [MCP server](../02-architecture/mcp-server.md) — the FastMCP boundary that calls `result.model_dump()`,
+  and §3.5 [the wrapper layer and the two error-envelope contracts](../02-architecture/mcp-server.md#35-the-wrapper-layer-and-the-two-error-envelope-contracts).
+- [FastMCP execution](../10-agents/fastmcp-execution.md) — one agent tool call, station by station, from prompt to returned envelope.
+- [Agentic architecture](../10-agents/agentic-architecture.md) — the agents that read `tool_available` / `skipped_reason` and the rolled-up trace.
+
+**Data & schema**
+
+- [Schema / ER reference](../03-data/schema-er.md) — the full Triage Report contract these leaf envelopes roll up into.
+- [Data models](../03-data/data-models.md) — the Pydantic report models (`PsList`, `FlsReport`, `RecordFindingResult`, …) serialized here.
+- [Persisted artifacts](../03-data/persisted-artifacts.md) — where `audit_id`, `indexed_to` indices, and findings land on disk.
+
+**Reference & decisions**
+
+- [Canonical facts](../08-reference/canonical-facts.md) — oracle figures (71 tools, 16 wrappers, …) used throughout this page.
+- [ADR-011 — evidence gates](../11-ADR/ADR-011-evidence-gates.md) — the `mutation_token` / dry-run gating behind the mutation fields.
+- [ADR-016 — courtroom audit](../11-ADR/ADR-016-courtroom-audit.md) and [ADR-022 — audit-log seal](../11-ADR/ADR-022-audit-log-seal.md) — the `audit_id` and `report_seal` provenance chain.
+- [ADR-024 — multi-tier report engine](../11-ADR/ADR-024-multi-tier-report-engine.md) — the byte-budget (`truncated` / `result_bytes`) and approval-filtered (`warning`) behavior of `ReportGenerateResult`.

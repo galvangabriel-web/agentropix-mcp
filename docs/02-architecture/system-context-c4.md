@@ -242,3 +242,23 @@ flowchart LR
 - The FastMCP server, transports, and Thymus boundary in detail → [mcp-server.md](mcp-server.md)
 - End-to-end request flows (triage, tool call, seal, approval, Wazuh) →
   [sequence-diagrams.md](sequence-diagrams.md)
+
+## 5. Related ADRs (decision rationale)
+
+The three architecture levels above each rest on a foundational decision record. The ADRs
+cited inline are the entry points:
+
+- **The production deployment topology (§3 — Kubernetes)** →
+  [ADR-007 · Deployment Model (Kubernetes)](../11-ADR/ADR-007-deployment-model.md)
+  (Implemented).
+- **The tailnet-only, Bearer-token exposure contract (§1, §3)** →
+  [ADR-017 · Tailnet-only HTTP MCP exposure](../11-ADR/ADR-017-tailnet-mcp-exposure.md)
+  (Accepted).
+- **The court-defensibility seal and `inference_constraint="high"` declaration (§1)** →
+  [ADR-016 · Courtroom Audit + Cryptographic Sealing](../11-ADR/ADR-016-courtroom-audit.md)
+  (Accepted).
+- **The fail-safe "default to stopping" safety posture (§1 — no LLM authors a finding)** →
+  [ADR-008 · Safety Architecture (Bio-Agentic)](../11-ADR/ADR-008-safety-architecture.md)
+  (Implemented).
+- **The optional Wazuh IOC-push sink (§1, §3)** →
+  [ADR-018 · Wazuh IOC Push Integration](../11-ADR/ADR-018-wazuh-ioc-push.md) (Accepted).

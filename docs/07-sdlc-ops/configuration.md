@@ -281,7 +281,16 @@ The Wazuh surface ships **safe by default** — disabled, dry-run-only:
 Connectivity (`WAZUH_MANAGER_URL` `:55000`, `WAZUH_INDEXER_URL` `:9200`), credentials
 (prefer `AGENTROPIX_WAZUH_API_PASSWORD_FILE` over inline), index/ISM patterns, and the W-188
 runner caps are enumerated in [env-vars §1, §7](env-vars.md). TLS verify must stay
-`true` outside `AGENTROPIX_ENV=development` (ADR-016 S-4 / ADR-018).
+`true` outside `AGENTROPIX_ENV=development` ([ADR-016 §S-4](../11-ADR/ADR-016-courtroom-audit.md) /
+[ADR-018](../11-ADR/ADR-018-wazuh-ioc-push.md)).
+
+> **Why these are default-deny (ADRs).** The IOC-push gate and per-PUT HMAC chain of custody come
+> from [ADR-018](../11-ADR/ADR-018-wazuh-ioc-push.md); the `AGENTROPIX_AR_PROTECTED_CIDRS`
+> active-response guard and the confirmation requirement before any destructive AR come from
+> [ADR-019](../11-ADR/ADR-019-ar-confirmation-gate.md) (a two-person rule was deliberately
+> **deferred** — [ADR-021](../11-ADR/ADR-021-two-person-rule-defer.md)); the credential-handling
+> discipline (file-pointer first, `0600`, never echoed) is
+> [ADR-020](../11-ADR/ADR-020-credential-lifecycle.md).
 
 > **🖥️ Expert (command):**
 > ```bash

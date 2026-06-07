@@ -292,3 +292,15 @@ SANS case data is openly distributed.
 - [Security Model](security-model.md) — the Thymus read-only boundary and seal invariants that keep evidence bytes on-host.
 - [CANONICAL_FACTS](../08-reference/canonical-facts.md) — the canonical 72/72 + 108/118 recall pair and 4464-test count.
 - In-repo oracle: `docs/07-evaluator/evidence-dataset.md` (evaluator pack) · `CROSS-MODAL-RECALL-SUMMARY-2026-05-06.md` (cross-modal snapshot) · `samples/ground_truth_*.yaml` (the 29 ground-truth files).
+
+### Recall-measurement decisions (ADRs)
+
+The deferral decisions behind unmeasured / postponed recall — and the deterministic-keyword rule
+in §6 — are recorded in the [Architecture Decision Records](../11-ADR/):
+
+- [ADR-W051-defer](../11-ADR/ADR-W051-defer.md) / [ADR-W054-defer](../11-ADR/ADR-W054-defer.md) —
+  detector code landed + unit-tested, live-recall contribution deferred to M6.3.
+- [ADR-W052-T2-defer](../11-ADR/ADR-W052-T2-defer.md) /
+  [ADR-W052-T6-defer](../11-ADR/ADR-W052-T6-defer.md) — defer crediting ground-truth #2 / #6
+  pending stronger evidence keywords; this is the same W-052 rationale behind the
+  "deterministic substrings a tool actually emits, never a vendor label" rule in §6.

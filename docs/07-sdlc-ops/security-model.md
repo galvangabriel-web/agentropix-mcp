@@ -220,3 +220,24 @@ recall is a quality signal, not a security boundary.
 - [configuration](configuration.md) — the security-relevant `AGENTROPIX_*` knobs.
 - [the safety & forensics section](../05-safety-forensics/) — seal/provenance mechanics in depth.
 - [deployment](deployment.md) — tailnet exposure posture and token rotation.
+
+### Decision records behind these controls (ADRs)
+
+Each control on this page traces to an [Architecture Decision Record](../11-ADR/) that captures
+why it was implemented (or, for the deferred items, why it was deliberately not):
+
+- **Fail-safe, defense-in-depth posture (the whole §5 stance)** —
+  [ADR-008](../11-ADR/ADR-008-safety-architecture.md) (bio-agentic safety model that defaults to
+  stopping rather than continuing).
+- **HMAC courtroom seal (§3, §5)** — [ADR-016](../11-ADR/ADR-016-courtroom-audit.md); the
+  cross-bound audit-log seal — [ADR-022](../11-ADR/ADR-022-audit-log-seal.md).
+- **Server exposure / tailnet-only default (§4)** —
+  [ADR-017](../11-ADR/ADR-017-tailnet-mcp-exposure.md) (already cited inline).
+- **Wazuh IOC-push denylists + per-PUT HMAC chain of custody (§2)** —
+  [ADR-018](../11-ADR/ADR-018-wazuh-ioc-push.md).
+- **Active-response confirmation gate + protected CIDRs (§2)** —
+  [ADR-019](../11-ADR/ADR-019-ar-confirmation-gate.md); the two-person rule was deliberately
+  **deferred** in [ADR-021](../11-ADR/ADR-021-two-person-rule-defer.md) (the single-confirmation
+  gate suffices while no AR is invoked).
+- **Secret sourcing / file-pointer credential discipline (§3)** —
+  [ADR-020](../11-ADR/ADR-020-credential-lifecycle.md) (Wazuh credential lifecycle).

@@ -454,3 +454,23 @@ plaso multi-worker race, mitigated with `--workers=1`).
 - The `Finding` / `Correlation` / `Blackboard` data contracts → [03-data](../03-data/)
 - A full triage run showing agents filling the Blackboard →
   [sequence-diagrams.md](sequence-diagrams.md#1-full-triage-run-end-to-end)
+
+### Related ADRs (decision rationale)
+
+- **Why each agent gates on evidence type before running (§2 — DiscoveryAgent disk-only,
+  MemoryAgent memory-only)** — the consolidation that makes all four data-fetching agents
+  call one shared evidence-type helper (`agents/_evidence.py`) instead of inline literals →
+  [ADR-011 · Evidence-Type Gate Consolidation](../11-ADR/ADR-011-evidence-gates.md)
+  (Accepted). The ADR names `MemoryAgent`/`TimelineAgent`/`FilesystemAgent`/`ArtifactAgent`
+  by their gate predicates.
+- **The Hippocampus recall seam (§8.1)** — the memory system that persists each iteration's
+  `ReasoningTrace` for Lamarckian recall on the next pass →
+  [ADR-006 · Memory System](../11-ADR/ADR-006-memory-system.md) (Implemented).
+- **The deterministic loop the Swarm runs under (§8.4 fingerprinting, completion promises)**
+  — the iterate-until-complete execution engine →
+  [ADR-002 · Execution Engine (Ralph Orchestrator)](../11-ADR/ADR-002-execution-engine.md)
+  (Accepted/Implemented).
+- **The credential-dump path MemoryAgent drives (§7 — `impacket-secretsdump`)** — why
+  credential-dump triage routes through impacket and W-072 is deferred →
+  [ADR-014 · Credential-dump triage (impacket)](../11-ADR/ADR-014-W072-impacket-secretsdump.md)
+  (Accepted; W-072 deferred).

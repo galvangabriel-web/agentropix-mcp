@@ -176,7 +176,7 @@ sequenceDiagram
     CR->>CR: seal_audit_log(audit_dict, key) → audit_log_seal
     CR->>CR: cross-bind audit_log_seal into report dict
     CR->>CR: seal_report(report_dict, key) → report_seal
-    CR->>FS: write report.json + <stem>.session-key + <stem>.audit-log.json
+    CR->>FS: write report.json + (stem).session-key + (stem).audit-log.json
     CR-->>ORCH: report, key, audit paths
 
     Note over V: Later — independent verification
@@ -255,3 +255,14 @@ recomputation for the approval ledger:
   taxonomy these verifiers implement.
 - [Human-in-the-Loop](human-in-the-loop.md) — the append-only approval
   hash-chain, a sibling tamper-evidence mechanism.
+
+### Decision records (why this works the way it does)
+
+- [ADR-016 — Courtroom Audit: High Inference Constraint + Cryptographic
+  Sealing](../11-ADR/ADR-016-courtroom-audit.md) — the genesis of the three
+  load-bearing invariants (evidence hash, report HMAC seal, raw-output capture)
+  and the "smallest primitive" (HMAC-SHA256 over canonical JSON, no JOSE/JWT)
+  rationale.
+- [ADR-022 — Audit-Log Seal](../11-ADR/ADR-022-audit-log-seal.md) — the W-173
+  decision that extends ADR-016 with the independently-sealed, cross-bound
+  Thymus audit log (invariant 4 and the chain-of-custody cross-binding above).

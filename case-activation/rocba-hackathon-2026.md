@@ -9,7 +9,7 @@
 > procedure ([`END-USER-CASE-GUIDE.md`](../../agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md)) and the
 > portal house style / dual-audience (🖥️ command · 💬 prompt) of
 > [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md). Canonical numbers cite
-> [`.crew/facts.md`](../.crew/facts.md) (**71 MCP tools**, **16 SIFT wrappers**, **4464 tests**).
+> [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (**71 MCP tools**, **16 SIFT wrappers**, **4464 tests**).
 
 ---
 
@@ -413,4 +413,4 @@ cap bites on the heavy tools). The reference driver is
 > [`END-USER-CASE-GUIDE.md`](../../agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md). The per-case
 > offset-0 / Win10-artifact deviations are derived from this case's ground-truth audit
 > (`/cases/rocba/_work/ROCBA-HACKATHON-2026/audit/{MMLS,IMAGE_HASH,MEMORY_FORMAT,TIMEZONE}.txt`) and
-> `ewfinfo` — confirmed metadata-only on 2026-06-06. Canonical numbers: [`.crew/facts.md`](../.crew/facts.md).
+> `ewfinfo` — confirmed metadata-only on 2026-06-06. Canonical numbers: [`.crew/facts.md`](../docs/08-reference/canonical-facts.md).

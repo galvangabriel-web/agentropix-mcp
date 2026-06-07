@@ -79,3 +79,18 @@ Blackboard. Deterministic, no LLM; emit ATT&CK-tagged findings.
 - The "7-agent Swarm" of project prose = the 7 first-class specialists above. The runnable `SWARM`
   tuple is 13 classes (specialists + 6 detectors). When stating a count, prefer "7 core specialists
   + ATT&CK detectors" and cite `agents/__init__.py` (see [`canonical-facts.md`](../08-reference/canonical-facts.md) note).
+
+## Related ADRs (decision rationale)
+
+The decisions behind these agents and their evidence-handling contract live in
+[Section 11 · ADR](../11-ADR/). Per-agent / per-mechanism mapping:
+
+| Agent / mechanism | ADR | Why it exists |
+|---|---|---|
+| Critic deterministic scoring, `inference_constraint = high` on every Finding | [ADR-016 — Courtroom Audit + Cryptographic Sealing](../11-ADR/ADR-016-courtroom-audit.md) | Genesis of the court invariants the Critic and Findings enforce (provenance, inference-constraint declaration, HMAC seal). |
+| Shared evidence-type gate for the data-fetching agents (`MemoryAgent`/`TimelineAgent`/`FilesystemAgent`/`ArtifactAgent`) | [ADR-011 — Evidence-Type Gate Consolidation](../11-ADR/ADR-011-evidence-gates.md) | Why all four call one `agents/_evidence.py` helper (single source of truth, no inline literals). |
+| `ArtifactAgent`'s `mcp_extract_files → mcp_get_registry/amcache/shimcache` chain | [ADR-012 — `mcp_extract_files`](../11-ADR/ADR-012-extract-files.md) | Why a schema-clean raw-E01 extraction tool was added (typed Pydantic I/O, Thymus validation). |
+| `MemoryAgent` credential-dump triage path (secretsdump) | [ADR-014 — Credential-dump triage via impacket](../11-ADR/ADR-014-W072-impacket-secretsdump.md) | Why credential-dump triage routes through `impacket-secretsdump.py` (vol3 pin kept; W-072 deferred). |
+| `TimelineAgent` Plaso/log2timeline event window | [ADR-M6.3 — Per-parser sampling + priority filter](../11-ADR/ADR-M6.3-event-window.md) | Why the Plaso wrapper adds per-parser sampling + a priority filter. |
+| `ArtifactAgent` EVTX path (`mcp_get_evtx`) | [ADR-013 — `mcp_get_evtx` wrapper](../11-ADR/ADR-013-evtx-wrapper.md) | Why a dual-format Windows Event Log wrapper auto-detects evtx_dump output. |
+| Detector live-recall deferrals (why some detectors ship but aren't credited yet) | [ADR-W051-defer](../11-ADR/ADR-W051-defer.md) (EventID 4624) · [ADR-W054-defer](../11-ADR/ADR-W054-defer.md) (MFT timestomp) · [ADR-W052-T2-defer](../11-ADR/ADR-W052-T2-defer.md) · [ADR-W052-T6-defer](../11-ADR/ADR-W052-T6-defer.md) · [ADR-M6.3-residual-gap](../11-ADR/ADR-M6.3-residual-gap.md) | Code landed and unit-tested; live-recall measurement deliberately deferred (documented gaps, not design changes). |

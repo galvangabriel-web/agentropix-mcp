@@ -240,7 +240,9 @@ The report is *sealed-by* exactly one `SESSION_KEY` — a per-run HMAC key writt
 `AUDIT_LOG_FILE` (`<report>.audit-log.json`): the audit log's own `audit_log_seal` is copied into the
 report dict before the report seal is computed, so a post-hoc swap of either file fails verification
 (`write_sealed_session`, `courtroom.py:387`). This is a `||--||` relationship in both cases — exactly
-one of each per sealed report.
+one of each per sealed report. The session-key/report seal is
+[ADR-016](../11-ADR/ADR-016-courtroom-audit.md); the independent audit-log envelope it cross-binds to
+is [ADR-022](../11-ADR/ADR-022-audit-log-seal.md).
 
 ### `EVIDENCE_IMAGE` — the bytes under examination
 
@@ -253,6 +255,8 @@ how an IOC pushed to a SIEM remains traceable back to the exact evidence bytes.
 A one-shot, TTL-bounded token in the SQLite evidence-gate registry (`TokenRow`, `registry.py:113`).
 The relationship to a run is sparse (`}o--o|`): most runs are pure read-only triage and spend no
 token; a mutating operation *authorises-run* by spending exactly one token, stamping `spent_run_id`.
+The mutation-token regime is [ADR-018 Decision 8](../11-ADR/ADR-018-wazuh-ioc-push.md) (distinct from
+the [ADR-011](../11-ADR/ADR-011-evidence-gates.md) evidence file-type gate).
 Field detail: [data-dictionary §8](data-dictionary.md#8-tokenrow--evidence-gate-mutation-token).
 
 ### `IOC_RECORD` and `IOC_PROVENANCE` — the SIEM-bound intelligence
@@ -261,7 +265,8 @@ Each IOC record (the `IPIOCRecord` / `SHA256IOCRecord` / … family, `wazuh/mode
 exactly one `IOC_PROVENANCE` (`||`) — provenance is first-class (WZ-019). Without it, when
 `AGENTROPIX_REQUIRE_IOC_PROVENANCE` is set, construction raises `ProvenanceMissingError`
 (`wazuh/models.py:178`). Provenance pins `source_evidence_sha256`, `extraction_tool`, and `analyst`,
-linking the IOC back to the `EVIDENCE_IMAGE`. Field detail:
+linking the IOC back to the `EVIDENCE_IMAGE`. The IOC push pipeline and its first-class provenance gate
+originate in [ADR-018 (Wazuh IOC Push)](../11-ADR/ADR-018-wazuh-ioc-push.md). Field detail:
 [data-dictionary §10](data-dictionary.md#10-wazuh-ioc-record-family).
 
 ### `APPROVAL_ENTRY` — the human-in-the-loop hash chain
@@ -299,3 +304,12 @@ Each entry *approves* a target `FINDING` (or timeline, or a compensating `approv
 - How each entity is written/read on disk: [persisted-artifacts.md](persisted-artifacts.md)
 - Exhaustive model/dataclass/JSON-Schema enumeration: [schema-dump.md](schema-dump.md)
 - Canonical numbers: [`canonical-facts.md`](../08-reference/canonical-facts.md)
+
+### Decision rationale (ADRs)
+
+| Entity | ADR (genesis / rationale) |
+|---|---|
+| `TRIAGE_REPORT` seal / `SESSION_KEY` | [ADR-016 — Courtroom Audit](../11-ADR/ADR-016-courtroom-audit.md) |
+| `AUDIT_LOG_FILE` independent seal + cross-binding | [ADR-022 — Audit-Log Seal](../11-ADR/ADR-022-audit-log-seal.md) |
+| `MUTATION_TOKEN` | [ADR-018 Decision 8 — Mutation token regime](../11-ADR/ADR-018-wazuh-ioc-push.md) (≠ [ADR-011](../11-ADR/ADR-011-evidence-gates.md)) |
+| `IOC_RECORD` / `IOC_PROVENANCE` | [ADR-018 — Wazuh IOC Push](../11-ADR/ADR-018-wazuh-ioc-push.md) |

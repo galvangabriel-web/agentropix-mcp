@@ -439,3 +439,89 @@ by an MCP client (Claude Desktop / Claude Code) against the running
 - [`tool-list.md`](../04-mcp-tools/tool-list.md) — the 7 Volatility tools and full catalogue.
 - [`agents-list.md`](../10-agents/agents-list.md) — `MemoryAgent` / `HuntAgent` contracts.
 - [agentic-architecture.md](../10-agents/agentic-architecture.md) — how `MemoryAgent` / `HuntAgent` fit the runtime swarm.
+
+**Design rationale (ADRs).** Why the memory path works the way it does:
+
+- [ADR-014 — Credential-dump triage (impacket)](../11-ADR/ADR-014-W072-impacket-secretsdump.md) — the genesis of the `secretsdump_local` credential path the `MemoryAgent` runs (Step "secretsdump"); also records why broader W-072 credential work is **deferred**.
+- [ADR-011 — Evidence-Type Gate Consolidation](../11-ADR/ADR-011-evidence-gates.md) — the shared evidence-type gate every memory data-fetch (pslist/netscan/malfind/svcscan) passes through.
+
+---
+
+## Implementation proof (source)
+
+> **For developers.** This section maps every use-case step above to the **real oracle source** that
+> implements it — `file:symbol`, trimmed signatures, and the call path. Paths are relative to
+> `/home/admin2/agentropix-sift/src`. Nothing here is illustrative: each symbol exists in the tree.
+
+### Registration chain (how an MCP call reaches Volatility3)
+
+Every memory tool is a three-layer stack: the FastMCP surface delegates to a `server.mcp_*`
+guard, which delegates to the typed wrapper that shells `vol`.
+
+| Layer | File:symbol | Role |
+|---|---|---|
+| FastMCP tool | `mcp_server/fastmcp_app.py` `@app.tool() get_pslist` (and siblings) | Public MCP surface; `result.model_dump()` back to the client. |
+| Server guard | `mcp_server/server.py:mcp_get_pslist` (`@traced("get_pslist")`) | Rate-limit → archive-reject → **Thymus** `check_read` → wrapper; wraps raises as `ToolError`. |
+| Typed wrapper | `mcp_server/wrappers/volatility.py:get_pslist` | Builds the `vol -f <img> -r csv windows.pslist.PsList` argv, parses to a typed model. |
+| Policy | `mcp_server/thymus_policy.py:ThymusEvidencePolicy.check_read` (instantiated `server.py:177 _policy`) | The `Thymus` participant in the sequence diagram — gates evidence reads. |
+
+The FastMCP layer is literal:
+
+```python
+# fastmcp_app.py
+@app.tool()
+async def get_pslist(image: str, pid_filter: list[int] | None = None) -> dict:
+    result = await _inner.mcp_get_pslist(image, pid_filter=pid_filter)
+    return result.model_dump()
+```
+
+```python
+# server.py — the guard the sequence diagram labels "MCP -> Thymus: check_read"
+@traced("get_pslist")
+async def mcp_get_pslist(image: str, pid_filter: list[int] | None = None) -> PsList | ToolError:
+    rate_err = _rate_limiter.check("get_pslist")
+    if rate_err: return ToolError(tool="get_pslist", error=rate_err)
+    archive_err = _reject_archive("get_pslist", image)
+    if archive_err: return archive_err
+    violation = _policy.check_read(image)            # ThymusEvidencePolicy
+    if violation: return ToolError(tool="get_pslist", error=violation)
+    try:
+        return await get_pslist(image, pid_filter=pid_filter)
+    except (FileNotFoundError, RuntimeError, TimeoutError, MemoryError) as e:
+        return ToolError(tool="get_pslist", error=str(e))
+```
+
+### Step-by-step source map (granular MCP path)
+
+| Use-case step | Implementing symbol | Notes from source |
+|---|---|---|
+| **Step 1 — `get_pslist`** | `wrappers/volatility.py:get_pslist` | `cmd = [vol, "-f", img, "-r", "csv", "windows.pslist.PsList"]`. **psscan fallback** is here: `if len(processes) == 0:` → `_get_psscan(image)` returns `used_fallback=True` with `reason=REASON_PSSCAN_FALLBACK`. W-135 disk-image short-circuit returns `tool_available=False`. |
+| **Step 2 — `build_process_tree`** | `wrappers/correlation.py:build_process_tree` | Calls `get_pslist()` (so it inherits the psscan fallback — matches the "psscan fallback on paused-VM" note), links by PPID via the recursive `_attach`, classifies `roots` vs `orphans` (`node.ppid not in _SYSTEM_PIDS {0,4} and not in pid_set` → orphan = DKOM). LOLBin flagging: `correlation.py:_is_suspicious` checks `_SUSPICIOUS_PROCESS_NAMES` (`rubyw.exe`, `mshta.exe`, …) spawned by `_SENSITIVE_PARENTS` (`services.exe`, `lsass.exe`, …) → sets `suspicious_count`. |
+| **Step 3 — `get_netscan`** | `wrappers/volatility.py:get_netscan` | `windows.netscan.NetScan` (W-075 default, pool-tag-driven; doc-comment explains why netscan over netstat). Returns typed `NetscanReport` sockets (`proto`/`local_addr`/`foreign_addr`/`state`/`pid`/`owner`). The "join pid → tree" attribution is done agent-side in `agents/memory.py:_findings_from_netscan`, which also IOC-promotes public/ESTABLISHED sockets via `_is_rfc1918`. |
+| **Step 4 — `get_malfind`** | `wrappers/volatility.py:get_malfind` | `windows.malfind.Malfind`; Issue #11 chains `windows.vadinfo.VadInfo --dump` per hit (capped by `AGENTROPIX_MALFIND_DUMP_MAX_PER_HOST`) → fills `payload_sha256`/`payload_bytes`/`payload_strings`. Findings (T1055) emitted by `agents/memory.py:_findings_from_malfind`. |
+| **Step 5 — `get_svcscan`** | `wrappers/volatility.py:get_svcscan` | `windows.svcscan.SvcScan`. Persistence scoring is agent-side: `agents/memory.py:_findings_from_svcscan` raises confidence and tags `T1543.003` when `is_service_binary_outside_system32(svc)`. |
+| **Step 6 — `get_editbox`** | `wrappers/editbox.py:get_editbox` | Vol2.6 path; `_require_sandbox()` raises `FileNotFoundError` when the Py2.7 sandbox is unconfigured (the GOTCHA "self-skips"). Profile guard: `re.fullmatch(r"[A-Za-z0-9_]+", profile)` (argv-injection defense). |
+| **Step 7 — `run_volatility`** | `wrappers/volatility.py:run_volatility` | `resolve_vol3_plugin(plugin)` enforces the allowlist (`VOL3_ALLOWED_PLUGINS`); `_flatten_args` builds `--key value` flags; `-r json` preserves rows verbatim. Raises `VolatilityPluginError` on disallowed plugins. |
+| **Step 8 — `pivot_on_ioc`** | `wrappers/correlation.py:pivot_on_ioc` | Fans out: per image runs `get_pslist`/`get_netscan`/`get_svcscan`/`get_evtx` via `asyncio.gather`, case-insensitive substring `_match`, groups by `_host_from_image`. Default artifact set is the module constant `_DEFAULT_ARTIFACT_TYPES = ("pslist","netscan","svcscan","evtx")` — exactly the four the use case lists. |
+| **Step 9 — `threat_intel_lookup`** | `wrappers/threat_intel.py:threat_intel_lookup` | Egress gate is the first thing checked: `egress_allowed = os.environ.get("AGENTROPIX_ALLOW_EGRESS") == "1"`; when off it returns the shim dict `{"egress_allowed": False, "aggregate_verdict": "unknown", ...}` with **zero** network calls — the documented no-op. |
+
+### Autonomous path source map (`agentropix-sift run`)
+
+| Sequence participant | Implementing symbol | Notes from source |
+|---|---|---|
+| `agentropix-sift run` → `run_triage` | `cli.py:117` → `orchestrator.py:run_triage(image, max_iterations=5, …)` | CLI calls `asyncio.run(run_triage(...))`. |
+| **MemoryAgent runs first** | `agents/__init__.py:SWARM` tuple — `MemoryAgent` is element 0, `HuntAgent` is last | The module docstring states the invariant: "HuntAgent must execute LAST because it consumes the findings the other agents publish." |
+| `MemoryAgent.run` | `agents/memory.py:MemoryAgent.investigate` | `looks_like_memory(image)` guard (else single `memory.skip` Finding + clears `completion_promise`); W-074 `_safe_get_info`/`is_snapshot_paused` paused-VM tag; `mcp_get_pslist` → suspicious/orphan loop → `build_process_tree` → best-effort `_safe_call` chain over malfind/netscan/svcscan/registry/credential plugins. |
+| `MEMORY_TRIAGED` promise | `agents/memory.py:MemoryAgent.completion_promise = "MEMORY_TRIAGED"` | Promoted to `report.completion_proofs` only when the agent returns ≥1 finding — `orchestrator.py:194 if findings and agent.completion_promise: completion_proofs.add(...)`. |
+| secretsdump (credentials) | `agents/memory.py:_credential_triage_findings` → `wrappers/credentials.py:secretsdump_local` | Three gates: `AGENTROPIX_IMPACKET_ENABLED=1`, tool on PATH, hive triple under `AGENTROPIX_HIVE_DIR` (`_resolve_hive_triple`). Each gate failure emits one `memory.credentials.unavailable` Finding (never a silent gap). Per-row findings tag T1003.002/.005/.001. |
+| `evidence_dict` for cross-modal fusion | `agents/memory.py` Finding builders | `_findings_from_netscan`/`_malfind`/`_svcscan`/`_hashdump` populate structured `evidence_dict` keys (pid/foreign_addr/nt_hash/…) the correlation scorer reads. |
+| **HuntAgent runs last** | `agents/hunt.py:HuntAgent` (`completion_promise = "CROSS_AGENT_CORRELATION_DONE"`) | Reads `self.blackboard.correlations()`. |
+| ≥2-agent quorum | `agents/_blackboard.py:Blackboard.correlations` | A token is a `Correlation` only when `len(by_agent) >= self._quorum_threshold` (constructor `quorum_threshold: int = 2`, rejects `< 2`). Results sorted by `-max_confidence`. |
+| Critic halt | `orchestrator.py:run_triage` loop → `critic.score(...)` → `if last_result.should_halt: halted = True` (`trinity.Critic` / `TrinityResult`) | Loop is `for iteration in range(1, max_iterations + 1)`; final status `"complete"` on halt else `"budget_exhausted"`. |
+| TriageReport (sealed by CLI) | `orchestrator.py:TriageReport` (Pydantic, `completion_proofs: list[str]`) returned to `cli.py` | Findings deduped by `(source, description, evidence)` fingerprint before return. |
+
+**Source files cited:** `mcp_server/wrappers/volatility.py`, `mcp_server/wrappers/correlation.py`,
+`mcp_server/wrappers/threat_intel.py`, `mcp_server/wrappers/editbox.py`,
+`mcp_server/wrappers/credentials.py`, `mcp_server/server.py`, `mcp_server/fastmcp_app.py`,
+`mcp_server/thymus_policy.py`, `agents/memory.py`, `agents/hunt.py`, `agents/_blackboard.py`,
+`agents/__init__.py`, `orchestrator.py`, `cli.py`.

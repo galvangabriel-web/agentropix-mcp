@@ -424,3 +424,20 @@ other shared document.
   before you index them.
 - [canonical-facts.md](../08-reference/canonical-facts.md) — the authoritative tool counts and
   recall figures cited here.
+
+### Decision records (why it works this way)
+
+The rationale for the push integration, its safety gates, and the HMAC seal you see on every
+write live in these ADRs (Section 11):
+
+- [ADR-018 — Wazuh IOC Push Integration](../11-ADR/ADR-018-wazuh-ioc-push.md) — genesis of the
+  push path (§9): the MCP discovers IOCs, filters them through the Tier-1/2/3 taxonomy, and PUTs
+  Tier-1/2 IOCs to Wazuh as CDB lists + rules (the Tier-3 skip you see in *Output C*).
+- [ADR-020 — Wazuh Credential Lifecycle](../11-ADR/ADR-020-credential-lifecycle.md) — why the
+  Manager API JWT / Indexer credentials and the one-shot `mutation_token` are handled the way
+  they are (the denylist gate in §9 and the password kept out of this doc).
+- [ADR-019 — Active Response Confirmation Gate](../11-ADR/ADR-019-ar-confirmation-gate.md) — the
+  Hard-Stop safety boundary that any destructive Wazuh action (beyond the read-only dashboards and
+  the gated finding/IOC writes here) must pass through.
+- [ADR-016 — Courtroom Audit (HMAC sealing)](../11-ADR/ADR-016-courtroom-audit.md) — origin of the
+  per-document HMAC-SHA256 `seal` cited in *Output C* and the tamper-evident audit row.

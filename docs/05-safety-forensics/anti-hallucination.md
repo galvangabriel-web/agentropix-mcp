@@ -389,3 +389,17 @@ to run — never to authoring, scoring, or sealing what they find.
 - Canonical numbers cited here (tool count 71, halt threshold 0.85) are pinned
   in [`canonical-facts.md`](../08-reference/canonical-facts.md) /
   `CANONICAL_FACTS.md` upstream.
+
+### Decision records (why this works the way it does)
+
+- [ADR-016 — Courtroom Audit: High Inference Constraint + Cryptographic
+  Sealing](../11-ADR/ADR-016-courtroom-audit.md) — the genesis of the **High
+  Inference Constraint** contract (§ intro, controls 1, 4): why "the LLM agents
+  only orchestrate; every fact originates from a deterministic MCP tool", plus
+  the evidence-hash and raw-output-before-summarisation invariants.
+- [ADR-008 — Safety Architecture (Bio-Agentic Safety
+  Model)](../11-ADR/ADR-008-safety-architecture.md) — the Oncologist/Thymus
+  rationale behind the read-only evidence boundary (control 3).
+- [ADR-022 — Audit-Log Seal](../11-ADR/ADR-022-audit-log-seal.md) — why the
+  Thymus access trail (the JSONL written at control 3) is itself HMAC-sealed and
+  cross-bound into the report seal.

@@ -294,3 +294,30 @@ For the per-call execution model that exercises this spine station by station, s
 - One agent tool call, station by station → [fastmcp-execution.md](../10-agents/fastmcp-execution.md)
 - The runtime/build-time "agent" disambiguation → [10-agents](../10-agents/agentic-architecture.md)
 - Request-level flows through this component graph → [sequence-diagrams.md](sequence-diagrams.md)
+
+### Related ADRs (decision rationale)
+
+The component bands and the safety spine (§1, §3) each trace to a foundational decision
+record. The two ADRs already cited inline above — **[ADR-017 · Tailnet-only HTTP MCP
+exposure](../11-ADR/ADR-017-tailnet-mcp-exposure.md)** (the API-surface boundary) and
+**[ADR-022 · Audit-Log Seal](../11-ADR/ADR-022-audit-log-seal.md)** (the cross-bound audit
+HMAC, §3 invariant table) — are joined by:
+
+- **Why safety defaults to *stopping* (red band)** — the layered, fail-safe defense-in-depth
+  model behind the whole safety spine →
+  [ADR-008 · Safety Architecture (Bio-Agentic)](../11-ADR/ADR-008-safety-architecture.md)
+  (Implemented).
+- **The report/seal crypto invariants (§3 — evidence binding, HMAC report seal,
+  inference-constraint declaration)** →
+  [ADR-016 · Courtroom Audit + Cryptographic Sealing](../11-ADR/ADR-016-courtroom-audit.md)
+  (Accepted).
+- **The mutation-token regime (§3 — `evidence_gate`)** — the one-shot, TTL-bound gate every
+  write/promote/ingest tool crosses →
+  [ADR-019 · Active Response Confirmation Gate](../11-ADR/ADR-019-ar-confirmation-gate.md)
+  (Accepted).
+- **The runtime engine (green band)** — the iterate-until-complete execution loop →
+  [ADR-002 · Execution Engine (Ralph Orchestrator)](../11-ADR/ADR-002-execution-engine.md)
+  (Accepted/Implemented).
+- **Multi-tier report rendering (`reports/`, green band)** →
+  [ADR-024 · Multi-Tier Report Generation Engine](../11-ADR/ADR-024-multi-tier-report-engine.md)
+  (⚠️ Proposed — audit: shipped).

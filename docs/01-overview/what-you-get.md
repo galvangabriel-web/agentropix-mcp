@@ -332,6 +332,24 @@ regression suite and **108/118 (91.5%)** memory+disk combined — both pinned in
 
 ---
 
+## Related ADRs
+
+Each capability above traces to an Architecture Decision Record (genesis, why it was
+built the way it is, what was deferred) in [Section 11 — ADRs](../11-ADR/README.md):
+
+| Capability (above) | ADR(s) — decision record |
+|--------------------|--------------------------|
+| Trinity Loop (deterministic execution) | [ADR-002 · Execution Engine](../11-ADR/ADR-002-execution-engine.md) |
+| 71 MCP tools — `extract_files` (raw-E01 extraction) | [ADR-012 · `mcp_extract_files`](../11-ADR/ADR-012-extract-files.md) |
+| 71 MCP tools — `get_evtx` (Windows Event Log) | [ADR-013 · `mcp_get_evtx`](../11-ADR/ADR-013-evtx-wrapper.md) |
+| Swarm data-fetch agents — shared evidence-type gate | [ADR-011 · Evidence-Type Gate Consolidation](../11-ADR/ADR-011-evidence-gates.md) |
+| Thymus read-only enforcement | [ADR-008 · Safety Architecture](../11-ADR/ADR-008-safety-architecture.md) |
+| Courtroom seal · Provenance & grounding (`inference_constraint = high`) | [ADR-016 · Courtroom Audit + Sealing](../11-ADR/ADR-016-courtroom-audit.md), [ADR-022 · Audit-Log Seal](../11-ADR/ADR-022-audit-log-seal.md) |
+| Wazuh SIEM integration — IOC push | [ADR-018 · Wazuh IOC Push](../11-ADR/ADR-018-wazuh-ioc-push.md) |
+| Wazuh SIEM integration — Active-Response CIDR guard / confirmation gate | [ADR-019 · Active Response Confirmation Gate](../11-ADR/ADR-019-ar-confirmation-gate.md); two-person rule [deferred — ADR-021](../11-ADR/ADR-021-two-person-rule-defer.md) |
+| Wazuh credential handling | [ADR-020 · Wazuh Credential Lifecycle](../11-ADR/ADR-020-credential-lifecycle.md) |
+| Report tiering (`report_export`) | [ADR-024 · Multi-Tier Report Generation Engine](../11-ADR/ADR-024-multi-tier-report-engine.md) |
+
 ## Next
 
 - **[Quickstart](quickstart.md)** — install, `doctor` pre-flight, first triage run.

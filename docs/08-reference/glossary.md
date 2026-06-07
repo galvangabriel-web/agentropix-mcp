@@ -33,19 +33,19 @@ A decoder ring split into five lookup tables — jump straight to the kind of na
 | **Active-triage sentinel** | `.claude/active-triage.json` written by `run` before triage and removed afterward; lets a Claude-Code Stop hook block premature session exit during an in-flight run (W-081 / M8.3). | `cli.py:92-124` |
 | **Amcache / Shimcache** | Windows execution-evidence registry artifacts (`Amcache.hve`, AppCompatCache). Parsed by the `ArtifactAgent` via `amcache_parser` / `shimcache_parser`. | `cli.py:190-191`; agents-list |
 | **Architect** | Deterministic Trinity-Loop planner (no LLM). Returns the canonical `SWARM` tuple, optionally pruning agents the Critic marked stable; preserves SWARM order so `HuntAgent` stays last. | `trinity/architect.py:146` |
-| **Audit log (sealed)** | The Thymus on-disk access trail, drained and independently HMAC-SHA256-sealed into `<stem>.audit-log.json`, then cross-bound into the report seal. | ADR-022; `courtroom.py` |
+| **Audit log (sealed)** | The Thymus on-disk access trail, drained and independently HMAC-SHA256-sealed into `<stem>.audit-log.json`, then cross-bound into the report seal. | [ADR-022](../11-ADR/ADR-022-audit-log-seal.md); `courtroom.py` |
 | **Bio-agentic mapping** | The biological metaphor each ADR maps to (e.g. Thymus = self/non-self gate, Cytokine Network = message bus, The Oncologist = safety architecture). | `docs/adr/README.md` |
 | **Blackboard** | Asyncio-locked `(agent, Finding)` registry. `correlations()` surfaces tokens (filenames, hashes, IPs, PIDs) appearing across ≥ `quorum_threshold` (default 2) agents; powers `HuntAgent` and the Critic score. | `agents/_blackboard.py:74,86` |
 | **Completion promise** | A per-agent token (e.g. `MEMORY_TRIAGED`) appended to `report.completion_proofs` when an agent publishes ≥1 Finding without a tool error (M8.3d). Also written **completion-promise**. | agents-list; `cli.py:92-98` |
 | **Convergence fingerprint** | The deterministic per-pass fingerprint the Critic halts on when it reaches a fixed point — a halt condition with **no LLM self-rating**. | `trinity/critic.py:67` |
 | **Correlation** | A token observed across multiple agents on the Blackboard; ≥ quorum forms a correlation, ≥3-agent agreement feeds `HuntAgent` cross-source findings (S-05). | `agents/_blackboard.py` |
-| **Courtroom** | The audit-and-sealing track: high inference constraint + HMAC-SHA256 envelope proving the LLM only orchestrates while deterministic tools generate facts. | ADR-016; `courtroom.py` |
+| **Courtroom** | The audit-and-sealing track: high inference constraint + HMAC-SHA256 envelope proving the LLM only orchestrates while deterministic tools generate facts. | [ADR-016](../11-ADR/ADR-016-courtroom-audit.md); `courtroom.py` |
 | **Courtroom seal** | The concrete chain-of-custody artifact the **Courtroom** track produces: a SHA-256 binding of the evidence image plus an HMAC-SHA256 envelope over the canonicalised report JSON, cross-bound to the independently sealed [audit log](#core-terms-alphabetized). "Seal" = this verifiable envelope, not encryption. See [Audit & Courtroom Seal](../05-safety-forensics/audit-courtroom.md). | `courtroom.py`; ADR-022 |
 | **Critic** | Deterministic scorer (no LLM). Score = max finding confidence + 0.25·#correlations (capped 1.0). Halts at score ≥ `AGENTROPIX_CRITIC_HALT_THRESHOLD` (default 0.85) **or** convergence fingerprint, gated by a min-iterations guard. | `trinity/critic.py:42,67` |
 | **Deterministic-tools-only findings** | Safety invariant: every fact originates from a named deterministic MCP tool; the LLM never authors a finding. | ADR-016; agents-list |
 | **doctor** | CLI command verifying the 16 SIFT forensic tools (18 binaries) are installed/resolvable; see the [CLI reference](cli-reference.md#agentropix-sift-doctor). | `cli.py:175-217` |
 | **EAR (Executable Registry)** | The "build / promote / get / search" executable-registry tool family added 65→69 in the MCP tool-count lineage. | canonical-facts.md (lineage) |
-| **Evidence gate** | The fail-closed authority that mints and verifies the one-shot [mutation token](#core-terms-alphabetized) guarding every write-capable tool (`idx_*`, `wazuh_*`, `promote_*`, `record_finding`). If the verifier module is unavailable, or the token is missing/malformed (must match `egt_<26-char ULID>`), it raises `EvidenceGateRequired` rather than silently passing. | `wazuh/evidence_gate.py`; ADR-018 |
+| **Evidence gate** | The fail-closed authority that mints and verifies the one-shot [mutation token](#core-terms-alphabetized) guarding every write-capable tool (`idx_*`, `wazuh_*`, `promote_*`, `record_finding`). If the verifier module is unavailable, or the token is missing/malformed (must match `egt_<26-char ULID>`), it raises `EvidenceGateRequired` rather than silently passing. | `wazuh/evidence_gate.py`; [ADR-018](../11-ADR/ADR-018-wazuh-ioc-push.md) |
 | **Evidence invariant** | Pre/post SHA-256 hash of the evidence image, asserting no writes to evidence (story **S-02**). | canonical-facts.md; ADR-008 |
 | **EWF / E01** | Expert Witness Format disk image (`.E01`); the SANS SRL-2018 dataset ships 7 of them. Metadata read via `ewfinfo`. | `cli.py:184`; AGENTS.md |
 | **Finding** | The unit of evidence published to the Blackboard; carries confidence, `agent` (W-196), and tool-derived payload (hashes, IOCs). | agents-list |
@@ -65,10 +65,10 @@ A decoder ring split into five lookup tables — jump straight to the kind of na
 | **SRL-2018** | SANS Reverse-engineered Lab dataset; 7 APT E01 images used in the wargame (incl. case 20180905-001, Cobalt Strike DC). | AGENTS.md |
 | **Swarm (7-agent)** | Project-prose name for the 7 first-class DFIR specialists: Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt. The runnable [`SWARM` tuple](#core-terms-alphabetized) additionally interleaves 6 deterministic ATT&CK detectors. | agents-list |
 | **SWARM tuple** | The ordered tuple of agent classes run each Trinity iteration — **13** classes = 7 core specialists + 6 ATT&CK detectors; `HuntAgent` is always last. | `agents/__init__.py`; canonical-facts.md |
-| **Thymus policy** | The read-only safety spine: a self/non-self gate that rejects any write to evidence and pins findings to deterministic tools. | `mcp_server/thymus_policy.py`; ADR-008 |
+| **Thymus policy** | The read-only safety spine: a self/non-self gate that rejects any write to evidence and pins findings to deterministic tools. | `mcp_server/thymus_policy.py`; [ADR-008](../11-ADR/ADR-008-safety-architecture.md) |
 | **Trinity Loop** | Architect proposes → 7-agent Swarm (+ ATT&CK detectors) runs deterministic tools → Critic scores and halts on a deterministic convergence fingerprint. No LLM self-rating. | agents-list; canonical-facts.md |
-| **Two-Person Rule** | A deferred control requiring two operators to confirm an Active Response; documented but not implemented. | ADR-021 |
-| **Wazuh** | The SIEM the platform optionally pushes IOCs to and integrates Active-Response gating with. | ADR-018, ADR-019, ADR-020 |
+| **Two-Person Rule** | A deferred control requiring two operators to confirm an Active Response; documented but not implemented. | [ADR-021](../11-ADR/ADR-021-two-person-rule-defer.md) |
+| **Wazuh** | The SIEM the platform optionally pushes IOCs to and integrates Active-Response gating with. | [ADR-018](../11-ADR/ADR-018-wazuh-ioc-push.md), [ADR-019](../11-ADR/ADR-019-ar-confirmation-gate.md), [ADR-020](../11-ADR/ADR-020-credential-lifecycle.md) |
 
 ---
 
@@ -124,7 +124,7 @@ A few load-bearing IDs referenced elsewhere in this portal:
 
 | ID | One-liner | Where it surfaces |
 |----|-----------|-------------------|
-| **W-072** | Credential-dump triage via `impacket-secretsdump.py`. | [ADR-014](adr-index.md#adr-014) |
+| **W-072** | Credential-dump triage via `impacket-secretsdump.py`. | [ADR-014](adr-index.md#adr-014) ([full text](../11-ADR/ADR-014-W072-impacket-secretsdump.md)) |
 | **W-081** | Ralph-loop Stop-hook sentinel for in-flight triage (M8.3). | `cli.py:92-114` |
 | **W-110** | `run_volatility(plugin="netscan")` rc=1 on SRL-2018 DC. | AGENTS.md (MCP-100%) |
 | **W-113** | MCP-100% campaign anchor — definition-of-done for the 71-tool surface. | AGENTS.md |
@@ -161,5 +161,6 @@ CLI.
 
 - [CLI reference](cli-reference.md) — commands, flags, env-var overrides.
 - [ADR Index](adr-index.md) — the decisions behind these terms.
+- [Section 11 — ADRs (in-portal copies)](../11-ADR/README.md) — full decision text for the ADRs cited in the Source column above (Courtroom/ADR-016, Thymus/ADR-008, Two-Person Rule/ADR-021, Wazuh/ADR-018..020).
 - [Agents list](../10-agents/agents-list.md) — Trinity roles and the swarm specialists.
 - [Canonical facts](canonical-facts.md) — the numeric single source of truth.

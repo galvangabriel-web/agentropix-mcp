@@ -1,7 +1,15 @@
 # Design Decisions — Rationale & History
 
 > **Section 08 · Reference** — the design-history layer behind the ADRs.
-> Related: [ADR Index](adr-index.md) · [Glossary](glossary.md) · [CLI Reference](cli-reference.md) · [Anti-Hallucination](../05-safety-forensics/anti-hallucination.md) · [Human-in-the-Loop](../05-safety-forensics/human-in-the-loop.md)
+> Related: [ADR Index](adr-index.md) · [Section 11 — ADRs (full text)](../11-ADR/README.md) · [Glossary](glossary.md) · [CLI Reference](cli-reference.md) · [Anti-Hallucination](../05-safety-forensics/anti-hallucination.md) · [Human-in-the-Loop](../05-safety-forensics/human-in-the-loop.md)
+
+> **Reading the ADRs in full.** Every ADR cited below links to the oracle
+> (`../../../agentropix-sift/docs/adr/`) — the source of truth. The same decisions
+> are also mirrored inside this portal under [Section 11 — ADRs](../11-ADR/README.md),
+> where you can read the complete *genesis / why-implemented / why-denied* record
+> (e.g. [ADR-016](../11-ADR/ADR-016-courtroom-audit.md),
+> [ADR-022](../11-ADR/ADR-022-audit-log-seal.md),
+> [ADR-014](../11-ADR/ADR-014-W072-impacket-secretsdump.md)) without leaving the docs.
 
 An **Architecture Decision Record (ADR)** captures one architectural decision
 with its context, the options weighed, and the consequences accepted; once
@@ -287,7 +295,8 @@ reliable.
 ## 5. Why ADR-016 is the most interesting ADR
 
 If a SANS judge reads only one ADR, it should be
-[ADR-016 — Courtroom Audit](../../../agentropix-sift/docs/adr/ADR-016-courtroom-audit.md).
+[ADR-016 — Courtroom Audit](../../../agentropix-sift/docs/adr/ADR-016-courtroom-audit.md)
+([read it in-portal](../11-ADR/ADR-016-courtroom-audit.md)).
 It is the inflection point between an *agent playground* and a *forensically
 sound submission*, answering the judge's first question — *"how do I know the AI
 didn't hallucinate the evidence?"* — with concrete invariants (all confirmed in
@@ -329,6 +338,7 @@ best-practice prose.
 ## Related references
 
 - [ADR Index](adr-index.md) — the full ADR-001..024 routing table and live status audit (the companion to this rationale page).
+- [Section 11 — ADRs (in-portal copies)](../11-ADR/README.md) — the complete decision text of every ADR referenced above (genesis / why-implemented / why-denied), readable without leaving the portal.
 - [Glossary](glossary.md) — the bio-agentic terms (Thymus, Critic, Architect, Trinity) the ADRs map to.
 - [Anti-Hallucination](../05-safety-forensics/anti-hallucination.md) — how the ADR-016 invariants play out at runtime.
 - [Human-in-the-Loop](../05-safety-forensics/human-in-the-loop.md) — the ADR-019 confirmation gate in practice.

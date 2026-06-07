@@ -84,8 +84,39 @@ into case state by shaping it into `record_finding`/`idx_ingest`.
 
 ## Related
 
+**Section 04 · MCP Tools (siblings):**
+
 - [Tool reference](tool-reference.md) — the master categorized index of all 71 tools.
 - [Tools by agent](tool-by-agent.md) — which swarm agent invokes which tools.
 - [Response envelope](response-envelope.md) — the common result shape every tool returns.
-- [User Guide](../01-overview/user-guide.md) — the end-to-end operator runbook.
-- [Tool list](tool-list.md) · [Canonical facts](../08-reference/canonical-facts.md) — oracle references.
+- [Tool list](tool-list.md) — the full per-tool catalogue with backing modules and mutation/approval flags.
+- [Section 04 overview](README.md) — the MCP-tools section index.
+
+**Related elsewhere:**
+
+- [MCP server](../02-architecture/mcp-server.md) — how the 71 tools are registered and dispatched (the server that exposes this capability surface).
+- [Agents](../10-agents/agents-list.md) — which swarm agent owns each tool family from the map.
+- [Data dictionary](../03-data/data-dictionary.md) — the case-state and artifact records the persistence tools (`record_finding`, `idx_ingest`, …) write.
+- [Canonical facts](../08-reference/canonical-facts.md) — the source for `mcp_tool_count = 71` and other authoritative numbers.
+- [User Guide](../01-overview/user-guide.md) — the end-to-end operator runbook these capabilities back.
+
+**ADRs behind these capabilities** (why specific tool families exist / are gated):
+
+- [ADR-011 — Evidence-type gate consolidation](../11-ADR/ADR-011-evidence-gates.md) — the shared
+  evidence-type helper and `mutation_token` model behind every draft-gated mutation
+  (`record_finding`, `idx_ingest`, `wazuh_*` publishers) in the case/findings bucket.
+- [ADR-012 — `extract_files`](../11-ADR/ADR-012-extract-files.md) — the `extract_files` (icat) tool in
+  the **Filesystem / MFT / TSK** bucket.
+- [ADR-013 — `get_evtx` wrapper](../11-ADR/ADR-013-evtx-wrapper.md) — the `get_evtx` tool in the
+  **Event logs / execution / SRUM** bucket.
+- [ADR-M6.3 — per-parser sampling + priority filter](../11-ADR/ADR-M6.3-event-window.md) — the
+  sampling/priority behavior of `get_timeline` (Plaso) in the **Timeline** bucket.
+- [ADR-016 — Courtroom audit](../11-ADR/ADR-016-courtroom-audit.md) ·
+  [ADR-022 — Audit-log seal](../11-ADR/ADR-022-audit-log-seal.md) — the HMAC approval behind the
+  human-only `approve_finding`.
+- [ADR-024 — Multi-tier report engine](../11-ADR/ADR-024-multi-tier-report-engine.md) — the tiered
+  (exec/business/technical) output of `report_generate` / `report_export`.
+- [ADR-017 — Tailnet MCP exposure](../11-ADR/ADR-017-tailnet-mcp-exposure.md) — the bearer-token,
+  tailnet-only boundary that fronts all HTTP-exposed tools in this map.
+- [ADR-018 — Wazuh IOC push](../11-ADR/ADR-018-wazuh-ioc-push.md) — the chain-of-custody-sealed
+  `wazuh_publish_iocs` mutation in the **Wazuh** bucket.

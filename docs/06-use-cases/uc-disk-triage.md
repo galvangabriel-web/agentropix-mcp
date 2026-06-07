@@ -225,9 +225,9 @@ sequenceDiagram
     Case-->>Agent: case doc + ~/.agentropix/active_case pointer
     Agent->>Case: evidence_register(path, description, examiner_id)
     Case-->>Agent: SHA-256 + deterministic evidence_id
-    Agent->>MCP: fls(image, offset=<NTFS sector>, recursive=true, summary_only=true)
+    Agent->>MCP: fls(image, offset=(NTFS sector), recursive=true, summary_only=true)
     MCP-->>Agent: entry_count (deleted_only=true -> T1070.004 surface)
-    Agent->>MCP: extract_files(image, paths=[...], offset=<sector>)
+    Agent->>MCP: extract_files(image, paths=[...], offset=(sector))
     MCP-->>Agent: manifest with per-file dest (+ file_sha256)
     Agent->>MCP: get_shimcache / get_amcache / get_prefetch (extracted hives)
     MCP-->>Agent: execution-evidence rows
@@ -469,3 +469,219 @@ agentropix-sift evidence-gate mint   # -> egt_<ULID> into AGENTROPIX_MUTATION_TO
 - [`tool-list.md`](../04-mcp-tools/tool-list.md) — the full 71-tool catalogue and the 16 SIFT wrappers.
 - [`agents-list.md`](../10-agents/agents-list.md) — the SWARM run order and per-agent tools.
 - [agentic-architecture.md](../10-agents/agentic-architecture.md) — how the runtime swarm is wired (the Trinity Loop behind the autonomous path).
+
+**Design rationale (ADRs).** Why this triage path is built the way it is:
+
+- [ADR-011 — Evidence-Type Gate Consolidation](../11-ADR/ADR-011-evidence-gates.md) — why every data-fetching agent (including the filesystem walk) routes through one shared evidence-type helper rather than inline literals.
+- [ADR-012 — `mcp_extract_files` (raw-E01 extraction)](../11-ADR/ADR-012-extract-files.md) — the genesis of the `extract_files` tool used in step B.5 (typed Pydantic I/O + Thymus dest validation).
+- [ADR-013 — `mcp_get_evtx` wrapper](../11-ADR/ADR-013-evtx-wrapper.md) — the dual-format Windows Event Log wrapper behind the execution-evidence chain.
+- [ADR-M6.3 — Plaso per-parser sampling + priority filter](../11-ADR/ADR-M6.3-event-window.md) — the timeline-wrapper decision that shapes downstream timelining.
+- [ADR-016 — Courtroom Audit + Cryptographic Sealing](../11-ADR/ADR-016-courtroom-audit.md) and [ADR-022 — Audit-Log Seal](../11-ADR/ADR-022-audit-log-seal.md) — why the report and its audit log are HMAC-SHA256 sealed and cross-bound (the `report_seal` postcondition).
+
+---
+
+## Implementation proof (source)
+
+> **For a software developer.** This section maps each use-case step to the **real code** in
+> `/home/admin2/agentropix-sift/src` that implements it — file:symbol, trimmed signatures, and the
+> call path. Every claim above is grounded here. Snippets are abridged (`…`); line numbers are from
+> the oracle at the time of writing — treat the symbol name as the stable anchor.
+
+### 1. The autonomous CLI entry point — `cli.py`
+
+The `agentropix-sift run` command is a Typer command, `run()` in
+`src/agentropix_sift/cli.py:50`:
+
+```python
+@app.command()
+def run(
+    image: Path = typer.Argument(...),
+    max_iterations: int = typer.Option(5, "--max-iterations", "-n", ...),
+    out: Path = typer.Option(Path("report.json"), "--out", "-o", ...),
+    verbose: bool = typer.Option(False, "--verbose", "-v", ...),
+) -> None:
+```
+
+The guard-rail / seal sequence the autonomous-path diagram shows (steps 1–5) is literally this body:
+
+| Use-case step | Code path (`cli.py`) |
+|---|---|
+| `image.exists()? else Exit(1)` | `cli.py:58-60` — `if not image.exists(): raise typer.Exit(1)` |
+| evidence-symlink pre-flight (W-164) | `_load_preflight_validator()` (`cli.py:19-41`) path-imports `scripts/preflight_evidence_symlink.py:validate_evidence_fixture`; a falsy `result["ok"]` raises `typer.BadParameter` (`cli.py:67-74`) with a `ln -sfn …` repair hint |
+| `.claude/active-triage.json` sentinel | `cli.py:90-114` — writes `{image, required_promises, started_at}`; `_REQUIRED_PROMISES` is the 5-token Ralph-loop contract list (`cli.py:92-98`) |
+| run the Trinity Loop | `cli.py:116-117` — `asyncio.run(run_triage(image, max_iterations=…, verbose=…, config=…))` inside `try:` |
+| unlink sentinel (clean **and** error) | `cli.py:118-124` — `finally: sentinel_path.unlink(missing_ok=True)` |
+| seal the report → 3 files | `cli.py:134-149` — `write_sealed_session(report_dict, audit_entries, out, …)` then echoes `report` / `audit` / `key` paths |
+
+`doctor()` (`cli.py:175`) is the pre-flight for the 16 SIFT binaries: it iterates the `tools` dict
+(`cli.py:178-197`, the exact binary names listed in the use case — `vol`, `log2timeline.py`, `fls`,
+`icat`, `mmls`, `ewfinfo`, …, `hashdeep`), resolving each via `_DOCTOR_ENV_OVERRIDES`
+(`cli.py:160-172`) → `os.environ.get(env_var, cmd)` → `shutil.which(...)`, and `raise typer.Exit(1)`
+when any are missing (`cli.py:210-215`).
+
+### 2. The Trinity Loop — `orchestrator.py:run_triage`
+
+`run_triage()` (`src/agentropix_sift/orchestrator.py:82`) is the async heart of the autonomous path:
+
+```python
+async def run_triage(image, *, max_iterations=5, verbose=False,
+                     swarm=SWARM, config=None, hippocampus=None) -> TriageReport:
+    image_dir = str(image.resolve().parent) + "/"
+    configure_policy(extra_allowed=[image_dir])          # arm Thymus for this image dir
+    ...
+    architect = Architect(); critic = Critic()
+    for iteration in range(1, max_iterations + 1):
+        plan = architect.plan(last_feedback, stable_agents=last_stable, prior_traces=…)  # Architect
+        for agent_cls in plan:
+            agent = agent_cls(blackboard)
+            with trace_scope() as agent_buf:             # per-agent MCP tool trace (W-032)
+                findings = await agent.run(image)         # SWARM runs deterministic tools
+                if findings and agent.completion_promise:
+                    completion_proofs.add(agent.completion_promise)   # M8.3d
+        critic_result = critic.score(blackboard, planned_agents=plan_names, iteration=iteration)  # Critic
+        ...
+        if last_result.should_halt:
+            break
+    image_sha256 = evidence_image_sha256(image)           # bind report to bytes (M8.2b)
+    report = TriageReport(image=…, findings=findings_dicts, ... evidence_image_sha256=image_sha256, ...)
+```
+
+Diagram-to-code map for the autonomous sequence:
+
+| Sequence participant / message | Code path |
+|---|---|
+| `Orch->>Thymus: configure_policy(extra_allowed=[image_dir])` | `orchestrator.py:109-110`; `configure_policy` in `mcp_server/server.py:180-183` (rebuilds the global `_policy = ThymusEvidencePolicy(...)`) |
+| `Orch->>Arch: plan(...)` → ordered SWARM slice | `orchestrator.py:157-166`; `trinity/architect.py:Architect.plan` |
+| `Orch->>Swarm: agent.run(image)` under `trace_scope` | `orchestrator.py:175-211`; `agents/_base.py:SwarmAgent.run` (`_base.py:130`) → `investigate()` then `blackboard.publish` |
+| `Swarm->>Thymus: check_read(path)` per tool | inside each MCP handler (see §3); e.g. `mcp_fls` calls `_policy.check_read(image)` (`server.py:756`) |
+| `Orch->>Critic: score(...)` → `TrinityResult` | `orchestrator.py:229-233`; `trinity/critic.py:Critic.score` (`critic.py:94`) |
+| halt at `>= 0.85` OR fixed-point fingerprint | `critic.py:192-200` — `elif score >= self.halt_threshold: should_halt = True` / `elif no_progress: should_halt = True`; threshold `_DEFAULT_HALT_THRESHOLD = 0.85` (`critic.py:42`), overridable via `AGENTROPIX_CRITIC_HALT_THRESHOLD` (`critic.py:77-78`) |
+| `Orch->>Court: evidence_image_sha256(image)` | `orchestrator.py:292`; `courtroom.py:evidence_image_sha256` (`courtroom.py:89`) |
+| returns `TriageReport` (seal `None`) | `orchestrator.py:294+`; `TriageReport` model `orchestrator.py:33`, `report_seal: str \| None = None` (`orchestrator.py:71`) — seal is filled by the CLI at write time |
+
+The "no LLM self-rating" guarantee is structural: `Critic.score` computes the score from blackboard
+**facts only** — `max_conf = max(f.confidence for _, f in entries)` plus a correlation bonus
+(`critic.py:120-122`) — and the fixed-point halt comes from a deterministic fingerprint
+`frozenset((agent, f.source, f.description, f.evidence) …)` compared to the prior pass
+(`critic.py:128-130`). The W-083 coverage guard refuses to halt while a planned agent produced zero
+findings (`critic.py:172-185`).
+
+### 3. The granular MCP disk chain — `mcp_server/server.py` handlers + `wrappers/`
+
+Each tool in the granular chain is a `@traced(...)`-decorated async handler in
+`src/agentropix_sift/mcp_server/server.py` that (a) rate-limits, (b) runs `_policy.check_read(...)`,
+then (c) delegates to a deterministic wrapper. The FastMCP surface registers them in
+`mcp_server/fastmcp_app.py` (each `@app.tool()` forwards to the `mcp_*` handler — e.g.
+`fastmcp_app.py:545` → `_inner.mcp_get_partitions(image)`).
+
+| Use-case step (B.x) | MCP handler (`server.py`) | Deterministic wrapper (`wrappers/…`) | SIFT binary |
+|---|---|---|---|
+| B.1 `get_image_info` | `mcp_get_image_info(image)` `server.py:2143` | `ewf.get_image_info` `ewf.py:62` → `ImageInfo` (`ewf.py:21`) | `ewfinfo` |
+| B.2 `get_partitions` | `mcp_get_partitions(image)` `server.py:774` | `tsk.get_partitions` `tsk.py:349` → `PartitionTable.filesystem_offsets` (`tsk.py:303`) | `mmls` |
+| B.3 `case_init` | `mcp_case_init(...)` `server.py:987` | `case_lifecycle.case_init` `case_lifecycle.py:196` | — (writes `~/.agentropix/active_case`) |
+| B.3 `evidence_register` | `mcp_evidence_register(...)` `server.py:1057` | `case_lifecycle.evidence_register` `case_lifecycle.py:431` | — (SHA-256 hash) |
+| B.4 `fls` | `mcp_fls(image, offset, recursive, deleted_only, summary_only, …)` `server.py:730` | `tsk.fls` `tsk.py:111` → `FileListing` (`tsk.py:42`) | `fls` |
+| B.5 `extract_files` | `mcp_extract_files(image, paths, dest, offset, …)` `server.py:2022` | `extract` (`extract.py`: `_run_ifind`/`icat`, `ExtractManifest` `extract.py:152`) | `ifind` + `icat` |
+| B.6 `get_shimcache` | `mcp_get_shimcache(hive)` `server.py:1709` | `shimcache.get_shimcache` `shimcache.py:154` | `shimcache_parser` |
+| B.6 `get_amcache` | `mcp_get_amcache(hive)` `server.py:1687` | `amcache` wrapper | `amcache_parser` |
+| B.6 `get_prefetch` | `mcp_get_prefetch(target)` `server.py:854` | `prefetch` wrapper | `pf` |
+| B.7 `run_hashdeep` | `mcp_run_hashdeep(target, algos, recursive, …)` `server.py:2348` | `hashdeep.run_hashdeep` `hashdeep.py:155` → `HashdeepReport` (`hashdeep.py:57`) | `hashdeep` |
+
+The handler body is uniform — `mcp_fls` (`server.py:729`) is representative:
+
+```python
+@traced("fls")
+async def mcp_fls(image, offset=0, inode=None, recursive=False,
+                  deleted_only=False, fstype=None, summary_only=False):
+    rate_err = _rate_limiter.check("fls")
+    if rate_err: return ToolError(tool="fls", error=rate_err)
+    violation = _policy.check_read(image)                 # Thymus read-only gate
+    if violation: return ToolError(tool="fls", error=violation)
+    try:
+        return await tsk_fls(image, offset=offset, recursive=recursive,
+                             deleted_only=deleted_only, summary_only=summary_only, ...)
+    except (FileNotFoundError, RuntimeError, TimeoutError) as e:
+        return ToolError(tool="fls", error=str(e))
+```
+
+**The load-bearing offset rule** (capture NTFS start sector from B.2, pass to `fls`/`extract_files`)
+is real in the signatures: `mcp_get_partitions` returns a `PartitionTable` whose `filesystem_offsets`
+field (`tsk.py:303-316`, parsed from `mmls` by `_parse_mmls_output` `tsk.py:318`) is the start sector,
+and both `mcp_fls` (`server.py:732`, `offset: int = 0`) and `mcp_extract_files` (`server.py:2025`,
+`offset: int = 0`) take that `offset` through to the TSK wrapper. The docstring on
+`mcp_get_partitions` (`server.py:777-779`) states the contract explicitly ("start sectors to pass to
+`fls(offset=...)` / `extract_files`").
+
+### 4. Chain of custody — `case_lifecycle.py`
+
+`case_init` (`case_lifecycle.py:196`) creates the `CaseRecord` (`case_lifecycle.py:74`), defaults the
+id to `INC-YYYY-MMDDHHMMSS` via `_default_case_id` (`case_lifecycle.py:155`), and — the load-bearing
+local effect — stamps the active-case pointer **first**: `_set_active_case_id(resolved_case_id)`
+(`case_lifecycle.py:266`) writes `~/.agentropix/active_case` (`ACTIVE_CASE_FILE_NAME`,
+`case_lifecycle.py:55`; `_active_case_path` `case_lifecycle.py:139`), then attempts the index write
+under `try/except` so the pointer survives an indexer outage (SIFT-W-296c note, `case_lifecycle.py:258-266`).
+
+`evidence_register` (`case_lifecycle.py:431`) is the chain-of-custody hash:
+
+```python
+digest, size = _sha256_file(target)                       # SHA-256 over the image bytes
+evidence_id = hashlib.sha256(
+    f"{case_id}\x00{target!s}\x00{digest}".encode("utf-8")
+).hexdigest()                                             # deterministic over (case_id, path, sha256)
+```
+
+That maps Output D directly: `sha256` is the custody hash (`96bebe80…` in the CFReDS run),
+`evidence_id` is the deterministic id, `size_bytes` comes from `_sha256_file` (`case_lifecycle.py:413`),
+and re-registering the same file is idempotent within a UTC day (docstring `case_lifecycle.py:445-447`;
+deterministic `_id` upsert, `case_lifecycle.py:504-505`).
+
+### 5. The Thymus read-only boundary — `mcp_server/thymus_policy.py`
+
+`ThymusEvidencePolicy` (`thymus_policy.py:59`) is the policy object every handler calls.
+`check_read(path)` (`thymus_policy.py:236`) returns `None` (allow) or a `"Thymus REJECT: …"` string:
+PATH_MAX bound (`thymus_policy.py:249`), raw-path `FORBIDDEN_PATTERNS` screen incl. `..`
+(`thymus_policy.py:264-267`), canonicalisation (`thymus_policy.py:274`), broken/circular-symlink
+rejection (`thymus_policy.py:289-295`) — this is the W-164 enforcement counterpart — then
+`_auto_allow_parent(path)` (`thymus_policy.py:314`) and the allowed-prefix `startswith` check.
+
+`_auto_allow_parent` (`thymus_policy.py:127`) is the "image's parent dir auto-allowed on first touch"
+behaviour: for a recognised evidence extension it appends `str(p.resolve().parent) + "/"` to
+`_allowed_prefixes` (`thymus_policy.py:149-150`), bounded by `_max_auto_prefixes`. The default
+allowlist prefixes the GOTCHA boxes cite live at `thymus_policy.py:32-36` — `/cases/`, `/mnt/`,
+`/media/`, `/evidence/`, `/tmp/agentropix-sift-` — extensible via
+`AGENTROPIX_THYMUS_ALLOWED_PREFIXES` (`thymus_policy.py:93`). `extract_files` enforces the boundary on
+**both** `image` and `dest` (`server.py:2050-2061`), which is why `<OUT_DIR>` must be allowlisted.
+
+### 6. Sealing the report — `courtroom.py`
+
+`write_sealed_session(report_dict, audit_entries, out_path, …)` (`courtroom.py:341`) is the function
+`cli.py:142` calls. It performs the single-key flow the postconditions describe:
+
+1. `write_session_key(out_path)` (`courtroom.py:185`) → 32 random bytes, written to
+   `<stem>.session-key` at mode `0600` (`courtroom.py:195-201`).
+2. seal the audit dict → `seal_audit_log` (`courtroom.py:269`); embed `audit_log_seal`.
+3. **cross-bind** the audit seal into the report (`courtroom.py:387`) so a swapped audit file fails
+   the report seal too.
+4. `seal_report(report_dict, key)` (`courtroom.py:161`) = `hmac.new(key, _canonical_for_seal(...),
+   hashlib.sha256).hexdigest()` over the canonicalised JSON (`sort_keys=True`,
+   `separators=(",",":")`, `report_seal` blanked to `"__sealed__"` — `courtroom.py:145-158`); embed
+   under `report_seal`; write `report.json`.
+5. write `<stem>.audit-log.json`.
+
+Returns `{"report": …, "key": …, "audit": …}` (`courtroom.py:363,397`) — the three artefacts in the
+Output-A table. Tamper-evidence is `verify_seal` (`courtroom.py:173`): it recomputes the MAC and
+`hmac.compare_digest`s it, so a single-byte change to the on-disk document fails verification (this is
+the dashed `examiner verifies seal` edge into [uc-approval-gate.md](uc-approval-gate.md)).
+
+### 7. The autonomous filesystem agent — `agents/filesystem.py`
+
+The autonomous path's filesystem walk is `FilesystemAgent` (`agents/filesystem.py:65`),
+`name = "filesystem"`, `completion_promise = "FILESYSTEM_WALKED"` (`filesystem.py:66-67`) — the exact
+token the orchestrator collects into `completion_proofs` and the sentinel's `_REQUIRED_PROMISES`. Its
+`investigate(image)` (`filesystem.py:69`) early-returns on non-disk images (`looks_like_disk`,
+`filesystem.py:70-71`) then calls the **same** `mcp_fls` handler the granular chain uses
+(`filesystem.py:112` — `await mcp_fls(str(image), recursive=fls_recursive)`), emitting deleted/
+suspicious-name `Finding`s. This is the structural proof that "both surfaces hit the same
+deterministic MCP tool": the autonomous SWARM and the manual chain both route through
+`server.py:mcp_fls` → `tsk.py:fls`. `SwarmAgent.run` (`agents/_base.py:130`) then publishes those
+findings to the `Blackboard`, which the Critic scores.

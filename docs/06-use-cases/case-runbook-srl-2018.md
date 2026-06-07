@@ -300,3 +300,10 @@ transcript, all run live against `/cases/SRL-2018/`) lives in
 - [`tool-list.md`](../04-mcp-tools/tool-list.md) — the 71-tool catalogue and exact arg schemas.
 - [`capability-map.md`](../04-mcp-tools/capability-map.md) — pick tools by DFIR function.
 - [`canonical-facts.md`](../08-reference/canonical-facts.md) — canonical numbers and case inventory.
+
+**Design rationale (ADRs).** The decisions behind each phase of this runbook:
+
+- Disk (§1): [ADR-012 — extract_files](../11-ADR/ADR-012-extract-files.md), [ADR-013 — evtx wrapper](../11-ADR/ADR-013-evtx-wrapper.md), [ADR-016 — courtroom seal](../11-ADR/ADR-016-courtroom-audit.md).
+- Memory (§2): [ADR-014 — impacket secretsdump credential triage](../11-ADR/ADR-014-W072-impacket-secretsdump.md).
+- Approval (§3): [ADR-016](../11-ADR/ADR-016-courtroom-audit.md) / [ADR-022 — audit-log seal](../11-ADR/ADR-022-audit-log-seal.md); two-person rule **deferred** ([ADR-021](../11-ADR/ADR-021-two-person-rule-defer.md)).
+- Wazuh push (§4): [ADR-018 — Wazuh IOC push](../11-ADR/ADR-018-wazuh-ioc-push.md), [ADR-019 — AR confirmation gate](../11-ADR/ADR-019-ar-confirmation-gate.md), [ADR-020 — Wazuh credential lifecycle](../11-ADR/ADR-020-credential-lifecycle.md).

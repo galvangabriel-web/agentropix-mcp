@@ -247,3 +247,18 @@ report that is missing a required promise is a signal that a wrapper silently fa
 - The full iteration sequence (with halt) as a sequence diagram →
   [sequence-diagrams.md](sequence-diagrams.md#4-architect--swarm--critic-iteration-with-halt)
 - The `TriageReport` / `TrinityResult` / `Finding` data contracts → [03-data](../03-data/)
+
+### Related ADRs (decision rationale)
+
+- **The execution-loop genesis** — why the engine is an iterate-until-complete loop with a
+  hard iteration budget and per-run state, rather than a single-shot call →
+  [ADR-002 · Execution Engine (Ralph Orchestrator)](../11-ADR/ADR-002-execution-engine.md)
+  (Accepted/Implemented).
+- **Why the planner stays deterministic (and the LLM reorder is *off* by default)** — the
+  ADR that weighs adding an intelligent task router to the plan step, and its **Proposed —
+  NOT shipped** status, explains why §2's `AGENTROPIX_ARCHITECT_LLM_REORDER` is a
+  permutation-only escape hatch rather than the default →
+  [ADR-009 · Intelligent Task Router](../11-ADR/ADR-009-task-router.md) (⚠️ Proposed).
+- **Cross-iteration learning (§8.1 in [swarm-agents.md](swarm-agents.md))** — the memory
+  substrate that lets one iteration's plan↔score correlation inform the next →
+  [ADR-006 · Memory System](../11-ADR/ADR-006-memory-system.md) (Implemented).

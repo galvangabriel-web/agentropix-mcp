@@ -495,3 +495,182 @@ gate; the actual push is driven by the MCP client.
   twice → 71 distinct tools total) and the `[MUT]` write markers.
 - [`env-vars.md`](../07-sdlc-ops/env-vars.md) — the full Wazuh kill-switch + connectivity matrix.
 - [`module-map.md`](../02-architecture/module-map.md) — the `wazuh/` package internals.
+
+**Design rationale (ADRs).** Why the push is gated and sealed the way it is:
+
+- [ADR-018 — Wazuh IOC Push Integration](../11-ADR/ADR-018-wazuh-ioc-push.md) — the genesis of this whole feature: per-PUT HMAC-SHA256 chain-of-custody seal behind a fail-closed evidence gate.
+- [ADR-019 — Active Response Confirmation Gate](../11-ADR/ADR-019-ar-confirmation-gate.md) — why an explicit human/operator confirmation (the W-188 not-production affirmation + token) gates any destructive push (blast-radius + OWASP LLM07).
+- [ADR-020 — Wazuh Credential Lifecycle](../11-ADR/ADR-020-credential-lifecycle.md) — the secrets discipline behind `AGENTROPIX_WAZUH_API_PASSWORD_FILE` and the connectivity credentials (flag → gitignore → 0600 → never echo).
+- [ADR-016 — Courtroom Audit + Cryptographic Sealing](../11-ADR/ADR-016-courtroom-audit.md) — the seal applied to every push attempt (referenced inline as ADR-016).
+- [ADR-021 — Two-Person Rule for Active Response](../11-ADR/ADR-021-two-person-rule-defer.md) — why a single operator confirmation suffices today (the deferred stricter control).
+
+---
+
+## Implementation proof (source)
+
+> **For developers.** This section maps every use-case step to the **real code** that runs it, so you
+> can read the call chain end-to-end. Paths are relative to `src/agentropix_sift/`. Symbols are cited
+> `file::symbol`; snippets are trimmed to the load-bearing lines. The two MCP wrapper modules
+> (`mcp_server/wrappers/wazuh_tools.py`, `mcp_server/wrappers/wazuh_intel.py`) are the protocol
+> boundary; the `wazuh/` package is the engine. Both wrapper registrars are wired into the FastMCP app
+> in `mcp_server/fastmcp_app.py` (`register_wazuh_tools(app)` ≈ line 2033, `register_wazuh_intel_tools(app)`
+> ≈ line 2047), each guarded by its own feature flag.
+
+### The five Wazuh tools + the EAR builder — where they live
+
+| Use-case tool | Implementing symbol (handler) | Engine it calls |
+|---|---|---|
+| `build_executable_registry` | `mcp_server/wrappers/executable_registry.py::build_executable_registry` (MCP-exposed via `mcp_server/fastmcp_app.py::build_executable_registry` → `server.py::mcp_build_executable_registry`) | writes `<case_dir>/MASTER-IOCS.json` |
+| `wazuh_index_findings` | `mcp_server/wrappers/wazuh_tools.py::register_wazuh_tools.wazuh_index_findings` | `wazuh/orchestrator.py::index_findings` |
+| `wazuh_publish_iocs` | `mcp_server/wrappers/wazuh_tools.py::register_wazuh_tools.wazuh_publish_iocs` | `wazuh/orchestrator.py::push_iocs` |
+| `wazuh_hunt_ioc` | `mcp_server/wrappers/wazuh_tools.py::register_wazuh_tools.wazuh_hunt_ioc` | `wazuh/indexer_client.py::IndexerClient` + `_hunt_ioc_dsl.build_hunt_query` |
+| `wazuh_vuln_query` | `mcp_server/wrappers/wazuh_tools.py::register_wazuh_tools.wazuh_vuln_query` | `wazuh/indexer_client.py::IndexerClient` |
+| `wazuh_check_intel` | `mcp_server/wrappers/wazuh_intel.py::register_wazuh_intel_tools.wazuh_check_intel` | `wazuh/client.py::WazuhClient` + `wazuh/tag_schema.py` |
+
+### The kill-switch gate (precondition gate) — `wazuh/config.py` + `wazuh_tools.py`
+
+The four kill switches are parsed in `wazuh/config.py::WazuhConfig.from_env` (defaults are fail-safe):
+
+```python
+# wazuh/config.py::WazuhConfig.from_env
+integration_enabled = _bool_env("WAZUH_INTEGRATION_ENABLED", False, e)
+push_enabled        = _bool_env("WAZUH_PUSH_ENABLED",        False, e)
+dry_run_only        = _bool_env("WAZUH_DRY_RUN_ONLY",        True,  e)
+list_namespace      = e.get("WAZUH_LIST_NAMESPACE", "agentropix_").strip()
+```
+
+Each mutating wrapper re-checks them and returns the **structured `error` envelope** described in the
+GOTCHA box (never throws, never silently writes) — e.g. `wazuh_tools.py::wazuh_publish_iocs`:
+
+```python
+if not config.integration_enabled:
+    return {"error": "Wazuh integration is disabled; set WAZUH_INTEGRATION_ENABLED=true",
+            "case_dir": case_dir, "dry_run": dry_run}
+if not dry_run and config.dry_run_only:
+    return {"error": "WAZUH_DRY_RUN_ONLY=true prevents --confirm pushes; ...",
+            "case_dir": case_dir, "dry_run": dry_run}
+```
+
+Note for the doc's W-188 affirmation (`AGENTROPIX_INTEGRATION_NOT_PRODUCTION`): it is **not** referenced
+under `src/agentropix_sift/` — a repo-wide grep for `AGENTROPIX_INTEGRATION_NOT_PRODUCTION` /
+`not_production` over `src/` returns nothing. It is an operator-/runner-level affirmation enforced
+outside the `src` engine (the in-engine gate is the three `WazuhConfig` flags above plus the token).
+
+### The mutation token (EvidenceGate) — `wazuh/evidence_gate.py`
+
+Live writes are fail-closed on the one-shot token. `wazuh/evidence_gate.py::verify_evidence_token`
+raises `EvidenceGateRequired` on a missing/malformed/unverifiable token (format `egt_<26-char ULID>`,
+`_TOKEN_PATTERN = re.compile(r"^egt_[0-9A-Z]{26}$")`). `wazuh_index_findings` calls it directly before
+the orchestrator:
+
+```python
+# wazuh_tools.py::wazuh_index_findings
+if not dry_run:
+    try:
+        verify_evidence_token(mutation_token, op="index_findings")
+    except EvidenceGateRequired as exc:
+        return {"error": f"EvidenceGateRequired: {exc}", "case_id": case_id, "dry_run": dry_run}
+```
+
+`wazuh_publish_iocs` passes the token through to `push_iocs(..., evidence_token=mutation_token)`, which
+verifies it before any network write (`orchestrator.py::push_iocs` order-of-operations step 2).
+
+### Step 1 — `build_executable_registry` → `MASTER-IOCS.json`
+
+`mcp_server/wrappers/executable_registry.py::build_executable_registry` (async) assembles the deduped
+DRAFT registry and, when `dry_run=False` and `case_dir` is given, writes it to disk:
+
+```python
+# executable_registry.py::build_executable_registry
+if not dry_run and case_dir is not None:
+    dest = Path(case_dir) / "MASTER-IOCS.json"
+    payload = registry.model_dump(by_alias=True, exclude={"artifact_path", "error"})
+    dest.write_text(json.dumps(payload, indent=1, ensure_ascii=True), encoding="ascii")
+    registry.artifact_path = str(dest)
+```
+
+This is the artifact `push_iocs` later loads via `wazuh/inventory.py::load_case_inventory`.
+
+### Step 2 — `wazuh_index_findings` → confidence→level, HMAC seal, batched `_bulk`
+
+The confidence→Wazuh-level mapping the page describes is literally
+`wazuh/finding_to_alert.py::confidence_to_wazuh_level` (the 2–14 bands):
+
+```python
+# finding_to_alert.py::confidence_to_wazuh_level
+if   confidence >= 0.95: return 14   # Critical
+elif confidence >= 0.85: return 12   # High
+elif confidence >= 0.70: return 9    # Medium
+elif confidence >= 0.50: return 6    # Low
+elif confidence >= 0.30: return 4    # Info
+else:                    return 2    # Debug
+```
+
+Before the gate, the wrapper runs `wazuh_tools.py::_apply_draft_gate` (SIFT-W-286): it strips any
+caller-supplied `approval.*`, forces `approval.status="DRAFT"` (the LLM cannot self-approve), and stamps
+the server-side provenance tier (`_PROVENANCE_TIERS_RANKED = ("MCP","HOOK","SHELL","NONE")`, downgrade-only).
+The orchestrator `wazuh/orchestrator.py::index_findings` then stamps each doc's `hmac_seal`
+(`orchestrator.py::_stamp_finding_seal`-style binding via `wazuh/seal.py::CourtroomSeal.bind`), installs
+the index template once (`wazuh/index_templates.py`), and writes batched `_bulk` (cap
+`_BULK_CHUNK_SIZE`/500 per call) through `wazuh/indexer_client.py::IndexerClient.bulk_index`. An Indexer
+outage returns the full result with `WazuhFindingsIndexResult.OUTCOME_INDEXER_OUTAGE = "indexer_outage"`
+— the distinct-from-`error` shape the page calls out. Return keys come from
+`orchestrator.py::WazuhFindingsIndexResult.to_dict` (`indexed_count`, `indexed_failed_count`,
+`batch_count`, `index_template_installed_this_run`, `index`, `dry_run`, `run_id`, `outcome`).
+
+### Steps 3–4 — `wazuh_publish_iocs` → classify, Thymus STRICT, CDB transform, coalesced restart, seal
+
+`wazuh/orchestrator.py::push_iocs` is the single entry point for both dry-run (Step 3) and live (Step 4),
+in this order:
+
+1. **Load** `MASTER-IOCS.json` — `wazuh/inventory.py::load_case_inventory`.
+2. **Thymus STRICT first** (before anything leaves the host) — `wazuh/thymus_bridge.py::ThymusBridge.validate_inventory`;
+   a `ThymusReject` is HMAC-sealed and audited (`_seal_and_audit_attempt(..., event="thymus.reject")`) then re-raised.
+3. **Classify each IOC** Tier-1/2/3 — `wazuh/prioritise.py::PriorityClassifier.classify`; only `tier1`/`tier2`
+   land in `pushable`, everything else increments `excluded_count` → surfaced as `skipped_tier3`.
+4. **Transform to CDB payloads** — `orchestrator.py::_make_cdb_body`: pipe-separated value
+   `key:case_id|confidence|context`, ASCII-sorted for determinism, whitespace keys skipped (Wazuh error 1800).
+5. **Idempotent skip** — when the freshly-built `body == existing_body`, the PUT is skipped and audited
+   `result="skipped_idempotent"` (`orchestrator.py` ~line 1413), which is why re-running is safe.
+6. **One coalesced restart** — fired only `if pushed > 0 and reconcile_error is None`, via
+   `wazuh/client.py::WazuhClient.restart_manager` then `poll_restart`; `restart_pending=True` records the queued restart.
+7. **HMAC-SHA256 seal + audit** — every attempt routes through `orchestrator.py::_seal_and_audit_attempt`,
+   which uses `wazuh/seal.py::CourtroomSeal` (ADR-016, per-run `generate_session_key`) and appends to
+   `wazuh-audit.jsonl` (`config.audit_log`).
+
+The Tier-3 **push denylist** in the GOTCHA box is `wazuh/denylists.py`:
+`INFRA_IP_DENYLIST` / `F_RESPONSE_BENIGN_DENYLIST` (`{"subject_srv.exe"}`, matched via
+`F_RESPONSE_BENIGN_REGEX`/`is_f_response_benign` after `_normalise_process`) /
+`WINDOWS_INSTALLER_GUID_DENYLIST` + `INSTALLER_GUID_PATH_REGEX`/`is_installer_guid_path`. RFC1918 is
+**not** hard-blocked here — `denylists.py::is_rfc1918` + `load_operator_trusted_cidrs` /
+`is_operator_trusted_ip` (`WAZUH_OPERATOR_TRUSTED_CIDRS`) gate it separately, exactly as the page states.
+The classifier consumes `INFRA_IP_DENYLIST` directly (`prioritise.py` imports it; `if value in INFRA_IP_DENYLIST`).
+Result keys come from `orchestrator.py::WazuhIOCPushResult.to_dict` (`case_id`, `pushed`, `skipped_tier3`,
+`skipped_idempotent`, `failed`, `restart_pending`, `dry_run`, `seal`, `run_id`).
+
+### Step 5 — `wazuh_hunt_ioc` → query `wazuh-alerts-*`, hash the IOC back
+
+`wazuh_tools.py::wazuh_hunt_ioc` builds the query via
+`mcp_server/wrappers/_hunt_ioc_dsl.py::build_hunt_query` (`term` on `<field>.keyword` for hashes/IPs to
+dodge IPv4-`.`-tokenisation), runs it through `wazuh/indexer_client.py::IndexerClient` (bounded by
+`INDEXER_TOOL_DEADLINE_SEC = 45.0`), and maps hits to
+`mcp_server/wrappers/observations.py::ObservationAlert`. The raw IOC is **not** echoed — it is hashed to
+`ioc_digest` (`hashlib.sha256(...)`), and an outage degrades to `indexer_reachable=False, hits=[]` with a
+`warning` rather than an `error` envelope. The `_safe_tool`/`@safe_tool` decorator (WZ-021) converts any
+escaped exception into `{"error": ...}`.
+
+### Step 6 — read-only intel/vuln
+
+`wazuh_intel.py::wazuh_check_intel` tests CDB-list membership via `wazuh/client.py::WazuhClient` +
+`wazuh/tag_schema.py` (`AGENTROPIX_CDB_LISTS`, `list_for_value_kind`, `match`, `parse_cdb_body`) and
+hashes the caller input to `value_digest`. `wazuh_tools.py::wazuh_vuln_query` queries CVE/vuln data
+through the same `IndexerClient`. Neither takes a `mutation_token` or checks a kill switch — consistent
+with the page's "read-only" claim.
+
+**Source files cited:** `mcp_server/wrappers/wazuh_tools.py`, `mcp_server/wrappers/wazuh_intel.py`,
+`mcp_server/wrappers/executable_registry.py`, `mcp_server/wrappers/_hunt_ioc_dsl.py`,
+`mcp_server/wrappers/observations.py`, `mcp_server/fastmcp_app.py`, `mcp_server/server.py`,
+`wazuh/orchestrator.py`, `wazuh/config.py`, `wazuh/evidence_gate.py`, `wazuh/finding_to_alert.py`,
+`wazuh/prioritise.py`, `wazuh/denylists.py`, `wazuh/seal.py`, `wazuh/inventory.py`,
+`wazuh/thymus_bridge.py`, `wazuh/client.py`, `wazuh/indexer_client.py`, `wazuh/index_templates.py`,
+`wazuh/tag_schema.py` (all under `/home/admin2/agentropix-sift/src/agentropix_sift/`).

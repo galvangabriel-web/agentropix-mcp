@@ -72,7 +72,8 @@ unchanged — the reading order is layered on top, non-destructively.
   → [Data Models](docs/03-data/data-models.md)
   → [MCP Tool Reference](docs/04-mcp-tools/tool-reference.md)
   → [Testing](docs/07-sdlc-ops/testing.md)
-  → [ADR Index](docs/08-reference/adr-index.md)
+  → [ADR Index](docs/08-reference/adr-index.md) (the routed catalogue)
+  → [Architecture Decision Records — Section 11](docs/11-ADR/README.md) (the full ADR corpus, the decision contract)
   → [Design Decisions — Rationale & History](docs/08-reference/design-decisions.md)
   → [Maintenance — The Dual-Repo Sync](docs/07-sdlc-ops/maintenance-dual-repo.md).
 - **Auditor** (verifies forensic soundness & chain of custody): [Security Model](docs/07-sdlc-ops/security-model.md)
@@ -82,6 +83,7 @@ unchanged — the reading order is layered on top, non-destructively.
   → [Recovery & Resilience](docs/07-sdlc-ops/recovery-resilience.md)
   → [Evaluation Corpus & Recall Methodology](docs/07-sdlc-ops/dataset-recall.md)
   → [Evaluation Scorecard](docs/07-sdlc-ops/evaluation-scorecard.md)
+  → [Architecture Decision Records — Section 11](docs/11-ADR/README.md) (the immutable decision trail, incl. the forensic/safety ADRs 008·011·016·018–022)
   → [Canonical Facts](docs/08-reference/canonical-facts.md).
 
 ---
@@ -220,6 +222,50 @@ unchanged — the reading order is layered on top, non-destructively.
 | The Delegation Model | developer, auditor | Who are the build-time BMAD review personas (Winston/Murat/…) and the Α–Ζ delivery crews, and what sub-agent delegation protocol produced the codebase? | [docs/10-agents/delegation-model.md](docs/10-agents/delegation-model.md) |
 | Agents List | developer | The canonical machine-extracted table of the runtime swarm — the 7 core specialists plus the ATT&CK detectors, each agent's tools and findings. | [docs/10-agents/agents-list.md](docs/10-agents/agents-list.md) |
 | FastMCP Execution | developer, examiner | What happens, station by station, when an agent calls a tool — the 11-station traversal, the stdio↔HTTP transport contrast, the three architectural surprises, and the open Ralph PreToolUse seam (W-081)? | [docs/10-agents/fastmcp-execution.md](docs/10-agents/fastmcp-execution.md) |
+
+## 11. Architecture Decision Records (ADRs)
+
+> **Read in this order** ([section README](docs/11-ADR/README.md)): start with the **strategic
+> foundations (001–008)** in order — 1. [ADR-001 SDK Selection](docs/11-ADR/ADR-001-sdk-selection.md) ·
+> 2. [ADR-002 Execution Engine](docs/11-ADR/ADR-002-execution-engine.md) ·
+> 3. [ADR-003 State Persistence](docs/11-ADR/ADR-003-state-persistence.md) ·
+> 4. [ADR-004 Identity System](docs/11-ADR/ADR-004-identity-system.md) ·
+> 5. [ADR-005 Message Bus](docs/11-ADR/ADR-005-message-bus.md) ·
+> 6. [ADR-006 Memory System](docs/11-ADR/ADR-006-memory-system.md) ·
+> 7. [ADR-007 Deployment Model](docs/11-ADR/ADR-007-deployment-model.md) ·
+> 8. [ADR-008 Safety Architecture](docs/11-ADR/ADR-008-safety-architecture.md) — then the
+> **capability & forensic ADRs (009–024)** and the **milestone / defer ADRs** (M6.3, W051/W052/W054).
+> The [ADR-TEMPLATE](docs/11-ADR/ADR-TEMPLATE.md) is the format every new ADR follows. **Read the
+> status column literally** — *Proposed* ⇒ NOT shipped (ADR-009, ADR-024 header); *Deferred* ⇒
+> documented, deliberately not implemented (ADR-021, the W-defers).
+
+This section mirrors the **canonical ADRs from the oracle** (`/home/admin2/agentropix-sift/docs/adr/`):
+the **immutable decision contract** behind every architectural choice. The
+[ADR Index](docs/08-reference/adr-index.md) in Section 8 is the *routed catalogue* (one-line
+summaries + live status, with anchors); Section 11 carries the **full text of each record**. The
+oracle wins any conflict.
+
+| Title | Audience | What question it answers | Link |
+|-------|----------|--------------------------|------|
+| **ADR corpus — README & status table** | developer, auditor | What architectural decisions exist, what is their **live status** (Implemented / Proposed-NOT-shipped / Deferred), and in what order should I read them? | [docs/11-ADR/README.md](docs/11-ADR/README.md) |
+| Strategic ADRs 001–008 | developer, auditor | What are the eight foundational decisions (SDK · execution engine · state · identity · message bus · memory · deployment · the bio-agentic safety spine)? | [docs/11-ADR/README.md](docs/11-ADR/README.md#strategic-adrs-001008--the-eight-foundational-decisions) |
+| Capability & forensic ADRs 009–024 | developer, auditor, examiner | How were the forensic/safety capabilities decided — evidence gates, EVTX/extract-files wrappers, the Courtroom audit + HMAC seal, tailnet exposure, Wazuh IOC push, the AR confirmation gate, credential lifecycle, the multi-tier report engine? | [docs/11-ADR/README.md](docs/11-ADR/README.md#capability--forensic-adrs-009024) |
+| Milestone & defer ADRs | developer, auditor | Which decisions are milestone-scoped or deliberately deferred (Plaso event-window, the live-recall defers W051/W052/W054, the M6.3 residual gap)? | [docs/11-ADR/README.md](docs/11-ADR/README.md#milestone--defer-adrs-non-numbered) |
+| ADR Template | developer | What is the standard MADR-style format a new ADR must follow? | [docs/11-ADR/ADR-TEMPLATE.md](docs/11-ADR/ADR-TEMPLATE.md) |
+
+---
+
+## Documentation QA — issues log (maintainers)
+
+The portal's documentation-QA logs (render audits, case-guide sweeps) live under
+[`docs/issues/`](docs/issues/). They are maintainer-facing working notes, not reader chapters; the
+accompanying screenshots (`docs/issues/*.png`) are gitignored (local-only). They are listed here for
+traceability of the render/accuracy validation behind the published pages.
+
+| Log | What it holds | Link |
+|-----|---------------|------|
+| Diagram render audit | The Mermaid/diagram GitLab-render audit (every diagram-bearing page, raw-vs-rendered verdicts). | [docs/issues/DIAGRAM-AUDIT.md](docs/issues/DIAGRAM-AUDIT.md) |
+| Case-guide audit | The per-case activation-guide accuracy sweep (recurring fixes + the full pass). | [docs/issues/CASE-GUIDE-AUDIT.md](docs/issues/CASE-GUIDE-AUDIT.md) |
 
 ---
 

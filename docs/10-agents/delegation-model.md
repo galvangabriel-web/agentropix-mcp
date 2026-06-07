@@ -127,6 +127,11 @@ Coordination rules that keep concurrent crews from colliding:
   [Evaluation Scorecard](../07-sdlc-ops/evaluation-scorecard.md).
 - The **runtime** swarm these crews built is documented in
   [swarm-agents.md](../02-architecture/swarm-agents.md) and [agents-list.md](agents-list.md).
+- The **ADRs** the protocol's "changes a contract? → draft an ADR before writing code" gate (§4)
+  produced are the full record in [Section 11 · ADR](../11-ADR/); the mandated MADR-style format is
+  [ADR-TEMPLATE.md](../11-ADR/ADR-TEMPLATE.md). Several were authored by these crews in autonomous
+  delivery mode — e.g. [ADR-M6.3-event-window](../11-ADR/ADR-M6.3-event-window.md)
+  (Architect-A, Crew Α).
 
 ---
 

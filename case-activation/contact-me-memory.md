@@ -3,7 +3,7 @@
 > **LOCAL-ONLY operator runbook.** Real evidence paths and case inventory — do **not** publish.
 > Gets an operator **ready to activate this case and start analysis**; it does not run analysis.
 > All commands/tools verified against the oracle (`/home/admin2/agentropix-sift` docs+src) and the
-> canonical numbers in [`.crew/facts.md`](../.crew/facts.md) (71 MCP tools, 16 SIFT wrappers, 4464
+> canonical numbers in [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (71 MCP tools, 16 SIFT wrappers, 4464
 > tests). House style + dual-audience (🖥️ command / 💬 prompt) mirrors
 > [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md).
 

@@ -306,3 +306,51 @@ its typed report with `tool_available=False` and a populated `skipped_reason` (a
 For the agent-to-tool mapping (which agent calls which of these), see
 [Tools by agent](tool-by-agent.md). For the exact shape of what any of these tools returns, see
 [Response envelope](response-envelope.md).
+
+---
+
+## Related
+
+Sibling pages in this section (04-mcp-tools):
+
+- [Response envelope](response-envelope.md) — the common result shape (`tool_available`,
+  `raw_stdout_sha256`, `skipped_reason`, mutation/approval gating) every tool returns.
+- [Tools by agent](tool-by-agent.md) — which swarm agent invokes which of these 71 tools.
+- [Tool list](tool-list.md) — the flat oracle-derived enumeration of the tool surface.
+- [Capability map](capability-map.md) — capabilities-to-tools view of the same surface.
+
+Genuinely related pages elsewhere in the portal:
+
+- [MCP server](../02-architecture/mcp-server.md) — the single FastMCP server that registers
+  every `@app.tool()` route described here.
+- [Module map](../02-architecture/module-map.md) — the `wrappers/*` and `reports/`/`wazuh/`
+  backing modules cited per tool.
+- [Agents (index)](../10-agents/README.md) · [Agents list](../10-agents/agents-list.md) — the
+  swarm agents that drive the execution, discovery, and state tools.
+- [Canonical facts](../08-reference/canonical-facts.md) — the authoritative `mcp_tool_count = 71`
+  and `16` forensic-wrapper counts this page reconciles against.
+- [Schema reference](../03-data/schema-er.md) · [Data dictionary](../03-data/data-dictionary.md) ·
+  [Persisted artifacts](../03-data/persisted-artifacts.md) — the typed reports and case state the
+  tools read and write.
+
+Architecture Decision Records (11-ADR) governing the tool boundary:
+
+- [ADR-011 — Evidence gates](../11-ADR/ADR-011-evidence-gates.md) — the `[MUT]` mutation-token model.
+- [ADR-016 — Courtroom audit](../11-ADR/ADR-016-courtroom-audit.md) · [ADR-022 — Audit-log seal](../11-ADR/ADR-022-audit-log-seal.md) — the `[APPR]` HMAC approval workflow.
+- [ADR-017 — Tailnet MCP exposure](../11-ADR/ADR-017-tailnet-mcp-exposure.md) — the bearer-token,
+  tailnet-only middleware on every HTTP-exposed tool.
+
+ADRs that originated specific tools / wrappers in the tables above:
+
+- [ADR-012 — `extract_files` (raw-E01 extraction)](../11-ADR/ADR-012-extract-files.md) — the genesis of
+  the `extract_files` (icat) wrapper, its typed Pydantic I/O, and Thymus validation.
+- [ADR-013 — `get_evtx` (Windows Event Log wrapper)](../11-ADR/ADR-013-evtx-wrapper.md) — why `get_evtx`
+  auto-detects `evtx_dump` output formats.
+- [ADR-M6.3 — per-parser sampling + priority filter](../11-ADR/ADR-M6.3-event-window.md) — the Plaso
+  wrapper sampling/`max_events` behavior behind `get_timeline`.
+- [ADR-014 — credential-dump triage (impacket)](../11-ADR/ADR-014-W072-impacket-secretsdump.md) — the
+  vol3 `>=2.27.0` pin and the impacket `secretsdump` credential-dump path.
+- [ADR-018 — Wazuh IOC push](../11-ADR/ADR-018-wazuh-ioc-push.md) — the per-PUT HMAC chain-of-custody
+  seal behind the `wazuh_publish_iocs` mutation.
+- [ADR-024 — Multi-tier report engine](../11-ADR/ADR-024-multi-tier-report-engine.md) — the tiered
+  output of `report_generate` / `report_export`.

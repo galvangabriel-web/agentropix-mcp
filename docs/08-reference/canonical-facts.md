@@ -73,4 +73,5 @@ registered in two modules). Source: `docs/tools/_TOOL-CATALOGUE.md`.
 - [Agents list](../10-agents/agents-list.md) — the 7 core swarm specialists + ATT&CK detectors behind the agent counts above.
 - [Design Decisions](design-decisions.md) — reconciliations of older draft figures (e.g. `2807` tests) against these canonical values.
 - [ADR Index](adr-index.md) — the deferred-detector decision that keeps the recall figures un-inflated.
+- [Section 11 — defer ADRs](../11-ADR/README.md) — the in-portal full text of the recall-contribution Defer ADRs ([W051](../11-ADR/ADR-W051-defer.md), [W054](../11-ADR/ADR-W054-defer.md), [W052-T2](../11-ADR/ADR-W052-T2-defer.md), [W052-T6](../11-ADR/ADR-W052-T6-defer.md)) that explain why a wired, unit-tested detector is held back from the live-recall figures above.
 - [Glossary](glossary.md) — defines the terms (recall, Trinity, swarm) the numbers describe.

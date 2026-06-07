@@ -402,3 +402,142 @@ report_export(tier="analyst", fmt="md")    // -> courtroom.seal_report
 - [uc-wazuh-push.md](uc-wazuh-push.md) — pushing the APPROVED IOCs onward (optional integration).
 - [`tool-list.md`](../04-mcp-tools/tool-list.md) — `[APPR]` approval-gated tools and `[MUT]` writes.
 - [`module-map.md`](../02-architecture/module-map.md) — `approval_sidecar/`, `courtroom.py`, `evidence_gate/`.
+
+**Design rationale (ADRs).** Why the human-in-the-loop gate is shaped this way:
+
+- [ADR-016 — Courtroom Audit + Cryptographic Sealing](../11-ADR/ADR-016-courtroom-audit.md) — the seal/provenance invariants behind `courtroom.seal_report` (referenced inline as ADR-016).
+- [ADR-022 — Audit-Log Seal (HMAC Envelope)](../11-ADR/ADR-022-audit-log-seal.md) — the peer-sealed, append-only audit log that makes `retract_approval` a compensating entry rather than an edit (referenced inline as ADR-022).
+- [ADR-021 — Two-Person Rule for Active Response](../11-ADR/ADR-021-two-person-rule-defer.md) — why a **single** examiner confirmation is sufficient today and the two-person rule is **deferred** (the why-denied for stricter approval).
+
+---
+
+## Implementation proof (source)
+
+> **For developers.** This section maps each use-case step to the **real code** that runs it, so an
+> engineer can read the source and confirm the gate behaves as documented above. Every path is under
+> the oracle `src/agentropix_sift/`; symbols are cited `file:symbol`. Snippets are trimmed; line
+> numbers are stable at time of writing.
+
+### Where the code lives
+
+| Concern | Source | Key symbols |
+|---|---|---|
+| MCP tool surface (FastMCP `@app.tool()` handlers) | `mcp_server/fastmcp_app.py` | `approve_finding` (L1269), `retract_approval` (L1305), `report_generate` (L1330), `report_export` (L1357), `record_finding` (L1111), `delete_finding` (L1133), `case_status` (L977) |
+| Wrapper implementations (the real logic) | `mcp_server/wrappers/case_records.py` | `record_finding` (L205), `delete_finding` (L332), `approve_finding` (L545), `retract_approval` (L696), `report_generate` (L1056) |
+| W-286 draft-gate (strips `approval.*`, stamps DRAFT) | `mcp_server/wrappers/wazuh_tools.py` | `_apply_draft_gate` (L40); `wazuh_index_findings` (L695) |
+| One-shot mutation token | `evidence_gate/registry.py` | `TokenRegistry.verify_and_spend` (L266), `.mint` (L231) |
+| Approval sidecar HTTP routes | `approval_sidecar/app.py` | `_challenge_handler` (L129), `_approve_handler` (L166), `build_app` (L320) |
+| HMAC / PBKDF2 primitives | `approval_sidecar/auth.py` | `derive_key` (L46), `build_signed_message` (L86), `hmac_signature` (L114), `verify_signature` (L123) |
+| Replay-defeating nonce store | `approval_sidecar/nonce.py` | `NonceStore.issue` (L73), `.consume` (L90) |
+| Append-only hash-chain | `approval_sidecar/hash_chain.py` | `compute_approval_id` (L48), `compute_prev_approval_hash` (L73) |
+| Wire schemas | `approval_sidecar/models.py` | `ApprovalStatus` (L15) = `Literal["DRAFT","APPROVED","REJECTED","REVOKED"]`, `ChallengeRequest`/`ChallengeResponse`/`ApprovalSubmitRequest`/`ApprovalSubmitResponse` |
+| Report seal (courtroom) | `courtroom.py` | `seal_report` (L161), `verify_seal` (L173) |
+| Export result shape | `reports/export.py` | `ExportResult` (L53) |
+
+### Step → code-path mapping
+
+**Step 1–2 (Analyst stages the DRAFT) → `record_finding` → W-286 draft-gate.**
+The MCP `record_finding` (`fastmcp_app.py`) calls the wrapper
+`case_records.py:record_finding` (L205), which **does not write directly** — it routes through
+`wazuh_index_findings_fn` so the draft-gate fires identically on every path:
+
+```python
+# case_records.py:record_finding (trimmed) — routes through the gate, never writes raw
+resp = await wazuh_index_findings_fn(
+    findings=[finding], case_id=resolved_case_id,
+    dry_run=dry_run, mutation_token=mutation_token,
+)
+```
+
+Inside `wazuh_tools.py:_apply_draft_gate` (L40) the caller-supplied `approval.*` is **stripped and
+audit-logged**, then `status="DRAFT"` is stamped — this is the line that makes LLM self-approval
+impossible:
+
+```python
+# wazuh_tools.py:_apply_draft_gate (L88-107, trimmed)
+if "approval" in f:
+    strip_events.append(f"approval.* stripped from finding {finding_id} ({shape})")
+f["approval"] = {"status": "DRAFT", "approver": None, "approved_at": None,
+                 "hmac_signature": None, "prev_doc_hash": None}
+```
+
+The live (`dry_run=False`) write spends the one-shot token via
+`evidence_gate/registry.py:TokenRegistry.verify_and_spend` (L266) — an atomic SQLite transaction
+that raises `TokenAlreadySpent`/`TokenExpired`/`TokenScopeMismatch` and constant-time-compares the
+token hash (L299), so a token is good for exactly one mutation. `record_finding` is **idempotent** on
+`(case_id, finding_id)` (L238-266: a pre-count suppresses a duplicate append, returning
+`duplicate=True`).
+
+`delete_finding` (`case_records.py:delete_finding`, L332) is the DRAFT-only self-correct: it reads the
+finding's `approval.status` and **refuses anything but DRAFT** (L399-409), and the live
+`delete_by_query` is scoped with `{"term": {"approval.status": "DRAFT"}}` (L427) so the examiner
+ledger can never be bypassed.
+
+**Step 3 (counts) → `case_status` / `report_generate(profile="status")`.**
+The status profile `case_records.py:_profile_status` (L841) aggregates over `approval.status` and
+**bypasses the APPROVED filter** (L843-857), returning the DRAFT/APPROVED/REJECTED breakdown.
+
+**Step 4 (Examiner approves) → two-leg sidecar handshake.**
+`case_records.py:approve_finding` (L545) is an HTTP client that runs the documented two legs:
+
+```python
+# case_records.py:approve_finding (trimmed) — leg 1: challenge, leg 2: signed approve
+status, ch_body, _ = await post(challenge_url, {"examiner_id": approver_id,
+    "target_id": finding_id, "target_type": target_type})
+nonce, salt_hex, iterations = ch_body["nonce"], ch_body["salt_hex"], int(ch_body["iterations"])
+key = derive_key(password, bytes.fromhex(salt_hex), iterations=iterations)
+message = build_signed_message(nonce=nonce, target_id=finding_id, target_type=target_type,
+    from_status=from_status, to_status=to_status, case_id=resolved_case_id)
+signature_hex = hmac_signature(key, message)
+status, ap_body, _ = await post(approve_url, {..., "nonce": nonce, "signature_hex": signature_hex})
+```
+
+The signed message order is fixed in `auth.py:build_signed_message` (L102):
+`[nonce, target_id, target_type, from_status, to_status, case_id]`, NUL-joined — matching the sidecar
+exactly so client and server can never drift. The password becomes a 256-bit key via
+`auth.py:derive_key` (PBKDF2-HMAC-SHA256, default `DEFAULT_PBKDF2_ITERATIONS = 600_000`, L35); the
+**password is never put on the wire** (only `hmac_signature`, L114).
+
+Server side, `app.py:_challenge_handler` (L129) gates on the configured `examiner_id`
+(`403 unknown_examiner`, L147-152) and issues a target-bound nonce via `nonce.py:NonceStore.issue`.
+`app.py:_approve_handler` (L166) then:
+1. **consumes the nonce** single-use/TTL-bound (`store.consume`, L192 → `nonce_expired` / `nonce_unknown`);
+2. **re-derives the key from the sidecar-held password and verifies the HMAC** with the
+   constant-time `auth.py:verify_signature` (L222 → `401 bad_signature`);
+3. enforces the **from_status precondition** (L233-260 → `409 precondition_failed` /
+   `409 target_not_found`) — the guard that stops a double-approve and refuses to sign for a
+   non-existent record;
+4. computes the deterministic `compute_approval_id` (`hash_chain.py`, L48 — includes the nonce, so a
+   replayed identical approval still yields a distinct id) and writes the append-only row to
+   `agentropix-approvals-YYYY.MM.DD` (`_daily_index_name`, L68).
+
+The `Output A`/`Output B` JSON shapes in the walkthrough are exactly
+`models.py:ChallengeResponse` and `models.py:ApprovalSubmitResponse`.
+
+**`retract_approval`** (`case_records.py:retract_approval`, L696) does **not delete** — it delegates to
+`approve_finding` with `target_type="approval"`, `from_status="APPROVED"`, `to_status="REVOKED"` and a
+**mandatory `reason`** (L720-736), appending a compensating signed row through the same HMAC flow.
+
+**Step 5 (APPROVED-only report + seal) → ledger-reconciled `report_generate`, then sealed export.**
+The critical control: report profiles **do not trust the finding doc's `approval.status`** (the
+sidecar writes a separate ledger, not the finding). `case_records.py:_approved_target_ids` (L769)
+walks the `agentropix-approvals-*` ledger in `@timestamp` order — **last transition per target
+wins** (APPROVED→REVOKED ⇒ not approved) — and `_reconciled_approved_query` (L822) pulls only those
+ids. So `_profile_findings`/`_profile_full`/`_profile_executive`/`_profile_timeline` surface APPROVED
+findings only; a zero-approval case yields the documented `warning` (L1168-1174) and the brand-new
+case short-circuits to `case_not_found` (L1114-1121, the GOTCHA box). Finally `report_export`
+(`fastmcp_app.py:report_export`, L1357 → `ExportResult`, `reports/export.py:53`) seals the canonical
+report via `courtroom.py:seal_report` (L161, HMAC-SHA256 over the sort-keys-canonical JSON), verifiable
+with `verify_seal` (L173).
+
+### Why the LLM cannot self-approve (defense-in-depth, in code)
+
+1. **`_apply_draft_gate`** force-stamps `DRAFT` and strips `approval.*` on *every* finding write
+   (`wazuh_tools.py:88-107`) — the agent surface has no APPROVED path.
+2. The **approval write uses a different credential and a separate service** (the sidecar), reached
+   only with a valid PBKDF2-derived HMAC over a server-issued, single-use nonce
+   (`app.py:_approve_handler` L192-223).
+3. Reports **reconcile against the append-only ledger**, not the agent-writable finding field
+   (`case_records.py:_approved_target_ids` L769) — so even a forged finding-doc status would not leak
+   into a report.
+4. The exported artifact is **HMAC-sealed** (`courtroom.py:seal_report`) and tamper-evident.

@@ -190,7 +190,9 @@ on exception (`cli.py:118-124`) — so an error-recovery session is never blocke
 
 After `run_triage()` returns, the report is sealed via
 `write_sealed_session()` from [`courtroom.py`](../../../agentropix-sift/src/agentropix_sift/courtroom.py)
-(`cli.py:126-142`; **M8.2a**, [ADR-016](adr-index.md#adr-016) + [ADR-022](adr-index.md#adr-022)).
+(`cli.py:126-142`; **M8.2a**, [ADR-016](adr-index.md#adr-016) + [ADR-022](adr-index.md#adr-022) —
+read the full decisions in [Section 11: ADR-016](../11-ADR/ADR-016-courtroom-audit.md),
+[ADR-022](../11-ADR/ADR-022-audit-log-seal.md)).
 This generates a single 32-byte per-run session key, optionally drains the
 Thymus on-disk audit log (when `AGENTROPIX_AUDIT_LOG` is set), seals that log,
 cross-binds the audit seal into the report, and finally seals the report under
@@ -355,10 +357,10 @@ sequenceDiagram
   loop for each of 18 tools
     D->>FS: resolve name (env override?) then which()
     FS-->>D: path or None
-    D-->>Op: [OK <path>] or [MISSING] (+ via-override note)
+    D-->>Op: [OK path] or [MISSING] (+ via-override note)
   end
   alt any MISSING
-    D-->>Op: "<n> tool(s) missing..." + exit 1
+    D-->>Op: "N tool(s) missing..." + exit 1
   else all present
     D-->>Op: "All tools available." + exit 0
   end
@@ -436,7 +438,8 @@ single FastMCP application (`mcp_server/fastmcp_app.py`) launched out-of-band �
 in the verified host configuration via the repo's `scripts/start-mcp.sh`
 launcher (referenced throughout the weakness ledger; e.g.
 `scripts/start-mcp.sh background`). Tailnet-only HTTP exposure of that server is
-the subject of [ADR-017](adr-index.md#adr-017). For the full tool surface see the
+the subject of [ADR-017](adr-index.md#adr-017)
+([full decision in Section 11](../11-ADR/ADR-017-tailnet-mcp-exposure.md)). For the full tool surface see the
 [tool list reference](../04-mcp-tools/tool-list.md); for request flow see
 `docs/MCP-REQUEST-FLOW.md` upstream.
 
@@ -451,6 +454,7 @@ the subject of [ADR-017](adr-index.md#adr-017). For the full tool surface see th
 
 - [Glossary](glossary.md) — personas, weakness-ledger IDs, story IDs, key terms.
 - [ADR Index](adr-index.md) — the architectural decisions cited above.
+- [Section 11 — ADRs (in-portal copies)](../11-ADR/README.md) — full text of the ADRs cited above: [ADR-016](../11-ADR/ADR-016-courtroom-audit.md) / [ADR-022](../11-ADR/ADR-022-audit-log-seal.md) (sealing) and [ADR-017](../11-ADR/ADR-017-tailnet-mcp-exposure.md) (tailnet MCP exposure).
 - [Agents list](../10-agents/agents-list.md) — Trinity roles and the swarm agents the `run` loop drives.
 - [Environment variables](../07-sdlc-ops/env-vars.md) — full `AGENTROPIX_*` namespace, including the `*_TOOL` overrides and `AGENTROPIX_AUDIT_LOG`.
 - [Canonical facts](canonical-facts.md) — the numeric source of truth for the 71-tool surface and test counts cited above.

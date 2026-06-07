@@ -117,9 +117,22 @@ below):
 
 ---
 
+## Related ADRs (decision rationale)
+
+The "one model" above is the shipped result of several architecture decisions — read them in
+[Section 11 · ADR](../11-ADR/):
+
+- **Why the system defaults to halting, not continuing** (the deterministic Critic + the
+  capability-absence stance) → [ADR-008 — Safety Architecture (Bio-Agentic, "the Oncologist")](../11-ADR/ADR-008-safety-architecture.md).
+- **Why "LLM proposes, Trinity disposes" is enforced at the boundary** (the court invariants the
+  Architect/Critic read and the Findings carry) → [ADR-016 — Courtroom Audit + Cryptographic Sealing](../11-ADR/ADR-016-courtroom-audit.md).
+- **The proposed (NOT shipped) intelligent task router** — relevant background to the aspirational
+  vs deterministic-`for`-loop reconciliation above → [ADR-009 — Intelligent Task Router](../11-ADR/ADR-009-task-router.md) (status: Proposed).
+
 ## Where to go next
 
 - The runtime swarm in full → [swarm-agents.md](../02-architecture/swarm-agents.md)
 - The deterministic engine → [trinity-loop.md](../02-architecture/trinity-loop.md)
 - The MCP protocol surface → [mcp-server.md](../02-architecture/mcp-server.md)
+- The decision records behind it → [Section 11 · ADR](../11-ADR/)
 - Every numeric claim → [Canonical Facts](../08-reference/canonical-facts.md)

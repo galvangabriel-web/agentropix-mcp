@@ -432,6 +432,8 @@ classDiagram
    (`seal_report`, `courtroom.py:161`), cross-bound to the audit-log seal so a swapped audit file
    fails the report seal too (`write_sealed_session`, `courtroom.py:387`). Verified by reading the
    sibling `<report>.session-key` (mode 0600) and recomputing (`verify_seal`, `courtroom.py:173`).
+   The report seal is [ADR-016](../11-ADR/ADR-016-courtroom-audit.md); the *independent* audit-log
+   envelope it cross-binds to was added by [ADR-022](../11-ADR/ADR-022-audit-log-seal.md).
 
 The full on-disk mechanics of this chain — session keys, sealed envelopes, cross-binding — are
 documented in [persisted-artifacts.md](persisted-artifacts.md). The entity relationships between the
@@ -446,3 +448,11 @@ report, its findings, audit entries, and evidence are diagrammed in [schema-er.m
 - On-disk artifacts and lifecycle: [persisted-artifacts.md](persisted-artifacts.md)
 - MCP tool catalogue: [`tool-list.md`](../04-mcp-tools/tool-list.md)
 - Canonical numbers: [`canonical-facts.md`](../08-reference/canonical-facts.md)
+
+### Decision rationale (ADRs)
+
+- The courtroom invariant chain ([§6](#6-the-courtroom-invariant-chain)) — high inference constraint,
+  evidence-image binding, and the HMAC report seal — is
+  [ADR-016 (Courtroom Audit)](../11-ADR/ADR-016-courtroom-audit.md).
+- The independent audit-log seal cross-bound into that chain is
+  [ADR-022 (Audit-Log Seal)](../11-ADR/ADR-022-audit-log-seal.md).

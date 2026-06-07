@@ -50,17 +50,17 @@ flow" + `server.py`.
 sequenceDiagram
     participant LLM as LLM agent
     participant TR as FastMCP transport
-    participant T as "@traced (args_hash)"
+    participant T as traced (args_hash)
     participant RL as rate limiter
     participant TH as Thymus check_read
-    participant W as "wrappers/<tool>.py"
+    participant W as wrappers (tool).py
     participant BIN as SIFT binary
     participant P as Pydantic model
 
     LLM->>TR: JSON-RPC tools/call
-    TR->>T: dispatch mcp_<tool>
+    TR->>T: dispatch mcp_(tool)
     T->>T: compute args_hash, open span
-    T->>RL: check("<tool>")
+    T->>RL: check (tool)
     alt over cap
         RL-->>LLM: ToolError(rate_limit)
     else ok
@@ -159,10 +159,25 @@ implemented / OPEN** (`docs/ARCHITECTURE-LAYERS.md` §2, "W-081 … HIGH, P0, OP
 
 ---
 
+## Related ADRs (decision rationale)
+
+The decisions behind the stations and the three "surprises" above are recorded in
+[Section 11 · ADR](../11-ADR/) (in-portal copies of the oracle ADRs cited inline):
+
+- **The two transports** (stdio vs tailnet-only HTTP+SSE, fail-closed at boot) →
+  [ADR-017 — Tailnet-only HTTP MCP exposure](../11-ADR/ADR-017-tailnet-mcp-exposure.md).
+- **Surprise #1 — capability-absence, not permission** (Thymus `check_write()` always REJECTs;
+  default-to-stop) → [ADR-008 — Safety Architecture (Bio-Agentic)](../11-ADR/ADR-008-safety-architecture.md).
+- **Surprise #3 — the per-run HMAC report seal** these stations feed →
+  [ADR-016 — Courtroom Audit + Cryptographic Sealing](../11-ADR/ADR-016-courtroom-audit.md), extended
+  by [ADR-022 — Audit-Log Seal (HMAC Envelope)](../11-ADR/ADR-022-audit-log-seal.md) (the
+  peer-sealed audit-log file cross-bound into the report seal).
+
 ## Where to go next
 
 - The protocol surface and the layer guarantees → [mcp-server.md](../02-architecture/mcp-server.md)
 - The determinism/layer map and the boundary contract →
   [component-architecture.md](../02-architecture/component-architecture.md)
 - The seal these stations feed → [audit-courtroom.md](../05-safety-forensics/audit-courtroom.md)
+- The decision records behind it → [Section 11 · ADR](../11-ADR/)
 - The category overview → [agentic-architecture.md](agentic-architecture.md)

@@ -398,3 +398,9 @@ placeholders):
 - The deeper guarantees behind each step — nonce replay defence, signature
   verification, the precondition gate, and the tamper-evident hash chain — are in
   [Human-in-the-Loop](human-in-the-loop.md).
+- **Decision records (why sign-off is mandatory):**
+  [ADR-019 — Active Response Confirmation Gate](../11-ADR/ADR-019-ar-confirmation-gate.md)
+  establishes that irreversible/sign-off actions can never run autonomously (the
+  LLM07 / Oncologist boundary this portal enforces), and
+  [ADR-021 — Two-Person Rule (DEFERRED)](../11-ADR/ADR-021-two-person-rule-defer.md)
+  records why single-examiner approval is sufficient for the current phase.

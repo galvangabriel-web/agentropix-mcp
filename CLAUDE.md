@@ -28,7 +28,7 @@ Docs are full of 🖥️ MCP calls and `run_volatility` plugins; a wrong name is
   profile **auto-detects on the first `windows.*` plugin** (`get_pslist`) — a populated pslist confirms
   the symbol-table match; empty + `kernel.symbol_table_name` error = no profile resolved (honest
   negative). `get_image_info` is correct only for disk/E01 cases.
-- Recurring fixes + the full sweep live in [`issues/CASE-GUIDE-AUDIT.md`](issues/CASE-GUIDE-AUDIT.md).
+- Recurring fixes + the full sweep live in [`docs/issues/CASE-GUIDE-AUDIT.md`](docs/issues/CASE-GUIDE-AUDIT.md).
 
 ## The documentation template (the standard for this portal)
 The gold-standard page is [`docs/01-overview/user-guide.md`](docs/01-overview/user-guide.md). Apply
@@ -90,7 +90,7 @@ GitLab renders Mermaid client-side; respect its limits:
 - **No raw internal IPs/hostnames** in pages — use placeholders (`<TAILNET-IP>`) or the documented
   tailnet hostname. Screenshots that show live data carry a privacy note.
 - Gitignored (local-only, never publish): `gitlab.txt`, `compare/`, `end-user/`, `2026-*/`,
-  `issues/*.png`. Confirm `git status` won't stage these before committing.
+  `docs/issues/*.png`. Confirm `git status` won't stage these before committing.
   - The **multi-tier reports** (ADR-024 engine output) are published under each case run as
     `case-activation/runs/<case>/reports/<tier>.{md,html,pdf}` — the *report artifacts* only. The
     *design/process* folder `2026-06-01-report-engine-design/` (ADR, plan, mockups, root-cause) stays
@@ -125,5 +125,5 @@ docs/08-reference    cli-reference, glossary, adr-index, design-decisions, canon
 docs/09-integrations wazuh-portal, client-setup
 docs/10-agents       agentic-architecture, delegation-model, fastmcp-execution, agents-list
 case-activation/     per-case Activation Guides (real case data) + runs/<slug>/ executed transcripts + MP4s
-issues/              QA logs (DIAGRAM-AUDIT.md, CASE-GUIDE-AUDIT.md); issues/*.png are gitignored
+docs/issues/         QA logs (DIAGRAM-AUDIT.md, CASE-GUIDE-AUDIT.md); docs/issues/*.png are gitignored
 ```

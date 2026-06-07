@@ -262,3 +262,14 @@ runs the same discipline over the Wazuh audit JSONL).
   that makes the top grounding level (`ok`) possible.
 - Numeric/structural facts are pinned in
   [`canonical-facts.md`](../08-reference/canonical-facts.md).
+
+### Decision records (why this works the way it does)
+
+- [ADR-018 — Wazuh IOC Push Integration](../11-ADR/ADR-018-wazuh-ioc-push.md) —
+  the genesis of the DRAFT-gate provenance tiers, the court-defensible
+  `IOCProvenance` triple (WZ-019), and the fail-closed evidence gate that
+  `_apply_draft_gate` enforces.
+- [ADR-016 — Courtroom Audit: High Inference Constraint + Cryptographic
+  Sealing](../11-ADR/ADR-016-courtroom-audit.md) — why reaching the strongest
+  grounding level (`ok`) requires the HMAC-SHA256 seal to recompute, and the
+  per-run-key seal model these validators verify against.

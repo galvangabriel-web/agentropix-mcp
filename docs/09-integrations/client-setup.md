@@ -495,5 +495,16 @@ boot guard is the backstop for a fat-fingered rotation.
 - [canonical-facts.md](../08-reference/canonical-facts.md) — the authoritative tool count
   (71) cited for the connection probe.
 - Oracle runbooks (operator-only): `docs/runbooks/expose-fastmcp-tailnet.md`
-  (server stand-up), `docs/CLIENT-SETUP.md` (long-form client guide),
-  `docs/adr/ADR-017-tailnet-mcp-exposure.md` (threat model).
+  (server stand-up), `docs/CLIENT-SETUP.md` (long-form client guide).
+
+### Decision records (why it works this way)
+
+The "tailnet-only, single bearer token" model on this page is not an accident — its threat model
+and the credential handling are recorded as ADRs (Section 11):
+
+- [ADR-017 — Tailnet-only HTTP MCP exposure](../11-ADR/ADR-017-tailnet-mcp-exposure.md) — genesis
+  of the `http://<TAILNET-IP>:8765/mcp` endpoint and the threat model: why the server is reachable
+  *only* from the operator's tailnet (your second auth layer in §2) rather than the public internet.
+- [ADR-020 — Wazuh Credential Lifecycle](../11-ADR/ADR-020-credential-lifecycle.md) — the
+  credential-handling discipline behind the out-of-band `<TOKEN>` distribution and the
+  fail-closed boot guard, and the precedent for the per-client `tokens.json` roadmap (§7-§8).

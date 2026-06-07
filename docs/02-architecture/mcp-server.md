@@ -299,3 +299,24 @@ arguments and the binary's output are recorded and unmodified."*
   three architectural surprises, and the open Ralph PreToolUse seam (W-081) →
   [fastmcp-execution.md](../10-agents/fastmcp-execution.md)
 - The full 71-tool catalogue with argument schemas → [04-mcp-tools](../04-mcp-tools/)
+
+### Related ADRs (decision rationale)
+
+- **Why the HTTP transport is tailnet-only, Bearer-protected, fail-closed (§2)** — the ADR
+  cited inline above that makes `--transport http` loopback-by-default and tailnet exposure an
+  explicit opt-in → [ADR-017 · Tailnet-only HTTP MCP exposure](../11-ADR/ADR-017-tailnet-mcp-exposure.md)
+  (Accepted).
+- **The on-disk Thymus audit trail and its seal (§4)** — the peer audit-log HMAC that the
+  Courtroom cross-binds into the report seal →
+  [ADR-022 · Audit-Log Seal — HMAC Envelope](../11-ADR/ADR-022-audit-log-seal.md) (Accepted),
+  which extends [ADR-016 · Courtroom Audit + Cryptographic Sealing](../11-ADR/ADR-016-courtroom-audit.md)
+  (Accepted).
+- **Why `extract_files` is one schema-clean tool with typed I/O + Thymus validation
+  (§3.5 wrapper layer)** →
+  [ADR-012 · `mcp_extract_files` (raw-E01 extraction)](../11-ADR/ADR-012-extract-files.md)
+  (Accepted).
+- **The dual-format `get_evtx` wrapper (§3.5 wrapper layer)** →
+  [ADR-013 · `mcp_get_evtx` (Windows Event Log wrapper)](../11-ADR/ADR-013-evtx-wrapper.md)
+  (Accepted).
+- **The multi-provider SDK stack the server composes over** →
+  [ADR-001 · SDK Selection (Chimera Stack)](../11-ADR/ADR-001-sdk-selection.md) (Implemented).

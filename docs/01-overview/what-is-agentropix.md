@@ -220,3 +220,18 @@ than just a summary.
   sidecar, Wazuh, chaos-tested resilience).
 - **[Quickstart](quickstart.md)** — install, pre-flight (`doctor`), and a first
   end-to-end triage run with example output.
+
+### Where these decisions come from (ADRs)
+
+The structural choices summarized above each have an Architecture Decision Record
+(genesis + rationale) in [Section 11 — ADRs](../11-ADR/README.md):
+
+- **Bio-agentic, fail-safe safety model** (the Thymus, "default to stop") —
+  [ADR-008 · Safety Architecture](../11-ADR/ADR-008-safety-architecture.md).
+- **Deterministic execution loop** (the Ralph-derived control engine behind the
+  Trinity Loop) — [ADR-002 · Execution Engine](../11-ADR/ADR-002-execution-engine.md).
+- **`inference_constraint = high` + Courtroom HMAC seal** (LLM orchestrates only;
+  judge-verifiable report) — [ADR-016 · Courtroom Audit + Cryptographic Sealing](../11-ADR/ADR-016-courtroom-audit.md),
+  extended by [ADR-022 · Audit-Log Seal](../11-ADR/ADR-022-audit-log-seal.md).
+- **Tailnet-only HTTP MCP exposure** (loopback default, explicit opt-in) —
+  [ADR-017 · Tailnet-only HTTP MCP exposure](../11-ADR/ADR-017-tailnet-mcp-exposure.md).

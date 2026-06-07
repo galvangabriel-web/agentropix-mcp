@@ -365,9 +365,9 @@ full env-var table.
 Start at the routed [master table of contents](INDEX.md), which maps every chapter to its
 audience (operator / examiner / developer / auditor) and the question it answers.
 
-### The ten sections at a glance
+### The eleven sections at a glance
 
-The portal is organized into ten numbered sections under `docs/`. One line each, so a
+The portal is organized into eleven numbered sections under `docs/`. One line each, so a
 newcomer knows where to look:
 
 | # | Section | What it contains |
@@ -382,6 +382,11 @@ newcomer knows where to look:
 | 8 | [Reference](docs/08-reference/cli-reference.md) | Look-up material — the full CLI reference, the glossary, the ADR index, and the design-decision rationale. |
 | 9 | [Integrations](docs/09-integrations/wazuh-portal.md) | Connecting to external systems — the Wazuh/SOC portal operator's guide and how to connect a remote client to a live internal MCP server. |
 | 10 | [Agents](docs/10-agents/agentic-architecture.md) | What "agent" means here — the agentic architecture, the build-time delegation model, the FastMCP tool-execution path, and the canonical runtime swarm roster. |
+| 11 | [ADRs](docs/11-ADR/README.md) | The **decision contract** — the immutable Architecture Decision Records mirrored from the oracle: the eight strategic foundations (001–008), the capability/forensic ADRs (009–024, incl. the Courtroom seal, Wazuh push, and the AR confirmation gate), and the milestone/defer records. Read the status column literally (Proposed ⇒ not shipped; Deferred ⇒ documented, not implemented). |
+
+The portal's documentation-QA working notes (render audits, case-guide sweeps) live under
+[`docs/issues/`](docs/issues/) — maintainer-facing, not reader chapters; their screenshots
+(`docs/issues/*.png`) are gitignored.
 
 ### Getting started by role
 
@@ -407,6 +412,7 @@ Pick your lane — each is a short, ordered reading path. The full per-audience 
   [Data Models](docs/03-data/data-models.md) →
   [MCP Tool Reference](docs/04-mcp-tools/tool-reference.md) →
   [Testing](docs/07-sdlc-ops/testing.md) → [ADR Index](docs/08-reference/adr-index.md) →
+  [Architecture Decision Records (Section 11)](docs/11-ADR/README.md) (the immutable decision contract) →
   [Maintenance — The Dual-Repo Sync](docs/07-sdlc-ops/maintenance-dual-repo.md).
 - **Auditor (verify soundness & chain of custody):**
   [Security Model](docs/07-sdlc-ops/security-model.md) →

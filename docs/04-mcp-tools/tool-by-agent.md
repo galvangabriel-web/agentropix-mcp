@@ -154,3 +154,34 @@ originates from a named tool captured in `trace.tool_calls`, the run is replayab
 score (max finding confidence + 0.25·#correlations, capped at 1.0) is reproducible — no LLM rates the
 findings. See [Trinity Loop](../02-architecture/trinity-loop.md) and
 [response envelope → availability & skip signalling](response-envelope.md#availability--skip-signalling).
+
+---
+
+## Related
+
+**Sibling 04-mcp-tools pages**
+
+- [Tool reference](tool-reference.md) — the full catalogue of the 71 MCP tools this page maps agents onto, incl. the three-kinds-of-tool taxonomy (read / derived / state-mutating).
+- [Tool list](tool-list.md) — the flat, name-only index of every tool.
+- [Response envelope](response-envelope.md) — the uniform result shape every tool returns, plus mutation/approval gating and availability/skip signalling referenced above.
+- [Capability map](capability-map.md) — tools grouped by forensic capability rather than by invoking agent.
+
+**Where the agents and the MCP boundary are specified**
+
+- [MCP server](../02-architecture/mcp-server.md) — how the swarm agents call tools across the MCP boundary they consume.
+- [Swarm agents](../02-architecture/swarm-agents.md) — the architectural view of the `SWARM` run order and the Architect → Swarm → Critic trinity.
+- [Trinity Loop](../02-architecture/trinity-loop.md) — the deterministic Architect/Swarm/Critic loop that drives the run.
+- [Agents overview](../10-agents/README.md) · [Agents list](../10-agents/agents-list.md) — the agent contract, `name`/`completion_promise` tokens, and `SWARM` tuple this page is derived from.
+- [Agentic architecture](../10-agents/agentic-architecture.md) · [Delegation model](../10-agents/delegation-model.md) — how the agents are orchestrated.
+
+**Reference & data**
+
+- [Canonical facts](../08-reference/canonical-facts.md) — the authoritative tool/wrapper/test counts cited throughout this page.
+- [Data dictionary](../03-data/data-dictionary.md) · [Data models](../03-data/data-models.md) — the `Finding`, `Blackboard`, and `trace.tool_calls` structures the agents read and write.
+
+**Relevant ADRs**
+
+- [ADR-011 — evidence gates](../11-ADR/ADR-011-evidence-gates.md) — the grounding/evidence rules that govern what an agent may publish.
+- [ADR-012 — extract-files](../11-ADR/ADR-012-extract-files.md) — the `extract_files` chain ArtifactAgent runs.
+- [ADR-013 — EVTX wrapper](../11-ADR/ADR-013-evtx-wrapper.md) — the EID 4688 event source TimelineAgent emits and DiscoveryAgent consumes.
+- [ADR-014 — W-072 impacket secretsdump](../11-ADR/ADR-014-W072-impacket-secretsdump.md) — the credential-dump path only MemoryAgent touches.

@@ -214,6 +214,11 @@ The same entry is appended to an in-memory ring (`AGENTROPIX_THYMUS_AUDIT_LOG_RI
 trail of record (`mcp_server/thymus_policy.py:382`). See
 [persisted-artifacts.md §thymus-jsonl](persisted-artifacts.md#thymus-jsonl-audit-log).
 
+> **Why this exists (ADR).** Sealing this access trail under its own independent HMAC envelope —
+> cross-bound to the report seal so neither file can be swapped in isolation — was decided in
+> [ADR-022 (Audit-Log Seal)](../11-ADR/ADR-022-audit-log-seal.md), which extends the report-sealing
+> work of [ADR-016 (Courtroom Audit)](../11-ADR/ADR-016-courtroom-audit.md).
+
 ---
 
 ## 7. `ReasoningTrace` — Hippocampus memory trace
@@ -247,6 +252,12 @@ Pydantic `BaseModel` at `src/agentropix_sift/memory/hippocampus_bridge.py:54`,
 Frozen dataclass `@dataclass(frozen=True)` at `src/agentropix_sift/evidence_gate/registry.py:113`.
 One row in the SQLite-backed mutation-token registry (`TokenRegistry`,
 `AGENTROPIX_EVIDENCE_GATE_DB`). Tokens are one-shot, TTL-bounded mint/spend/revoke records.
+
+> **Why this exists (ADR).** The mutation-token regime — `egt_…` token format, explicit scope binding,
+> fail-closed gate, and audit of the token id (not the secret) — was defined in
+> [ADR-018 Decision 8](../11-ADR/ADR-018-wazuh-ioc-push.md). Note the distinction ADR-018 itself draws:
+> [ADR-011 (Evidence-Type Gate)](../11-ADR/ADR-011-evidence-gates.md) covers evidence *file-type*
+> detection, **not** the mutation-token regime.
 
 | Field | Type | Required | Semantics / constraint | Source |
 |-------|------|----------|------------------------|--------|
@@ -324,6 +335,10 @@ Source: `src/agentropix_sift/approval_sidecar/models.py`. The HMAC human-in-the-
 ## 10. Wazuh IOC record family
 
 Source: `src/agentropix_sift/wazuh/models.py`. Provenance is first-class (WZ-019).
+
+> **Why this exists (ADR).** The Wazuh IOC push pipeline that consumes this record family — the
+> Tier-1/2/3 priority taxonomy, the fail-closed provenance gate, and the IOC→evidence-image binding —
+> originates in [ADR-018 (Wazuh IOC Push)](../11-ADR/ADR-018-wazuh-ioc-push.md).
 
 ### `IOCProvenance` (Pydantic `BaseModel`)
 
@@ -474,3 +489,14 @@ Consumed by the standalone verifiers in `audit/verify_seal.py` and `provenance/v
 - Canonical numbers: [`canonical-facts.md`](../08-reference/canonical-facts.md)
 - MCP tool catalogue: [`tool-list.md`](../04-mcp-tools/tool-list.md)
 - Agent roster: [`agents-list.md`](../10-agents/agents-list.md)
+
+### Decision rationale (ADRs)
+
+The "why" behind several models on this page lives in the Architecture Decision Records:
+
+| Model / field | ADR (genesis / rationale) |
+|---|---|
+| `inference_constraint`, `evidence_image_sha256`, `report_seal`, `raw_output` ([§1](#1-triagereport--the-top-level-report-contract), [§5](#5-trace--the-tool-call-trace)) | [ADR-016 — Courtroom Audit (High Inference Constraint + sealing)](../11-ADR/ADR-016-courtroom-audit.md) |
+| `thymus_audit[]` independent seal ([§6](#6-thymus_audit-entry)) | [ADR-022 — Audit-Log Seal](../11-ADR/ADR-022-audit-log-seal.md) (extends ADR-016) |
+| `TokenRow` / evidence-gate mutation token ([§8](#8-tokenrow--evidence-gate-mutation-token)) | [ADR-018 Decision 8 — Mutation token regime](../11-ADR/ADR-018-wazuh-ioc-push.md) (≠ ADR-011 evidence-type gate) |
+| Wazuh IOC record family + `IOCProvenance` gate ([§10](#10-wazuh-ioc-record-family)) | [ADR-018 — Wazuh IOC Push](../11-ADR/ADR-018-wazuh-ioc-push.md) |

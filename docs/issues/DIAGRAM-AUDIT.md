@@ -166,7 +166,7 @@ diagram's rendered width and redesigned the worst offenders to be narrower
 | `system-context-c4.md` · Deployment | **2009** | **850** | `LR` so the MCP fan-out stacks vertically; shorter labels |
 | `swarm-agents.md` · class hierarchy | n/a | n/a | fixed invalid `cssClass` → `style` directives (tints now apply) |
 
-**Verified in GitLab via the Playwright MCP container** (screenshots in `issues/`):
+**Verified in GitLab via the Playwright MCP container** (screenshots in `docs/issues/`):
 View A and the container/deployment views now render at a legible size.
 
 **Still intrinsically wide (known limitation):** `schema-er.md` · ER diagram

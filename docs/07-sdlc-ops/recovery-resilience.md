@@ -194,3 +194,19 @@ One row per failure mode, the runtime's response, and the source file that imple
 - [security-model](security-model.md) — the Thymus policy and fail-closed redaction.
 - [configuration](configuration.md) — the timeout / memory / retry env knobs.
 - [deployment](deployment.md#4-runbook-index) — the OOM/timeout troubleshooting runbook.
+
+### Why "degrade gracefully" is the contract (ADRs)
+
+The resilience posture on this page is the operational face of decisions recorded in the
+[Architecture Decision Records](../11-ADR/):
+
+- **The fail-safe default (a single tool failure must never crash the loop; the Critic refuses
+  to halt on a degraded agent)** — [ADR-008](../11-ADR/ADR-008-safety-architecture.md)
+  (defaults to stopping rather than continuing).
+- **The Plaso timeout path (§3, §5; the `PLASO_TIMEOUT` discriminator, W-128)** — the per-parser
+  sampling + priority filter in [ADR-M6.3-event-window](../11-ADR/ADR-M6.3-event-window.md), with
+  the wrapper-OK-but-detector-silent case documented in
+  [ADR-M6.3-residual-gap](../11-ADR/ADR-M6.3-residual-gap.md).
+- **`TestExtractFilesTraversalRejected` (§4; traversal / NUL-byte paths rejected before any
+  subprocess)** — the typed-I/O, Thymus-validated extraction tool in
+  [ADR-012](../11-ADR/ADR-012-extract-files.md).

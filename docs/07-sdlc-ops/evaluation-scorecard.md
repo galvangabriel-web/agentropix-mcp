@@ -261,3 +261,16 @@ which override any older figures a stale presentation might carry — are, per
 - [Security Model](security-model.md) — the structural read-only and seal controls (D3).
 - [Audit & Courtroom Seal](../05-safety-forensics/audit-courtroom.md) — chain-of-custody, the #3 strength.
 - [Canonical Facts](../08-reference/canonical-facts.md) — the single source of truth for every number here.
+
+### Decision records behind the scored features (ADRs)
+
+Several items the evaluation scored map to [Architecture Decision Records](../11-ADR/):
+
+- **Audit Trail Quality (Devpost criterion §6) / #3 weighted strength (HMAC seal + audit-log
+  cross-bind)** — [ADR-016](../11-ADR/ADR-016-courtroom-audit.md) and
+  [ADR-022](../11-ADR/ADR-022-audit-log-seal.md).
+- **Gap closure & calibration discipline (§5)** — the pilot-feedback loop that captures reviewer
+  signal is [ADR-023](../11-ADR/ADR-023-pilot-feedback-pipeline.md).
+- **The tiered exec/business/technical report engine that surfaces these results** —
+  [ADR-024](../11-ADR/ADR-024-multi-tier-report-engine.md) (status: Proposed — audit notes the
+  `report_export` tool shipped).

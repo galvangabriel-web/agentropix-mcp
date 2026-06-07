@@ -342,3 +342,13 @@ chain-of-custody property at the heart of the engine.
 - **Shared references** — [`tool-list.md`](../04-mcp-tools/tool-list.md) (all 71
   tools), [`env-vars.md`](../07-sdlc-ops/env-vars.md) (configuration),
   [`agents-list.md`](../10-agents/agents-list.md) (the swarm).
+- **Why this run works the way it does (ADRs)** — the sealed-output and
+  deterministic-loop behaviour you just exercised are decided in
+  [Section 11 — ADRs](../11-ADR/README.md): the three-file HMAC seal and
+  `scripts/verify_seal.py` chain come from
+  [ADR-016 · Courtroom Audit + Sealing](../11-ADR/ADR-016-courtroom-audit.md) and
+  [ADR-022 · Audit-Log Seal](../11-ADR/ADR-022-audit-log-seal.md); the bounded,
+  deterministic Trinity Loop (`--max-iterations`) comes from
+  [ADR-002 · Execution Engine](../11-ADR/ADR-002-execution-engine.md); the
+  `extract_files` step in the end-user triage prompt is
+  [ADR-012 · `mcp_extract_files`](../11-ADR/ADR-012-extract-files.md).

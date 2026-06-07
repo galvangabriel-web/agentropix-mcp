@@ -41,9 +41,9 @@ approval sidecar.
 
 ---
 
-## 2. Published layout (10 sections)
+## 2. Published layout (11 sections)
 
-The portal is **10 numbered sections** under `docs/`, plus `README.md` (landing) and `INDEX.md`
+The portal is **11 numbered sections** under `docs/`, plus `README.md` (landing) and `INDEX.md`
 (routed master index). **Every section carries a `README.md`** with a numbered *"Read in this order"*
 list (intro → deeper); the same ordering is mirrored inline under each section heading in `INDEX.md`.
 Filenames are stable — reading order is layered on non-destructively (no renames).
@@ -67,10 +67,16 @@ docu_agentro/
     │                          deployment, dataset-recall, evaluation-scorecard, maintenance-dual-repo, env-vars*
     ├── 08-reference/        README + cli-reference, glossary, adr-index, design-decisions, canonical-facts*
     ├── 09-integrations/     README + client-setup, wazuh-portal
-    └── 10-agents/           README + agentic-architecture, delegation-model, agents-list*, fastmcp-execution
+    ├── 10-agents/           README + agentic-architecture, delegation-model, agents-list*, fastmcp-execution
+    ├── 11-ADR/              README + ADR-001…024, ADR-M6.3-*, ADR-W05*-defer, ADR-TEMPLATE (mirrored from oracle docs/adr/)
+    └── issues/              QA logs (DIAGRAM-AUDIT.md, CASE-GUIDE-AUDIT.md); docs/issues/*.png are gitignored
 ```
 
 `*` = **shared-reference** page (machine-extracted substrate, formerly under `.crew/`; see §3).
+`11-ADR/` mirrors the canonical Architecture Decision Records from the oracle (`docs/adr/`) — the
+immutable decision contract; the routed catalogue stays at `docs/08-reference/adr-index.md`.
+`docs/issues/` holds maintainer-facing documentation-QA logs (not reader chapters); it was moved
+under `docs/` so the audit trail ships alongside the pages it validates.
 
 ---
 
@@ -103,6 +109,35 @@ BMAD personas**, and to tie Trinity ↔ Swarm ↔ MCP into one model.
 2. [delegation-model.md](docs/10-agents/delegation-model.md) — BMAD personas + Α–Ζ delivery crews + the delegation protocol.
 3. [agents-list.md](docs/10-agents/agents-list.md) — *(shared reference)* the canonical runtime-swarm table.
 4. [fastmcp-execution.md](docs/10-agents/fastmcp-execution.md) — one agent tool call, station by station.
+
+---
+
+## 4a. The `11-ADR` category (new) + `docs/issues` move
+
+**`11-ADR`** mirrors the canonical Architecture Decision Records from the oracle
+(`/home/admin2/agentropix-sift/docs/adr/`) into the portal — the **immutable decision contract**.
+Each ADR page carries the original decision text plus a portal breadcrumb; sibling-ADR links resolve
+within the section, source/test/runbook references cite the oracle path (oracle wins any conflict).
+
+1. [README.md](docs/11-ADR/README.md) — the ADR corpus index + the status table (read the status
+   column literally: *Proposed* ⇒ NOT shipped; *Deferred* ⇒ documented, not implemented).
+2. Strategic ADRs **001–008** — the eight foundational decisions (SDK, execution engine, state,
+   identity, message bus, memory, deployment, the bio-agentic safety spine).
+3. Capability & forensic ADRs **009–024** — evidence gates, EVTX/extract-files wrappers, the
+   Courtroom audit + HMAC seal, tailnet exposure, Wazuh IOC push, the AR confirmation gate,
+   credential lifecycle, the multi-tier report engine.
+4. Milestone & defer ADRs — M6.3 event-window + residual-gap, the W051/W052/W054 live-recall defers.
+5. [ADR-TEMPLATE.md](docs/11-ADR/ADR-TEMPLATE.md) — the MADR-style format every new ADR follows.
+
+The routed *catalogue* (one-line summaries + anchors) stays at
+[`docs/08-reference/adr-index.md`](docs/08-reference/adr-index.md) and links into Section 11 for the
+full text.
+
+**`docs/issues` move.** The portal's documentation-QA logs (`DIAGRAM-AUDIT.md`, `CASE-GUIDE-AUDIT.md`)
+were moved under `docs/` (from the repo root) so the validation audit trail ships alongside the pages
+it covers. They are maintainer-facing working notes — *not* reader chapters and *not* listed in the
+per-audience reading paths. The accompanying screenshots (`docs/issues/*.png`) stay gitignored
+(local-only).
 
 ---
 

@@ -455,3 +455,220 @@ This lands T1566 (Phishing): the recovered attachments are the IOC surface the `
 - [`agents-list.md`](../10-agents/agents-list.md) — the 7 core specialists + 6 ATT&CK detectors
   whose promise tokens land in Beat 2.
 - [agentic-architecture.md](../10-agents/agentic-architecture.md) — the runtime swarm + Trinity Loop behind the 4-layer build in Beat 2.
+
+---
+
+## Implementation proof (source)
+
+> **For developers.** This section maps every beat above to the concrete code path that implements
+> it, so a reader can open the named file and verify the claim. All citations are
+> `file:symbol`/`file:line` against the oracle source tree
+> (`/home/admin2/agentropix-sift/src`); line numbers were verified on the checkout used to write
+> this page (constants and strings are what move least, so cite the *symbol* first and the line as a
+> hint). Nothing here is paraphrased — the tokens, thresholds and print strings shown in the beats
+> are the literal source values.
+
+### Beat-to-code map
+
+| Beat | What it demonstrates | Implementing symbol(s) | File |
+|---|---|---|---|
+| 1 | one-liner CLI; run banner; SHA-256 binding | `cli.run()` (banner `typer.echo` at `cli.py:79-81`, summary at `cli.py:144-152`) | `cli.py` |
+| 1 | seal written over the final document | `courtroom.write_sealed_session()` | `courtroom.py:341` |
+| 2 | swarm + detector roster; promise tokens | `agents.SWARM` tuple; `SwarmAgent.completion_promise` | `agents/__init__.py:45`; per-agent files |
+| 2 | promise emitted only when agent published ≥1 finding | `run_triage()` emit guard | `orchestrator.py:194-195` |
+| 3 | Architect→Swarm→Critic loop, halt @ 0.85 | `run_triage()` loop; `Critic.score()`; `_DEFAULT_HALT_THRESHOLD` | `orchestrator.py:146-269`; `trinity/critic.py:42,192` |
+| 3 | stable-agent drop | `Critic.score()` `stable_agents`; `_apply_stable_drop()` | `trinity/critic.py:144-148`; `orchestrator.py:325` |
+| 3 | `pslist→psscan` fallback | `get_pslist()` fallback branch; `PsList.used_fallback` | `wrappers/volatility.py:1259,1336-1350` |
+| 4 | finding `_source` + trace `args_hash`/`raw_output` | report schema; `record_finding()` | `schema/report.schema.json:34-68`; `wrappers/case_records.py:205` |
+| 5 | seal verify / tamper print lines | `verify_seal.main()` | `scripts/verify_seal.py:110,138,141,143` |
+| 5 | seal laid down by approval surface | `approve_finding()` | `wrappers/case_records.py:545` |
+| 6 | PST carve → IOC rows | `carve_pst_iocs()` | `wrappers/pst_carve.py:133` |
+| 6 | pffexport recovery + dedup | `parse_pst_with_recovery()`; `_dedup_key()` | `agents/_mail_parsers.py:974,712` |
+| 6 | byte-identity chain-of-custody audit | `TestPffexportByteIdentityAudit` | `tests/unit/test_issue_17_mail_parsers.py:1158` |
+
+### Beat 1 — the `run` command and the banner
+
+The one-liner is a Typer subcommand; the verbatim banner lines (Output 1) are emitted directly:
+
+```python
+# src/agentropix_sift/cli.py:50  (run() subcommand)
+@app.command()
+def run(image: Path = typer.Argument(...),
+        max_iterations: int = typer.Option(5, "--max-iterations", "-n", ...),
+        out: Path = typer.Option(Path("report.json"), "--out", "-o", ...),
+        verbose: bool = typer.Option(False, "--verbose", "-v", ...)) -> None:
+    ...
+    typer.echo(f"Agentropix-SIFT triage: {image}")          # cli.py:79
+    typer.echo(f"  max-iterations: {max_iterations}")        # cli.py:80
+    ...
+    report = asyncio.run(run_triage(image, max_iterations=max_iterations, ...))  # cli.py:117
+    ...
+    typer.echo("Inference constraint: high (LLM is orchestrator; facts from MCP tools)")  # cli.py:152
+```
+
+The closing `Inference constraint: high …` line is a hard-coded literal (`cli.py:152`) — it is not
+data-driven, so it appears on every run regardless of findings. The evidence-bytes binding and the
+three sealed output files come from `courtroom.write_sealed_session(report_dict, audit_entries, out, …)`
+(`courtroom.py:341`), called at `cli.py:142`, which generates the single per-run session key, seals
+the audit log, cross-binds it into the report, then seals the report under `report_seal`. The
+`evidence_image_sha256` field shown in the report is computed by `courtroom.evidence_image_sha256()`
+(`courtroom.py:89`), called in `run_triage()` at `orchestrator.py:292`.
+
+### Beat 2 — the swarm roster and the completion-promise contract
+
+The roster is the `SWARM` tuple — the 7 core specialists interleaved with the ATT&CK detectors:
+
+```python
+# src/agentropix_sift/agents/__init__.py:45
+SWARM: tuple[type[SwarmAgent], ...] = (
+    MemoryAgent, TimelineAgent, FilesystemAgent, ArtifactAgent, DiscoveryAgent,
+    NullSessionBaselineAgent, MailAgent, YARAHuntAgent, InjectionDetector,
+    AccessibilityIfeoHijackDetector, IexLoopbackC2Detector,
+    T1071SvchostOutboundHttpDetector, HuntAgent,   # HuntAgent LAST — it consumes others' findings
+)
+```
+
+Each agent declares its promise token as a class attribute, e.g.
+`MemoryAgent.completion_promise = "MEMORY_TRIAGED"` (`agents/memory.py:538`),
+`HuntAgent.completion_promise = "CROSS_AGENT_CORRELATION_DONE"` (`agents/hunt.py:70`),
+`InjectionDetector.completion_promise = "INJECTION_DETECTION_COMPLETE"`
+(`detectors/injection_detector.py:251`), `YARAHuntAgent` → `YARA_HUNT_COMPLETE`
+(`detectors/yara_hunt.py:164`), the IEX detector → `T1059_001_IEX_LOOPBACK_SCAN_COMPLETE`
+(`detectors/t1059_001_iex_loopback_c2.py:436`), the IFEO detector →
+`T1546_008_ACCESSIBILITY_IFEO_HIJACK_COMPLETE` (`detectors/t1546_008_accessibility_ifeo_hijack.py:619`).
+All six Output-2 tokens are therefore literal source constants.
+
+The orchestrator only records a promise when the agent both ran cleanly **and** published at least
+one finding — this is the guard that makes a token a *verifiable contract* rather than a banner:
+
+```python
+# src/agentropix_sift/orchestrator.py:194  (inside the per-agent loop in run_triage)
+if findings and agent.completion_promise:
+    completion_proofs.add(agent.completion_promise)
+```
+
+`completion_proofs` is a `set` (so an iter-1 token still counts after the agent is dropped) and is
+emitted `sorted(...)` into the report at `orchestrator.py:319`, which is why Output 2 is alphabetised
+and diff-stable. Note `MemoryAgent` *clears* its own promise to `""` on a degraded/empty dump
+(`agents/memory.py:553-556`), so a silently broken memory wrapper cannot satisfy the contract.
+
+### Beat 3 — the Trinity loop, halt threshold, stable-agent drop, psscan fallback
+
+The Architect→Swarm→Critic loop is the `for iteration in range(1, max_iterations + 1)` body of
+`run_triage()` (`orchestrator.py:146`). Each iteration: `architect.plan(...)` picks the slice
+(`orchestrator.py:158`), every planned agent runs (`orchestrator.py:175-222`), then
+`critic.score(blackboard, planned_agents=plan_names, iteration=iteration)` (`orchestrator.py:229`)
+decides. The halt is a pure-Python state machine — **no LLM in the halt path**:
+
+```python
+# src/agentropix_sift/trinity/critic.py:42
+_DEFAULT_HALT_THRESHOLD = 0.85
+_DEFAULT_MIN_ITERATIONS = 2
+...
+# trinity/critic.py:192  (Critic.score)
+elif score >= self.halt_threshold:
+    should_halt = True
+```
+
+The `0.85` and the 2-iteration floor are the exact constants Beat 3 cites; both are env-overridable
+(`AGENTROPIX_CRITIC_HALT_THRESHOLD` / `AGENTROPIX_CRITIC_MIN_ITERATIONS`) via the
+`get_float`/`get_int` helpers (`critic.py:76-88`). The W-083 coverage guard refuses to halt while any
+*planned* agent produced zero findings (`critic.py:180-185`), which is what keeps the demo's iter-1
+on CONTINUE even when a single high-confidence finding saturates `max_conf`.
+
+The **stable-agent drop** is `Critic.score()` computing the `stable_agents` frozenset — agents whose
+per-agent fingerprint is non-empty and unchanged since the last pass (`critic.py:144-148`) — which the
+orchestrator feeds back as `last_stable` (`orchestrator.py:239`); the Architect (or, for test
+overrides, `_apply_stable_drop()` at `orchestrator.py:325`) removes those agents from the next plan.
+The dropped set is stamped onto the per-iteration record at `orchestrator.py:237,246` so
+`report.iterations[].dropped_agents` carries the Reflexion-lite narrative the demo reads.
+
+The **`pslist→psscan` fallback** lives in the Volatility wrapper that backs the `get_pslist` MCP tool:
+
+```python
+# src/agentropix_sift/mcp_server/wrappers/volatility.py:1259
+async def get_pslist(image, *, pid_filter=None, timeout=None) -> PsList:
+    ...
+    processes = _parse_pslist_csv(stdout)
+    if len(processes) == 0:                                   # volatility.py:1336
+        logger.warning(
+            "pslist returned 0 processes (corrupted ActiveProcessLinks); "
+            "falling back to psscan (pool tag scanning)")     # volatility.py:1339 — Output 3 verbatim
+        psscan_result = await _get_psscan(image, timeout=timeout)
+        return PsList(..., used_fallback=True, ...)            # volatility.py:1350
+```
+
+`PsList.used_fallback` defaults `False` (`volatility.py:172`) and is set `True` on the fallback path,
+so the self-correction is itself a field in the audited result. The MemoryAgent's pre-flight rationale
+(why a paused-VM `KeNumberProcessors=0` snapshot needs this) is the module docstring at
+`agents/memory.py:1-11` (W-074). The MCP-tool entry point is `mcp_get_pslist` at `server.py:338-368`
+(the `@traced("get_pslist")` span), which calls the wrapper above.
+
+### Beat 4 — finding → tool → replay (audit fields)
+
+The `_source`, `args_hash` and `raw_output` fields shown in Output 4 are *required/declared* in the
+report schema:
+
+```jsonc
+// src/agentropix_sift/schema/report.schema.json
+"required": ["_source", "confidence", "description"],                       // :34
+"_source": {"type": "string", "description": "Tool name that produced this finding"},  // :36
+"args_hash": {"type": "string"},                                            // :66
+"raw_output": { ... }                                                       // :68
+```
+
+Findings are persisted through the `record_finding` MCP tool
+(`wrappers/case_records.py:205` → `async def record_finding(...)`; MCP-exposed at
+`fastmcp_app.py:1111`), which is exactly the tool the End-user prompt in Beat 1 routes to. The trace
+`tool_calls[]` (with the per-call `args_hash`/`raw_output`) is assembled by `run_triage()` via the
+`trace_scope()` buffer (`orchestrator.py:183,211`) and written into `report.trace`
+(`orchestrator.py:300-306`). The deterministic-replay claim rests on `inference_constraint="high"`
+(`TriageReport.inference_constraint`, `orchestrator.py:69`): facts come from the SIFT tools, not the
+model.
+
+### Beat 5 — seal verify, then tamper
+
+The verifier is the dependency-free `scripts/verify_seal.py`; its `main(argv)` (`:110`) prints the
+exact Output-5/Output-6 strings:
+
+```python
+# scripts/verify_seal.py
+print("X Report seal MISMATCH - report has been altered.")  # :138  (Output 6)
+print("   Reject this report as evidence.")                 # :141  (Output 6)
+print("OK Report seal verified.")                           # :143  (Output 5)
+```
+
+It also checks the cross-bind (`OK Cross-bind verified …`, `:106`) and the audit-log internal seal
+(`:92,96`), so swapping the audit-log file post-run breaks the report seal too — exactly the
+cross-binding `write_sealed_session()` lays down (`courtroom.py:356-360`). The seal itself is the
+HMAC surface laid down by `approve_finding` (`wrappers/case_records.py:545`); *verification* needs no
+MCP — that is the offline chain-of-custody point.
+
+### Beat 6 — mail-domain T1566 recovery
+
+The MCP entry point is `carve_pst_iocs(path)` (`wrappers/pst_carve.py:133`, MCP-exposed at
+`fastmcp_app.py:1860`), which returns per-message rows plus a hash-keyed `ioc_index` for pivots
+(`pivot_on_ioc`, `wrappers/correlation.py:413`). The 10/544 → 534/544 recovery is implemented by
+`parse_pst_with_recovery()` (`agents/_mail_parsers.py:974`): it runs `pypff` first, then shells out to
+`pffexport` for messages pypff cannot read, and de-duplicates the two engines' output via
+`_dedup_key()` (`agents/_mail_parsers.py:712`):
+
+```python
+# src/agentropix_sift/agents/_mail_parsers.py:712
+def _dedup_key(m: MailMessage) -> tuple[str, str, str]:
+    subject = (m.subject or "")[:_SUBJECT_CAP]               # cap matches the pypff path
+    return (subject, m.sender or "", _normalize_date(m.date))
+```
+
+Recovered rows carry `parser_note="pffexport_recovered:synthesized_eml"` for chain-of-custody, and the
+W-230 kill switch is `_MAIL_RECOVERY_ENABLED_ENV = "AGENTROPIX_MAIL_RECOVERY_ENABLED"`
+(`agents/_mail_parsers.py:339`). The strongest mail-domain proof — a SHA-256 match between the
+`pypff.read_buffer()` bytes and the `pffexport` file-write path for shared messages — is asserted by
+`TestPffexportByteIdentityAudit` (`tests/unit/test_issue_17_mail_parsers.py:1158`), the W-231 audit
+the beat names.
+
+> **Verification note.** Symbols and string/constant literals (the promise tokens, `0.85`, the
+> `verify_seal` print lines, the `volatility.py` fallback message) are stable anchors; the
+> parenthetical line numbers are hints against the writing-time checkout. If a line drifts, grep the
+> symbol — e.g. `grep -rn "completion_promise" src/agentropix_sift/{agents,detectors}` or
+> `grep -n "_DEFAULT_HALT_THRESHOLD" src/agentropix_sift/trinity/critic.py`.

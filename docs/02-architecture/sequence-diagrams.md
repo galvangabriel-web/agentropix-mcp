@@ -94,7 +94,7 @@ sequenceDiagram
     participant Traced as "@traced"
     participant RL as _rate_limiter
     participant Thymus as _policy.check_read
-    participant Wrap as wrappers/<tool>.py
+    participant Wrap as wrappers (tool).py
     participant Bin as SIFT binary (subprocess)
 
     Agent->>App: tools/call get_pslist(image)
@@ -161,7 +161,7 @@ sequenceDiagram
     Court-->>Orch: paths
 
     Note over Prov: independent verification (later)
-    Prov->>FS: read provenance/<list>.provenance.jsonl
+    Prov->>FS: read provenance/(list).provenance.jsonl
     loop each IOC row
         Prov->>Prov: validate IOCProvenance schema
         Prov->>Prov: recompute row HMAC vs stored seal
@@ -356,3 +356,25 @@ only over the tailnet ([system-context-c4.md](system-context-c4.md#3-deployment-
 - The Thymus boundary and tool stack → [mcp-server.md](mcp-server.md)
 - The data contracts each flow moves (`TriageReport`, `Finding`, `IOCProvenance`,
   approval models) → [03-data](../03-data/)
+
+### Related ADRs (decision rationale)
+
+Each flow above implements a decision recorded in Section 11:
+
+- **Flow 3 (Courtroom seal)** → [ADR-016 · Courtroom Audit + Cryptographic
+  Sealing](../11-ADR/ADR-016-courtroom-audit.md) (Accepted) and the cross-bound audit seal
+  [ADR-022 · Audit-Log Seal — HMAC Envelope](../11-ADR/ADR-022-audit-log-seal.md) (Accepted).
+- **Flow 4 (Architect↔Swarm↔Critic halt)** → the execution-loop genesis
+  [ADR-002 · Execution Engine (Ralph Orchestrator)](../11-ADR/ADR-002-execution-engine.md)
+  (Accepted/Implemented).
+- **Flow 5 (approval-sidecar human gate)** → the human-confirmation requirement
+  [ADR-019 · Active Response Confirmation Gate](../11-ADR/ADR-019-ar-confirmation-gate.md)
+  (Accepted); the deliberately-deferred stronger control is
+  [ADR-021 · Two-Person Rule for Active Response](../11-ADR/ADR-021-two-person-rule-defer.md)
+  (⚠️ Deferred — the single-confirmation gate suffices for now).
+- **Flow 6 (Wazuh push)** → the push integration
+  [ADR-018 · Wazuh IOC Push Integration](../11-ADR/ADR-018-wazuh-ioc-push.md) (Accepted), the
+  mutation/confirm gate [ADR-019 · Active Response Confirmation
+  Gate](../11-ADR/ADR-019-ar-confirmation-gate.md) (Accepted), and the secrets-disciplined
+  credential handling [ADR-020 · Wazuh Credential
+  Lifecycle](../11-ADR/ADR-020-credential-lifecycle.md) (Accepted).
