@@ -23,6 +23,19 @@ Every fact traces to a named deterministic tool; the LLM orchestrates but never 
 (`inference_constraint: high`). Each step has a **🖥️ expert** form (exact call) and a **💬 end-user**
 form (a plain-language prompt that routes to the same tool) — see the source pages for both.
 
+Markers below follow the catalogue legend: **[MUT]** = state-mutating (requires a one-shot
+`mutation_token`), **[APPR]** = HMAC approval-gated (requires `password`), **[SIFT-16]** = drives one
+of the 16 SIFT forensic binaries.
+
+> **Schema reconciliation (vs [`tool-list.md`](../04-mcp-tools/tool-list.md)).** Every tool name on
+> this page is verified present in the 71-tool catalogue, and the **[MUT]/[APPR]/`dry_run`** markers
+> match the catalogue's auth model. **Argument *names* are not catalogue-verified** — `tool-list.md`
+> carries names/categories/auth only and defers the arg schema to the running server's `tools/list`.
+> The arg names here are lifted verbatim from the source use-case pages; confirm them against live
+> `tools/list` before scripting against them. One easy-to-misread case: **`build_executable_registry`
+> writes `MASTER-IOCS.json` but is NOT `[MUT]`** — it takes `dry_run` only, no `mutation_token` (the
+> token-gated step is the separate `promote_executable_registry`).
+
 ---
 
 ## 0. Pre-flight & gate provisioning (CLI — shell)
@@ -114,13 +127,13 @@ threat_intel_lookup { "indicator":"<IP/hash>", "indicator_type":"ip", "providers
 **MCP tool calls:**
 
 ```text
-record_finding   (finding={...}, dry_run=true)                               # preview (no token spent)
-record_finding   (finding={...}, dry_run=false, mutation_token="egt_<ULID>") # commit DRAFT
-delete_finding   (finding_id, dry_run=false)                                 # DRAFT-only self-correct
+record_finding   (finding={...}, dry_run=true)                               # [MUT] preview (no token spent)
+record_finding   (finding={...}, dry_run=false, mutation_token="egt_<ULID>") # [MUT] commit DRAFT
+delete_finding   (finding_id, dry_run=false)                                 # DRAFT-only self-correct (no token; dry_run-gated)
 case_status      ()                                                          # {DRAFT, APPROVED, REJECTED}
 approve_finding  (finding_id, approver_id, password,
-                  from_status="DRAFT", to_status="APPROVED", reason="...")    # examiner only, HMAC-signed
-retract_approval (approval_id, approver_id, password, reason="...")           # compensating REVOKED entry
+                  from_status="DRAFT", to_status="APPROVED", reason="...")    # [APPR] examiner only, HMAC-signed
+retract_approval (approval_id, approver_id, password, reason="...")           # [APPR] compensating REVOKED entry
 report_generate  (profile="full")                                            # APPROVED-only
 report_export    (tier="analyst", fmt="md")                                  # -> courtroom.seal_report
 ```
@@ -157,12 +170,12 @@ export AGENTROPIX_INTEGRATION_NOT_PRODUCTION=true   # W-188 affirmation: target 
 **MCP tool calls (in order):**
 
 ```text
-build_executable_registry (case_id, executables=[{"sha256":"...","path":"..."}], dry_run=false, case_dir="...")  # writes MASTER-IOCS.json
+build_executable_registry (case_id, executables=[{"sha256":"...","path":"..."}], dry_run=false, case_dir="...")  # writes MASTER-IOCS.json (NOT [MUT] — dry_run only, no token)
 wazuh_index_findings      (case_id, findings=[...], dry_run=true)                              # preview
-wazuh_index_findings      (case_id, findings=[...], dry_run=false, mutation_token="egt_...")   # live index as sealed alerts
+wazuh_index_findings      (case_id, findings=[...], dry_run=false, mutation_token="egt_...")   # [MUT] live index as sealed alerts
 wazuh_publish_iocs        (case_dir="...", dry_run=true)                                       # push plan (Tier-1/2/3)
-wazuh_publish_iocs        (case_dir="...", dry_run=false, mutation_token="egt_...")            # live push: CDB lists + rules + restart + seal
-wazuh_hunt_ioc            (ioc_value="203.0.113.7", ioc_type="ip", time_range_hours=2160)      # retro-hunt 90d
+wazuh_publish_iocs        (case_dir="...", dry_run=false, mutation_token="egt_...")            # [MUT] live push: CDB lists + rules + restart + seal
+wazuh_hunt_ioc            (ioc_value="203.0.113.7", ioc_type="ip", time_range_hours=2160)      # read-only, retro-hunt 90d
 wazuh_check_intel         (ioc_value="evil.example.com", ioc_type="domain")                   # read-only
 wazuh_vuln_query          (cve="CVE-2024-3094", time_range_hours=720)                          # read-only
 ```
