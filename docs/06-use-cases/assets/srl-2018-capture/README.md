@@ -18,7 +18,16 @@ preview. All output is **real**, run live against `/cases/SRL-2018/` on this hos
 | `srl-2018-cli.cast` | 4.4 KB | **Source of truth** — asciinema v2 cast; replay with `asciinema play srl-2018-cli.cast` (sharp, selectable, seekable) |
 | `srl-2018-cli.gif` | 248 KB | Inline preview (renders natively in GitLab markdown; no JS player needed) |
 | `srl-2018-cli.transcript.txt` | 3.0 KB | Plain-text transcript — greppable, screen-reader friendly, diff-able |
+| `srl-2018-cli.mp4` | 746 KB | H.264 video (1712×1764, yuv420p, hi-res source for legible text) — included on request; plays in any browser/GitLab |
 | `capture-cli.sh` | 1.8 KB | The exact script that was recorded — re-run to reproduce |
+
+> **Scope of the MP4 — read this.** The `.mp4` shows the **same executed CLI subset** as the cast (it
+> is transcoded from the identical recording), **not** the entire runbook. A single terminal video
+> *cannot* show "full execution" of this runbook because most steps are **MCP tool calls** (they run
+> against the MCP server, not a shell) and the autonomous `agentropix-sift run` over the 33 GiB DC
+> image is long-running. To film an actual `agentropix-sift run`, record that command separately (it
+> will be minutes-long and large). Regenerate this MP4 with:
+> `agg --font-size 28 --speed 1.4 --theme asciinema srl-2018-cli.cast .g.gif && ffmpeg -y -i .g.gif -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2,fps=10" -c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p -movflags +faststart srl-2018-cli.mp4 && rm .g.gif`
 
 Replay the cast: `asciinema play srl-2018-cli.cast` · Re-render the GIF:
 `agg --font-size 16 --speed 1.4 --theme asciinema srl-2018-cli.cast srl-2018-cli.gif`
@@ -51,8 +60,9 @@ Same captured content, encoded every way, measured on this host:
 | **asciinema `.cast`** | **4.4 KB** | **1×** | ✅ vector, selectable | best for space + readability; needs a player to view |
 | plain transcript `.txt` | 3.0 KB | 0.7× | ✅ | smallest; no animation |
 | **animated GIF (agg)** | **248 KB** | **~57×** | ✅ crisp raster | renders inline in GitLab; the hybrid's preview |
-| MP4 — `yuv420p` (space-tuned) | 416 KB | ~96× | ⚠️ softened | 4:2:0 chroma subsampling blurs small text |
-| MP4 — `yuv444p` (text-legible) | 608 KB | ~140× | ✅ | **largest of all** — legibility kills the space saving |
+| MP4 — `yuv420p` low-res (space-tuned) | 416 KB | ~96× | ⚠️ softened | 4:2:0 chroma subsampling blurs small text |
+| MP4 — `yuv444p` (text-legible) | 608 KB | ~140× | ✅ | legibility kills the space saving |
+| **MP4 — `yuv420p` hi-res (committed)** | **746 KB** | **~170×** | ✅ | what `srl-2018-cli.mp4` actually is — hi-res source keeps text crisp, broadly compatible, but biggest |
 
 **Verdict — answering "ffmpeg webCLI vs regular mp4":** for CLI content, **neither MP4 wins**. The MP4
 you'd actually accept for readability (`yuv444p`) is the **biggest** artifact here — 140× the cast and
