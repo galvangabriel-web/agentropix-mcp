@@ -49,7 +49,7 @@ These were checked live before publishing — read them before running anything:
 | `base-wkstn-05-cdrive.E01` | ~15 GB | Workstation 05 |
 | `dmz-ftp-cdrive.E01` | ~13 GB | DMZ FTP — **cascade tail** |
 
-**Memory images — raw `.img` (22), each with a sibling `.md5`:** `base-dc-memory.img`,
+**Memory images — raw `.img` (22; 21 carry a sibling `.md5`):** `base-dc-memory.img`,
 `base-file-memory.img`, `base-hunt-memory.img`, `base-mail-memory.img`, `base-av-memory.img`,
 `base-admin-memory.img`, `base-sp-memory.img`, `base-elf-memory.img`, `base-file-snapshot5.img`;
 workstations `base-wkstn-01-memory.img` … `base-wkstn-06-memory.img`; RD servers
@@ -60,7 +60,8 @@ workstations `base-wkstn-01-memory.img` … `base-wkstn-06-memory.img`; RD serve
 > Likewise workstation 01's disk is **`base-wkstn-01-c-drive.E01`** (`-c-drive`), while the other
 > disks use `-cdrive`. Use `get_image_info` to confirm a path before triaging it.
 > *(The 22 `.img` count includes a duplicate variant of wkstn-01's capture, `base-wkstn-01-mem.img`,
-> alongside `base-wkstn-01-memory.img` — 21 distinct hosts/snapshots + 1 dupe.)*
+> alongside `base-wkstn-01-memory.img` — 21 distinct hosts/snapshots + 1 dupe. That dupe is also the
+> one `.img` with **no** `.md5` sibling, so 22 images / 21 `.md5` files.)*
 
 **Real acquisition metadata — `base-dc-cdrive.E01`** (`ewfinfo`):
 
