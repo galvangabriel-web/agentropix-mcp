@@ -10,3 +10,4 @@ Worked end-to-end scenarios, dual-audience (expert command + end-user prompt), p
 4. [uc-wazuh-push.md](uc-wazuh-push.md) — escalate an APPROVED finding to Wazuh as an alert (experimental integration).
 5. [demo-walkthrough.md](demo-walkthrough.md) — a single end-to-end run, beat by beat, mapped to the Devpost rubric with runtime evidence (judge-facing).
 6. [case-hypotheses.md](case-hypotheses.md) — for each in-scope test case, the likely attack chain and which tools confirm/refute each link (bias-checks, not findings).
+7. [command-cheatsheet.md](command-cheatsheet.md) — every command exercised across the pages above, in execution order, on one page (quick reference).
