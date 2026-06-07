@@ -91,6 +91,10 @@ GitLab renders Mermaid client-side; respect its limits:
   tailnet hostname. Screenshots that show live data carry a privacy note.
 - Gitignored (local-only, never publish): `gitlab.txt`, `compare/`, `end-user/`, `2026-*/`,
   `issues/*.png`. Confirm `git status` won't stage these before committing.
+  - **Exception (tracked):** `2026-06-01-report-engine-design/` was **un-ignored 2026-06-07** and is
+    published — the multi-tier report engine design + the grounded generated reports (4 cases × 3 tiers
+    × md/html/pdf). It carries CTF/training case data + `<TAILNET-HOST>` placeholders only (no secrets).
+    The other `2026-*/` folders remain local-only.
 - **`case-activation/` is tracked** (guides + `runs/` transcripts + MP4s) but holds **real case
   inventory + on-disk paths** — each file carries a LOCAL-ONLY header. **Scrub paths/case names before
   the repo is made public** (this is the main pre-public task).
