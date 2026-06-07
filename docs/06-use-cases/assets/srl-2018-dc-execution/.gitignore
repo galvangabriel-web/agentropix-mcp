@@ -1,0 +1,4 @@
+*.session-key
+.claude/
+Reports_results/
+*.log.gz

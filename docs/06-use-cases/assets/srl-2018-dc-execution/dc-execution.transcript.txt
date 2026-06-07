@@ -1,0 +1,51 @@
+
+========== SRL-2018 — FULL DC E01 autonomous triage (replayed from the sealed report) ==========
+image:   /cases/SRL-2018/base-dc-cdrive.E01
+command: agentropix-sift run base-dc-cdrive.E01 -n 5 -o dc-cdrive.report.json -v
+
+========== STEP 1 — chain of custody (ewfinfo, shell) ==========
+$ ewfinfo base-dc-cdrive.E01
+  Case 20180905-001 · Examiner Clint Barton · Acquired over F-Response
+  MD5  e18b450127de04afb3211faa456ada27
+  evidence SHA-256 (bound into report): e2b9cf0cb6759fd079f45fa903d80bde602160ff969c969c6f0cd704965b31b1
+
+========== STEP 2 — autonomous run: per-tool command -> response (the MCP/SWARM layer) ==========
+iterations 5/5 · status budget_exhausted · 317 tool calls · 6000s wall
+
+tool                                     calls   total_s
+agent.timeline                               1      5465
+mcp.get_timeline                             1      5465  <- Plaso: TIMED OUT at 5452s (~91 min), 0 events
+agent.artifact                               1       358
+mcp.extract_files                          131       337
+mcp.extract_files.icat                     135       337
+agent.filesystem                             1        60
+mcp.fls                                      1        60
+agent.t1059_001_iex_loopback_c2              1        56
+agent.null_session_baseline                  1        56
+mcp.get_registry                             4        20
+agent.t1546_008_accessibility_ifeo_hijack     1         5
+mcp.get_shimcache                            1         1
+
+========== STEP 3 — completion proofs (disk-path token set) ==========
+  [x] ARTIFACTS_PARSED
+  [x] CROSS_AGENT_CORRELATION_DONE
+  [x] FILESYSTEM_WALKED
+  [x] INJECTION_DETECTION_COMPLETE
+  [x] NULL_SESSION_BASELINE_COMPLETE
+  [x] T1059_001_IEX_LOOPBACK_SCAN_COMPLETE
+  [x] T1071_001_SVCHOST_OUTBOUND_HTTP_COMPLETE
+  [x] T1546_008_ACCESSIBILITY_IFEO_HIJACK_COMPLETE
+  [x] TIMELINE_GENERATED
+  [x] YARA_HUNT_COMPLETE
+
+========== STEP 4 — result + tamper-evident seal ==========
+findings: 252   critic_score: 1.0   inference_constraint: high
+report_seal (HMAC-SHA256): be21e123b3326df916496b89c344dd629147411dedd2da0205cef794ef05d270
+$ python verify_seal.py dc-cdrive.report.json
+  OK Report seal verified.
+  OK Audit-log internal seal verified.
+  OK Cross-bind verified - report and audit log are paired.
+$ verify_seal.py <tampered>   ->
+  X Report seal MISMATCH - report has been altered. Reject this report as evidence.
+
+========== replay complete — every line above derives from dc-cdrive.report.json ==========

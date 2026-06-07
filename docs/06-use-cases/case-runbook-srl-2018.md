@@ -285,10 +285,14 @@ transcript, all run live against `/cases/SRL-2018/`) lives in
 [`assets/srl-2018-capture/`](assets/srl-2018-capture/README.md) — including a format evaluation
 (asciinema vs GIF vs MP4) with measured sizes and the rationale for not using MP4.
 
-A **full live-execution report** — the runbook actually run against `/cases/SRL-2018/`, with an MP4 of
-the shell layer **plus** a real autonomous `agentropix-sift run` (12 findings, critic_score 1.0, 9
-completion proofs, sealed + tamper-proven) and Mermaid diagrams — is in
-[`assets/srl-2018-execution/execution-report-srl-2018.md`](assets/srl-2018-execution/execution-report-srl-2018.md).
+Two **full live-execution reports** — the runbook actually run against `/cases/SRL-2018/`, with MP4s
+and Mermaid diagrams:
+- **Memory image** ([`assets/srl-2018-execution/`](assets/srl-2018-execution/execution-report-srl-2018.md))
+  — `base-hunt-memory.img`, ~6 min, 12 findings, 9 proofs, sealed + tamper-proven.
+- **Full DC E01** ([`assets/srl-2018-dc-execution/`](assets/srl-2018-dc-execution/execution-report-dc-srl-2018.md))
+  — `base-dc-cdrive.E01`, ~100 min, **252 findings**, 10 disk-path proofs, sealed; surfaces the real
+  finding that **Plaso timed out at 5452 s** (raise `AGENTROPIX_PLASO_TIMEOUT_CAP` for DC runs). The
+  video is **regenerated from the sealed report**, demonstrating MD/trace → video reproducibility.
 
 ![SRL-2018 CLI capture](assets/srl-2018-capture/srl-2018-cli.gif)
 
