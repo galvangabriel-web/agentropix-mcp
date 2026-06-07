@@ -76,6 +76,8 @@ sequenceDiagram
     end
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/recovery-resilience-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 *Reading the diagram:* a tool call enters the `safe_tool` boundary, which invokes the
 retry-wrapped policy, which in turn runs the forensic binary under the memory-and-timeout
 guard (§3). The happy path passes the result straight through. A transient HTTP error is

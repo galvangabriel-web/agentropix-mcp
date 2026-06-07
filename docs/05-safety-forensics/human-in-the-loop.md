@@ -148,6 +148,8 @@ stateDiagram-v2
     end note
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/human-in-the-loop-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 Every finding starts in `DRAFT` because the MCP wrapper stamps it there
 (`approval_sidecar/__init__.py:4-6`). A human transition is a signed
 `from_status → to_status` move submitted to `POST /approve`

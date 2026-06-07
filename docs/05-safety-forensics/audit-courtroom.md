@@ -190,6 +190,8 @@ sequenceDiagram
     end
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/audit-courtroom-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 The sequence shows the asymmetry that makes the seal trustworthy: **sealing**
 needs the live session key (held in memory during the run, persisted 0600);
 **verification** needs only the on-disk artifacts plus that key file, and

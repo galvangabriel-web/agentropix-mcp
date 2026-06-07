@@ -366,6 +366,8 @@ sequenceDiagram
   end
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/cli-reference-2.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 If one or more tools are missing, `doctor` prints a remediation line —
 *"`<n>` tool(s) missing. Install, or set the corresponding `AGENTROPIX_*_TOOL`
 env var to a working binary."* — and exits `1` (`cli.py:210-215`). If everything

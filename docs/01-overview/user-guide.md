@@ -166,6 +166,8 @@ flowchart LR
   style P8 fill:#7c3aed,color:#fff
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/user-guide-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 *The operator phases. Phase 4 (the investigation tool chain) is where Path A (manual) and Path B
 (autonomous) diverge — both are documented in full below.*
 

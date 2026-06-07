@@ -316,6 +316,8 @@ sequenceDiagram
     Sc-->>Op: approval_id, indexed_to, approved_at
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/approval-portal-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 ## Retracting / voiding a prior approval
 
 Approvals are **append-only** — there is no delete (BUG-001). To void one:

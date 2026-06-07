@@ -202,6 +202,8 @@ flowchart LR
     class Names,JSON,Prompt,Feedback ok
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/ai-disclosure-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 ### What does NOT cross
 
 | Class | Why it stops at the boundary |

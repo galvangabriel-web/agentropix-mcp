@@ -74,6 +74,8 @@ flowchart TB
     classDef anchor fill:#eef2ff,stroke:#3b5bdb,stroke-width:2px,color:#222
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/agentic-architecture-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 How the three connect, in one paragraph (all three are deep-documented elsewhere — see the map
 below):
 

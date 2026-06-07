@@ -200,6 +200,8 @@ flowchart LR
     class OUT1,OUT2 sink
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/competitive-positioning-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 ---
 
 ## Four positioning statements

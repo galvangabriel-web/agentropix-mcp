@@ -73,6 +73,8 @@ sequenceDiagram
     CLI-->>Examiner: findings, tool-call count, status, evidence SHA-256
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/sequence-diagrams-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 **Reading the flow.** The examiner runs the CLI; `run_triage()` hashes the evidence image
 (binding the report to the bytes), adds the image directory to the Thymus allow-list, and
 enters the [Trinity Loop](trinity-loop.md). Each iteration plans a swarm slice, runs each
@@ -118,6 +120,8 @@ sequenceDiagram
         end
     end
 ```
+
+> 🔍 **[Open as SVG — full size, zoomable](assets/sequence-diagrams-2.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
 
 **Reading the flow.** Every forensic tool runs the same ordered pipeline
 (`server.py:355-370`, `docs/MCP-REQUEST-FLOW.md`): `@traced` opens a span and hashes the
@@ -176,6 +180,8 @@ sequenceDiagram
     Prov-->>FS: ValidateReport (exit != 0 if any forged/failed/malformed)
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/sequence-diagrams-3.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 **Reading the flow.** Sealing happens at write time (`cli.py` → `courtroom.write_sealed_session`).
 A single 32-byte per-run session key is minted to a mode-0600 file; the Thymus audit trail
 is sealed into `audit-log.json` with its own HMAC, and that audit seal is **cross-bound**
@@ -233,6 +239,8 @@ sequenceDiagram
     end
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/sequence-diagrams-4.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 **Reading the flow.** This is the [deterministic halt logic](trinity-loop.md#4-the-deterministic-halt-logic)
 as a sequence. The Architect returns the canonical SWARM order, dropping agents the Critic
 flagged *stable* (`architect.py:170-191`). The Critic computes its closed-form score
@@ -280,6 +288,8 @@ sequenceDiagram
         end
     end
 ```
+
+> 🔍 **[Open as SVG — full size, zoomable](assets/sequence-diagrams-5.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
 
 **Reading the flow.** The approval sidecar is an **optional, out-of-process** Starlette
 service (`approval_sidecar/app.py`) — the human-in-the-loop gate behind the `approve_finding`
@@ -331,6 +341,8 @@ sequenceDiagram
         Orch-->>Tool: WazuhIOCPushResult(outcome=pushed_and_loaded, seal)
     end
 ```
+
+> 🔍 **[Open as SVG — full size, zoomable](assets/sequence-diagrams-6.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
 
 **Reading the flow.** Wazuh push is **default-off and dry-run by default**, gated by four
 kill switches (`WAZUH_INTEGRATION_ENABLED`, `WAZUH_PUSH_ENABLED`, `WAZUH_DRY_RUN_ONLY`,

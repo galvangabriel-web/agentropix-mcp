@@ -133,6 +133,8 @@ classDiagram
     classDef subNode fill:#a5d8ff,stroke:#1971c2,color:#0b2545
 ```
 
+> 🔍 **[Open as SVG — full size, zoomable](assets/data-models-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
+
 The `TriageReport` is a *composition root*: `findings`, `iterations`, `trace`, and `thymus_audit` are
 owned sub-collections, not references — they have no identity outside the report. On the wire they are
 plain JSON arrays/objects; in Python, `findings` and `iterations` are stored as `list[dict]`
@@ -420,6 +422,8 @@ classDiagram
     classDef anchorNode fill:#b2f2bb,stroke:#2f9e44,color:#15391f
     classDef govNode fill:#ffc9c9,stroke:#e03131,color:#5c1a1a
 ```
+
+> 🔍 **[Open as SVG — full size, zoomable](assets/data-models-6.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
 
 1. **Evidence binding** — `evidence_image_sha256` is the SHA-256 of the image bytes computed at
    session start (`courtroom.py:89`), binding the report to the exact bytes triaged. Null only when
