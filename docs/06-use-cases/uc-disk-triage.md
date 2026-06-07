@@ -5,14 +5,14 @@
 > autonomous Trinity Loop over it, and produce a **sealed** triage report on disk.
 > **Surfaces exercised:** the `agentropix-sift run` CLI (`src/agentropix_sift/cli.py`) and the
 > MCP disk-triage tool chain (`src/agentropix_sift/mcp_server/`). See
-> [`.crew/facts.md`](../../.crew/facts.md) for every numeric claim.
+> [`canonical-facts.md`](../08-reference/canonical-facts.md) for every numeric claim.
 
 This use case has two entry points that are deliberately distinct:
 
 1. **The one-shot CLI run** (`agentropix-sift run <image>`) — drives the full 13-class `SWARM`
    under the Trinity Loop and seals the report. This is the autonomous path.
 2. **The step-by-step MCP tool chain** — what an interactive agent issues when it wants to drive
-   individual forensic tools (modelled on [Playbook A in the upstream guides](../../.crew/facts.md)
+   individual forensic tools (modelled on [Playbook A in the upstream guides](../08-reference/canonical-facts.md)
    and `docs/guides/playbooks.md`). This is the manual / exploratory path.
 
 Both end at the same artefact: a finding set whose facts each originate from a named deterministic
@@ -244,7 +244,7 @@ directory is auto-allowed on first touch (`_auto_allow_parent`), and each access
 ### Drive the granular chain — tool by tool, both audiences
 
 Each disk-image tool below is a **real MCP tool** from
-[`.crew/tool-list.md`](../../.crew/tool-list.md) (verify the live arg schema with `tools/list`). Follow
+[`tool-list.md`](../04-mcp-tools/tool-list.md) (verify the live arg schema with `tools/list`). Follow
 either the `🖥️` command track or the `💬` prompt track — both hit the same deterministic tool.
 
 **B.1 — Image metadata (`get_image_info`).** Confirm readability + capture the acquisition hash.
@@ -466,5 +466,6 @@ agentropix-sift evidence-gate mint   # -> egt_<ULID> into AGENTROPIX_MUTATION_TO
 - [uc-memory-triage.md](uc-memory-triage.md) — the Volatility memory-triage counterpart.
 - [uc-approval-gate.md](uc-approval-gate.md) — promote DRAFT findings via examiner approval.
 - [uc-wazuh-push.md](uc-wazuh-push.md) — push the resulting IOCs into Wazuh (optional integration).
-- [`.crew/tool-list.md`](../../.crew/tool-list.md) — the full 71-tool catalogue and the 16 SIFT wrappers.
-- [`.crew/agents-list.md`](../../.crew/agents-list.md) — the SWARM run order and per-agent tools.
+- [`tool-list.md`](../04-mcp-tools/tool-list.md) — the full 71-tool catalogue and the 16 SIFT wrappers.
+- [`agents-list.md`](../10-agents/agents-list.md) — the SWARM run order and per-agent tools.
+- [agentic-architecture.md](../10-agents/agentic-architecture.md) — how the runtime swarm is wired (the Trinity Loop behind the autonomous path).

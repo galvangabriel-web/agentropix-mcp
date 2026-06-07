@@ -2,13 +2,14 @@
 
 > **Section 04 · MCP Tools** — the 71-tool surface grouped by what an examiner is trying to *do*,
 > so you can pick the right tool for a phase of an investigation rather than scanning an alphabetical list.
-> The platform's **71 tools** (`mcp_tool_count = 71`, cite [`.crew/facts.md`](../../.crew/facts.md))
+> The platform's **71 tools** (`mcp_tool_count = 71`, cite [`canonical-facts.md`](../08-reference/canonical-facts.md))
 > group into DFIR functions below.
 
 Related: [Tool reference](tool-reference.md) (the master 71-tool index) ·
 [Tools by agent](tool-by-agent.md) · [Response envelope](response-envelope.md) ·
 [User Guide](../01-overview/user-guide.md) (the end-to-end runbook this page supports) ·
-[`.crew/tool-list.md`](../../.crew/tool-list.md) (the full per-tool catalogue).
+[Tool list](tool-list.md) (the full per-tool catalogue) ·
+[Agents](../10-agents/agents-list.md) (which agent owns each tool family).
 
 ---
 
@@ -21,16 +22,16 @@ Related: [Tool reference](tool-reference.md) (the master 71-tool index) ·
 | [The capability map](#the-capability-map) | The 71-tool surface as a DFIR-function table — pick the right tool for each investigation phase. |
 | [Cross-cutting conventions](#cross-cutting-conventions) | The shared rules: `timeout_seconds`, auto-tempdir tools, Thymus path gating, and the EZ-Tools (.NET) family. |
 | [Canonical happy-path ordering](#canonical-happy-path-ordering) | The end-to-end call sequence (case_init → evidence → analysis → approve → persist → report) that backs the User Guide phases. |
-| [Related](#related) | Companion pages: tool reference, tools-by-agent, response envelope, User Guide, and the oracle `.crew` references. |
+| [Related](#related) | Companion pages: tool reference, tools-by-agent, response envelope, User Guide, and the oracle reference docs (tool list, canonical facts). |
 
 ---
 
 ## The capability map
 
 The bucket counts below sum to the **62-tool** inventory enumerated in the validated 2026-05-29 run;
-the current platform total is **71** (cite [`.crew/facts.md`](../../.crew/facts.md):
+the current platform total is **71** (cite [`canonical-facts.md`](../08-reference/canonical-facts.md):
 `mcp_tool_count = 71`). The full per-tool catalogue — with backing modules and mutation/approval
-flags — is in [`.crew/tool-list.md`](../../.crew/tool-list.md) and
+flags — is in [`tool-list.md`](tool-list.md) and
 [Tool reference](tool-reference.md).
 
 | DFIR function | Tools | Notes |
@@ -58,7 +59,8 @@ restart). Auto-tempdir tools (`extract_files`, `extract_archive`, `run_bulk_extr
 `run_foremost`, `unwrap_disk_container`) create a fresh Thymus-allowed `/tmp/agentropix-sift-*` dir
 when `dest`/`out_dir` is omitted. **Thymus** path policy gates every path: out-of-allowlist paths
 are silently dropped, `..` is rejected, symlinks dropped unless opted in. The EZ-Tools (.NET) family
-is `get_recmd`, `get_mftecmd`, `get_lecmd`, `get_jlecmd`, `get_sbecmd`, `get_sqlecmd`, `get_bstrings`.
+is `get_recmd`, `get_mftecmd`, `get_lecmd`, `get_jlecmd`, `get_sbecmd`, `get_sqlecmd`, `get_bstrings`
+(see [EZ-Tools integration](../02-architecture/ez-tools-integration.md) for the `dotnet` invocation path).
 
 ---
 
@@ -86,4 +88,4 @@ into case state by shaping it into `record_finding`/`idx_ingest`.
 - [Tools by agent](tool-by-agent.md) — which swarm agent invokes which tools.
 - [Response envelope](response-envelope.md) — the common result shape every tool returns.
 - [User Guide](../01-overview/user-guide.md) — the end-to-end operator runbook.
-- [`.crew/tool-list.md`](../../.crew/tool-list.md) · [`.crew/facts.md`](../../.crew/facts.md) — oracle references.
+- [Tool list](tool-list.md) · [Canonical facts](../08-reference/canonical-facts.md) — oracle references.

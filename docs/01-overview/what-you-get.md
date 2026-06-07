@@ -2,7 +2,7 @@
 
 A capability matrix for Agentropix-SIFT. Every entry below is sourced from the code,
 not the pitch — see the inline citations and the shared references in
-[`.crew/`](../../.crew/facts.md). For the *why* behind these capabilities, read
+[`canonical-facts.md`](../08-reference/canonical-facts.md). For the *why* behind these capabilities, read
 [What is Agentropix-SIFT?](what-is-agentropix.md); to run them, see the
 [Quickstart](quickstart.md).
 
@@ -49,7 +49,7 @@ reference or architecture page for the full treatment.
 | **Chaos-tested resilience** | Fault-injection tests over the failure paths (timeout, OOM, malformed output, …) | `tests/chaos/test_fault_paths.py` | [Testing](../07-sdlc-ops/testing.md) |
 
 > **Canonical counts** (`71` tools, `16` wrappers, `4464` tests, recall `72/72` /
-> `108/118`) are pinned in [`.crew/facts.md`](../../.crew/facts.md) (mirroring upstream
+> `108/118`) are pinned in [`canonical-facts.md`](../08-reference/canonical-facts.md) (mirroring upstream
 > `CANONICAL_FACTS.md`). Numbers below cite that file; re-query the live `tools/list`
 > when an exact count is load-bearing in your own work.
 
@@ -79,7 +79,7 @@ changing.
 
 The loop emits a `TrinityResult` (`score`, `feedback`, `should_halt`) per iteration,
 all preserved in the report's `iterations[]` for audit (see
-[`.crew/schema-dump.md`](../../.crew/schema-dump.md) §3).
+[`schema-dump.md`](../03-data/schema-dump.md) §3).
 
 ---
 
@@ -91,10 +91,10 @@ all preserved in the report's `iterations[]` for audit (see
 **MCP** is the Model Context Protocol — the open standard a model client (Claude Desktop,
 Claude CLI) uses to call tools. **FastMCP** is the Python framework that serves them.
 A single FastMCP server (`mcp_server/fastmcp_app.py`) exposes **71 distinct tool
-functions** (`.crew/facts.md`, `mcp_tool_count = 71`) over both **stdio** (the client
+functions** (`canonical-facts.md`, `mcp_tool_count = 71`) over both **stdio** (the client
 launches the server as a subprocess) and **HTTP** transports. The
 running server's `tools/list` is the authoritative argument schema; the full
-categorized catalogue is in [`.crew/tool-list.md`](../../.crew/tool-list.md). The tool
+categorized catalogue is in [`tool-list.md`](../04-mcp-tools/tool-list.md). The tool
 families:
 
 | Family | Count | Examples |
@@ -156,14 +156,15 @@ so it can point at a SIFT-installed path.
 Source: `README.md:151`, `CHANGELOG.md:449`, and the `doctor` tool dict in
 `src/agentropix_sift/cli.py:176-196`. EZ-Tools (`RECmd`, `MFTECmd`, `LECmd`, `JLECmd`,
 `SBECmd`, `SQLECmd`, `bstrings`, `SRUM`) ship as additional wrappers on top of the core
-16.
+16. See [EZ-Tools integration](../02-architecture/ez-tools-integration.md) for how these
+bind into the MCP surface.
 
 ---
 
 ## 7-agent Swarm (+ ATT&CK detectors)
 
 > **Deep dive:** [The Swarm Agents & Blackboard](../02-architecture/swarm-agents.md)
-> (architecture) · [`.crew/agents-list.md`](../../.crew/agents-list.md)
+> (architecture) · [`agents-list.md`](../10-agents/agents-list.md)
 > (per-agent breakdown).
 
 A **Swarm** is the set of independent specialist agents that run each iteration; the
@@ -173,7 +174,7 @@ Response) specialists. The runnable `SWARM` tuple (`agents/__init__.py`) additio
 interleaves six deterministic **ATT&CK detector** agents — small rule-based agents that
 emit findings tagged with MITRE ATT&CK technique IDs (e.g. `T1055` = process injection).
 The total of 13 `SWARM` classes (7 specialists + 6 detectors) and the "7-agent Swarm"
-framing are both reconciled in [`.crew/facts.md`](../../.crew/facts.md).
+framing are both reconciled in [`canonical-facts.md`](../08-reference/canonical-facts.md).
 
 | Specialist | Investigates | Drives |
 |------------|--------------|--------|
@@ -252,7 +253,7 @@ layers:
 1. **Tool-sourced findings** — every `Finding` carries `_source` naming the deterministic
    tool that produced it; `file_sha256` carries the SHA-256 of the byte payload behind the
    finding where one was hashed (`agents/_base.py`,
-   [`.crew/schema-dump.md`](../../.crew/schema-dump.md) §2).
+   [`schema-dump.md`](../03-data/schema-dump.md) §2).
 2. **Inference constraint** — the report declares `inference_constraint = high` (ADR-016):
    the LLM orchestrates only, and every fact originates from a named MCP tool captured in
    `trace.tool_calls`.
@@ -280,7 +281,7 @@ iterations), TTL-bounded nonce (default 60 s), exactly-64-hex HMAC signature, an
 and the compensating, append-only `retract_approval` — and ships a browser approval form
 (`approval_sidecar/static/`). Bind/host/port and credentials are configured via
 `AGENTROPIX_APPROVAL_SIDECAR_*` / `AGENTROPIX_APPROVER_*` env vars (see
-[`.crew/env-vars.md`](../../.crew/env-vars.md) §1).
+[`env-vars.md`](../07-sdlc-ops/env-vars.md) §1).
 
 ---
 
@@ -301,7 +302,7 @@ off unless `WAZUH_INTEGRATION_ENABLED=true`, writes require `WAZUH_PUSH_ENABLED=
 `WAZUH_DRY_RUN_ONLY=true` forces dry-run, and an operator must affirm the target is not
 production (`AGENTROPIX_INTEGRATION_NOT_PRODUCTION`, W-188). An active-response guard
 protects RFC-1918/loopback CIDRs from ever being blocked
-(`AGENTROPIX_AR_PROTECTED_CIDRS`). See [`.crew/env-vars.md`](../../.crew/env-vars.md) for
+(`AGENTROPIX_AR_PROTECTED_CIDRS`). See [`env-vars.md`](../07-sdlc-ops/env-vars.md) for
 the full kill-switch matrix.
 
 ---
@@ -323,11 +324,11 @@ skipped, surfaced by `doctor`) rather than aborting the run, and each wrapper's
 timeout/retry/memory-ceiling envelope contains a misbehaving binary.
 
 The whole surface is covered by **4464 collected tests**
-([`.crew/facts.md`](../../.crew/facts.md), `test_count = 4464`), spanning unit,
+([`canonical-facts.md`](../08-reference/canonical-facts.md), `test_count = 4464`), spanning unit,
 integration (real-subprocess), chaos, and end-to-end recall gates. On the real-data
 recall gate (SANS SRL-2018 corpus), disk per-IOC recall is **72/72 (100%)** on the
 regression suite and **108/118 (91.5%)** memory+disk combined — both pinned in
-`.crew/facts.md` with their methodology caveats.
+`canonical-facts.md` with their methodology caveats.
 
 ---
 

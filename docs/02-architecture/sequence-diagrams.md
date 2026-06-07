@@ -130,6 +130,14 @@ does the wrapper launch the subprocess. The result is typed into a Pydantic mode
 `(args_hash, exit_code, raw_output)` record is pushed to the trace. **No write path exists**
 — the worst an agent can do is fail to read.
 
+> **Full 11-station view.** This diagram shows the Thymus gate at sequence altitude; for the
+> complete station-by-station traversal of one call (LLM JSON-RPC frame → transport → `@traced`
+> `args_hash` → rate limiter → Thymus `check_read` → wrapper `shutil.which`/env caps →
+> `create_subprocess_exec` with `_kill_and_reap`/`run_with_memory_limit` → binary stdout → Pydantic
+> `model_validate` → `@traced` duration/exit/raw_output → JSON-RPC response), plus the stdio↔HTTP
+> transport contrast, see [fastmcp-execution.md](../10-agents/fastmcp-execution.md)
+> (`docs/MCP-REQUEST-FLOW.md`).
+
 ---
 
 ## 3. Finding → provenance classification → Courtroom seal
@@ -181,7 +189,7 @@ row-by-row by `provenance/validate.py`: each row's `IOCProvenance` schema is che
 HMAC seal recomputed. Rows classify as `ok`, `unsealed`, `forged`, `schema_failed`, or
 `malformed`; any `forged`/`schema_failed`/`malformed` makes the validator exit non-zero —
 this is the tamper-evidence gate (`provenance/validate.py` docstring,
-[schema-dump.md](../../.crew/schema-dump.md) §8).
+[schema-dump.md](../03-data/schema-dump.md) §8).
 
 ---
 
@@ -282,10 +290,10 @@ approval message. `/approve` consumes the nonce, re-derives the key server-side,
 the signature, confirms the target actually exists (anti-phantom-approval), then links the
 approval into an **append-only hash chain** (`prev_approval_hash`) and writes it to the
 daily OpenSearch approvals index (`approval_sidecar/app.py:133-301`,
-[schema-dump.md](../../.crew/schema-dump.md) §6). A retraction is a compensating
+[schema-dump.md](../03-data/schema-dump.md) §6). A retraction is a compensating
 append-only `approval`-type entry — records are never edited. Bind defaults are loopback
 (`AGENTROPIX_APPROVAL_SIDECAR_HOST=127.0.0.1`, port 8800;
-[env-vars.md](../../.crew/env-vars.md) §Approval sidecar).
+[env-vars.md](../07-sdlc-ops/env-vars.md) §Approval sidecar).
 
 ---
 
@@ -327,7 +335,7 @@ sequenceDiagram
 **Reading the flow.** Wazuh push is **default-off and dry-run by default**, gated by four
 kill switches (`WAZUH_INTEGRATION_ENABLED`, `WAZUH_PUSH_ENABLED`, `WAZUH_DRY_RUN_ONLY`,
 plus the `AGENTROPIX_INTEGRATION_NOT_PRODUCTION` operator affirmation;
-[env-vars.md](../../.crew/env-vars.md) §Wazuh kill switches). The happy path
+[env-vars.md](../07-sdlc-ops/env-vars.md) §Wazuh kill switches). The happy path
 (`wazuh/orchestrator.py:1-19`, ADR-018/008/016/017) loads the case IOC inventory,
 classifies priority tiers, validates through the **Thymus bridge** and the **evidence gate**
 (verifying the one-shot, TTL-bound `mutation_token`), transforms to CDB lists + rules XML,

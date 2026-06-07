@@ -20,7 +20,7 @@ Python 3.12+. Console scripts (`pyproject.toml`): `agentropix-sift = agentropix_
 
 ### `agents/` — the DFIR swarm
 Eleven+ specialist `SwarmAgent` subclasses writing to a shared `Blackboard`; HuntAgent runs last to
-correlate. See `.crew/agents-list.md` for the per-agent breakdown.
+correlate. See [agents-list.md](../10-agents/agents-list.md) for the per-agent breakdown.
 | Key file | Purpose |
 |----------|---------|
 | `__init__.py` | Defines the ordered `SWARM` tuple (13 classes) + public surface |

@@ -2,14 +2,28 @@
 
 > **Section 02 · Architecture** — how Agentropix-SIFT wraps Eric Zimmerman's **EZ Tools**
 > (Windows-native `.NET 9` CLI forensic parsers) as governed MCP tools. These wrappers are
-> part of the **16 SIFT forensic tools** the engine drives ([facts.md](../../.crew/facts.md))
-> and surface as ten of the **71 MCP tools** ([tool-list.md](../../.crew/tool-list.md)); for
+> part of the **16 SIFT forensic tools** the engine drives ([canonical-facts.md](../08-reference/canonical-facts.md))
+> and surface as ten of the **71 MCP tools** ([tool-list.md](../04-mcp-tools/tool-list.md)); for
 > the protocol surface that registers them see [The FastMCP Server](mcp-server.md), and for
 > the per-tool catalogue see [04-mcp-tools](../04-mcp-tools/).
 >
 > **Ground-truth note.** Every claim below is cited to `file:line` in the oracle repo
 > `src/agentropix_sift/`. Where this contradicts a narrative doc, **source wins** and the
 > discrepancy is called out in [§7](#7-known-gaps-drift-and-risks-source-vs-docs).
+>
+> **Cross-references.**
+> - **Architecture:** [Component Architecture & Layer Map](component-architecture.md) (where these
+>   wrappers sit in `mcp_server/wrappers/`) · [The FastMCP Server](mcp-server.md) (the protocol
+>   surface that registers them) · [FastMCP Execution](../10-agents/fastmcp-execution.md) (how one
+>   wrapper call runs).
+> - **MCP tools:** [MCP Tool Reference](../04-mcp-tools/tool-reference.md) ·
+>   [Tool List](../04-mcp-tools/tool-list.md) (the 71-tool catalogue, EZ wrappers flagged).
+> - **Reference:** [Design Decisions](../08-reference/design-decisions.md) (the hybrid
+>   genuine-binary-vs-substitute rationale).
+> - **Oracle source of truth:** `docs/EZ-TOOLS-MAPPING.md` (the SANS Find-Evil mapping of each EZ
+>   Tool category to its SIFT/Linux or genuine-`.NET` driver), plus the wrapper modules under
+>   `src/agentropix_sift/mcp_server/wrappers/` — these are authoritative; the narrative
+>   `EZ-TOOLS-MAPPING.md` / `EXTERNAL-TOOL-PINS.md` are secondary (verify before trusting, per §7).
 
 ---
 
@@ -180,4 +194,4 @@ flowchart TD
 **Related portal pages:** [The FastMCP Server](mcp-server.md) ·
 [Component Architecture & Layer Map](component-architecture.md) ·
 [MCP Tool Reference](../04-mcp-tools/tool-reference.md) ·
-[Canonical Facts](../../.crew/facts.md)
+[Canonical Facts](../08-reference/canonical-facts.md)

@@ -94,7 +94,7 @@ live in the same directory and are part of the audit trail. The **Kind** column
 distinguishes them: a **Milestone** ADR records a decision scoped to one delivery
 milestone (here the M6.3 Plaso work), while a **Defer** ADR formally parks a
 capability that is built and unit-tested but whose live-recall contribution is
-intentionally held back (so the recall figures in [`.crew/facts.md`](../../.crew/facts.md)
+intentionally held back (so the recall figures in [`canonical-facts.md`](canonical-facts.md)
 are not inflated by an unvalidated detector).
 
 | ADR | Title | Kind | One-line summary |
@@ -121,4 +121,5 @@ are not inflated by an unvalidated detector).
 - [Design Decisions](design-decisions.md) — the rationale layer behind this catalogue: shared design principles, accepted trade-offs, and discarded approaches per ADR.
 - [CLI reference](cli-reference.md) — `run` cites ADR-016 / ADR-022 for sealing.
 - [Glossary](glossary.md) — the bio-agentic terms many ADRs map to.
-- [Agents list](../../.crew/agents-list.md) — the Trinity Loop ADR-016 protects.
+- [Agents list](../10-agents/agents-list.md) — the Trinity Loop ADR-016 protects.
+- [Canonical facts](canonical-facts.md) — the numeric source of truth for the recall and test figures the ADRs reference.

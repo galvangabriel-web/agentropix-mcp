@@ -4,10 +4,11 @@
 > [71 MCP tools](tool-reference.md): each `SwarmAgent` investigates one dimension and drives a specific
 > subset of wrappers, publishing `Finding`s to the shared Blackboard. This page maps every agent to the
 > tools/wrappers it calls. Derived from `src/agentropix_sift/agents/`, `src/agentropix_sift/detectors/`,
-> and the agent contract in `.crew/agents-list.md`.
+> and the agent contract in [`agents-list.md`](../10-agents/agents-list.md).
 
 Related: [Tool reference](tool-reference.md) · [Response envelope](response-envelope.md) ·
-[Trinity Loop](../02-architecture/trinity-loop.md) · [Agents](../02-architecture/swarm-agents.md).
+[Trinity Loop](../02-architecture/trinity-loop.md) · [Agents](../02-architecture/swarm-agents.md) ·
+[Agentic architecture](../10-agents/agentic-architecture.md) · [Delegation model](../10-agents/delegation-model.md).
 
 ---
 
@@ -48,7 +49,7 @@ graph TB
 **Legend:** green nodes drive forensic wrappers (the binaries listed below); the two
 yellow/derived nodes (DiscoveryAgent, HuntAgent) run **no wrappers at all** — they read prior
 findings/correlations off the Blackboard. Everyone upstream of them must have published first, which is why run order is
-fixed and HuntAgent is always last (`.crew/agents-list.md`). This is the structural reason the
+fixed and HuntAgent is always last ([`agents-list.md`](../10-agents/agents-list.md)). This is the structural reason the
 correlation/derived tools in the [tool reference](tool-reference.md#three-kinds-of-tool) exist as a
 distinct class.
 
@@ -62,7 +63,7 @@ publishes — see [Why this mapping is deterministic](#why-this-mapping-is-deter
 `report.completion_proofs` once it has published ≥1 Finding without a tool error. The promise tokens
 are the audit trail that proves a planned agent actually ran and produced output (milestone M8.3d);
 the Critic refuses to halt while any planned agent's promise is missing. The full token list is in
-[`.crew/agents-list.md`](../../.crew/agents-list.md).
+[`agents-list.md`](../10-agents/agents-list.md).
 
 | Agent (`name`) | Source | MCP tools / wrappers it invokes | Produces |
 |----------------|--------|---------------------------------|----------|

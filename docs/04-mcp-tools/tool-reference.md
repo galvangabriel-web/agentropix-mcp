@@ -2,13 +2,15 @@
 
 > **The full 71-tool surface of the single FastMCP server.**
 > Agentropix-SIFT exposes **71** distinct MCP tools (`mcp_tool_count = 71`, see
-> [`CANONICAL_FACTS.md`](../../.crew/facts.md) / `.crew/facts.md`). Of those, **16**
+> [`canonical-facts.md`](../08-reference/canonical-facts.md)). Of those, **16**
 > drive the underlying SIFT command-line forensic binaries (the "16 forensic wrappers"). This page is
 > the master reference: a categorized index of all 71, a deeper table for the 16 forensic wrappers, and
 > the discovery-vs-execution-vs-wrapper taxonomy.
 
 Related pages: [Response envelope](response-envelope.md) · [Tools by agent](tool-by-agent.md) ·
-[Module map](../../.crew/module-map.md) · [Schema reference](../03-data/schema-er.md).
+[Tool list](tool-list.md) · [Capability map](capability-map.md) ·
+[Module map](../02-architecture/module-map.md) · [Schema reference](../03-data/schema-er.md) ·
+[Canonical facts](../08-reference/canonical-facts.md).
 
 ---
 
@@ -41,7 +43,7 @@ through unchanged (`fastmcp_app.py:1-35`).
 > (`fastmcp_app.py:369`, returned at `:375`) — the single source of truth that narrative docs should
 > cite rather than hard-coding a catalogue size that drifts as wrappers land. When an exact number is
 > load-bearing, re-query the running server's `tools/list` and cite `mcp_tool_count = 71` from
-> [`.crew/facts.md`](../../.crew/facts.md).
+> [`canonical-facts.md`](../08-reference/canonical-facts.md).
 
 #### Verified sample I/O — `health`
 
@@ -62,7 +64,7 @@ probe instead of invoking a full forensic tool (`fastmcp_app.py:354-376`).
 
 The `tool_count` field is what the canonical `mcp_tool_count = 71` is reconciled against; if a live
 probe ever returns a different number, the running server — not this page — is authoritative (re-derive
-the catalogue and update `.crew/facts.md`). Every other tool wraps its payload in the standard response
+the catalogue and update [`canonical-facts.md`](../08-reference/canonical-facts.md)). Every other tool wraps its payload in the standard response
 envelope (`tool_available`, `raw_stdout_sha256`, `skipped_reason`, …) documented on
 [Response envelope](response-envelope.md); `health` is intentionally the lone exception (no
 chain-of-custody fields because it touches no evidence).
@@ -277,7 +279,8 @@ into a typed Pydantic report. Every wrapper ships timeout, memory-ceiling, retry
 > `LECmd`, `JLECmd`, `SBECmd`, `SQLECmd`, `bstrings`, `SRUM` (`recmd.py`, `mftecmd.py`, `lecmd.py`,
 > `jlecmd.py`, `sbecmd.py`, `sqlecmd.py`, `bstrings.py`, `srum.py`). These are invoked via
 > `dotnet <dll>` and are degraded-tolerant — a missing `dotnet` runtime surfaces as a startup banner
-> warning, not a runtime crash (`fastmcp_app.py:91-120`).
+> warning, not a runtime crash (`fastmcp_app.py:91-120`). See
+> [EZ-Tools integration](../02-architecture/ez-tools-integration.md) for the full .NET wrapper architecture.
 
 ### Degradation contract (W-135)
 

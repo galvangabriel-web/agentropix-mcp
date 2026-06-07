@@ -5,7 +5,7 @@
 > bind it. Where [schema-er.md](schema-er.md) shows how the records relate and
 > [data-dictionary.md](data-dictionary.md) defines their fields, this chapter is the operator's map of
 > what lands on the filesystem after a run. Code wins over docs; numbers cite
-> [`CANONICAL_FACTS.md`](../../.crew/facts.md).
+> [`CANONICAL_FACTS.md`](../08-reference/canonical-facts.md).
 
 A sealed triage run writes a **trio of sibling files** plus, optionally, a JSONL audit trail and
 entries in independent stores (the evidence-gate SQLite DB, the approval hash-chain, the Wazuh IOC
@@ -255,4 +255,5 @@ log has been altered, and can replay every deterministic step from the `raw_outp
 - Field-by-field detail for each record: [data-dictionary.md](data-dictionary.md)
 - Object shapes and the courtroom invariant chain: [data-models.md](data-models.md)
 - How these entities relate: [schema-er.md](schema-er.md)
-- Environment variables governing paths/keys: [`.crew/env-vars.md`](../../.crew/env-vars.md)
+- Environment variables governing paths/keys: [`env-vars.md`](../07-sdlc-ops/env-vars.md)
+- Canonical numbers: [`canonical-facts.md`](../08-reference/canonical-facts.md)

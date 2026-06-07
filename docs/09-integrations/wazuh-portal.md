@@ -238,7 +238,7 @@ tile and the `approval.status` column update on refresh.
 > **🖥️ Expert (command)** is the exact MCP call / CLI; **💬 End‑user (prompt)** is the
 > plain‑language question you type into a Claude session that has the Agentropix MCP connected —
 > the session recognises it as an Agentropix capability and routes the named MCP tool for you.
-> Every prompt below maps to a **real** tool from [`.crew/tool-list.md`](../../.crew/tool-list.md)
+> Every prompt below maps to a **real** tool from [`tool-list.md`](../04-mcp-tools/tool-list.md)
 > (the 5‑tool *Wazuh SIEM integration* family).
 
 > 🛑 **Denylist (these stay manual — autonomy never auto‑confirms them).** A **live** Wazuh write
@@ -407,3 +407,20 @@ show:
 Treat this document and its `assets/` images as **internal‑only**. Do not publish them
 externally, and never add the Wazuh Dashboard password (kept in `gitlab.txt`) to this or any
 other shared document.
+
+---
+
+## See also
+
+- [uc-wazuh-push.md](../06-use-cases/uc-wazuh-push.md) — full push mechanics (kill switches,
+  mutation tokens, dry‑run defaults, idempotency, Indexer‑outage handling).
+- [tool-list.md](../04-mcp-tools/tool-list.md) — the *Wazuh SIEM integration* tool family
+  referenced throughout this page.
+- [tool-reference.md](../04-mcp-tools/tool-reference.md) — per‑tool parameters and response
+  envelopes for `wazuh_*`.
+- [env-vars.md](../07-sdlc-ops/env-vars.md) — the `WAZUH_*` kill‑switch and integration
+  variables that gate every live write.
+- [uc-approval-gate.md](../06-use-cases/uc-approval-gate.md) — how findings reach **APPROVED**
+  before you index them.
+- [canonical-facts.md](../08-reference/canonical-facts.md) — the authoritative tool counts and
+  recall figures cited here.

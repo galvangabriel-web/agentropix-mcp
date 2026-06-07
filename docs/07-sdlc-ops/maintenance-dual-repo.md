@@ -7,7 +7,7 @@
 > naming you see referenced throughout the docs.
 
 The canonical package is **`agentropix_sift`** — the private source-of-truth that this entire
-portal documents (see [CANONICAL_FACTS](../../.crew/facts.md)). The public
+portal documents (see [CANONICAL_FACTS](../08-reference/canonical-facts.md)). The public
 **`agentropix_mcp`** repo is a sanitized, MCP-server-only *mirror* of it, produced by a
 deterministic one-way sync. No fact in this portal is sourced from the public mirror; the
 mirror exists only to give the SANS Find Evil! 2026 submission an open-source face.
@@ -24,7 +24,7 @@ mirror exists only to give the SANS Find Evil! 2026 submission an open-source fa
 > talking to a session). The **one** place a `💬` end-user prompt legitimately applies is
 > *verifying* the mirror **after** a sync — confirming the public server still answers and reports
 > its tool count. That maps to the real **`health`** MCP tool
-> ([`.crew/tool-list.md`](../../.crew/tool-list.md)). Where a step genuinely has no prompt form, the
+> ([`tool-list.md`](../04-mcp-tools/tool-list.md)). Where a step genuinely has no prompt form, the
 > callout says so rather than inventing one. Repo paths below use placeholders
 > (`<SIFT-REPO>` = the private oracle clone, `<MCP-REPO>` = the public mirror clone); on this
 > workstation they resolve to `/home/admin2/agentropix-sift` and `/home/admin2/agentropix_mcp`.
@@ -237,7 +237,7 @@ MCP server still answers and reports its tool count. That is exactly what the `h
 > ```
 > **💬 End-user (prompt):** *"Is the Agentropix MCP server healthy, and how many forensic tools does it
 > report right now?"*
-> The session calls the real `health` tool ([`.crew/tool-list.md`](../../.crew/tool-list.md)) and reports
+> The session calls the real `health` tool ([`tool-list.md`](../04-mcp-tools/tool-list.md)) and reports
 > the live status and `tool_count`. **A simple, focused question is enough — the session recognises it as
 > an Agentropix capability and routes it to `health`.** Trust this live count, not the startup banner.
 
@@ -345,4 +345,4 @@ either repo or leaking anything:
 - [implementation](implementation.md) — the package layout the mirror reflects.
 - [security-model](security-model.md) — the Thymus/redaction controls carried into the public surface.
 - [testing](testing.md) — the regression suite the sync's pytest gate samples.
-- [CANONICAL_FACTS](../../.crew/facts.md) — why `agentropix_sift` is the canonical package name.
+- [CANONICAL_FACTS](../08-reference/canonical-facts.md) — why `agentropix_sift` is the canonical package name.

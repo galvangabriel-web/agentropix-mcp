@@ -5,19 +5,19 @@
 > Related: [Testing](testing.md) (the recall gate behind the D2 score) ·
 > [Security Model](security-model.md) (the D3 verifiability spine) ·
 > [Audit & Courtroom Seal](../05-safety-forensics/audit-courtroom.md) ·
-> [Canonical Facts](../../.crew/facts.md) (the source of every number on this page)
+> [Canonical Facts](../08-reference/canonical-facts.md) (the source of every number on this page)
 
 Agentropix-SIFT was put through **two deliberately independent quality assessments** before
 submission: a **10-persona BMAD cross-discipline evaluation** (the engineering verdict) and a
 **voluntary re-grade against the actual Devpost rubric** (the submission self-grade). Neither
 is a marketing artifact — both ship with named gaps, confidence weights, and reproducible
 math. This page records the canonical scores; **every number here cites
-[CANONICAL_FACTS](../../.crew/facts.md)** and must never contradict it.
+[CANONICAL_FACTS](../08-reference/canonical-facts.md)** and must never contradict it.
 
 | Assessment | Canonical score | Source |
 |---|---|---|
-| BMAD 10-persona synthesis | **75.6 / 100** (mean) · **80 / 100** top (Winston + Victor) | `bmad_synthesis_score` — [CANONICAL_FACTS](../../.crew/facts.md) |
-| Devpost rubric self-grade | **83.83 / 100** | `rubric_score_self` — [CANONICAL_FACTS](../../.crew/facts.md) |
+| BMAD 10-persona synthesis | **75.6 / 100** (mean) · **80 / 100** top (Winston + Victor) | `bmad_synthesis_score` — [CANONICAL_FACTS](../08-reference/canonical-facts.md) |
+| Devpost rubric self-grade | **83.83 / 100** | `rubric_score_self` — [CANONICAL_FACTS](../08-reference/canonical-facts.md) |
 
 Two numbers describe the BMAD result and both are canonical: the **mean** (75.6) is the
 unweighted average of all ten persona totals — the central estimate; the **top** (80) is the
@@ -155,7 +155,7 @@ Personas tagged each dimension score with a **confidence level**, and the synthe
 agreement by it: **HIGH = 1.0 · MED = 0.5 · LOW = 0.1.** A strength flagged by many personas at
 HIGH confidence carries far more weight than one asserted once at LOW. The same weighting
 produced the mean-vs-top spread: the **canonical mean is 75.6/100** and the **canonical top is
-80/100** (Winston + Victor) per [CANONICAL_FACTS](../../.crew/facts.md).
+80/100** (Winston + Victor) per [CANONICAL_FACTS](../08-reference/canonical-facts.md).
 
 Top-5 cross-discipline strengths (flagged by ≥2 personas, confidence-weighted):
 
@@ -202,7 +202,7 @@ Separately from the BMAD verdict, the team self-graded against the **actual Devp
 rubric**. The discipline here is the headline: an earlier internal grade scored the project
 against the *wrong* internal rubric and over-claimed; the team **voluntarily re-graded** against
 the real Devpost rubric and landed at the honest **83.83/100** (`rubric_score_self`,
-[CANONICAL_FACTS](../../.crew/facts.md)). The project does not over-claim its own score — that
+[CANONICAL_FACTS](../08-reference/canonical-facts.md)). The project does not over-claim its own score — that
 self-correction is itself the #2 weighted strength in [§4](#4-confidence-weighting-and-the-top-5-strengths).
 
 The six Devpost criteria the self-grade covers map onto features documented elsewhere in this
@@ -223,7 +223,7 @@ portal:
 
 The evaluation scored the system as it actually ships. The load-bearing structural numbers —
 which override any older figures a stale presentation might carry — are, per
-[CANONICAL_FACTS](../../.crew/facts.md):
+[CANONICAL_FACTS](../08-reference/canonical-facts.md):
 
 | Fact | Canonical value |
 |---|---|
@@ -251,7 +251,7 @@ which override any older figures a stale presentation might carry — are, per
 - **Tool / agent / test counts.** The source presentation carried legacy figures
   (46 tools, 11-agent swarm, 2,807 tests). Replaced with the canonical
   **71 tools / 7 core specialists + 6 detectors / 4464 tests** per
-  [CANONICAL_FACTS](../../.crew/facts.md).
+  [CANONICAL_FACTS](../08-reference/canonical-facts.md).
 
 ---
 
@@ -260,4 +260,4 @@ which override any older figures a stale presentation might carry — are, per
 - [Testing](testing.md) — the recall gate and coverage gates the D2/D3 scores rest on.
 - [Security Model](security-model.md) — the structural read-only and seal controls (D3).
 - [Audit & Courtroom Seal](../05-safety-forensics/audit-courtroom.md) — chain-of-custody, the #3 strength.
-- [Canonical Facts](../../.crew/facts.md) — the single source of truth for every number here.
+- [Canonical Facts](../08-reference/canonical-facts.md) — the single source of truth for every number here.

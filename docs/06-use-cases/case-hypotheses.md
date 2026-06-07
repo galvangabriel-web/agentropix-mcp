@@ -7,7 +7,7 @@
 Related: [User Guide](../01-overview/user-guide.md) (the runbook these scaffolds plug into) ·
 [Disk triage](uc-disk-triage.md) · [Memory triage](uc-memory-triage.md) ·
 [Wazuh push](uc-wazuh-push.md) · [Tool capability map](../04-mcp-tools/capability-map.md) ·
-[`.crew/facts.md`](../../.crew/facts.md).
+[`canonical-facts.md`](../08-reference/canonical-facts.md).
 
 ---
 
@@ -122,4 +122,4 @@ flips toward APT, absence supports pure insider.
 - [User Guide](../01-overview/user-guide.md) — the 8-phase runbook these hypotheses steer.
 - [Disk triage](uc-disk-triage.md) · [Memory triage](uc-memory-triage.md) — end-to-end use cases.
 - [Tool capability map](../04-mcp-tools/capability-map.md) — pick tools by DFIR function.
-- [`.crew/facts.md`](../../.crew/facts.md) — canonical numbers and case inventory.
+- [`canonical-facts.md`](../08-reference/canonical-facts.md) — canonical numbers and case inventory.

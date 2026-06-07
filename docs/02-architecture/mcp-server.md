@@ -1,7 +1,7 @@
 # The FastMCP Server
 
 > **Section 02 · Architecture** — the protocol surface. Agentropix-SIFT exposes **71 MCP
-> tools** (`mcp_tool_count = 71`, [facts.md](../../.crew/facts.md)) over a **single
+> tools** (`mcp_tool_count = 71`, [canonical-facts.md](../08-reference/canonical-facts.md)) over a **single
 > FastMCP server**. Every tool is a typed wrapper around an external SIFT binary or an
 > in-process analysis function, and every tool inherits the same hardening stack: tracing,
 > rate-limiting, the [Thymus](#4-thymus--the-read-only-evidence-boundary) read-only boundary,
@@ -12,7 +12,7 @@ and `main()` entry point); the inner `mcp_*` dispatch functions live in
 `mcp_server/server.py`. FastMCP is an **optional dependency** imported lazily, so SIFT's
 test suite never spins up the protocol (`fastmcp_app.py` docstring). For the full per-tool
 catalogue see [04-mcp-tools](../04-mcp-tools/) and
-[tool-list.md](../../.crew/tool-list.md).
+[tool-list.md](../04-mcp-tools/tool-list.md).
 
 **Three module roles to keep distinct as you read this page:**
 
@@ -49,7 +49,7 @@ signature mirrors the inner `mcp_*` function so the Pydantic schemas and existin
 still validate the wire format. The catalogue arithmetic is auditable: **74 `@app.tool()`
 decorator occurrences → 71 distinct tool functions** (67 in `fastmcp_app.py` + 5 Wazuh
 wrappers, with `wazuh_hunt_ioc` registered in two modules;
-[tool-list.md](../../.crew/tool-list.md), [facts.md](../../.crew/facts.md)).
+[tool-list.md](../04-mcp-tools/tool-list.md), [canonical-facts.md](../08-reference/canonical-facts.md)).
 
 A representative tool is `health()` (`fastmcp_app.py:355`): a lightweight probe that
 deliberately does **no** subprocess I/O, **no** Thymus check, and **no** rate-limit, so
@@ -92,12 +92,28 @@ graph TB
   that rejects every POST to `/mcp` without a valid token, returning 401 and auditing the
   attempt by `sha256[:16]` token-hash (never logging the token itself)
   (`fastmcp_app.py:182-306`). The token comes from `AGENTROPIX_MCP_AUTH_TOKEN`
-  ([env-vars.md](../../.crew/env-vars.md) §MCP server auth). `--public` (bind `0.0.0.0`)
+  ([env-vars.md](../07-sdlc-ops/env-vars.md) §MCP server auth). `--public` (bind `0.0.0.0`)
   exists but emits a loud warning and is strongly discouraged without Bearer auth
   (`fastmcp_app.py:2098-2104, 2127-2131`).
 
 Both transports funnel into the **same tool core** — that uniformity is the technical-depth
 claim. The difference is purely the protocol framing and (for HTTP) the auth gate.
+
+**Per-transport auth and overhead, side by side** (`fastmcp_app.py`;
+`docs/adr/ADR-017-tailnet-mcp-exposure.md`):
+
+| Property | stdio (default) | HTTP+SSE (`--transport http`) |
+|---|---|---|
+| Auth identity | process-UID ("whoever launched the process") | Bearer token on every `POST /mcp`, checked with `secrets.compare_digest` (constant-time) |
+| Failure posture | local trust boundary | **fail-closed at boot** — refuses to start the HTTP listener without a configured token |
+| Exposure | in-process, nothing on the wire | tailnet-only by default; `--public` exists but warns loudly |
+| Overhead | zero | ~10–50 ms per call |
+
+> **FastMCP 2.x pin + bearer-middleware battle-test.** The HTTP path pins FastMCP at the 2.x line,
+> and the bearer middleware is installed via `app.run(middleware=[...])` (`_add_auth_middleware`) —
+> a fix landed in the 2026-05-23 hardening pass so the listener is never un-middlewared. The full
+> station-by-station execution model and this transport contrast in detail live in
+> [fastmcp-execution.md](../10-agents/fastmcp-execution.md).
 
 ---
 
@@ -157,8 +173,8 @@ The directory mixes three kinds of file: **public wrappers** (e.g. `volatility.p
 (`_subprocess.py`, `_safe_tool.py`, `_versions.py`, the `_*_dsl.py` query parsers), and the
 **Wazuh wrappers** (`wazuh_tools.py`, `wazuh_intel.py`) that register their own
 `@app.tool()` callables. The canonical **16 SIFT forensic wrappers**
-(`mcp_tool_count`-adjacent count of 16, [facts.md](../../.crew/facts.md);
-[tool-list.md](../../.crew/tool-list.md)) are the subset that drive the 16 pre-flighted SIFT
+(`mcp_tool_count`-adjacent count of 16, [canonical-facts.md](../08-reference/canonical-facts.md);
+[tool-list.md](../04-mcp-tools/tool-list.md)) are the subset that drive the 16 pre-flighted SIFT
 binaries; the rest layer EZ-Tools, correlation, mail, and registry helpers on top.
 
 ### Two error-envelope contracts
@@ -278,4 +294,8 @@ arguments and the binary's output are recorded and unmodified."*
 - The agents that call them and the Blackboard → [swarm-agents.md](swarm-agents.md)
 - A single tool call traced through Thymus →
   [sequence-diagrams.md](sequence-diagrams.md#2-single-mcp-tool-call-through-thymus)
+- The full **11-station** execution model of one call (LLM frame → transport → traced → rate-limit
+  → Thymus → wrapper → subprocess → Pydantic → response), the transport contrast in detail, the
+  three architectural surprises, and the open Ralph PreToolUse seam (W-081) →
+  [fastmcp-execution.md](../10-agents/fastmcp-execution.md)
 - The full 71-tool catalogue with argument schemas → [04-mcp-tools](../04-mcp-tools/)

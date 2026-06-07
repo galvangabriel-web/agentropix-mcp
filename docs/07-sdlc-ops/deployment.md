@@ -16,7 +16,7 @@ green-light is `agentropix-sift doctor` returning all-green across the 16 forens
 > - **💬 End-user (prompt):** the plain-language question a non-technical user types into a Claude
 >   session that already has the Agentropix MCP connected. The session routes it to the right
 >   **real MCP tool** (`health` / `case_status`) — verified against
->   [`.crew/tool-list.md`](../../.crew/tool-list.md).
+>   [`tool-list.md`](../04-mcp-tools/tool-list.md).
 >
 > Command/result pairs are labelled **Execution A → Output A**, **B → Output B**, … so it is
 > unambiguous what you **run** vs what you **get back**. Sample outputs are from validated runs
@@ -233,7 +233,7 @@ shell before binding the HTTP transport. Over HTTP the server listens on `http:/
 
 > ⚠️ **Always live-verify the tool count.** Trust the live `health.tool_count` / `tools/list`, never
 > the startup banner or stale docs. The canonical platform figure is **71**
-> (`{{ref:CANONICAL_FACTS#mcp_tool_count}}`, [`.crew/facts.md`](../../.crew/facts.md)); a live
+> (`{{ref:CANONICAL_FACTS#mcp_tool_count}}`, [`canonical-facts.md`](../08-reference/canonical-facts.md)); a live
 > re-verification on 2026-06-06 returned `72` — a reproducible **+1** that over-counts the
 > `wazuh_hunt_ioc` double-registration. The number stays **71** here until the operator re-runs the
 > `CANONICAL_FACTS` refresh. When in doubt, trust your own live `health.tool_count`.
@@ -289,7 +289,7 @@ canonical index is [`docs/runbooks/README.md`](https://github.com/galvangabriel-
 > stale figures (e.g. `expose-fastmcp-tailnet.md` references "16 tools", a 2026-04-25
 > snapshot — the live MCP surface is **71 tools**; `deploy-to-sans.md` corrected an "880+
 > unit tests" figure to the canonical **4464**). Treat the banners and
-> [CANONICAL_FACTS](../../.crew/facts.md) as authoritative over the runbook prose.
+> [CANONICAL_FACTS](../08-reference/canonical-facts.md) as authoritative over the runbook prose.
 
 ---
 

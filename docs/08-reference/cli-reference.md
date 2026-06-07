@@ -20,7 +20,7 @@ SIFT forensic tools are installed.
 >   that has the Agentropix MCP connected. The session recognises it as an Agentropix
 >   capability and **routes it to the real MCP tool named in the callout** — you never
 >   type the tool name yourself. *(Each `💬` prompt is mapped to a real tool from
->   [`.crew/tool-list.md`](../../.crew/tool-list.md).)*
+>   [`tool-list.md`](../04-mcp-tools/tool-list.md).)*
 >
 > Command/result pairs are labelled **Execution X → Output X** so it is unambiguous what
 > you **run** versus what you **get back**. Sample outputs are illustrative of a real
@@ -107,7 +107,7 @@ Run autonomous DFIR triage on an evidence image. This is the primary command: it
 drives the full **Trinity Loop** (Architect proposes the swarm → the 7-agent
 Swarm plus the ATT&CK detectors run deterministic forensic tools → the Critic
 scores findings and halts on a deterministic convergence fingerprint). See
-[the agents reference](../../.crew/agents-list.md) for the loop's roles, and
+[the agents reference](../10-agents/agents-list.md) for the loop's roles, and
 [ADR-016](adr-index.md#adr-016) for the inference-constraint / sealing model.
 
 ### Synopsis
@@ -127,7 +127,7 @@ agentropix-sift run IMAGE [--max-iterations N] [--out PATH] [--verbose]
 > (and `case_status` for progress). A simple, focused request is enough — the session
 > recognises this as the Agentropix triage capability and orchestrates the swarm for you.
 > *(Mapped tools: `report_generate`, `case_status`; the loop itself consumes the full
-> 71-tool surface — see [tool list](../../.crew/tool-list.md).)*
+> 71-tool surface — see [tool list](../04-mcp-tools/tool-list.md).)*
 >
 > *Why no single "run" MCP tool?* The CLI `run` command is an orchestrator, not a tool —
 > it launches the swarm that *calls* the MCP tools. The end-user equivalent is the
@@ -437,11 +437,11 @@ in the verified host configuration via the repo's `scripts/start-mcp.sh`
 launcher (referenced throughout the weakness ledger; e.g.
 `scripts/start-mcp.sh background`). Tailnet-only HTTP exposure of that server is
 the subject of [ADR-017](adr-index.md#adr-017). For the full tool surface see the
-[tool list reference](../../.crew/tool-list.md); for request flow see
+[tool list reference](../04-mcp-tools/tool-list.md); for request flow see
 `docs/MCP-REQUEST-FLOW.md` upstream.
 
 > The MCP tool count is **71** distinct tool functions (cite
-> [`.crew/facts.md`](../../.crew/facts.md) / `CANONICAL_FACTS.md`). The `run` command
+> [`canonical-facts.md`](canonical-facts.md) / `CANONICAL_FACTS.md`). The `run` command
 > consumes those tools indirectly through the swarm agents; it does not register
 > or list them itself.
 
@@ -451,5 +451,6 @@ the subject of [ADR-017](adr-index.md#adr-017). For the full tool surface see th
 
 - [Glossary](glossary.md) — personas, weakness-ledger IDs, story IDs, key terms.
 - [ADR Index](adr-index.md) — the architectural decisions cited above.
-- [Agents list](../../.crew/agents-list.md) — Trinity roles and the swarm agents the `run` loop drives.
-- [Environment variables](../../.crew/env-vars.md) — full `AGENTROPIX_*` namespace, including the `*_TOOL` overrides and `AGENTROPIX_AUDIT_LOG`.
+- [Agents list](../10-agents/agents-list.md) — Trinity roles and the swarm agents the `run` loop drives.
+- [Environment variables](../07-sdlc-ops/env-vars.md) — full `AGENTROPIX_*` namespace, including the `*_TOOL` overrides and `AGENTROPIX_AUDIT_LOG`.
+- [Canonical facts](canonical-facts.md) — the numeric source of truth for the 71-tool surface and test counts cited above.

@@ -13,7 +13,7 @@ evaluator/judge-facing companion to the in-repo evaluator pack
 
 All counts are anchored to source files (an `ls` of the actual `samples/` directory or a
 dated recall snapshot), never to memory. Numbers that appear elsewhere in this portal track
-[CANONICAL_FACTS](../../.crew/facts.md).
+[CANONICAL_FACTS](../08-reference/canonical-facts.md).
 
 ---
 
@@ -52,7 +52,7 @@ Two terms recur below and mean different units of measurement:
 
 | Framing | Headline | What it counts | Source |
 |---|---|---|---|
-| **Canonical (facts.md)** | **72/72 disk** (100%) · **108/118 memory** (91.5%) combined | Whole-corpus *tactic-hit* recall on the sealed `FULL-CASE-20260505T004738Z` run; memory is the combined 118-IOC pool incl. the harder `T1003.002` band (30/40) | [CANONICAL_FACTS](../../.crew/facts.md) |
+| **Canonical (facts.md)** | **72/72 disk** (100%) · **108/118 memory** (91.5%) combined | Whole-corpus *tactic-hit* recall on the sealed `FULL-CASE-20260505T004738Z` run; memory is the combined 118-IOC pool incl. the harder `T1003.002` band (30/40) | [CANONICAL_FACTS](../08-reference/canonical-facts.md) |
 | **Per-IOC (evidence-dataset.md)** | **156/156 distinct measurements = 1.000** | The sum of three *per-IOC* surfaces, operator-attested as of the 2026-05-06→07 snapshots: **49/49 disk + 107/107 memory + 83/83 cross-modal** | `docs/07-evaluator/evidence-dataset.md` (oracle) |
 
 The 72/72 figure is a **tactic-hit** count (did each expected MITRE tactic surface at least
@@ -67,7 +67,7 @@ dated cross-modal snapshots.
 > the oracle's `docs/07-evaluator/evidence-dataset.md` headline table, which in turn
 > consolidates the dated `CROSS-MODAL-RECALL-SUMMARY-2026-05-06.md` snapshot. The combined
 > memory denominator differs because evidence-dataset.md scores **107/107 on 21 of 22 hosts
-> at per-IOC granularity**, while facts.md reports the **108/118** combined pool (which
+> at per-IOC granularity**, while canonical-facts.md reports the **108/118** combined pool (which
 > includes the partially-recovered `T1003.002` SAM-dumping band at 30/40).
 
 ---
@@ -290,5 +290,5 @@ SANS case data is openly distributed.
 - [Testing](testing.md) — the ground-truth recall *gate* that runs against this corpus, plus the `real_corpus` pytest marker.
 - [Implementation](implementation.md) — the swarm agents and scoring code the ground-truth files exercise.
 - [Security Model](security-model.md) — the Thymus read-only boundary and seal invariants that keep evidence bytes on-host.
-- [CANONICAL_FACTS](../../.crew/facts.md) — the canonical 72/72 + 108/118 recall pair and 4464-test count.
+- [CANONICAL_FACTS](../08-reference/canonical-facts.md) — the canonical 72/72 + 108/118 recall pair and 4464-test count.
 - In-repo oracle: `docs/07-evaluator/evidence-dataset.md` (evaluator pack) · `CROSS-MODAL-RECALL-SUMMARY-2026-05-06.md` (cross-modal snapshot) · `samples/ground_truth_*.yaml` (the 29 ground-truth files).

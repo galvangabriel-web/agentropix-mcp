@@ -5,7 +5,7 @@ The portal is the reader-facing docs for Agentropix-SIFT; `INDEX.md` is the rout
 index and `README.md` is the landing page. Sections live under `docs/01-overview` … `docs/09-integrations`.
 
 ## Source of truth & accuracy
-- **Canonical numbers come from [`.crew/facts.md`](.crew/facts.md)** — `71` MCP tools, `16` forensic
+- **Canonical numbers come from [`docs/08-reference/canonical-facts.md`](docs/08-reference/canonical-facts.md)** — `71` MCP tools, `16` forensic
   wrappers, `4464` tests, `72/72 (100%)` disk recall, `108/118 (91.5%)` memory recall, Python `3.12+`.
   **Never state a number that contradicts it.** Stale figures may only appear inside an explicit
   "earlier draft said X, canonical is Y" reconciliation note.
@@ -16,7 +16,7 @@ index and `README.md` is the landing page. Sections live under `docs/01-overview
 ## MCP-call accuracy (validate every tool/plugin against the live MCP)
 Docs are full of 🖥️ MCP calls and `run_volatility` plugins; a wrong name is a real, demo-breaking bug.
 - **Every documented MCP tool name must exist in the live tool list** (`71` tools — query `tools/list`
-  via the MCP, or [`.crew/tool-list.md`](.crew/tool-list.md)). Non-tools that crept into drafts:
+  via the MCP, or [`docs/04-mcp-tools/tool-list.md`](docs/04-mcp-tools/tool-list.md)). Non-tools that crept into drafts:
   `get_hashdump`/`hashdump` (no credential-dump capability is exposed — drop the step), `get_srum`
   (→ `srum_extract`), and `mmls` used as an MCP slot (→ `get_partitions`/`parse_gpt`; note `fls` *is* a
   real tool). When unsure, query the live `tools/list` — don't guess.
@@ -39,7 +39,7 @@ its conventions to all **operational / how-to** content:
    - **🖥️ Expert (command):** the exact CLI / MCP call.
    - **💬 End-user (prompt):** the plain-language prompt a non-technical user types into Claude
      Desktop / Claude CLI (with the Agentropix MCP connected) — it must map to a **real MCP tool**
-     (verify against [`.crew/tool-list.md`](.crew/tool-list.md)). The point: a simple focused
+     (verify against [`docs/04-mcp-tools/tool-list.md`](docs/04-mcp-tools/tool-list.md)). The point: a simple focused
      question is enough — the session recognizes it as an Agentropix capability and routes the tool.
    *Adapt Agentropix to the user, not the user to Agentropix.*
 2. **Execution → Output enumeration.** Label command/result pairs consistently (Execution A → Output
@@ -106,7 +106,7 @@ GitLab renders Mermaid client-side; respect its limits:
 
 ## Validate before every push
 1. **Links/images** — every relative link and image reference resolves (0 broken).
-2. **Canonical facts** — no number contradicts `.crew/facts.md`.
+2. **Canonical facts** — no number contradicts `docs/08-reference/canonical-facts.md`.
 3. **Mermaid** — every `mermaid` block renders (mermaid-cli) and is GitLab-safe.
 4. Mirror changed files into `/home/admin2/agentropix-sift/docs/portal/` (the in-repo copy).
 
@@ -114,16 +114,16 @@ GitLab renders Mermaid client-side; respect its limits:
 ```
 README.md            landing page
 INDEX.md             routed master index (audience + "question it answers" per page)
-.crew/               canonical facts + reference extracts (facts, tool-list, module-map, …)
 docs/01-overview     what-is, what-you-get, quickstart, user-guide (gold standard), competitive-positioning
-docs/02-architecture system-context, component, trinity-loop, swarm-agents, mcp-server, sequence-diagrams
-docs/03-data         data-dictionary, data-models, schema-er, persisted-artifacts
-docs/04-mcp-tools    tool-reference, response-envelope, tool-by-agent, capability-map
+docs/02-architecture system-context, component, trinity-loop, swarm-agents, mcp-server, sequence-diagrams, module-map
+docs/03-data         data-dictionary, data-models, schema-er, persisted-artifacts, schema-dump
+docs/04-mcp-tools    tool-reference, response-envelope, tool-by-agent, capability-map, tool-list
 docs/05-safety-forensics  anti-hallucination, provenance-grounding, audit-courtroom, human-in-the-loop, approval-portal, ai-disclosure
 docs/06-use-cases    uc-disk/memory/approval/wazuh, demo-walkthrough, case-hypotheses
-docs/07-sdlc-ops     implementation, testing, recovery-resilience, security-model, configuration, deployment, dataset-recall, evaluation-scorecard, maintenance-dual-repo
-docs/08-reference    cli-reference, glossary, adr-index, design-decisions
+docs/07-sdlc-ops     implementation, testing, recovery-resilience, security-model, configuration, deployment, dataset-recall, evaluation-scorecard, maintenance-dual-repo, env-vars
+docs/08-reference    cli-reference, glossary, adr-index, design-decisions, canonical-facts (governing numeric authority)
 docs/09-integrations wazuh-portal, client-setup
+docs/10-agents       agentic-architecture, delegation-model, fastmcp-execution, agents-list
 case-activation/     per-case Activation Guides (real case data) + runs/<slug>/ executed transcripts + MP4s
 issues/              QA logs (DIAGRAM-AUDIT.md, CASE-GUIDE-AUDIT.md); issues/*.png are gitignored
 ```

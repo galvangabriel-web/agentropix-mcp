@@ -9,7 +9,7 @@ straight to what you need. New readers should follow one of the
 Agentropix-SIFT is a local, CLI-driven, bio-agentic DFIR triage engine for the SANS SIFT
 Workstation — a Trinity Loop (Architect → 7-agent Swarm → Critic) driving **71 MCP tools**
 (**16** of them SIFT forensic wrappers) over one FastMCP server, with a forensic safety spine.
-Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/facts.md).
+Canonical numbers throughout the docs are governed by [Canonical Facts](docs/08-reference/canonical-facts.md).
 
 **The four audiences** used in the **Audience** column below (and in the reading paths) are:
 
@@ -20,6 +20,10 @@ Canonical numbers throughout the docs are governed by [Canonical Facts](.crew/fa
 
 Each page below lists its primary audience(s) and, in the **What question it answers** column, a
 one-line descriptor of exactly what that page resolves — read that column as the page's summary.
+
+Every section also carries a **`README.md`** with a numbered **"Read in this order"** list (intro →
+deeper); the same ordering is shown inline under each section heading below. Existing filenames are
+unchanged — the reading order is layered on top, non-destructively.
 
 ---
 
@@ -78,7 +82,7 @@ one-line descriptor of exactly what that page resolves — read that column as t
   → [Recovery & Resilience](docs/07-sdlc-ops/recovery-resilience.md)
   → [Evaluation Corpus & Recall Methodology](docs/07-sdlc-ops/dataset-recall.md)
   → [Evaluation Scorecard](docs/07-sdlc-ops/evaluation-scorecard.md)
-  → [Canonical Facts](.crew/facts.md).
+  → [Canonical Facts](docs/08-reference/canonical-facts.md).
 
 ---
 
@@ -91,6 +95,8 @@ one-line descriptor of exactly what that page resolves — read that column as t
 
 ## 1. Overview
 
+> **Read in this order** ([section README](docs/01-overview/README.md)): 1. [what-is-agentropix](docs/01-overview/what-is-agentropix.md) — what/why/who · 2. [what-you-get](docs/01-overview/what-you-get.md) — capability matrix · 3. [quickstart](docs/01-overview/quickstart.md) — install + first run · 4. [user-guide](docs/01-overview/user-guide.md) — the gold-standard end-to-end runbook · 5. [competitive-positioning](docs/01-overview/competitive-positioning.md) — vs alternatives.
+
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
 | **User Guide — The Complete Operator Runbook** | operator (expert + non-technical end-user) | **How do I run one complete case end to end, in full operational depth** — pre-flight, connect/verify the MCP, init/activate the case, register evidence, drive the investigation tool chain (**manual tool-by-tool _or_ autonomous headless driver**, on **Claude CLI _or_ Desktop**), record findings, approve in the portal, seal the report, and (optionally) push IOCs to Wazuh? Written for **two audiences at once** — every action carries the **expert CLI/MCP command** *and* the **plain-language end-user prompt** for the same result — with the validated 2026-05-29 CFReDS run as a worked example, a troubleshooting ledger, and a closing **Prompt Playbook appendix** (the numbered, run-it-top-to-bottom manual and autonomous prompt sequences, each step carrying an `Expect:` check). | [docs/01-overview/user-guide.md](docs/01-overview/user-guide.md) |
@@ -101,6 +107,8 @@ one-line descriptor of exactly what that page resolves — read that column as t
 
 ## 2. Architecture
 
+> **Read in this order** ([section README](docs/02-architecture/README.md)): 1. [system-context-c4](docs/02-architecture/system-context-c4.md) — containers/boundaries · 2. [component-architecture](docs/02-architecture/component-architecture.md) — layer map · 3. [trinity-loop](docs/02-architecture/trinity-loop.md) — the control loop · 4. [swarm-agents](docs/02-architecture/swarm-agents.md) — specialists + Blackboard · 5. [mcp-server](docs/02-architecture/mcp-server.md) — FastMCP + Thymus · 6. [sequence-diagrams](docs/02-architecture/sequence-diagrams.md) — operations step by step · 7. [ez-tools-integration](docs/02-architecture/ez-tools-integration.md) — EZ Tools wrapping · 8. [module-map](docs/02-architecture/module-map.md) *(shared reference)*.
+
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
 | System Context & Containers | developer, examiner | How does the engine sit on the SIFT host and what are its containers/boundaries? | [docs/02-architecture/system-context-c4.md](docs/02-architecture/system-context-c4.md) |
@@ -109,8 +117,12 @@ one-line descriptor of exactly what that page resolves — read that column as t
 | The Swarm Agents & Blackboard | developer | What are the 7 core specialists (+ ATT&CK detectors), how do they correlate via the quorum Blackboard, and how do they self-correct across runs (Hippocampus, Ralph hooks, the chromosome persona)? | [docs/02-architecture/swarm-agents.md](docs/02-architecture/swarm-agents.md) |
 | The FastMCP Server | developer | How is the single FastMCP server built, what transports does it use, and where is the Thymus boundary? | [docs/02-architecture/mcp-server.md](docs/02-architecture/mcp-server.md) |
 | Sequence Diagrams | developer, examiner | What does each key operation look like step-by-step (full run, single tool call, seal, halt, approval, Wazuh)? | [docs/02-architecture/sequence-diagrams.md](docs/02-architecture/sequence-diagrams.md) |
+| EZ Tools / ZimmermanTools Integration | developer | How are Eric Zimmerman's EZ Tools wrapped as governed MCP tools — which invoke the genuine `.NET` binaries vs the three Linux substitutes (Amcache/ShimCache/SRUM)? | [docs/02-architecture/ez-tools-integration.md](docs/02-architecture/ez-tools-integration.md) |
+| Module Map | developer | Where does each package and component live in `src/`? (machine-extracted reference) | [docs/02-architecture/module-map.md](docs/02-architecture/module-map.md) |
 
 ## 3. Data
+
+> **Read in this order** ([section README](docs/03-data/README.md)): 1. [data-dictionary](docs/03-data/data-dictionary.md) — every field · 2. [data-models](docs/03-data/data-models.md) — class diagram · 3. [schema-er](docs/03-data/schema-er.md) — ER diagram · 4. [persisted-artifacts](docs/03-data/persisted-artifacts.md) — what lands on disk · 5. [schema-dump](docs/03-data/schema-dump.md) *(shared reference)*.
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
@@ -118,8 +130,11 @@ one-line descriptor of exactly what that page resolves — read that column as t
 | Data Models | developer | How do TriageReport, Finding, Agent, and the envelope models relate (class diagram)? | [03-data/data-models.md](docs/03-data/data-models.md) |
 | Schema ER Model | developer, auditor | How do the persisted artifacts relate as entities (ER diagram)? | [03-data/schema-er.md](docs/03-data/schema-er.md) |
 | Persisted Artifacts | auditor, developer | What gets written to disk — JSON report, JSONL audit log, session keys, Hippocampus — and where? | [03-data/persisted-artifacts.md](docs/03-data/persisted-artifacts.md) |
+| Schema Dump | developer, auditor | The machine-extracted Pydantic model schema (field names, types, constraints) behind the data chapter. | [03-data/schema-dump.md](docs/03-data/schema-dump.md) |
 
 ## 4. MCP Tools
+
+> **Read in this order** ([section README](docs/04-mcp-tools/README.md)): 1. [capability-map](docs/04-mcp-tools/capability-map.md) — pick the tool by function · 2. [tool-reference](docs/04-mcp-tools/tool-reference.md) — all 71 in detail · 3. [response-envelope](docs/04-mcp-tools/response-envelope.md) — what a call returns · 4. [tool-by-agent](docs/04-mcp-tools/tool-by-agent.md) — which agent owns which tool · 5. [tool-list](docs/04-mcp-tools/tool-list.md) *(shared reference)*.
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
@@ -127,8 +142,11 @@ one-line descriptor of exactly what that page resolves — read that column as t
 | Tool Capability Map (by DFIR function) | operator, examiner, developer | Which tool do I reach for to *do* a thing — the 71-tool surface grouped by DFIR function, with the canonical happy-path ordering? | [04-mcp-tools/capability-map.md](docs/04-mcp-tools/capability-map.md) |
 | Tool Response Envelope | developer, auditor | What does a tool call actually return, including the provenance fingerprint and error shape? | [04-mcp-tools/response-envelope.md](docs/04-mcp-tools/response-envelope.md) |
 | Tools by Agent | developer | Which Swarm agent invokes which tools? | [04-mcp-tools/tool-by-agent.md](docs/04-mcp-tools/tool-by-agent.md) |
+| Tool List | developer, operator | The machine-extracted inventory of all 71 MCP tools, with the 16 SIFT forensic wrappers flagged. | [04-mcp-tools/tool-list.md](docs/04-mcp-tools/tool-list.md) |
 
 ## 5. Safety & Forensics
+
+> **Read in this order** ([section README](docs/05-safety-forensics/README.md)): 1. [anti-hallucination](docs/05-safety-forensics/anti-hallucination.md) — fabrication prevented · 2. [provenance-grounding](docs/05-safety-forensics/provenance-grounding.md) — grounding tiers · 3. [human-in-the-loop](docs/05-safety-forensics/human-in-the-loop.md) — the gate mechanics · 4. [approval-portal](docs/05-safety-forensics/approval-portal.md) — the sign-off form · 5. [audit-courtroom](docs/05-safety-forensics/audit-courtroom.md) — HMAC seal · 6. [ai-disclosure](docs/05-safety-forensics/ai-disclosure.md) — AI boundary + replay.
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
@@ -141,6 +159,8 @@ one-line descriptor of exactly what that page resolves — read that column as t
 
 ## 6. Use Cases
 
+> **Read in this order** ([section README](docs/06-use-cases/README.md)): 1. [uc-disk-triage](docs/06-use-cases/uc-disk-triage.md) — E01 disk · 2. [uc-memory-triage](docs/06-use-cases/uc-memory-triage.md) — Volatility memory · 3. [uc-approval-gate](docs/06-use-cases/uc-approval-gate.md) — approve before seal · 4. [uc-wazuh-push](docs/06-use-cases/uc-wazuh-push.md) — finding → alert · 5. [demo-walkthrough](docs/06-use-cases/demo-walkthrough.md) — judge-facing run · 6. [case-hypotheses](docs/06-use-cases/case-hypotheses.md) — per-case bias-checks.
+
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
 | Triage an E01 Disk Image End to End | operator (expert + end-user) | How do I run a full disk-image triage from start to finish? Dual-audience — every step pairs the **expert CLI/MCP command** with the **plain-language end-user prompt**, laid out Execution → Output. | [docs/06-use-cases/uc-disk-triage.md](docs/06-use-cases/uc-disk-triage.md) |
@@ -151,6 +171,8 @@ one-line descriptor of exactly what that page resolves — read that column as t
 | Per-Case Attack-Chain Hypotheses | operator, examiner | For each in-scope test case, which attack chain is likely and which tools confirm/refute each link (bias-checks, not findings)? | [docs/06-use-cases/case-hypotheses.md](docs/06-use-cases/case-hypotheses.md) |
 
 ## 7. SDLC & Operations
+
+> **Read in this order** ([section README](docs/07-sdlc-ops/README.md)): 1. [implementation](docs/07-sdlc-ops/implementation.md) — code org/build · 2. [testing](docs/07-sdlc-ops/testing.md) — topology + recall · 3. [security-model](docs/07-sdlc-ops/security-model.md) — threat model · 4. [recovery-resilience](docs/07-sdlc-ops/recovery-resilience.md) — failure modes · 5. [configuration](docs/07-sdlc-ops/configuration.md) — env surface · 6. [deployment](docs/07-sdlc-ops/deployment.md) — install + tailnet · 7. [dataset-recall](docs/07-sdlc-ops/dataset-recall.md) — corpus/methodology · 8. [evaluation-scorecard](docs/07-sdlc-ops/evaluation-scorecard.md) — BMAD verdict · 9. [maintenance-dual-repo](docs/07-sdlc-ops/maintenance-dual-repo.md) — `sift` → `mcp` sync · 10. [env-vars](docs/07-sdlc-ops/env-vars.md) *(shared reference)*.
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
@@ -163,8 +185,11 @@ one-line descriptor of exactly what that page resolves — read that column as t
 | Evaluation Scorecard — BMAD & Rubric | examiner, auditor | What did the independent 10-persona BMAD evaluation and the Devpost rubric self-grade conclude? | [docs/07-sdlc-ops/evaluation-scorecard.md](docs/07-sdlc-ops/evaluation-scorecard.md) |
 | Evaluation Corpus & Recall Methodology | examiner, auditor | What evidence corpus are the recall numbers measured against, and how is ground truth defined? | [docs/07-sdlc-ops/dataset-recall.md](docs/07-sdlc-ops/dataset-recall.md) |
 | Maintenance — The Dual-Repo Sync | developer (expert + end-user) | Why are there two repos/package names, and how does the one-way `sift` → `mcp` sync stay faithful? Dual-audience for the sync/verify steps — the **expert command** alongside the **plain-language end-user prompt**, Execution → Output. | [docs/07-sdlc-ops/maintenance-dual-repo.md](docs/07-sdlc-ops/maintenance-dual-repo.md) |
+| Env Vars | operator, developer | The full machine-extracted `AGENTROPIX_*` environment-variable surface and what each tunes. | [docs/07-sdlc-ops/env-vars.md](docs/07-sdlc-ops/env-vars.md) |
 
 ## 8. Reference
+
+> **Read in this order** ([section README](docs/08-reference/README.md)): 1. [cli-reference](docs/08-reference/cli-reference.md) — commands + flags · 2. [glossary](docs/08-reference/glossary.md) — terms/personas/weakness IDs · 3. [adr-index](docs/08-reference/adr-index.md) — decisions made · 4. [design-decisions](docs/08-reference/design-decisions.md) — rationale behind them · 5. [canonical-facts](docs/08-reference/canonical-facts.md) *(shared reference, governing numeric authority)*.
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
@@ -172,29 +197,46 @@ one-line descriptor of exactly what that page resolves — read that column as t
 | Glossary | all | What does each term, persona, and weakness ID mean? | [08-reference/glossary.md](docs/08-reference/glossary.md) |
 | ADR Index | developer, auditor | What architecture decisions were made and why (routed list of the ADRs)? | [08-reference/adr-index.md](docs/08-reference/adr-index.md) |
 | Design Decisions — Rationale & History | developer, auditor | What recurring design principles, hard trade-offs, and discarded approaches sit behind the ADRs? | [08-reference/design-decisions.md](docs/08-reference/design-decisions.md) |
+| **Canonical Facts** | all | The **governing numeric authority** — tool count, tests, recall — that wins over any prose anywhere in the docs. | [08-reference/canonical-facts.md](docs/08-reference/canonical-facts.md) |
 
 ## 9. Integrations
+
+> **Read in this order** ([section README](docs/09-integrations/README.md)): 1. [client-setup](docs/09-integrations/client-setup.md) — connect a remote client over the tailnet · 2. [wazuh-portal](docs/09-integrations/wazuh-portal.md) — drive the Wazuh SOC integration day to day.
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
 | Wazuh Portal — Operator's Guide | operator | How do I drive the Wazuh integration day-to-day — connect the SOC, preview a push, confirm alerts landed, and read the dashboards — without the MCP-tool internals? | [docs/09-integrations/wazuh-portal.md](docs/09-integrations/wazuh-portal.md) |
 | Connect a Client to a Live Internal MCP Server | operator, developer | How do I point Claude Code CLI or Claude Desktop at an already-running MCP server over a Tailscale tailnet? | [docs/09-integrations/client-setup.md](docs/09-integrations/client-setup.md) |
 
+## 10. Agents
+
+> **Read in this order:** Agentic Architecture → Delegation Model → Agents List → FastMCP Execution.
+> Start here whenever "agent" is ambiguous — this section disambiguates the **runtime DFIR swarm**
+> from the **build-time BMAD personas**, and ties Trinity ↔ Swarm ↔ MCP into one model.
+
+| Title | Audience | What question it answers | Link |
+|-------|----------|--------------------------|------|
+| The Agentic Architecture | developer, examiner | What does "agent" mean here (runtime swarm vs BMAD persona vs the stale aspirational runtime), and how do Trinity, the Swarm, and the MCP boundary fit into one model? | [docs/10-agents/agentic-architecture.md](docs/10-agents/agentic-architecture.md) |
+| The Delegation Model | developer, auditor | Who are the build-time BMAD review personas (Winston/Murat/…) and the Α–Ζ delivery crews, and what sub-agent delegation protocol produced the codebase? | [docs/10-agents/delegation-model.md](docs/10-agents/delegation-model.md) |
+| Agents List | developer | The canonical machine-extracted table of the runtime swarm — the 7 core specialists plus the ATT&CK detectors, each agent's tools and findings. | [docs/10-agents/agents-list.md](docs/10-agents/agents-list.md) |
+| FastMCP Execution | developer, examiner | What happens, station by station, when an agent calls a tool — the 11-station traversal, the stdio↔HTTP transport contrast, the three architectural surprises, and the open Ralph PreToolUse seam (W-081)? | [docs/10-agents/fastmcp-execution.md](docs/10-agents/fastmcp-execution.md) |
+
 ---
 
 ## Shared Reference Artifacts
 
-`.crew/` is the inventory directory: machine-extracted, low-level reference tables (facts, tool
-inventory, schema, module map, env surface, agent roster) that were pulled directly from the oracle
-source repo and that the prose chapters above are derived from. Read them when you need the raw
-substrate behind a chapter. [Canonical Facts](.crew/facts.md) is the governing authority for every
-numeric claim — it wins over any prose anywhere in the docs.
+These are the machine-extracted, low-level reference tables (facts, tool inventory, schema, module
+map, env surface, agent roster) pulled directly from the oracle source repo, from which the prose
+chapters above are derived. **They were formerly grouped under `.crew/`; they now live inside their
+matching docs categories** (listed below with their new homes). Read them when you need the raw
+substrate behind a chapter. [Canonical Facts](docs/08-reference/canonical-facts.md) is the governing
+authority for every numeric claim — it wins over any prose anywhere in the docs.
 
-| Artifact | What it holds | Link |
-|----------|---------------|------|
-| Canonical Facts | The locked numeric table (tool count, tests, recall) — wins over prose | [.crew/facts.md](.crew/facts.md) |
-| Tool List | Inventory of all 71 MCP tools, with the 16 SIFT forensic wrappers flagged | [.crew/tool-list.md](.crew/tool-list.md) |
-| Schema Dump | The extracted Pydantic model schema (field names, types, constraints) behind the data chapter | [.crew/schema-dump.md](.crew/schema-dump.md) |
-| Module Map | The code module map (where each package and component lives in `src/`) | [.crew/module-map.md](.crew/module-map.md) |
-| Env Vars | The full `AGENTROPIX_*` environment-variable surface and what each tunes | [.crew/env-vars.md](.crew/env-vars.md) |
-| Agents List | The Swarm agent inventory — the 7 core specialists plus the ATT&CK detectors | [.crew/agents-list.md](.crew/agents-list.md) |
+| Artifact | What it holds | New home |
+|----------|---------------|----------|
+| Canonical Facts | The locked numeric table (tool count, tests, recall) — wins over prose | [docs/08-reference/canonical-facts.md](docs/08-reference/canonical-facts.md) |
+| Tool List | Inventory of all 71 MCP tools, with the 16 SIFT forensic wrappers flagged | [docs/04-mcp-tools/tool-list.md](docs/04-mcp-tools/tool-list.md) |
+| Schema Dump | The extracted Pydantic model schema (field names, types, constraints) behind the data chapter | [docs/03-data/schema-dump.md](docs/03-data/schema-dump.md) |
+| Module Map | The code module map (where each package and component lives in `src/`) | [docs/02-architecture/module-map.md](docs/02-architecture/module-map.md) |
+| Env Vars | The full `AGENTROPIX_*` environment-variable surface and what each tunes | [docs/07-sdlc-ops/env-vars.md](docs/07-sdlc-ops/env-vars.md) |
+| Agents List | The Swarm agent inventory — the 7 core specialists plus the ATT&CK detectors | [docs/10-agents/agents-list.md](docs/10-agents/agents-list.md) |

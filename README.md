@@ -25,6 +25,13 @@ self-rating**) — orchestrates **71 MCP tools** over a single
 disk images, memory dumps, and Windows artifacts that produces an evidence-grounded,
 cryptographically sealed triage report a human examiner can trust and defend.
 
+You drive it **two ways from one engine**: as a plain `agentropix-sift run` command, or
+by talking to an LLM (Claude Desktop / Claude Code) that has the MCP server connected —
+the **AI is just another consumer of the same [FastMCP](https://github.com/jlowin/fastmcp)
+tool surface**. A non-technical examiner can type *"open a case for this disk image and run
+the SIFT triage"* and the session routes it to the real MCP tools; an expert can call the
+exact tool. The point: *adapt Agentropix to the user, not the user to Agentropix.*
+
 > **Important — this is a triage accelerator, not an oracle.**
 > Agentropix-SIFT is built to be *checked*, not *believed*. Every finding it records is
 > produced by a deterministic forensic binary, fingerprinted with SHA-256, and tagged with
@@ -47,7 +54,7 @@ cryptographically sealed triage report a human examiner can trust and defend.
   ATT&CK detector agents, that actually drive the forensic tools. They coordinate over a quorum
   **Blackboard** — a shared scratchpad where an observation is only promoted to a finding once
   enough agents corroborate it (the default quorum is 2; see
-  [Canonical Facts](.crew/facts.md)). See
+  [Canonical Facts](docs/08-reference/canonical-facts.md)). See
   [The Swarm Agents & Blackboard](docs/02-architecture/swarm-agents.md).
 - **71 MCP tools over one FastMCP server** — including **16 SIFT forensic tools** wrapped as
   deterministic, fingerprinted callables (Volatility3, Plaso, The Sleuth Kit, EVTX, YARA,
@@ -74,7 +81,7 @@ cryptographically sealed triage report a human examiner can trust and defend.
 - **Ground-truth recall you can audit** — **72/72 (100%)** disk recall (regression) and
   **108/118 (91.5%)** combined memory recall, with **4464** tests. See
   [Testing](docs/07-sdlc-ops/testing.md) (numbers per
-  [Canonical Facts](.crew/facts.md)).
+  [Canonical Facts](docs/08-reference/canonical-facts.md)).
 
 Full capability matrix: [What You Get](docs/01-overview/what-you-get.md).
 
@@ -153,6 +160,92 @@ For the full picture: [System Context & Containers](docs/02-architecture/system-
 
 ---
 
+## How AI drives Agentropix — the consumer model
+
+The novel angle is *where the AI sits*. Agentropix-SIFT is **three deterministic layers with the
+stochastic LLM confined to the top**. The LLM is not an oracle wired into the findings — it is
+simply **a consumer of the same FastMCP tool surface** that the CLI uses. From the MCP boundary
+down, everything is pure Python driving classical forensic binaries.
+
+```mermaid
+flowchart TB
+    classDef stoch fill:#fff5e6,stroke:#f59f00,color:#222,stroke-width:2px
+    classDef det fill:#e6ffea,stroke:#2f9e44,color:#222,stroke-width:2px
+    classDef anchor fill:#eef2ff,stroke:#3b5bdb,color:#222,stroke-width:2px
+    classDef leak fill:#fff0f0,stroke:#e03131,color:#222,stroke-width:2px
+
+    LLM["<b>Consumer (LLM or CLI)</b><br/>Claude Code / Desktop / cli.py<br/><i>stochastic only when LLM-driven</i>"]:::stoch
+
+    subgraph TR["Trinity Loop — deterministic, no LLM authoring"]
+        ARCH["<b>Architect</b> · plan()<br/>order/prune SWARM<br/>trinity/architect.py"]:::det
+        CRIT["<b>Critic</b> · score()/halt<br/>convergence fingerprint<br/>trinity/critic.py"]:::det
+    end
+
+    subgraph SW["Swarm — 13 SwarmAgent classes"]
+        AGENTS["7 specialists + 6 ATT&CK detectors<br/>agents/ · detectors/"]:::det
+        BB[("Blackboard<br/>(agent, Finding) registry<br/>correlations() at quorum")]:::anchor
+    end
+
+    subgraph MCP["MCP boundary — the enforcement spine"]
+        TOOLS["71 MCP tools<br/>traced · rate-limited · Thymus-gated"]:::det
+        BIN["SIFT binaries<br/>vol3 / plaso / tsk / yara / EZ-Tools"]:::leak
+    end
+
+    LLM -- "args_hash + raw_output cross the boundary" --> ARCH
+    ARCH -- "ordered plan" --> AGENTS
+    AGENTS -- "publish Finding" --> BB
+    AGENTS -- "tools/call" --> TOOLS
+    TOOLS --> BIN
+    BB --> CRIT
+    CRIT -- "stable_agents (next iteration)" --> ARCH
+```
+
+- **One tool surface, two consumers.** The same `@app.tool()` functions that the swarm calls are
+  also exposed to an LLM client — the server is built by `_build_app()` /
+  `FastMCP("agentropix-sift")` (`mcp_server/fastmcp_app.py`). The package installs two console
+  scripts: `agentropix-sift` (the triage CLI) and `agentropix-sift-mcp` (the MCP server,
+  `pyproject.toml` `[project.scripts]`). An LLM connects to the latter; the CLI bypasses it and
+  drives the engine directly. See [The FastMCP Server](docs/02-architecture/mcp-server.md).
+- **Two transports.** The MCP server speaks **stdio** (the default — paired with a Claude
+  Desktop / Claude Code `mcp.json` `"command"` entry) or **HTTP+SSE** under `/mcp` (tailnet-only,
+  Bearer-gated, default port 8765). Both transports funnel into the **same tool core**. See
+  [Connect a Client to a Live Internal MCP Server](docs/09-integrations/client-setup.md).
+- **The LLM proposes, never authors.** The `args_hash` + bounded `raw_output` snapshot is captured
+  **at the MCP boundary**, so a sealed report can prove the LLM phrased a request three ways but
+  never authored — or touched — a fact. Agents are *pure async coroutines over the MCP boundary,
+  with no LLM coupling* (`agents/_base.py`). See
+  [The Agentic Architecture](docs/10-agents/agentic-architecture.md) and
+  [FastMCP Execution](docs/10-agents/fastmcp-execution.md).
+
+> **"Agent" means two different things here.** The **runtime DFIR swarm agent** (a `SwarmAgent`
+> subclass that investigates evidence) is unrelated to the **build-time BMAD dev-crew persona**
+> (a reviewer's hat that helped build the system, never a process on the host). Section 10
+> disambiguates them — read [The Agentic Architecture](docs/10-agents/agentic-architecture.md)
+> first whenever the word is ambiguous.
+
+---
+
+## Two Paths: Operator (Expert) and End-User
+
+Agentropix-SIFT adapts to the user, not the other way around. The same triage capability is
+reachable two ways — the **expert command**, or the **plain-language prompt** a non-technical
+examiner types into Claude (with the Agentropix MCP connected), which routes to a **real MCP
+tool**. Every operational page in the portal documents both lanes side by side.
+
+| | 🖥️ Operator / Expert (command) | 💬 End-user (prompt) |
+|---|---|---|
+| **Pre-flight** | `uv run agentropix-sift doctor` | *"Check that my SIFT forensic tools are installed and ready."* |
+| **Run a triage** | `uv run agentropix-sift run /cases/INC-0605/disk.E01 -o report.json` | *"Open a case for the image at `/cases/INC-0605/disk.E01`, register it as evidence, run the full SIFT triage, and save the report."* |
+| **List memory processes** | MCP tool `get_pslist` | *"List the processes in the memory image and flag anything suspicious."* |
+| **Approve a finding** | promote DRAFT → APPROVED in the Approval Portal | *"Show me the findings waiting for review so I can approve them."* |
+
+The end-user prompts map to real MCP tools (verify against the
+[Tool Capability Map](docs/04-mcp-tools/capability-map.md)). The gold-standard treatment of both
+lanes — manual ↔ autonomous × expert ↔ non-expert — is the
+[User Guide](docs/01-overview/user-guide.md).
+
+---
+
 ## Deployment & Requirements
 
 | Requirement | Detail |
@@ -186,7 +279,7 @@ command and flag is enumerated in the [CLI Reference](docs/08-reference/cli-refe
 ## MCP Tools
 
 Agentropix-SIFT exposes **71 distinct MCP tools** over a single FastMCP server (verified live
-via `tools/list` and `health.tool_count`; see [Canonical Facts](.crew/facts.md)). Of these,
+via `tools/list` and `health.tool_count`; see [Canonical Facts](docs/08-reference/canonical-facts.md)). Of these,
 **16 are SIFT forensic tools** — deterministic binaries wrapped under
 `mcp_server/wrappers/` so each call captures the binary's raw stdout and fingerprints it with
 SHA-256. The remainder cover case lifecycle, finding records, reporting, provenance,
@@ -272,9 +365,9 @@ full env-var table.
 Start at the routed [master table of contents](INDEX.md), which maps every chapter to its
 audience (operator / examiner / developer / auditor) and the question it answers.
 
-### The nine sections at a glance
+### The ten sections at a glance
 
-The portal is organized into nine numbered sections under `docs/`. One line each, so a
+The portal is organized into ten numbered sections under `docs/`. One line each, so a
 newcomer knows where to look:
 
 | # | Section | What it contains |
@@ -288,21 +381,40 @@ newcomer knows where to look:
 | 7 | [SDLC & Operations](docs/07-sdlc-ops/implementation.md) | How to build, run, and operate it — implementation, testing, configuration, deployment, the security model, recovery/resilience, recall methodology, and the evaluation scorecard. |
 | 8 | [Reference](docs/08-reference/cli-reference.md) | Look-up material — the full CLI reference, the glossary, the ADR index, and the design-decision rationale. |
 | 9 | [Integrations](docs/09-integrations/wazuh-portal.md) | Connecting to external systems — the Wazuh/SOC portal operator's guide and how to connect a remote client to a live internal MCP server. |
+| 10 | [Agents](docs/10-agents/agentic-architecture.md) | What "agent" means here — the agentic architecture, the build-time delegation model, the FastMCP tool-execution path, and the canonical runtime swarm roster. |
 
-### Highlights by audience
+### Getting started by role
 
-- **New here? Start with the [User Guide — The Complete Operator Runbook](docs/01-overview/user-guide.md)** —
-  one complete case in full operational depth, covering both execution paths (manual ·
-  autonomous) and both clients (Claude CLI · Claude Desktop), with the validated 2026-05-29
-  CFReDS run as a worked example. Then [What is Agentropix-SIFT?](docs/01-overview/what-is-agentropix.md)
-  → [Quickstart](docs/01-overview/quickstart.md)
-- **How it works:** [Architecture](docs/02-architecture/system-context-c4.md) ·
-  [Data Models](docs/03-data/data-models.md)
-- **Operate it:** [Use Cases](docs/06-use-cases/uc-disk-triage.md) ·
-  [CLI Reference](docs/08-reference/cli-reference.md)
-- **Trust it:** [Safety & Forensics](docs/05-safety-forensics/anti-hallucination.md)
-- **Extend it:** [Implementation](docs/07-sdlc-ops/implementation.md) ·
-  [ADR Index](docs/08-reference/adr-index.md) · [Glossary](docs/08-reference/glossary.md)
+Pick your lane — each is a short, ordered reading path. The full per-audience routing lives in the
+[Documentation Index](INDEX.md#reading-paths-by-audience).
+
+- **Operator / examiner (run a case):** start with the
+  **[User Guide — The Complete Operator Runbook](docs/01-overview/user-guide.md)** — one complete
+  case in full operational depth, covering both execution paths (manual · autonomous) and both
+  clients (Claude CLI · Claude Desktop), with the validated 2026-05-29 CFReDS run as a worked
+  example. Then [What is Agentropix-SIFT?](docs/01-overview/what-is-agentropix.md) →
+  [Quickstart](docs/01-overview/quickstart.md) →
+  [Disk Triage](docs/06-use-cases/uc-disk-triage.md) →
+  [CLI Reference](docs/08-reference/cli-reference.md).
+- **End-user (non-technical, prompt-driven):** read the **Two Paths** table above, then the
+  end-user lanes in the [User Guide](docs/01-overview/user-guide.md) and the
+  [Tool Capability Map](docs/04-mcp-tools/capability-map.md) — every action shows the plain-language
+  prompt that drives the same MCP tool.
+- **Developer / SDLC (build, test, extend):** [Implementation](docs/07-sdlc-ops/implementation.md) →
+  [The Trinity Loop](docs/02-architecture/trinity-loop.md) →
+  [The Swarm Agents & Blackboard](docs/02-architecture/swarm-agents.md) →
+  [The FastMCP Server](docs/02-architecture/mcp-server.md) →
+  [Data Models](docs/03-data/data-models.md) →
+  [MCP Tool Reference](docs/04-mcp-tools/tool-reference.md) →
+  [Testing](docs/07-sdlc-ops/testing.md) → [ADR Index](docs/08-reference/adr-index.md) →
+  [Maintenance — The Dual-Repo Sync](docs/07-sdlc-ops/maintenance-dual-repo.md).
+- **Auditor (verify soundness & chain of custody):**
+  [Security Model](docs/07-sdlc-ops/security-model.md) →
+  [Audit & Courtroom Seal](docs/05-safety-forensics/audit-courtroom.md) →
+  [Provenance & Grounding](docs/05-safety-forensics/provenance-grounding.md) →
+  [Persisted Artifacts](docs/03-data/persisted-artifacts.md) →
+  [Evaluation Corpus & Recall Methodology](docs/07-sdlc-ops/dataset-recall.md) →
+  [Canonical Facts](docs/08-reference/canonical-facts.md).
 
 ---
 

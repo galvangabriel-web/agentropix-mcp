@@ -76,7 +76,7 @@ below is a third surface (a non-expert GUI) that performs the very same
 > real values of the same shape. Never paste a real secret into a tracked file.
 
 > **Maps to real MCP tools.** The two End-user lanes on this page route to exactly
-> two tools from the catalogue ([`.crew/tool-list.md`](../../.crew/tool-list.md),
+> two tools from the catalogue ([`tool-list.md`](../04-mcp-tools/tool-list.md),
 > *Approval workflow — HMAC sidecar*): **`approve_finding`** (the combined
 > challenge+submit happy path, also used for `REJECTED`) and **`retract_approval`**
 > (the append-only void). Listing/verifying approvals routes to **`idx_search`** /
@@ -106,7 +106,7 @@ never leaves the page.*
 - You can reach the portal (on the tailnet **and** device-approved in Tailscale).
 - The approver credential env vars are set **and stable across restarts** — a
   changed password or salt invalidates HMAC verification
-  ([`.crew/env-vars.md`](../../.crew/env-vars.md)):
+  ([`env-vars.md`](../07-sdlc-ops/env-vars.md)):
 
   | Env var | Role |
   |---------|------|

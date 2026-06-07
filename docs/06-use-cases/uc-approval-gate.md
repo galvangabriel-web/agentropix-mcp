@@ -6,8 +6,8 @@
 > sealed report.
 > **Surfaces exercised:** `record_finding` / `delete_finding` (`wrappers/case_records.py`),
 > `approve_finding` / `retract_approval`, and the **HMAC approval sidecar**
-> (`approval_sidecar/`). See [`.crew/tool-list.md`](../../.crew/tool-list.md) and
-> [`.crew/env-vars.md`](../../.crew/env-vars.md) §Approval-sidecar.
+> (`approval_sidecar/`). See [`tool-list.md`](../04-mcp-tools/tool-list.md) and
+> [`env-vars.md`](../07-sdlc-ops/env-vars.md) §Approval-sidecar.
 >
 > **Doing the approval in the browser?** The step-by-step
 > [Approval Portal walkthrough](../05-safety-forensics/approval-portal.md)
@@ -171,7 +171,7 @@ seal with `courtroom.seal_report`.
   `http://127.0.0.1:8800`).
 - The examiner's PBKDF2 identity is configured and **stable across restarts**:
   `AGENTROPIX_APPROVER_USER`, `AGENTROPIX_APPROVER_PASSWORD`, `AGENTROPIX_APPROVER_SALT_HEX`
-  ([`.crew/env-vars.md`](../../.crew/env-vars.md) §Approval-sidecar). A changed salt/password
+  ([`env-vars.md`](../07-sdlc-ops/env-vars.md) §Approval-sidecar). A changed salt/password
   invalidates the hash-chain continuity.
 
 **Numbered steps**
@@ -400,5 +400,5 @@ report_export(tier="analyst", fmt="md")    // -> courtroom.seal_report
 - [uc-disk-triage.md](uc-disk-triage.md) — where DRAFT disk findings originate.
 - [uc-memory-triage.md](uc-memory-triage.md) — where DRAFT memory findings originate.
 - [uc-wazuh-push.md](uc-wazuh-push.md) — pushing the APPROVED IOCs onward (optional integration).
-- [`.crew/tool-list.md`](../../.crew/tool-list.md) — `[APPR]` approval-gated tools and `[MUT]` writes.
-- [`.crew/module-map.md`](../../.crew/module-map.md) — `approval_sidecar/`, `courtroom.py`, `evidence_gate/`.
+- [`tool-list.md`](../04-mcp-tools/tool-list.md) — `[APPR]` approval-gated tools and `[MUT]` writes.
+- [`module-map.md`](../02-architecture/module-map.md) — `approval_sidecar/`, `courtroom.py`, `evidence_gate/`.

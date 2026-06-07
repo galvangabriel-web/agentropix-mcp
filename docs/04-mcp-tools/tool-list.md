@@ -177,6 +177,6 @@ Legend: **[SIFT-16]** = drives one of the 16 SIFT forensic binaries. **[MUT]** =
 **Total: 4 + 10 + 7 + 16 + 6 + 4 + 6 + 7 + 2 + 5 + 5 = 72 rows listed; `wazuh_hunt_ioc` is the
 double-registered tool, so distinct tool functions = 71.** (The catalogue notes the 74→71
 reconciliation: 74 decorator occurrences, `wazuh_hunt_ioc` registered in two modules.) When an exact
-count matters in a chapter, cite `mcp_tool_count = 71` from `.crew/facts.md` and re-query the live
+count matters in a chapter, cite `mcp_tool_count = 71` from [`canonical-facts.md`](../08-reference/canonical-facts.md) and re-query the live
 `tools/list`. Backing-module attributions for a few tools are best-effort from wrapper names; confirm
 against `fastmcp_app.py` registration before asserting a non-obvious module in prose.

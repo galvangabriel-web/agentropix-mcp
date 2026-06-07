@@ -10,7 +10,7 @@ Velociraptor plus an LLM?"** (*Velociraptor* is an open-source endpoint-collecti
 and live-response agent that queries hosts with its own VQL query language.) The upstream
 `agentropix-sift/docs/COMPETITIVE-DFIR.md` answers that question directly, and this page
 mirrors its answer with the counts reconciled to the portal's
-[canonical facts](../../.crew/facts.md).
+[canonical facts](../08-reference/canonical-facts.md).
 
 The short version: Agentropix-SIFT's differentiators are **structural**, not
 feature-list length. Two phrases recur on this page, so it is worth defining them up
@@ -91,7 +91,7 @@ each enforced in code (per `COMPETITIVE-DFIR.md`; the in-portal
 1. **Real SANS SIFT toolkit as MCP** — the forensic binaries examiners already trust
    (plaso, Volatility 3, Sleuth Kit, RegRipper, and the rest), exposed as
    uniformly-typed, uniformly-gated `mcp_*` tools (**16 SIFT forensic wrappers** on the
-   **71-tool MCP surface** per [`.crew/facts.md`](../../.crew/facts.md); see the count
+   **71-tool MCP surface** per [`canonical-facts.md`](../08-reference/canonical-facts.md); see the count
    reconciliation below). *MCP* (Model Context Protocol) is the typed tool-call interface
    the agent speaks; `mcp_*` is the naming prefix for those tools.
 2. **Structural evidence safety** — no write tool exists; the agent cannot mutate
@@ -112,7 +112,7 @@ each enforced in code (per `COMPETITIVE-DFIR.md`; the in-portal
 Imported from the oracle's `docs/COMPETITIVE-DFIR.md` feature matrix (2026-04-22), with
 the SIFT-binary count rendered as **16 forensic wrappers**, the agent count as **7 core
 specialists**, and the MCP surface as **71 tools** — all three pinned to
-[`.crew/facts.md`](../../.crew/facts.md) (`mcp_tool_count = 71`; SIFT forensic tools =
+[`canonical-facts.md`](../08-reference/canonical-facts.md) (`mcp_tool_count = 71`; SIFT forensic tools =
 `16`) and `src/agentropix_sift/agents/__init__.py` (the runnable `SWARM` tuple).
 
 The five comparators across the top are defined once here so the columns are readable on
@@ -148,9 +148,9 @@ emails, URLs, and other artefacts without parsing the file system.
 
 > **Count reconciliation.** The oracle competitive doc frames the toolkit as "16 / 16"
 > and the swarm as a "5-agent swarm." This portal pins the canonical numbers:
-> **16 forensic wrappers** drive the 16 SIFT binaries (`.crew/facts.md`; `README.md:151`;
+> **16 forensic wrappers** drive the 16 SIFT binaries (`canonical-facts.md`; `README.md:151`;
 > `cli.py` `doctor` tool dict); the **71-tool MCP surface** is the full `tools/list`
-> (`.crew/facts.md`, `mcp_tool_count = 71`); and the swarm is **7 core specialists**
+> (`canonical-facts.md`, `mcp_tool_count = 71`); and the swarm is **7 core specialists**
 > (Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt) interleaved with six
 > deterministic ATT&CK detector agents in the runnable `SWARM` tuple
 > (`src/agentropix_sift/agents/__init__.py`). The "5-agent" framing predates the

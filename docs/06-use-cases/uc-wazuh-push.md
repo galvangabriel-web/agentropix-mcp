@@ -3,7 +3,7 @@
 > **Status: EXPERIMENTAL / OPT-IN.** The Wazuh integration is **disabled by default** and gated
 > behind four kill switches — `WAZUH_INTEGRATION_ENABLED=false`, `WAZUH_PUSH_ENABLED=false`,
 > `WAZUH_DRY_RUN_ONLY=true`, and `AGENTROPIX_INTEGRATION_NOT_PRODUCTION=false`
-> ([`.crew/env-vars.md`](../../.crew/env-vars.md) §Wazuh-kill-switches). A live write needs **all**
+> ([`env-vars.md`](../07-sdlc-ops/env-vars.md) §Wazuh-kill-switches). A live write needs **all**
 > of these flipped *plus* a valid one-shot `mutation_token`. Treat the Wazuh family as an optional
 > downstream surface, not a core triage step.
 >
@@ -153,7 +153,7 @@ with the full result shape, distinct from an `error` envelope.
 This page is **operational**, so every step below is shown **two ways at once** — the exact CLI/MCP
 call an **expert** issues (`🖥️`), and the plain-language prompt a **non-technical end-user** types
 into a Claude session that has the Agentropix MCP connected (`💬`). Both hit the **same deterministic
-MCP tool** (verify each tool name against [`.crew/tool-list.md`](../../.crew/tool-list.md) §"Wazuh SIEM
+MCP tool** (verify each tool name against [`tool-list.md`](../04-mcp-tools/tool-list.md) §"Wazuh SIEM
 integration (5)" and the EAR row `build_executable_registry`); only the surface differs.
 
 > **🖥️ Expert track** — issue the `🖥️` MCP call, read the raw JSON (the *Output X* block).
@@ -435,7 +435,7 @@ distinction as the hunt.
 - The case directory contains `MASTER-IOCS.json` (materialised by `build_executable_registry`).
 - Manager/Indexer connectivity + credentials are configured (`WAZUH_MANAGER_URL`,
   `WAZUH_INDEXER_URL`, `AGENTROPIX_WAZUH_API_USER`, `AGENTROPIX_WAZUH_API_PASSWORD_FILE`,
-  `WAZUH_INDEXER_USER`/`WAZUH_INDEXER_PASS`; see [`.crew/env-vars.md`](../../.crew/env-vars.md) §1).
+  `WAZUH_INDEXER_USER`/`WAZUH_INDEXER_PASS`; see [`env-vars.md`](../07-sdlc-ops/env-vars.md) §1).
 - Findings to index should already be **APPROVED** — see [uc-approval-gate.md](uc-approval-gate.md).
 
 If any kill switch is left off, the tool returns a structured `error` naming the env var to flip
@@ -491,7 +491,7 @@ gate; the actual push is driven by the MCP client.
 - [uc-approval-gate.md](uc-approval-gate.md) — APPROVE findings before indexing them as alerts.
 - [uc-disk-triage.md](uc-disk-triage.md) / [uc-memory-triage.md](uc-memory-triage.md) — where the
   pushed IOCs originate.
-- [`.crew/tool-list.md`](../../.crew/tool-list.md) — the 5 Wazuh tools (`wazuh_hunt_ioc` registered
+- [`tool-list.md`](../04-mcp-tools/tool-list.md) — the 5 Wazuh tools (`wazuh_hunt_ioc` registered
   twice → 71 distinct tools total) and the `[MUT]` write markers.
-- [`.crew/env-vars.md`](../../.crew/env-vars.md) — the full Wazuh kill-switch + connectivity matrix.
-- [`.crew/module-map.md`](../../.crew/module-map.md) — the `wazuh/` package internals.
+- [`env-vars.md`](../07-sdlc-ops/env-vars.md) — the full Wazuh kill-switch + connectivity matrix.
+- [`module-map.md`](../02-architecture/module-map.md) — the `wazuh/` package internals.

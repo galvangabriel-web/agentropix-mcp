@@ -5,7 +5,7 @@
 > forensic regression from an infrastructure failure.
 
 The suite holds **4464** collected tests (`pytest --collect-only -q`; see
-[CANONICAL_FACTS](../../.crew/facts.md)). The number is **forward-drift-gated** — a CI check
+[CANONICAL_FACTS](../08-reference/canonical-facts.md)). The number is **forward-drift-gated** — a CI check
 that fails the build if a doc quotes a test count without citing the canonical fact file, or
 quotes a known-outdated value. Concretely: doc lines that quote the count must cite this fact
 file, and the following **stale literals are actively rejected** by the upstream drift check
@@ -144,7 +144,7 @@ element in `critic.py`). Recall is `hits / total`, compared against
 
 ### Canonical recall numbers
 
-From the last full evaluation run (2026-05-05), per [CANONICAL_FACTS](../../.crew/facts.md):
+From the last full evaluation run (2026-05-05), per [CANONICAL_FACTS](../08-reference/canonical-facts.md):
 
 | Metric | Value |
 |--------|-------|

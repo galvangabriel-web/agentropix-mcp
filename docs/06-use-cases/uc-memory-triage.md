@@ -6,7 +6,7 @@
 > MCP tools.
 > **Surfaces exercised:** the memory MCP tools (`mcp_server/wrappers/volatility.py`,
 > `wrappers/correlation.py`) and the `MemoryAgent` swarm specialist. See
-> [`.crew/facts.md`](../../.crew/facts.md) for numeric claims (memory recall = **108/118, 91.5%**).
+> [`canonical-facts.md`](../08-reference/canonical-facts.md) for numeric claims (memory recall = **108/118, 91.5%**).
 
 Memory triage is the second forensic dimension of the engine. As with the disk path, there are two
 entry points: the **autonomous** `agentropix-sift run` over a memory image (the `MemoryAgent` runs
@@ -15,7 +15,7 @@ issues (modelled on Playbook B, `docs/guides/playbooks.md`). The disk path tells
 the memory path tells you *the parent/child shape and live network posture* of the host.
 
 > **Note on `DiscoveryAgent`:** it is disk-only and early-returns on memory images
-> (`agents/discovery.py`; [`.crew/agents-list.md`](../../.crew/agents-list.md)). On a pure memory
+> (`agents/discovery.py`; [`agents-list.md`](../10-agents/agents-list.md)). On a pure memory
 > capture, the memory/timeline/hunt specialists and the ATT&CK detectors do the work.
 
 ---
@@ -52,7 +52,7 @@ Volatility3-backed MCP tool** and return the **same facts**; only the surface di
 evaluation run** (`Reports_results/FULL-CASE-20260505T004738Z/`, the source of the canonical recall
 figures). The memory dimension of that run scored **108/118 (91.5%) combined recall** — and **30/40
 (75%) on the credential-dumping technique T1003.002** specifically (cite
-[`.crew/facts.md`](../../.crew/facts.md): `memory_recall_combined = 108/118`,
+[`canonical-facts.md`](../08-reference/canonical-facts.md): `memory_recall_combined = 108/118`,
 `memory_recall_T1003_002 = 30/40`). Your own run will produce *different* PIDs, addresses, and
 timestamps, but the *shape* of each result will match. Where a number is quoted, it is what the
 platform actually returned.
@@ -108,7 +108,7 @@ The analyst baselines processes, then inspects sockets, injected code, and servi
 indicator (a C2 IP, a process name, a service) is pivoted across every host via `pivot_on_ioc`,
 turning a single-host hit into a campaign view. `threat_intel_lookup` is a dashed (optional) edge
 because it is **egress-gated** — a no-op unless `AGENTROPIX_ALLOW_EGRESS=1`
-([`.crew/env-vars.md`](../../.crew/env-vars.md) §6).
+([`env-vars.md`](../07-sdlc-ops/env-vars.md) §6).
 
 ---
 
@@ -195,7 +195,7 @@ In the autonomous path the `MemoryAgent` (`agents/memory.py`) runs **first** in 
 publishes ≥1 finding. The `HuntAgent` runs **last** because it consumes everyone else's findings via
 `blackboard.correlations()` — tokens (IPs, hashes, PIDs) appearing across ≥`quorum_threshold`
 (default 2) agents become high-confidence cross-source findings
-([`.crew/agents-list.md`](../../.crew/agents-list.md)).
+([`agents-list.md`](../10-agents/agents-list.md)).
 
 ---
 
@@ -217,7 +217,7 @@ publishes ≥1 finding. The `HuntAgent` runs **last** because it consumes everyo
 
 Each step below carries a **🖥️ Expert / 💬 End-user** callout and a labelled **Execution → Output**
 pair. The Output snippets are from the validated 2026-05-05 run (memory recall **108/118, 91.5%**;
-T1003.002 credential dumping **30/40, 75%** — [`.crew/facts.md`](../../.crew/facts.md)).
+T1003.002 credential dumping **30/40, 75%** — [`canonical-facts.md`](../08-reference/canonical-facts.md)).
 
 **Step 1 — Baseline the process set (`get_pslist`).**
 
@@ -333,7 +333,7 @@ code injection.
 
 *Output F (shape):* recovered Edit-control text (e.g. credentials typed into a login dialog). This is
 part of the credential-dumping surface that the validated run scored **30/40 (75%)** on for T1003.002
-([`.crew/facts.md`](../../.crew/facts.md): `memory_recall_T1003_002`).
+([`canonical-facts.md`](../08-reference/canonical-facts.md): `memory_recall_T1003_002`).
 
 > ⚠️ **GOTCHA (Vol2.6 sandbox):** `get_editbox` needs the Py2.7 Volatility-2.6 sandbox configured
 > (`AGENTROPIX_VOL26_BIN`; `docs/runbooks/vol26-install.md`). Without it the tool self-skips — this
@@ -402,7 +402,7 @@ per-process command lines).
 
 > ⚠️ **GOTCHA (egress-gated, no-op by default):** `threat_intel_lookup` returns `egress_allowed=False`
 > with **no** network call unless `AGENTROPIX_ALLOW_EGRESS=1` is set **and** a provider key is supplied
-> ([`.crew/env-vars.md`](../../.crew/env-vars.md) §6). This is the dashed (optional) edge in the
+> ([`env-vars.md`](../07-sdlc-ops/env-vars.md) §6). This is the dashed (optional) edge in the
 > use-case diagram. *(End-user: the assistant tells you it's disabled rather than failing silently.)*
 
 **Postconditions**
@@ -436,5 +436,6 @@ by an MCP client (Claude Desktop / Claude Code) against the running
 - [uc-disk-triage.md](uc-disk-triage.md) — the disk-image counterpart (execution evidence).
 - [uc-approval-gate.md](uc-approval-gate.md) — promote memory findings via examiner approval.
 - [uc-wazuh-push.md](uc-wazuh-push.md) — push pivoted IOCs into Wazuh (optional integration).
-- [`.crew/tool-list.md`](../../.crew/tool-list.md) — the 7 Volatility tools and full catalogue.
-- [`.crew/agents-list.md`](../../.crew/agents-list.md) — `MemoryAgent` / `HuntAgent` contracts.
+- [`tool-list.md`](../04-mcp-tools/tool-list.md) — the 7 Volatility tools and full catalogue.
+- [`agents-list.md`](../10-agents/agents-list.md) — `MemoryAgent` / `HuntAgent` contracts.
+- [agentic-architecture.md](../10-agents/agentic-architecture.md) — how `MemoryAgent` / `HuntAgent` fit the runtime swarm.

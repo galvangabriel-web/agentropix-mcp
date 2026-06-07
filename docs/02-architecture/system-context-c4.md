@@ -10,7 +10,7 @@ Agentropix-SIFT is a **local, CLI-driven bio-agentic DFIR triage engine** that r
 *on* the SANS SIFT Workstation. It never re-implements a forensic parser — it drives the
 16 classical SIFT forensic binaries (Volatility3, Plaso, Sleuth Kit, RegRipper, YARA, …)
 through one [FastMCP](mcp-server.md) server that exposes **71 MCP tools** (`mcp_tool_count = 71`,
-[`.crew/facts.md`](../../.crew/facts.md)). A deterministic [Trinity Loop](trinity-loop.md)
+[`canonical-facts.md`](../08-reference/canonical-facts.md)). A deterministic [Trinity Loop](trinity-loop.md)
 (Architect → Swarm → Critic) drives those tools; the
 [Thymus read-only policy](mcp-server.md#4-thymus--the-read-only-evidence-boundary) and the
 [Courtroom HMAC-SHA256 seal](sequence-diagrams.md#3-finding--provenance-classification--courtroom-seal)
@@ -213,7 +213,7 @@ flowchart LR
 
 1. **Tailnet-only, Bearer-token, fail-closed.** The HTTP MCP surface is reachable only
    over the Tailscale overlay; every POST to `/mcp` requires a valid `Bearer` token
-   (`AGENTROPIX_MCP_AUTH_TOKEN`, [env-vars.md](../../.crew/env-vars.md) §MCP server auth).
+   (`AGENTROPIX_MCP_AUTH_TOKEN`, [env-vars.md](../07-sdlc-ops/env-vars.md) §MCP server auth).
    `--public` exists but emits a loud warning (ADR-017; `fastmcp_app.py::parse_args`). The
    default local transport is **stdio**, which needs no network at all.
 2. **Evidence is read-only by construction.** `/cases` (and `/mnt`, `/media`, `/evidence`,
@@ -221,7 +221,7 @@ flowchart LR
 3. **The optional sinks are off by default.** Wazuh push is gated by
    `WAZUH_INTEGRATION_ENABLED=false`, `WAZUH_PUSH_ENABLED=false`, and
    `WAZUH_DRY_RUN_ONLY=true`; threat-intel egress is gated by `AGENTROPIX_ALLOW_EGRESS=0`
-   ([env-vars.md](../../.crew/env-vars.md) §Wazuh kill switches, §Threat-intel). The Wazuh
+   ([env-vars.md](../07-sdlc-ops/env-vars.md) §Wazuh kill switches, §Threat-intel). The Wazuh
    stack itself lives on a *separate* Docker host (the GPU host, shown as `TAILNET-IP`
    above — a placeholder; the real tailnet address is never published here per the
    no-raw-internal-IPs hygiene rule), reachable only over the tailnet.

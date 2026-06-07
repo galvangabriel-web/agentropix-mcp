@@ -3,7 +3,7 @@
 > The persisted entities of Agentropix-SIFT and their relationships, drawn as a Mermaid `erDiagram`.
 > Where [data-models.md](data-models.md) shows *object shape* and [data-dictionary.md](data-dictionary.md)
 > shows *every field*, this chapter shows *how the records relate* once written to disk and to the
-> case index. Numbers cite [`CANONICAL_FACTS.md`](../../.crew/facts.md); records cite their source files.
+> case index. Numbers cite [`CANONICAL_FACTS.md`](../08-reference/canonical-facts.md); records cite their source files.
 
 A triage run produces a small constellation of related records. Some are embedded in a single JSON
 document (a `TriageReport` owns its `Finding`s, `ToolCall`s, and `ThymusAuditEntry`s); others are
@@ -297,3 +297,5 @@ Each entry *approves* a target `FINDING` (or timeline, or a compensating `approv
 - Object shapes and class diagrams: [data-models.md](data-models.md)
 - Field-by-field dictionary: [data-dictionary.md](data-dictionary.md)
 - How each entity is written/read on disk: [persisted-artifacts.md](persisted-artifacts.md)
+- Exhaustive model/dataclass/JSON-Schema enumeration: [schema-dump.md](schema-dump.md)
+- Canonical numbers: [`canonical-facts.md`](../08-reference/canonical-facts.md)

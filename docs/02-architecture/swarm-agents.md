@@ -10,8 +10,8 @@ The project prose describes a **7-agent Swarm** — the seven first-class DFIR s
 The runnable `SWARM` tuple (`agents/__init__.py`) additionally interleaves **six
 deterministic ATT&CK detector agents** (also `SwarmAgent` subclasses), for **13 classes**
 total. Both statements are true; when a count is needed, prefer *"7 core specialists +
-ATT&CK detectors"* and cite `agents/__init__.py` ([agents-list.md](../../.crew/agents-list.md),
-[facts.md](../../.crew/facts.md)).
+ATT&CK detectors"* and cite `agents/__init__.py` ([agents-list.md](../10-agents/agents-list.md),
+[canonical-facts.md](../08-reference/canonical-facts.md)).
 
 ### The Trinity roles, in one paragraph
 
@@ -159,7 +159,7 @@ Blackboard state must produce the same findings (S-08: *same seed → identical 
 
 Each declares a `completion_promise` token appended to `report.completion_proofs` when it
 publishes ≥1 Finding without a tool error
-([agents-list.md](../../.crew/agents-list.md) §Core swarm specialists).
+([agents-list.md](../10-agents/agents-list.md) §Core swarm specialists).
 
 | Agent | `name` | Promise | Drives (wrappers / MCP tools) | Produces |
 |-------|--------|---------|-------------------------------|----------|
@@ -181,7 +181,7 @@ agents having run first, which is why run order matters (§4).
 ## 3. ATT&CK detector agents
 
 The six detectors (`detectors/`) are also `SwarmAgent` subclasses — deterministic, no LLM —
-that emit ATT&CK-tagged findings ([agents-list.md](../../.crew/agents-list.md) §Detectors):
+that emit ATT&CK-tagged findings ([agents-list.md](../10-agents/agents-list.md) §Detectors):
 
 | Detector | `name` | ATT&CK | Source | Produces |
 |----------|--------|--------|--------|----------|
@@ -231,7 +231,7 @@ under the lock, so individual agents can be lock-free
 
 Its key job is **correlation**: surfacing tokens (filenames, PIDs, hashes, IPs) that appear
 in the evidence/description strings of findings from **≥ `quorum_threshold` distinct agents**
-(default 2, must be ≥2; `_blackboard.py:84-91`, [facts.md](../../.crew/facts.md)):
+(default 2, must be ≥2; `_blackboard.py:84-91`, [canonical-facts.md](../08-reference/canonical-facts.md)):
 
 ```mermaid
 graph LR
@@ -278,7 +278,7 @@ The `Correlation` and `Finding` data contracts are fully specified in
 - Investigations are **idempotent** — required for the Critic's fixed-point halt.
 - Agents are **pure async coroutines over the MCP boundary** — the Trinity roles
   (Architect/Critic) orchestrate; they never author findings
-  ([agents-list.md](../../.crew/agents-list.md) §contract notes).
+  ([agents-list.md](../10-agents/agents-list.md) §contract notes).
 
 ---
 
@@ -311,12 +311,12 @@ ATT&CK-tagged findings to the same Blackboard.
 The Swarm is not just a static run order — four oracle-verified mechanics let it *carry
 state across iterations and runs* and correct its own course. None of these change the
 "7 core specialists + 6 ATT&CK detectors = 13 `SwarmAgent` classes" framing
-(`agents/__init__.py`, [facts.md](../../.crew/facts.md)); they layer on top of it.
+(`agents/__init__.py`, [canonical-facts.md](../08-reference/canonical-facts.md)); they layer on top of it.
 
 > **Note on agent count.** The upstream deep-dive prose once called the Swarm "11 agents";
 > the runnable `SWARM` tuple is **13 classes** (`agents/__init__.py` — `NullSessionBaselineAgent`
 > and `T1071SvchostOutboundHttpDetector` were added after that prose). This page uses the
-> canonical 13 throughout, per [facts.md](../../.crew/facts.md).
+> canonical 13 throughout, per [canonical-facts.md](../08-reference/canonical-facts.md).
 
 ### 8.1 Hippocampus — Lamarckian inheritance of reasoning traces
 

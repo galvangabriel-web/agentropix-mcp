@@ -23,7 +23,7 @@ status verdict here is kept in lock-step with the index's live status audit.
 > **Architect**, **Trinity Loop**, **Blackboard**) are defined in the
 > [Glossary](glossary.md) and re-explained inline at first use below.
 
-> **Sourcing.** Numeric claims follow [`.crew/facts.md`](../../.crew/facts.md)
+> **Sourcing.** Numeric claims follow [`canonical-facts.md`](canonical-facts.md)
 > (CANONICAL_FACTS). Where the upstream design narrative quoted older figures
 > (e.g. "46 tools / 11 agents / 2807 tests") this page uses the canonical
 > values — **71 MCP tools, 16 SIFT forensic tools, 4464 tests, 72/72 disk
@@ -275,11 +275,11 @@ reliable.
 
 > **Reconciliation.** The quality narrative quoted a `2807`-test figure at the
 > time of writing. The canonical test count is **4464**
-> ([`.crew/facts.md`](../../.crew/facts.md), `pytest --collect-only`); the
+> ([`canonical-facts.md`](canonical-facts.md), `pytest --collect-only`); the
 > structural bounds above are unchanged. Likewise the "46 tools / 11 agents"
 > phrasing reconciles to the canonical **71 MCP tools** and the **7 core swarm
 > specialists** (Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt)
-> plus ATT&CK detectors — see `.crew/facts.md` and
+> plus ATT&CK detectors — see [`canonical-facts.md`](canonical-facts.md) and
 > [`agents/__init__.py`](../../../agentropix-sift/src/agentropix_sift/agents/__init__.py).
 
 ---
@@ -332,4 +332,6 @@ best-practice prose.
 - [Glossary](glossary.md) — the bio-agentic terms (Thymus, Critic, Architect, Trinity) the ADRs map to.
 - [Anti-Hallucination](../05-safety-forensics/anti-hallucination.md) — how the ADR-016 invariants play out at runtime.
 - [Human-in-the-Loop](../05-safety-forensics/human-in-the-loop.md) — the ADR-019 confirmation gate in practice.
-- [Canonical facts](../../.crew/facts.md) — the numeric source of truth (71 tools, 16 SIFT tools, 4464 tests, 72/72 recall).
+- [EZ Tools / ZimmermanTools Integration](../02-architecture/ez-tools-integration.md) — the hybrid genuine-`.NET`-binary vs Linux-substitute (Amcache/ShimCache/SRUM) decision behind the EZ wrappers.
+- [Canonical facts](canonical-facts.md) — the numeric source of truth (71 tools, 16 SIFT tools, 4464 tests, 72/72 recall).
+- [Agents list](../10-agents/agents-list.md) — the Trinity roles and swarm specialists the ADRs govern.

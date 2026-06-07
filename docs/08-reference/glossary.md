@@ -7,7 +7,7 @@ This page consolidates the upstream glossary
 confirmed against the code and the shared inventory artifacts.
 
 > **Citation discipline.** Numeric claims (tool count, recall, test count) trace
-> to [`.crew/facts.md`](../../.crew/facts.md) / `CANONICAL_FACTS.md`. Persona, story,
+> to [`canonical-facts.md`](canonical-facts.md) / `CANONICAL_FACTS.md`. Persona, story,
 > and weakness-stage definitions trace to `docs/AGENTS.md`. Code wins over prose.
 
 ---
@@ -44,18 +44,18 @@ A decoder ring split into five lookup tables — jump straight to the kind of na
 | **Critic** | Deterministic scorer (no LLM). Score = max finding confidence + 0.25·#correlations (capped 1.0). Halts at score ≥ `AGENTROPIX_CRITIC_HALT_THRESHOLD` (default 0.85) **or** convergence fingerprint, gated by a min-iterations guard. | `trinity/critic.py:42,67` |
 | **Deterministic-tools-only findings** | Safety invariant: every fact originates from a named deterministic MCP tool; the LLM never authors a finding. | ADR-016; agents-list |
 | **doctor** | CLI command verifying the 16 SIFT forensic tools (18 binaries) are installed/resolvable; see the [CLI reference](cli-reference.md#agentropix-sift-doctor). | `cli.py:175-217` |
-| **EAR (Executable Registry)** | The "build / promote / get / search" executable-registry tool family added 65→69 in the MCP tool-count lineage. | facts.md (lineage) |
+| **EAR (Executable Registry)** | The "build / promote / get / search" executable-registry tool family added 65→69 in the MCP tool-count lineage. | canonical-facts.md (lineage) |
 | **Evidence gate** | The fail-closed authority that mints and verifies the one-shot [mutation token](#core-terms-alphabetized) guarding every write-capable tool (`idx_*`, `wazuh_*`, `promote_*`, `record_finding`). If the verifier module is unavailable, or the token is missing/malformed (must match `egt_<26-char ULID>`), it raises `EvidenceGateRequired` rather than silently passing. | `wazuh/evidence_gate.py`; ADR-018 |
-| **Evidence invariant** | Pre/post SHA-256 hash of the evidence image, asserting no writes to evidence (story **S-02**). | facts.md; ADR-008 |
+| **Evidence invariant** | Pre/post SHA-256 hash of the evidence image, asserting no writes to evidence (story **S-02**). | canonical-facts.md; ADR-008 |
 | **EWF / E01** | Expert Witness Format disk image (`.E01`); the SANS SRL-2018 dataset ships 7 of them. Metadata read via `ewfinfo`. | `cli.py:184`; AGENTS.md |
 | **Finding** | The unit of evidence published to the Blackboard; carries confidence, `agent` (W-196), and tool-derived payload (hashes, IOCs). | agents-list |
-| **Forensic wrappers** | The **16** SIFT-tool wrappers under `mcp_server/wrappers/` that the swarm agents drive. | facts.md |
+| **Forensic wrappers** | The **16** SIFT-tool wrappers under `mcp_server/wrappers/` that the swarm agents drive. | canonical-facts.md |
 | **Hippocampus (bridge)** | The opt-in cross-iteration memory of the Trinity Loop (`HippocampusBridge`, W-017). Stores each iteration's `ReasoningTrace` `(goal, plan, result, critique)` and returns the top-K most similar prior traces to the [Architect](#core-terms-alphabetized) when it plans the next iteration. In-memory only (no persisted file); enabled by `AGENTROPIX_HIPPOCAMPUS_ENABLED` (default off), top-K via `AGENTROPIX_HIPPOCAMPUS_TOP_K` (default 3). Unlocks the iter-1 → iter-N accuracy lift (S-03). | `memory/hippocampus_bridge.py`; W-017 |
 | **HuntAgent** | The last swarm agent; drives no wrappers, consumes `blackboard.correlations()` to emit high-confidence cross-source findings (S-05). | `agents/hunt.py:68` |
 | **Inference constraint = high** | The fixed assertion printed after every run: the LLM is the orchestrator; facts come from MCP tools. | `cli.py:152`; ADR-016 |
 | **IOC** | Indicator of Compromise (filename, hash, IP, domain) surfaced by agents and optionally pushed to Wazuh. | ADR-018 |
 | **Lamarckian inheritance** | The learning pattern the [Hippocampus bridge](#core-terms-alphabetized) implements: each Trinity iteration writes its reasoning trace, and the next iteration's Architect inherits the top-K most similar prior traces as planning context — improvements acquired during a run are passed forward within the same process. | `memory/hippocampus_bridge.py:19` |
-| **MCP** | Model Context Protocol; the integration substrate for every `mcp_*` tool. The FastMCP server exposes **71** distinct tools. | AGENTS.md; facts.md |
+| **MCP** | Model Context Protocol; the integration substrate for every `mcp_*` tool. The FastMCP server exposes **71** distinct tools. | AGENTS.md; canonical-facts.md |
 | **Mutation token** | A one-shot, TTL-bound capability (`egt_<ULID>`) minted by the [evidence gate](#core-terms-alphabetized) and required by every write-capable tool (`record_finding`, `idx_ingest`, `promote_iocs`, `promote_executable_registry`, `wazuh_index_findings`, `wazuh_publish_iocs`). Sourced from `AGENTROPIX_MUTATION_TOKEN` (env, never a CLI flag); consumed on use so it cannot be replayed. Read-only triage never needs one. See [tool reference](../04-mcp-tools/tool-reference.md) `[MUT]`. | tool-reference.md; ADR-018 |
 | **Provenance** (chain) | Validation under `provenance/` that ties every finding back to the deterministic tool call that generated it — the audit thread behind the "deterministic-tools-only" guarantee. Often referred to simply as *provenance*. See [Provenance grounding](../05-safety-forensics/provenance-grounding.md). | seed; module-map |
 | **Quorum threshold** | Minimum number of agents that must observe a token for it to become a correlation (default **2**). | `agents/_blackboard.py:86` |
@@ -64,9 +64,9 @@ A decoder ring split into five lookup tables — jump straight to the kind of na
 | **Session key** | Per-run 32-byte HMAC key written mode `0600` alongside the sealed report. | `cli.py:132-149`; ADR-022 |
 | **SRL-2018** | SANS Reverse-engineered Lab dataset; 7 APT E01 images used in the wargame (incl. case 20180905-001, Cobalt Strike DC). | AGENTS.md |
 | **Swarm (7-agent)** | Project-prose name for the 7 first-class DFIR specialists: Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt. The runnable [`SWARM` tuple](#core-terms-alphabetized) additionally interleaves 6 deterministic ATT&CK detectors. | agents-list |
-| **SWARM tuple** | The ordered tuple of agent classes run each Trinity iteration — **13** classes = 7 core specialists + 6 ATT&CK detectors; `HuntAgent` is always last. | `agents/__init__.py`; facts.md |
+| **SWARM tuple** | The ordered tuple of agent classes run each Trinity iteration — **13** classes = 7 core specialists + 6 ATT&CK detectors; `HuntAgent` is always last. | `agents/__init__.py`; canonical-facts.md |
 | **Thymus policy** | The read-only safety spine: a self/non-self gate that rejects any write to evidence and pins findings to deterministic tools. | `mcp_server/thymus_policy.py`; ADR-008 |
-| **Trinity Loop** | Architect proposes → 7-agent Swarm (+ ATT&CK detectors) runs deterministic tools → Critic scores and halts on a deterministic convergence fingerprint. No LLM self-rating. | agents-list; facts.md |
+| **Trinity Loop** | Architect proposes → 7-agent Swarm (+ ATT&CK detectors) runs deterministic tools → Critic scores and halts on a deterministic convergence fingerprint. No LLM self-rating. | agents-list; canonical-facts.md |
 | **Two-Person Rule** | A deferred control requiring two operators to confirm an Active Response; documented but not implemented. | ADR-021 |
 | **Wazuh** | The SIEM the platform optionally pushes IOCs to and integrates Active-Response gating with. | ADR-018, ADR-019, ADR-020 |
 
@@ -161,5 +161,5 @@ CLI.
 
 - [CLI reference](cli-reference.md) — commands, flags, env-var overrides.
 - [ADR Index](adr-index.md) — the decisions behind these terms.
-- [Agents list](../../.crew/agents-list.md) — Trinity roles and the swarm specialists.
-- [Canonical facts](../../.crew/facts.md) — the numeric single source of truth.
+- [Agents list](../10-agents/agents-list.md) — Trinity roles and the swarm specialists.
+- [Canonical facts](canonical-facts.md) — the numeric single source of truth.

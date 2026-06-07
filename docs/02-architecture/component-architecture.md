@@ -8,7 +8,7 @@
 The package census is authoritative-by-`ls`: `ls -d src/agentropix_sift/*/` yields **17
 packages** (two asset/stub-only: `chromosomes`, `benchmarks`) plus **4 top-level modules**
 (`orchestrator.py`, `courtroom.py`, `cli.py`, `secrets.py`) — see
-`docs/architecture/_C4-COMPONENT.md` and [module-map.md](../../.crew/module-map.md).
+`docs/architecture/_C4-COMPONENT.md` and [module-map.md](module-map.md).
 
 **Key terms used on this page (defined here on first mention).** The diagrams below name a
 handful of architectural concepts; each is defined once here and detailed on its own page:
@@ -226,6 +226,30 @@ end-to-end in [sequence-diagrams.md](sequence-diagrams.md). The crucial design c
 that **evidence read-only-ness is architectural, not advisory** — there is no write tool to
 disable (`docs/MCP-REQUEST-FLOW.md`, "Security model in one sentence").
 
+### Three architectural surprises (the judge-facing summary)
+
+The spine rests on three deliberately *unfashionable* choices
+(`docs/ARCHITECTURE-LAYERS.md` §4, §6; `docs/MCP-REQUEST-FLOW.md`):
+
+1. **Capability-absence, not permission.** Read-only-ness is enforced by *not building a write
+   tool*, not by a togglable permission — you cannot disable a capability that does not exist.
+   Thymus `check_write()` is a defence-in-depth audit stub that always REJECTs (`thymus_policy.py`).
+2. **LLM-proposes, Trinity-disposes — the wall is the layer boundary.** The LLM is confined to
+   Layer 1; the `args_hash` + `raw_output` snapshot is captured at the L1↔L3 seam, so the report can
+   prove the model never touched a fact (see [the determinism map](#2-the-four-layer-determinism-map)).
+3. **Per-run HMAC + sealed session key, not a long-lived KMS cert.** The seal key is per-run, in a
+   mode-0600 `.session-key` file — by design, not a long-lived KMS certificate
+   (`courtroom.py`; [audit-courtroom.md](../05-safety-forensics/audit-courtroom.md)).
+
+> **One open seam (honest gap).** The Ralph **PreToolUse** validation hook (W-081) is **partially
+> implemented / OPEN** (`docs/ARCHITECTURE-LAYERS.md` §2, HIGH/P0). Until it lands, the first
+> deterministic gate that rejects a malformed LLM call is the **wrapper's own Pydantic + Thymus +
+> rate-limit check** — there is no PreToolUse interception layer in front of the wrapper yet. The
+> full reasoning is in [fastmcp-execution.md](../10-agents/fastmcp-execution.md) §"The open seam".
+
+For the per-call execution model that exercises this spine station by station, see
+[fastmcp-execution.md](../10-agents/fastmcp-execution.md).
+
 ---
 
 ## 4. Package inventory (the 17 + 4)
@@ -233,7 +257,7 @@ disable (`docs/MCP-REQUEST-FLOW.md`, "Security model in one sentence").
 | Package / module | Responsibility | Detail |
 |------------------|----------------|--------|
 | `mcp_server/` | FastMCP server, 71 tools, Thymus, trace, config | [mcp-server.md](mcp-server.md) |
-| `mcp_server/wrappers/` | ~40 forensic drivers over the 16 SIFT binaries + EZ-Tools | [module-map.md](../../.crew/module-map.md) |
+| `mcp_server/wrappers/` | ~40 forensic drivers over the 16 SIFT binaries + EZ-Tools | [module-map.md](module-map.md) |
 | `agents/` | DFIR Swarm + Blackboard | [swarm-agents.md](swarm-agents.md) |
 | `detectors/` | Deterministic ATT&CK detector agents | [swarm-agents.md](swarm-agents.md#3-attck-detector-agents) |
 | `trinity/` | Architect + Critic | [trinity-loop.md](trinity-loop.md) |
@@ -249,14 +273,14 @@ disable (`docs/MCP-REQUEST-FLOW.md`, "Security model in one sentence").
 | `imaging/` | EWF/E01 mount lifecycle | `imaging/ewf_lifecycle.py` |
 | `reports/` | Multi-tier report render/export | `reports/render.py` |
 | `schema/` | Typed tool-return models + JSON Schemas | [03-data](../03-data/) |
-| `wrappers/` (top-level) | Email-header parser, MASTER-IOCS aggregator, memory mail carve | [module-map.md](../../.crew/module-map.md) |
+| `wrappers/` (top-level) | Email-header parser, MASTER-IOCS aggregator, memory mail carve | [module-map.md](module-map.md) |
 | `chromosomes/`, `benchmarks/` | Asset/stub-only | — |
 | `cli.py`, `secrets.py` | Typer CLI; secret resolution | `cli.py`, `secrets.py` |
 
 > The `wrappers/` package (top-level) is **distinct** from `mcp_server/wrappers/`. The
 > top-level one holds the canonical email-header parser, the MASTER-IOCS aggregator, and
 > the memory mail-carve helper; the `mcp_server/wrappers/` one holds the ~40 forensic
-> drivers ([module-map.md](../../.crew/module-map.md) §wrappers).
+> drivers ([module-map.md](module-map.md) §wrappers).
 
 ---
 
@@ -265,4 +289,8 @@ disable (`docs/MCP-REQUEST-FLOW.md`, "Security model in one sentence").
 - The deterministic halt logic of the engine → [trinity-loop.md](trinity-loop.md)
 - The agents that fill the Blackboard → [swarm-agents.md](swarm-agents.md)
 - The MCP protocol surface and Thymus → [mcp-server.md](mcp-server.md)
+- How the EZ-Tools / ZimmermanTools wrappers sit in `mcp_server/wrappers/` (genuine `.NET` binaries
+  vs the three Linux substitutes) → [ez-tools-integration.md](ez-tools-integration.md)
+- One agent tool call, station by station → [fastmcp-execution.md](../10-agents/fastmcp-execution.md)
+- The runtime/build-time "agent" disambiguation → [10-agents](../10-agents/agentic-architecture.md)
 - Request-level flows through this component graph → [sequence-diagrams.md](sequence-diagrams.md)

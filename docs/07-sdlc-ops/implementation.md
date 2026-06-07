@@ -9,7 +9,7 @@ backend. It is the **build-and-module** companion to
 [component-architecture](../02-architecture/component-architecture.md): that page draws the
 runtime layer map and determinism boundaries; this one tells you which file each box lives
 in and how to compile the package. For the per-agent breakdown see
-[agents-list](../../.crew/agents-list.md); for the data contract see
+[agents-list](../10-agents/agents-list.md); for the data contract see
 [the data section](../03-data/); for safety internals see [security-model](security-model.md).
 
 ---
@@ -115,7 +115,10 @@ consumes every other agent's findings. The seven first-class specialists are
 lives in `agents/_base.py`, and the asyncio finding registry + correlation logic in
 `agents/_blackboard.py`. Shared helper logic (`_enrichment.py`, `_evidence.py`,
 `_suspicious.py`, `_discovery_detectors.py`, `_mail_*`, `_hive_presets.py`, `_archive.py`)
-sits alongside. See [agents-list](../../.crew/agents-list.md) for the full per-agent table.
+sits alongside. See [agents-list](../10-agents/agents-list.md) for the full per-agent table,
+[agentic-architecture](../10-agents/agentic-architecture.md) for how these specialists
+coordinate, and [delegation-model](../10-agents/delegation-model.md) for the orchestration
+contract.
 
 ### `trinity/` — Architect → Swarm → Critic
 
@@ -142,7 +145,7 @@ fixed-point convergence fingerprint or a score threshold — **never** an LLM se
 
 The **71** distinct tool functions are reached as 74 `@app.tool()` decorator occurrences
 (67 in `fastmcp_app.py` + 5 wazuh wrappers, with `wazuh_hunt_ioc` registered in two modules);
-see [CANONICAL_FACTS](../../.crew/facts.md).
+see [CANONICAL_FACTS](../08-reference/canonical-facts.md).
 
 ### `mcp_server/wrappers/` — forensic tool drivers
 
@@ -154,7 +157,9 @@ flat-error-envelope decorator), `_subprocess.py` (memory-monitored execution), `
 SIFT-16 core drivers are `volatility.py`, `plaso.py`, `tsk.py`, `extract.py`, `ewf.py`,
 `evtx.py`, `yara.py`, `bulk_extractor.py`, `regripper.py`, `prefetch.py`, `amcache.py`,
 `shimcache.py`, `exiftool.py`, `foremost.py`, `hashdeep.py`, `strings.py`. See the
-[module map](../../.crew/module-map.md) for the EZ-Tools, imaging, mail, and case/IOC groups.
+[module map](../02-architecture/module-map.md) for the EZ-Tools, imaging, mail, and case/IOC
+groups, and [ez-tools-integration](../02-architecture/ez-tools-integration.md) for how the
+Eric Zimmerman parsers are wrapped and surfaced as MCP tools.
 
 ### `evidence_gate/` — mutation-token regime
 
@@ -188,7 +193,7 @@ indexer clients, push orchestration, active-response guard), `detectors/` (the d
 ATT&CK detector agents and vendored `yara_rules/`), `imaging/` (`ewf_lifecycle.py` E01 mount
 lifecycle), `reports/` (tiered report rendering + Mermaid emission), `schema/` (typed result
 models + JSON Schemas), `chromosomes/` (agent presets), and `benchmarks/` (scaffolding).
-Full detail is in the [module map](../../.crew/module-map.md).
+Full detail is in the [module map](../02-architecture/module-map.md).
 
 ---
 

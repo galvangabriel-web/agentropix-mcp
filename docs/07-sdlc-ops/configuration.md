@@ -7,7 +7,7 @@
 > the naming patterns for the rest. When you need an exact per-wrapper default, read the
 > wrapper module.
 
-All values are sourced from [env-vars](../../.crew/env-vars.md), `.env.example`, and the
+All values are sourced from [env-vars](env-vars.md), `.env.example`, and the
 source modules cited inline. `(unverified)` marks a default not confirmed from code.
 
 ---
@@ -43,8 +43,8 @@ below is shown two ways, side by side:
 > the verify step that proves it took effect.
 > **💬 End-user (prompt):** the plain-language question a non-technical user types into Claude
 > Desktop / Claude CLI (with the Agentropix MCP connected). The session answers by calling a **real
-> MCP tool** — almost always [`health`](../../.crew/tool-list.md) (server health + live tool count +
-> profile/exposure flags) or [`case_status`](../../.crew/tool-list.md) (case + evidence/audit state).
+> MCP tool** — almost always [`health`](../04-mcp-tools/tool-list.md) (server health + live tool count +
+> profile/exposure flags) or [`case_status`](../04-mcp-tools/tool-list.md) (case + evidence/audit state).
 > **A simple, focused question is enough — the session recognises it as an Agentropix capability and
 > routes it to the right check.**
 
@@ -87,7 +87,7 @@ the server, then either re-query `health` (operator) or ask the session (end-use
 { "status": "ok", "server": "agentropix-sift", "tool_count": 71, "version": "..." }
 ```
 
-`status: ok` with `tool_count: 71` (the canonical figure — see [`.crew/facts.md`](../../.crew/facts.md))
+`status: ok` with `tool_count: 71` (the canonical figure — see [`canonical-facts.md`](../08-reference/canonical-facts.md))
 confirms the restart picked up your new environment.
 
 ---
@@ -280,7 +280,7 @@ The Wazuh surface ships **safe by default** — disabled, dry-run-only:
 
 Connectivity (`WAZUH_MANAGER_URL` `:55000`, `WAZUH_INDEXER_URL` `:9200`), credentials
 (prefer `AGENTROPIX_WAZUH_API_PASSWORD_FILE` over inline), index/ISM patterns, and the W-188
-runner caps are enumerated in [env-vars §1, §7](../../.crew/env-vars.md). TLS verify must stay
+runner caps are enumerated in [env-vars §1, §7](env-vars.md). TLS verify must stay
 `true` outside `AGENTROPIX_ENV=development` (ADR-016 S-4 / ADR-018).
 
 > **🖥️ Expert (command):**
@@ -335,7 +335,7 @@ host with no API keys, omit the threat-intel keys entirely.
 
 ## See also
 
-- [env-vars (full reference)](../../.crew/env-vars.md) — every confirmed var, including the Wazuh OpenSearch index/ISM matrix.
+- [env-vars (full reference)](env-vars.md) — every confirmed var, including the Wazuh OpenSearch index/ISM matrix.
 - [security-model](security-model.md) — the security-relevant knobs in context.
 - [recovery-resilience](recovery-resilience.md) — the timeout/memory/retry env knobs.
 - [deployment](deployment.md) — which vars you set first when standing up a host.

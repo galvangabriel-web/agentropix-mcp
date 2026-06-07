@@ -154,7 +154,7 @@ result is three files on disk — `report.json`, `<stem>.audit-log.json`, and
 
 > The canonical numbers used above — **71 MCP tools**, **16 SIFT forensic wrappers**,
 > the **0.85** halt threshold, the **7-agent** core swarm — are tracked in
-> [`.crew/facts.md`](../../.crew/facts.md) (mirroring upstream `CANONICAL_FACTS.md`).
+> [`canonical-facts.md`](../08-reference/canonical-facts.md) (mirroring upstream `CANONICAL_FACTS.md`).
 > When a count is load-bearing in your own work, re-query the live `tools/list`.
 
 ---

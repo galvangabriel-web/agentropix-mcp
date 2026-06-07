@@ -134,7 +134,7 @@ the guide. All four operate on the **same real CFReDS data** and reach the **sam
 
 > **Platform capability vs. validated example run.** Agentropix-SIFT *orchestrates* the SANS SIFT
 > toolchain you already have. The platform exposes **71 deterministic MCP tools** across **16 forensic
-> SIFT wrappers**, with **4464 tests** (cite [`.crew/facts.md`](../../.crew/facts.md):
+> SIFT wrappers**, with **4464 tests** (cite [`canonical-facts.md`](../08-reference/canonical-facts.md):
 > `mcp_tool_count=71`, `test_count=4464`). The LLM only *orchestrates*; the facts come from
 > deterministic tools. Throughout this guide the **validated 2026-05-29 CFReDS run** is quoted as a
 > worked example — that run was captured against an earlier build whose live `tools/list` enumerated
@@ -181,7 +181,7 @@ phase you're in.
 → **Full map:** [Tool capability map (by DFIR function)](../04-mcp-tools/capability-map.md) — the
 per-function tool table, cross-cutting conventions (Thymus path policy, auto-tempdirs,
 `timeout_seconds`), and the canonical happy-path ordering. The complete per-tool catalogue is in
-[`.crew/tool-list.md`](../../.crew/tool-list.md) and [Tool reference](../04-mcp-tools/tool-reference.md).
+[`tool-list.md`](../04-mcp-tools/tool-list.md) and [Tool reference](../04-mcp-tools/tool-reference.md).
 
 ---
 
@@ -306,7 +306,7 @@ export AGENTROPIX_EVTX_TOOL=/usr/local/bin/evtx_dump.py
 ```
 
 Deep reference: [CLI Reference · `doctor`](../08-reference/cli-reference.md#agentropix-sift-doctor) ·
-[`.crew/env-vars.md`](../../.crew/env-vars.md).
+[`env-vars.md`](../07-sdlc-ops/env-vars.md).
 
 ### 0.3 Start / verify the MCP server (operator-local)
 
@@ -481,7 +481,7 @@ e.g. `3.2.4` — don't conflate the two. The uptime field is named `uptime_secon
 > **Live drift note (2026-06-06):** a live re-verification returned `health.tool_count = 72` and
 > `tools/list` likewise enumerated **72** distinct tools — a reproducible **+1** over the canonical
 > `71`. The extra tool is *not* a new capability: the running server has always exposed 72 distinct
-> tool names (the same 72 tabled in [`.crew/tool-list.md`](../../.crew/tool-list.md)); the canonical
+> tool names (the same 72 tabled in [`tool-list.md`](../04-mcp-tools/tool-list.md)); the canonical
 > `71` is a derivation-arithmetic figure that over-subtracts the `wazuh_hunt_ioc` double-registration.
 > The canonical number stays **71** in this guide until the operator re-runs the `CANONICAL_FACTS`
 > refresh (which must update every doc + the drift gate atomically). When in doubt, trust your own
@@ -1014,7 +1014,7 @@ cross-bound, `evidence_image_sha256` binds the report to the exact image). Deep 
 > The push is a guarded mutation.
 
 > **Status: EXPERIMENTAL / OPT-IN.** The Wazuh integration is disabled by default and gated behind kill
-> switches plus a one-shot `mutation_token`. See [`.crew/env-vars.md`](../../.crew/env-vars.md).
+> switches plus a one-shot `mutation_token`. See [`env-vars.md`](../07-sdlc-ops/env-vars.md).
 
 **8.1 — Curate first (accountability).** Raw carve features are *candidate* strings, not IOCs; ~99% are
 noise (usenet message-ids → `@4ax.com`, RFC/vendor domains, slack space). Pushing raw (100k+ candidates)
@@ -1294,7 +1294,7 @@ not sign chain-of-custody.
 - **Safety & forensics** — [Approval Portal](../05-safety-forensics/approval-portal.md) ·
   [Audit & Courtroom Seal](../05-safety-forensics/audit-courtroom.md) ·
   [Provenance & Grounding](../05-safety-forensics/provenance-grounding.md).
-- **Shared references (oracle)** — [`.crew/facts.md`](../../.crew/facts.md) (canonical numbers:
-  71 MCP tools, 16 wrappers, 4464 tests), [`.crew/tool-list.md`](../../.crew/tool-list.md) (all
-  71 tools), [`.crew/env-vars.md`](../../.crew/env-vars.md),
-  [`.crew/agents-list.md`](../../.crew/agents-list.md).
+- **Shared references (oracle)** — [`canonical-facts.md`](../08-reference/canonical-facts.md) (canonical numbers:
+  71 MCP tools, 16 wrappers, 4464 tests), [`tool-list.md`](../04-mcp-tools/tool-list.md) (all
+  71 tools), [`env-vars.md`](../07-sdlc-ops/env-vars.md),
+  [`agents-list.md`](../10-agents/agents-list.md).

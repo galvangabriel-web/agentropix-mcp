@@ -1,5 +1,12 @@
-# Agents List (shared reference)
+# Agents List (canonical runtime-agent reference)
 
+> **Section 10 · Agents** — the canonical, machine-extracted table of the **runtime DFIR swarm**
+> (sense 1 of "agent"; see [agentic-architecture.md](agentic-architecture.md) for the
+> disambiguation against the build-time BMAD personas in [delegation-model.md](delegation-model.md)).
+> This is the substrate the narrative [swarm-agents.md](../02-architecture/swarm-agents.md) and
+> [trinity-loop.md](../02-architecture/trinity-loop.md) pages are derived from — read those for the
+> prose, read this for the raw per-agent table.
+>
 > The Trinity Loop roles (Architect, Critic, Blackboard) and the DFIR Swarm agents. For each swarm
 > agent: class name, role, the forensic tools/wrappers it drives, and the findings it produces.
 > Derived from `src/agentropix_sift/agents/`, `src/agentropix_sift/detectors/`, and
@@ -71,4 +78,4 @@ Blackboard. Deterministic, no LLM; emit ATT&CK-tagged findings.
   (Architect/Critic) orchestrate; they do not author findings.
 - The "7-agent Swarm" of project prose = the 7 first-class specialists above. The runnable `SWARM`
   tuple is 13 classes (specialists + 6 detectors). When stating a count, prefer "7 core specialists
-  + ATT&CK detectors" and cite `agents/__init__.py` (see `.crew/facts.md` note).
+  + ATT&CK detectors" and cite `agents/__init__.py` (see [`canonical-facts.md`](../08-reference/canonical-facts.md) note).

@@ -31,7 +31,7 @@ Get](what-you-get.md).
 | [1. Install](#1-install) | Install the Python package and its two console scripts via `uv sync` (or pip), with expected resolve/sync output and what the toolchain does (and doesn't) ship. |
 | [2. Pre-flight: `agentropix-sift doctor`](#2-pre-flight-agentropix-sift-doctor) | Run the pre-flight that confirms every required forensic binary is on `PATH`, read the `OK`/`MISSING` output, and point `doctor` at non-default binaries via override env vars. |
 | [3. First end-to-end triage](#3-first-end-to-end-triage) | Run a full sealed triage over the synthetic fixture, understand the three output files, inspect the findings and cryptographic anchors, and verify the seal. |
-| [Where to go next](#where-to-go-next) | Follow-on reading: the capability matrix, the positioning/pipeline overview, and the shared `.crew` reference files. |
+| [Where to go next](#where-to-go-next) | Follow-on reading: the capability matrix, the positioning/pipeline overview, and the shared reference files (canonical facts, tool list, env vars, agents list). |
 
 ---
 
@@ -178,7 +178,7 @@ export AGENTROPIX_EVTX_TOOL=/usr/local/bin/evtx_dump.py
 
 The override-aware tools are listed in `_DOCTOR_ENV_OVERRIDES`
 (`src/agentropix_sift/cli.py:160-172`); the full `AGENTROPIX_<TOOL>_TOOL` pattern is
-documented in [`.crew/env-vars.md`](../../.crew/env-vars.md) §5.
+documented in [`env-vars.md`](../07-sdlc-ops/env-vars.md) §5.
 
 ---
 
@@ -239,7 +239,7 @@ Inference constraint: high (LLM is orchestrator; facts from MCP tools)
 > the *pipeline* runs end-to-end, not the engine's real-data recall. On the real SANS
 > SRL-2018 corpus the disk per-IOC recall is **72/72 (100%)** on the regression suite
 > and **108/118 (91.5%)** memory+disk combined (see
-> [`.crew/facts.md`](../../.crew/facts.md) for both numbers and their methodology
+> [`canonical-facts.md`](../08-reference/canonical-facts.md) for both numbers and their methodology
 > caveats). To run the real-data recall gate, point `AGENTROPIX_E01_FIXTURE` at a SANS
 > E01 and run `tests/integration/test_e2e_dc_recall.py` (a full run is 30–45 min
 > wall-clock).
@@ -255,7 +255,7 @@ A single `run` writes **three files** next to your `--out` path:
 | `report.session-key` | `0600` | The per-run 32-byte HMAC session key used to verify the seal |
 
 The report validates against `report.schema.json` (draft 2020-12); the full field
-contract is in [`.crew/schema-dump.md`](../../.crew/schema-dump.md) §1.
+contract is in [`schema-dump.md`](../03-data/schema-dump.md) §1.
 
 ### Inspect the result
 
@@ -339,6 +339,6 @@ chain-of-custody property at the heart of the engine.
   catalogue.
 - **[What is Agentropix-SIFT?](what-is-agentropix.md)** — the DFIR problem, positioning,
   and pipeline diagram.
-- **Shared references** — [`.crew/tool-list.md`](../../.crew/tool-list.md) (all 71
-  tools), [`.crew/env-vars.md`](../../.crew/env-vars.md) (configuration),
-  [`.crew/agents-list.md`](../../.crew/agents-list.md) (the swarm).
+- **Shared references** — [`tool-list.md`](../04-mcp-tools/tool-list.md) (all 71
+  tools), [`env-vars.md`](../07-sdlc-ops/env-vars.md) (configuration),
+  [`agents-list.md`](../10-agents/agents-list.md) (the swarm).

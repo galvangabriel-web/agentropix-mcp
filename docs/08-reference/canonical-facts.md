@@ -66,3 +66,11 @@ registered in two modules). Source: `docs/tools/_TOOL-CATALOGUE.md`.
 - Stale `test_count` values the gate actively rejects: `1270`, `1129`, `1084`, `1073` (and the
   intermediate corrected values `3881`/`3899` are themselves now historical — current is `4464`).
 - Forward-drift assertions enforce that `README.md` still contains the literals `4464` and `72/72`.
+
+## Related references
+
+- [Tool list](../04-mcp-tools/tool-list.md) — the per-tool breakdown behind the **71** MCP-tool count.
+- [Agents list](../10-agents/agents-list.md) — the 7 core swarm specialists + ATT&CK detectors behind the agent counts above.
+- [Design Decisions](design-decisions.md) — reconciliations of older draft figures (e.g. `2807` tests) against these canonical values.
+- [ADR Index](adr-index.md) — the deferred-detector decision that keeps the recall figures un-inflated.
+- [Glossary](glossary.md) — defines the terms (recall, Trinity, swarm) the numbers describe.

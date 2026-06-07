@@ -3,7 +3,7 @@
 > The structural model of the Agentropix-SIFT data contract — the Pydantic models, `NamedTuple`s, and
 > the MCP tool envelope, drawn as Mermaid `classDiagram`s with prose on relationships and invariants.
 > Field-level detail lives in the [data-dictionary](data-dictionary.md); this chapter is about *shape
-> and law*. Code wins over docs; numbers cite [`CANONICAL_FACTS.md`](../../.crew/facts.md).
+> and law*. Code wins over docs; numbers cite [`CANONICAL_FACTS.md`](../08-reference/canonical-facts.md).
 
 The data contract is anchored by one root object — the **`TriageReport`** — that every run produces
 and that validates against [`report.schema.json`](data-dictionary.md#1-triagereport--the-top-level-report-contract)
@@ -313,7 +313,7 @@ final iteration's `score`/`feedback` also surface as the top-level `critic_score
 
 ## 5. The MCP tool envelope
 
-Every one of the [71 MCP tools](../../.crew/tool-list.md) ([`CANONICAL_FACTS.md`](../../.crew/facts.md))
+Every one of the [71 MCP tools](../04-mcp-tools/tool-list.md) ([`CANONICAL_FACTS.md`](../08-reference/canonical-facts.md))
 returns one of two shapes: a **typed success payload** or a **`ToolError`**. There is no third
 "raised exception" path that reaches the trace — tools catch and convert.
 
@@ -444,3 +444,5 @@ report, its findings, audit entries, and evidence are diagrammed in [schema-er.m
 - Field-by-field detail: [data-dictionary.md](data-dictionary.md)
 - Persisted-entity relationships: [schema-er.md](schema-er.md)
 - On-disk artifacts and lifecycle: [persisted-artifacts.md](persisted-artifacts.md)
+- MCP tool catalogue: [`tool-list.md`](../04-mcp-tools/tool-list.md)
+- Canonical numbers: [`canonical-facts.md`](../08-reference/canonical-facts.md)

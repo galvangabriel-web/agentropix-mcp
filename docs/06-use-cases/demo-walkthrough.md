@@ -9,7 +9,7 @@
 > orchestrator (`src/agentropix_sift/orchestrator.py`), the ATT&CK detectors
 > (`src/agentropix_sift/detectors/`), the Thymus read-only gate
 > (`src/agentropix_sift/mcp_server/thymus_policy.py`), and the courtroom seal. See
-> [`.crew/facts.md`](../../.crew/facts.md) for every numeric claim.
+> [`canonical-facts.md`](../08-reference/canonical-facts.md) for every numeric claim.
 
 This page is the narrated counterpart to the reference use cases. Where
 [uc-disk-triage.md](uc-disk-triage.md) and [uc-memory-triage.md](uc-memory-triage.md) describe the
@@ -26,7 +26,7 @@ re-anchored to the source it can be checked against.
 > - **💬 End-user track** — type the `💬` plain-language prompt into a Claude session that has the
 >   Agentropix MCP connected. A single focused question is enough — the session recognises it as an
 >   Agentropix capability and routes it to the **real MCP tool** named in the callout (every tool is
->   listed in [`.crew/tool-list.md`](../../.crew/tool-list.md)).
+>   listed in [`tool-list.md`](../04-mcp-tools/tool-list.md)).
 >
 > Command/result pairs are enumerated **Execution X → Output X** so it is unambiguous what the judge
 > **runs** versus what they **get back**. Every output token shown is a verbatim string in the source
@@ -67,19 +67,19 @@ Everything narrated below uses the canonical figures — never invent a competin
 
 | Claim shown on screen | Canonical value | Source |
 |---|---|---|
-| MCP tools | **71** distinct tool functions | [`.crew/facts.md`](../../.crew/facts.md); `docs/tools/_TOOL-CATALOGUE.md` |
-| SIFT binaries the wrappers drive | **16** | [`.crew/facts.md`](../../.crew/facts.md); `cli.py` `doctor` dict |
+| MCP tools | **71** distinct tool functions | [`canonical-facts.md`](../08-reference/canonical-facts.md); `docs/tools/_TOOL-CATALOGUE.md` |
+| SIFT binaries the wrappers drive | **16** | [`canonical-facts.md`](../08-reference/canonical-facts.md); `cli.py` `doctor` dict |
 | Core swarm specialists | **7** (memory, timeline, filesystem, artifact, discovery, mail, hunt) | `agents/__init__.py` |
 | ATT&CK detector agents (interleaved in `SWARM`) | **6** | `detectors/`; `agents/__init__.py` |
-| Test count | **4464** | [`.crew/facts.md`](../../.crew/facts.md) |
+| Test count | **4464** | [`canonical-facts.md`](../08-reference/canonical-facts.md) |
 | Critic halt threshold (default) | **0.85** | `trinity/critic.py:42` |
-| Disk recall (regression) | **72/72 (100%)** | [`.crew/facts.md`](../../.crew/facts.md) |
-| Memory recall (combined) | **108/118 (91.5%)** | [`.crew/facts.md`](../../.crew/facts.md) |
+| Disk recall (regression) | **72/72 (100%)** | [`canonical-facts.md`](../08-reference/canonical-facts.md) |
+| Memory recall (combined) | **108/118 (91.5%)** | [`canonical-facts.md`](../08-reference/canonical-facts.md) |
 
 > **Reconciliation.** Earlier demo drafts said "46 MCP tools" and "an 11-agent swarm." The
 > source-of-truth count is **71 tools** and **7 core specialists + 6 ATT&CK detectors** — use those.
 > The "11" figure was a per-run plan size, not the agent roster; the "46" figure predates the tool
-> growth documented in [`.crew/facts.md`](../../.crew/facts.md) §"MCP tool-count lineage."
+> growth documented in [`canonical-facts.md`](../08-reference/canonical-facts.md) §"MCP tool-count lineage."
 
 ---
 
@@ -136,7 +136,7 @@ their outputs. The demo's answer is a single command — no profile to select, n
 > `record_finding` MCP tool (the same tool the `run` orchestrator calls under the hood), narrating
 > progress as it goes. **One plain instruction is enough — the session recognises this as an
 > Agentropix triage and drives the full sequence.** (`record_finding`; see
-> [`.crew/tool-list.md`](../../.crew/tool-list.md) §"Findings, IOCs & reporting".)
+> [`tool-list.md`](../04-mcp-tools/tool-list.md) §"Findings, IOCs & reporting".)
 
 Behind that one line the CLI hashes the evidence (so the report binds to the bytes), validates every
 path against the operator-defined read-only zones (the Thymus gate, Beat 5), and launches the Trinity
@@ -192,7 +192,7 @@ A verifier can fail a run that delivered findings but is missing a required prom
 > completion proofs."*
 > The session reads the same `completion_proofs[]` array (populated by the swarm and queryable through
 > the report the `report_generate` MCP tool renders) and lists the tokens in plain language.
-> (`report_generate`; [`.crew/tool-list.md`](../../.crew/tool-list.md) §"Findings, IOCs & reporting".)
+> (`report_generate`; [`tool-list.md`](../04-mcp-tools/tool-list.md) §"Findings, IOCs & reporting".)
 
 On a real memory run, the six tokens emitted are:
 
@@ -281,7 +281,7 @@ calls inside the loop:
 > The session calls the `get_pslist` MCP tool, which auto-falls-back to `psscan` on a corrupted
 > `ActiveProcessLinks` and returns the rows with `used_fallback=True`. **The end-user does not have to
 > know the plugin names — the focused question routes to the tool, which handles the fallback.**
-> (`get_pslist`; [`.crew/tool-list.md`](../../.crew/tool-list.md) §"Memory forensics — Volatility".)
+> (`get_pslist`; [`tool-list.md`](../04-mcp-tools/tool-list.md) §"Memory forensics — Volatility".)
 
 **Execution 3 → Output 3.**
 
@@ -314,7 +314,7 @@ recorded in the report's trace with the SHA-256 of its arguments (`args_hash`), 
 > then export the report so I can hand it to the IR lead."*
 > The session reads the finding's `_source` and matching trace entry, then renders/exports the report
 > through the `report_export` MCP tool — the same sealed document the CLI writes.
-> (`report_export`; [`.crew/tool-list.md`](../../.crew/tool-list.md) §"Findings, IOCs & reporting".)
+> (`report_export`; [`tool-list.md`](../04-mcp-tools/tool-list.md) §"Findings, IOCs & reporting".)
 
 **Execution 4 → Output 4.**
 
@@ -360,7 +360,7 @@ Python script a judge runs on any machine:
 > HMAC-approval surface (`approve_finding`, an **[APPR]** MCP tool); the *verification* step is the
 > dependency-free `scripts/verify_seal.py` script — a judge runs it on any machine, no MCP needed,
 > which is the point of an offline chain-of-custody proof. (`approve_finding`;
-> [`.crew/tool-list.md`](../../.crew/tool-list.md) §"Approval workflow — HMAC sidecar".)
+> [`tool-list.md`](../04-mcp-tools/tool-list.md) §"Approval workflow — HMAC sidecar".)
 
 **Execution 5 → Output 5 (untouched report).**
 
@@ -410,7 +410,7 @@ real PST. On the SRL-2015 nromanoff corpus (544 messages total):
 > The session calls the `carve_pst_iocs` MCP tool, which runs the `pffexport` recovery path on top of
 > `pypff` and returns the recovered-message count plus hash-pivotable attachment IOC rows. A confirmed
 > attachment hash can then be fanned across hosts with the `pivot_on_ioc` MCP tool.
-> (`carve_pst_iocs`, `pivot_on_ioc`; [`.crew/tool-list.md`](../../.crew/tool-list.md) §"Mail / maldoc
+> (`carve_pst_iocs`, `pivot_on_ioc`; [`tool-list.md`](../04-mcp-tools/tool-list.md) §"Mail / maldoc
 > / documents" and §"Findings, IOCs & reporting".)
 
 **Execution 7 → Output 7.**
@@ -450,7 +450,8 @@ This lands T1566 (Phishing): the recovered attachments are the IOC surface the `
 - [uc-memory-triage.md](uc-memory-triage.md) — the Volatility memory path and the `pslist→psscan`
   fallback shown in Beat 3.
 - [uc-approval-gate.md](uc-approval-gate.md) — the DRAFT → APPROVED → sealed spine behind Beats 4–5.
-- [`.crew/facts.md`](../../.crew/facts.md) — every numeric claim on this page (71 tools, 16 SIFT
+- [`canonical-facts.md`](../08-reference/canonical-facts.md) — every numeric claim on this page (71 tools, 16 SIFT
   binaries, 4464 tests, 72/72 disk recall, 108/118 memory recall, halt threshold 0.85).
-- [`.crew/agents-list.md`](../../.crew/agents-list.md) — the 7 core specialists + 6 ATT&CK detectors
+- [`agents-list.md`](../10-agents/agents-list.md) — the 7 core specialists + 6 ATT&CK detectors
   whose promise tokens land in Beat 2.
+- [agentic-architecture.md](../10-agents/agentic-architecture.md) — the runtime swarm + Trinity Loop behind the 4-layer build in Beat 2.

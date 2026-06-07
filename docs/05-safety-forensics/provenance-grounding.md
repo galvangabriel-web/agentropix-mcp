@@ -261,4 +261,4 @@ runs the same discipline over the Wazuh audit JSONL).
 - [Audit & Courtroom Seal](audit-courtroom.md) — the HMAC-SHA256 sealing flow
   that makes the top grounding level (`ok`) possible.
 - Numeric/structural facts are pinned in
-  [`.crew/facts.md`](../../.crew/facts.md).
+  [`canonical-facts.md`](../08-reference/canonical-facts.md).

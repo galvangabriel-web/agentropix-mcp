@@ -29,8 +29,10 @@
 The server endpoint has the shape `http://<TAILNET-IP>:8765/mcp` — reachable
 **only** from machines on the operator's tailnet, never the public internet. It
 exposes the full Agentropix-SIFT forensic surface: **71 MCP tools**
-(`{{ref:CANONICAL_FACTS#mcp_tool_count}}`, `.crew/facts.md`) wrapping **16 SANS
-SIFT forensic binaries** (`.crew/facts.md`; `src/agentropix_sift/cli.py` `doctor`
+(`{{ref:CANONICAL_FACTS#mcp_tool_count}}`,
+[`canonical-facts.md`](../08-reference/canonical-facts.md)) wrapping **16 SANS
+SIFT forensic binaries** ([`canonical-facts.md`](../08-reference/canonical-facts.md);
+`src/agentropix_sift/cli.py` `doctor`
 tool dict). Authentication is a single static **bearer token** sent as
 `Authorization: Bearer <TOKEN>`.
 
@@ -69,7 +71,7 @@ you only need to follow one track:
 > routes it to the right MCP tool automatically.
 
 Both tracks confirm the **same live server** using a **real MCP tool** — the
-`health` tool (`.crew/tool-list.md` → *Case & session*) or the MCP `tools/list`
+`health` tool ([`tool-list.md`](../04-mcp-tools/tool-list.md) → *Case & session*) or the MCP `tools/list`
 discovery method. Command/result pairs are enumerated
 **Execution X → Output X** so it is unambiguous what you **run** versus what you
 **get back**. Sample outputs come from a real connection probe against the
@@ -210,7 +212,7 @@ agentropix-sift  http://<TAILNET-IP>:8765/mcp  ✓ Connected
 
 Then start a session and ask `what MCP tools do you have available?` — you should
 see the Agentropix tool families (`get_pslist`, `get_timeline`, `get_registry`,
-`scan_yara`, `wazuh_*`, …; tool names per `.crew/tool-list.md`).
+`scan_yara`, `wazuh_*`, …; tool names per [`tool-list.md`](../04-mcp-tools/tool-list.md)).
 
 **Project-scoped alternative.** To make the server available to anyone who clones
 your repo and trusts the same token, drop a `.mcp.json` at the repo root:
@@ -310,7 +312,7 @@ conversation → click the tools icon → the Agentropix tools should appear.
 ## 4. Step 3 — Smoke-test with the `health` tool
 
 This is the canonical connection confirmation for **both** clients and **both**
-audiences — the `health` tool is a real MCP tool (`.crew/tool-list.md` → *Case &
+audiences — the `health` tool is a real MCP tool ([`tool-list.md`](../04-mcp-tools/tool-list.md) → *Case &
 session*) and the single most reliable "am I connected?" signal.
 
 > **🖥️ Expert (command):** call the `health` tool directly over the MCP — e.g.
@@ -350,7 +352,7 @@ server docstring states downstream documentation should cite this endpoint rathe
 than hardcode a catalogue size that drifts as wrappers are added
 (`src/agentropix_sift/mcp_server/fastmcp_app.py`, `health()`). On the canonical
 build that value is **71** (`{{ref:CANONICAL_FACTS#mcp_tool_count}}`,
-`.crew/facts.md`); trust the live field over any number printed in a doc.
+[`canonical-facts.md`](../08-reference/canonical-facts.md)); trust the live field over any number printed in a doc.
 
 > **Live delta (observed 2026-06-06).** Some current builds report
 > `tool_count: 72` — a reproducible +1 over the canonical **71** (the same delta
@@ -488,6 +490,10 @@ boot guard is the backstop for a fat-fingered rotation.
 - [Quickstart](../01-overview/quickstart.md) — the self-host install path.
 - [Security Model](../07-sdlc-ops/security-model.md) — auth + audit deep dive.
 - [MCP Server](../02-architecture/mcp-server.md) — transport and tool catalogue.
+- [tool-list.md](../04-mcp-tools/tool-list.md) — the full catalogue of MCP tools the
+  connected server exposes (incl. the `health` smoke-test tool).
+- [canonical-facts.md](../08-reference/canonical-facts.md) — the authoritative tool count
+  (71) cited for the connection probe.
 - Oracle runbooks (operator-only): `docs/runbooks/expose-fastmcp-tailnet.md`
   (server stand-up), `docs/CLIENT-SETUP.md` (long-form client guide),
   `docs/adr/ADR-017-tailnet-mcp-exposure.md` (threat model).

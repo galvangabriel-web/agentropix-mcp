@@ -3,7 +3,7 @@
 > **Reference of record.** Exhaustive, field-by-field dictionary for every data model in the
 > Agentropix-SIFT data contract. Each entry lists *name · type · required? · default · semantics /
 > constraint · source file*. Where a wire alias differs from the Python attribute name, both are
-> shown. Code wins over docs; numeric claims cite [`CANONICAL_FACTS.md`](../../.crew/facts.md).
+> shown. Code wins over docs; numeric claims cite [`CANONICAL_FACTS.md`](../08-reference/canonical-facts.md).
 
 Companion chapters: [data-models.md](data-models.md) (class diagrams + invariants),
 [schema-er.md](schema-er.md) (entity relationships), [persisted-artifacts.md](persisted-artifacts.md)
@@ -117,7 +117,7 @@ stamping `timestamp`.
 
 Pydantic `BaseModel` at `src/agentropix_sift/agents/_blackboard.py:65`. Produced by
 `Blackboard.correlations()` for every token appearing in ≥ `quorum_threshold` distinct agents'
-evidence (default quorum 2 — [`CANONICAL_FACTS.md`](../../.crew/facts.md), `_blackboard.py:86`).
+evidence (default quorum 2 — [`CANONICAL_FACTS.md`](../08-reference/canonical-facts.md), `_blackboard.py:86`).
 
 | Field | Type | Required | Semantics / constraint | Source |
 |-------|------|----------|------------------------|--------|
@@ -438,7 +438,7 @@ Structured result of one `pdf_extract_text` call.
 
 ## 12. MCP tool envelope — `ToolError`
 
-Every one of the [71 MCP tools](../../.crew/tool-list.md) ([`CANONICAL_FACTS.md`](../../.crew/facts.md))
+Every one of the [71 MCP tools](../04-mcp-tools/tool-list.md) ([`CANONICAL_FACTS.md`](../08-reference/canonical-facts.md))
 returns either its own typed success payload (a Pydantic model dump or dict — e.g. `PdfDocument`,
 `ExtractArchiveManifest`) **or** a structured error. The error envelope is uniform:
 
@@ -470,4 +470,7 @@ Consumed by the standalone verifiers in `audit/verify_seal.py` and `provenance/v
 - Class diagrams and invariants: [data-models.md](data-models.md)
 - Entity relationships (ER): [schema-er.md](schema-er.md)
 - On-disk artifacts and lifecycle: [persisted-artifacts.md](persisted-artifacts.md)
-- Canonical numbers: [`.crew/facts.md`](../../.crew/facts.md)
+- Raw schema enumeration (shared reference): [schema-dump.md](schema-dump.md)
+- Canonical numbers: [`canonical-facts.md`](../08-reference/canonical-facts.md)
+- MCP tool catalogue: [`tool-list.md`](../04-mcp-tools/tool-list.md)
+- Agent roster: [`agents-list.md`](../10-agents/agents-list.md)

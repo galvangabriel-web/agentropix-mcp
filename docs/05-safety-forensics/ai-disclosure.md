@@ -107,7 +107,8 @@ orchestration layer (Trinity planner/reviewer + the
 **7 core Swarm specialists** — memory, timeline, filesystem, artifact,
 discovery, mail, hunt — plus the deterministic ATT&CK detector agents), not in
 custom-trained weights (`src/agentropix_sift/agents/__init__.py`; see
-[`.crew/facts.md`](../../.crew/facts.md) for the 7-core-vs-13-classes framing).
+[`canonical-facts.md`](../08-reference/canonical-facts.md) for the 7-core-vs-13-classes framing;
+the runtime swarm is enumerated in [`agents-list.md`](../10-agents/agents-list.md)).
 
 ---
 
@@ -137,7 +138,7 @@ that either do not exist or are gated by non-LLM Python checks.
    `mcp_write_*` for the LLM to call. The MCP surface is **71 distinct tool
    functions** (74 `@app.tool()` decorators → 71 distinct: 67 in `fastmcp_app.py`
    + 5 wazuh wrappers, `wazuh_hunt_ioc` registered twice — see
-   [`.crew/facts.md`](../../.crew/facts.md)). *Capability absence, not policy.*
+   [`canonical-facts.md`](../08-reference/canonical-facts.md)). *Capability absence, not policy.*
 2. **`args_hash` freeze.** `mcp_server/_trace.py`'s `@traced` decorator records
    the SHA-256 of args+kwargs *before* invoking the subprocess
    (`_trace.py:280-297`). Any post-hoc "I really meant different arguments" is
@@ -290,7 +291,7 @@ output is byte-identical (modulo the W-077 race below).
 
 > **Reconciliation note.** Earlier draft material referenced "46 tools",
 > "11 agents", and the package name "agentropix_mcp". Per
-> [`.crew/facts.md`](../../.crew/facts.md) and the live code, the correct
+> [`canonical-facts.md`](../08-reference/canonical-facts.md) and the live code, the correct
 > figures are **71 distinct MCP tools**, the **7 core Swarm specialists + ATT&CK
 > detector agents** (13 classes in the `SWARM` tuple,
 > `agents/__init__.py`), and the package **`agentropix_sift`**. The numbers in
