@@ -135,6 +135,8 @@ This section reconstructs the kill chain executed on the system STARKSURFACE (Wi
 
 **Classified archive staged under the masquerade account (T1560.001 — Archive Collected Data: Archive via Utility / T1074.001).** Timeline analysis confirms `C:\Users\defaultprinter\Desktop\temp.zip` (2,603,690 bytes) was staged and subsequently deleted 2016-06-18 22:22:09 UTC (Recycle Bin `$I` record). The deleted archive was recovered by carving (`$RZQSNFO.zip` == `temp.zip`) and contained Ion Thruster weaponization material, zebrafish DNA splice notes, and cell-regeneration content (finding VANKO-P2-001). This staging event promoted the masquerade-account finding (VANKO-P1-001) to confirmed status. Separately, the consolidated exfil payload `vacation photos.7z` (SHA-256 `b210bcd89fbde5d3b0816e1834483f7b82adf8565fd880d49930c25450ca7e31`) was archived as a disguised holiday-photo container; its associated `vacation photos.7z.lnk` (SHA-256 `ca8433a7ba4ccde99a9170cb169c61f87b704b853a39c55843941ae049b201fc`) and Dropbox attribute stream (`:com.dropbox.attributes`, SHA-256 `586d6e4410af8fd7bc5dba881c86a453e494e5b52ec5e13a582292063355d316`) are recovered.
 
+**Removable-media volume serials (artifact level).** The case synthesis records three distinct removable-media volume serial numbers associated with the staging activity — `5650959F` (volume label `StarkResrch`), `C83A6C7B` (volume label `Stark-IR`), and `8C059ED1` (drive `W:`). These are presented at the artifact/synthesis level (kill-chain reconstruction) and are **not** promoted to a confirmed finding: the direct `MountedDevices`/`USBSTOR` registry locator tying a specific serial to the staging toolchain was not isolated within the parsed evidence set during this examination. They are recorded for completeness and downstream correlation, consistent with the local-data-staging vector class (T1074.001), and are not asserted as an evidenced removable-media exfiltration path.
+
 **macOS cross-platform indicators.** No `.DS_Store` or Time Machine cross-platform artifact is recorded among the confirmed findings or the synthesis IOC set; accordingly, no such indicator is asserted as established fact for this section. Any macOS-origin staging remains outside the recovered, confirmed evidence.
 
 **Execution evidence via LNK / JumpList (T1074.001).** Artifacts recovered demonstrate shortcut-based execution and access provenance for the staging toolchain: LNK artifacts (LECmd) for FTK Imager Lite, SDelete, and Tor are recorded alongside the `vacation photos.7z.lnk` and `Recent\V-Photos.lnk` shortcuts (findings VANKO-P2-005, VANKO-P2-004). These shortcut artifacts corroborate interactive launch and recent-document staging of the exfil payload.
@@ -287,6 +289,16 @@ The indicators below are presented in structured, SIEM/EDR-ingestible form. Each
 | H-16 | SAM account | `defaultprinter` | Masquerade local account created 2016-06-18 20:40:54 UTC; used as staging mule | Security.evtx 4720/4724 + SAM (VANKO-P1-001, P2-001) |
 | H-17 | NTUSER TypedPaths | `\\STARK-FILESERVE`, `\\192.168.1.5`, `\\192.168.1.3` | File-server access history (provenance of stolen IP) | NTUSER.DAT (VANKO-P3-005) |
 
+**Removable-media volume serials (artifact level — not promoted to a confirmed finding)**
+
+| # | Serial | Volume label | Significance | Source |
+|---|---|---|---|---|
+| H-18 | `5650959F` | `StarkResrch` | Removable-media volume associated with the staging activity | Case synthesis / kill-chain reconstruction; direct MountedDevices/USBSTOR registry locator not isolated in parsed evidence |
+| H-19 | `C83A6C7B` | `Stark-IR` | Removable-media volume associated with the staging activity | Case synthesis / kill-chain reconstruction |
+| H-20 | `8C059ED1` | `W:` | Removable-media volume associated with the staging activity | Case synthesis / kill-chain reconstruction |
+
+> These serials are reported at the artifact/synthesis level (analogous to the China-channel network indicators in §6.1) and are **not** asserted as a confirmed removable-media exfiltration finding; the direct registry locator was not isolated in the parsed evidence set. They are retained for downstream SIEM/EDR correlation and removable-media allow-listing (see §7.2).
+
 **Honest negatives (Host):**
 - **No malware family present.** Pagefile YARA hits (e.g., `with_sqlite`, `XMRIG_Miner`) were generic, non-PE-backed memory false positives; webshell index clean (VANKO-P4-001, refuted).
 - **No timestomping.** The `$SI created > modified` ordering on classified documents is a file-COPY signature (modified-time preserved from StarkResearch originals), not timestamp manipulation (VANKO-P1-003, refuted).
@@ -309,7 +321,7 @@ The following recommendations are derived directly from the exploited vectors es
 
 ### 7.2 Enforce Removable-Media Control via USB Serial Allow-Listing
 
-**Context — preventive control (not tied to a confirmed removable-media finding):** The confirmed staging in this matter occurred on the host file system and via cloud-sync clients; no removable-media (USB) staging finding is established in the recovered evidence (the MountedDevices/USBSTOR registry artifacts parsed during examination did not yield a volume tied to the confirmed staging toolchain). This recommendation is therefore offered as a preventive hardening control against the local-data-staging vector class (T1074.001) generally, not as remediation of an evidenced removable-media exfil path.
+**Context — preventive control (not tied to a confirmed removable-media finding):** The confirmed staging in this matter occurred on the host file system and via cloud-sync clients; no removable-media (USB) staging finding is established in the recovered evidence (the MountedDevices/USBSTOR registry artifacts parsed during examination did not yield a volume tied to the confirmed staging toolchain), although three volume serials (`5650959F`/`C83A6C7B`/`8C059ED1`) are recorded at the artifact/synthesis level (see §4.1 and §6.2). This recommendation is therefore offered as a preventive hardening control against the local-data-staging vector class (T1074.001) generally, not as remediation of an evidenced removable-media exfil path.
 
 **Recommendation:** Implement removable-media control enforcing a USB device allow-list keyed on device serial number, denying mass-storage devices by default and permitting only enrolled, encrypted, asset-tracked media. Enable USB-device audit logging (connection, volume serial, mounted-label, and file-write events) so that any future staging activity to removable media is independently recorded and alertable, closing a residual data-staging path not otherwise covered by the cloud-egress and account-monitoring controls above.
 
