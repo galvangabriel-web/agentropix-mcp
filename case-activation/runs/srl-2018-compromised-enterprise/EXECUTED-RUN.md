@@ -38,7 +38,7 @@ via `csrss.exe` timestomping + secure deletion.
 - **9 malware samples** recovered (SHA-256 in the report) — quarantined **outside** the repo.
 - **Wazuh** (operator-authorized egress): 12 findings indexed + IOC CDB lists published.
 - **Report:** [`docs/12-CASES-REPORTS/srl-2018-report/`](../../../docs/12-CASES-REPORTS/srl-2018-report/)
-  — `SRL-2018-FORENSIC-REPORT.md` / `.pdf`, `WAZUH-IOC-GALLERY.md`; decision ledger seq 137–138.
+  — `SRL-2018-FORENSIC-REPORT.md`, `TECHNICAL-APPENDIX.md`, `WAZUH-IOC-GALLERY.md`; decision ledger seq 137–138.
 
 ## Caveats / honest scope
 
