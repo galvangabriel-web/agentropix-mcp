@@ -136,3 +136,7 @@ from deterministic SIFT tools.
 *Full chain of custody: `docs/06-use-cases/assets/srl-2018-training-session/session-actions.log`
 (252 steps). Samples: `/home/admin2/srl-2018-malware-samples/`. Tier reports (analyst/executive/
 business × md/pdf/html): this directory.*
+
+---
+
+**See also:** [TECHNICAL-APPENDIX.md](TECHNICAL-APPENDIX.md) — per-host network sockets, the rd-01 injected-code regions, and the evtx lateral-movement matrix (machine-extracted from the recorded run).
