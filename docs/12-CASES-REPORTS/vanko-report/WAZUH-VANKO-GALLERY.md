@@ -6,7 +6,7 @@ Playwright captures of the **operator-authorized egress** of the VANKO investiga
 
 **Provenance:** 10/10 findings HMAC-approved (sidecar, `agentropix-approvals-2026.06.08`) · decision ledger **seq 139** (`human-approved`, chain intact) · pushed 2026-06-08.
 
-↳ [Forensic synthesis report](report.md)
+↳ [**Finalized DFIR Report**](VANKO-DFIR-REPORT.md) · [Forensic synthesis report](report.md)
 
 ---
 
