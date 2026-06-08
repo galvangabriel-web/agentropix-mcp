@@ -2,9 +2,9 @@
 
 Conventions for working on this documentation portal. **Read before editing or adding any page.**
 The portal is the reader-facing docs for Agentropix-SIFT; `INDEX.md` is the routed master
-index and `README.md` is the landing page. Sections live under `docs/01-overview` … `docs/11-ADR`
-(11 numbered categories; each section's reading order is layered on via a "Read in this order" list,
-non-destructively — filenames are not renamed).
+index and `README.md` is the landing page. Sections live under `docs/01-overview` … `docs/11-ADR`,
+plus `docs/12-CASES-REPORTS` (sealed DFIR case reports) — 12 numbered categories; each section's
+reading order is layered on via a "Read in this order" list, non-destructively — filenames are not renamed.
 
 ## Source of truth & accuracy
 - **Canonical numbers come from [`docs/08-reference/canonical-facts.md`](docs/08-reference/canonical-facts.md)** — `71` MCP tools, `16` forensic
@@ -78,6 +78,16 @@ GitLab renders Mermaid client-side (strict security level); respect its limits:
   This is the canonical viewable form. **`.html` shows as source** (GitLab never executes repo HTML).
   **`.pdf` opens in GitLab's PDF viewer.** So for a report: ship the `.md` for inline GitLab viewing and
   a light `.pdf` for sharing; an `.html` is download-only.
+- **Mermaid-worker caveat (observed 2026-06-08):** this instance's `external_url` is `localhost:8929`,
+  so the **client-side Mermaid worker (and telemetry) is fetched from `localhost`** and **fails for any
+  remote / LAN-IP browser** (`ERR_CONNECTION_REFUSED`) — Mermaid blocks then show as **raw code**, even
+  though they're valid and under the 5000-char limit. Two consequences: (1) verify renders from the host
+  GitLab serves, or fix `external_url`; (2) where remote rendering must be **guaranteed** — notably the
+  **case reports** (`docs/12-CASES-REPORTS/`) — embed diagrams as **PNG in Markdown** (`![](diagrams/dN.png)`,
+  rendered from the Mermaid via `mmdc`/playwright). PNG is same-origin, needs no JS, and always renders.
+- **Video:** `![](x.mp4)` renders a native `<video controls>` player, but GitLab **sanitizes
+  `<video loop/autoplay>`** — no auto-loop in the blob view (raw file / GitLab Pages only). Commit small
+  mp4s directly; move to Git LFS if they accumulate.
 - **Verify renders with Playwright** (the `playwright-mcp` container, `--network host`): log into GitLab
   as `root` (password parsed from `gitlab.txt`'s box-table) and open the blob; reuse `~/pwshots/gl_md.cjs`.
   Caveat: the programmatic "is-mermaid-rendered" DOM check is **unreliable** (false negatives) — trust a
@@ -104,6 +114,18 @@ GitLab renders Mermaid client-side (strict security level); respect its limits:
   auto-approves (Playwright portal or `approve_finding`) it **must be labelled "SIMULATED examiner
   approval (demo only)"** so the showcase never misrepresents the human-in-the-loop control. Loop recipe:
   mint an `index_findings` evidence-gate token → `record_finding dry_run=false` → approve → `report_generate`.
+
+## Case reports (`docs/12-CASES-REPORTS/`)
+- One folder per case (`12-CASES-REPORTS/<case>-report/`), with a house-style section `README.md`
+  (`# 12 · Cases Reports` + one-line description + a numbered **"Read in this order"** list referencing
+  the case files). The SRL-2018 set: `SRL-2018-FORENSIC-REPORT.md` (image-diagram report),
+  `TECHNICAL-APPENDIX.md` (machine-extracted netscan/malfind/evtx depth), `WAZUH-IOC-GALLERY.md`
+  (dashboard captures), `diagrams/`, `wazuh/`, and the recorded-session mp4.
+- **Diagrams as PNG, not Mermaid** (see the Mermaid-worker caveat above) — render the Mermaid to
+  `diagrams/dN.png` and embed with `![](diagrams/dN.png)` so they render for remote GitLab viewers.
+- Every report keeps an **honest-caveats** section (acquisition smear, eval-IP exclusions, what's unproven)
+  and is grounded in the case's **sealed findings** (`report.json`). Recovered **malware stays out of the
+  repo**. The matching run transcript lives at `case-activation/runs/<case>/EXECUTED-RUN.md`.
 
 ## Security / hygiene (this repo may be made public)
 - **No secrets, ever** — no tokens, passwords, or bearer keys in any tracked file.
@@ -151,6 +173,8 @@ docs/08-reference    cli-reference, glossary, adr-index, design-decisions, canon
 docs/09-integrations wazuh-portal, client-setup
 docs/10-agents       agentic-architecture, delegation-model, fastmcp-execution, agents-list
 docs/11-ADR          all Architecture Decision Records (imported from the oracle); README.md = the ADR index
+docs/12-CASES-REPORTS sealed DFIR case reports — one folder per case (README index + forensic report
+                     + technical appendix + Wazuh gallery; diagrams as PNG, malware kept out of repo)
 case-activation/     per-case Activation Guides (real case data) + runs/<slug>/ executed transcripts + MP4s
                      + runs/<slug>/reports/ (comprehensive + executive-onepager .md/.pdf)
 docs/issues/         QA logs (DIAGRAM-AUDIT.md, CASE-GUIDE-AUDIT.md); docs/issues/*.png are gitignored
