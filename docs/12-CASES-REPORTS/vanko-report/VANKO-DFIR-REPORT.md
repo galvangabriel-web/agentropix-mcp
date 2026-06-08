@@ -351,4 +351,41 @@ The following recommendations are derived directly from the exploited vectors es
 
 ---
 
+## 8.0 VALIDATION OF REPORTED INDICATORS & INVESTIGATIVE TASKING
+
+This section assesses the pre-investigation indicators reported by the Stark Enterprises Intelligence Division and the automated JARVIS network-monitoring system, together with the three assigned investigative questions, against the artifacts recovered from the examined media. Each reported indicator is assigned a corroboration status: **Confirmed** (directly evidenced on the media), **Corroborated** (supporting artifact present), **Artifact-level** (present but not promoted to a confirmed finding), **External** (true ground truth that lies outside the examined media and cannot be independently established from it), or **Exceeded** (the evidence establishes more than was reported).
+
+### 8.1 Assigned investigative questions — disposition
+
+| # | Question as tasked | Disposition |
+|---|---|---|
+| 1 | Was the subject involved in the dissemination of classified information? | **Substantiated.** Forensic analysis demonstrates collection, local staging under a masquerade account, archival/disguise, dual cloud egress, and two-way contact with foreign recruiter channels (findings VANKO-P2-001/005, P3-002/003). |
+| 2 | Did the subject copy a large volume of classified data from the StarkResearch file server? | **Substantiated.** Registry analysis (NTUSER TypedPaths) establishes native-protocol access to `\\STARK-FILESERVE` / `192.168.1.5` / `192.168.1.3`, and MFT copy-signatures establish the bulk copy of the Level 5–8 corpus into OneDrive (finding VANKO-P3-005; §3 entry 1). |
+| 3 | What was done with the data? | **Established.** The material was archived and disguised as `vacation photos.7z`, exfiltrated to Dropbox account `984347879` and OneDrive (SRUM-corroborated), associated with foreign recruiter coordination, and the staged copies were then secure-deleted — recovered from Volume Shadow Copies (findings VANKO-P3-002, P4-003). |
+
+### 8.2 Reported-indicator corroboration matrix
+
+| Reported indicator | Forensic evidence on the media | Status |
+|---|---|---|
+| Subject workstation: Surface 3, Windows 10 Professional | `surface_physical.E01`; STARKSURFACE, Windows 10 Pro Build 10586, user `PC User` | **Confirmed** |
+| Classified document subject matter: cell-regrowth/regeneration calculations, ZF DNA splice notes | `ZF DNA splice test notes.docx`, `CryoDNA Storage Inventory.docx`, and related Level-7/8/12 material recovered intact from `OneDrive\Documents` | **Confirmed** |
+| Bulk transfer from `\StarkResearch\Level 5/6/7/8 Classified\` (JARVIS, 2016-06-30) | File-server access (TypedPaths, VANKO-P3-005); all four `Level 5/6/7/8 Classified` directory names present in the recovered tree; copy-signatures into OneDrive | **Confirmed** |
+| Documents surfaced on a Chinese university file share (2016-06-22/23) | China-associated buyer contacts (`nina_kwai@qq.com`, domain `im.cas.cn` — CAS Institute of Microbiology) present in mailbox carve | **Artifact-level** (the external posting itself is not on the examined media) |
+| JARVIS suspended the account and notified the subject (stated ~82.3% likelihood) | A message from `JARVIS@StarkEnterprise.com` is present in the recovered mailbox; the quantitative likelihood value was not isolated in the carve | **Corroborated** (email present; figure not evidenced) |
+| iPhone 5c, synced to the workstation | Recovered firmware `$R39S047.ipsw` identified as **iPhone5,3** (the iPhone 5c hardware identifier); an Apple iCloud notification referencing "an iPhone 5c"; iTunes sync artifacts (VANKO-P2-002) | **Confirmed** (device); exfil-via-device **down-ranked** (payload unproven) |
+| Communication via email, Skype, WhatsApp | OST mailbox; Skype, Telegram, and WhatsApp client/chat artifacts | **Confirmed** |
+| Wireless use of `StarkLabs` / `StarkSat` networks | Both network names present in the registry network artifacts; Network Stumbler wireless-recon tool on the desktop (VANKO-P2-004) | **Corroborated** |
+| Motive: reduced bonus/funding; 2016-06-25 CEO budget-reduction email | A `Budget Cuts` message from the CEO account (`Tony Stark <ironman@startenterprise.com>`) is present in the mailbox and was **forwarded by the subject** (`FW: Budget Cuts` from his personal Gmail) | **Confirmed** |
+| Associate: Kylie Normandy (West-Coast scientist, only known friend) | 17 messages with `kylie.normandy@gmail.com` ("Budget Cuts", "Re: refresher training"); a stored device FriendlyName "Kylie Normandy" | **Confirmed** (contact); the reported social meeting is witness testimony, not on the media |
+
+### 8.3 Findings established beyond the reported tasking (Exceeded)
+
+The examination established material facts not contained in the original report: the **masquerade local account `defaultprinter`** used as a staging mule (VANKO-P1-001/P2-001); the **disguise of the payload as `vacation photos.7z`** (SHA-256 `b210bcd8…`); **dual cloud egress** (Dropbox `984347879` + OneDrive, VANKO-P3-002); a **second foreign recruiter channel not named in the report** — `vladimir.bulgakov@titan-biotech.com` ("Career Opportunity" correspondence) in addition to `mmerr001@gmail.com` ("Potential Opportunity?", VANKO-P3-003); **realized exposure of a Level-12 document** (`Project Nehemiah`, VANKO-P4-004) above the reported Level 5–8 scope; and a deliberate **anti-forensic destruction sequence defeated by Volume Shadow Copies** (VANKO-P4-003).
+
+### 8.4 Reported indicators not substantiable from the examined media
+
+In the interest of evidentiary completeness, the following reported elements lie outside the recovered media and are **not** asserted as forensic conclusions: the **actual upload/posting to the external Chinese university share** (a server-side event); the specific **82.3% likelihood** figure; the **iPhone as a realized exfiltration vector** (down-ranked — device confirmed, transiting payload unproven); the **content of the recruiter-reply attachments** (coordination is confirmed, classified-exfiltration-by-email is not asserted); and the **reported social meeting** described in interview testimony.
+
+---
+
 **Scope note (honest negatives):** No memory-resident command-and-control, code injection, or active beacon was found (VANKO-P3-001, refuted); no malware family was present (YARA pagefile hits were generic false positives — VANKO-P4-001, refuted); the iPhone tether/iTunes sync was present but no classified payload was tied to it, so it is not treated as a proven exfiltration vector (VANKO-P2-002, refuted/down-ranked); no persistence survived via Windows.old (VANKO-P1-005, refuted); timestomping was refuted as a file-copy signature (VANKO-P1-003); and the system-time-change events were benign NTP synchronization (VANKO-P1-002, refuted). The recommendations above therefore deliberately target insider data-egress, account-misuse, and anti-forensic vectors rather than anti-malware or perimeter-intrusion controls.
