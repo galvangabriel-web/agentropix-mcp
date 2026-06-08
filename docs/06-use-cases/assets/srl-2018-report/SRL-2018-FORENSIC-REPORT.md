@@ -32,59 +32,13 @@ all evidenced.**
 
 ## 2. Attack lifecycle (MITRE ATT&CK)
 
-```mermaid
-flowchart TD
-    IA["🌐 Initial Access (T1133)<br/>nfury RDP from EXTERNAL 192.168.30.10/.11<br/>→ BASE-WKSTN-05 · Aug 17"]
-    EX["⚙️ Execution / C2<br/>Metasploit p.exe + PowerShell Empire"]
-    PE["🔒 Persistence (T1543.003)<br/>perfmonsvc64.exe 'Perf Monitor' service<br/>+ PsExec (T1569.002)"]
-    CR["🔑 Credential Access<br/>T1110 brute-force tdungan (692 fails→ok)<br/>T1003.002 SAM from DC VSS"]
-    LM["↔️ Lateral Movement<br/>WinRM 5985 / RDP / SMB · RD-01 ⇄ FILE hub<br/>(spsql, rsydow-a admin)"]
-    DE["🥷 Defense Evasion<br/>csrss.exe timestomp (T1070.006)<br/>UPX pack · AMSI bypass · secure-delete"]
-    CO["📦 Collection (T1560/T1005)<br/>Rar.exe + 7za.exe<br/>nfury 'Carbonadium' project"]
-    EXF["⬆️ Exfiltration<br/>DMZ-FTP (C$ staging)"]
-    OBJ((("🎯 OBJECTIVE<br/>IP theft:<br/>Carbonadium")))
-    IA --> EX --> PE --> CR --> LM --> CO --> EXF --> OBJ
-    EX -.-> DE
-    LM -.-> CR
-    classDef a fill:#ffc9c9,stroke:#e03131,color:#5c1a1a
-    classDef b fill:#ffd8a8,stroke:#e8590c,color:#5c2e0a
-    classDef o fill:#b2f2bb,stroke:#2f9e44,color:#15391f
-    class IA,CR a
-    class EX,PE,LM,DE,CO,EXF b
-    class OBJ o
-```
+![Attack lifecycle (MITRE ATT&CK)](diagrams/d1.png)
 
 ---
 
 ## 3. Lateral-movement & C2 architecture
 
-```mermaid
-flowchart LR
-    EXT(("EXTERNAL<br/>192.168.30.10/.11<br/>+ DESKTOP-NBTIQJ9")) -->|RDP nfury| WK05["BASE-WKSTN-05<br/>(foothold)"]
-    subgraph IMPLANT["p.exe / Empire implanted hosts"]
-        RD01["BASE-RD-01<br/>172.16.6.11<br/>(implant + pivot hub)"]
-        FILE["BASE-FILE<br/>172.16.4.5<br/>(implant + collection)"]
-        WK01["BASE-WKSTN-01"]
-        WK05
-    end
-    RD01 <-->|net/SMB| FILE
-    RD01 -->|RDP spsql| RD02["BASE-RD-02"]
-    RD01 -->|RDP nfury| WK05
-    FILE -->|SMB C$| DMZ["DMZ-FTP<br/>(exfil)"]
-    RD05["RD-05 / RD-06"] -->|net| RD01
-    DC["BASE-DC<br/>172.16.4.4"] -.SAM via VSS stolen.-> FILE
-    RD01 & FILE & WK01 & WK05 -. beacon .-> HUB(("Internal C2 hub<br/>172.16.4.10:8080"))
-    FILE -. "rubyw STOMP" .-> MQ(("10.10.254.1:61613"))
-    RD01 -. "DNS tunnel" .-> DNS(("Empire C2<br/>squirreldirectory.com"))
-    classDef e fill:#ffc9c9,stroke:#e03131
-    classDef i fill:#ffd8a8,stroke:#e8590c
-    classDef c fill:#ffec99,stroke:#f08c00
-    classDef t fill:#a5d8ff,stroke:#1971c2
-    class EXT e
-    class RD01,FILE,WK01,WK05 i
-    class HUB,MQ,DNS c
-    class DC,RD02,DMZ,RD05 t
-```
+![Lateral-movement & C2 architecture](diagrams/d2.png)
 
 > **Defenders excluded:** `BASE-HUNT / HUNT-02 / HUNT-03` (172.16.5.25/.27/.28) and `BASE-ADMIN`
 > (172.16.5.26) are the **IR / threat-hunting** hosts (analyst `cbarton` = the acquisition examiner
@@ -94,17 +48,7 @@ flowchart LR
 
 ## 4. Timeline (UTC)
 
-```mermaid
-timeline
-    title SRL-2018 campaign 2018-08-16 → 09-05
-    2018-08-16 : Early recon (172.16.5.26→dmz-ftp, DC→wkstn-05)
-    2018-08-17 : EXTERNAL RDP 192.168.30.10/.11 → wkstn-05 (nfury) — initial access
-    2018-08-23..31 : Internal staging into wkstn-05 ; PowerShell Empire stagers (squirreldirectory.com)
-    2018-08-31 : perfmonsvc64.exe service persistence installed (wkstn-05) ; SAM stolen from DC VSS (@GMT-2018.08.31)
-    2018-09-04 : PsExec → dmz-ftp (PSEXESVC)
-    2018-09-05 : Spread (RD-01→rd-02, →rd-01) ; FILE → dmz-ftp C$ (exfil staging)
-    2018-09-06/07 : Memory + disk acquisition (dc3dd / FTK Imager, F-Response)
-```
+![Timeline (UTC)](diagrams/d3.png)
 
 ---
 
@@ -133,30 +77,7 @@ All samples recovered, hashed, and quarantined (defanged) at `/home/admin2/srl-2
 ## 6. Indicators of Compromise (IOCs)
 
 ### Network / behavioural
-```mermaid
-mindmap
-  root((SRL-2018 IOCs))
-    C2
-      Metasploit
-        "\\.\pipe\MSSE-<N>-server"
-        rubyw.exe → 10.10.254.1:61613 (STOMP)
-        internal hub 172.16.4.10:8080
-      Empire
-        squirreldirectory.com (/a, /download/n.ps1)
-        http://127.0.0.1:<port>/ agents
-        Install-Persistence
-    Hosts
-      EXTERNAL 192.168.30.10/.11
-      DESKTOP-NBTIQJ9 (attacker box)
-    Files
-      C:\Windows\Temp\perfmon\ (p.exe, csrss.exe, b.log, PerfSvc.exe, n.ps1)
-      C:\ProgramData\staging\install_wormhole\ (msadvapi2)
-    Accounts
-      nfury (patient-zero)
-      tdungan (brute-forced)
-      spsql (lateral)
-      rsydow-a (admin abuse)
-```
+![Indicators of Compromise (mindmap)](diagrams/d4.png)
 
 ### Accounts
 | Account | Role in intrusion |
@@ -170,20 +91,7 @@ mindmap
 
 ## 7. Approved findings (examiner-signed)
 
-```mermaid
-graph LR
-    subgraph DRAFT
-      D[10 findings staged<br/>HMAC-SHA256 sealed]
-    end
-    subgraph APPROVED
-      A[10 findings signed<br/>hash-chained]
-    end
-    D -->|examiner victor.galvan<br/>DRAFT→APPROVED| A --> R[APPROVED-only report]
-    classDef d fill:#ffec99,stroke:#f08c00
-    classDef a fill:#b2f2bb,stroke:#2f9e44
-    class D d
-    class A,R a
-```
+![Findings: DRAFT → APPROVED → report](diagrams/d5.png)
 
 | ID | Sev | ATT&CK | Finding |
 |---|---|---|---|
