@@ -116,16 +116,32 @@ GitLab renders Mermaid client-side (strict security level); respect its limits:
   mint an `index_findings` evidence-gate token → `record_finding dry_run=false` → approve → `report_generate`.
 
 ## Case reports (`docs/12-CASES-REPORTS/`)
-- One folder per case (`12-CASES-REPORTS/<case>-report/`), with a house-style section `README.md`
-  (`# 12 · Cases Reports` + one-line description + a numbered **"Read in this order"** list referencing
-  the case files). The SRL-2018 set: `SRL-2018-FORENSIC-REPORT.md` (image-diagram report),
-  `TECHNICAL-APPENDIX.md` (machine-extracted netscan/malfind/evtx depth), `WAZUH-IOC-GALLERY.md`
-  (dashboard captures), `diagrams/`, `wazuh/`, and the recorded-session mp4.
-- **Diagrams as PNG, not Mermaid** (see the Mermaid-worker caveat above) — render the Mermaid to
-  `diagrams/dN.png` and embed with `![](diagrams/dN.png)` so they render for remote GitLab viewers.
-- Every report keeps an **honest-caveats** section (acquisition smear, eval-IP exclusions, what's unproven)
-  and is grounded in the case's **sealed findings** (`report.json`). Recovered **malware stays out of the
-  repo**. The matching run transcript lives at `case-activation/runs/<case>/EXECUTED-RUN.md`.
+- **Per-case folders** (`12-CASES-REPORTS/<case>-report/`) under one house-style index `README.md`
+  (`# 12 · Cases Reports` → `## Cases` → one `###` heading per case, each with a blurb + its own numbered
+  **"Read in this order"** list + the recorded-session video). Two cases live here:
+  - **SRL-2018** (`srl-2018-report/`, APT IP-theft): `SRL-2018-FORENSIC-REPORT.md` (image-diagram report),
+    `TECHNICAL-APPENDIX.md` (netscan/malfind/evtx depth), `WAZUH-IOC-GALLERY.md`, `diagrams/`, `wazuh/`, mp4.
+  - **VANKO** (`vanko-report/`, "Abducted Zebrafish" insider IP-theft, **not a malware intrusion**):
+    `VANKO-FORENSIC-REPORT.md` (presentation report, 5 diagrams — mirrors the SRL template),
+    `VANKO-DFIR-REPORT.md` (full 7-section **legally-defensible** report — zero first-person, evidentiary
+    tone, honest negatives), `WAZUH-VANKO-GALLERY.md` (8 dashboard captures), `report.md` (synthesis),
+    `diagrams/`, `wazuh/`, `training-session-paged.mp4`. 10 confirmed findings (of 19; 9 refuted by the FP gate).
+- **Diagrams as PNG, not Mermaid** (Mermaid-worker caveat above). Render with **`mmdc`** (mermaid-cli, at
+  `/usr/bin/mmdc`): `PUPPETEER_EXECUTABLE_PATH=~/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome
+  mmdc -i dN.mmd -o diagrams/dN.png -p <cfg {"args":["--no-sandbox"]}> -b white -t dark -s 2`.
+  flowchart/timeline/mindmap all render; **mindmap is special-char-picky** (avoid `\`/`@`/`()` in leaf text).
+- **Recorded-session video:** `make_cast_paged.py` pages `session-actions.log` (per-step `rec.sh` log) →
+  asciinema cast → `agg --cols 150 --rows 42 --font-size 14 --fps-cap 8 --theme github-dark` → gif →
+  `ffmpeg -r 8 -pix_fmt yuv420p` → mp4. The workspace `.gitignore` ignores `*.mp4`/`*.cast`/
+  `session-actions.log`/`step_*.json` → **`git add -f` only the published mp4** (raw artifacts stay local).
+- **DFIR-report synthesis** can be driven by an **Opus 4.8 multi-agent workflow** (parallel section
+  drafters → IC synthesizer → legal-defensibility critic → reviser), grounded **strictly** in the case's
+  `confirmed-findings.json`/`FINDINGS.jsonl` — no fabrication; refuted hypotheses kept as honest negatives.
+- Every report keeps an **honest-caveats** section and is grounded in the case's **sealed findings**.
+  Recovered malware/artifacts stay **out of the repo** (`/home/admin2/<case>-case-artifacts/`, gitignored).
+  Wazuh egress is operator-authorized (decision ledger seq); shared `agentropix_*` CDB lists are
+  **replace-per-list** → push an **additive union** (existing live keys + new) to avoid wiping other cases' IOCs.
+  The matching run transcript lives at `case-activation/runs/<case>/EXECUTED-RUN.md`.
 
 ## Security / hygiene (this repo may be made public)
 - **No secrets, ever** — no tokens, passwords, or bearer keys in any tracked file.
