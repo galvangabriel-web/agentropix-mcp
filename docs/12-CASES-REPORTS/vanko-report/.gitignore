@@ -1,0 +1,12 @@
+# raw analysis artifacts — local only (curated report/appendix committed separately)
+session-actions.log
+*.transcript.txt
+_step.sh
+setenv.sh
+rec.sh
+step_*.json
+*.err
+*.cast
+*.mp4
+.*_done
+!.gitignore
