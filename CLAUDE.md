@@ -69,9 +69,12 @@ GitLab renders Mermaid client-side (strict security level); respect its limits:
 - **Wide diagrams** (GitLab fits to the ~800px column → squished/unreadable): commit a full-size SVG
   under the section's `assets/` and add an **"🔍 Open as SVG — full size, zoomable"** link after the
   block. To find wide ones reliably, **render each diagram and measure its intrinsic width** (the
-  `viewBox`/`max-width` of the SVG); **>900px = wide**. `mermaid-cli` (`mmdc`) is **broken on this host**
-  (snap-Chromium AppArmor) — render via the **playwright-mcp container** with `~/pwshots/gen_svg.cjs`
-  (bundles `mermaid.min.js`, outputs the SVG + width) instead.
+  `viewBox`/`max-width` of the SVG); **>900px = wide**. `mermaid-cli` (`mmdc`) **works** once pointed at the
+  cached ms-playwright Chromium instead of the AppArmor-blocked snap-Chromium:
+  `PUPPETEER_EXECUTABLE_PATH=~/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome mmdc -i d.mmd
+  -o d.png -p <cfg {"args":["--no-sandbox"]}> -b white -t dark -s 2` (verified 2026-06-08 — flowchart/
+  timeline/mindmap all render; see the case-reports recipe below). The **playwright-mcp container** +
+  `~/pwshots/gen_svg.cjs` (bundles `mermaid.min.js`, outputs SVG + width) remains the alternative for SVG.
 
 ## GitLab rendering & verification (what actually shows on the server)
 - **`.md` renders inline** on GitLab — Markdown + tables + Mermaid (Mermaid renders **lazily on scroll**).
