@@ -14,10 +14,8 @@ Sealed DFIR case reports — for each investigated case: the full forensic analy
 
 External RDP foothold → dual C2 (Metasploit/Meterpreter + PowerShell Empire) → service persistence → credential theft (SAM-from-VSS, 692-NTLM brute-force) → RD-01⇄FILE lateral hub → collection of user `nfury`'s **Carbonadium** IP → DMZ-FTP exfil, with `csrss.exe` timestomping + secure deletion anti-forensics. 12 examiner-approved findings.
 
-**Recorded analysis session** (254 agentropix MCP actions, paged for readability — loops):
+**Recorded analysis session** (254 agentropix MCP actions, paged for readability):
 
-<video src="srl-2018-report/training-session-paged.mp4" controls loop muted autoplay playsinline width="100%">
-  Your browser does not support embedded video — <a href="srl-2018-report/training-session-paged.mp4">download the recording</a>.
-</video>
+![Recorded analysis session — paged playback](srl-2018-report/training-session-paged.mp4)
 
-> If the player above does not loop in your viewer, open [srl-2018-report/training-session-paged.mp4](srl-2018-report/training-session-paged.mp4) directly.
+> GitLab's Markdown sanitizer strips the HTML `loop`/`autoplay` attributes, so the embedded player above plays with controls but will not auto-loop in the GitLab blob view. For a continuous loop, open [the raw file](srl-2018-report/training-session-paged.mp4) in a player (browsers/VLC honour loop), or serve the case folder via GitLab Pages where a looping `<video>` works.
