@@ -2,7 +2,9 @@
 
 Conventions for working on this documentation portal. **Read before editing or adding any page.**
 The portal is the reader-facing docs for Agentropix-SIFT; `INDEX.md` is the routed master
-index and `README.md` is the landing page. Sections live under `docs/01-overview` … `docs/09-integrations`.
+index and `README.md` is the landing page. Sections live under `docs/01-overview` … `docs/11-ADR`
+(11 numbered categories; each section's reading order is layered on via a "Read in this order" list,
+non-destructively — filenames are not renamed).
 
 ## Source of truth & accuracy
 - **Canonical numbers come from [`docs/08-reference/canonical-facts.md`](docs/08-reference/canonical-facts.md)** — `71` MCP tools, `16` forensic
@@ -54,14 +56,32 @@ its conventions to all **operational / how-to** content:
    force prompt-boxes where there are no commands.
 
 ## Diagrams (Mermaid) — GitLab rendering rules
-GitLab renders Mermaid client-side; respect its limits:
+GitLab renders Mermaid client-side (strict security level); respect its limits:
 - **No C4 diagrams** (`C4Context/Container/Deployment`) — GitLab can't render them; use `flowchart`/etc.
-- In `sequenceDiagram` message text, **no `;`** (statement separator) — use `,`. **No bare `#`**
-  (HTML-entity escape). In `classDiagram` members, **no `{}`**.
+- **No `timeline` diagrams** — GitLab (and Mermaid 11) reject/mis-render the kill-chain `timeline`
+  syntax. Use a vertical `flowchart TD` instead (one node per event).
+- **No HTML-tag-like tokens in labels** — GitLab strict parses `<tool>`, `<path>`, `<n>` etc. as HTML
+  tags and **silently drops/breaks the diagram** (renders as a raw code box). `<br/>` is the one safe
+  exception (line break). Write `PID` not bare `#`; replace `<placeholder>` tokens with quoted plain text.
+- In `sequenceDiagram` message text, **no `;`** (use `,`). In `classDiagram` members, **no `{}`**.
 - Every `classDef` needs an explicit `color:` (dark text) so it's legible in light AND dark mode.
-- Keep diagrams **narrow** (GitLab fits them to the ~800px column); split wide ones, prefer vertical
-  layout, and add an **"Open as SVG"** link (committed under the section's `assets/`) for any diagram
-  that renders wider than the column. Validate with `mermaid-cli` before pushing.
+  (The only `#` allowed are hex colors inside `classDef`/`style`.)
+- **Wide diagrams** (GitLab fits to the ~800px column → squished/unreadable): commit a full-size SVG
+  under the section's `assets/` and add an **"🔍 Open as SVG — full size, zoomable"** link after the
+  block. To find wide ones reliably, **render each diagram and measure its intrinsic width** (the
+  `viewBox`/`max-width` of the SVG); **>900px = wide**. `mermaid-cli` (`mmdc`) is **broken on this host**
+  (snap-Chromium AppArmor) — render via the **playwright-mcp container** with `~/pwshots/gen_svg.cjs`
+  (bundles `mermaid.min.js`, outputs the SVG + width) instead.
+
+## GitLab rendering & verification (what actually shows on the server)
+- **`.md` renders inline** on GitLab — Markdown + tables + Mermaid (Mermaid renders **lazily on scroll**).
+  This is the canonical viewable form. **`.html` shows as source** (GitLab never executes repo HTML).
+  **`.pdf` opens in GitLab's PDF viewer.** So for a report: ship the `.md` for inline GitLab viewing and
+  a light `.pdf` for sharing; an `.html` is download-only.
+- **Verify renders with Playwright** (the `playwright-mcp` container, `--network host`): log into GitLab
+  as `root` (password parsed from `gitlab.txt`'s box-table) and open the blob; reuse `~/pwshots/gl_md.cjs`.
+  Caveat: the programmatic "is-mermaid-rendered" DOM check is **unreliable** (false negatives) — trust a
+  **visual screenshot** or the **intrinsic-width** measurement, not an svg-element count.
 
 ## Images
 - Screenshots: **crop to the relevant content** so they're legible at column width; capture at 2×
@@ -90,7 +110,8 @@ GitLab renders Mermaid client-side; respect its limits:
 - **No raw internal IPs/hostnames** in pages — use placeholders (`<TAILNET-IP>`) or the documented
   tailnet hostname. Screenshots that show live data carry a privacy note.
 - Gitignored (local-only, never publish): `gitlab.txt`, `compare/`, `end-user/`, `2026-*/`,
-  `docs/issues/*.png`. Confirm `git status` won't stage these before committing.
+  `complete_reports/`, `.claude/`, `docs/issues/*.png`. Confirm `git status` won't stage these. (`.claude/`
+  holds the session's `scheduled_tasks.lock` and must never be committed — add it to `.gitignore` if absent.)
   - The **multi-tier reports** (ADR-024 engine output) are published under each case run as
     `case-activation/runs/<case>/reports/<tier>.{md,html,pdf}` — the *report artifacts* only. The
     *design/process* folder `2026-06-01-report-engine-design/` (ADR, plan, mockups, root-cause) stays
@@ -107,8 +128,13 @@ GitLab renders Mermaid client-side; respect its limits:
 ## Validate before every push
 1. **Links/images** — every relative link and image reference resolves (0 broken).
 2. **Canonical facts** — no number contradicts `docs/08-reference/canonical-facts.md`.
-3. **Mermaid** — every `mermaid` block renders (mermaid-cli) and is GitLab-safe.
+3. **Mermaid** — every `mermaid` block is GitLab-safe (flowchart, classDef colors, no `timeline`/`<token>`)
+   and wide ones carry an "Open as SVG" link; verify renders with Playwright (`gl_md.cjs`).
 4. Mirror changed files into `/home/admin2/agentropix-sift/docs/portal/` (the in-repo copy).
+5. **Stage surgically — never `git add -A`.** Another session may be writing to this repo concurrently;
+   `git add` only the explicit files you changed, and confirm the staged set excludes `.claude/`,
+   `docs/06-use-cases/assets/srl-2018*` (parallel-session work), and any gitignored dir. Push via a
+   minted-then-revoked GitLab PAT (scrub the token from any echo); confirm the remote has no embedded token.
 
 ## Layout
 ```
@@ -124,6 +150,8 @@ docs/07-sdlc-ops     implementation, testing, recovery-resilience, security-mode
 docs/08-reference    cli-reference, glossary, adr-index, design-decisions, canonical-facts (governing numeric authority)
 docs/09-integrations wazuh-portal, client-setup
 docs/10-agents       agentic-architecture, delegation-model, fastmcp-execution, agents-list
+docs/11-ADR          all Architecture Decision Records (imported from the oracle); README.md = the ADR index
 case-activation/     per-case Activation Guides (real case data) + runs/<slug>/ executed transcripts + MP4s
+                     + runs/<slug>/reports/ (comprehensive + executive-onepager .md/.pdf)
 docs/issues/         QA logs (DIAGRAM-AUDIT.md, CASE-GUIDE-AUDIT.md); docs/issues/*.png are gitignored
 ```
