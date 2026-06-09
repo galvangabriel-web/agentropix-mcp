@@ -234,30 +234,9 @@ rationale narratives in [Design Decisions](docs/08-reference/design-decisions.md
 ![Stage 5 seal](https://img.shields.io/badge/⑤_SEAL-courtroom-c0392b?style=for-the-badge)
 ![Stage 6 escalate](https://img.shields.io/badge/⑥_ESCALATE-SIEM-16a085?style=for-the-badge)
 
-```mermaid
-flowchart LR
-    classDef s1 fill:#f3e8ff,stroke:#8e44ad,color:#3d1a52,stroke-width:3px
-    classDef s2 fill:#e1f0ff,stroke:#2980b9,color:#0f3a5c,stroke-width:3px
-    classDef s3 fill:#fff3e0,stroke:#e67e22,color:#5c3300,stroke-width:3px
-    classDef s4 fill:#e6ffed,stroke:#27ae60,color:#14431f,stroke-width:3px
-    classDef s5 fill:#ffe9e6,stroke:#c0392b,color:#5c130a,stroke-width:3px
-    classDef s6 fill:#e0fff7,stroke:#16a085,color:#0a4a3d,stroke-width:3px
-    classDef gate fill:#fffbe6,stroke:#d4a017,color:#5c4a00,stroke-width:2px,stroke-dasharray:5 4
+![Six guarded stages of the Agentropix-SIFT investigation workflow — ① doctor (pre-flight) → ② run (triage) → ③ review (verify) → 🧑‍⚖️ human gate → ④ approve (HITL) → ⑤ seal (courtroom) → ⑥ escalate (SIEM), with a reject/re-run loop back to run](assets/readme-3.png)
 
-    D["①  doctor<br/><b>PRE-FLIGHT</b><br/>verify 16 SIFT tools on PATH"]:::s1
-    R["②  run<br/><b>TRIAGE</b><br/>Trinity Loop · 7-agent swarm<br/>halts on convergence fingerprint"]:::s2
-    V["③  review<br/><b>VERIFY</b><br/>examiner reads raw artifacts<br/>(raw_stdout_sha256 · paths)"]:::s3
-    A["④  approve<br/><b>HITL GATE</b><br/>DRAFT to APPROVED"]:::s4
-    S["⑤  seal<br/><b>COURTROOM</b><br/>HMAC-SHA256 + provenance chain"]:::s5
-    E["⑥  escalate<br/><b>SIEM</b><br/>push APPROVED to Wazuh"]:::s6
-    G{{"🧑‍⚖️ human gate<br/>you are the examiner of record<br/>no LLM in the halt path"}}:::gate
-
-    D --> R --> V --> G
-    G -- "approve" --> A --> S --> E
-    G -. "reject / re-run" .-> R
-```
-
-> 📐 Renders wider than the column on GitLab — [**Open as SVG** (full size, zoomable)](assets/readme-3.svg).
+> 🔍 Rendered as PNG so it shows inline on every browser — [**Open as SVG** (full size, zoomable)](assets/readme-3.svg).
 
 The vivid lane below is the *load-bearing* part: each stage shows **both** ways to reach the same result —
 the **🖥️ expert command** and the **💬 plain-language prompt** a non-technical examiner types into a Claude
