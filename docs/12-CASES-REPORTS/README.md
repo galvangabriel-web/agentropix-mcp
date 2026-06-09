@@ -32,8 +32,8 @@ A trusted insider (Anthony Vanko, STARKSURFACE / `PC User`) copied classified ze
 2. [vanko-report/VANKO-DFIR-REPORT.md](vanko-report/VANKO-DFIR-REPORT.md) — the full legally-defensible 7-section DFIR report: executive summary, scope/methodology, master incident timeline, technical attack narrative (MITRE-mapped), malware & artifact analysis, structured IOCs, and containment/remediation recommendations.
 3. [vanko-report/WAZUH-VANKO-GALLERY.md](vanko-report/WAZUH-VANKO-GALLERY.md) — 8 Wazuh-dashboard captures of the operator-authorized egress (10 approved findings in Discover, granular finding detail, MITRE/Threat-Hunting modules, and the manager CDB IOC read-back).
 
-**Recorded analysis session** (76 agentropix MCP actions, paged for readability — 2:24):
+**Forensic evidence presentation** (~9 min) — the 8 key facts, each shown with its cross-source correlated artifacts (proof red-boxed), the technical correlation, and what it means to the case; bookended by the architecture and timeline diagrams:
 
-![Recorded analysis session — paged playback](vanko-report/training-session-paged.mp4)
+![VANKO forensic evidence presentation](vanko-report/findings-presentation.mp4)
 
-> As with the SRL-2018 video, GitLab's Markdown sanitizer strips the HTML `loop`/`autoplay` attributes, so the embedded player above plays with controls but will not auto-loop in the GitLab blob view. For a continuous loop, open [the raw file](vanko-report/training-session-paged.mp4) in a player (browsers/VLC honour loop).
+> GitLab's Markdown sanitizer strips the HTML `loop`/`autoplay` attributes, so the embedded player plays with controls but will not auto-loop in the blob view. For a continuous loop, open [the raw file](vanko-report/findings-presentation.mp4) in a player (browsers/VLC honour loop). The raw paged action-log playback (76 MCP actions, 2:24) is also available: [training-session-paged.mp4](vanko-report/training-session-paged.mp4).
