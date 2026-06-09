@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STARKSURFACE Investigation — Findings for the Court</title>
+<style>
+  :root{--bg:#0b1220;--ink:#e8eef7;--mut:#9fb0c6;--gold:#e6b450;--red:#e8615a;--grn:#52c98a;--blu:#4ea3f0;--card:#13203a;--line:#27406b}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:#05080f;color:var(--ink);font:18px/1.5 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;overflow:hidden}
+  .deck{position:fixed;inset:0}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+    padding:5vh 7vw;background:radial-gradient(120% 120% at 80% 0%,#16243f 0,var(--bg) 55%);animation:fade .35s ease}
+  .slide.on{display:flex}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .kicker{color:var(--gold);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.78rem;margin-bottom:.6rem}
+  h1{font-size:clamp(2rem,5vw,3.6rem);line-height:1.05;letter-spacing:-.5px}
+  h2{font-size:clamp(1.5rem,3.6vw,2.6rem);line-height:1.1;margin-bottom:1.2rem}
+  .sub{color:var(--mut);font-size:clamp(1rem,1.6vw,1.35rem);margin-top:1rem;max-width:60ch}
+  .big{font-size:clamp(1.15rem,1.9vw,1.5rem)}
+  .grid{display:grid;gap:1.2rem;margin-top:1.5rem}
+  .g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.3rem}
+  .card .lab{color:var(--mut);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em}
+  .tag{display:inline-block;background:#1d2c4d;color:var(--blu);border:1px solid var(--line);border-radius:999px;padding:.15rem .7rem;font-size:.72rem;margin-top:.5rem}
+  .red{color:var(--red)}.grn{color:var(--grn)}.gold{color:var(--gold)}.blu{color:var(--blu)}.mut{color:var(--mut)}
+  .mono{font-family:ui-monospace,Menlo,Consolas,monospace}
+  .analogy{margin-top:1.4rem;border-left:4px solid var(--gold);padding:.5rem 0 .5rem 1rem;color:#f1e3c4;font-style:italic;font-size:clamp(1rem,1.7vw,1.3rem)}
+  .flow{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-top:1.4rem}
+  .node{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem;text-align:center;min-width:120px}
+  .node .ic{font-size:1.7rem}.node small{color:var(--mut);display:block;font-size:.72rem;margin-top:.2rem}
+  .arrow{color:var(--gold);font-size:1.6rem}
+  .bar{height:26px;border-radius:6px;background:linear-gradient(90deg,var(--red),#b83b36);display:flex;align-items:center;padding-left:.6rem;font-size:.82rem;color:#fff;font-weight:600}
+  .tl{position:relative;margin-top:1.6rem;border-left:3px solid var(--line);padding-left:1.5rem}
+  .tl .ev{position:relative;margin-bottom:1rem}
+  .tl .ev::before{content:"";position:absolute;left:-1.92rem;top:.35rem;width:13px;height:13px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px #1a2540}
+  .tl .t{color:var(--gold);font-weight:700;font-family:ui-monospace,monospace;margin-right:.6rem}
+  ul.clean{list-style:none;margin-top:1rem}ul.clean li{padding:.45rem 0;border-bottom:1px dashed var(--line);font-size:clamp(1rem,1.7vw,1.3rem)}
+  ul.clean li::before{content:"▸ ";color:var(--gold)}
+  .check li::before{content:"✓ ";color:var(--grn);font-weight:800}
+  .hud{position:fixed;bottom:14px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:14px;z-index:20}
+  .dots{display:flex;gap:7px}.dot{width:9px;height:9px;border-radius:50%;background:#26344f;cursor:pointer}.dot.on{background:var(--gold)}
+  .count{position:fixed;bottom:14px;right:18px;color:var(--mut);font-size:.8rem;font-family:monospace}
+  .prog{position:fixed;top:0;left:0;height:3px;background:var(--gold);transition:width .3s}
+  .notes{position:fixed;left:0;right:0;bottom:0;max-height:42vh;overflow:auto;background:#070b14;border-top:2px solid var(--gold);
+    padding:1rem 7vw;color:#cfe;display:none;z-index:30;font-size:1rem;line-height:1.55}
+  .notes.show{display:block}.notes b{color:var(--gold)}
+  .hint{position:fixed;top:12px;right:16px;color:#3c4d6b;font-size:.72rem;font-family:monospace}
+  .src{color:#5d6f8c;font-size:.78rem;margin-top:1.2rem;font-family:monospace}
+  .seal{display:inline-block;border:2px solid var(--grn);color:var(--grn);border-radius:999px;padding:.3rem 1rem;font-weight:700;font-size:.85rem;letter-spacing:.06em}
+</style>
+</head>
+<body>
+<div class="prog" id="prog"></div>
+<div class="hint">→ / Space · ←  ·  N notes  ·  F full</div>
+<div class="deck" id="deck">
+
+  <!-- 1 TITLE -->
+  <section class="slide" data-notes="<b>Good morning.</b> My name is [Examiner]. I was asked to examine one computer — a Microsoft Surface tablet issued to the defendant, Anthony Vanko — and answer three plain questions: did he take classified research, did he copy a large amount of it from the company server, and what did he do with it. Over the next few minutes I'll show you seven facts the computer itself recorded. I won't ask you to take my word — the machine kept the receipts.">
+    <div class="kicker">Digital Forensic Examination · Expert Witness Findings</div>
+    <h1>The <span class="gold">STARKSURFACE</span> Investigation</h1>
+    <p class="sub">What one computer recorded about the removal of classified research from Stark Enterprises.<br><span class="mut">Subject device: Microsoft Surface 3 · user account <span class="mono">anthony.vanko</span> · examined image acquired 2016‑11‑04.</span></p>
+    <p class="src">Evidence: EWF disk image, hash-verified · 10 examiner-sealed findings</p>
+  </section>
+
+  <!-- 2 THE QUESTION -->
+  <section class="slide" data-notes="The company's automated monitor flagged a large file transfer and suspended the account. Our job was not to assume guilt — it was to test three questions against the evidence on the device. Keep these three in mind; by the end, the computer answers all three.">
+    <div class="kicker">The three questions</div>
+    <h2>What the court asked us to determine</h2>
+    <div class="grid g3">
+      <div class="card"><div class="lab">Question 1</div><p class="big">Did he disseminate <span class="gold">classified information?</span></p></div>
+      <div class="card"><div class="lab">Question 2</div><p class="big">Did he <span class="gold">copy a large volume</span> from the research server?</p></div>
+      <div class="card"><div class="lab">Question 3</div><p class="big">What was <span class="gold">done with the data?</span></p></div>
+    </div>
+    <p class="analogy">The defendant had every right to be on this computer. The question is not <i>whether he was there</i> — it is <i>what he did while he was.</i></p>
+  </section>
+
+  <!-- 3 FACT 1 — THE DISGUISE -->
+  <section class="slide" data-notes="<b>Fact one — the disguise.</b> The defendant took classified documents and packed them into a single compressed file. He did not name it 'research' or 'classified.' He named it <b>vacation photos.7z</b>. We recovered that file and fingerprinted it — this long code is its unique digital fingerprint, its hash. A file's name is a label anyone can choose; its fingerprint cannot be faked. Inside were the company's secrets. Think of stolen blueprints sealed in an envelope marked 'holiday snaps.' The label is the first clue to intent.">
+    <div class="kicker">Fact 1 of 7 · Concealment</div>
+    <h2>Classified secrets, labeled <span class="gold">“vacation photos”</span></h2>
+    <div class="flow">
+      <div class="node"><div class="ic">📑</div>Classified docs<small>ZF DNA · CryoDNA · Level 7/8</small></div>
+      <div class="arrow">→</div>
+      <div class="node" style="border-color:var(--gold)"><div class="ic">🗜️</div><b>vacation&nbsp;photos.7z</b><small>archived & disguised</small></div>
+    </div>
+    <p class="big mono" style="margin-top:1.4rem;color:var(--mut)">SHA‑256 fingerprint: <span class="gold">b210bcd8…0ca7e31</span></p>
+    <p class="analogy">Stolen blueprints in an envelope marked “holiday photos.” The name was chosen to look harmless — that is a choice, and choices show intent.</p>
+    <p class="src">Finding VANKO‑P2‑005 · created 2016‑06‑30 01:28 · MITRE T1560.001 / T1036</p>
+  </section>
+
+  <!-- 4 FACT 2 — FAKE ACCOUNT -->
+  <section class="slide" data-notes="<b>Fact two — the fake identity.</b> Twelve days before the theft, on June 18th, the computer's security log recorded the creation of a brand-new local account named <b>defaultprinter</b>. That is not a Windows account that exists on its own — a person created it, and the log names that person: the defendant's account. 'defaultprinter' is designed to be ignored — it looks like a system component. We then found a 2.6-megabyte classified archive sitting on <i>that</i> account's desktop. He built a side door with a boring name and staged the stolen material behind it.">
+    <div class="kicker">Fact 2 of 7 · Premeditation</div>
+    <h2>A hidden account named to be ignored: <span class="gold">“defaultprinter”</span></h2>
+    <div class="grid g2">
+      <div class="card"><div class="lab">Security log — 2016‑06‑18 20:40:54</div><p class="big">Event <span class="mono">4720</span> + <span class="mono">4724</span>: account <b class="gold">defaultprinter</b> created by user <span class="mono">PC&nbsp;User</span> (anthony.vanko)</p><span class="tag">not a real Windows system account</span></div>
+      <div class="card"><div class="lab">What was staged on it</div><p class="big"><span class="mono">defaultprinter\Desktop\temp.zip</span><br><b>2,603,690 bytes</b> — a classified archive</p><span class="tag">Ion Thruster · ZF DNA · cell-regeneration</span></div>
+    </div>
+    <p class="analogy">Checking into a hotel under a fake, forgettable name — so the guest log never points back to you.</p>
+    <p class="src">Findings VANKO‑P1‑001 / P2‑001 · MITRE T1136.001 (Create Account) / T1074.001 (Staging)</p>
+  </section>
+
+  <!-- 5 FACT 3 — THE VAULT -->
+  <section class="slide" data-notes="<b>Fact three — where it came from.</b> The documents were not his to take home. The computer's own history shows it reaching into the StarkResearch file server — the company's classified vault — across Levels 5, 6, 7 and 8. And we found something the original alert did not: he also opened a Level-12 document, the highest tier, called Project Nehemiah. We know it was opened, not just listed, because Microsoft Word leaves a temporary lock file only while a document is actually open — and that lock file was recovered.">
+    <div class="kicker">Fact 3 of 7 · The source</div>
+    <h2>Pulled straight from the classified <span class="gold">vault</span></h2>
+    <div class="grid g2">
+      <div class="card"><div class="lab">Server access history (registry)</div>
+        <ul class="clean"><li>\\STARK‑FILESERVE</li><li>\\192.168.1.5 · \\192.168.1.3</li></ul>
+        <span class="tag">Levels 5 · 6 · 7 · 8 Classified</span></div>
+      <div class="card" style="border-color:var(--red)"><div class="lab red">Beyond the original alert</div>
+        <p class="big"><span class="red">Level 12 — “Project Nehemiah”</span> was <b>opened</b></p>
+        <p class="mut" style="font-size:.95rem">Proven by a recovered Microsoft Word “owner-lock” file that exists <i>only while a document is open.</i></p></div>
+    </div>
+    <p class="src">Findings VANKO‑P3‑005 (T1039) / P4‑004 (T1530) · all four level folders present in the recovered tree</p>
+  </section>
+
+  <!-- 6 FACT 4 — IT LEFT THE BUILDING -->
+  <section class="slide" data-notes="<b>Fact four — it left the building.</b> Windows keeps its own private accounting of how much data each program sends and receives — a feature called SRUM, used for battery and data tracking. The defendant didn't know it was watching. It recorded his personal Dropbox and his OneDrive sending data out. And a separate Dropbox record shows the exact file — vacation photos.7z — uploaded to a personal Dropbox account at 1:46 in the morning. This is not us guessing the data left. The computer counted the bytes on the way out.">
+    <div class="kicker">Fact 4 of 7 · Exfiltration · <span class="grn">what was done with the data</span></div>
+    <h2>The computer <span class="gold">counted the bytes</span> leaving</h2>
+    <div class="grid g2" style="align-items:center">
+      <div>
+        <div style="margin:.4rem 0"><div class="lab mut">Dropbox (client + updater) — sent</div><div class="bar" style="width:62%">≈ 3.4 MB ↑</div></div>
+        <div style="margin:.4rem 0"><div class="lab mut">OneDrive — sent</div><div class="bar" style="width:85%">≈ 8.7 MB ↑</div></div>
+        <p class="src">Source: Windows SRUM network log (SRUDB.dat)</p>
+      </div>
+      <div class="card" style="border-color:var(--gold)"><div class="lab gold">The smoking-gun upload</div>
+        <p class="big"><span class="mono">vacation photos.7z</span> → <b>Dropbox account 984347879</b></p>
+        <p class="gold mono">2016‑06‑30 01:46:06</p></div>
+    </div>
+    <p class="src">Finding VANKO‑P3‑002 · MITRE T1567.002 (Exfiltration to Cloud Storage)</p>
+  </section>
+
+  <!-- 7 FACT 5 — THE BUYERS -->
+  <section class="slide" data-notes="<b>Fact five — he wasn't doing this for fun.</b> In his recovered mailbox — over fifteen hundred messages — are direct conversations with two outside recruiters: one writing from a foreign biotech address under the subject 'Career Opportunity,' another with 'Potential Opportunity?'. The night of June 27th, the defendant replied to that recruiter — and his reply carried three file attachments. I want to be careful and precise here: we confirmed the conversation and that three files were attached. We did not open those attachments, so I will not tell you what was in them. The contact itself is the fact.">
+    <div class="kicker">Fact 5 of 7 · Intent · the buyers</div>
+    <h2>Two‑way contact with <span class="gold">outside recruiters</span></h2>
+    <div class="grid g2">
+      <div class="card"><div class="lab">Recovered mailbox</div><p class="big"><b>1,592</b> email messages recovered</p>
+        <ul class="clean"><li><span class="mono">vladimir.bulgakov@titan‑biotech.com</span> — “Career Opportunity”</li><li><span class="mono">mmerr001@gmail.com</span> — “Potential Opportunity?”</li></ul></div>
+      <div class="card" style="border-color:var(--gold)"><div class="lab gold">2016‑06‑27 21:22 — his reply</div><p class="big">“RE: Potential Opportunity?”<br>carried <b class="gold">3 attachments</b></p>
+        <span class="tag">contact confirmed · attachment contents not opened</span></div>
+    </div>
+    <p class="analogy">An honest employee does not answer a foreign recruiter at 9 p.m. with three files attached.</p>
+    <p class="src">Finding VANKO‑P3‑003 · MITRE T1567</p>
+  </section>
+
+  <!-- 8 FACT 6 — THE COVER-UP -->
+  <section class="slide" data-notes="<b>Fact six — and this is the one that matters most.</b> Innocent people don't destroy evidence. The defendant ran a military-grade erasing tool called SDelete — ten times — to permanently wipe the original files, and then he even deleted the record that proved the eraser had run. He thought it was gone. But Windows automatically takes hidden snapshots of itself — Shadow Copies — like a security camera that photographs the room every so often. Those snapshots had already captured the wiped file and the deleted record. He shredded the paper; the camera already had the picture.">
+    <div class="kicker">Fact 6 of 7 · Consciousness of guilt</div>
+    <h2>He tried to erase it — the computer <span class="gold">kept a backup</span></h2>
+    <div class="flow">
+      <div class="node"><div class="ic">🗂️</div>Original files<small>classified staging</small></div>
+      <div class="arrow">→</div>
+      <div class="node" style="border-color:var(--red)"><div class="ic red">🧨</div><b class="red">SDelete ×10</b><small>secure wipe + prefetch deleted</small></div>
+      <div class="arrow">→</div>
+      <div class="node" style="border-color:var(--grn)"><div class="ic grn">📸</div><b class="grn">Shadow Copy</b><small>preserved the deleted evidence</small></div>
+    </div>
+    <p class="analogy">Shredding the paper — after the security camera already photographed it. The wipe is itself evidence of intent.</p>
+    <p class="src">Findings VANKO‑P2‑003 / P4‑003 · MITRE T1070.004 · recovered from VSS snapshots 2016‑10‑14 / 11‑04</p>
+  </section>
+
+  <!-- 9 FACT 7 — MOTIVE + ONE NIGHT -->
+  <section class="slide" data-notes="<b>Fact seven — motive, and how fast it happened.</b> Five days earlier the CEO emailed staff that budgets were being cut 25 percent. We found that exact email in the defendant's mailbox — and he had forwarded it to himself. He'd been passed over for a bonus. Then look at the clock on the night of June 30th: in roughly twenty minutes he archived the secrets, wiped the originals, uploaded the package to Dropbox, and deleted the local copy. This was not an accident or a misclick. It was a planned, practiced sequence.">
+    <div class="kicker">Fact 7 of 7 · Motive & the 20‑minute sequence</div>
+    <h2>A motive — and one deliberate night</h2>
+    <div class="grid g2">
+      <div class="card"><div class="lab">Motive in his own mailbox</div>
+        <p class="big">CEO email <b>“Budget Cuts”</b> (‑25% funding) — <span class="gold">forwarded by the defendant</span></p>
+        <span class="tag">passed over for bonus · funding cut</span></div>
+      <div>
+        <div class="tl">
+          <div class="ev"><span class="t">01:28</span>archived → <span class="mono">vacation photos.7z</span></div>
+          <div class="ev"><span class="t">01:30</span><span class="red">SDelete wipes the originals (×10)</span></div>
+          <div class="ev"><span class="t">01:46</span>uploaded to Dropbox 984347879</div>
+          <div class="ev"><span class="t">01:48</span>deleted the local Dropbox folder</div>
+        </div>
+        <p class="src">2016‑06‑30 · ~20 minutes, start to finish</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 WHAT IT PROVES -->
+  <section class="slide" data-notes="So, the three questions. Did he disseminate classified information — the disguise, the buyers, the upload say yes. Did he copy a large volume from the server — the access history and the file fingerprints say yes. What was done with the data — archived, disguised, uploaded to his personal cloud, and the tracks wiped. The computer answered all three. And I want to be just as clear about what we did NOT find, because it tells you we only followed the evidence.">
+    <div class="kicker">The verdict of the evidence</div>
+    <h2>The computer answered all three questions</h2>
+    <ul class="clean check">
+      <li><b>Disseminated classified info?</b> — disguised archive + recruiter contact + cloud upload</li>
+      <li><b>Copied a large volume from the server?</b> — server access history + recovered file fingerprints</li>
+      <li><b>What was done with it?</b> — archived → uploaded to personal Dropbox/OneDrive → originals wiped</li>
+    </ul>
+    <p class="analogy">Every fact above came from the machine's own records — not from opinion. The defendant left the receipts.</p>
+  </section>
+
+  <!-- 11 INTEGRITY / CLOSE -->
+  <section class="slide" data-notes="A word on trust. This was not a hacking case — we checked, and found no virus, no outside intruder. This was a trusted insider misusing his own access. We are also honest about the edges: we did not recover the act of posting to the foreign server, because that happened on a machine we did not examine; and we did not open the recruiter's attachments. Every finding I showed you is fingerprint-sealed and reproducible — another examiner running the same steps gets the same result. Thank you.">
+    <div class="kicker">Integrity & honesty of the examination</div>
+    <h2>Why you can trust these findings</h2>
+    <div class="grid g2">
+      <div class="card" style="border-color:var(--grn)"><div class="lab grn">What makes it reliable</div>
+        <ul class="clean"><li>Image is hash‑verified — unaltered</li><li>10 findings examiner‑sealed & reproducible</li><li>Facts from the machine's own logs, not opinion</li></ul></div>
+      <div class="card"><div class="lab">What we do <span class="red">not</span> claim (honest limits)</div>
+        <ul class="clean"><li>No virus / no outside hacker — this is insider misuse</li><li>The posting to the foreign server was off‑device — not examined here</li><li>Recruiter attachment contents were not opened</li></ul></div>
+    </div>
+    <p style="margin-top:1.4rem"><span class="seal">✓ EXAMINER‑SEALED · HASH‑CHAINED · REPRODUCIBLE</span></p>
+  </section>
+
+</div>
+
+<div class="notes" id="notes"></div>
+<div class="hud"><div class="dots" id="dots"></div></div>
+<div class="count" id="count"></div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')], dots=document.getElementById('dots'),
+      notes=document.getElementById('notes'), count=document.getElementById('count'), prog=document.getElementById('prog');
+let i=0, showNotes=false;
+slides.forEach((s,n)=>{const d=document.createElement('div');d.className='dot';d.onclick=()=>go(n);dots.appendChild(d)});
+function render(){
+  slides.forEach((s,n)=>s.classList.toggle('on',n===i));
+  [...dots.children].forEach((d,n)=>d.classList.toggle('on',n===i));
+  count.textContent=(i+1)+' / '+slides.length;
+  prog.style.width=((i+1)/slides.length*100)+'%';
+  notes.innerHTML='<b>Slide '+(i+1)+' — speaker script:</b><br>'+(slides[i].dataset.notes||'');
+  notes.classList.toggle('show',showNotes);
+}
+function go(n){i=Math.max(0,Math.min(slides.length-1,n));render()}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){go(i+1);e.preventDefault()}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){go(i-1)}
+  else if(e.key.toLowerCase()==='n'){showNotes=!showNotes;render()}
+  else if(e.key.toLowerCase()==='f'){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen()}
+  else if(e.key==='Home'){go(0)} else if(e.key==='End'){go(slides.length-1)}
+});
+let sx=0;addEventListener('touchstart',e=>sx=e.touches[0].clientX);
+addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)go(i+(dx<0?1:-1))});
+render();
+</script>
+</body>
+</html>
