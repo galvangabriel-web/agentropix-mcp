@@ -218,27 +218,128 @@ rationale narratives in [Design Decisions](docs/08-reference/design-decisions.md
 
 ---
 
-## Recommended investigation workflow
+## 🌈 Recommended investigation workflow
 
-```text
-1. doctor      Pre-flight the SIFT toolchain on PATH.
-               $ uv run agentropix-sift doctor
+> ### 🚀 One prompt. Six guarded stages. A sealed, court-ready report.
+> You don't need to memorise a single flag. Connect the Agentropix MCP to Claude, then **say what you
+> want in plain English** — *"open a case for this disk image and run the full SIFT triage"* — and the
+> session routes your words to real forensic tools. The six stages below run the same whether an **expert
+> types the command** or a **non-technical examiner just asks**. *Adapt Agentropix to the user, not the
+> user to Agentropix.*
 
-2. run         Trinity Loop triages the image end-to-end.
-               $ uv run agentropix-sift run /cases/INC-0605/disk.E01 -o report.json
-               → Architect proposes agents → Swarm runs deterministic tools
-               → Critic scores findings → halt on convergence fingerprint.
+![Stage 1 doctor](https://img.shields.io/badge/①_DOCTOR-pre--flight-8e44ad?style=for-the-badge)
+![Stage 2 run](https://img.shields.io/badge/②_RUN-triage-2980b9?style=for-the-badge)
+![Stage 3 review](https://img.shields.io/badge/③_REVIEW-verify-f39c12?style=for-the-badge)
+![Stage 4 approve](https://img.shields.io/badge/④_APPROVE-HITL_gate-27ae60?style=for-the-badge)
+![Stage 5 seal](https://img.shields.io/badge/⑤_SEAL-courtroom-c0392b?style=for-the-badge)
+![Stage 6 escalate](https://img.shields.io/badge/⑥_ESCALATE-SIEM-16a085?style=for-the-badge)
 
-3. review      A human examiner reads the findings and verifies them
-               against the underlying artifacts (raw_stdout_sha256, paths).
+```mermaid
+flowchart LR
+    classDef s1 fill:#f3e8ff,stroke:#8e44ad,color:#3d1a52,stroke-width:3px
+    classDef s2 fill:#e1f0ff,stroke:#2980b9,color:#0f3a5c,stroke-width:3px
+    classDef s3 fill:#fff3e0,stroke:#e67e22,color:#5c3300,stroke-width:3px
+    classDef s4 fill:#e6ffed,stroke:#27ae60,color:#14431f,stroke-width:3px
+    classDef s5 fill:#ffe9e6,stroke:#c0392b,color:#5c130a,stroke-width:3px
+    classDef s6 fill:#e0fff7,stroke:#16a085,color:#0a4a3d,stroke-width:3px
+    classDef gate fill:#fffbe6,stroke:#d4a017,color:#5c4a00,stroke-width:2px,stroke-dasharray:5 4
 
-4. approve     (optional) Promote reviewed findings DRAFT → APPROVED
-               through the approval sidecar before anything is sealed.
+    D["①  doctor<br/><b>PRE-FLIGHT</b><br/>verify 16 SIFT tools on PATH"]:::s1
+    R["②  run<br/><b>TRIAGE</b><br/>Trinity Loop · 7-agent swarm<br/>halts on convergence fingerprint"]:::s2
+    V["③  review<br/><b>VERIFY</b><br/>examiner reads raw artifacts<br/>(raw_stdout_sha256 · paths)"]:::s3
+    A["④  approve<br/><b>HITL GATE</b><br/>DRAFT to APPROVED"]:::s4
+    S["⑤  seal<br/><b>COURTROOM</b><br/>HMAC-SHA256 + provenance chain"]:::s5
+    E["⑥  escalate<br/><b>SIEM</b><br/>push APPROVED to Wazuh"]:::s6
+    G{{"🧑‍⚖️ human gate<br/>you are the examiner of record<br/>no LLM in the halt path"}}:::gate
 
-5. seal        Courtroom emits the HMAC-SHA256 audit seal + provenance chain.
-
-6. escalate    (optional) Push APPROVED findings to Wazuh as alerts.
+    D --> R --> V --> G
+    G -- "approve" --> A --> S --> E
+    G -. "reject / re-run" .-> R
 ```
+
+> 📐 Renders wider than the column on GitLab — [**Open as SVG** (full size, zoomable)](assets/readme-3.svg).
+
+The vivid lane below is the *load-bearing* part: each stage shows **both** ways to reach the same result —
+the **🖥️ expert command** and the **💬 plain-language prompt** a non-technical examiner types into a Claude
+session that has the Agentropix MCP connected. Every prompt maps to a **real MCP tool** (verify against the
+[Tool Capability Map](docs/04-mcp-tools/capability-map.md)).
+
+---
+
+### 🟣 ① `doctor` — pre-flight the toolchain
+
+> **🖥️ Expert (command):**
+> ```bash
+> uv run agentropix-sift doctor
+> ```
+> **💬 End-user (prompt):** *"Check that my Agentropix forensic environment is ready — are all the SIFT
+> tools installed and on PATH?"* → routes to `doctor` / `health`.
+
+Confirms the **16 SIFT forensic binaries** resolve before you spend time on an image. Missing tools
+*degrade gracefully* (the agent is skipped, not the run) — but recall drops, so always start here.
+
+### 🔵 ② `run` — Trinity Loop triages the image end-to-end
+
+> **🖥️ Expert (command):**
+> ```bash
+> uv run agentropix-sift run /cases/INC-0605/disk.E01 -o report.json
+> ```
+> **💬 End-user (prompt):** *"Open a high-severity case for the image at `/cases/INC-0605/disk.E01`,
+> register it as evidence, and run the full SIFT triage end-to-end — acquisition → examination → analysis
+> → findings — staging everything as DRAFT."* → routes to `case_init` → `case_activate` →
+> `evidence_register` → the forensic tool chain → `record_finding`.
+
+The **Architect** proposes which agents to run → the **7-agent Swarm** drives deterministic tools →
+the **Critic** scores findings and **halts on a convergence fingerprint, never on an LLM self-rating**.
+
+### 🟠 ③ `review` — the examiner verifies every finding
+
+> **💬 End-user (prompt):** *"Show me the findings so far, and for each one tell me which exact tool
+> produced it and the artifact path / `raw_stdout_sha256` so I can verify it myself."* → routes to
+> `case_status` / `record_finding` inspection.
+
+A human reads the findings and checks them against the underlying artifacts. **The LLM proposes and
+narrates — you remain the examiner of record.**
+
+### 🟢 ④ `approve` *(optional HITL gate)* — DRAFT → APPROVED
+
+> **🖥️ Expert (command):** promote DRAFT → APPROVED in the [Approval Portal](docs/05-safety-forensics/approval-portal.md) (HMAC examiner sign-off).
+> **💬 End-user (prompt):** *"Show me the findings waiting for review so I can approve them."* → the
+> approval is a **human HMAC hard-stop** (`approve_finding`); the examiner signs off in the browser form.
+
+Findings stay in **DRAFT** until a human approves them. This is the one place a person — not a model —
+must act before anything is sealed or escalated.
+
+### 🔴 ⑤ `seal` — Courtroom emits the audit seal
+
+> **💬 End-user (prompt):** *"Generate the full report for this case and seal it — then confirm the seal
+> hasn't been tampered with."* → routes to `report_generate` → the **HMAC-SHA256** audit seal +
+> provenance-chain validation (`report_export` for the shareable artifact).
+
+A tamper-evident chain of custody a judge can independently verify.
+
+### 🟦 ⑥ `escalate` *(optional)* — push to the SIEM
+
+> **🖥️ Expert (command):** push **APPROVED** findings/IOCs to Wazuh behind default-deny kill switches.
+> **💬 End-user (prompt):** *"Dry-run the Wazuh push of the approved IOCs and tell me what would be sent
+> before anything goes out."* → routes to `wazuh_index_findings` / `wazuh_publish_iocs` (default-deny,
+> dry-run first).
+
+---
+
+> ### 💬 Drive the *entire* investigation with a single prompt
+> Paste this into a Claude Desktop / Claude CLI session that has the Agentropix MCP attached — the agent
+> runs the whole sequence itself, handling OS quirks (e.g. Windows XP has no Amcache / `.evtx`):
+>
+> > *"You are a DFIR analyst with the Agentropix MCP. Investigate case `<case_id>` on image `<path>`.
+> > Run the full SIFT sequence — acquisition → examination → analysis → findings — staging findings as
+> > **DRAFT**. For memory images, pull processes, network connections, injected code and services. Do
+> > **not** approve findings (a human owns that gate). Finish by generating the full report and
+> > summarising the attack chain."*
+>
+> **🖥️ Expert note:** the same prompt works in `claude --print` for a one-shot headless run. The full
+> validated end-to-end runbook — both clients (CLI · Desktop), both lanes (manual · autonomous) — is the
+> [**User Guide — Complete Operator Runbook**](docs/01-overview/user-guide.md).
 
 Each step is a worked use case: [Disk triage](docs/06-use-cases/uc-disk-triage.md) ·
 [Memory triage](docs/06-use-cases/uc-memory-triage.md) ·
