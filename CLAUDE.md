@@ -128,7 +128,7 @@ GitLab renders Mermaid client-side (strict security level); respect its limits:
     `VANKO-FORENSIC-REPORT.md` (presentation report, 5 diagrams — mirrors the SRL template),
     `VANKO-DFIR-REPORT.md` (full 7-section **legally-defensible** report — zero first-person, evidentiary
     tone, honest negatives), `WAZUH-VANKO-GALLERY.md` (8 dashboard captures), `report.md` (synthesis),
-    `diagrams/`, `wazuh/`, `training-session-paged.mp4`. 10 confirmed findings (of 19; 9 refuted by the FP gate).
+    `diagrams/`, `wazuh/`, and two videos — `training-session-paged.mp4` (raw action-log playback) + `findings-presentation.mp4` (the ~9-min technical evidence walkthrough, README-featured). 10 confirmed findings (of 19; 9 refuted by the FP gate). The DFIR report ends with a **§8.0 "Validation of Reported Indicators"** mapping the pre-investigation allegations/tasking to the evidence with a status (Confirmed / Corroborated / Artifact-level / External-to-media / Exceeded).
 - **Diagrams as PNG, not Mermaid** (Mermaid-worker caveat above). Render with **`mmdc`** (mermaid-cli, at
   `/usr/bin/mmdc`): `PUPPETEER_EXECUTABLE_PATH=~/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome
   mmdc -i dN.mmd -o diagrams/dN.png -p <cfg {"args":["--no-sandbox"]}> -b white -t dark -s 2`.
@@ -140,6 +140,17 @@ GitLab renders Mermaid client-side (strict security level); respect its limits:
 - **DFIR-report synthesis** can be driven by an **Opus 4.8 multi-agent workflow** (parallel section
   drafters → IC synthesizer → legal-defensibility critic → reviser), grounded **strictly** in the case's
   `confirmed-findings.json`/`FINDINGS.jsonl` — no fabrication; refuted hypotheses kept as honest negatives.
+- **Evidence/presentation video** (the case walkthrough): an **Opus 4.8 workflow** (`findings_presentation_workflow.js`
+  — outline agent → parallel scene-builders that read the 3 reports → editor) emits a storyboard of the N key
+  facts, each with 2–3 **cross-source correlated artifacts** + a "why it holds" correlation paragraph +
+  "what it means". A renderer turns it into Evidence frames (each proof in a **red box**) + Analysis frames
+  (correlation + meaning panels), bookended by the `dN` diagrams, paced ~7–9 min. TWO render paths: (a)
+  HTML→Playwright (best polish), or (b) **raw CLI** `make_presentation_video.sh` = `jq` + **ImageMagick**
+  (`pango:` markup text, drawn red `roundrectangle` proof-boxes, panels) + `ffmpeg` concat. **Gotchas:**
+  ImageMagick `pango:` **eats backslashes** — escape `\` → `\\` so `C:\Users\…` / `\\STARK-FILESERVE` render;
+  it also parses `&<>` as XML (escape them); pango font `size` is in 1024ths of a pt. ImageMagick must be
+  `apt-get install`ed (only `jq`/`ffmpeg`/`agg`/`mmdc` pre-exist). Ground the storyboard in the reports — keep
+  the same honest-negatives discipline (no `.DS_Store`/macOS-staging or other refuted claims as "proof").
 - Every report keeps an **honest-caveats** section and is grounded in the case's **sealed findings**.
   Recovered malware/artifacts stay **out of the repo** (`/home/admin2/<case>-case-artifacts/`, gitignored).
   Wazuh egress is operator-authorized (decision ledger seq); shared `agentropix_*` CDB lists are
