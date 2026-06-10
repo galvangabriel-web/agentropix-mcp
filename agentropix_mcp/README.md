@@ -42,11 +42,15 @@ at call time — they come from the SIFT Workstation itself, not from pip.
 
 ## Entry points
 
-The package ships two console entry points when installed as `agentropix_sift`:
+Installing this package (`pip install ./agentropix_mcp`) provides:
 
-- `agentropix-sift` — the triage CLI (Trinity Loop / DFIR swarm, in-process)
-- `agentropix-sift-mcp` — the MCP server. Boot is **fail-closed**: it refuses to start
-  without `AGENTROPIX_MCP_AUTH_TOKEN` unless `AGENTROPIX_MCP_DEV_MODE=1`.
+- **`agentropix-mcp`** — the MCP server console script (`agentropix_mcp.fastmcp_app:main`);
+  `--transport stdio` (default) or `--transport http --port 8765`. Boot is **fail-closed**:
+  it refuses to start without `AGENTROPIX_MCP_AUTH_TOKEN` unless `AGENTROPIX_MCP_DEV_MODE=1`.
+- **`python -m agentropix_mcp.approval_sidecar`** — the Examiner Approval Portal (`:8800`).
+
+(The full Agentropix-SIFT distribution additionally ships the `agentropix-sift` triage CLI —
+Trinity Loop / DFIR swarm — which is not part of this MCP-server package.)
 
 Client setup (Claude Code / Claude Desktop `mcp.json`, Bearer-token HTTP, the `mcp-remote`
 shim for Desktop) is documented in

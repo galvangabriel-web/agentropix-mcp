@@ -7,3 +7,8 @@ end-user/
 /2026-06-01-report-engine-design/
 /complete_reports/
 .claude/
+
+# python bytecode (agentropix_mcp editable installs)
+__pycache__/
+*.pyc
+*.egg-info/
