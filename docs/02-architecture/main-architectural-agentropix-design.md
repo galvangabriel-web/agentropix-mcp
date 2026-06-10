@@ -1,4 +1,4 @@
-# Agentropix-SIFT — System Architecture Diagram
+# Agentropix-SIFT — Main Architectural Design
 
 > **Audience:** architects, examiners, and reviewers who need a single verified picture of the runtime.
 > **Question this page answers:** *what are the moving parts of Agentropix-SIFT, how do LLM clients reach the deterministic tools, and which guardrails are enforced in code versus by convention?*
@@ -18,7 +18,7 @@ The diagram is committed as a PNG (rendered from Mermaid source via `mmdc`) so i
 
 ![Agentropix-SIFT architecture](assets/architecture-diagram/architecture-diagram.png)
 
-🔍 [Open as SVG — full size, zoomable](assets/architecture-diagram/architecture-diagram.svg) · 📄 [**High-definition PDF** (vector, print-ready)](assets/architecture-diagram/architecture-diagram-hd.pdf) · 📄 [Raster PDF](assets/architecture-diagram/architecture-diagram.pdf) · [Mermaid source](assets/architecture-diagram/architecture-diagram.mmd)
+🔍 [Open as SVG — full size, zoomable](assets/architecture-diagram/architecture-diagram.svg) · 📕 [**This document as high-quality PDF**](assets/architecture-diagram/main-architectural-agentropix-design.pdf) · 📄 [Diagram-only HD PDF (vector)](assets/architecture-diagram/architecture-diagram-hd.pdf) · 📄 [Raster PDF](assets/architecture-diagram/architecture-diagram.pdf) · [Mermaid source](assets/architecture-diagram/architecture-diagram.mmd)
 
 ---
 

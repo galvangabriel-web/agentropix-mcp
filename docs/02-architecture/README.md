@@ -4,7 +4,7 @@ How the engine is built — from the outside-in (context → components) down to
 
 ## Read in this order
 
-1. [architecture-diagram.md](architecture-diagram.md) — **the one-page validated architecture diagram** (PNG/PDF deliverable): agent layer → MCP server → SIFT tools → data sources → output pipeline, the architectural-pattern verdict (Custom MCP Server), and the prompt-based vs architectural guardrail split — every box source-cited.
+1. [main-architectural-agentropix-design.md](main-architectural-agentropix-design.md) — **the one-page validated architecture diagram** (PNG/PDF deliverable): agent layer → MCP server → SIFT tools → data sources → output pipeline, the architectural-pattern verdict (Custom MCP Server), and the prompt-based vs architectural guardrail split — every box source-cited.
 2. [system-context-c4.md](system-context-c4.md) — how the engine sits on the SIFT host: containers and boundaries (outside-in).
 3. [component-architecture.md](component-architecture.md) — the internal components and how the code layers are organized.
 4. [trinity-loop.md](trinity-loop.md) — how Architect, Swarm, and Critic interact and how the deterministic halt works (the core control loop).

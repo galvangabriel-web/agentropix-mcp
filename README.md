@@ -195,7 +195,7 @@ audit log with HMAC-SHA256 and validates the provenance chain.
 
 ### 📐 The validated architecture diagram — one page, source-verified
 
-The complete picture lives in **[Architecture Diagram](docs/02-architecture/architecture-diagram.md)** —
+The complete picture lives in **[Main Architectural Agentropix Design](docs/02-architecture/main-architectural-agentropix-design.md)** —
 one validated diagram covering the **agent layer → MCP server → SIFT Workstation tools → data sources →
 output pipeline**, the architectural-pattern verdict (**Custom MCP Server** — and why it is *not* a
 Direct Agent Extension, Multi-Agent Framework, or Agentic IDE), and the full
@@ -203,8 +203,9 @@ Direct Agent Extension, Multi-Agent Framework, or Agentic IDE), and the full
 Every component was contrasted against the oracle source code; every documentation-vs-source
 disagreement is called out on the page.
 
-> 📄 **[Download the high-definition PDF](docs/02-architecture/assets/architecture-diagram/architecture-diagram-hd.pdf)**
-> *(vector — infinitely zoomable, print-ready)* ·
+> 📕 **[Full document as high-quality PDF](docs/02-architecture/assets/architecture-diagram/main-architectural-agentropix-design.pdf)**
+> *(the complete design document — diagram, component narrative, pattern verdict, guardrail table)* ·
+> 📄 [Diagram-only HD PDF (vector)](docs/02-architecture/assets/architecture-diagram/architecture-diagram-hd.pdf) ·
 > 🖼️ [PNG](docs/02-architecture/assets/architecture-diagram/architecture-diagram.png) ·
 > 🔍 [SVG](docs/02-architecture/assets/architecture-diagram/architecture-diagram.svg)
 
@@ -543,7 +544,7 @@ the question it answers. The portal is organized into eleven numbered sections u
 | # | Section | What it contains |
 |---|---------|------------------|
 | 1 | [Overview](docs/01-overview/what-is-agentropix.md) | What Agentropix-SIFT is and why, the capability matrix, the 3-command Quickstart, the complete operator User Guide, and how it compares to alternatives. |
-| 2 | [Architecture](docs/02-architecture/architecture-diagram.md) | How the engine is built — **the validated architecture diagram** (pattern + guardrails, HD PDF), system context, internal components, the Trinity Loop, the Swarm + Blackboard, the FastMCP server (and the Thymus boundary), and sequence diagrams. |
+| 2 | [Architecture](docs/02-architecture/main-architectural-agentropix-design.md) | How the engine is built — **the validated architecture diagram** (pattern + guardrails, HD PDF), system context, internal components, the Trinity Loop, the Swarm + Blackboard, the FastMCP server (and the Thymus boundary), and sequence diagrams. |
 | 3 | [Data](docs/03-data/data-models.md) | The data model — case/finding/report schemas, the data dictionary, the entity-relationship view, and what gets persisted to disk. |
 | 4 | [MCP Tools](docs/04-mcp-tools/tool-reference.md) | The 71-tool MCP surface — the full tool reference, the typed Response Envelope, which agent invokes which tool, and the capability map. |
 | 5 | [Safety & Forensics](docs/05-safety-forensics/anti-hallucination.md) | Why you can trust the output — anti-hallucination guarantees, provenance grounding, the Courtroom audit seal, the human-in-the-loop gate, the Approval Portal, and the AI disclosure. |
