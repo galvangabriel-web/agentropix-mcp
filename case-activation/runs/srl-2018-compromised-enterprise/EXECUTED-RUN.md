@@ -23,9 +23,11 @@ Per-step JSON responses: `step1_case_init.json` … `step6_get_image_info_dc.jso
 ## Phase 1+ — Full investigation (subsequently executed, 2026-06-07/08)
 
 The activation above was followed by a complete, recorded investigation across the whole
-estate — **254 agentropix MCP actions**, captured verbatim in
-[`docs/06-use-cases/assets/srl-2018-training-session/`](../../../docs/06-use-cases/assets/srl-2018-training-session/)
-(session log + per-step JSON; large/raw, kept local, not committed).
+estate — **254 agentropix MCP actions**, captured verbatim under
+`docs/06-use-cases/assets/srl-2018-training-session/` (session log + per-step JSON; large/raw,
+**kept local, not committed**). The published write-up of that investigation is the sealed case
+report: [SRL-2018 Forensic Report](../../../docs/12-CASES-REPORTS/srl-2018-report/SRL-2018-FORENSIC-REPORT.md)
+· [Technical Appendix](../../../docs/12-CASES-REPORTS/srl-2018-report/TECHNICAL-APPENDIX.md).
 
 **Reconstructed attack chain:** external RDP foothold (`nfury` from 192.168.30.10/.11 → wkstn-05)
 → dual C2 — Metasploit/Meterpreter (`p.exe`, MSSE named pipe, hub 172.16.4.10:8080) + PowerShell
