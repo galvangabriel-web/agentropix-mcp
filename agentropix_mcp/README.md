@@ -6,6 +6,14 @@ to any MCP client (Claude Code, Claude Desktop, or a headless JSON-RPC driver).
 
 ## Install
 
+**From the packaged release (fastest):**
+
+```bash
+pip install https://github.com/galvangabriel-web/agentropix-mcp/releases/download/v0.2.2/agentropix_mcp-0.2.2-py3-none-any.whl
+```
+
+**From a checkout:**
+
 ```bash
 pip install ./agentropix_mcp                 # core server (fastmcp, pydantic, httpx, sidecar)
 pip install "./agentropix_mcp[forensics]"    # + in-process parsers (yara, pytsk3, pypff, oletools, vol3)

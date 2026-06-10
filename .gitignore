@@ -12,3 +12,4 @@ end-user/
 __pycache__/
 *.pyc
 *.egg-info/
+dist/
