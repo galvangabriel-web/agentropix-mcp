@@ -1,0 +1,30 @@
+# SRL-2015-APT-ENTERPRISE — IOC & CONFIG extraction summary
+# generated 2026-06-10, static analysis only
+
+## SHA256
+42f33a83da0cecb9ddf53741423895221fca55060ade80e47ecd2a0ea2fe10c3  17_win2008R2-controller_malfind_pid23476.bin
+73cb9ad706455f0a115338784f5bf9c24e7ea22dcfd69f93dd9b3f375fe00231  18_win2008R2-controller_malfind_pid26340.bin
+e855864aba934e143745fe6e6ba2a08a75bdbe5a32ff0e27e00a852d00d264d7  19_win2008R2-controller_malfind_pid145896.bin
+dd8ac01d1d5e8865592443dc07faf1034fcc515f6522b2918ec7dc8bfe203ebd  20_win2008R2-controller_malfind_pid151132_femc.bin
+a8f9a2103327bbc2bda06ff2db02ffe628978b115139f2b06d26a69dd79233f3  21_win7-64-nfury_malfind_pid328.bin
+
+## Variant grouping (by code stub)
+Variant A (JMP E9 F7 07 -> 0x804): 17 (pid23476), 18 (pid26340)
+Variant B (JMP E9 60 08 -> 0x86E): 19 (pid145896), 20 (pid151132/femc), 21 (nfury pid328)
+Within-variant byte diffs are scattered runtime-patched data (handles/addrs/cookies in the
+post-code memory-structure region @>=0x900), NOT a config string. cmp counts: 17v18=73, 19v20=95, 19v21=17.
+
+## Cleartext indicators (only) — process-injection capability
+Imports/APIs: OpenProcess, VirtualProtect, GetModuleHandleA, CloseHandle, ExitProcess,
+MessageBoxA, wsprintfA; DLLs: msvbvm(60), kernel32, user32. VB6-packed loader/injector stub.
+Loader @0x804/0x86E: idiv-based size calc, push 0x1000(MEM_COMMIT)/0x4(PAGE_RW), call [edi+0x8]
+(VirtualAlloc/Protect via fn-table) -> classic reflective in-memory mapping. No string-decode loop.
+
+## Network/host IOCs
+NONE found. No IPv4/IPv6/domain/URL/registry-key/mutex/user-agent in ASCII or UTF-16LE.
+Single-byte XOR brute (keys 0x00-0xFF) x base64 scan over all 5: 0 readable network indicators.
+Payload-tail entropy ~3.97/byte (48.6% zero bytes) => no encrypted/packed config blob.
+
+## Cross-ref to disk droppers
+No embedded references to usboesrv.exe / a.exe / spinlock.exe / svchost.exe / femc / f-response /
+nfury inside payload bytes. Link is contextual only (volatility dump labels = host/process names).

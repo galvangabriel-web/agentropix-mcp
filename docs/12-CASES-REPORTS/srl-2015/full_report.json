@@ -1,0 +1,2480 @@
+{
+  "case_id": "SRL-2015-APT-ENTERPRISE",
+  "profile": "full",
+  "report_id": "562edbdddc9e5bfc7990583178f27ec20de8cb58a9ee511cda5d0df9ad1c620b",
+  "snapshot_at": "2026-06-10T19:31:30.472433+00:00",
+  "approved_finding_count": 17,
+  "sections": {
+    "executive_summary": {
+      "approved_finding_count": 17,
+      "top_tactics": [],
+      "top_hosts": [],
+      "severity_mix": [
+        {
+          "severity": "high",
+          "count": 14
+        },
+        {
+          "severity": "medium",
+          "count": 2
+        },
+        {
+          "severity": "critical",
+          "count": 1
+        }
+      ]
+    },
+    "findings": {
+      "approved_findings": [
+        {
+          "finding_id": "srl2015-dc-usbo-c2-service",
+          "host": "win2008R2-controller",
+          "mitre_attack": "T1543.003",
+          "confidence": 0.95,
+          "timestamp": "2012-03-20T17:58:12Z",
+          "severity": "critical",
+          "title": "DC C2 implant 'usboesrv' (KernelPro USB over Ethernet) auto-start service beaconing to 96.255.98.154:29932",
+          "ioc_value": "96.255.98.154",
+          "ioc_type": "ipv4",
+          "description": "Two independent tools (Volatility3 + Mandiant Redline .mans) confirm usboesrv.exe pid27304 ppid556(services.exe) AUTO_START service, C:\\Windows\\system32\\usboesrv.exe sha256 5420d06d..., 3x ESTABLISHED 10.3.58.4->96.255.98.154:29932. In-memory config 'USB over Ethernet\\v2.0\\ServersDB\\96.255.98.154:29932'. + kernel drivers usboebusdrv/usboeloaderdrv (unsigned).",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:23:17.698064+00:00",
+          "source_run_id": "e8fdaf26",
+          "hmac_seal": "hmac-sha256:c50b15f7cf207dc32cee11f8a7474787e95e3f3e4f02ee20ba03cfb5d9ad1556"
+        },
+        {
+          "finding_id": "srl2015-dc-usbo-usboip-exfil",
+          "host": "win2008R2-controller",
+          "mitre_attack": "T1011",
+          "confidence": 0.78,
+          "timestamp": "2012-03-20T17:58:12Z",
+          "severity": "high",
+          "title": "Virtual USB-over-IP device-tethering channel via usboebusdrv (USB-over-Ethernet) on the DC",
+          "ioc_value": "usboebusdrv.sys",
+          "ioc_type": "filename",
+          "description": "usboebusdrv.sys is a Virtual USB Host Controller driver enabling USB device redirection over the network; device objects \\\\.\\usboehc|usboedev|usboebusdev|usboeloaderdev. Provides remote USB tethering/exfil distinct from physical media (DC USBStor is empty).",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:23:18.215010+00:00",
+          "source_run_id": "31f666c2",
+          "hmac_seal": "hmac-sha256:172cf7ed0fc5374436e9d605021321a86a324b4c3c4267645beb10e7637a3674"
+        },
+        {
+          "finding_id": "srl2015-dc-system-c2-173",
+          "host": "win2008R2-controller",
+          "mitre_attack": "T1071.001",
+          "confidence": 0.75,
+          "timestamp": "2012-03-20T17:58:12Z",
+          "severity": "high",
+          "title": "Anomalous kernel-resident C2: System (pid4) ESTABLISHED 10.3.58.4:443 -> 173.173.88.154",
+          "ioc_value": "173.173.88.154",
+          "ioc_type": "ipv4",
+          "description": "Volatility + Redline both show System pid4 holding ESTABLISHED outbound to 173.173.88.154:18682 from local :443 - System does not originate outbound 443; consistent with the usbo* kernel drivers. Second DC C2 IP.",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:23:19.016763+00:00",
+          "source_run_id": "9650fa26",
+          "hmac_seal": "hmac-sha256:abaf76f5286c151c6f67ab3076f384f8de592320e01ec35afffa6a3c7c2491ca"
+        },
+        {
+          "finding_id": "srl2015-dc-explorer-injection",
+          "host": "win2008R2-controller",
+          "mitre_attack": "T1055",
+          "confidence": 0.8,
+          "timestamp": "2012-03-20T18:54:16Z",
+          "severity": "high",
+          "title": "Process injection: RWX in explorer.exe (pid8512) spawning usboe.exe + operator cmd.exe",
+          "ioc_value": "usboe.exe",
+          "ioc_type": "filename",
+          "description": "malfind: explorer.exe pid8512 PAGE_EXECUTE_READWRITE @0x2280000/0x38e0000; parent of usboe.exe pid27144 and attacker cmd.exe pid148904 (2012-04-06 14:08).",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:23:19.848745+00:00",
+          "source_run_id": "04d77e79",
+          "hmac_seal": "hmac-sha256:54d7b682d5ba71446bdcf42d77a93073ed573a17d4eb167f258adf7b649a8a00"
+        },
+        {
+          "finding_id": "srl2015-ws-spinlock-msf-loader",
+          "host": "win7-32-nromanoff",
+          "mitre_attack": "T1620",
+          "confidence": 0.9,
+          "timestamp": "2012-04-03T22:59:43Z",
+          "severity": "high",
+          "title": "spinlock.exe: PyInstaller(Py2.5) in-memory MSF windows/x86 reverse_tcp loader -> 199.73.28.114:443",
+          "ioc_value": "6eef2381040cd38ce5974ef954121e136bd93ec4039d49925438c92ef5f3dead",
+          "ioc_type": "hash_sha256",
+          "description": "Manually carved (no decompiler): main PYSOURCE script = 9-line ctypes runner executing a 290-byte Metasploit reverse_tcp stager (block_api prologue fc e8 89 00 00 00; connect 199.73.28.114:443 RAW TCP, VirtualAlloc RWX, recv stage-2). Present on nromanoff/nfury/DC/xp. Reflective in-memory exec (T1620).",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:23:20.385521+00:00",
+          "source_run_id": "abf2362a",
+          "hmac_seal": "hmac-sha256:cc5f0f6767836917bfb4c55c4fc08a987060a0b235da27dbaea6d48580e7d173"
+        },
+        {
+          "finding_id": "srl2015-ws-svchost-masquerade",
+          "host": "win7-32-nromanoff",
+          "mitre_attack": "T1036.005",
+          "confidence": 0.85,
+          "timestamp": "2012-04-03T23:38:36Z",
+          "severity": "high",
+          "title": "Masquerade: winclient.exe (downloaded, Zone.Identifier) renamed to System32\\dllhost\\svchost.exe",
+          "ioc_value": "C:\\Windows\\System32\\dllhost\\svchost.exe",
+          "ioc_type": "filepath",
+          "description": "$UsnJrnl: winclient.exe dropped to vibranium\\Downloads with Zone.Identifier ADS (internet download) 22:40, moved into new System32\\dllhost dir 23:35, renamed to svchost.exe 23:38 - LOLname masquerade of the httppump client.",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:23:21.991624+00:00",
+          "source_run_id": "c6334757",
+          "hmac_seal": "hmac-sha256:0442264f0391f624358d0cab164d5fbdc9798ff561d36f090892effe2c6543cc"
+        },
+        {
+          "finding_id": "srl2015-ws-indicator-removal",
+          "host": "win7-64-nfury",
+          "mitre_attack": "T1070.004",
+          "confidence": 0.72,
+          "timestamp": "2012-04-06T18:42:04Z",
+          "severity": "high",
+          "title": "Indicator removal: PsExec self-delete, _MEI PyInstaller cleanup, fake-svchost dir + staging teardown",
+          "ioc_value": "PSEXESVC.EXE",
+          "ioc_type": "filename",
+          "description": "$UsnJrnl: PSEXESVC.EXE FileCreate->FileDelete ~1-2s on each target; _MEI* temp cleanup; nfury System32\\dllhost fake-svchost dir DELETED 2012-04-06 18:42; exfil staging dirs system4-7 swept 18:20. Anti-forensics MODERATE (implants left, tooling hidden).",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:23:23.369815+00:00",
+          "source_run_id": "89638eee",
+          "hmac_seal": "hmac-sha256:a1d6e3ee7b0d4271252cd41d02d7d671d6bfb58f35a126bcea1780cc4d7e5087"
+        },
+        {
+          "finding_id": "srl2015-lateral-psexec-hub",
+          "host": "xp-tdungan",
+          "mitre_attack": "T1021.002",
+          "confidence": 0.9,
+          "timestamp": "2012-04-04T17:29:33Z",
+          "severity": "high",
+          "title": "PsExec hub-and-spoke lateral movement from xp-tdungan operator console to nromanoff/DC/nfury",
+          "ioc_value": "PSEXESVC",
+          "ioc_type": "service_name",
+          "description": "xp-tdungan(10.3.58.7) is the SOLE host with HKCU\\Software\\Sysinternals\\PsExec\\EulaAccepted (vibranium/RSydow/tdungan/SRL-Helpdesk); regripper negative on all others. 7045 PSEXESVC installs: nromanoff(7x,04-03 21:11), DC(6x,04-04 17:29 EULA same-second), nfury(4x,04-05 17:03); vibranium MountPoints2 \\\\.4/.5/.6\\C$; PsExec randomized WS-names in 4624.",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:23:23.845884+00:00",
+          "source_run_id": "0c505df4",
+          "hmac_seal": "hmac-sha256:3eddb3932c44e0ca6a53837c626b5d811496e38d4d32f726da945f13f19a5ab8"
+        },
+        {
+          "finding_id": "srl2015-exec-psexec-system",
+          "host": "win7-32-nromanoff",
+          "mitre_attack": "T1569.002",
+          "confidence": 0.85,
+          "timestamp": "2012-04-03T21:11:07Z",
+          "severity": "high",
+          "title": "Remote SYSTEM execution via PSEXESVC service (parent of spinlock.exe + httppump)",
+          "ioc_value": "C:\\Windows\\PSEXESVC.EXE",
+          "ioc_type": "filepath",
+          "description": "PSEXESVC.EXE (LocalSystem) is the common parent of spinlock.exe(2956) and httppump fake-svchost(6404) on nromanoff - implants executed remotely as SYSTEM via PsExec service.",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:23:24.613637+00:00",
+          "source_run_id": "487435bf",
+          "hmac_seal": "hmac-sha256:a10141547c9f490d053f77be9b2a545f60516754aaa6be559f27271fc5bf41e6"
+        },
+        {
+          "finding_id": "srl2015-cred-vibranium-cleartext",
+          "host": "xp-tdungan",
+          "mitre_attack": "T1078.002",
+          "confidence": 0.85,
+          "timestamp": "2012-04-05T09:20:14Z",
+          "severity": "high",
+          "title": "Compromised domain account shieldbase\\vibranium reused across hosts; cleartext password recovered",
+          "ioc_value": "vibranium",
+          "ioc_type": "account",
+          "description": "vibranium cleartext password 'hailhydra' recovered from xp csrss console-title memory (net use z: \\\\10.3.58.5\\C$ /USER:shieldbase\\vibranium hailhydra). Network logons to DC from 10.3.58.5/.7/.4; profile resident on all 4 hosts.",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:23:25.074316+00:00",
+          "source_run_id": "a56d9a53",
+          "hmac_seal": "hmac-sha256:c9f8d085352881e3cd7816a5f47b871a004f38d64b566f3bc5805cec70712d00"
+        },
+        {
+          "finding_id": "srl2015-cred-multi-account",
+          "host": "xp-tdungan",
+          "mitre_attack": "T1078.002",
+          "confidence": 0.7,
+          "timestamp": "2012-04-06T19:22:20Z",
+          "severity": "medium",
+          "title": "Multiple domain accounts abused across the campaign (RSydow, tdungan, SRL-Helpdesk)",
+          "ioc_value": "SRL-Helpdesk",
+          "ioc_type": "account",
+          "description": "PsExec EulaAccepted on xp under RSydow(04-03 21:11 campaign start), tdungan(04-04 14:37), SRL-Helpdesk(04-06 19:22 late reuse) in addition to vibranium - account rotation from the single operator console.",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:23:25.572036+00:00",
+          "source_run_id": "8c339dac",
+          "hmac_seal": "hmac-sha256:c80aaebed1c9260471cf2cd5b3f551c65eaab8a69591a1d098f9ab5eb0cc3b58"
+        },
+        {
+          "finding_id": "srl2015-collect-rd-theft",
+          "host": "xp-tdungan",
+          "mitre_attack": "T1005",
+          "confidence": 0.8,
+          "timestamp": "2012-04-05T05:35:00Z",
+          "severity": "high",
+          "title": "Targeted collection of Vibranium/Alloy R&D + classified undercover-agent rosters",
+          "ioc_value": "SUCCESS-TEST-PLAN-VIBRANIUM-ALLOY-RESULTS.docx",
+          "ioc_type": "filename",
+          "description": "vibranium-accessed (LNK/MFT $A): xp Alloy Research\\Detailed Vibranium R&D Documents\\ (SUCCESS-TEST-PLAN-VIBRANIUM-ALLOY-RESULTS.docx + Memory_Metals/Kaiser/Armor_School/Nanowire/Metals) and nromanoff Agents-List-CLASSIFIED-TOP-SECRET.zip (Undercover-Agents-List-For-Spain/Australia/UK/US).",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:23:26.133360+00:00",
+          "source_run_id": "337f0237",
+          "hmac_seal": "hmac-sha256:5bf9b125cae1200400e1b626a6ed5df7987ec8fefd0ea5579ad8aa10f79cf9cf"
+        },
+        {
+          "finding_id": "srl2015-exfil-archive-staged",
+          "host": "win7-64-nfury",
+          "mitre_attack": "T1560.001",
+          "confidence": 0.85,
+          "timestamp": "2012-04-06T13:48:20Z",
+          "severity": "high",
+          "title": "Exfil data staged & archived: system4.rar (RAR3 header-encrypted, 6.3MB) on nfury",
+          "ioc_value": "4b4d6d10c3e6c4bda8f934997d1fdd4e006546e46487e1ab614c8910d4640aa0",
+          "ioc_type": "hash_sha256",
+          "description": "MFT: \\Users\\Public\\Temp\\system4.rar built 2012-04-06 13:48-13:53 from staging dirs system4-7 (archive-via-utility, RAR3 header-encrypted). Staging dirs swept 18:20.",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:23:26.813861+00:00",
+          "source_run_id": "03a558bd",
+          "hmac_seal": "hmac-sha256:fcc3feccb78400363b478de06d7cc8443fd3c561be85346ba3c2b18ca67daaa8"
+        },
+        {
+          "finding_id": "srl2015-exfil-usb-physical",
+          "host": "win7-64-nfury",
+          "mitre_attack": "T1052.001",
+          "confidence": 0.75,
+          "timestamp": "2012-04-06T13:53:09Z",
+          "severity": "high",
+          "title": "Exfiltration over physical USB: HP v100w (S/N AA951D0000007252) carrying system4.rar",
+          "ioc_value": "AA951D0000007252",
+          "ioc_type": "usb_serial",
+          "description": "HP v100w USB (S/N AA951D0000007252) mounted E: on nromanoff/nfury, roamed xp->nromanoff->nfury 04-06/07; system4.rar staged on nfury for transfer. CAVEAT: E: volume not imaged - exfil-over-USB is HIGH-confidence staged, contents inferred (rar encrypted).",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:23:27.473405+00:00",
+          "source_run_id": "05f63fa0",
+          "hmac_seal": "hmac-sha256:e74c69a7ebf44967533857155384bfd4db2ce8945883fd2e618d618911cc5b09"
+        },
+        {
+          "finding_id": "srl2015-delivery-removable-media",
+          "host": "xp-tdungan",
+          "mitre_attack": "T1091",
+          "confidence": 0.65,
+          "timestamp": "2012-04-06T19:01:24Z",
+          "severity": "medium",
+          "title": "Removable-media (HP v100w) used as cross-host delivery/staging vector",
+          "ioc_value": "AA951D0000007252",
+          "ioc_type": "usb_serial",
+          "description": "Same HP v100w device enumerated on xp(2012-04-06)/nromanoff(04-07 10:31)/nfury(04-07 18:50) - candidate replication/delivery vector across the workstation fleet in addition to PsExec.",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:23:27.857190+00:00",
+          "source_run_id": "e97548c5",
+          "hmac_seal": "hmac-sha256:b55a0a5d36b5cd50f3793df9fa8c9bb1f8d32d9162d74ca8dbaf241d4dc6da5e"
+        },
+        {
+          "finding_id": "srl2015-ws-httppump-backdoor",
+          "host": "win7-32-nromanoff",
+          "mitre_attack": "T1071.001",
+          "confidence": 0.85,
+          "timestamp": "2012-04-03T23:38:36Z",
+          "severity": "high",
+          "title": "httppump HTTP backdoor: winclient.exe (as System32\\dllhost\\svchost.exe) WinINet C2",
+          "ioc_value": "f293fdb96e6ed7e4ede7a173e5e47dd69a30edc6216e550787e7481d2df43cef",
+          "ioc_type": "hash_sha256",
+          "description": "CORRECTED: the full httppump client = winclient.exe sha256 f293fdb9... (PDB d:\\work\\hg\\httppump\\winclient\\...\\winclient.pdb), renamed to System32\\dllhost\\svchost.exe, WinINet C2 http://<INTERNAL-IP>/ads/ (internal pivot); winclient.reg config [HKLM\\SYSTEM\\CCS\\Services\\Netman\\domain] home=http://199.73.28.114/ads/. a.exe (598e53b6, 9216B) is only a SHELLCODE LOADER STUB (no C2/network imports), NOT the full implant. Family C2: 199.73.28.114/ads, 12.190.135.235/ads, listen 127.0.0.1:5678.",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:46:21.389593+00:00",
+          "source_run_id": "1d5c9efe",
+          "hmac_seal": "hmac-sha256:e1eae762aaaada07347b4ab60ea6d80e6fb935fa0156043fe23b3bc2a0718b52"
+        },
+        {
+          "finding_id": "srl2015-ws-timestomp",
+          "host": "win7-32-nromanoff",
+          "mitre_attack": "T1070.006",
+          "confidence": 0.82,
+          "timestamp": "2012-04-03T22:40:24Z",
+          "severity": "high",
+          "title": "Timestomping of the fake svchost.exe (winclient httppump) - $SI backdated to 2003-03-31",
+          "ioc_value": "C:\\Windows\\System32\\dllhost\\svchost.exe",
+          "ioc_type": "filepath",
+          "description": "CORRECTED: confirmed-malicious fake svchost.exe (=winclient.exe, sha256 f293fdb9) has MFT $SI created backdated to 2003-03-31 12:00:00 (OS-install epoch, uSec-zeros) while $FN reveals real drop 2012-04-03 22:40:24 = deliberate timestomp. NOTE: pe.exe (reassessed = genuine signed Sysinternals PsExec v1.98) and logon.scr (genuine MS screensaver) were REMOVED from this finding - they are legitimate binaries, not stomped malware.",
+          "approval": {
+            "status": "DRAFT",
+            "approver": null,
+            "approved_at": null,
+            "hmac_signature": null,
+            "prev_doc_hash": null
+          },
+          "provenance": "MCP",
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-09T23:46:22.080967+00:00",
+          "source_run_id": "ce24456d",
+          "hmac_seal": "hmac-sha256:92136d425443d2a86032913dca7282bcd89854afa342ba291dbd132e9060c5a2"
+        }
+      ],
+      "count": 17
+    },
+    "timeline": {
+      "approved_timeline_events": [],
+      "count": 0
+    },
+    "iocs": {
+      "iocs": [
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "4b4d6d10c3e6c4bda8f934997d1fdd4e006546e46487e1ab614c8910d4640aa0",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 57,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "5420d06d802ce015301578347c529405f7015a59a47097af26616a8ab57b39ec",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 1,
+            "vt_total": 75,
+            "otx_pulses": 0,
+            "verdict": "malicious",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "5957202090c6f7ff782669a111ca97eb595e044990fa2e0ee64537a6f7da609f",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 76,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "598e53b69c71643db559c197db757363c48a30bb26b6486db2153bd417701dec",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 52,
+            "vt_total": 76,
+            "otx_pulses": 0,
+            "verdict": "malicious",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "6641e59a2b681250fd314d33243018315cc55eb165cc989a7e8422b522f8f69c",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 76,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "6eef2381040cd38ce5974ef954121e136bd93ec4039d49925438c92ef5f3dead",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 41,
+            "vt_total": 76,
+            "otx_pulses": 0,
+            "verdict": "malicious",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "7ac2c89cfeac7777e2c9c91d32102596d0017c1a2fa1705c05d190b9714c8a27",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 75,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "9b714e49a302ba73591ca9cb25c59da2721aa8582e6a16841b324e56402c0d4d",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 69,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "9d3ec59859471712c5dc24c19a238f73bffedfb73f80fea6583ffe21bec53983",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 75,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "b0cb1d66eeb1a23c16b0e221c82bfacee40b61c84891aab4e119f010b0657bc3",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 54,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "e4fa730d00839aaaf4ae00fef4ab0854beccabfeb2541662a5391be85c48375c",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 43,
+            "vt_total": 74,
+            "otx_pulses": 0,
+            "verdict": "malicious",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "f293fdb96e6ed7e4ede7a173e5e47dd69a30edc6216e550787e7481d2df43cef",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 56,
+            "vt_total": 76,
+            "otx_pulses": 0,
+            "verdict": "malicious",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "f55bbffa8ebc6a99e6cbf535420484d134edcb1",
+          "ioc_type": "hash",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "error",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "12.190.135.235",
+          "ioc_type": "ip",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 91,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "173.173.88.154",
+          "ioc_type": "ip",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 91,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "199.73.28.114",
+          "ioc_type": "ip",
+          "threat_intel": {
+            "vt_malicious": 1,
+            "vt_total": 91,
+            "otx_pulses": 0,
+            "verdict": "malicious",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "72.241.5.37",
+          "ioc_type": "ip",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 91,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "96.255.98.154",
+          "ioc_type": "ip",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 91,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "bit.ly",
+          "ioc_type": "domain",
+          "threat_intel": {
+            "vt_malicious": 1,
+            "vt_total": 91,
+            "otx_pulses": 0,
+            "verdict": "malicious",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "0e27946826ddcc169fdded411078228f0fe32cafff411c7e7bf8ec4a5699050e",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 71,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "0e2f301f54b226402379e407097afd9d7db43df06d1b54a95c2a8c0ef38810b2",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 55,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "1146837c580633935858e28b7630f8a1b6187570ee8a639d181841ba2da50b1c",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 71,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "1a529d41037e85cc97acdb3809cd2c0b67eaefe27e195587718f69f3bbc4c04e",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 56,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "241ba947ff001b6d62b18a93fbde92d6aecb65fe5989785a842e3009a87aeb1b",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 53,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "2f994bd67042abba7e0c1f69a39d10418dca773a85180be930df2f498d65459e",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "300c9b2ddc3a0a44d95e25ef89c6305e",
+          "ioc_type": "md5",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "37f4e340ca5a87ebb06739999724efa1e1a97ea6332e0dae483e780c90d6193a",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 57,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "3a33c416f0853f2c148a173f90363104",
+          "ioc_type": "md5",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "423e404adec31b1ccda65983efe380bc43c654f7",
+          "ioc_type": "sha1",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "42f33a83da0cecb9ddf53741423895221fca55060ade80e47ecd2a0ea2fe10c3",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 1,
+            "vt_total": 57,
+            "otx_pulses": 0,
+            "verdict": "malicious",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "4494a74673771cb708d73e99bd3ed5b996e58539821709df3a8795ea1966469d",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 57,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "4633038868ab6f8aa5f342e799e28e646c6e353b339fe4a7aeb9900715e922e0",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "4a3a96db1d4ce4acf605770d283ef2ae4656b43a217c66929589d40d9cbcb801",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "4c3f5e9fe4c8fc2f99d47cbb25d7d193",
+          "ioc_type": "md5",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "5114109b3be679307640e9fa28340774e5e44c7f14ebcee1689fbc97a30814c5",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 57,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "516b2a9f11c74c37da005abe0df7f2ab9f5cbbc5033326767dd1b31889cc5437",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 57,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "52aafd69654c07446983ada1256fc7a9",
+          "ioc_type": "md5",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "58ef8b107ff1638eaf8a405309c1610988524f597b53a40d621b5fa8a3f24bcd",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 70,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "5e7d48fc77702b0649f2ade58d1d456ef021789c3d397842c3cccf3369191cd6",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 57,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "5ee219f99e69db4739631da89c0dd5a8164477e2",
+          "ioc_type": "sha1",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "60b778a12a4b7ad5ed5b28eb6e869b3f",
+          "ioc_type": "md5",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "62d58d4308c8fa019963ea5338834c57e6b381dd5a9589dcdbe345424e8577b4",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 57,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "6a55b0c3ab5f557dfb7a3f8bd616ede1bd9b93198590fc9d52aa19c1154388c5",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "6c2b1180957d04231ea1c7d65b6c8d47bd18fa12707c6717c281f40ce91d370d",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 57,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "6d73be3e921bcd659f1b54e9aae42b41",
+          "ioc_type": "md5",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "6e70645c80b79a97bd7038cc1ca5672d53f228125f2bfa61fc1ea120e10f5036",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 76,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "72811c387659ad2f6489a23d9710ee4aff3a113ca1b17a662e273e4b2d4bbdb9",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 55,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "73cb9ad706455f0a115338784f5bf9c24e7ea22dcfd69f93dd9b3f375fe00231",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 1,
+            "vt_total": 71,
+            "otx_pulses": 0,
+            "verdict": "malicious",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "75039d2ed255e5ea9366ac7ac794e5db0a17548950f8c734be197ed09f18110a",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "7739e5596c113b7a522f367c89a425063618c5cf",
+          "ioc_type": "sha1",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "829553fd43bbd6d69c85d8285b83410ac679b066",
+          "ioc_type": "sha1",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "83757068a804446e02029b9b5456359c1444c57c9d595cf0ffbd7f3d611c670d",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "901f1ae9f30d3a914d8db7b2d66fdb373a33ec7bfaa9e60ffaf66d9700c2ff30",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "95687effe7eea8b3a0aa507f531fa61c2c8827ff7471bef09d4b8101c3a8baad",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "96dc1f1cc3c0b44ef9af72d1c18a8e6a4338c67988f303d05693ca4be6bf7eb9",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 68,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "970fc89629fbfc9884fe19b29c608168cf6b57c83acce9886510d790751714e4",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "9a7fd9f928c55f6b1ff5141687cf4e91e359319f40632a962bf5268d33eedbc8",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 57,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "9c852b7f36af7feeb8d04d198657f799cada0f84e31ff487afbd0997156fff8b",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 70,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "a8f9a2103327bbc2bda06ff2db02ffe628978b115139f2b06d26a69dd79233f3",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 1,
+            "vt_total": 60,
+            "otx_pulses": 0,
+            "verdict": "malicious",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "a98416e60bb81f57cb99125ec41bfe4c",
+          "ioc_type": "md5",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "b295e1cadedd62927f3ebb6d1d1be92ce3600e79ea5928e8e551eb9bf1f06e4d",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 56,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "bb552cf6eae814c5debaf080432c633cfd9dd16439828cc65029ba3b131af9d0",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 55,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "bd70646f5f9bf7bf1952691272181b99b708c25892a546df50693d6014c1ba3d",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 57,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "c1f061a70d88583316d4b378dd37043dd5480c8d",
+          "ioc_type": "sha1",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "c2e1a391d6be9740e79da7944e012ad9ac878902db38ec7fc225a2a68d262a1b",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 76,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "d2bce24ef9d30b4e8514b30eff71c0d42039737ed31266984620f729eddc2018",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 56,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "d2c21c84b65d644687b470688c70640cfa61256ec95f882d2a41f21e246e7cc1",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 57,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "dcb0ab1c14e69877b9fbcda281eefba5fc4200502878515c6770e8607b6fddbf",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 68,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "dd8ac01d1d5e8865592443dc07faf1034fcc515f6522b2918ec7dc8bfe203ebd",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 1,
+            "vt_total": 71,
+            "otx_pulses": 0,
+            "verdict": "malicious",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "e381e006d8b42042a3253c7e2f07ffb8",
+          "ioc_type": "md5",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "e855864aba934e143745fe6e6ba2a08a75bdbe5a32ff0e27e00a852d00d264d7",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 1,
+            "vt_total": 72,
+            "otx_pulses": 0,
+            "verdict": "malicious",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "e8ec6f363a3edbc22e607b199a733d776c179ed6c0a96ad19d723d0751b85c46",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": 74,
+            "otx_pulses": 0,
+            "verdict": "clean",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "eb9c9eb17f96c86bcfc2876909dddcd683c0079ec4de1b4b29e8ee2b36eb28cc",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "edceb61e095548c4cecfb66a661ee2f2b744561437e28449d8d97373662d45ba",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "eeacf1e41a0daf16c9ba1c4e40bbcecca8d88713d83773bae459fbdf441bfc00",
+          "ioc_type": "sha256",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "ioc": "f60730a4a66673047777f5728467d401",
+          "ioc_type": "md5",
+          "threat_intel": {
+            "vt_malicious": 0,
+            "vt_total": null,
+            "otx_pulses": 0,
+            "verdict": "unknown",
+            "checked_at": "2026-06-10T18:39:55.186656+00:00",
+            "providers": [
+              "otx",
+              "virustotal"
+            ]
+          },
+          "@timestamp": "2026-06-10T18:39:55.186656+00:00",
+          "provenance": "MCP",
+          "finding_refs": [
+            "srl2015-ti-enrichment"
+          ]
+        },
+        {
+          "ioc_type": "account",
+          "ioc_value": "SHIELDBASE\\vibranium",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.116389+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "dpapi_masterkey",
+          "ioc_value": "0d830142-931a-4791-8a65-51bb06d321ba",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.181318+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "email",
+          "ioc_value": "mhill.shield@yahoo.com",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.190793+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "filename",
+          "ioc_value": "At1.job",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.200141+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "filename",
+          "ioc_value": "At2.job",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.209342+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "filename",
+          "ioc_value": "avbypass.exe",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.218393+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "filepath",
+          "ioc_value": "C:\\Windows\\PSEXESVC.EXE",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.227241+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "filepath",
+          "ioc_value": "C:\\Windows\\System32\\dllhost\\svchost.exe",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.236276+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "geolocation",
+          "ioc_value": "38.8766N,77.003W",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.245168+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "ipv4",
+          "ioc_value": "12.190.135.235",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.254034+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "ipv4",
+          "ioc_value": "173.173.88.154",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.262799+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "ipv4",
+          "ioc_value": "<INTERNAL-IP>",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.272347+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "ipv4",
+          "ioc_value": "199.73.28.114",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.285536+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "ipv4",
+          "ioc_value": "72.241.5.37",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.295123+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "ipv4",
+          "ioc_value": "96.255.98.154",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.304307+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "regkey",
+          "ioc_value": "HKCU\\Software\\Sysinternals\\PsExec\\EulaAccepted",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.313335+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "regkey",
+          "ioc_value": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\svchost",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.322246+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "regkey",
+          "ioc_value": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Netman\\domain",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.331333+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "sha1",
+          "ioc_value": "f55bbffa8ebc6a99e6cbf535420484d134edcb1",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.340336+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "sha256",
+          "ioc_value": "4b4d6d10c3e6c4bda8f934997d1fdd4e006546e46487e1ab614c8910d4640aa0",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.349329+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "sha256",
+          "ioc_value": "5420d06d802ce015301578347c529405f7015a59a47097af26616a8ab57b39ec",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.358385+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "sha256",
+          "ioc_value": "5957202090c6f7ff782669a111ca97eb595e044990fa2e0ee64537a6f7da609f",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.367308+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "sha256",
+          "ioc_value": "598e53b69c71643db559c197db757363c48a30bb26b6486db2153bd417701dec",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.376288+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "sha256",
+          "ioc_value": "6641e59a2b681250fd314d33243018315cc55eb165cc989a7e8422b522f8f69c",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.385340+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "sha256",
+          "ioc_value": "6eef2381040cd38ce5974ef954121e136bd93ec4039d49925438c92ef5f3dead",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.394452+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "sha256",
+          "ioc_value": "7ac2c89cfeac7777e2c9c91d32102596d0017c1a2fa1705c05d190b9714c8a27",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.403381+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "sha256",
+          "ioc_value": "9b714e49a302ba73591ca9cb25c59da2721aa8582e6a16841b324e56402c0d4d",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.412320+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "sha256",
+          "ioc_value": "9d3ec59859471712c5dc24c19a238f73bffedfb73f80fea6583ffe21bec53983",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.421473+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "sha256",
+          "ioc_value": "b0cb1d66eeb1a23c16b0e221c82bfacee40b61c84891aab4e119f010b0657bc3",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.430501+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "sha256",
+          "ioc_value": "e4fa730d00839aaaf4ae00fef4ab0854beccabfeb2541662a5391be85c48375c",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.439697+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "sha256",
+          "ioc_value": "f293fdb96e6ed7e4ede7a173e5e47dd69a30edc6216e550787e7481d2df43cef",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.448894+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "url",
+          "ioc_value": "http://bit.ly/GEUMQQ",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.458251+00:00",
+          "provenance": "MCP"
+        },
+        {
+          "ioc_type": "usb_serial",
+          "ioc_value": "AA951D0000007252",
+          "mitre_techniques": [],
+          "finding_refs": [
+            "srl2015-ioc-bundle"
+          ],
+          "case_id": "SRL-2015-APT-ENTERPRISE",
+          "@timestamp": "2026-06-10T02:41:08.467224+00:00",
+          "provenance": "MCP"
+        }
+      ],
+      "count": 109,
+      "by_type": [
+        {
+          "ioc_type": "sha256",
+          "count": 67
+        },
+        {
+          "ioc_type": "md5",
+          "count": 9
+        },
+        {
+          "ioc_type": "ipv4",
+          "count": 6
+        },
+        {
+          "ioc_type": "sha1",
+          "count": 6
+        },
+        {
+          "ioc_type": "ip",
+          "count": 5
+        },
+        {
+          "ioc_type": "filename",
+          "count": 3
+        },
+        {
+          "ioc_type": "regkey",
+          "count": 3
+        },
+        {
+          "ioc_type": "filepath",
+          "count": 2
+        },
+        {
+          "ioc_type": "account",
+          "count": 1
+        },
+        {
+          "ioc_type": "domain",
+          "count": 1
+        },
+        {
+          "ioc_type": "dpapi_masterkey",
+          "count": 1
+        },
+        {
+          "ioc_type": "email",
+          "count": 1
+        },
+        {
+          "ioc_type": "geolocation",
+          "count": 1
+        },
+        {
+          "ioc_type": "hash",
+          "count": 1
+        },
+        {
+          "ioc_type": "url",
+          "count": 1
+        },
+        {
+          "ioc_type": "usb_serial",
+          "count": 1
+        }
+      ],
+      "by_mitre_technique": []
+    }
+  },
+  "truncated": false,
+  "result_bytes": 58221,
+  "error": "",
+  "warning": ""
+}

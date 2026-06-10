@@ -1,0 +1,208 @@
+################ 17_win2008R2-controller_malfind_pid23476.bin ################
+---- ASCII strings (>=4) ----
+SWVU
+AARQ
+]^_[
+t5;E
+@tt3
+Z^^ZY
+^ZYY3
+@^_[
+PWQS
+H^_[
+msvbvm
+H^_[
+Q@@P
+Application error
+Application corrupt.
+The procedure %s could not be located in the DLL %s.
+The ordinal %d could not be located in the DLL %s.
+`uuser32
+MessageBoxA
+wsprintfA
+kernel32
+ExitProcess
+CloseHandle
+OpenProcess
+GetModuleHandleA
+VirtualProtect
+---- UTF-16LE strings (-e l, >=4) ----
+################ 18_win2008R2-controller_malfind_pid26340.bin ################
+---- ASCII strings (>=4) ----
+SWVU
+AARQ
+]^_[
+t5;E
+@tt3
+Z^^ZY
+^ZYY3
+@^_[
+PWQS
+H^_[
+msvbvm
+H^_[
+Q@@P
+Application error
+Application corrupt.
+The procedure %s could not be located in the DLL %s.
+The ordinal %d could not be located in the DLL %s.
+`uuser32
+MessageBoxA
+wsprintfA
+kernel32
+ExitProcess
+CloseHandle
+OpenProcess
+GetModuleHandleA
+VirtualProtect
+---- UTF-16LE strings (-e l, >=4) ----
+################ 19_win2008R2-controller_malfind_pid145896.bin ################
+---- ASCII strings (>=4) ----
+t$,t	
+L$H9l$Tw
+_^]3
+*L$4
+\$<#\$
+T$D}
+;L$T
+_^]3
+T$$3
+\$H+
+|$P3
+)T$0u
+L$0}
+l$PK
+;L$Tr
+_^]3
+SUVW
+\$,j
+L$$QVRV
+D$$P
+SWVU
+AARQ
+]^_[
+t5;E
+@tt3
+Z^^ZY
+^ZYY3
+@^_[
+PWQS
+H^_[
+msvbvm
+H^_[
+Q@@P
+Application error
+Application corrupt.
+The procedure %s could not be located in the DLL %s.
+The ordinal %d could not be located in the DLL %s.
+`uuser32
+MessageBoxA
+wsprintfA
+kernel32
+ExitProcess
+CloseHandle
+OpenProcess
+GetModuleHandleA
+VirtualProtect
+---- UTF-16LE strings (-e l, >=4) ----
+################ 20_win2008R2-controller_malfind_pid151132_femc.bin ################
+---- ASCII strings (>=4) ----
+t$,t	
+L$H9l$Tw
+_^]3
+*L$4
+\$<#\$
+T$D}
+;L$T
+_^]3
+T$$3
+\$H+
+|$P3
+)T$0u
+L$0}
+l$PK
+;L$Tr
+_^]3
+SUVW
+\$,j
+L$$QVRV
+D$$P
+SWVU
+AARQ
+]^_[
+t5;E
+@tt3
+Z^^ZY
+^ZYY3
+@^_[
+PWQS
+H^_[
+msvbvm
+H^_[
+Q@@P
+Application error
+Application corrupt.
+The procedure %s could not be located in the DLL %s.
+The ordinal %d could not be located in the DLL %s.
+`uuser32
+MessageBoxA
+wsprintfA
+kernel32
+ExitProcess
+CloseHandle
+OpenProcess
+GetModuleHandleA
+VirtualProtect
+---- UTF-16LE strings (-e l, >=4) ----
+################ 21_win7-64-nfury_malfind_pid328.bin ################
+---- ASCII strings (>=4) ----
+t$,t	
+L$H9l$Tw
+_^]3
+*L$4
+\$<#\$
+T$D}
+;L$T
+_^]3
+T$$3
+\$H+
+|$P3
+)T$0u
+L$0}
+l$PK
+;L$Tr
+_^]3
+SUVW
+\$,j
+L$$QVRV
+D$$P
+SWVU
+AARQ
+]^_[
+t5;E
+@tt3
+Z^^ZY
+^ZYY3
+@^_[
+PWQS
+H^_[
+msvbvm
+H^_[
+Q@@P
+Application error
+Application corrupt.
+The procedure %s could not be located in the DLL %s.
+The ordinal %d could not be located in the DLL %s.
+vuser32
+MessageBoxA
+wsprintfA
+kernel32
+ExitProcess
+CloseHandle
+OpenProcess
+GetModuleHandleA
+VirtualProtect
+y%uE
+%u/C%um
+I%u"
+---- UTF-16LE strings (-e l, >=4) ----
