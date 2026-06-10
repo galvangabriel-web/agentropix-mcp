@@ -1,173 +1,62 @@
 flowchart TB
+    classDef stoch fill:#fff5e6,stroke:#f59f00,color:#222,stroke-width:2px
+    classDef det fill:#e6ffea,stroke:#2f9e44,color:#222,stroke-width:2px
+    classDef anchor fill:#eef2ff,stroke:#3b5bdb,color:#222,stroke-width:2px
+    classDef leak fill:#fff0f0,stroke:#e03131,color:#222,stroke-width:2px
+    classDef hard fill:#ffe3e3,stroke:#c92a2a,color:#222,stroke-width:3px
+    classDef garch fill:#d3f9d8,stroke:#2b8a3e,color:#222,stroke-width:2px
+    classDef gprompt fill:#fff9db,stroke:#e8590c,color:#222,stroke-width:2px,stroke-dasharray:6 3
 
-subgraph AG["Agent layer · LLM consumers + autonomous drivers"]
-direction TB
-a1["Claude Code CLI session<br/>recommended client"]
-a2["Claude Desktop session<br/>stdio-only GUI, npx mcp-remote shim"]
-a3["Local Claude Desktop / Code<br/>mcp.json command, stdio default"]
-a4["agx_gearb.py headless driver<br/>deterministic non-LLM Python, DRAFT-only"]
-a5["Operator CLI<br/>agentropix-sift run"]
-end
+    AGENT["<b>Agent layer — the LLM consumers</b><br/>Claude Code CLI · Claude Desktop (mcp-remote shim)<br/><i>+ agx_gearb.py headless driver — non-LLM, DRAFT-only</i>"]:::stoch
 
-subgraph TRB["Transport + auth boundary"]
-direction TB
-t1["Streamable HTTP :8765 at /mcp<br/>ADR-017 tailnet-only, loopback default"]
-t3["BearerTokenMiddleware<br/>constant-time compare · fail-closed boot"]
-t2["stdio transport - default<br/>trust = process UID"]
-end
+    AUTH["<b>Transport + auth boundary</b><br/>stdio (default) · streamable HTTP :8765 /mcp<br/><i>Bearer token, constant-time compare · fail-closed boot</i>"]:::anchor
 
-subgraph CORE["MCP server core · the enforcement boundary"]
-direction TB
-c1["FastMCP app agentropix-sift<br/>FastMCP 3.2.4 · 72 live tool registrations"]
-c2["server.py shared tool core<br/>61 mcp_* async functions"]
-c3["_RateLimiter<br/>per-tool sliding window, default 60/min"]
-c4["ThymusEvidencePolicy<br/>read-only evidence boundary · 47 check_read sites"]
-end
+    subgraph MCP["MCP server core — the enforcement spine  ·  pattern: CUSTOM MCP SERVER"]
+        direction TB
+        CORE["<b>FastMCP app</b> · fastmcp_app.py<br/>71 canonical tools (72 live) · per-tool rate limit<br/><i>_safe_tool envelope — errors never crash the boundary</i>"]:::det
+        THY["<b>Thymus policy</b> · thymus_policy.py<br/><i>read-only evidence allowlist,<br/>checked before every tool exec</i>"]:::det
+        TRIN["<b>Trinity Loop + DFIR Swarm</b> · trinity/ agents/<br/>13 deterministic SwarmAgents — <b>no LLM inside</b><br/><i>Architect plan → Blackboard quorum → Critic halt</i>"]:::det
+    end
 
-subgraph TRIN["In-process deterministic runtime - LLM-free"]
-direction TB
-tl["Trinity Loop<br/>Architect + Critic · deterministic halt"]
-sw["DFIR Swarm<br/>13 SwarmAgent classes · pure async coroutines"]
-bb["Blackboard<br/>asyncio-locked findings registry"]
-end
+    subgraph TL["Forensic tool layer — SIFT Workstation"]
+        direction TB
+        FAM["<b>11 tool families</b> · mcp_server/wrappers/<br/>case · disk imaging · memory · registry/execution · event log<br/>mail/maldoc · carving · findings/IOC · approval · indexer · SIEM"]:::det
+        BIN["<b>16 SIFT binaries + EZ-Tools</b><br/>vol3 · plaso · tsk (fls/mmls/icat) · libewf · yara · bulk_extractor<br/>RegRipper · MFTECmd/RECmd/EvtxECmd (dotnet)<br/><i>argv-only subprocess — never a shell</i>"]:::leak
+    end
 
-subgraph TF["Tool layer · 11 families, 71 canonical tools"]
-direction TB
-f1["Families: case · intake/imaging · memory<br/>registry/execution · eventlog/timeline · mail/maldoc<br/>carving · findings/IOC · approval · indexer · Wazuh"]
-w1["Wrapper layer mcp_server/wrappers/<br/>~52 modules · _safe_tool error envelope"]
-sp["_subprocess core<br/>argv-only exec, never shell<br/>RSS caps on 7 memory-heavy wrappers"]
-end
+    EVID[("<b>Evidence — read-only</b><br/>/cases E01 disk images · memory dumps<br/>triage archives · YARA rule packs")]:::anchor
 
-subgraph SB["SIFT Workstation binaries"]
-direction TB
-s16["The SIFT-16<br/>vol · log2timeline · fls · icat · mmls · ewfinfo<br/>evtx_dump · yara · bulk_extractor · rip.pl · pf<br/>amcache · shimcache · exiftool · foremost · hashdeep"]
-ez["Eric Zimmerman tools<br/>dotnet /opt/ezt/net9 DLLs, .NET 9"]
-fu["ewf_lifecycle FUSE mount<br/>ewfmount + ntfs-3g, sudo"]
-end
+    IDX[("<b>Wazuh Indexer (OpenSearch)</b><br/>cases · evidence · findings · timeline<br/>iocs · approvals (per-day, hash-chained)")]:::anchor
 
-subgraph DS["Data sources - inputs"]
-direction TB
-d1["Evidence images<br/>/cases /mnt /media /evidence · read-only"]
-d2["Bundled YARA rule packs<br/>detectors/yara_rules/"]
-d3["Active-case pointer<br/>one-line file under ~/.agentropix"]
-end
+    subgraph OUT["Output pipeline — findings to courtroom"]
+        direction TB
+        DRAFT["<b>record_finding</b><br/><i>every ingest force-stamped DRAFT —<br/>the model cannot self-approve</i>"]:::det
+        PORTAL["<b>Examiner Approval Portal :8800</b><br/><b>HUMAN HMAC HARD-STOP</b><br/><i>60s single-use nonce · PBKDF2-600k key</i>"]:::hard
+        REP["<b>report_generate / report_export</b><br/>APPROVED-only · HMAC-sealed<br/><i>bound to evidence_image_sha256</i>"]:::det
+        SIEM["<b>Wazuh SIEM push</b> — operator-gated<br/><i>egt_ single-use token + dry-run kill switch<br/>+ false-positive denylists</i>"]:::det
+    end
 
-subgraph PS["Persistence"]
-direction TB
-p1["Wazuh Indexer :9200<br/>OpenSearch fork · HTTPS + Basic Auth"]
-p2["Case indices<br/>cases · evidence · findings · timeline<br/>iocs · approvals per-day"]
-p3["egt_ token registry<br/>SQLite 0600 · hash-stored · atomic spend"]
-p4["Audit artifacts<br/>Thymus JSONL · HTTP audit log · batch-push audit"]
-wm["Wazuh Manager API :55000<br/>HTTPS + JWT, separate auth chain"]
-end
+    GA["<b>ARCHITECTURAL guardrails — enforced in code</b><br/>Thymus read-only · fail-closed Bearer auth · force-DRAFT gate<br/>HMAC + anti-replay nonce · egt_ mutation tokens + kill switch<br/>courtroom sealing + raw_stdout_sha256 provenance · APPROVED-only reports"]:::garch
 
-subgraph OP["Output pipeline · findings to sealed report"]
-direction TB
-o1["record_finding / wazuh_index_findings<br/>W-286 force-DRAFT gate"]
-o2["Examiner Approval Portal :8800<br/>HUMAN HMAC HARD-STOP<br/>60s single-use nonce · PBKDF2-600k key"]
-o3["report_generate<br/>APPROVED-only reconciliation<br/>courtroom HMAC seal + audit cross-binding"]
-o4["report_export ADR-024<br/>3 audience tiers x md/html/pdf"]
-o5["wazuh_publish_iocs<br/>agentropix_* CDB lists + rules"]
-o6["BatchPushOrchestrator<br/>findings-to-alerts mapping · 180-day dedup"]
-end
+    GP["<b>PROMPT-BASED guardrails — conventions</b><br/>honest-negatives discipline · SIMULATED-approval labelling<br/>AI-disclosure · LLM narrative rendering<br/><i>each one backstopped by a code-side control</i>"]:::gprompt
 
-subgraph GA["ARCHITECTURAL guardrails - enforced in code, model cannot bypass"]
-direction TB
-ga1["Thymus read-only policy<br/>protects: every evidence read"]
-ga2["Fail-closed Bearer auth<br/>protects: HTTP transport"]
-ga3["Rate limiter + _safe_tool envelope<br/>protects: tool core"]
-ga4["W-286 force-DRAFT gate<br/>protects: finding ingest"]
-ga5["HMAC sidecar + nonce anti-replay<br/>+ precondition gate + hash chain<br/>protects: approval portal"]
-ga6["egt_ tokens + WAZUH_DRY_RUN_ONLY<br/>+ FP denylists<br/>protects: Wazuh push"]
-ga7["Courtroom sealing + verifier CLIs<br/>+ raw_stdout_sha256 provenance<br/>protects: report integrity"]
-ga8["APPROVED-only reports<br/>+ DRAFT-only delete<br/>protects: report generation"]
-ga9["Deterministic Critic halt<br/>+ reorder output validation<br/>protects: Trinity loop"]
-end
+    AGENT -- "MCP JSON-RPC<br/>tools/call" --> AUTH
+    AUTH -- "authenticated requests only" --> CORE
+    CORE -- "check_read gate" --> THY
+    CORE -- "dispatch" --> FAM
+    TRIN -- "direct Python import<br/>(not network MCP)" --> CORE
+    FAM -- "subprocess exec" --> BIN
+    EVID -- "read-only file I/O<br/>Thymus-allowlisted" --> FAM
+    CORE -- "IndexerClient · HTTPS" --> IDX
+    CORE -- "findings tools" --> DRAFT
+    DRAFT -- "DRAFT awaits examiner" --> PORTAL
+    PORTAL -- "APPROVED" --> REP
+    REP -- "optional, operator-gated" --> SIEM
+    OUT -- "DRAFT / APPROVED docs<br/>per-case hash chain" --> IDX
 
-subgraph GP["PROMPT-BASED guardrails - conventions the model is asked to follow"]
-direction TB
-gp1["Architect LLM-reorder system prompt<br/>code-backstopped - shapes: agent ordering"]
-gp2["SIMULATED-approval labeling<br/>shapes: demo recordings"]
-gp3["Honest-negatives report discipline<br/>shapes: report content"]
-gp4["AI-disclosure transparency<br/>shapes: report exports"]
-gp5["LLM narrative rendering of sections<br/>shapes: report prose"]
-end
+    SIEM ~~~ GA
+    REP ~~~ GP
 
-t1 --> t3
-
-c1 -->|"_safe_tool wrapped"| c2
-c2 --> c3
-c2 -->|"check_read before every exec"| c4
-
-tl -->|"deterministic ordering"| sw
-sw --> bb
-bb -->|"halt score"| tl
-
-f1 --> w1
-w1 --> sp
-
-p1 --- p2
-
-o1 -->|"DRAFT findings await examiner"| o2
-o2 -->|"APPROVED status"| o3
-o3 -->|"in-process projection"| o4
-o3 -->|"optional, operator-gated"| o5
-o5 -->|"egt_ token + kill switch + denylists"| o6
-
-AG -->|"MCP JSON-RPC - streamable HTTP :8765 + Bearer, or stdio"| TRB
-TRB -->|"authenticated requests only - fail-closed"| CORE
-a5 -->|"typer command, in-process - run_triage is NOT an MCP tool"| TRIN
-TRIN -->|"direct Python import - not network MCP"| CORE
-CORE -->|"in-process async dispatch"| TF
-TF -->|"asyncio.create_subprocess_exec - argv list, never shell - dotnet DLLs - sudo FUSE mount"| SB
-DS -->|"read-only file I/O - Thymus allowlist"| TF
-CORE -->|"IndexerClient - httpx HTTPS + Basic Auth + retry"| PS
-CORE -->|"record_finding / approval / report tools"| OP
-OP -->|"DRAFT + APPROVED docs - per-case prev_approval_hash chain - audit JSONL"| PS
-
-ga1 ~~~ ga2 ~~~ ga3
-ga4 ~~~ ga5 ~~~ ga6
-ga7 ~~~ ga8 ~~~ ga9
-gp1 ~~~ gp2 ~~~ gp3
-gp4 ~~~ gp5
-
-OP ~~~ GA
-PS ~~~ GP
-
-classDef agent fill:#dbeafe,stroke:#1d4ed8,color:#1e3a5f
-classDef auth fill:#ffedd5,stroke:#c2410c,color:#7c2d12
-classDef core fill:#ede9fe,stroke:#6d28d9,color:#3b0764
-classDef trin fill:#e0f2fe,stroke:#0369a1,color:#0c4a6e
-classDef tools fill:#dcfce7,stroke:#15803d,color:#14532d
-classDef bins fill:#f1f5f9,stroke:#475569,color:#1e293b
-classDef data fill:#fef9c3,stroke:#a16207,color:#713f12
-classDef persist fill:#ccfbf1,stroke:#0f766e,color:#134e4a
-classDef outp fill:#fce7f3,stroke:#be185d,color:#831843
-classDef hardstop fill:#fee2e2,stroke:#b91c1c,color:#7f1d1d,stroke-width:3px
-classDef garch fill:#bbf7d0,stroke:#166534,color:#14532d
-classDef gprompt fill:#fef3c7,stroke:#b45309,color:#78350f,stroke-dasharray:6 3
-
-class a1,a2,a3,a4,a5 agent
-class t1,t2,t3 auth
-class c1,c2,c3,c4 core
-class tl,sw,bb trin
-class f1,w1,sp tools
-class s16,ez,fu bins
-class d1,d2,d3 data
-class p1,p2,p3,p4,wm persist
-class o1,o3,o4,o5,o6 outp
-class o2 hardstop
-class ga1,ga2,ga3,ga4,ga5,ga6,ga7,ga8,ga9 garch
-class gp1,gp2,gp3,gp4,gp5 gprompt
-
-style GA fill:#f0fdf4,stroke:#166534,color:#14532d
-style GP fill:#fffbeb,stroke:#b45309,color:#78350f,stroke-dasharray:6 3
-style AG fill:#eff6ff,stroke:#1d4ed8,color:#1e3a5f
-style TRB fill:#fff7ed,stroke:#c2410c,color:#7c2d12
-style CORE fill:#f5f3ff,stroke:#6d28d9,color:#3b0764
-style TRIN fill:#f0f9ff,stroke:#0369a1,color:#0c4a6e
-style TF fill:#f0fdf4,stroke:#15803d,color:#14532d
-style SB fill:#f8fafc,stroke:#475569,color:#1e293b
-style DS fill:#fefce8,stroke:#a16207,color:#713f12
-style PS fill:#f0fdfa,stroke:#0f766e,color:#134e4a
-style OP fill:#fdf2f8,stroke:#be185d,color:#831843
+    style MCP fill:#f4fff6,stroke:#2f9e44,color:#1b4332
+    style TL fill:#fbfffb,stroke:#74b816,color:#2b4d12
+    style OUT fill:#fff8fa,stroke:#d6336c,color:#59102e
