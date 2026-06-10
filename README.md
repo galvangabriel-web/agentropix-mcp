@@ -73,6 +73,11 @@ LLM (Claude Desktop / Claude Code) that has the MCP server connected. A non-tech
 *"open a case for this disk image and run the SIFT triage"* and the session routes it to the real MCP
 tools; an expert calls the exact tool. *Adapt Agentropix to the user, not the user to Agentropix.*
 
+![Diagram — rendered at high resolution](assets/readme-1.png)
+
+<details>
+<summary>Mermaid source (editable)</summary>
+
 ```mermaid
 flowchart TB
     classDef stoch fill:#fff5e6,stroke:#f59f00,color:#222,stroke-width:2px
@@ -106,7 +111,9 @@ flowchart TB
     CRIT -- "stable_agents (next iteration)" --> ARCH
 ```
 
-> 📐 Renders wider than the column on GitLab — [**Open as SVG** (full size, zoomable)](assets/readme-1.svg).
+</details>
+
+> 📐 Rendered as a high-resolution PNG so it displays crisply on GitHub **and** GitLab — [**Open as SVG** (vector, zoomable)](assets/readme-1.svg).
 
 - **One tool surface, two consumers.** The same `@app.tool()` functions the swarm calls are also exposed
   to an LLM client; the server is built by `_build_app()` / `FastMCP("agentropix-sift")`
@@ -155,6 +162,11 @@ Full capability matrix: [What You Get](docs/01-overview/what-you-get.md).
 A DFIR examiner drives Agentropix-SIFT from the CLI on a local SIFT host. The engine never reaches
 outside that host except for the *optional* Wazuh push of already-APPROVED findings.
 
+![Diagram — rendered at high resolution](assets/readme-2.png)
+
+<details>
+<summary>Mermaid source (editable)</summary>
+
 ```mermaid
 flowchart TB
     classDef actor fill:#d0bfff,stroke:#7048e8,color:#2b1a52,stroke-width:2px
@@ -180,7 +192,9 @@ flowchart TB
     style Host fill:#f1f3f5,stroke:#868e96,color:#212529
 ```
 
-> 📐 Renders wider than the column on GitLab — [**Open as SVG** (full size, zoomable)](assets/readme-2.svg).
+</details>
+
+> 📐 Rendered as a high-resolution PNG so it displays crisply on GitHub **and** GitLab — [**Open as SVG** (vector, zoomable)](assets/readme-2.svg).
 
 Internally, the **Architect** proposes which agents to spawn (by default it returns the canonical
 `SWARM` tuple in priority order; a default-on Reflexion-lite step drops agents the Critic marked
