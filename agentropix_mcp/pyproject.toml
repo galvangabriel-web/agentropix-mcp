@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agentropix-mcp"
+version = "0.2.2"
+description = "Agentropix-SIFT MCP server — deterministic DFIR tool surface for MCP clients (Claude Code / Claude Desktop)"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.12"
+dependencies = [
+    "fastmcp>=3.2.4",
+    "pydantic>=2",
+    "httpx>=0.27",
+    "tenacity>=8.2",
+    "starlette>=0.37",
+    "uvicorn>=0.30",
+    "defusedxml>=0.7",
+    "psutil>=5",
+]
+
+[project.optional-dependencies]
+# In-process forensic parsers used by specific wrappers (all lazy-imported;
+# the wrappers degrade honestly when absent). The classic SIFT binaries
+# (vol, fls/mmls/icat, ewfinfo, yara, bulk_extractor, rip.pl, ...) are
+# resolved from PATH at call time and are NOT pip dependencies.
+forensics = [
+    "yara-python",
+    "pytsk3",
+    "libpff-python>=20231205",
+    "extract-msg>=0.48,<0.50",
+    "eml-parser",
+    "oletools",
+    "volatility3>=2.27.0",
+]
+reports = [
+    "markdown>=3.5",
+    "weasyprint>=60",
+]
+
+[project.scripts]
+agentropix-mcp = "agentropix_mcp.fastmcp_app:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agentropix_mcp"]
