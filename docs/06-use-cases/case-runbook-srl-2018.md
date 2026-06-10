@@ -278,23 +278,25 @@ threat_intel_lookup { "indicator":"stark-research-labs.co", "indicator_type":"do
 
 ---
 
-## Live capture
+## Live executions → the published case report
 
-A hybrid terminal capture of the **runnable shell subset** of this runbook (asciinema `.cast` + GIF +
-transcript, all run live against `/cases/SRL-2018/`) lives in
-[`assets/srl-2018-capture/`](assets/srl-2018-capture/README.md) — including a format evaluation
-(asciinema vs GIF vs MP4) with measured sizes and the rationale for not using MP4.
+This runbook **was executed live** against `/cases/SRL-2018/` — twice:
 
-Two **full live-execution reports** — the runbook actually run against `/cases/SRL-2018/`, with MP4s
-and Mermaid diagrams:
-- **Memory image** ([`assets/srl-2018-execution/`](assets/srl-2018-execution/execution-report-srl-2018.md))
-  — `base-hunt-memory.img`, ~6 min, 12 findings, 9 proofs, sealed + tamper-proven.
-- **Full DC E01** ([`assets/srl-2018-dc-execution/`](assets/srl-2018-dc-execution/execution-report-dc-srl-2018.md))
-  — `base-dc-cdrive.E01`, ~100 min, **252 findings**, 10 disk-path proofs, sealed; surfaces the real
-  finding that **Plaso timed out at 5452 s** (raise `AGENTROPIX_PLASO_TIMEOUT_CAP` for DC runs). The
-  video is **regenerated from the sealed report**, demonstrating MD/trace → video reproducibility.
+- **Memory image** — `base-hunt-memory.img`, ~6 min, 12 findings, 9 proofs, sealed + tamper-proven.
+- **Full DC E01** — `base-dc-cdrive.E01`, ~100 min, **252 findings**, 10 disk-path proofs, sealed;
+  surfaced the real finding that **Plaso timed out at 5452 s** (raise `AGENTROPIX_PLASO_TIMEOUT_CAP`
+  for DC runs), with the video **regenerated from the sealed report** (MD/trace → video
+  reproducibility).
 
-![SRL-2018 CLI capture](assets/srl-2018-capture/srl-2018-cli.gif)
+The full analysis now lives in the **published sealed case report** —
+[SRL-2018 Forensic Report](../12-CASES-REPORTS/srl-2018-report/SRL-2018-FORENSIC-REPORT.md) ·
+[Technical Appendix](../12-CASES-REPORTS/srl-2018-report/TECHNICAL-APPENDIX.md) ·
+[Wazuh IOC Gallery](../12-CASES-REPORTS/srl-2018-report/WAZUH-IOC-GALLERY.md) — including the
+recorded-session video (`training-session-paged.mp4`).
+
+> The early standalone demo folders (`srl-2018-capture/` hybrid CLI capture, `srl-2018-execution/`,
+> `srl-2018-dc-execution/`) were superseded by that report and removed in commit `32173fe`; git
+> history retains them if needed.
 
 ---
 
