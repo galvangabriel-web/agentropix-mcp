@@ -10,14 +10,81 @@ This page presents one validated architecture diagram of the Agentropix-SIFT run
 Reading order:
 
 1. **The diagram** — top-to-bottom: agent layer → transport/auth boundary → MCP server core → tool families → wrappers → SIFT Workstation binaries, with data sources feeding in, persistence at the side, and the findings → approval → sealed-report → Wazuh output pipeline.
-2. **Two guardrail columns** flank the flow: **ARCHITECTURAL** (green, solid border — enforced in code, the model cannot bypass them) and **PROMPT-BASED** (amber, dashed border — conventions an LLM is instructed to honor). Each guardrail box names the point it protects (e.g. “protects: approval portal”); the full enforcement-file mapping is in the table below.
-3. The **red, thick-bordered node** is the Examiner Approval Portal — the human HMAC hard-stop. No code path promotes a DRAFT finding to APPROVED without a valid challenge-response signature from the examiner.
+2. **[The components in detail](#the-components-in-detail--documentation-first-then-source-contrast)** — a narrative walk through each diagram layer: what the portal documentation says, then what the source code shows, with every disagreement called out (the source wins).
+3. **Two guardrail columns** flank the flow: **ARCHITECTURAL** (green, solid border — enforced in code, the model cannot bypass them) and **PROMPT-BASED** (amber, dashed border — conventions an LLM is instructed to honor). Each guardrail box names the point it protects (e.g. “protects: approval portal”); the full enforcement-file mapping is in the table below.
+4. The **red, thick-bordered node** is the Examiner Approval Portal — the human HMAC hard-stop. No code path promotes a DRAFT finding to APPROVED without a valid challenge-response signature from the examiner.
 
 The diagram is committed as a PNG (rendered from Mermaid source via `mmdc`) so it displays for every reader regardless of client-side Mermaid support.
 
 ![Agentropix-SIFT architecture](assets/architecture-diagram/architecture-diagram.png)
 
 🔍 [Open as SVG — full size, zoomable](assets/architecture-diagram/architecture-diagram.svg) · 📄 [Download as PDF](assets/architecture-diagram/architecture-diagram.pdf) · [Mermaid source](assets/architecture-diagram/architecture-diagram.mmd)
+
+---
+
+## The components in detail — documentation first, then source contrast
+
+Each subsection follows the validation discipline used to build the diagram: **what the portal
+documentation says** (docs/02-architecture, 04-mcp-tools, 05-safety-forensics, 09-integrations,
+10-agents, plus the oracle `README`/`CANONICAL_FACTS.md`) is stated first, then **what the source code
+under `src/agentropix_sift/` actually shows**, with every disagreement called out. Where the two
+conflict, the source is authoritative.
+
+### 1. The agent
+
+**Documentation** ([client-setup.md](../09-integrations/client-setup.md), [agentic-architecture.md](../10-agents/agentic-architecture.md), [user-guide.md](../01-overview/user-guide.md)): the "agent" is not a bundled LLM — it is whatever MCP client the operator attaches. Three consumer shapes are documented: **Claude Code CLI** (recommended; `claude mcp add --transport http` with a Bearer header), **Claude Desktop** (stdio-only GUI, bridged to the HTTP endpoint via an `npx mcp-remote` shim, 1 MB inline-result cap), and a **local stdio launch** via an `mcp.json` `command` entry. The dual-audience model means a non-technical user types a plain-language prompt and the session routes it to a real MCP tool.
+
+**Source contrast — confirmed, with two sharpenings:**
+
+- The literal `mcp.json` snippet is shipped *inside the module docstring* of the server package itself — the product is explicitly built to be mounted into a general-purpose Claude session.
+- There are also **non-LLM agents**. `agx_gearb.py` is a deterministic headless Python driver (one persistent `Mcp-Session-Id` HTTP session, per-step `SUMMARY.json` checkpoints, launched detached); it lives on the workstation **outside the product repo** and by design stages findings as DRAFT only, stopping at the approval gate. Inside the package, the **Trinity Loop + DFIR Swarm** (`trinity/`, `agents/`, `detectors/`) coordinates 13 SwarmAgent classes (7 core specialists + 6 ATT&CK detectors) over an asyncio-locked Blackboard — and the source is explicit that this is **LLM-free** ("no LLM coupling — pure async coroutines"). The *only* in-runtime LLM touchpoint in the entire package is the optional Architect reorder pass (`AGENTROPIX_ARCHITECT_LLM_REORDER`, default **off**, fail-open, Claude haiku), whose output is code-validated (see the guardrail table).
+- The BMAD/forge personas and OpenClaw crews that appear in the docs are **build-time and documentation-production roles only**; the source contains no runtime trace of them. A reader could misread the docs as implying a runtime multi-agent product — the code says otherwise.
+
+### 2. The SIFT Workstation tools
+
+**Documentation** ([tool-list.md](../04-mcp-tools/tool-list.md), [canonical-facts.md](../08-reference/canonical-facts.md)): 16 SIFT forensic binaries driven by wrapper modules, surfaced as 71 MCP tools grouped into families.
+
+**Source contrast — the concrete inventory:**
+
+- **The SIFT-16** (verified in the `doctor` preflight dict, `cli.py:176-196`): `vol` (Volatility 3), `log2timeline.py` (Plaso, 6 workers), `fls`/`icat`/`mmls` (Sleuth Kit), `ewfinfo` (libewf), `evtx_dump.py` (python-evtx; the Rust `evtx_dump` preferred when present), `yara`, `bulk_extractor`, `rip.pl` (RegRipper), `pf`, `amcache_parser`, `shimcache_parser`, `exiftool`, `foremost`, `hashdeep`.
+- **Eric Zimmerman tools** run as genuine .NET binaries — `dotnet /opt/ezt/net9/Tool/Tool.dll` — for MFTECmd, RECmd, LECmd, JLECmd, SBECmd, SQLECmd, and `bstrings` (stdin-piped, W-130).
+- **Auxiliary binaries** outside the 16: `esedbexport` (SRUM parsing — *libesedb*, not SrumECmd), `evtexport`, `strings`, `rabin2`, `capa`, `xxd`, `sgdisk`, `qemu-img`, `7z`/`tar`. Maldoc analysis (`olevba`/`oleid`/`rtfobj`) is an **in-process Python library** (oletools, W-221), not a shelled binary.
+- **Invocation discipline** (`mcp_server/wrappers/_subprocess.py`): everything runs via `asyncio.create_subprocess_exec` with an argv list — **never a shell**. Exactly **7 memory-heavy wrappers** (volatility, plaso, bstrings, jlecmd, sbecmd, sqlecmd, pdf_extract_text) get an RSS memory cap (`max(4096 MB, image_GB×730)`, W-162); the rest are timeout-kill only.
+- **Documentation corrections found:** env-name overrides (`AGENTROPIX_*_TOOL`) exist for only **11** tools — `vol`, `fls`/`mmls`, `ewfinfo`, `rip.pl` resolve via bare `shutil.which`, contrary to an "every wrapper" phrasing in earlier drafts. The wrapper directory is `mcp_server/wrappers/` with **59 `.py` files** (~52 wrapper modules + 7 support) — the canonical-facts "~40 files" row is stale, and the top-level `wrappers/` package (3 modules) is *not* the tool layer.
+
+### 3. The MCP server
+
+**Documentation** ([mcp-server.md](mcp-server.md), [fastmcp-execution.md](../10-agents/fastmcp-execution.md)): a single FastMCP server, two transports, the Thymus boundary, 71 tools.
+
+**Source contrast — confirmed with precision added:**
+
+- One **FastMCP 3.2.4** app named `agentropix-sift` (`mcp_server/fastmcp_app.py:_build_app`), decorator-registered: 67 `@app.tool()` in `fastmcp_app.py` + 5 via the Wazuh registrars = **72 live registrations** at HEAD vs the canonical **71** — a persistent off-by-one that the docs themselves resolve by designating `health`'s `len(await app.list_tools())` as the live source of truth. (A portal note claiming `wazuh_hunt_ioc` is "registered twice" is **wrong** — the source shows exactly one registration; the surplus grep hits are docstrings in `_safe_tool.py`.)
+- **Transports:** stdio is the default (`app.run()`, trust = process UID); streamable HTTP is opt-in on **:8765 at `/mcp`**, loopback unless explicitly exposed (ADR-017 tailnet-only). Stale `/sse` strings in the source are comments only.
+- **Auth:** `BearerTokenMiddleware` with `secrets.compare_digest` (constant-time, SIFT-W-281), injected by wrapping `app.http_app()` — FastMCP 3.x removed the `.app` shim, so it is NOT `app.run(middleware=[...])`. Boot is **fail-closed**: `_build_app()` raises without `AGENTROPIX_MCP_AUTH_TOKEN` unless `AGENTROPIX_MCP_DEV_MODE=1` — even a stdio launch refuses to start.
+- **The enforcement spine:** the shared tool core `server.py` (61 `mcp_*` async functions) carries the in-code statement *"The MCP server is the enforcement boundary — Thymus policy runs here, not in the agent."* A per-tool sliding-window `_RateLimiter` (default 60/min) and **47 `ThymusEvidencePolicy.check_read` call sites** sit in front of every wrapper execution.
+- On the plural "MCP servers": there is **one** MCP server. The Examiner Approval Portal (:8800) and the Wazuh services are companion HTTP services, not MCP servers.
+
+### 4. The data sources
+
+**Documentation** ([persisted-artifacts.md](../03-data/persisted-artifacts.md), [data-models.md](../03-data/data-models.md)): evidence under `/cases/`, YARA rules, case state, indexer persistence.
+
+**Source contrast:**
+
+- **Evidence (read-only inputs):** disk images (E01/raw/GPT), memory dumps, triage archives, PST/email — readable only under the Thymus-allowlisted prefixes `/cases/`, `/mnt/`, `/media/`, `/evidence/`, `/tmp/agentropix-sift-*`. `check_write()` on evidence **unconditionally rejects** — the agent literally has no tool to write evidence.
+- **YARA rule packs:** bundled under `detectors/yara_rules/` (e.g. `cobalt_strike_loader.yar`) plus the system rule directories.
+- **Case state:** a one-line active-case pointer at `~/.agentropix/active_case` (`AGENTROPIX_ACTIVE_CASE_DIR` overridable) resolves the default `case_id` for case-scoped tools.
+- **Persistence** (outputs that later become inputs): the **Wazuh Indexer** (OpenSearch fork, :9200; `IndexerClient` over httpx HTTPS + Basic Auth + tenacity retry) holding `agentropix-cases` (single doc, `_id=case_id`), `-evidence-*`, `-findings-*`, `-timeline-*`, `-iocs-*`, and per-day `-approvals-YYYY.MM.DD` indices with shipped index templates and ISM policies; the `egt_` token registry in SQLite (`~/.agentropix/evidence-gate.sqlite`, mode 0600, tokens stored as SHA-256 hashes, atomic verify-and-spend, 7-day TTL cap); and the audit artifacts (Thymus JSONL + in-memory ring, `/var/log/agentropix/http_audit.log`, batch-push audit JSONL + 180-day dedup cache).
+- **Documentation correction:** the Hippocampus "memory" module is opt-in (default OFF) and holds **in-memory-only** reasoning traces for Trinity recall — it is *not* a persistence indexer, despite how the docs could read.
+
+### 5. The output pipeline
+
+**Documentation** ([human-in-the-loop.md](../05-safety-forensics/human-in-the-loop.md), [audit-courtroom.md](../05-safety-forensics/audit-courtroom.md), ADR-016/022/024) and source agree on the shape; the source pins the mechanics:
+
+1. **`record_finding` / `wazuh_index_findings`** — every ingest is **force-stamped DRAFT** (the W-286 gate strips any caller-supplied `approval.*`), idempotent on `(case_id, finding_id)`; live writes additionally require a single-use `egt_` token. Writes go to `agentropix-findings-*`, *not* the Wazuh alerts index.
+2. **Examiner Approval Portal** (Starlette, :8800, W-288) — the human hard-stop: `POST /challenge` issues a 60-second single-use nonce; `POST /approve` requires an HMAC-SHA256 signature with a PBKDF2-600k-derived key from the examiner's password, plus the BUG-001 precondition gate (the target must exist and currently hold the asserted `from_status`). **Source correction:** the per-case `prev_approval_hash` chain (Phase 2) **has shipped** — `approval_sidecar/writer.py:141-328` backfills it before every bulk write and `verify_approval_chain` walks it; portal prose still calling it "deferred" is stale.
+3. **`report_generate`** — 6 query profiles (full/executive/timeline/ioc/findings/status); reconciles **APPROVED-only** findings and warns when 0 APPROVED but DRAFTs exist. **`report_export`** (ADR-024) projects the result into 3 audience tiers × md/html/pdf — presentation-only ("adds no new evidence"); the pdf path is capability-gated and never auto-installs.
+4. **Courtroom sealing** — HMAC-SHA256 with a per-run 32-byte session key (mode 0600); the audit-log seal is cross-bound into the report *before* the report seal (ADR-022), and `evidence_image_sha256` binds the report to the image bytes (1 MiB chunks, 50 GB cap with an honest skip). `verify_seal.py` / `provenance/validate.py` are exit-code hard gates.
+5. **Optional SIEM egress** — `wazuh_publish_iocs` to the Wazuh **Manager** API (:55000, HTTPS+JWT — a separate auth chain from the Indexer's Basic Auth) pushing `agentropix_*` CDB lists + rules with one coalesced restart; gated by `egt_` token, false-positive denylists, and the `WAZUH_DRY_RUN_ONLY` kill switch (checked *before* token verification). **Source correction:** the routing table (`wazuh/orchestrator.py`) defines **8** CDB list kinds, not the "6" some pages state. A separate `BatchPushOrchestrator` maps findings→alerts (`wazuh-alerts-dfir-STAGING-*` on dry-run, live via the Manager) with a 180-day dedup cache; shipped dashboards (`agentropix-findings.ndjson`) provide the Findings/Timeline views.
 
 ---
 
