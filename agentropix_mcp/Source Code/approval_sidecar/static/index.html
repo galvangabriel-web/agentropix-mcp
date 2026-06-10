@@ -1,0 +1,312 @@
+<!doctype html>
+<!--
+  SIFT-W-294 (Phase 2): Approval sidecar browser UX.
+
+  Web Crypto API derives the PBKDF2 key client-side from the operator's
+  typed password. The password NEVER leaves the browser — what travels
+  to the sidecar is only HMAC-SHA256(key, message). Mirrors the
+  Valhuntir Examiner Portal challenge-response flow.
+
+  The page is intentionally a single self-contained HTML file with no
+  external dependencies. The operator just opens it; nothing to install.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Agentropix Approval Sidecar</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --panel: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #2da44e;
+    --warn: #d29922;
+    --error: #f85149;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--text); margin: 0;
+    line-height: 1.45;
+  }
+  main { max-width: 720px; margin: 40px auto; padding: 0 24px; }
+  h1 { font-size: 22px; margin: 0 0 8px; }
+  .subtitle { color: var(--muted); margin: 0 0 24px; font-size: 14px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 8px; padding: 20px 24px; margin-bottom: 16px;
+  }
+  label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 4px; }
+  input, select, textarea {
+    width: 100%; padding: 8px 10px; font-size: 14px;
+    background: var(--bg); color: var(--text);
+    border: 1px solid var(--border); border-radius: 6px;
+    font-family: inherit;
+  }
+  input[type=password] { font-family: var(--mono); }
+  textarea { min-height: 60px; font-family: inherit; }
+  .row { display: flex; gap: 12px; }
+  .row > * { flex: 1; }
+  button {
+    margin-top: 16px; padding: 10px 16px; font-size: 14px;
+    background: var(--accent); color: white; border: 0; border-radius: 6px;
+    cursor: pointer; font-weight: 600;
+  }
+  button.reject { background: var(--error); }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .result {
+    margin-top: 16px; padding: 12px; border-radius: 6px;
+    font-family: var(--mono); font-size: 12px; white-space: pre-wrap;
+    background: var(--bg); border: 1px solid var(--border);
+  }
+  .result.ok { border-color: var(--accent); }
+  .result.err { border-color: var(--error); color: var(--error); }
+  .note {
+    color: var(--warn); font-size: 12px; margin-top: 8px;
+  }
+  .meta { color: var(--muted); font-size: 12px; font-family: var(--mono); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Agentropix Approval Sidecar</h1>
+  <p class="subtitle">Approve or reject a finding. PBKDF2 + HMAC-SHA256 are computed in your browser — your password never leaves this page.</p>
+
+  <div class="card">
+    <div class="row">
+      <div>
+        <label for="examiner_id">Examiner ID</label>
+        <input id="examiner_id" type="text" autocomplete="username" />
+      </div>
+      <div>
+        <label for="case_id">Case ID</label>
+        <input id="case_id" type="text" placeholder="INC-2026-..." />
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="target_id">Finding / Event / Approval ID</label>
+        <input id="target_id" type="text" placeholder="F-alice-001 (or approval_id when retracting)" />
+      </div>
+      <div>
+        <label for="target_type">Target Type</label>
+        <select id="target_type">
+          <option value="finding">finding</option>
+          <option value="timeline">timeline</option>
+          <option value="approval">approval (retract / void)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="from_status">From</label>
+        <select id="from_status">
+          <option value="DRAFT">DRAFT</option>
+          <option value="APPROVED">APPROVED</option>
+        </select>
+      </div>
+      <div>
+        <label for="to_status">To</label>
+        <select id="to_status">
+          <option value="APPROVED">APPROVED</option>
+          <option value="REJECTED">REJECTED</option>
+          <option value="REVOKED">REVOKED</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="reason">Reason (optional)</label>
+    <textarea id="reason" placeholder="Why you're approving / rejecting"></textarea>
+
+    <label for="password">Approver password</label>
+    <input id="password" type="password" autocomplete="current-password" />
+    <p class="note">Your password is processed entirely in this browser tab. It is used to derive a PBKDF2 key locally; only the HMAC of the approval message is transmitted.</p>
+
+    <button id="submit">Sign &amp; Submit</button>
+    <button id="cancel" type="button" style="background:#21262d">Clear</button>
+
+    <div id="result" class="result" hidden></div>
+  </div>
+
+  <p class="meta">SIFT-W-288 / W-294 · same-workstation deployment · audit log at <span id="audit-loc">/var/log/agentropix/approval-sidecar.log</span></p>
+</main>
+
+<script>
+  // Web Crypto API helpers ----------------------------------------- //
+
+  const enc = new TextEncoder();
+
+  function hexToBytes(hex) {
+    const bytes = new Uint8Array(hex.length / 2);
+    for (let i = 0; i < bytes.length; i++) {
+      bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+    }
+    return bytes;
+  }
+
+  function bytesToHex(buf) {
+    return Array.from(new Uint8Array(buf))
+      .map((b) => b.toString(16).padStart(2, '0'))
+      .join('');
+  }
+
+  async function deriveKey(password, saltBytes, iterations) {
+    const baseKey = await crypto.subtle.importKey(
+      'raw', enc.encode(password), { name: 'PBKDF2' }, false, ['deriveBits']
+    );
+    const bits = await crypto.subtle.deriveBits(
+      {
+        name: 'PBKDF2',
+        salt: saltBytes,
+        iterations: iterations,
+        hash: 'SHA-256',
+      },
+      baseKey,
+      256
+    );
+    return new Uint8Array(bits);
+  }
+
+  async function hmacSha256(keyBytes, messageBytes) {
+    const k = await crypto.subtle.importKey(
+      'raw', keyBytes, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
+    );
+    const sig = await crypto.subtle.sign('HMAC', k, messageBytes);
+    return bytesToHex(sig);
+  }
+
+  function buildSignedMessage({ nonce, target_id, target_type, from_status, to_status, case_id }) {
+    // Mirrors approval_sidecar.auth.build_signed_message — components
+    // joined by NUL (0x00). The browser must produce the same bytes
+    // the server's verify_signature will recompute.
+    const parts = [nonce, target_id, target_type, from_status, to_status, case_id];
+    const sep = new Uint8Array([0]);
+    const chunks = [];
+    parts.forEach((p, i) => {
+      if (i > 0) chunks.push(sep);
+      chunks.push(enc.encode(p));
+    });
+    const total = chunks.reduce((n, c) => n + c.length, 0);
+    const out = new Uint8Array(total);
+    let off = 0;
+    for (const c of chunks) {
+      out.set(c, off); off += c.length;
+    }
+    return out;
+  }
+
+  // Wire up the form ----------------------------------------------- //
+
+  const el = (id) => document.getElementById(id);
+  const fields = ['examiner_id', 'case_id', 'target_id', 'target_type',
+    'from_status', 'to_status', 'reason', 'password'];
+
+  function readForm() {
+    const out = {};
+    fields.forEach((k) => { out[k] = el(k).value.trim(); });
+    return out;
+  }
+
+  function show(payload, ok) {
+    const r = el('result');
+    r.hidden = false;
+    r.className = 'result ' + (ok ? 'ok' : 'err');
+    r.textContent = typeof payload === 'string' ? payload : JSON.stringify(payload, null, 2);
+  }
+
+  async function submitFlow() {
+    const form = readForm();
+    const required = ['examiner_id', 'case_id', 'target_id', 'password'];
+    for (const f of required) {
+      if (!form[f]) { show(`Missing field: ${f}`, false); return; }
+    }
+    // Retraction (target_type=approval) is a compensating VOID of a prior
+    // approval: target_id must be the approval_id, the transition is
+    // APPROVED -> REVOKED, and a reason is mandatory for chain-of-custody.
+    if (form.target_type === 'approval') {
+      if (!form.reason) {
+        show('Reason is required when retracting (target_type=approval).', false);
+        return;
+      }
+      if (form.from_status !== 'APPROVED' || form.to_status !== 'REVOKED') {
+        show('Retraction must be From=APPROVED To=REVOKED. Set those, or pick a finding/timeline target.', false);
+        return;
+      }
+    }
+    el('submit').disabled = true;
+    show('Requesting challenge…', true);
+
+    try {
+      // 1) /challenge
+      const chResp = await fetch('/challenge', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          examiner_id: form.examiner_id,
+          target_id: form.target_id,
+          target_type: form.target_type,
+        }),
+      });
+      const ch = await chResp.json();
+      if (!chResp.ok) { show(ch, false); return; }
+
+      show('Deriving key (PBKDF2 ' + ch.iterations.toLocaleString() + ' iterations)…', true);
+
+      // 2) Local key derivation + HMAC
+      const salt = hexToBytes(ch.salt_hex);
+      const key = await deriveKey(form.password, salt, ch.iterations);
+      const msg = buildSignedMessage({
+        nonce: ch.nonce,
+        target_id: form.target_id,
+        target_type: form.target_type,
+        from_status: form.from_status,
+        to_status: form.to_status,
+        case_id: form.case_id,
+      });
+      const sig = await hmacSha256(key, msg);
+
+      show('Submitting approval…', true);
+
+      // 3) /approve
+      const apResp = await fetch('/approve', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          case_id: form.case_id,
+          target_id: form.target_id,
+          target_type: form.target_type,
+          from_status: form.from_status,
+          to_status: form.to_status,
+          examiner_id: form.examiner_id,
+          nonce: ch.nonce,
+          signature_hex: sig,
+          reason: form.reason,
+        }),
+      });
+      const ap = await apResp.json();
+      if (!apResp.ok) { show(ap, false); return; }
+
+      show(ap, true);
+      // Wipe the password field once we're done.
+      el('password').value = '';
+    } catch (exc) {
+      show('Error: ' + exc, false);
+    } finally {
+      el('submit').disabled = false;
+    }
+  }
+
+  el('submit').addEventListener('click', submitFlow);
+  el('cancel').addEventListener('click', () => {
+    fields.forEach((f) => { el(f).value = ''; });
+    el('result').hidden = true;
+  });
+</script>
+</body>
+</html>

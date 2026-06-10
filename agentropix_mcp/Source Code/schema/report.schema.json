@@ -1,0 +1,123 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Agentropix-SIFT Triage Report",
+    "type": "object",
+    "required": ["version", "image", "max_iterations", "iterations_completed", "findings", "status", "trace"],
+    "properties": {
+        "version": {"type": "string"},
+        "image": {"type": "string"},
+        "max_iterations": {"type": "integer", "minimum": 1},
+        "iterations_completed": {"type": "integer", "minimum": 0},
+        "status": {"type": "string", "enum": ["complete", "budget_exhausted", "error", "stub"]},
+        "inference_constraint": {
+            "type": "string",
+            "enum": ["high", "medium", "low"],
+            "description": "M8.2 / ADR-016 — design declaration. 'high' = LLM is orchestrator only; every fact in the report originates from a named deterministic MCP tool whose invocation is captured in `trace.tool_calls`."
+        },
+        "evidence_image_sha256": {
+            "type": ["string", "null"],
+            "description": "M8.2b — SHA-256 hex digest of the evidence image computed at session start. Binds the report to the bytes that were triaged. Null when image was unhashable (oversize, non-file, missing); operators may supply offline-computed digest via AGENTROPIX_EVIDENCE_SHA256."
+        },
+        "report_seal": {
+            "type": ["string", "null"],
+            "description": "M8.2a / ADR-016 — HMAC-SHA256 hex digest over the canonicalised report JSON. Computed at write time by `cli.py`; verified by reading `<report>.session-key` (mode 0600) alongside the report. Null when the report was written without sealing (test fixtures only)."
+        },
+        "completion_proofs": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "M8.3d — verifiable completion-promise tokens (e.g. `TIMELINE_GENERATED`, `MEMORY_TRIAGED`). One token per agent that successfully published ≥1 Finding this run. Sorted for diff-stability. Verifiers can fail a run that delivered findings but is missing a required promise."
+        },
+        "findings": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": ["_source", "confidence", "description"],
+                "properties": {
+                    "_source": {"type": "string", "description": "Tool name that produced this finding"},
+                    "confidence": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                    "description": {"type": "string"},
+                    "evidence": {"type": "string"},
+                    "evidence_dict": {
+                        "type": "object",
+                        "description": "W-073 — typed evidence container for cross-modal IOC fusion. Common fields: ip, path, container_path, process, pid, ppid, hash_sha256, registry_key, registry_value, command_line. Memory-side wrappers populate this; disk-side wrappers may add it incrementally. Omitted (or empty object) on findings that haven't migrated.",
+                        "additionalProperties": true
+                    },
+                    "timestamp": {"type": "string"},
+                    "mitre_attack": {"type": "string"},
+                    "related_findings": {"type": "array", "items": {"type": "string"}},
+                    "file_sha256": {"type": "string", "description": "Issue #10 / #11 — lowercase hex SHA-256 of the byte payload backing this finding (e.g. inode bytes for a T1105 staged-binary, dumped VAD bytes for a malfind RWX hit). Omitted when no payload was hashed."}
+                }
+            }
+        },
+        "trace": {
+            "type": "object",
+            "required": ["tool_calls", "start_time", "end_time"],
+            "properties": {
+                "tool_calls": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["tool", "timestamp", "duration_ms"],
+                        "properties": {
+                            "tool": {"type": "string"},
+                            "timestamp": {"type": "string"},
+                            "duration_ms": {"type": "number"},
+                            "result_summary": {"type": "string"},
+                            "args_hash": {"type": "string"},
+                            "exit_code": {"type": "integer"},
+                            "raw_output": {
+                                "type": "string",
+                                "description": "M8.2c / ADR-016 — bounded snapshot of the tool return value PRE-LLM-summarisation (default 4 KiB; tunable via AGENTROPIX_TRACE_RAW_MAX_BYTES). Lets a defense expert replay the deterministic step. Omitted when capture failed."
+                            },
+                            "counters": {
+                                "type": "object",
+                                "description": "M6.4 W-060 instrumentation — structured dataflow counters (e.g. jsonl_rows_read, priority_hits_by_family, events_received_by_agent, detectors_fired_by_id) attached to instrumentation records like trace.timeline.counters.",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                },
+                "counters": {
+                    "type": "object",
+                    "description": "M6.4 W-060 persistence — structured dataflow counters keyed by tool name (e.g. 'trace.timeline.counters' → {jsonl_rows_read, priority_hits_by_family, ...}). Mirrors the per-record counters in tool_calls but indexed for cheap lookup. Present even when tool_calls has error records so counters survive wrapper timeouts.",
+                    "additionalProperties": {"type": "object"}
+                },
+                "start_time": {"type": "string"},
+                "end_time": {"type": "string"},
+                "total_duration_ms": {"type": "number"}
+            }
+        },
+        "thymus_audit": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "timestamp": {"type": "string"},
+                    "action": {"type": "string"},
+                    "path": {"type": "string"},
+                    "reason": {"type": "string"}
+                }
+            }
+        },
+        "critic_score": {"type": ["number", "null"], "minimum": 0.0, "maximum": 1.0},
+        "critic_feedback": {"type": ["string", "null"]},
+        "iterations": {
+            "type": "array",
+            "description": "Per-iteration TrinityResult JSON (Reflexion-lite, SIFT-W-045). One entry per Trinity iteration; dropped_agents powers the iter-1 vs iter-2 demo beat.",
+            "items": {
+                "type": "object",
+                "required": ["iteration", "plan", "critic_score", "should_halt"],
+                "properties": {
+                    "iteration": {"type": "integer", "minimum": 1},
+                    "plan": {"type": "array", "items": {"type": "string"}},
+                    "stable_agents": {"type": "array", "items": {"type": "string"}},
+                    "dropped_agents": {"type": "array", "items": {"type": "string"}},
+                    "gaps": {"type": "array", "items": {"type": "string"}},
+                    "critic_score": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                    "critic_feedback": {"type": "string"},
+                    "should_halt": {"type": "boolean"}
+                }
+            }
+        }
+    }
+}

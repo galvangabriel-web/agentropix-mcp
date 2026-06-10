@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropix.io/schema/master_iocs.schema.json",
+  "title": "MASTER-IOCS.json schema (additive v2)",
+  "description": "Schema for MASTER-IOCS.json produced by master_iocs_aggregator (W-203). Additive over the legacy iocs-only shape.",
+  "type": "object",
+  "required": ["iocs"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "description": "Version tag for this schema; legacy MASTER-IOCS.json files may omit it (loader stays back-compatible).",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}\\.v[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "description": "Operator-scoped case identifier; uppercase alphanumerics with underscore and hyphen, leading alphanumeric.",
+      "pattern": "^[A-Z0-9][A-Z0-9_\\-]{0,63}$"
+    },
+    "generated_at_utc": {
+      "type": "string",
+      "description": "ISO-8601 UTC timestamp when this MASTER-IOCS.json was written.",
+      "format": "date-time"
+    },
+    "generator_id": {
+      "type": "string",
+      "description": "Identifier for the writer module plus the git SHA in the form module@sha.",
+      "minLength": 3,
+      "maxLength": 256
+    },
+    "corpus_root_id": {
+      "type": "string",
+      "description": "HMAC-truncated identifier for the corpus mount root; replaces leaking the absolute filesystem path.",
+      "pattern": "^hmac-sha256:[0-9a-f]{16,64}$"
+    },
+    "iocs": {
+      "type": "array",
+      "description": "Discriminator-routed list of IOC records consumed by the case loader.",
+      "items": {
+        "type": "object",
+        "required": ["kind", "case_id"],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "Discriminator field naming the IOC variant; loader routes on this.",
+            "enum": [
+              "ip",
+              "hash_sha256",
+              "hash_md5",
+              "process_name",
+              "process_image",
+              "process_module",
+              "registry_key",
+              "process_tree_event"
+            ]
+          },
+          "case_id": {
+            "type": "string",
+            "description": "Same operator-scoped case identifier as the top-level case_id.",
+            "pattern": "^[A-Z0-9][A-Z0-9_\\-]{0,63}$"
+          },
+          "value": {
+            "type": "string",
+            "description": "Stringified IOC value for legacy kinds; absent on process_tree_event.",
+            "maxLength": 1024
+          },
+          "confidence": {
+            "description": "Confidence band for the indicator; legacy kinds use string enum, process_tree_event uses numeric.",
+            "oneOf": [
+              {"type": "string", "enum": ["high", "medium", "low"]},
+              {"type": "number", "minimum": 0.0, "maximum": 1.0}
+            ]
+          },
+          "mitre": {
+            "type": ["string", "null"],
+            "description": "MITRE ATT&CK technique identifier in T#### or T####.### form.",
+            "pattern": "^T[0-9]{4}(\\.[0-9]{3})?$"
+          },
+          "host": {
+            "type": ["string", "null"],
+            "description": "Per-host bucket name from which the indicator was extracted; required on process_tree_event.",
+            "maxLength": 255
+          },
+          "pid": {
+            "type": ["integer", "null"],
+            "description": "Process identifier from the memory snapshot for process_tree_event rows.",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "parent_pid": {
+            "type": ["integer", "null"],
+            "description": "Parent process identifier from the memory snapshot for process_tree_event rows.",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "name": {
+            "type": ["string", "null"],
+            "description": "Process image basename as observed by the volatility pslist walker.",
+            "maxLength": 255
+          },
+          "image_path_normalized": {
+            "type": ["string", "null"],
+            "description": "Lowercased SystemRoot-expanded forward-slash path; null when upstream did not emit a path.",
+            "maxLength": 1024
+          },
+          "image_sha256": {
+            "type": ["string", "null"],
+            "description": "Lowercase 64-char hex SHA-256 of the on-disk image binary; null when source did not expose it.",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "image_hash_source": {
+            "type": ["string", "null"],
+            "description": "Tag describing how image_sha256 was resolved or that the path-string fallback was used.",
+            "enum": ["disk", "memory", "path-string", "absent", null]
+          },
+          "command_line_redacted": {
+            "type": ["string", "null"],
+            "description": "Redactor output for the process command line; null when upstream did not surface a command line.",
+            "maxLength": 4096
+          },
+          "command_line_sha256": {
+            "type": ["string", "null"],
+            "description": "Lowercase 64-char hex SHA-256 over the original unredacted command line; evidence-chain helper only.",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "first_seen_utc": {
+            "type": ["string", "null"],
+            "description": "ISO-8601 UTC timestamp from the source finding when the process tree row was first observed.",
+            "format": "date-time"
+          },
+          "source_artifact": {
+            "type": ["string", "null"],
+            "description": "Corpus-relative path to the per-host report.json that produced this row; never an absolute path.",
+            "maxLength": 1024
+          },
+          "source_finding_index": {
+            "type": ["integer", "null"],
+            "description": "Zero-based index of the original Finding within the per-host findings array.",
+            "minimum": 0
+          },
+          "evidence_kind": {
+            "type": ["string", "null"],
+            "description": "Sub-kind of the process tree finding as classified by the source emitter.",
+            "enum": ["orphan", "suspicious", null]
+          },
+          "evidence_reason": {
+            "type": ["string", "null"],
+            "description": "Short free-text reason copied from the source finding when it carried one; redacted.",
+            "maxLength": 1024
+          },
+          "threads": {
+            "type": ["integer", "null"],
+            "description": "Thread count parsed from the source evidence line; zero when not surfaced.",
+            "minimum": 0
+          },
+          "wow64": {
+            "type": ["boolean", "null"],
+            "description": "Whether the process executes under WOW64 according to the source evidence line."
+          },
+          "redacted": {
+            "type": "boolean",
+            "description": "True when at least one credential pattern was redacted from this row by redact_finding."
+          },
+          "redactor_version": {
+            "type": "string",
+            "description": "Version tag for the redactor that processed this row.",
+            "maxLength": 32
+          },
+          "port": {"type": ["integer", "null"], "description": "Network port for ip rows.", "minimum": 1, "maximum": 65535},
+          "connection_state": {"type": ["string", "null"], "description": "TCP connection state label for ip rows."},
+          "source_path": {"type": ["string", "null"], "description": "Legacy source-path field for non-process-tree kinds.", "maxLength": 1024},
+          "host_count": {"type": ["integer", "null"], "description": "Number of hosts observing this indicator for legacy kinds.", "minimum": 1},
+          "filename_hint": {"type": ["string", "null"], "description": "Filename hint preserved for hash kinds.", "maxLength": 255},
+          "persistence_type": {"type": ["string", "null"], "description": "Persistence subtype label for registry kinds.", "maxLength": 64},
+          "context": {"type": ["string", "null"], "description": "Free-text context for legacy kinds.", "maxLength": 256},
+          "provenance": {
+            "type": ["object", "null"],
+            "description": "Optional WZ-019 provenance triple block; structural shape preserved for legacy kinds."
+          }
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"kind": {"const": "process_tree_event"}}},
+            "then": {
+              "required": ["kind", "case_id", "host", "pid", "parent_pid", "name", "redacted", "redactor_version"]
+            }
+          }
+        ]
+      }
+    },
+    "process_tree_findings_skipped": {
+      "type": "array",
+      "description": "Per-host skip rows emitted when a report.json failed to parse or had no input.",
+      "items": {
+        "type": "object",
+        "required": ["host", "source_artifact", "reason_class"],
+        "properties": {
+          "host": {
+            "type": "string",
+            "description": "Per-host bucket name whose report.json was skipped.",
+            "maxLength": 255
+          },
+          "source_artifact": {
+            "type": "string",
+            "description": "Corpus-relative path to the per-host report.json that was skipped.",
+            "maxLength": 1024
+          },
+          "reason_class": {
+            "type": "string",
+            "description": "Python exception class name or sentinel describing the skip cause.",
+            "maxLength": 128
+          },
+          "reason_detail": {
+            "type": ["string", "null"],
+            "description": "Truncated reason detail; redacted and capped before write.",
+            "maxLength": 256
+          }
+        }
+      }
+    }
+  }
+}
