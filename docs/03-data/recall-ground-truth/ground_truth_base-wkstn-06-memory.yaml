@@ -1,0 +1,119 @@
+# Ground Truth - base-wkstn-06-memory.img (SANS SRL-2018 Compromised Enterprise Network)
+#
+# Workstation #6 memory snapshot. The 2026-05-03 FULL-CASE memory pass
+# surfaced 120 findings on this host:
+#   - 108 memory.socket (TCPv4/UDP, 6 sockets to 172.16.4.6 (DC),
+#                        2 sockets to 248.86.12.27 (PUBLIC IP - external C2),
+#                        listeners on 3389/445/5985/8081/47001)
+#   - 8   memory.pslist (csrss x2, choco.exe (Chocolatey package manager),
+#                        certutil.exe, plus standard winlogon/explorer)
+#   - 4   informational
+#
+# Authored 2026-05-06. Wkstn-06-specific signal: 248.86.12.27 PUBLIC IP
+# outbound (T1071.001 web protocols / external C2 candidate - ONLY host
+# in the case with public-IP outbound), choco.exe orphan (T1072 Software
+# Deployment Tools - distinctive package-manager evidence), certutil.exe
+# (T1140 LOLBin), plus port 8081 listener (HTTP alt) and 47001 (WinRM HTTPS).
+
+case_id: "SANS-APT-WKSTN06-MEM-2018"
+image: "base-wkstn-06-memory.img"
+filesystem: "memory"
+description: >
+  SANS SRL-2018 Compromised Enterprise Network - user workstation #6
+  memory snapshot. The ONLY host with public-IP outbound traffic
+  (248.86.12.27, 2 sockets) - external C2 candidate. choco.exe orphan
+  (Chocolatey package manager) is distinctive evidence of T1072 Software
+  Deployment Tools usage. certutil.exe LOLBin (T1140) + port 8081 listener
+  (HTTP alt) round out the externally-leaning attacker profile.
+
+expected_tactics:
+  - "T1003.002"   # OS Credential Dumping
+  - "T1055"       # Process Injection (clean baseline)
+  - "T1071"       # Application Layer Protocol (108 sockets)
+  - "T1071.001"   # Web Protocols (248.86.12.27 public IP - C2 candidate)
+  - "T1140"       # Deobfuscate/Decode Files (certutil LOLBin)
+  - "T1072"       # Software Deployment Tools (choco.exe Chocolatey)
+  - "T1547.001"   # Boot/Logon Autostart (csrss x2 + winlogon orphans)
+
+expected_findings:
+  - artifact_path: "memory.credentials"
+    description: "Credential triage attempt (T1003.002)"
+    mitre_technique_id: "T1003.002"
+    expected_agent: "MemoryAgent"
+    difficulty: "correlation"
+    evidence_keywords:
+      - "Credential"
+      - "triage"
+      - "impacket"
+
+  - artifact_path: "memory.injection"
+    description: "Process injection scan baseline (wkstn-06 clean)"
+    mitre_technique_id: "T1055"
+    expected_agent: "MemoryAgent"
+    difficulty: "trivial"
+    evidence_keywords:
+      - "Injection"
+      - "indicators"
+      - "malfind"
+
+  - artifact_path: "memory.netscan"
+    description: "Network endpoint inventory (108 sockets, 6 to 172.16.4.6 DC)"
+    mitre_technique_id: "T1071"
+    expected_agent: "MemoryAgent"
+    difficulty: "trivial"
+    evidence_keywords:
+      - "TCPv4"
+      - "172.16"
+      - "proto"
+
+  - artifact_path: "memory.netscan"
+    description: "PUBLIC IP outbound 248.86.12.27 - external C2 candidate (T1071.001 Web Protocols, ONLY host with public outbound)"
+    mitre_technique_id: "T1071.001"
+    expected_agent: "MemoryAgent"
+    difficulty: "yara_hit"
+    evidence_keywords:
+      - "248.86.12.27"
+      - "TCPv4"
+      - "foreign"
+
+  - artifact_path: "memory.pslist"
+    description: "certutil.exe orphan - LOLBin for decoding / file download (T1140)"
+    mitre_technique_id: "T1140"
+    expected_agent: "MemoryAgent"
+    difficulty: "yara_hit"
+    evidence_keywords:
+      - "certutil"
+      - "Orphan"
+      - "ppid"
+
+  - artifact_path: "memory.pslist"
+    description: "choco.exe orphan - Chocolatey package manager (T1072 Software Deployment Tools, distinctive)"
+    mitre_technique_id: "T1072"
+    expected_agent: "MemoryAgent"
+    difficulty: "yara_hit"
+    evidence_keywords:
+      - "choco"
+      - "Orphan"
+      - "ppid"
+
+  - artifact_path: "memory.pslist"
+    description: "csrss x2 + winlogon orphan processes - autostart cluster"
+    mitre_technique_id: "T1547.001"
+    expected_agent: "MemoryAgent"
+    difficulty: "correlation"
+    evidence_keywords:
+      - "csrss"
+      - "Orphan"
+      - "ppid"
+
+scoring:
+  true_positives: 7
+  false_positive_penalty: -0.5
+  hallucination_is_fp: true
+  recall_threshold: 0.57
+  notes: >
+    base-wkstn-06-memory expects 7 distinct techniques. Wkstn-06 is the
+    only host with public-IP outbound (248.86.12.27) - distinctive
+    external C2 signal. Combined with choco.exe + certutil.exe LOLBin
+    chain, this host has the strongest external-touching attacker
+    profile of the workstation set.

@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "agentropix-mcp"
-version = "0.2.2"
-description = "Agentropix-SIFT MCP server — deterministic DFIR tool surface for MCP clients (Claude Code / Claude Desktop)"
+version = "0.3.0"
+description = "Agentropix-SIFT MCP server + Trinity-Loop/Swarm engine — deterministic DFIR tool surface for MCP clients (Claude Code / Claude Desktop)"
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.12"
@@ -37,6 +37,17 @@ forensics = [
 reports = [
     "markdown>=3.5",
     "weasyprint>=60",
+]
+# The Trinity-Loop / DFIR-swarm engine subpackages (trinity/, agents/, detectors/).
+# Not needed to run the MCP server; required to import/run the deterministic
+# Architect/Critic + 11-agent swarm. `filelock` is the only hard add (W-207
+# baseline lock); the optional LLM-reorder pass lazy-imports `anthropic` (default
+# OFF). Full agent operation also wants the [forensics] parsers.
+engine = [
+    "filelock>=3.0",
+]
+engine-llm = [
+    "anthropic>=0.39",
 ]
 
 [project.scripts]

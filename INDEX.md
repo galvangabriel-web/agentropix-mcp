@@ -97,7 +97,7 @@ unchanged — the reading order is layered on top, non-destructively.
 
 ## 1. Overview
 
-> **Read in this order** ([section README](docs/01-overview/README.md)): 1. [what-is-agentropix](docs/01-overview/what-is-agentropix.md) — what/why/who · 2. [what-you-get](docs/01-overview/what-you-get.md) — capability matrix · 3. [quickstart](docs/01-overview/quickstart.md) — install + first run · 4. [user-guide](docs/01-overview/user-guide.md) — the gold-standard end-to-end runbook · 5. [competitive-positioning](docs/01-overview/competitive-positioning.md) — vs alternatives.
+> **Read in this order** ([section README](docs/01-overview/README.md)): 1. [what-is-agentropix](docs/01-overview/what-is-agentropix.md) — what/why/who · 2. [what-you-get](docs/01-overview/what-you-get.md) — capability matrix · 3. [quickstart](docs/01-overview/quickstart.md) — install + first run · 4. [user-guide](docs/01-overview/user-guide.md) — the gold-standard end-to-end runbook · 5. [competitive-positioning](docs/01-overview/competitive-positioning.md) — vs alternatives · 6. [lessons-learned](docs/01-overview/lessons-learned.md) — what we learned · 7. [roadmap](docs/01-overview/roadmap.md) — next steps.
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
@@ -106,6 +106,7 @@ unchanged — the reading order is layered on top, non-destructively.
 | What You Get | operator, examiner | What are the concrete capabilities and the feature/capability matrix? | [docs/01-overview/what-you-get.md](docs/01-overview/what-you-get.md) |
 | Quickstart | operator (expert + end-user) | How do I install, pre-flight the toolchain, and run my first triage? The condensed path, dual-audience — each step carries the **expert CLI/MCP command** and the **plain-language end-user prompt** for the same result. | [docs/01-overview/quickstart.md](docs/01-overview/quickstart.md) |
 | Competitive Positioning | operator, examiner | How is this different from Velociraptor + an LLM, and where does it honestly lose? | [docs/01-overview/competitive-positioning.md](docs/01-overview/competitive-positioning.md) |
+|
 
 ## 2. Architecture
 
@@ -133,6 +134,7 @@ unchanged — the reading order is layered on top, non-destructively.
 | Data Models | developer | How do TriageReport, Finding, Agent, and the envelope models relate (class diagram)? | [03-data/data-models.md](docs/03-data/data-models.md) |
 | Schema ER Model | developer, auditor | How do the persisted artifacts relate as entities (ER diagram)? | [03-data/schema-er.md](docs/03-data/schema-er.md) |
 | Persisted Artifacts | auditor, developer | What gets written to disk — JSON report, JSONL audit log, session keys, Hippocampus — and where? | [03-data/persisted-artifacts.md](docs/03-data/persisted-artifacts.md) |
+| Recall Ground-Truth Fixtures | examiner, auditor | What labelled expected-findings are the recall numbers scored against? 4-of-29 committed fixtures + a sealed-run recall summary. | [docs/03-data/recall-ground-truth/README.md](docs/03-data/recall-ground-truth/README.md) |
 | Schema Dump | developer, auditor | The machine-extracted Pydantic model schema (field names, types, constraints) behind the data chapter. | [03-data/schema-dump.md](docs/03-data/schema-dump.md) |
 
 ## 4. MCP Tools
@@ -172,6 +174,7 @@ unchanged — the reading order is layered on top, non-destructively.
 | Push a Finding to Wazuh as an Alert | operator, auditor (expert + end-user) | How do I escalate an APPROVED finding to Wazuh (experimental integration)? Dual-audience — each push step pairs the **expert MCP call** with the **end-user prompt** (which defaults to a dry-run preview). | [docs/06-use-cases/uc-wazuh-push.md](docs/06-use-cases/uc-wazuh-push.md) |
 | Guided Demo Walkthrough (Judge-Facing) | examiner, all (expert + end-user) | What does a single end-to-end run look like, beat by beat, mapped to the Devpost rubric with verifiable runtime evidence? Dual-audience — each beat carries both the **expert command** and the **end-user prompt**. | [docs/06-use-cases/demo-walkthrough.md](docs/06-use-cases/demo-walkthrough.md) |
 | Per-Case Attack-Chain Hypotheses | operator, examiner | For each in-scope test case, which attack chain is likely and which tools confirm/refute each link (bias-checks, not findings)? | [docs/06-use-cases/case-hypotheses.md](docs/06-use-cases/case-hypotheses.md) |
+| Reproduce the Datasets | judge, developer | Where do I download the evidence to re-run it myself? Real upstream URLs + provenance for the public datasets; honest note on the non-redistributable cases. | [docs/06-use-cases/reproduce-datasets.md](docs/06-use-cases/reproduce-datasets.md) |
 
 ## 7. SDLC & Operations
 
@@ -187,6 +190,7 @@ unchanged — the reading order is layered on top, non-destructively.
 | Deployment | operator (expert + end-user) | How do I install on SIFT, expose over a tailnet, and find the runbooks? Dual-audience — install/expose steps pair the **expert CLI command** with the **plain-language end-user prompt**, Execution → Output. | [docs/07-sdlc-ops/deployment.md](docs/07-sdlc-ops/deployment.md) |
 | Evaluation Scorecard — BMAD & Rubric | examiner, auditor | What did the independent 10-persona BMAD evaluation and the Devpost rubric self-grade conclude? | [docs/07-sdlc-ops/evaluation-scorecard.md](docs/07-sdlc-ops/evaluation-scorecard.md) |
 | Evaluation Corpus & Recall Methodology | examiner, auditor | What evidence corpus are the recall numbers measured against, and how is ground truth defined? | [docs/07-sdlc-ops/dataset-recall.md](docs/07-sdlc-ops/dataset-recall.md) |
+| Observability & Integrity Notes (+ sealed-run sample) | judge, auditor | Honest limits: post-run re-hash (not implemented) and token-usage metrics (uncollected by design), plus a committed real sealed-run artifact (245 tool_calls, HMAC seals). | [docs/07-sdlc-ops/observability-and-integrity-notes.md](docs/07-sdlc-ops/observability-and-integrity-notes.md) |
 | Maintenance — The Dual-Repo Sync | developer (expert + end-user) | Why are there two repos/package names, and how does the one-way `sift` → `mcp` sync stay faithful? Dual-audience for the sync/verify steps — the **expert command** alongside the **plain-language end-user prompt**, Execution → Output. | [docs/07-sdlc-ops/maintenance-dual-repo.md](docs/07-sdlc-ops/maintenance-dual-repo.md) |
 | Env Vars | operator, developer | The full machine-extracted `AGENTROPIX_*` environment-variable surface and what each tunes. | [docs/07-sdlc-ops/env-vars.md](docs/07-sdlc-ops/env-vars.md) |
 

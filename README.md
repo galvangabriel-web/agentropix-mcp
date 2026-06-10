@@ -467,14 +467,44 @@ Each step is a worked use case: [Disk triage](docs/06-use-cases/uc-disk-triage.m
 
 ## Installation / Quickstart
 
+**Path A — 60-second start (runs from this repo, today).** Install the packaged MCP server —
+this repo vendors its source and wheel at [`agentropix_mcp/`](agentropix_mcp/README.md) — and
+connect a Claude client:
+
 ```bash
-uv sync                                                        # 1. install the orchestration layer
-uv run agentropix-sift doctor                                 # 2. pre-flight the toolchain
-uv run agentropix-sift run samples/sample.dd -o report.json   # 3. first triage
+# 1. Install the v0.2.2 MCP-server wheel  (or, from this checkout: pip install ./agentropix_mcp)
+pip install https://github.com/galvangabriel-web/agentropix-mcp/releases/download/v0.2.2/agentropix_mcp-0.2.2-py3-none-any.whl
+
+# 2. Start the server — boot is fail-closed: it refuses to start without an auth token
+AGENTROPIX_MCP_AUTH_TOKEN="$(openssl rand -base64 32)" agentropix-mcp --transport http --port 8765
+
+# 3. Point Claude Code at it (use the token from step 2)
+claude mcp add --transport http agentropix-sift "http://127.0.0.1:8765/mcp" \
+  --header "Authorization: Bearer <token-from-step-2>"
 ```
 
-The package installs two console scripts — `agentropix-sift` (the triage CLI) and `agentropix-sift-mcp`
-(the MCP server). The full step-by-step, including `pip` install and example `doctor` output, is in the
+Connecting to the operator's **already-running** tailnet server instead? Skip steps 1–2 —
+[Client Setup](docs/09-integrations/client-setup.md) is the 5-minute join-and-connect guide
+(Claude Code CLI and Claude Desktop via the `mcp-remote` shim).
+
+**Path B — self-host the full triage engine** (`agentropix-sift` CLI: Trinity Loop, `doctor`,
+sealed runs). These commands run from a checkout of the **full `agentropix-sift` engine
+distribution** — *not* from this documentation portal:
+
+```bash
+uv sync                                                        # 1. install the orchestration layer
+uv run agentropix-sift doctor                                  # 2. pre-flight the toolchain
+uv run agentropix-sift run samples/sample.dd -o report.json    # 3. first triage (synthetic fixture)
+```
+
+> **Honest scope note.** The engine repo ships the `pyproject.toml`, `uv.lock`,
+> `src/agentropix_sift/`, and the synthetic `samples/sample.dd` fixture those three commands need.
+> It is a separate, **currently private** distribution — request access from the operator. This
+> docs portal intentionally vendors only the MCP-server package, so Path B does not run from this
+> checkout.
+
+The engine installs two console scripts — `agentropix-sift` (the triage CLI) and `agentropix-sift-mcp`
+(the MCP server). The full step-by-step for both paths, including example `doctor` output, is in the
 [Quickstart](docs/01-overview/quickstart.md). Every CLI command and flag is enumerated in the
 [CLI Reference](docs/08-reference/cli-reference.md).
 
@@ -505,7 +535,9 @@ a **real MCP tool**. Every operational page in the portal documents both lanes s
 | **List memory processes** | MCP tool `get_pslist` | *"List the processes in the memory image and flag anything suspicious."* |
 | **Approve a finding** | promote DRAFT → APPROVED in the Approval Portal | *"Show me the findings waiting for review so I can approve them."* |
 
-End-user prompts map to real MCP tools (verify against the
+The 🖥️ `uv run agentropix-sift …` commands run from a full engine checkout (**Path B** above); the
+💬 prompts need only a Claude client connected to the MCP server (**Path A** — wheel install or the
+live tailnet server). End-user prompts map to real MCP tools (verify against the
 [Tool Capability Map](docs/04-mcp-tools/capability-map.md)). The gold-standard treatment of both lanes —
 manual ↔ autonomous × expert ↔ non-expert — is the [User Guide](docs/01-overview/user-guide.md).
 

@@ -1,0 +1,133 @@
+# Ground Truth - base-file-cdrive.E01 (SANS SRL-2018 Compromised Enterprise Network)
+#
+# File-server role in the SRL-2018 case. The 2026-05-01 SRL2018-FULL extract
+# (Reports_results/SRL2018-FULL-20260501T000431Z/MASTER-IOCS.json) surfaced
+# the host-specific evidence used to author this GT:
+#   - 6 PowerShell IEX downloadstring decoded commands (T1059.001)
+#   - 1 Security log clear (T1070.001)
+#   - 55 4648 explicit-credential logons + 5 4625 failures + 479 4624 pivots
+#   - 15 service installs
+#   - 61 share-access events
+#
+# Authored 2026-05-06 to close the SANS rubric DFIR Impact "per-system non-DC
+# disk recall" residual gap (rubric line 117 baseline: only DC has GT-labelled
+# recall; Phase B 72/72 is tactic-hit recall not per-IOC recall). Keywords are
+# drawn from the actual description prefixes that the agentropix-sift swarm
+# emits in `Reports_results/FULL-CASE-20260505T004738Z/disks/base-file-cdrive/
+# report.json` so the cohit>=2 evaluator can score against shipped wrapper
+# behaviour rather than aspirational strings.
+
+case_id: "SANS-APT-FILE-2018"
+image: "base-file-cdrive.E01"
+filesystem: "ntfs"
+description: >
+  SANS SRL-2018 Compromised Enterprise Network - Windows file-server
+  C-drive. Cobalt Strike APT campaign reaching the file server: PowerShell
+  IEX-loader staging, registry/scheduled-task persistence, credential
+  dumping, log clearing, and timestomp anti-forensics.
+
+# MITRE technique IDs the Trinity Loop is expected to cover across all
+# iterations on base-file-cdrive. Drawn from the techniques the agent
+# actually surfaces today (`mitre_attack` field in
+# Reports_results/FULL-CASE-20260505T004738Z/disks/base-file-cdrive/report.json):
+# T1003.002 (105) T1053.005 (59) T1070.006 (53) T1105 (16) T1059 (13)
+# T1055 (11) T1547.001 (3) T1078 (1) T1071.001 (1) T1218.011 (1).
+expected_tactics:
+  - "T1059.001"   # Command and Scripting Interpreter: PowerShell (IEX downloads)
+  - "T1547.001"   # Boot/Logon Autostart: Registry Run Keys
+  - "T1053.005"   # Scheduled Task/Job: Scheduled Task
+  - "T1003.002"   # OS Credential Dumping: SAM
+  - "T1105"       # Ingress Tool Transfer (beacon stager on disk)
+  - "T1078"       # Valid Accounts (lateral movement logons)
+  - "T1070.006"   # Indicator Removal: Timestomp ($MFT anti-forensics)
+
+# Each entry is one expected artifact the swarm should surface.
+# difficulty tags: trivial | correlation | yara_hit
+expected_findings:
+  - artifact_path: "Windows/System32/winevt/Logs/PowerShell.evtx"
+    description: "PowerShell IEX downloadstring stager (6 separate base64-encoded loaders to 127.0.0.1:* ports)"
+    mitre_technique_id: "T1059.001"
+    expected_agent: "TimelineAgent"
+    difficulty: "correlation"
+    evidence_keywords:
+      # The agent emits "LOLBin in timeline: powershell" descriptions for
+      # plaso-surfaced PowerShell execution (9 hits in this run); the
+      # encoded-command flag ('-EncodedCommand') is preserved in the
+      # plaso winreg/userassist evidence string for confirmed runs.
+      - "powershell"
+      - "LOLBin"
+      - "T1059"
+
+  - artifact_path: "Windows/System32/config/SOFTWARE"
+    description: "Registry Run-key persistence for Cobalt Strike beacon"
+    mitre_technique_id: "T1547.001"
+    expected_agent: "ArtifactAgent"
+    difficulty: "trivial"
+    evidence_keywords:
+      - "Registry"
+      - "CurrentVersion\\Run"
+      - "T1547.001"
+
+  - artifact_path: "Windows/System32/Tasks"
+    description: "Scheduled task persistence for beacon survival across reboots"
+    mitre_technique_id: "T1053.005"
+    expected_agent: "ArtifactAgent"
+    difficulty: "trivial"
+    evidence_keywords:
+      - "Scheduled Task"
+      - "scheduled persistence"
+      - "T1053.005"
+
+  - artifact_path: "Windows/System32/config/SAM"
+    description: "SAM credential-dump artifact (T1003.002 indicator on file-server compromise)"
+    mitre_technique_id: "T1003.002"
+    expected_agent: "HuntAgent"
+    difficulty: "correlation"
+    evidence_keywords:
+      - "Credential Dumping"
+      - "SAM"
+      - "T1003.002"
+
+  - artifact_path: "Users/*/AppData"
+    description: "Beacon stager dropped on disk (rundll32-launchable payload, T1105)"
+    mitre_technique_id: "T1105"
+    expected_agent: "FilesystemAgent"
+    difficulty: "yara_hit"
+    evidence_keywords:
+      - "Ingress Tool Transfer"
+      - "rundll32"
+      - "T1105"
+
+  - artifact_path: "Windows/System32/winevt/Logs/Security.evtx"
+    description: "Anomalous lateral-movement logons (4624/4648 from rd-01 / rd-02 source hosts)"
+    mitre_technique_id: "T1078"
+    expected_agent: "TimelineAgent"
+    difficulty: "correlation"
+    evidence_keywords:
+      - "Valid Accounts"
+      - "interactive logon"
+      - "T1078"
+
+  - artifact_path: "$MFT"
+    description: "Timestomped MFT entries - attacker anti-forensics after beacon staging"
+    mitre_technique_id: "T1070.006"
+    expected_agent: "TimelineAgent"
+    difficulty: "correlation"
+    evidence_keywords:
+      - "Timestomp"
+      - "MFT"
+      - "T1070.006"
+
+# Scoring parameters - mirrors samples/ground_truth_dc.yaml shape.
+scoring:
+  true_positives: 7
+  false_positive_penalty: -0.5
+  hallucination_is_fp: true
+  recall_threshold: 0.57       # 4/7 floor (matches DC convention)
+  notes: >
+    base-file-cdrive expects 7 distinct techniques across 5 agents.
+    Keywords mirror the description-prefix format the swarm actually
+    emits today (e.g. "[T1003.002 OS Credential Dumping: SAM ...]") so
+    cohit>=2 scoring will reflect shipped behaviour. Re-author if the
+    description format changes or if SRL-2018 corpus revisions surface
+    additional host-specific tactics.

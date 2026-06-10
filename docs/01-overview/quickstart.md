@@ -11,7 +11,21 @@ Get](what-you-get.md).
 > portal, seal the report, and (optionally) escalate to Wazuh** — with expected output at
 > every phase. This Quickstart is the condensed install-and-first-run subset of it.
 
-> **Three steps, well under two minutes** on a prepared SIFT host:
+> **Fastest start (≈60 seconds, runs today): install the packaged MCP server and connect Claude** —
+> Path A below:
+>
+> ```bash
+> pip install https://github.com/galvangabriel-web/agentropix-mcp/releases/download/v0.2.2/agentropix_mcp-0.2.2-py3-none-any.whl
+> AGENTROPIX_MCP_AUTH_TOKEN="$(openssl rand -base64 32)" agentropix-mcp --transport http --port 8765
+> claude mcp add --transport http agentropix-sift "http://127.0.0.1:8765/mcp" --header "Authorization: Bearer <token-you-just-set>"
+> ```
+>
+> Connecting to the operator's **already-running** tailnet server instead? No install at all —
+> follow [Client Setup](../09-integrations/client-setup.md) (5 minutes).
+>
+> **Three steps, well under two minutes** on a prepared SIFT host — *from a checkout of the full
+> `agentropix-sift` engine distribution* (Path B below; a separate, currently private repo — see
+> [Install](#1-install)):
 >
 > ```bash
 > uv sync                                          # 1. install
@@ -28,7 +42,7 @@ Get](what-you-get.md).
 | Section | What you'll get |
 |---|---|
 | [Prerequisites](#prerequisites) | Python ≥ 3.12 and the SANS SIFT forensic toolchain on `PATH`, plus what happens (graceful degradation) when a tool is missing. |
-| [1. Install](#1-install) | Install the Python package and its two console scripts via `uv sync` (or pip), with expected resolve/sync output and what the toolchain does (and doesn't) ship. |
+| [1. Install](#1-install) | Two paths: **A** — `pip install` the packaged MCP-server wheel (runs from this repo today); **B** — `uv sync` the full engine from its own (private) distribution, with expected resolve/sync output and what the toolchain does (and doesn't) ship. |
 | [2. Pre-flight: `agentropix-sift doctor`](#2-pre-flight-agentropix-sift-doctor) | Run the pre-flight that confirms every required forensic binary is on `PATH`, read the `OK`/`MISSING` output, and point `doctor` at non-default binaries via override env vars. |
 | [3. First end-to-end triage](#3-first-end-to-end-triage) | Run a full sealed triage over the synthetic fixture, understand the three output files, inspect the findings and cryptographic anchors, and verify the seal. |
 | [Where to go next](#where-to-go-next) | Follow-on reading: the capability matrix, the positioning/pipeline overview, and the shared reference files (canonical facts, tool list, env vars, agents list). |
@@ -46,17 +60,54 @@ Get](what-you-get.md).
 The triage **degrades gracefully** when a tool is missing — the relevant agent is
 skipped rather than the run aborting — but recall drops, so run `doctor` first.
 
+> **Path A needs only the first row.** Installing the MCP-server wheel requires just Python ≥ 3.12;
+> the SIFT toolchain and `uv` rows matter when the host will actually *execute* forensic tools
+> (the wrappers resolve the SIFT binaries from `PATH` at call time) or self-host the engine (Path B).
+
 ---
 
 ## 1. Install
 
-The package is a standard Python project with two console scripts
-(`pyproject.toml`):
+**Two install paths.** Pick the one that matches what you have:
+
+| Path | What you need | What you get |
+|---|---|---|
+| **A — MCP server (wheel)** | Python ≥ 3.12 only | The MCP server (`agentropix-mcp` console script) exposing the full tool surface to Claude Code / Claude Desktop — installable from this docs repo **today** (the package is vendored at `agentropix_mcp/`, wheel included) |
+| **B — full engine (self-host)** | A checkout of the **full `agentropix-sift` engine distribution** — a separate, **currently private** repo (request access from the operator). This docs portal does *not* ship the engine's `src/`, `uv.lock`, or `samples/`, so Path B cannot run from this checkout. | The `agentropix-sift` triage CLI (Trinity Loop, `doctor`, sealed runs) plus the MCP server |
+
+### Path A — install the packaged MCP server
+
+> **🖥️ Expert (command):**
+> ```bash
+> # From the packaged v0.2.2 release…
+> pip install https://github.com/galvangabriel-web/agentropix-mcp/releases/download/v0.2.2/agentropix_mcp-0.2.2-py3-none-any.whl
+> # …or from this docs repo's checkout (vendored source + wheel under agentropix_mcp/)
+> pip install ./agentropix_mcp
+> ```
+>
+> Then start it — boot is **fail-closed** (it refuses to start without `AGENTROPIX_MCP_AUTH_TOKEN`):
+> ```bash
+> AGENTROPIX_MCP_AUTH_TOKEN="$(openssl rand -base64 32)" agentropix-mcp --transport http --port 8765
+> # or stdio (default) for a local Claude Desktop / Claude Code mcp.json `command` entry:
+> agentropix-mcp
+> ```
+
+Connect your client exactly as in [Client Setup](../09-integrations/client-setup.md) (`claude mcp add`
+for Claude Code, the `mcp-remote` shim for Claude Desktop) — same commands, with **your** URL and token.
+With Path A there is no local CLI: the pre-flight in step 2 is the **`health`** MCP tool (use the
+end-user prompt), and the triage in step 3 runs via the **end-user prompt**, not the `uv run` command.
+The optional extras `[forensics]` (in-process parsers) and `[reports]` (rendered reports) are described
+in [`agentropix_mcp/README.md`](../../agentropix_mcp/README.md).
+
+### Path B — install the full engine (self-host)
+
+The engine is a standard Python project with two console scripts (its
+`pyproject.toml`):
 
 - `agentropix-sift` → `agentropix_sift.cli:main` (the triage CLI)
 - `agentropix-sift-mcp` → `agentropix_sift.mcp_server.fastmcp_app:main` (the MCP server)
 
-From the repository root:
+From the **engine repository** root:
 
 > **🖥️ Expert (command):**
 > ```bash
@@ -184,8 +235,10 @@ documented in [`env-vars.md`](../07-sdlc-ops/env-vars.md) §5.
 
 ## 3. First end-to-end triage
 
-The repository ships a tiny synthetic fixture (`samples/sample.dd`, a 10 MB ext2 image)
-so you can exercise the full pipeline without real case data:
+The **engine distribution** ships a tiny synthetic fixture (`samples/sample.dd`, a 10 MB ext2 image)
+so you can exercise the full pipeline without real case data. (Path A users: substitute any image
+path the MCP server's host can read, and use the 💬 end-user prompt — the 🖥️ `uv run` command is
+Path B/engine-checkout only.)
 
 > **🖥️ Expert (command):**
 > ```bash

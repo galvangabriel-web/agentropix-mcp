@@ -11,6 +11,13 @@ The driver is `run_triage()` in `src/agentropix_sift/orchestrator.py`; the two T
 roles are `Architect` (`trinity/architect.py`) and `Critic` (`trinity/critic.py`). The
 shared mutable state is the [Blackboard](swarm-agents.md#5-the-blackboard).
 
+> **Source is committed in this repo.** The Architect/Critic code is published under the
+> packaged engine at
+> [`agentropix_mcp/src/agentropix_mcp/trinity/`](../../agentropix_mcp/src/agentropix_mcp/trinity/)
+> (install with `pip install "agentropix-mcp[engine]"`). `trinity/__init__.py` states plainly
+> that this iteration's Architect/Critic are **deterministic** (LLM-backing deferred); the
+> optional reorder pass is default-off.
+
 ---
 
 ## Contents — what's in this page (and what to expect)

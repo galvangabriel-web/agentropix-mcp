@@ -33,6 +33,10 @@ The classic SIFT binaries the wrappers drive (`vol`, `fls`/`mmls`/`icat`, `ewfin
 `bulk_extractor`, `rip.pl`, Eric Zimmerman tools via `dotnet`, …) are resolved from `PATH`
 at call time — they come from the SIFT Workstation itself, not from pip.
 
+**Extras:** `pip install "agentropix-mcp[engine]"` adds the Trinity-Loop / DFIR-swarm runtime
+(`trinity/`, `agents/`, `detectors/`); `[forensics]` adds the in-process parsers; `[reports]`
+adds report rendering. The MCP server runs without any of these.
+
 ## What's in here
 
 | Path | What it is |
@@ -43,6 +47,9 @@ at call time — they come from the SIFT Workstation itself, not from pip.
 | `src/agentropix_mcp/wrappers/` | The forensic tool wrappers (Sleuth Kit, Volatility 3, Plaso, libewf, YARA, bulk_extractor, RegRipper, Eric Zimmerman tools, …) — argv-only subprocess, never a shell |
 | `src/agentropix_mcp/wazuh/` | Wazuh SIEM integration (indexer client, CDB-list publisher, kill switch, FP denylists, dashboards) |
 | `src/agentropix_mcp/approval_sidecar/` | The Examiner Approval Portal (`:8800`) — the human HMAC hard-stop (PBKDF2-600k challenge-response, in-browser key derivation) |
+| `src/agentropix_mcp/trinity/` | The **Trinity Loop** — deterministic `Architect` (plan) + `Critic` (score/halt). LLM-backing deferred; the optional reorder pass is default-off. |
+| `src/agentropix_mcp/agents/` | The **DFIR swarm** — 13 `SwarmAgent` classes + the quorum `Blackboard` (`SWARM` run order is load-bearing; `HuntAgent` last). |
+| `src/agentropix_mcp/detectors/` | 6 MITRE ATT&CK detector agents + bundled YARA rules (`detectors/yara_rules/`). |
 | `src/agentropix_mcp/evidence_gate/` | Single-use `egt_` mutation-token registry (SQLite, atomic verify-and-spend) |
 | `src/agentropix_mcp/reports/`, `src/agentropix_mcp/schema/` | Report generation/export (ADR-024 tiers) and the sealed-report JSON schemas |
 | `src/agentropix_mcp/security/redact.py` | Fail-closed credential redaction |

@@ -13,6 +13,14 @@ total. Both statements are true; when a count is needed, prefer *"7 core special
 ATT&CK detectors"* and cite `agents/__init__.py` ([agents-list.md](../10-agents/agents-list.md),
 [canonical-facts.md](../08-reference/canonical-facts.md)).
 
+> **Source is committed in this repo.** The 13 SwarmAgent classes + the Blackboard are published
+> under the packaged engine at
+> [`agentropix_mcp/src/agentropix_mcp/agents/`](../../agentropix_mcp/src/agentropix_mcp/agents/)
+> (the 6 ATT&CK detectors + bundled YARA rules in
+> [`…/detectors/`](../../agentropix_mcp/src/agentropix_mcp/detectors/)). Install with
+> `pip install "agentropix-mcp[engine]"`. The `SWARM` run order is load-bearing — `HuntAgent`
+> runs last (`agents/__init__.py`).
+
 ### The Trinity roles, in one paragraph
 
 The Swarm does not run itself — it is driven by the **Trinity Loop**, three deterministic

@@ -1,0 +1,119 @@
+# Ground Truth — base-dc-cdrive.E01 (SANS SRL-2018 Compromised Enterprise Network)
+# W2 item #3: feeds Critic.gaps:frozenset[str] via expected_tactics and
+# powers test_e2e_dc_recall.py recall scoring.
+#
+# COUPLING (W-045): When Critic.score() is extended to load expected_tactics,
+# it should subtract confirmed tactic IDs from this list to populate gaps.
+
+case_id: "SANS-APT-DC-2018"
+image: "base-dc-cdrive.E01"
+filesystem: "ntfs"
+description: >
+  SANS SRL-2018 Compromised Enterprise Network — Windows Domain Controller
+  C-drive. Cobalt Strike APT campaign: beacon persistence, lateral movement,
+  credential dumping, and evidence of process injection.
+
+# MITRE technique IDs the Trinity Loop is expected to cover across all
+# iterations. The Critic.gaps channel will contain any IDs NOT confirmed
+# by the swarm's findings. One entry per distinct technique.
+expected_tactics:
+  - "T1105"       # Ingress Tool Transfer (CS beacon delivery)
+  - "T1547.001"   # Boot/Logon Autostart: Registry Run Keys
+  - "T1053.005"   # Scheduled Task/Job: Scheduled Task
+  - "T1003.002"   # OS Credential Dumping: SAM
+  - "T1055"       # Process Injection (beacon in-memory)
+  - "T1078"       # Valid Accounts (lateral movement logins)
+  - "T1070.006"   # Indicator Removal: Timestomp ($MFT anti-forensics)
+
+# Each entry is one expected artifact the swarm should surface.
+# difficulty tags: trivial | correlation | yara_hit
+#   trivial     — directly readable from a single artifact
+#   correlation — requires cross-referencing ≥2 artifact types
+#   yara_hit    — confirmed only by YARA/signature match
+expected_findings:
+  - artifact_path: "Windows/System32/config/SOFTWARE"
+    description: "Cobalt Strike beacon registry persistence under HKLM Software run key"
+    mitre_technique_id: "T1547.001"
+    expected_agent: "ArtifactAgent"
+    difficulty: "trivial"
+    evidence_keywords:
+      # W-052 GT-UPDATE: "CobaltStrike" is a vendor label never emitted by plaso
+      # winreg; plaso produces the registry key path and value data verbatim.
+      # "Registry" appears in TimelineAgent's "Registry Run key write:" description
+      # prefix (deterministic for all winreg Run-key findings).
+      # Original keyword: CobaltStrike (vendor name — unrecoverable from plaso winreg)
+      - "Registry"
+      - "CurrentVersion\\Run"
+      - "beacon"
+
+  - artifact_path: "Windows/System32/Tasks"
+    description: "Scheduled task created for CS beacon persistence across reboots"
+    mitre_technique_id: "T1053.005"
+    expected_agent: "ArtifactAgent"
+    difficulty: "trivial"
+    evidence_keywords:
+      - "schtasks"
+      - "beacon"
+      - "scheduled"
+
+  - artifact_path: "Windows/Prefetch"
+    description: "Cobalt Strike stager execution trace in Prefetch directory"
+    mitre_technique_id: "T1105"
+    expected_agent: "FilesystemAgent"
+    difficulty: "yara_hit"
+    evidence_keywords:
+      - "RUNDLL32"
+      - "artifact.exe"
+      - "stager"
+
+  - artifact_path: "Windows/System32/config/SAM"
+    description: "SAM credential dump artifact confirming root-level DC compromise"
+    mitre_technique_id: "T1003.002"
+    expected_agent: "HuntAgent"
+    difficulty: "correlation"
+    evidence_keywords:
+      - "SAM"
+      - "credential"
+      - "dump"
+
+  - artifact_path: "Windows/System32/winevt/Logs/Security.evtx"
+    description: "Anomalous privileged logon events from lateral movement source IP"
+    mitre_technique_id: "T1078"
+    expected_agent: "TimelineAgent"
+    difficulty: "correlation"
+    evidence_keywords:
+      - "4624"
+      - "lateral"
+      - "logon"
+
+  - artifact_path: "$MFT"
+    description: "Timestomped MFT entries — attacker anti-forensics after beacon deployment"
+    mitre_technique_id: "T1070.006"
+    expected_agent: "TimelineAgent"
+    difficulty: "correlation"
+    evidence_keywords:
+      - "timestomp"
+      - "MFT"
+      - "modified"
+
+  - artifact_path: "Users/Administrator/AppData/Roaming"
+    description: "CS beacon payload dropped in AppData prior to in-memory injection"
+    mitre_technique_id: "T1055"
+    expected_agent: "MemoryAgent"
+    difficulty: "yara_hit"
+    evidence_keywords:
+      - "beacon"
+      - "AppData"
+      - "injection"
+
+# Scoring parameters — single source of truth for test_e2e_dc_recall.py.
+# Matches the schema of samples/ground_truth.yaml so one evaluator handles both.
+scoring:
+  true_positives: 7           # total expected findings in this truth file
+  false_positive_penalty: -0.5
+  hallucination_is_fp: true
+  recall_threshold: 0.57      # floor: 4/7 findings required to pass gate
+  notes: >
+    DC image contains 7 expected findings spanning 5 agents and 3 difficulty
+    tiers. recall_threshold=0.57 (4/7) is the passing bar; the asciinema demo
+    target is 5/7 with the iter-2 correlation find as the visible delta.
