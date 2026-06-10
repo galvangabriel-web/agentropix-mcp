@@ -3,7 +3,7 @@
 > **LOCAL-ONLY working doc.** Real evidence inventory + paths. Do not publish. Lives under
 > `case-activation/` (gitignored). MCP endpoint shown as the tailnet hostname placeholder; no raw IPs.
 > Procedure instantiated from the oracle:
-> [`/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md`](/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md).
+> `/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md`.
 > Canonical numbers cite [`.crew/facts.md`](../docs/08-reference/canonical-facts.md)
 > (`mcp_tool_count=71`, 16 SIFT wrappers, `test_count=4464`).
 

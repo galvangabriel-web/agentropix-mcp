@@ -6,7 +6,7 @@
 > hostname placeholder only.
 > **Goal of this guide:** get an operator *ready to activate this case and start
 > analysis* — it walks the template
-> [`END-USER-CASE-GUIDE.md`](/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md)
+> `END-USER-CASE-GUIDE.md`
 > (steps 0→8), instantiated with this case's real values. It does **not** run any
 > forensic tool on the evidence; profiling below is metadata-only
 > (`file`/`ewfinfo`/`du`).
@@ -380,9 +380,9 @@ at the approval gate** — a bot must not sign chain-of-custody. Use Claude CLI
 ---
 
 > **Sources / oracle:** procedure from
-> [`END-USER-CASE-GUIDE.md`](/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md);
+> `END-USER-CASE-GUIDE.md`;
 > house style + dual-audience + numbered-playbook from
-> [`docs/01-overview/user-guide.md`](/home/admin2/docu_agentro/docs/01-overview/user-guide.md);
+> [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md);
 > canonical numbers from [`.crew/facts.md`](../docs/08-reference/canonical-facts.md)
 > (71 tools / 16 wrappers / 4464 tests). Evidence inventory re-confirmed
 > metadata-only (`file` / `ewfinfo` / `du`) against `/cases/SRL-2015/` on 2026-06-06.

@@ -46,7 +46,7 @@ $ du -h /cases/contact_me/contact_me
 ## 2. Instantiated procedure (template steps 0 → 8, real values)
 
 The template lives at
-[`/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md`](/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md).
+`/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md`.
 These are **MCP tool calls** (not a shell CLI). Run them from any client with the `agentropix-sift`
 MCP bound (Claude CLI recommended; Claude Desktop via the `mcp-remote` shim). MCP endpoint:
 `http://<TAILNET-HOST>:8765/mcp` (tailnet-only; get the real host + bearer token from your operator —

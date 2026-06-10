@@ -5,7 +5,7 @@
 > house style + dual-audience (🖥️ command / 💬 prompt) of
 > [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md). Canonical numbers cite
 > [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (71 MCP tools, 16 SIFT wrappers, 4464 tests).
-> Procedure template: [`agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md`](/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md).
+> Procedure template: `agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md`.
 >
 > **GOAL of this guide: get the operator READY to activate the case and start analysis.** Everything
 > below up to "Activate & start" is metadata-only profiling (`ls` / `file` / `ewfinfo` / `du`); no

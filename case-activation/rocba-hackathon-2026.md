@@ -6,7 +6,7 @@
 >
 > **Scope of this guide:** get an operator *ready to activate the case and start analysis* — it is the
 > instantiated, copy-paste runbook for **this** case. It follows the canonical 8-step end-user
-> procedure ([`END-USER-CASE-GUIDE.md`](../../agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md)) and the
+> procedure (`END-USER-CASE-GUIDE.md`) and the
 > portal house style / dual-audience (🖥️ command · 💬 prompt) of
 > [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md). Canonical numbers cite
 > [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (**71 MCP tools**, **16 SIFT wrappers**, **4464 tests**).
@@ -410,7 +410,7 @@ cap bites on the heavy tools). The reference driver is
 
 > **Source-of-truth note.** Tool names, signatures, gotchas (B2–B5), and the autonomous driver pattern
 > are taken from [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md) and the canonical
-> [`END-USER-CASE-GUIDE.md`](../../agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md). The per-case
+> `END-USER-CASE-GUIDE.md`. The per-case
 > offset-0 / Win10-artifact deviations are derived from this case's ground-truth audit
 > (`/cases/rocba/_work/ROCBA-HACKATHON-2026/audit/{MMLS,IMAGE_HASH,MEMORY_FORMAT,TIMEZONE}.txt`) and
 > `ewfinfo` — confirmed metadata-only on 2026-06-06. Canonical numbers: [`.crew/facts.md`](../docs/08-reference/canonical-facts.md).

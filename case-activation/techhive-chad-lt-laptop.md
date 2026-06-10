@@ -6,7 +6,7 @@
 > analysis** — it does not run analysis. All profiling below is **metadata-only**
 > (`file` / `ewfinfo` / `du` / a read of the in-folder TX1 log).
 >
-> Procedure source-of-truth: [`END-USER-CASE-GUIDE.md`](../../agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md)
+> Procedure source-of-truth: `END-USER-CASE-GUIDE.md`
 > (8 steps). House style + dual-audience (🖥️ command / 💬 prompt) + numbered playbook follow
 > [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md). Canonical numbers cite
 > [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (**71 MCP tools**, **16 SIFT wrappers**, **4464 tests**).

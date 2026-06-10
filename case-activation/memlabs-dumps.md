@@ -2,7 +2,7 @@
 
 > **LOCAL ONLY — real case inventory. Do not publish.** This guide instantiates the
 > template procedure in
-> [`/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md`](/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md)
+> `/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md`
 > with the **real** evidence under `/cases/nist4`. The goal is to get an operator
 > **ready to activate a case and start analysis** — not to run the analysis here.
 > Dual-audience throughout: **🖥️ command** (expert CLI/MCP) and **💬 prompt**
@@ -190,7 +190,7 @@ Slug: **`NEWDATA-MEMLABS-NIST4-LAB1`** (`^[A-Za-z0-9._-]{1,128}$`; no spaces, no
 > Lab4 → deleted-file recovery (`filescan`+`dumpfiles`); Lab5 → odd alnum filenames +
 > crashing app (`filescan`, `get_malfind`, `get_editbox`); Lab6 → **`get_netscan`** +
 > browser/chat artifacts (internet C2). Per-case hypotheses:
-> [case-hypotheses.md](/home/admin2/docu_agentro/docs/06-use-cases/case-hypotheses.md).
+> [case-hypotheses.md](../docs/06-use-cases/case-hypotheses.md).
 
 ### Step 6 — `record_finding` (DRAFT-gated)
 

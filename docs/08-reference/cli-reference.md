@@ -1,7 +1,7 @@
 # CLI Reference
 
 The `agentropix-sift` command-line interface is a thin [Typer](https://typer.tiangolo.com/)
-application defined entirely in [`src/agentropix_sift/cli.py`](../../../agentropix-sift/src/agentropix_sift/cli.py).
+application defined entirely in `src/agentropix_sift/cli.py`.
 It is the operator-facing entry point to the bio-agentic DFIR triage engine: it
 runs the Trinity Loop over an evidence image and verifies that the underlying
 SIFT forensic tools are installed.
@@ -189,7 +189,7 @@ on exception (`cli.py:118-124`) — so an error-recovery session is never blocke
 ### Output artifacts
 
 After `run_triage()` returns, the report is sealed via
-`write_sealed_session()` from [`courtroom.py`](../../../agentropix-sift/src/agentropix_sift/courtroom.py)
+`write_sealed_session()` from `courtroom.py`
 (`cli.py:126-142`; **M8.2a**, [ADR-016](adr-index.md#adr-016) + [ADR-022](adr-index.md#adr-022) —
 read the full decisions in [Section 11: ADR-016](../11-ADR/ADR-016-courtroom-audit.md),
 [ADR-022](../11-ADR/ADR-022-audit-log-seal.md)).

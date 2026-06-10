@@ -2,7 +2,7 @@
 
 > **LOCAL ONLY — real case inventory. Do NOT publish.** This file lives under
 > `case-activation/` (gitignored). It instantiates the template procedure
-> [`END-USER-CASE-GUIDE.md`](../../agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md)
+> `END-USER-CASE-GUIDE.md`
 > with this case's real values, in the same dual-audience (🖥️ command / 💬 prompt)
 > house style as [`user-guide.md`](../docs/01-overview/user-guide.md).
 > Canonical numbers cite [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (`mcp_tool_count=71`,

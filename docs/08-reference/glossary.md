@@ -3,7 +3,7 @@
 A decoder ring for the names, IDs, and personas that appear across the
 Agentropix-SIFT codebase, weakness ledger, review docs, and commit messages.
 This page consolidates the upstream glossary
-([`docs/AGENTS.md`](../../../agentropix-sift/docs/AGENTS.md)) with structural facts
+(`docs/AGENTS.md`) with structural facts
 confirmed against the code and the shared inventory artifacts.
 
 > **Citation discipline.** Numeric claims (tool count, recall, test count) trace
@@ -76,7 +76,7 @@ A decoder ring split into five lookup tables — jump straight to the kind of na
 
 BMAD-style review roles, one per review dimension. Every team-review doc
 (`docs/REVIEW-*.md`, `docs/sprint-artifacts/W*-vote-*.md`) dispatches these ten as
-parallel specialists. Verbatim from [`docs/AGENTS.md`](../../../agentropix-sift/docs/AGENTS.md).
+parallel specialists. Verbatim from `docs/AGENTS.md`.
 
 | Persona | Role (BMAD id) | Lens |
 |---------|----------------|------|
@@ -98,7 +98,7 @@ multi-crew waves (`docs/MASTER-PLAN-STATE.md`).
 
 ## Weakness-ledger IDs
 
-All weaknesses in [`docs/SIFT-WEAKNESSES.md`](../../../agentropix-sift/docs/SIFT-WEAKNESSES.md)
+All weaknesses in `docs/SIFT-WEAKNESSES.md`
 use monotonic `W-###` (a.k.a. `SIFT-W-###`) IDs — **never reused**. The ledger
 currently spans roughly **W-001 … W-296+**. The dashboard groups them by
 discovery **stage**:

@@ -136,7 +136,7 @@ flips toward APT, absence supports pure insider.
 ### How the tools are wired (two layers)
 
 Each capability is a thin **MCP handler** in
-[`src/agentropix_sift/mcp_server/server.py`](../../../agentropix-sift/src/agentropix_sift/mcp_server/server.py)
+`src/agentropix_sift/mcp_server/server.py`
 — decorated with `@traced("<tool>")`, named `mcp_<tool>`, returning a typed Pydantic report or a
 `ToolError` — that does rate-limit + Thymus read-policy checks, then delegates to a **wrapper** under
 `src/agentropix_sift/mcp_server/wrappers/` which runs the underlying forensic binary and parses it into
@@ -160,7 +160,7 @@ So "Key tools: `get_malfind` …" in every case maps to `server.py:mcp_get_malfi
 ### The four cross-artifact correlation tools (W-150…W-153)
 
 These are what actually let a hypothesis "chain" be **proven across hosts** — they live in
-[`wrappers/correlation.py`](../../../agentropix-sift/src/agentropix_sift/mcp_server/wrappers/correlation.py)
+`wrappers/correlation.py`
 behind handlers at `server.py:562–730`:
 
 | Hypothesis verb | MCP handler (`server.py`) | Wrapper (`correlation.py`) | What it proves |
@@ -231,7 +231,7 @@ on memory — a beacon/IOC hit flips the frame, and `pivot_on_ioc`(633) expands 
 ### Where the proven links land (case binding)
 
 A hypothesis only becomes a *finding* once its tool output is ingested under the case. That binding is
-[`wrappers/case_ingest.py`](../../../agentropix-sift/src/agentropix_sift/mcp_server/wrappers/case_ingest.py):
+`wrappers/case_ingest.py`:
 `idx_ingest(hostname, …, case_id=…)` (`case_ingest.py:103`) resolves the active case via
 `get_active_case_id()` (raising if none is active), then `_stamp_timeline_event` (`case_ingest.py:65`)
 stamps each event with `provenance=MCP`, `case_id`, and `host` — so the per-host evidence in Cases 1/2

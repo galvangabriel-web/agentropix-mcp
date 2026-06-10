@@ -15,7 +15,7 @@ An **Architecture Decision Record (ADR)** captures one architectural decision
 with its context, the options weighed, and the consequences accepted; once
 accepted an ADR is immutable, and a changed decision is *superseded* by a new ADR
 rather than edited. The [ADR Index](adr-index.md) **routes** every ADR under
-[`docs/adr/`](../../../agentropix-sift/docs/adr/) — title, live status, one-line
+[`docs/adr/`](../11-ADR/README.md) — title, live status, one-line
 summary. This page is the complementary **rationale layer**: the recurring design
 principles the ADRs share, the hard trade-offs where a real cost was accepted on
 purpose, the approaches that were tried and discarded (with file-and-line
@@ -65,11 +65,11 @@ design philosophy. None is a slogan; each is enforced in code or schema.
 
 | # | Principle | ADRs that instantiate it | Enforcement |
 |---|-----------|--------------------------|-------------|
-| 1 | **Fail closed, not fail open** | [008](../../../agentropix-sift/docs/adr/ADR-008-safety-architecture.md), [016](../../../agentropix-sift/docs/adr/ADR-016-courtroom-audit.md), [018](../../../agentropix-sift/docs/adr/ADR-018-wazuh-ioc-push.md), [019](../../../agentropix-sift/docs/adr/ADR-019-ar-confirmation-gate.md) | Security ops default to REJECT on doubt; the Thymus read-policy rejects ambiguous paths (broken symlink, unresolvable canonical, missing allowlist entry). |
-| 2 | **Structural invariants over policy-by-convention** | [002](../../../agentropix-sift/docs/adr/ADR-002-execution-engine.md), [008](../../../agentropix-sift/docs/adr/ADR-008-safety-architecture.md), [012](../../../agentropix-sift/docs/adr/ADR-012-extract-files.md), [016](../../../agentropix-sift/docs/adr/ADR-016-courtroom-audit.md) | The architecture forces correct behaviour rather than recommending it: there is no write tool to call, and the evidence SHA-256 is baked into the report schema, not optional. |
-| 3 | **Deterministic control points over LLM-driven loops** | [002](../../../agentropix-sift/docs/adr/ADR-002-execution-engine.md), [008](../../../agentropix-sift/docs/adr/ADR-008-safety-architecture.md), [009](../../../agentropix-sift/docs/adr/ADR-009-task-router.md) | Halt detection (the *Critic fingerprint* — a computed score over the findings, not the LLM rating itself), task routing, and safety constraints are computational; operators tune via `AGENTROPIX_*` env vars, not prompt heuristics. |
-| 4 | **Evidence-readonly is non-negotiable** | [002](../../../agentropix-sift/docs/adr/ADR-002-execution-engine.md), [011](../../../agentropix-sift/docs/adr/ADR-011-evidence-gates.md), [012](../../../agentropix-sift/docs/adr/ADR-012-extract-files.md), [016](../../../agentropix-sift/docs/adr/ADR-016-courtroom-audit.md), [017](../../../agentropix-sift/docs/adr/ADR-017-tailnet-mcp-exposure.md), [020](../../../agentropix-sift/docs/adr/ADR-020-credential-lifecycle.md) | Extract writes to a session tmpdir, never to evidence; secrets never enter git; the read-only invariant threads through every MCP wrapper. |
-| 5 | **Thin index + load-on-demand context** | [015](../../../agentropix-sift/docs/adr/ADR-015-context-engineering.md), [006](../../../agentropix-sift/docs/adr/ADR-006-memory-system.md), [023](../../../agentropix-sift/docs/adr/ADR-023-pilot-feedback-pipeline.md) | Session starts with a thin `CLAUDE.md` index; skills, domains, and memories load only when triggered, preserving cache hit-rate and bounding cost-per-token. |
+| 1 | **Fail closed, not fail open** | [008](../11-ADR/ADR-008-safety-architecture.md), [016](../11-ADR/ADR-016-courtroom-audit.md), [018](../11-ADR/ADR-018-wazuh-ioc-push.md), [019](../11-ADR/ADR-019-ar-confirmation-gate.md) | Security ops default to REJECT on doubt; the Thymus read-policy rejects ambiguous paths (broken symlink, unresolvable canonical, missing allowlist entry). |
+| 2 | **Structural invariants over policy-by-convention** | [002](../11-ADR/ADR-002-execution-engine.md), [008](../11-ADR/ADR-008-safety-architecture.md), [012](../11-ADR/ADR-012-extract-files.md), [016](../11-ADR/ADR-016-courtroom-audit.md) | The architecture forces correct behaviour rather than recommending it: there is no write tool to call, and the evidence SHA-256 is baked into the report schema, not optional. |
+| 3 | **Deterministic control points over LLM-driven loops** | [002](../11-ADR/ADR-002-execution-engine.md), [008](../11-ADR/ADR-008-safety-architecture.md), [009](../11-ADR/ADR-009-task-router.md) | Halt detection (the *Critic fingerprint* — a computed score over the findings, not the LLM rating itself), task routing, and safety constraints are computational; operators tune via `AGENTROPIX_*` env vars, not prompt heuristics. |
+| 4 | **Evidence-readonly is non-negotiable** | [002](../11-ADR/ADR-002-execution-engine.md), [011](../11-ADR/ADR-011-evidence-gates.md), [012](../11-ADR/ADR-012-extract-files.md), [016](../11-ADR/ADR-016-courtroom-audit.md), [017](../11-ADR/ADR-017-tailnet-mcp-exposure.md), [020](../11-ADR/ADR-020-credential-lifecycle.md) | Extract writes to a session tmpdir, never to evidence; secrets never enter git; the read-only invariant threads through every MCP wrapper. |
+| 5 | **Thin index + load-on-demand context** | [015](../11-ADR/ADR-015-context-engineering.md), [006](../11-ADR/ADR-006-memory-system.md), [023](../11-ADR/ADR-023-pilot-feedback-pipeline.md) | Session starts with a thin `CLAUDE.md` index; skills, domains, and memories load only when triggered, preserving cache hit-rate and bounding cost-per-token. |
 
 The unifying stance: *the LLM proposes; deterministic Python disposes.* Convention
 depends on operator discipline; structural invariants do not.
@@ -83,7 +83,7 @@ benefit — and documented as such, not papered over.
 
 ### Trade-off 1 — Credential-dump recall vs Volatility upstream stability (ADR-014)
 
-[ADR-014](../../../agentropix-sift/docs/adr/ADR-014-W072-impacket-secretsdump.md)
+[ADR-014](../11-ADR/ADR-014-W072-impacket-secretsdump.md)
 keeps Volatility 3 pinned at `>=2.27.0` even though that release **removed** the
 `hashdump` / `lsadump` / `cachedump` plugins. Downgrading to `<=2.5.0` would have
 restored in-memory credential dumping but would lose the `-r csv` renderer that
@@ -118,12 +118,12 @@ documented review observation, with `AGENTROPIX_CRITIC_HALT_THRESHOLD` (default
 
 ### Trade-off 3 — Feature completeness vs SANS deadline (ADR-021)
 
-[ADR-021](../../../agentropix-sift/docs/adr/ADR-021-two-person-rule-defer.md)
+[ADR-021](../11-ADR/ADR-021-two-person-rule-defer.md)
 scopes the Wazuh integration to IOC push + read-only hunt and **defers** the
 two-person rule, live Active Response endpoints, and dual-control machinery to a
 later step — because Step-1/Step-2 do not invoke Active Response, so the
 single-confirmation gate from
-[ADR-019](../../../agentropix-sift/docs/adr/ADR-019-ar-confirmation-gate.md) is
+[ADR-019](../11-ADR/ADR-019-ar-confirmation-gate.md) is
 sufficient at present. The accepted downside: the submission shows *triage +
 hunt + push IOCs*, not full incident response. This is a formal `Deferred` ADR
 with an explicit re-attempt condition, not silent scope-cutting.
@@ -135,7 +135,7 @@ with an explicit re-attempt condition, not silent scope-cutting.
 
 ### Trade-off 4 — Session-key security vs operational friction (ADR-022)
 
-[ADR-022](../../../agentropix-sift/docs/adr/ADR-022-audit-log-seal.md) stores the
+[ADR-022](../11-ADR/ADR-022-audit-log-seal.md) stores the
 32-byte per-run session key at mode **`0600`** (owner read/write only). If that
 file becomes world-readable, any local user can re-seal a tampered report and the
 chain-of-custody guarantee collapses. The accepted friction: operators must
@@ -154,7 +154,7 @@ carries the oracle file-and-line citation.
 
 Splitting complex tasks on conjunctions (*"and"*, *"then"*, *"also"*) into
 independent subtasks — cited in
-[ADR-009](../../../agentropix-sift/docs/adr/ADR-009-task-router.md) at
+[ADR-009](../11-ADR/ADR-009-task-router.md) at
 **`engine/ralph.py:702-737`**. It failed because regex cannot detect semantic
 dependencies: a task like *"Write Python, Go, Rust → compare execution times →
 build a matrix → save"* split into independent subtasks that ran in parallel
@@ -186,18 +186,18 @@ Early designs loaded every wrapper docstring, weakness ID, runbook, persona, and
 changelog into the system prompt. The model spent most of its context window
 paraphrasing noise, cache hit-rate collapsed, cost-per-token compounded across
 Trinity iterations, and relevant context got buried — driving confabulation.
-**Replacement:** [ADR-015](../../../agentropix-sift/docs/adr/ADR-015-context-engineering.md)
+**Replacement:** [ADR-015](../11-ADR/ADR-015-context-engineering.md)
 Progressive Disclosure — a thin `CLAUDE.md` index at boot, with skills and
 domains loaded on demand.
 
 ### 4. Unsealed audit-log JSONL
 
-[ADR-016](../../../agentropix-sift/docs/adr/ADR-016-courtroom-audit.md) sealed
+[ADR-016](../11-ADR/ADR-016-courtroom-audit.md) sealed
 `report.json` but left the on-disk Thymus audit JSONL unsealed. A hostile
 reviewer could swap the JSONL post-run: the report seal would catch a report
 swap, but the JSONL swap slipped through silently — the "residual 3%" gap the
 2026-05-06 SANS rubric re-grade flagged on Forensic Soundness. **Replacement:**
-[ADR-022](../../../agentropix-sift/docs/adr/ADR-022-audit-log-seal.md) adds an
+[ADR-022](../11-ADR/ADR-022-audit-log-seal.md) adds an
 independent **HMAC** seal — a keyed hash (HMAC-SHA256) that lets anyone holding
 the key detect any byte change — over the audit log under the same per-run
 session key and
@@ -211,7 +211,7 @@ The Step-1 blueprint proposed storing the Manager JWT + Indexer credentials in a
 repo `.env`. The risks: accidental commit even when `.gitignored`, the Manager
 JWT's 900-second TTL requiring automatic refresh, and secrets leaking into
 `httpx` DEBUG output (**W-007**). **Replacement:**
-[ADR-020](../../../agentropix-sift/docs/adr/ADR-020-credential-lifecycle.md) loads
+[ADR-020](../11-ADR/ADR-020-credential-lifecycle.md) loads
 credentials from externalized files at mode `0600`, refreshes the Manager JWT on
 its 900-second expiry, keeps the session key ephemeral per-run, and scrubs
 secrets from logs and traces. **W-007 RESOLVED** (`docs/SIFT-WEAKNESSES.md`).
@@ -222,7 +222,7 @@ An early design considered wide-reach public HTTP + bearer token so judges could
 query without installing a client. It needed app-layer TLS, per-IP rate-limiting,
 credential rotation, and public-internet request validation — the security
 burden scaled faster than the distribution benefit. **Replacement:**
-[ADR-017](../../../agentropix-sift/docs/adr/ADR-017-tailnet-mcp-exposure.md)
+[ADR-017](../11-ADR/ADR-017-tailnet-mcp-exposure.md)
 defaults FastMCP to loopback; the operator opts into the tailnet via
 `--host <tailnet-ip>`, and `--public` requires an explicit flag with a loud
 warning.
@@ -246,7 +246,7 @@ graph LR
 
 ## 4. The quality pyramid
 
-From [`SOFTWARE-QUALITY-DEFINITION.md`](../../../agentropix-sift/docs/SOFTWARE-QUALITY-DEFINITION.md),
+From `SOFTWARE-QUALITY-DEFINITION.md`,
 the quality bar is a bottom-up dependency stack: each layer depends on the one
 beneath it.
 
@@ -288,14 +288,14 @@ reliable.
 > phrasing reconciles to the canonical **71 MCP tools** and the **7 core swarm
 > specialists** (Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt)
 > plus ATT&CK detectors — see [`canonical-facts.md`](canonical-facts.md) and
-> [`agents/__init__.py`](../../../agentropix-sift/src/agentropix_sift/agents/__init__.py).
+> `agents/__init__.py`.
 
 ---
 
 ## 5. Why ADR-016 is the most interesting ADR
 
 If a SANS judge reads only one ADR, it should be
-[ADR-016 — Courtroom Audit](../../../agentropix-sift/docs/adr/ADR-016-courtroom-audit.md)
+[ADR-016 — Courtroom Audit](../11-ADR/ADR-016-courtroom-audit.md)
 ([read it in-portal](../11-ADR/ADR-016-courtroom-audit.md)).
 It is the inflection point between an *agent playground* and a *forensically
 sound submission*, answering the judge's first question — *"how do I know the AI
@@ -304,7 +304,7 @@ the oracle):
 
 | Invariant | What it does | Oracle |
 |-----------|--------------|--------|
-| `inference_constraint = "high"` | Schema-level declaration that the LLM only orchestrates; every fact comes from a typed MCP tool. | [`orchestrator.py:69`](../../../agentropix-sift/src/agentropix_sift/orchestrator.py); `report.schema.json` |
+| `inference_constraint = "high"` | Schema-level declaration that the LLM only orchestrates; every fact comes from a typed MCP tool. | `orchestrator.py:69`; `report.schema.json` |
 | Evidence-image SHA-256 at session start | Binds the report to specific bytes; a judge can re-hash the `.E01` and compare. `None` is a legitimate, honest value for oversized images. | `courtroom.evidence_image_sha256()` |
 | Raw tool output captured before LLM summarisation | A defense expert replays the deterministic step via the recorded `args_hash` and verifies the output. | `_trace._capture_raw_output()` |
 | HMAC report seal | Per-run ephemeral session key; no long-lived key to rotate or revoke. | `courtroom.write_sealed_report()` |
@@ -313,7 +313,7 @@ It is the most interesting ADR because it (a) addresses a threat model the
 research community barely acknowledges — *cryptographic chain-of-custody for
 agent-orchestrated forensics* — making hallucination **detectable** rather than
 hand-waved away; (b) bridges agentic AI and legal defensibility; (c) **cascaded
-into [ADR-022](../../../agentropix-sift/docs/adr/ADR-022-audit-log-seal.md)**,
+into [ADR-022](../11-ADR/ADR-022-audit-log-seal.md)**,
 which closed the residual audit-log gap; and (d) was driven by concrete SANS
 rubric weight, not abstract safety theorising. Together ADR-016 + ADR-022 are why
 the project can claim *structural* evidence safety — cryptographic proof, not
