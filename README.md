@@ -22,6 +22,14 @@
 > **🚀 Already have a SIFT host running on our tailnet? Point Claude at it right now — no install, no build.**
 > One command and you're driving **71 forensic tools** from Claude. **Full guide → [docs/09-integrations/client-setup.md](docs/09-integrations/client-setup.md).**
 
+> [!NOTE]
+> **First: join the tailnet (one-time).** The server `http://100.85.162.82:8765/mcp` is **tailnet-only** — reachable through **[Tailscale](https://tailscale.com/)**, never the public internet. Before the steps below:
+> 1. **Accept the invite** and sign in with your Google / Microsoft identity → **[Tailscale invite](https://login.tailscale.com/admin/invite/hTJEiNskHFY9qsXL2Xqx11)** *(then ping the operator to approve your device).*
+> 2. **Install the Tailscale client** — macOS `brew install --cask tailscale` · Windows [MSI](https://tailscale.com/download/windows) · Linux `curl -fsSL https://tailscale.com/install.sh | sh && sudo tailscale up`
+> 3. **Verify:** `tailscale status` lists `siftworkstation … 100.85.162.82`, and `ping 100.85.162.82` succeeds.
+>
+> Full per-OS install + a combined token-and-reachability probe: **[Client Setup → Step 1](docs/09-integrations/client-setup.md#step-1--join-the-tailnet-one-time)**.
+
 **You only need ONE client. Most people want the Claude Code CLI.**
 
 ### ▶ Client A — Claude Code CLI *(recommended — one line, all platforms)*
