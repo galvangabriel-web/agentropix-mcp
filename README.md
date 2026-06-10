@@ -17,6 +17,106 @@
 
 ---
 
+## ⚡ Connect in 60 seconds
+
+> **🚀 Already have a SIFT host running on our tailnet? Point Claude at it right now — no install, no build.**
+> One command and you're driving **71 forensic tools** from Claude. **Full guide → [docs/09-integrations/client-setup.md](docs/09-integrations/client-setup.md).**
+
+**You only need ONE client. Most people want the Claude Code CLI.**
+
+### ▶ Client A — Claude Code CLI *(recommended — one line, all platforms)*
+
+```bash
+claude mcp add --transport http agentropix-sift \
+  "http://100.85.162.82:8765/mcp" \
+  --header "Authorization: Bearer jlviTMFYAsAuxL1AiagDvFChIs4baYHe6OeRAdBzaLs"
+```
+
+Verify:
+
+```bash
+claude mcp list
+# Expected: agentropix-sift  http://100.85.162.82:8765/mcp  ✓ Connected
+```
+
+### ▶ Client B — Claude Desktop App *(via the `mcp-remote` shim)*
+
+Claude Desktop speaks **stdio only**, so it bridges to the HTTP server through the `npx mcp-remote` shim.
+**Prerequisite:** Node.js ≥ 18 on `PATH` (`node --version`); install LTS from <https://nodejs.org/> if missing.
+
+**1. Find your config file:**
+
+| OS | Path |
+|----|------|
+| macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
+| Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
+| Linux | `~/.config/Claude/claude_desktop_config.json` |
+
+**2. Edit it** (create if absent). **The `command` differs per OS** — Windows uses `npx.cmd`, macOS/Linux use bare `npx`:
+
+<table>
+<tr><th>macOS / Linux</th><th>Windows</th></tr>
+<tr valign="top"><td>
+
+```json
+{
+  "mcpServers": {
+    "agentropix-sift": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "http://100.85.162.82:8765/mcp",
+        "--allow-http",
+        "--header",
+        "Authorization: Bearer jlviTMFYAsAuxL1AiagDvFChIs4baYHe6OeRAdBzaLs"
+      ],
+      "env": {}
+    }
+  }
+}
+```
+
+</td><td>
+
+```json
+{
+  "mcpServers": {
+    "agentropix-sift": {
+      "command": "npx.cmd",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "http://100.85.162.82:8765/mcp",
+        "--allow-http",
+        "--header",
+        "Authorization: Bearer jlviTMFYAsAuxL1AiagDvFChIs4baYHe6OeRAdBzaLs"
+      ],
+      "env": {}
+    }
+  }
+}
+```
+
+</td></tr>
+</table>
+
+**3. Restart Claude Desktop** — fully quit (⌘Q / tray → Quit) and relaunch, not just close the window.
+
+### ✅ Smoke-test it
+
+Ask the model:
+
+> *"Use the agentropix-sift MCP server. Run the `health` tool and tell me the tool_count."*
+
+Expected: `tool_count: 72` (the live count is authoritative — this number may lag).
+
+> **First time on the tailnet, or hit a `401` / timeout?** The complete quickstart — Tailscale invite,
+> per-OS install, token facts, and a full troubleshooting matrix — is in
+> **[📘 Client Setup — Install Quickstart](docs/09-integrations/client-setup.md)**.
+
+---
+
 ## Start here — pick your lane
 
 Four audiences, four fast paths. Each row is an ordered reading trail; the full routing lives in the
