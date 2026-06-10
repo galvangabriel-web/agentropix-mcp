@@ -157,10 +157,27 @@ GitLab renders Mermaid client-side (strict security level); respect its limits:
   **replace-per-list** → push an **additive union** (existing live keys + new) to avoid wiping other cases' IOCs.
   The matching run transcript lives at `case-activation/runs/<case>/EXECUTED-RUN.md`.
 
-## Security / hygiene (this repo may be made public)
-- **No secrets, ever** — no tokens, passwords, or bearer keys in any tracked file.
-- **No raw internal IPs/hostnames** in pages — use placeholders (`<TAILNET-IP>`) or the documented
-  tailnet hostname. Screenshots that show live data carry a privacy note.
+## Publishing — GitHub only (GitLab retired 2026-06-10)
+- **This repo is PUBLIC on GitHub:** `github` remote → `https://github.com/galvangabriel-web/agentropix-mcp`
+  (auth via `gh auth setup-git`). Push portal changes with **`git push github main`**. Cut releases with
+  `gh release create vX.Y.Z agentropix_mcp/dist/*` (latest: **v0.3.0**).
+- **GitLab is RETIRED — do NOT push/fetch/force-push it.** The `origin` remote (internal GitLab
+  `192.168.2.227:8929`) still sits in `.git/config` but must not be touched; it diverged earlier and that
+  is now moot. (The GitLab-specific Mermaid/rendering rules below still matter — GitHub is *also* strict:
+  it rejects `foreignObject` SVGs and shrinks inline Mermaid, so the "PNG-not-Mermaid" guidance holds.)
+- The installable server package lives at `agentropix_mcp/` (src layout + `pyproject.toml`; console script
+  `agentropix-mcp`; extras `[engine]`/`[forensics]`/`[reports]`); built wheels go to `agentropix_mcp/dist/`
+  (gitignored) and are attached to GitHub releases.
+
+## Security / hygiene
+- **Operator published the live secrets by explicit decision (treat as burned):** the demo approver
+  password (`docs/05-safety-forensics/approval-portal.md`) and the live tailnet IP + bearer token
+  (`docs/09-integrations/client-setup.md` + README "Connect in 60 seconds") are now public on GitHub *and*
+  in git history. Rotation is still advised but is the operator's call — do **not** silently re-scrub them.
+- **Do not add NEW secrets** beyond those the operator has already sanctioned — no other tokens, passwords,
+  or bearer keys in any tracked file.
+- **No raw internal IPs/hostnames in NEW pages** unless operator-authorized for that file — use placeholders
+  (`<TAILNET-IP>`) or the documented tailnet hostname. Screenshots that show live data carry a privacy note.
 - Gitignored (local-only, never publish): `gitlab.txt`, `compare/`, `end-user/`, `2026-*/`,
   `complete_reports/`, `.claude/`, `docs/issues/*.png`. Confirm `git status` won't stage these. (`.claude/`
   holds the session's `scheduled_tasks.lock` and must never be committed — add it to `.gitignore` if absent.)
@@ -168,25 +185,22 @@ GitLab renders Mermaid client-side (strict security level); respect its limits:
     `case-activation/runs/<case>/reports/<tier>.{md,html,pdf}` — the *report artifacts* only. The
     *design/process* folder `2026-06-01-report-engine-design/` (ADR, plan, mockups, root-cause) stays
     **local-only** (gitignored) — "keep the report, not how it was made."
-- **`case-activation/` is tracked** (guides + `runs/` transcripts + MP4s) but holds **real case
-  inventory + on-disk paths** — each file carries a LOCAL-ONLY header. **Scrub paths/case names before
-  the repo is made public** (this is the main pre-public task).
-- **Demo-credential exception (the ONLY sanctioned secret in the tree):**
-  `docs/05-safety-forensics/approval-portal.md` intentionally carries a **time-boxed demo approver
-  password** for a closed-network demo, per explicit operator decision. It is already in git history —
-  **rotate it AND scrub history (BFG / `git filter-repo`) before the repo goes public**; rotation alone
-  won't remove it from past commits. Do not add any other secrets.
+- **`case-activation/` is tracked** (guides + `runs/` transcripts + MP4s) and holds **real case
+  inventory + on-disk paths** — now public on GitHub by operator decision (the pre-public scrub was
+  waived). Keep the LOCAL-ONLY headers as provenance; don't add NEW unscrubbed case paths without cause.
 
 ## Validate before every push
 1. **Links/images** — every relative link and image reference resolves (0 broken).
 2. **Canonical facts** — no number contradicts `docs/08-reference/canonical-facts.md`.
-3. **Mermaid** — every `mermaid` block is GitLab-safe (flowchart, classDef colors, no `timeline`/`<token>`)
-   and wide ones carry an "Open as SVG" link; verify renders with Playwright (`gl_md.cjs`).
+3. **Mermaid** — every `mermaid` block is flowchart-safe (classDef colors, no `timeline`/`<token>`).
+   For diagrams that must render reliably, **commit a PNG** (GitHub shrinks inline Mermaid and rejects
+   `foreignObject` SVGs); SVGs need explicit `width`/`height` and no `foreignObject` (render with
+   `htmlLabels:false`). Verify renders with Playwright against the GitHub blob.
 4. Mirror changed files into `/home/admin2/agentropix-sift/docs/portal/` (the in-repo copy).
 5. **Stage surgically — never `git add -A`.** Another session may be writing to this repo concurrently;
    `git add` only the explicit files you changed, and confirm the staged set excludes `.claude/`,
-   `docs/06-use-cases/assets/srl-2018*` (parallel-session work), and any gitignored dir. Push via a
-   minted-then-revoked GitLab PAT (scrub the token from any echo); confirm the remote has no embedded token.
+   `__pycache__/`, `dist/`, `docs/06-use-cases/assets/srl-2018*` + the untracked `vanko-report/` working
+   files (parallel-session), and any gitignored dir. **Push to GitHub only: `git push github main`.**
 
 ## Layout
 ```
@@ -207,5 +221,12 @@ docs/12-CASES-REPORTS sealed DFIR case reports — one folder per case (README i
                      + technical appendix + Wazuh gallery; diagrams as PNG, malware kept out of repo)
 case-activation/     per-case Activation Guides (real case data) + runs/<slug>/ executed transcripts + MP4s
                      + runs/<slug>/reports/ (comprehensive + executive-onepager .md/.pdf)
+agentropix_mcp/      the installable MCP-server PACKAGE (src/agentropix_mcp/ + pyproject.toml): fastmcp_app,
+                     server, thymus_policy, wrappers/, wazuh/, approval_sidecar/, evidence_gate/, reports/,
+                     schema/, security/, courtroom + the Trinity engine (trinity/, agents/, detectors/).
+                     Console script `agentropix-mcp`; extras [engine]/[forensics]/[reports]; wheels in dist/ (gitignored)
+docs/01-overview     …+ lessons-learned, roadmap  ·  docs/03-data …+ recall-ground-truth/ (committed GT fixtures)
+docs/06-use-cases    …+ reproduce-datasets (public dataset download URLs)
+docs/07-sdlc-ops     …+ observability-and-integrity-notes + assets/sample-sealed-run/ (committed sealed trace artifact)
 docs/issues/         QA logs (DIAGRAM-AUDIT.md, CASE-GUIDE-AUDIT.md); docs/issues/*.png are gitignored
 ```
