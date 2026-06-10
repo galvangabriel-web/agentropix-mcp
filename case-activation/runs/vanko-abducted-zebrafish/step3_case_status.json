@@ -1,0 +1,14 @@
+{
+  "case_id": "VANKO-ABDUCTED-ZEBRAFISH",
+  "case": null,
+  "active": true,
+  "counts": {
+    "findings": 0,
+    "timeline": 0,
+    "evidence": 0,
+    "iocs": 0,
+    "approvals": 0
+  },
+  "indexer_reachable": true,
+  "error": ""
+}

@@ -1,10 +1,10 @@
 # Case Activation Guides — Master Index
 
-> **LOCAL-ONLY.** This directory (`/home/admin2/docu_agentro/case-activation/`) is gitignored and never published. It holds real case inventory and on-disk paths.
+> **LOCAL / OPERATIONAL — tracked, not yet public-safe.** This directory (`/home/admin2/docu_agentro/case-activation/`) **is** version-controlled and pushed to the internal GitLab, but it holds **real case inventory, on-disk paths, and custody hashes** — scrub paths/case names before the repo is ever made public.
 
 **How to use:** Pick your case from the tables below → open its per-case Activation Guide → run either the **Manual** numbered prompt sequence (interactive, you drive each step) or the **Autonomous** sequence (detached driver runs to a DRAFT, you approve in the portal). Every guide instantiates the 8-step template procedure (`pick → case_init → case_status → evidence_register → analyze → record_finding → approve → report`) from [`END-USER-CASE-GUIDE.md`](/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md) with that case's real specifics, using the canonical 71-tool / 16-wrapper / 4464-test SIFT MCP surface. The MCP endpoint is shown as a `<TAILNET-HOST>` placeholder in every guide; the approval step is always a human hard-stop.
 
-13 cases documented · 10 folders skipped · all evidence paths verified present · directory confirmed gitignored.
+14 cases documented · 9 folders skipped/duplicate · all evidence paths verified present · directory tracked (internal GitLab).
 
 ---
 
@@ -16,6 +16,7 @@
 | TheTechHive — Chad_LT (ARM Windows laptop) | disk (EWF) | `/cases/nist3/TheTechHiveScenario/TheTechHiveScenario/Chad_LT.E01` · 86G (media 465 GiB) | [techhive-chad-lt-laptop.md](./techhive-chad-lt-laptop.md) |
 | Jimmy Wilson study case | disk (EWF) | `/cases/study case/2020JimmyWilson.E01` · 296M (media 850 MiB) | [jimmy-wilson-study-case.md](./jimmy-wilson-study-case.md) |
 | DFRWS 2005 Rodeo USB | disk (raw dd, FAT16) | `/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd` · 248M (259,506,176 B) | [dfrws-2005-rodeo-usb.md](./dfrws-2005-rodeo-usb.md) |
+| VANKO — "Abducted Zebrafish" (FOR500 insider IP-theft) | disk (EWF, 21-segment) | `/cases/vanko/surface_physical.E01`–`.E21` · ≈42G (media 116 GiB / 125,069,950,976 B) | [vanko-abducted-zebrafish.md](./vanko-abducted-zebrafish.md) |
 
 ## Memory cases
 
@@ -59,7 +60,7 @@ These `/cases/*` folders were classified and **not** turned into activation guid
 |---|---|---|
 | `cfreds-fresh1` | `cfreds-fresh` (CFReDS guide) | Same 4Dell-Latitude-CPi E01 but **missing the .E02 segment** — incomplete copy. |
 | `nist1` | `cfreds-fresh` (CFReDS guide) | NIST Hacking Case bundling both the E01/E02 EWF and the SCHARDT.001-008 raw split-dd of the same disk; 4Dell E01 byte-identical to cfreds-fresh. |
-| `memlabs` | `nist4` (MemLabs guide) | stuxnet999 MemLabs CTF repo clone (READMEs + one un-extracted `.7z`); the extracted `.raw` dumps live under `nist4`. |
+| `memlabs` *(removed)* | `nist4` (MemLabs guide) | Was a stuxnet999 MemLabs CTF repo clone (READMEs + one un-extracted `.7z`); folder since deleted — the extracted `.raw` dumps live under `nist4`. |
 | `security data` | `study case` (Jimmy Wilson guide) | Identical nested copy of the Jimmy Wilson exam (byte-identical `2020JimmyWilson.E01`, same exam `.md` + PDF). |
 
 ---
@@ -74,8 +75,9 @@ Educational recordings of a real executed activation sequence (live MCP calls, c
 | AMF Windows sample001 | §3.A manual | [EXECUTED-RUN.md](./runs/amf-win-sample001/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/amf-win-sample001/EXECUTED-RUN.mp4) (56s) | ✅ SIMULATED demo |
 | memdump (raw 2014) | MANUAL | [EXECUTED-RUN.md](./runs/memdump-raw-2014/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/memdump-raw-2014/EXECUTED-RUN.mp4) (63s) | ✅ SIMULATED demo |
 | Challenge "Notch It Up" | MANUAL | [EXECUTED-RUN.md](./runs/challenge-notchitup/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/challenge-notchitup/EXECUTED-RUN.mp4) (50.6s) | ✅ SIMULATED demo |
+| VANKO — "Abducted Zebrafish" | activation only (steps 0–5) | [EXECUTED-RUN.md](./runs/vanko-abducted-zebrafish/EXECUTED-RUN.md) | — | — (full sealed report: [`docs/12-CASES-REPORTS/vanko-report/`](../docs/12-CASES-REPORTS/vanko-report/)) |
 
-The per-case **report** (comprehensive + exec one-pager) is in the table just below.
+The per-case **report** (comprehensive + exec one-pager) is in the table just below. *(The VANKO run captured **activation only** — `case_init`→`get_image_info`, no analysis/approval; its full 10-confirmed-finding investigation is the sealed report under `docs/12-CASES-REPORTS/vanko-report/`, not a recorded activation video.)*
 
 **Outstanding multi-audience reports.** Beyond the three focused tiers, each run also ships a **comprehensive report** — one big document fusing an executive dashboard (KPI tiles, risk matrix), full forensic sections (IOC catalogue, host/network artefacts, malware + MITRE ATT&CK, process tree, timeline), and coverage attestation — plus a **1-page executive summary**, both grounded in the case's real data and rendered with diagrams:
 

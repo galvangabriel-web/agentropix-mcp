@@ -1,0 +1,17 @@
+{
+  "evidence": {
+    "evidence_id": "a085d58338fdb241e8cde27d48a14955270b97d6e67ac93d6307de2c70dd42a2",
+    "case_id": "VANKO-ABDUCTED-ZEBRAFISH",
+    "path": "/cases/vanko/surface_physical.E01",
+    "description": "Surface 3 physical disk image (multi-segment EWF, FTK Imager; case 20161104, evidence 20161104-HD001)",
+    "sha256": "0a44ad8d57bad44eb40a59bdaa8110b79ac019a791b8fd388f6efe09c7aa3b1c",
+    "size_bytes": 2147328814,
+    "examiner_id": "victor.galvan",
+    "registered_at": "2026-06-08T04:10:54.192398+00:00",
+    "audit_id": "",
+    "payload": {}
+  },
+  "indexed_to": "agentropix-evidence-2026.06.08",
+  "indexed": true,
+  "error": ""
+}

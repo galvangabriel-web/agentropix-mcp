@@ -1,0 +1,12 @@
+{
+  "image_path": "/cases/vanko/surface_physical.E01",
+  "case_number": "20161104",
+  "examiner": "Ovie Carroll",
+  "acquisition_date": "Fri Nov  4 17:47:41 2016",
+  "media_size": "116 GiB (125069950976 bytes)",
+  "md5": "4032d556cc866c23f1e797410e95603c",
+  "sha1": "e0e72dfcef167dd358813726e82f6c235bc85ce7",
+  "tool": "ewftools.ewfinfo",
+  "raw_output": "ewfinfo 20140816\n\nAcquiry information\n\tCase number:\t\t20161104\n\tDescription:\t\tSurface 3\n\tExaminer name:\t\tOvie Carroll\n\tEvidence number:\t20161104-HD001\n\tNotes:\t\t\tLive Physical \n\tAcquisition date:\tFri Nov  4 17:47:41 2016\n\tSystem date:\t\tFri Nov  4 17:47:41 2016\n\tOperating system used:\tWindows 200x\n\tSoftware version used:\tADI2.9.0.13\n\tPassword:\t\tN/A\n\nEWF information\n\tFile format:\t\tFTK Imager\n\tSectors per chunk:\t64\n\tCompression method:\tdeflate\n\tCompression level:\tno compression\n\nMedia information\n\tMedia type:\t\tfixed disk\n\tIs physical:\t\tyes\n\tBytes per sector:\t512\n\tNumber of sectors:\t244277248\n\tMedia size:\t\t116 GiB (125069950976 bytes)\n\nDigest hash information\n\tMD5:\t\t\t4032d556cc866c23f1e797410e95603c\n\tSHA1:\t\t\te0e72dfcef167dd358813726e82f6c235bc85ce7\n\n",
+  "raw_stdout_sha256": "6a54e5257814ff6bcff10a7879e7523d02bbe2a968b5a74d9819b76e67e12599"
+}

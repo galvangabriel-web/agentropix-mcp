@@ -1,0 +1,23 @@
+{
+  "case_id": "VANKO-ABDUCTED-ZEBRAFISH",
+  "case_name": "Vanko \u2014 The Case of the Abducted Zebrafish (FOR500)",
+  "description": "Anthony Vanko (Stark Enterprises biochemical engineer) suspected of exfiltrating classified zebrafish DNA / cell-regeneration research to a Chinese university file share (JARVIS-detected, June 2016). Surface 3 physical disk image.",
+  "status": "active",
+  "examiner_id": "victor.galvan",
+  "incident_type": "insider-threat/ip-theft",
+  "severity": "high",
+  "started_at": "2026-06-08T04:10:41.757173+00:00",
+  "ended_at": null,
+  "scope": "/cases/vanko",
+  "team": [],
+  "tags": [
+    "vanko",
+    "for500",
+    "insider-threat",
+    "ip-theft",
+    "zebrafish",
+    "stark"
+  ],
+  "case_dir": "/cases/vanko",
+  "payload": {}
+}
