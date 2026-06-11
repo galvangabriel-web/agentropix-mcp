@@ -22,7 +22,9 @@
 
 > 🧭 **Judges:** the **[Evaluation Map](EVALUATION-MAP.md)** routes each of the 8 submission
 > requirements (code · demo video · architecture diagram · project story · datasets · accuracy ·
-> try-it-out · execution logs) to its exact evidence in this repository.
+> try-it-out · execution logs) to its exact evidence in this repository — or watch the
+> 🎬 **[2 min 24 s Submission Evidence Tour](https://galvangabriel-web.github.io/agentropix-mcp/assets/submission-tour/watch-tour.html)**
+> (auto-plays): one animated scene per requirement, each with a live-captured proof panel.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#license)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)

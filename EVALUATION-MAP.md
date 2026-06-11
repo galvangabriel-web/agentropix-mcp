@@ -1,5 +1,10 @@
 # 🧭 Evaluation Map — where each submission requirement lives in this repo
 
+> 🎬 **Watch the 2 min 24 s [Submission Evidence Tour](https://galvangabriel-web.github.io/agentropix-mcp/assets/submission-tour/watch-tour.html)**
+> (auto-plays on open) — one animated scene per requirement below, each with a live-captured
+> **REAL PROOF** panel and the Built-With tags. Deck source + proof captures:
+> [`assets/submission-tour/`](assets/submission-tour/).
+
 A routed guide for judges: each of the 8 submission requirements below maps to the exact artifacts
 that satisfy it, with a reading path. Statuses are honest — ✅ means committed and verifiable here;
 ⚠️ means an operator action outside this repo is still pending.
