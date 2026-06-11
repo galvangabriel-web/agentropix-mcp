@@ -76,6 +76,7 @@ Educational recordings of a real executed activation sequence (live MCP calls, c
 | memdump (raw 2014) | MANUAL | [EXECUTED-RUN.md](./runs/memdump-raw-2014/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/memdump-raw-2014/EXECUTED-RUN.mp4) (63s) | ✅ SIMULATED demo |
 | Challenge "Notch It Up" | MANUAL | [EXECUTED-RUN.md](./runs/challenge-notchitup/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/challenge-notchitup/EXECUTED-RUN.mp4) (50.6s) | ✅ SIMULATED demo |
 | VANKO — "Abducted Zebrafish" | activation only (steps 0–5) | [EXECUTED-RUN.md](./runs/vanko-abducted-zebrafish/EXECUTED-RUN.md) | — | — (full sealed report: [`docs/12-CASES-REPORTS/vanko-report/`](../docs/12-CASES-REPORTS/vanko-report/)) |
+| Jimmy Wilson — **full engine triage** (`agentropix-sift run`) | end-to-end (`uv sync`→`doctor`→`run`) | [EXECUTED-RUN.md](./runs/jimmy-wilson-poc/EXECUTED-RUN.md) + [EXECUTION-LOG.md](./runs/jimmy-wilson-poc/EXECUTION-LOG.md) | [POC-RUN.mp4](./runs/jimmy-wilson-poc/POC-RUN.mp4) | sealed [`report.json`](./runs/jimmy-wilson-poc/report.json) (129 findings · 86 tool calls) |
 
 The per-case **report** (comprehensive + exec one-pager) is in the table just below. *(The VANKO run captured **activation only** — `case_init`→`get_image_info`, no analysis/approval; its full 10-confirmed-finding investigation is the sealed report under `docs/12-CASES-REPORTS/vanko-report/`, not a recorded activation video.)*
 

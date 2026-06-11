@@ -1,0 +1,28 @@
+{"ts": "2026-06-11T00:40:37.042522+00:00", "agent": "memory", "event": "publish", "detail": "1 finding(s)", "duration_ms": 0.11}
+{"ts": "2026-06-11T00:49:40.886576+00:00", "agent": "timeline", "event": "publish", "detail": "111 finding(s)", "duration_ms": 543844.07}
+{"ts": "2026-06-11T00:49:41.036012+00:00", "agent": "filesystem", "event": "publish", "detail": "1 finding(s)", "duration_ms": 149.41}
+{"ts": "2026-06-11T00:49:42.259939+00:00", "agent": "artifact", "event": "publish", "detail": "1 finding(s)", "duration_ms": 1223.84}
+{"ts": "2026-06-11T00:49:42.260210+00:00", "agent": "discovery", "event": "publish", "detail": "0 finding(s)", "duration_ms": 0.22}
+{"ts": "2026-06-11T00:49:43.314399+00:00", "agent": "null_session_baseline", "event": "publish", "detail": "1 finding(s)", "duration_ms": 1054.17}
+{"ts": "2026-06-11T00:49:43.317222+00:00", "agent": "mail", "event": "publish", "detail": "0 finding(s)", "duration_ms": 2.8}
+{"ts": "2026-06-11T00:49:45.215700+00:00", "agent": "yara_hunt", "event": "publish", "detail": "2 finding(s)", "duration_ms": 1898.46}
+{"ts": "2026-06-11T00:49:45.221327+00:00", "agent": "injection_detector", "event": "publish", "detail": "1 finding(s)", "duration_ms": 5.57}
+{"ts": "2026-06-11T00:49:45.374589+00:00", "agent": "t1546_008_accessibility_ifeo_hijack", "event": "publish", "detail": "2 finding(s)", "duration_ms": 153.23}
+{"ts": "2026-06-11T00:49:48.667329+00:00", "agent": "t1059_001_iex_loopback_c2", "event": "publish", "detail": "1 finding(s)", "duration_ms": 3292.72}
+{"ts": "2026-06-11T00:49:48.667566+00:00", "agent": "t1071_001_svchost_outbound_http", "event": "publish", "detail": "1 finding(s)", "duration_ms": 0.19}
+{"ts": "2026-06-11T00:49:48.702389+00:00", "agent": "hunt", "event": "publish", "detail": "7 finding(s)", "duration_ms": 34.78}
+{"ts": "2026-06-11T00:49:48.735918+00:00", "agent": "discovery", "event": "publish", "detail": "0 finding(s)", "duration_ms": 0.2}
+{"ts": "2026-06-11T00:49:48.740949+00:00", "agent": "mail", "event": "publish", "detail": "0 finding(s)", "duration_ms": 4.99}
+{"ts": "2026-06-11T00:49:48.773808+00:00", "agent": "discovery", "event": "publish", "detail": "0 finding(s)", "duration_ms": 0.19}
+{"ts": "2026-06-11T00:49:48.778766+00:00", "agent": "mail", "event": "publish", "detail": "0 finding(s)", "duration_ms": 4.91}
+{"ts": "2026-06-11T00:49:48.812133+00:00", "agent": "discovery", "event": "publish", "detail": "0 finding(s)", "duration_ms": 0.26}
+{"ts": "2026-06-11T00:49:48.816941+00:00", "agent": "mail", "event": "publish", "detail": "0 finding(s)", "duration_ms": 4.76}
+{"ts": "2026-06-11T00:49:48.850692+00:00", "agent": "discovery", "event": "publish", "detail": "0 finding(s)", "duration_ms": 0.19}
+{"ts": "2026-06-11T00:49:48.855507+00:00", "agent": "mail", "event": "publish", "detail": "0 finding(s)", "duration_ms": 4.77}
+{"ts": "2026-06-11T00:49:48.888413+00:00", "agent": "hunt", "event": "correlation", "detail": "Cross-source agreement: 'file' flagged by 2 agents (filesystem, timeline)"}
+{"ts": "2026-06-11T00:49:48.888413+00:00", "agent": "hunt", "event": "correlation", "detail": "Cross-source agreement: 'case' flagged by 9 agents (artifact, filesystem, injection_detector, memory, null_session_basel"}
+{"ts": "2026-06-11T00:49:48.888413+00:00", "agent": "hunt", "event": "correlation", "detail": "Cross-source agreement: 'across' flagged by 2 agents (null_session_baseline, t1059_001_iex_loopback_c2)"}
+{"ts": "2026-06-11T00:49:48.888413+00:00", "agent": "hunt", "event": "correlation", "detail": "Cross-source agreement: 'complete' flagged by 2 agents (null_session_baseline, t1059_001_iex_loopback_c2)"}
+{"ts": "2026-06-11T00:49:48.888413+00:00", "agent": "hunt", "event": "correlation", "detail": "Cross-source agreement: 'coverage' flagged by 2 agents (memory, yara_hunt)"}
+{"ts": "2026-06-11T00:49:48.888413+00:00", "agent": "hunt", "event": "correlation", "detail": "Cross-source agreement: 'scan' flagged by 3 agents (null_session_baseline, t1059_001_iex_loopback_c2, yara_hunt)"}
+{"ts": "2026-06-11T00:49:48.888413+00:00", "agent": "hunt", "event": "correlation", "detail": "Cross-source agreement: 'study' flagged by 8 agents (filesystem, injection_detector, memory, null_session_baseline, t105"}

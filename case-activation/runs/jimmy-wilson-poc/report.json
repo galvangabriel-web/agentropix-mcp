@@ -1,0 +1,2485 @@
+{
+  "version": "0.2.0-dev",
+  "image": "/cases/study case/2020JimmyWilson.E01",
+  "max_iterations": 5,
+  "iterations_completed": 5,
+  "status": "budget_exhausted",
+  "findings": [
+    {
+      "_source": "memory.skip",
+      "confidence": 0.0,
+      "description": "MemoryAgent skipped: image is not a memory dump (disk-only). Volatility plugins require RAM capture; T1055 disk-side coverage is provided by the AppData-staging detector in TimelineAgent (W-067).",
+      "evidence": "image=/cases/study case/2020JimmyWilson.E01 suffix=.E01",
+      "timestamp": "2026-06-11T00:40:37.042442+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "memory"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1078 Valid Accounts \u2014 interactive logon (lateral candidate)] Logon event EventID 4624: [4624 / 0x1210] Provider identifier: {54849625-5478-4994-a5ba-3e3b0328c30d} Source Name: Microsoft-Windows-Security-Audi",
+      "evidence": "datetime=2014-02-19T17:19:42.482240+00:00 parser=winevtx msg=[4624 / 0x1210] Provider identifier: {54849625-5478-4994-a5ba-3e3b0328c30d} Source Name: Microsoft-Windows-Security-Auditing Strings: ['S-1-5-18', 'IACIS-HDD-2014$', 'WORKGROUP', '0x00000000000003e7', 'S-1-5-21-1171287513-3642516788-2358256967-1001', 'BillyBob', 'IACIS-HDD-2014', '0x000000000018bfe7', '2', 'User32 ', 'Negotiate', 'IACIS-HDD-2014', '{00000000-0000-0000-0000-000000000000}', '-', '-', '0', '0x0000000000000cf8', 'C:\\\\Windows\\\\System32\\\\winlogon.exe', '127.0.0.1', '0'] Computer Name: IACIS-HDD-2014 Record Number: 3119 Event Level: 0",
+      "timestamp": "2014-02-19T17:19:42.482240+00:00",
+      "mitre_attack": "T1078",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1547.001 Boot/Logon Autostart \u2014 Registry Run key persistence] Registry Run key write: [HKEY_LOCAL_MACHINE\\Software\\Classes\\SDRun.AutoPlayHandler\\shell\\run\\command] (default): [REG_EXPAND_SZ] %SystemRoot%\\system32\\sdclt.exe /KICKOFFELEV",
+      "evidence": "datetime=2009-07-14T04:53:38.650441+00:00 parser=winreg/winreg_default msg=[HKEY_LOCAL_MACHINE\\Software\\Classes\\SDRun.AutoPlayHandler\\shell\\run\\command] (default): [REG_EXPAND_SZ] %SystemRoot%\\system32\\sdclt.exe /KICKOFFELEV",
+      "timestamp": "2009-07-14T04:53:38.650441+00:00",
+      "mitre_attack": "T1547.001",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1547.001 Boot/Logon Autostart \u2014 Registry Run key persistence] Registry Run key write: [HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\5E7E83F24D4445B42A8DB929E4BD711A] 348B201EA68785F4FA5756407",
+      "evidence": "datetime=2014-01-25T14:35:50.487573+00:00 parser=winreg/winreg_default msg=[HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\5E7E83F24D4445B42A8DB929E4BD711A] 348B201EA68785F4FA57564075E002B7: [REG_SZ] 22:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\MSC",
+      "timestamp": "2014-01-25T14:35:50.487573+00:00",
+      "mitre_attack": "T1547.001",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1547.001 Boot/Logon Autostart \u2014 Registry Run key persistence] Registry Run key write: [HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run] Entries: ['MSC: \"c:\\\\Program Files\\\\Microsoft Security Client\\\\msseces.exe\" -hide -runkey']",
+      "evidence": "datetime=2014-01-25T14:35:53.437577+00:00 parser=winreg/windows_run msg=[HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run] Entries: ['MSC: \"c:\\\\Program Files\\\\Microsoft Security Client\\\\msseces.exe\" -hide -runkey']",
+      "timestamp": "2014-01-25T14:35:53.437577+00:00",
+      "mitre_attack": "T1547.001",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1547.001 Boot/Logon Autostart \u2014 Registry Run key persistence] Registry Run key write: [HKEY_LOCAL_MACHINE\\Software\\Wow6432Node\\Skype\\Phone\\UI\\General] SkypeSetup: [REG_SZ] SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce",
+      "evidence": "datetime=2014-02-04T14:22:41.013452+00:00 parser=winreg/winreg_default msg=[HKEY_LOCAL_MACHINE\\Software\\Wow6432Node\\Skype\\Phone\\UI\\General] SkypeSetup: [REG_SZ] SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce",
+      "timestamp": "2014-02-04T14:22:41.013452+00:00",
+      "mitre_attack": "T1547.001",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1547.001 Boot/Logon Autostart \u2014 Registry Run key persistence] Registry Run key write: [HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run] Entries: ['RESTART_STICKY_NOTES: C:\\\\Windows\\\\System32\\\\StikyNot.exe']",
+      "evidence": "datetime=2014-02-06T18:54:45.656702+00:00 parser=winreg/windows_run msg=[HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run] Entries: ['RESTART_STICKY_NOTES: C:\\\\Windows\\\\System32\\\\StikyNot.exe']",
+      "timestamp": "2014-02-06T18:54:45.656702+00:00",
+      "mitre_attack": "T1547.001",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1547.001 Boot/Logon Autostart \u2014 Registry Run key persistence] Registry Run key write: [HKEY_LOCAL_MACHINE\\Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run] Entries: ['Adobe ARM: \"C:\\\\Program Files (x86)\\\\Common Files\\\\Adobe\\\\ARM\\\\1.0\\\\Ad",
+      "evidence": "datetime=2014-02-07T14:30:56.533318+00:00 parser=winreg/windows_run msg=[HKEY_LOCAL_MACHINE\\Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run] Entries: ['Adobe ARM: \"C:\\\\Program Files (x86)\\\\Common Files\\\\Adobe\\\\ARM\\\\1.0\\\\AdobeARM.exe\"', 'KeePass 2 PreLoad: \"C:\\\\Program Files (x86)\\\\KeePass Password Safe 2\\\\KeePass.exe\" --preload']",
+      "timestamp": "2014-02-07T14:30:56.533318+00:00",
+      "mitre_attack": "T1547.001",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4398-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4398-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1001\\$RE8VT0O.pdf",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4385-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4385-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4395-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4395-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1004\\$IEZGV91.txt",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4391-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4391-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1004\\$R3TS6GA\\New Price List.txt",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4403-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4403-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1001\\$IE8VT0O.pdf",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4404-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4404-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1001\\$IV0TPXM.jpg",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4400-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4400-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1001\\$R8OPSCS.JPG",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4388-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4388-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1004\\$R0E8VHK.mdb",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4396-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4396-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1004\\$I3TS6GA",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4416-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.206686+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4416-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$RTJI18J.lnk",
+      "timestamp": "2015-05-26T13:46:44.206686+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4411-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.206686+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4411-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$IF2HQDS.pdf",
+      "timestamp": "2015-05-26T13:46:44.206686+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4383-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.206686+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4383-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1004",
+      "timestamp": "2015-05-26T13:46:44.206686+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4408-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.206686+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4408-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$RJK0C4K.pdf",
+      "timestamp": "2015-05-26T13:46:44.206686+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4409-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.206686+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4409-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$RF2HQDS.pdf",
+      "timestamp": "2015-05-26T13:46:44.206686+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4410-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.206686+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4410-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$RW2WHIO.pdf",
+      "timestamp": "2015-05-26T13:46:44.206686+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4413-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.206686+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4413-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$I4JRZ47.mht",
+      "timestamp": "2015-05-26T13:46:44.206686+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4412-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.206686+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4412-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$IW2WHIO.pdf",
+      "timestamp": "2015-05-26T13:46:44.206686+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4414-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.206686+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4414-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$ICPRR5E.url",
+      "timestamp": "2015-05-26T13:46:44.206686+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4415-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.206686+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4415-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$IJK0C4K.pdf",
+      "timestamp": "2015-05-26T13:46:44.206686+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4406-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.206686+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4406-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1004\\desktop.ini",
+      "timestamp": "2015-05-26T13:46:44.206686+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4407-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.206686+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 4407-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$RCPRR5E.url",
+      "timestamp": "2015-05-26T13:46:44.206686+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: powershell",
+      "evidence": "datetime=2015-05-26T12:47:23.340307+00:00 parser=mft msg=NTFS:\\$MFT File reference: 4568-2 Attribute name: $FILE_NAME Name: Microsoft.PowerShell.Security Parent file reference: 4423-1 (unallocated) Path hints: $Orphan\\GAC_MSIL\\Microsoft.PowerShell.Security",
+      "timestamp": "2015-05-26T12:47:23.340307+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: powershell",
+      "evidence": "datetime=2015-05-26T12:47:23.340307+00:00 parser=mft msg=NTFS:\\$MFT File reference: 4570-2 Attribute name: $FILE_NAME Name: Microsoft.PowerShell.Security.Resources Parent file reference: 4423-1 (unallocated) Path hints: $Orphan\\GAC_MSIL\\Microsoft.PowerShell.Security.Resources",
+      "timestamp": "2015-05-26T12:47:23.340307+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: powershell",
+      "evidence": "datetime=2015-05-26T12:47:23.340307+00:00 parser=mft msg=NTFS:\\$MFT File reference: 4569-2 Attribute name: $FILE_NAME Name: 100~1.0__ Parent file reference: 4568-1 (unallocated) Path hints: $Orphan\\GAC_MSIL\\Microsoft.PowerShell.Security\\100~1.0__",
+      "timestamp": "2015-05-26T12:47:23.340307+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: powershell",
+      "evidence": "datetime=2015-05-26T12:47:23.340307+00:00 parser=mft msg=NTFS:\\$MFT File reference: 4569-2 Attribute name: $STANDARD_INFORMATION (unallocated) Path hints: $Orphan\\GAC_MSIL\\Microsoft.PowerShell.Security\\1.0.0.0__31bf3856ad364e35",
+      "timestamp": "2015-05-26T12:47:23.340307+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: powershell",
+      "evidence": "datetime=2015-05-26T12:47:23.341307+00:00 parser=mft msg=NTFS:\\$MFT File reference: 4570-2 Attribute name: $STANDARD_INFORMATION (unallocated) Path hints: $Orphan\\GAC_MSIL\\Microsoft.PowerShell.Security.Resources",
+      "timestamp": "2015-05-26T12:47:23.341307+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: powershell",
+      "evidence": "datetime=2015-05-26T12:47:23.341307+00:00 parser=mft msg=NTFS:\\$MFT File reference: 4571-2 Attribute name: $FILE_NAME Name: 1.0.0.0_en_31bf3856ad364e35 Parent file reference: 4570-1 (unallocated) Path hints: $Orphan\\GAC_MSIL\\Microsoft.PowerShell.Security.Resources\\1.0.0.0_en_31bf3856ad364e35",
+      "timestamp": "2015-05-26T12:47:23.341307+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: powershell",
+      "evidence": "datetime=2015-05-26T12:47:23.341307+00:00 parser=mft msg=NTFS:\\$MFT File reference: 4571-2 Attribute name: $STANDARD_INFORMATION (unallocated) Path hints: $Orphan\\GAC_MSIL\\Microsoft.PowerShell.Security.Resources\\1.0.0.0_en_31bf3856ad364e35",
+      "timestamp": "2015-05-26T12:47:23.341307+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: powershell",
+      "evidence": "datetime=2015-05-26T12:47:23.341307+00:00 parser=mft msg=NTFS:\\$MFT File reference: 4571-2 Attribute name: $FILE_NAME Name: 100~1.0_E Parent file reference: 4570-1 (unallocated) Path hints: $Orphan\\GAC_MSIL\\Microsoft.PowerShell.Security.Resources\\100~1.0_E",
+      "timestamp": "2015-05-26T12:47:23.341307+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: rundll32",
+      "evidence": "datetime=2015-05-26T12:47:25.919454+00:00 parser=mft msg=NTFS:\\$MFT File reference: 5012-1 Attribute name: $STANDARD_INFORMATION Path hints: \\Windows\\Prefetch\\RUNDLL32.EXE-411A328D.pf",
+      "timestamp": "2015-05-26T12:47:25.919454+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: rundll32",
+      "evidence": "datetime=2015-05-26T12:47:25.919454+00:00 parser=mft msg=NTFS:\\$MFT File reference: 5012-1 Attribute name: $FILE_NAME Name: RUNDLL32.EXE-411A328D.pf Parent file reference: 4235-1 Path hints: \\Windows\\Prefetch\\RUNDLL32.EXE-411A328D.pf",
+      "timestamp": "2015-05-26T12:47:25.919454+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: powershell",
+      "evidence": "datetime=2015-05-26T13:00:40.840823+00:00 parser=mft msg=NTFS:\\$MFT File reference: 4305-2 Attribute name: $STANDARD_INFORMATION Path hints: \\Windows\\System32\\winevt\\Logs\\Windows PowerShell.evtx",
+      "timestamp": "2015-05-26T13:00:40.840823+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: powershell",
+      "evidence": "datetime=2015-05-26T13:00:40.840823+00:00 parser=mft msg=NTFS:\\$MFT File reference: 4305-2 Attribute name: $FILE_NAME Name: Windows PowerShell.evtx Parent file reference: 4239-2 Path hints: \\Windows\\System32\\winevt\\Logs\\Windows PowerShell.evtx",
+      "timestamp": "2015-05-26T13:00:40.840823+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 792-1 Attribute name: $FILE_NAME Name: USERCA~1.BIN Parent file reference: 88-1 Path hints: \\",
+      "evidence": "datetime=2015-05-26T12:45:57.040371+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 792-1 Attribute name: $FILE_NAME Name: USERCA~1.BIN Parent file reference: 88-1 Path hints: \\USERS\\Jimmy Wilson\\AppData\\Local\\Adobe\\Acrobat\\11.0\\USERCA~1.BIN",
+      "timestamp": "2015-05-26T12:45:57.040371+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.75,
+      "description": "Suspected beacon injection staging: executable dropped in AppData \u2014 NTFS:\\$MFT File reference: 792-1 Attribute name: $FILE_NAME Name: USERCA~1.BIN P",
+      "evidence": "beacon=suspected AppData=NTFS:\\$MFT File reference: 792-1 Attribute name: $FILE_NAME Name: USERCA~1.BIN Parent file reference: 88-1 Path hints: \\ injection=staging datetime=2015-05-26T12:45:57.040371+00:00 parser=mft",
+      "timestamp": "2015-05-26T12:45:57.040371+00:00",
+      "mitre_attack": "T1055",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.75,
+      "description": "Suspected beacon injection staging: executable dropped in AppData \u2014 NTFS:\\$MFT File reference: 792-1 Attribute name: $STANDARD_INFORMATION Path hint",
+      "evidence": "beacon=suspected AppData=NTFS:\\$MFT File reference: 792-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Local\\Ado injection=staging datetime=2015-05-26T12:45:57.040371+00:00 parser=mft",
+      "timestamp": "2015-05-26T12:45:57.040371+00:00",
+      "mitre_attack": "T1055",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 792-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Local\\Ado",
+      "evidence": "datetime=2015-05-26T12:45:57.048371+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 792-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Local\\Adobe\\Acrobat\\11.0\\UserCache.bin",
+      "timestamp": "2015-05-26T12:45:57.048371+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 3308-1 Attribute name: $FILE_NAME Name: STRUCT~1.BIN Parent file reference: 3267-1 Path hints",
+      "evidence": "datetime=2015-05-26T12:46:09.525085+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 3308-1 Attribute name: $FILE_NAME Name: STRUCT~1.BIN Parent file reference: 3267-1 Path hints: \\USERS\\Jimmy Wilson\\AppData\\Local\\Microsoft\\Windows\\1033\\STRUCT~1.BIN",
+      "timestamp": "2015-05-26T12:46:09.525085+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.75,
+      "description": "Suspected beacon injection staging: executable dropped in AppData \u2014 NTFS:\\$MFT File reference: 3308-1 Attribute name: $FILE_NAME Name: STRUCT~1.BIN ",
+      "evidence": "beacon=suspected AppData=NTFS:\\$MFT File reference: 3308-1 Attribute name: $FILE_NAME Name: STRUCT~1.BIN Parent file reference: 3267-1 Path hints injection=staging datetime=2015-05-26T12:46:09.525085+00:00 parser=mft",
+      "timestamp": "2015-05-26T12:46:09.525085+00:00",
+      "mitre_attack": "T1055",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 3308-1 Attribute name: $FILE_NAME Name: StructuredQuerySchema.bin Parent file reference: 3267",
+      "evidence": "datetime=2015-05-26T12:46:09.525085+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 3308-1 Attribute name: $FILE_NAME Name: StructuredQuerySchema.bin Parent file reference: 3267-1 Path hints: \\USERS\\Jimmy Wilson\\AppData\\Local\\Microsoft\\Windows\\1033\\StructuredQuerySchema.bin",
+      "timestamp": "2015-05-26T12:46:09.525085+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.75,
+      "description": "Suspected beacon injection staging: executable dropped in AppData \u2014 NTFS:\\$MFT File reference: 3308-1 Attribute name: $FILE_NAME Name: StructuredQue",
+      "evidence": "beacon=suspected AppData=NTFS:\\$MFT File reference: 3308-1 Attribute name: $FILE_NAME Name: StructuredQuerySchema.bin Parent file reference: 3267 injection=staging datetime=2015-05-26T12:46:09.525085+00:00 parser=mft",
+      "timestamp": "2015-05-26T12:46:09.525085+00:00",
+      "mitre_attack": "T1055",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.75,
+      "description": "Suspected beacon injection staging: executable dropped in AppData \u2014 NTFS:\\$MFT File reference: 3308-1 Attribute name: $STANDARD_INFORMATION Path hin",
+      "evidence": "beacon=suspected AppData=NTFS:\\$MFT File reference: 3308-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Local\\Mi injection=staging datetime=2015-05-26T12:46:09.525085+00:00 parser=mft",
+      "timestamp": "2015-05-26T12:46:09.525085+00:00",
+      "mitre_attack": "T1055",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 3308-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Local\\Mi",
+      "evidence": "datetime=2015-05-26T12:46:09.534085+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 3308-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Local\\Microsoft\\Windows\\1033\\StructuredQuerySchema.bin",
+      "timestamp": "2015-05-26T12:46:09.534085+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 3532-1 Attribute name: $FILE_NAME Name: com.sun.star.comp.deployment.executable.PackageRegist",
+      "evidence": "datetime=2015-05-26T12:46:12.370247+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 3532-1 Attribute name: $FILE_NAME Name: com.sun.star.comp.deployment.executable.PackageRegistryBackend Parent file reference: 3527-1 Path hints: \\USERS\\Jimmy Wilson\\AppData\\Roaming\\OpenOffice\\4\\user\\extensions\\bundled\\registry\\com.sun.star.comp.deployment.executable.PackageRegistryBackend",
+      "timestamp": "2015-05-26T12:46:12.370247+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.75,
+      "description": "Suspected beacon injection staging: executable dropped in AppData \u2014 NTFS:\\$MFT File reference: 3532-1 Attribute name: $FILE_NAME Name: com.sun.star.",
+      "evidence": "beacon=suspected AppData=NTFS:\\$MFT File reference: 3532-1 Attribute name: $FILE_NAME Name: com.sun.star.comp.deployment.executable.PackageRegist injection=staging datetime=2015-05-26T12:46:12.370247+00:00 parser=mft",
+      "timestamp": "2015-05-26T12:46:12.370247+00:00",
+      "mitre_attack": "T1055",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 3532-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Roaming\\",
+      "evidence": "datetime=2015-05-26T12:46:12.371247+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 3532-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Roaming\\OpenOffice\\4\\user\\extensions\\bundled\\registry\\com.sun.star.comp.deployment.executable.PackageRegistryBackend",
+      "timestamp": "2015-05-26T12:46:12.371247+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.75,
+      "description": "Suspected beacon injection staging: executable dropped in AppData \u2014 NTFS:\\$MFT File reference: 3532-1 Attribute name: $STANDARD_INFORMATION Path hin",
+      "evidence": "beacon=suspected AppData=NTFS:\\$MFT File reference: 3532-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Roaming\\ injection=staging datetime=2015-05-26T12:46:12.371247+00:00 parser=mft",
+      "timestamp": "2015-05-26T12:46:12.371247+00:00",
+      "mitre_attack": "T1055",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 3589-1 Attribute name: $FILE_NAME Name: com.sun.star.comp.deployment.executable.PackageRegist",
+      "evidence": "datetime=2015-05-26T12:46:12.714267+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 3589-1 Attribute name: $FILE_NAME Name: com.sun.star.comp.deployment.executable.PackageRegistryBackend Parent file reference: 3585-1 Path hints: \\USERS\\Jimmy Wilson\\AppData\\Roaming\\OpenOffice\\4\\user\\extensions\\shared\\registry\\com.sun.star.comp.deployment.executable.PackageRegistryBackend",
+      "timestamp": "2015-05-26T12:46:12.714267+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.75,
+      "description": "Suspected beacon injection staging: executable dropped in AppData \u2014 NTFS:\\$MFT File reference: 3589-1 Attribute name: $FILE_NAME Name: com.sun.star.",
+      "evidence": "beacon=suspected AppData=NTFS:\\$MFT File reference: 3589-1 Attribute name: $FILE_NAME Name: com.sun.star.comp.deployment.executable.PackageRegist injection=staging datetime=2015-05-26T12:46:12.714267+00:00 parser=mft",
+      "timestamp": "2015-05-26T12:46:12.714267+00:00",
+      "mitre_attack": "T1055",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 3589-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Roaming\\",
+      "evidence": "datetime=2015-05-26T12:46:12.715267+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 3589-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Roaming\\OpenOffice\\4\\user\\extensions\\shared\\registry\\com.sun.star.comp.deployment.executable.PackageRegistryBackend",
+      "timestamp": "2015-05-26T12:46:12.715267+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.75,
+      "description": "Suspected beacon injection staging: executable dropped in AppData \u2014 NTFS:\\$MFT File reference: 3589-1 Attribute name: $STANDARD_INFORMATION Path hin",
+      "evidence": "beacon=suspected AppData=NTFS:\\$MFT File reference: 3589-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Roaming\\ injection=staging datetime=2015-05-26T12:46:12.715267+00:00 parser=mft",
+      "timestamp": "2015-05-26T12:46:12.715267+00:00",
+      "mitre_attack": "T1055",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 3600-1 Attribute name: $FILE_NAME Name: com.sun.star.comp.deployment.executable.PackageRegist",
+      "evidence": "datetime=2015-05-26T12:46:12.731268+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 3600-1 Attribute name: $FILE_NAME Name: com.sun.star.comp.deployment.executable.PackageRegistryBackend Parent file reference: 3596-1 Path hints: \\USERS\\Jimmy Wilson\\AppData\\Roaming\\OpenOffice\\4\\user\\uno_packages\\cache\\registry\\com.sun.star.comp.deployment.executable.PackageRegistryBackend",
+      "timestamp": "2015-05-26T12:46:12.731268+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.75,
+      "description": "Suspected beacon injection staging: executable dropped in AppData \u2014 NTFS:\\$MFT File reference: 3600-1 Attribute name: $FILE_NAME Name: com.sun.star.",
+      "evidence": "beacon=suspected AppData=NTFS:\\$MFT File reference: 3600-1 Attribute name: $FILE_NAME Name: com.sun.star.comp.deployment.executable.PackageRegist injection=staging datetime=2015-05-26T12:46:12.731268+00:00 parser=mft",
+      "timestamp": "2015-05-26T12:46:12.731268+00:00",
+      "mitre_attack": "T1055",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 3600-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Roaming\\",
+      "evidence": "datetime=2015-05-26T12:46:12.732268+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 3600-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Roaming\\OpenOffice\\4\\user\\uno_packages\\cache\\registry\\com.sun.star.comp.deployment.executable.PackageRegistryBackend",
+      "timestamp": "2015-05-26T12:46:12.732268+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.75,
+      "description": "Suspected beacon injection staging: executable dropped in AppData \u2014 NTFS:\\$MFT File reference: 3600-1 Attribute name: $STANDARD_INFORMATION Path hin",
+      "evidence": "beacon=suspected AppData=NTFS:\\$MFT File reference: 3600-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Roaming\\ injection=staging datetime=2015-05-26T12:46:12.732268+00:00 parser=mft",
+      "timestamp": "2015-05-26T12:46:12.732268+00:00",
+      "mitre_attack": "T1055",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 3612-1 Attribute name: $FILE_NAME Name: com.sun.star.comp.deployment.executable.PackageRegist",
+      "evidence": "datetime=2015-05-26T12:46:12.738268+00:00 parser=mft ts_desc=Content Modification Time msg=NTFS:\\$MFT File reference: 3612-1 Attribute name: $FILE_NAME Name: com.sun.star.comp.deployment.executable.PackageRegistryBackend Parent file reference: 3608-1 Path hints: \\USERS\\Jimmy Wilson\\AppData\\Roaming\\OpenOffice\\4\\user\\extensions\\tmp\\registry\\com.sun.star.comp.deployment.executable.PackageRegistryBackend",
+      "timestamp": "2015-05-26T12:46:12.738268+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.75,
+      "description": "Suspected beacon injection staging: executable dropped in AppData \u2014 NTFS:\\$MFT File reference: 3612-1 Attribute name: $FILE_NAME Name: com.sun.star.",
+      "evidence": "beacon=suspected AppData=NTFS:\\$MFT File reference: 3612-1 Attribute name: $FILE_NAME Name: com.sun.star.comp.deployment.executable.PackageRegist injection=staging datetime=2015-05-26T12:46:12.738268+00:00 parser=mft",
+      "timestamp": "2015-05-26T12:46:12.738268+00:00",
+      "mitre_attack": "T1055",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 3612-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Roaming\\",
+      "evidence": "datetime=2015-05-26T12:46:12.739268+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 3612-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Roaming\\OpenOffice\\4\\user\\extensions\\tmp\\registry\\com.sun.star.comp.deployment.executable.PackageRegistryBackend",
+      "timestamp": "2015-05-26T12:46:12.739268+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.75,
+      "description": "Suspected beacon injection staging: executable dropped in AppData \u2014 NTFS:\\$MFT File reference: 3612-1 Attribute name: $STANDARD_INFORMATION Path hin",
+      "evidence": "beacon=suspected AppData=NTFS:\\$MFT File reference: 3612-1 Attribute name: $STANDARD_INFORMATION Path hints: \\USERS\\Jimmy Wilson\\AppData\\Roaming\\ injection=staging datetime=2015-05-26T12:46:12.739268+00:00 parser=mft",
+      "timestamp": "2015-05-26T12:46:12.739268+00:00",
+      "mitre_attack": "T1055",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1547.001 Boot/Logon Autostart \u2014 Registry Run key persistence] LOLBin in timeline: rundll32",
+      "evidence": "datetime=2014-02-20T19:23:25.735773+00:00 parser=winreg/appcompatcache msg=[HKEY_LOCAL_MACHINE\\System\\ControlSet001\\Control\\Session Manager\\AppCompatCache] Cached entry: 6 Path: \\??\\C:\\Windows\\System32\\rundll32.exe",
+      "timestamp": "2014-02-20T19:23:25.735773+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "Prefetch execution trace: Prefetch [WMIPRVSE.EXE] was executed - run count 83 path hints: \\WINDOWS\\SYSTEM32\\WBEM\\WMIPRVSE.EXE hash: 0x1628051C volume: 1 [serial number: 0x9AC0CC8B, devic",
+      "evidence": "datetime=2014-02-20T17:47:12.793833+00:00 parser=prefetch display=NTFS:\\Windows\\Prefetch\\WMIPRVSE.EXE-1628051C.pf msg=Prefetch [WMIPRVSE.EXE] was executed - run count 83 path hints: \\WINDOWS\\SYSTEM32\\WBEM\\WMIPRVSE.EXE hash: 0x1628051C volume: 1 [serial number: 0x9AC0CC8B, device path: \\DEVICE\\HARDDISKVOLUME2]",
+      "timestamp": "2014-02-20T17:47:12.793833+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: rundll32",
+      "evidence": "datetime=2014-02-20T15:22:38.219796+00:00 parser=prefetch msg=Prefetch [RUNDLL32.EXE] was executed - run count 2 path hints: \\WINDOWS\\SYSTEM32\\RUNDLL32.EXE hash: 0x411A328D volume: 1 [serial number: 0x9AC0CC8B, device path: \\DEVICE\\HARDDISKVOLUME2]",
+      "timestamp": "2014-02-20T15:22:38.219796+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "Prefetch execution trace: Prefetch [WMIADAP.EXE] was executed - run count 48 path hints: \\WINDOWS\\SYSTEM32\\WBEM\\WMIADAP.EXE hash: 0xF8DFDFA2 volume: 1 [serial number: 0x9AC0CC8B, device ",
+      "evidence": "datetime=2014-02-20T14:37:59.678286+00:00 parser=prefetch display=NTFS:\\Windows\\Prefetch\\WMIADAP.EXE-F8DFDFA2.pf msg=Prefetch [WMIADAP.EXE] was executed - run count 48 path hints: \\WINDOWS\\SYSTEM32\\WBEM\\WMIADAP.EXE hash: 0xF8DFDFA2 volume: 1 [serial number: 0x9AC0CC8B, device path: \\DEVICE\\HARDDISKVOLUME2]",
+      "timestamp": "2014-02-20T14:37:59.678286+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "Prefetch execution trace: Prefetch [DLLHOST.EXE] was executed - run count 81 path hints: \\WINDOWS\\SYSTEM32\\DLLHOST.EXE hash: 0x766398D2 volume: 1 [serial number: 0x9AC0CC8B, device path:",
+      "evidence": "datetime=2014-02-20T14:30:26.106689+00:00 parser=prefetch display=NTFS:\\Windows\\Prefetch\\DLLHOST.EXE-766398D2.pf msg=Prefetch [DLLHOST.EXE] was executed - run count 81 path hints: \\WINDOWS\\SYSTEM32\\DLLHOST.EXE hash: 0x766398D2 volume: 1 [serial number: 0x9AC0CC8B, device path: \\DEVICE\\HARDDISKVOLUME2]",
+      "timestamp": "2014-02-20T14:30:26.106689+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "Prefetch execution trace: Prefetch [WUAUCLT.EXE] was executed - run count 22 path hints: \\WINDOWS\\SYSTEM32\\WUAUCLT.EXE hash: 0x70318591 volume: 1 [serial number: 0x9AC0CC8B, device path:",
+      "evidence": "datetime=2014-02-19T13:42:02.482502+00:00 parser=prefetch display=NTFS:\\Windows\\Prefetch\\WUAUCLT.EXE-70318591.pf msg=Prefetch [WUAUCLT.EXE] was executed - run count 22 path hints: \\WINDOWS\\SYSTEM32\\WUAUCLT.EXE hash: 0x70318591 volume: 1 [serial number: 0x9AC0CC8B, device path: \\DEVICE\\HARDDISKVOLUME2], volume: 2 [serial number: 0x9AC0CC8B, device path: \\DEVICE\\HARDDISKVOLUMESHADOWCOPY2]",
+      "timestamp": "2014-02-19T13:42:02.482502+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "Prefetch execution trace: \\DEVICE\\HARDDISKVOLUME2 Serial number: 0x9AC0CC8B Origin: DLLHOST.EXE-766398D2.pf",
+      "evidence": "datetime=2014-01-25T04:05:57.140777+00:00 parser=prefetch display=NTFS:\\Windows\\Prefetch\\DLLHOST.EXE-766398D2.pf msg=\\DEVICE\\HARDDISKVOLUME2 Serial number: 0x9AC0CC8B Origin: DLLHOST.EXE-766398D2.pf",
+      "timestamp": "2014-01-25T04:05:57.140777+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "Prefetch execution trace: \\DEVICE\\HARDDISKVOLUME2 Serial number: 0x9AC0CC8B Origin: WUAUCLT.EXE-70318591.pf",
+      "evidence": "datetime=2014-01-25T04:05:57.140777+00:00 parser=prefetch display=NTFS:\\Windows\\Prefetch\\WUAUCLT.EXE-70318591.pf msg=\\DEVICE\\HARDDISKVOLUME2 Serial number: 0x9AC0CC8B Origin: WUAUCLT.EXE-70318591.pf",
+      "timestamp": "2014-01-25T04:05:57.140777+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "Prefetch execution trace: \\DEVICE\\HARDDISKVOLUME2 Serial number: 0x9AC0CC8B Origin: WMIPRVSE.EXE-1628051C.pf",
+      "evidence": "datetime=2014-01-25T04:05:57.140777+00:00 parser=prefetch display=NTFS:\\Windows\\Prefetch\\WMIPRVSE.EXE-1628051C.pf msg=\\DEVICE\\HARDDISKVOLUME2 Serial number: 0x9AC0CC8B Origin: WMIPRVSE.EXE-1628051C.pf",
+      "timestamp": "2014-01-25T04:05:57.140777+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: rundll32",
+      "evidence": "datetime=2014-01-25T04:05:57.140777+00:00 parser=prefetch msg=\\DEVICE\\HARDDISKVOLUME2 Serial number: 0x9AC0CC8B Origin: RUNDLL32.EXE-411A328D.pf",
+      "timestamp": "2014-01-25T04:05:57.140777+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "Prefetch execution trace: \\DEVICE\\HARDDISKVOLUME2 Serial number: 0x9AC0CC8B Origin: WMIADAP.EXE-F8DFDFA2.pf",
+      "evidence": "datetime=2014-01-25T04:05:57.140777+00:00 parser=prefetch display=NTFS:\\Windows\\Prefetch\\WMIADAP.EXE-F8DFDFA2.pf msg=\\DEVICE\\HARDDISKVOLUME2 Serial number: 0x9AC0CC8B Origin: WMIADAP.EXE-F8DFDFA2.pf",
+      "timestamp": "2014-01-25T04:05:57.140777+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "Prefetch execution trace: \\DEVICE\\HARDDISKVOLUMESHADOWCOPY2 Serial number: 0x9AC0CC8B Origin: WUAUCLT.EXE-70318591.pf",
+      "evidence": "datetime=2014-01-25T04:05:57.140777+00:00 parser=prefetch display=NTFS:\\Windows\\Prefetch\\WUAUCLT.EXE-70318591.pf msg=\\DEVICE\\HARDDISKVOLUMESHADOWCOPY2 Serial number: 0x9AC0CC8B Origin: WUAUCLT.EXE-70318591.pf",
+      "timestamp": "2014-01-25T04:05:57.140777+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: cmd.exe",
+      "evidence": "datetime=2014-02-11T17:48:29.714000+00:00 parser=winreg/userassist msg=[HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\UserAssist\\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\\Count] UserAssist entry: 16 Value name: \\Windows\\System32\\cmd.exe Count: 2 Application focus count: 0 Application focus duration: 7878",
+      "timestamp": "2014-02-11T17:48:29.714000+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: powershell",
+      "evidence": "datetime=2014-02-20T18:45:47.582008+00:00 parser=winreg/winreg_default msg=[HKEY_CURRENT_USER\\Software\\Classes\\Software\\Classes\\Local Settings\\MuiCache\\2E\\52C64B7E] @\"%systemroot%\\system32\\windowspowershell\\v1.0\\powershell.exe\",-111: [REG_SZ] Performs object-based (command-line) functions @\"%windir%\\System32\\ie4uinit.exe\",-732: [REG_SZ] Finds and displays information and Web sites on the Internet. @\"%windir%\\System32\\ie4uinit.exe\",-738: [REG_SZ] Start Internet Explorer without ActiveX controls or browser extensions. @%PROGRAMFILES%\\Windows Media Player\\wmpnetwk.exe,-101: [REG_SZ] Windows Media Player Network Sharing Service @%ProgramFiles%\\Windows Defender\\MsMpRes.dl",
+      "timestamp": "2014-02-20T18:45:47.582008+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1053.005 Scheduled Task \u2014 beacon scheduled persistence candidate] LOLBin in timeline: schtasks",
+      "evidence": "datetime=2014-02-20T19:23:25.735773+00:00 parser=winreg/appcompatcache msg=[HKEY_LOCAL_MACHINE\\System\\ControlSet001\\Control\\Session Manager\\AppCompatCache] Cached entry: 69 Path: \\??\\C:\\Windows\\system32\\schtasks.exe",
+      "timestamp": "2014-02-20T19:23:25.735773+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1547.001 Boot/Logon Autostart \u2014 Registry Run key persistence] LOLBin in timeline: rundll32",
+      "evidence": "datetime=2014-02-07T14:27:22.828000+00:00 parser=winreg/userassist msg=[HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\UserAssist\\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\\Count] UserAssist entry: 32 Value name: \\Windows\\System32\\rundll32.exe Count: 1 Application focus count: 0 Application focus duration: 0",
+      "timestamp": "2014-02-07T14:27:22.828000+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4405-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4405-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\desktop.ini",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4384-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4384-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1004\\$REZGV91.txt",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4389-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4389-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1004\\$RABFQJP.txt",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4402-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4402-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1001\\$I1UOG7R.pdf",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4381-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4381-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1001",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4387-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4387-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$ITJI18J.lnk",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4401-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4401-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1001\\$I8OPSCS.JPG",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4392-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4392-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1004\\$IABFQJP.txt",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4399-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4399-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1001\\$RV0TPXM.jpg",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4393-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4393-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1004\\$R3TS6GA\\New Price List Encoded.TXT",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4386-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4386-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$R4JRZ47.mht",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4397-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4397-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1001\\$R1UOG7R.pdf",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4390-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4390-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1004\\$R3TS6GA",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4394-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4394-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1004\\$I0E8VHK.mdb",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4382-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-36",
+      "evidence": "datetime=2015-05-26T13:46:44.191086+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4382-2 Attribute name: $STANDARD_INFORMATION Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1001\\desktop.ini",
+      "timestamp": "2015-05-26T13:46:44.191086+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4415-2 Attribute name: $FILE_NAME Name: $IJK0C4K.pdf Parent file reference: 4385-2 Path hints",
+      "evidence": "datetime=2015-05-26T13:45:22.750143+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4415-2 Attribute name: $FILE_NAME Name: $IJK0C4K.pdf Parent file reference: 4385-2 Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$IJK0C4K.pdf",
+      "timestamp": "2015-05-26T13:45:22.750143+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4414-2 Attribute name: $FILE_NAME Name: $ICPRR5E.url Parent file reference: 4385-2 Path hints",
+      "evidence": "datetime=2015-05-26T13:45:22.750143+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4414-2 Attribute name: $FILE_NAME Name: $ICPRR5E.url Parent file reference: 4385-2 Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$ICPRR5E.url",
+      "timestamp": "2015-05-26T13:45:22.750143+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4416-2 Attribute name: $FILE_NAME Name: $RTJI18J.lnk Parent file reference: 4385-2 Path hints",
+      "evidence": "datetime=2015-05-26T13:45:22.750143+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4416-2 Attribute name: $FILE_NAME Name: $RTJI18J.lnk Parent file reference: 4385-2 Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$RTJI18J.lnk",
+      "timestamp": "2015-05-26T13:45:22.750143+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4411-2 Attribute name: $FILE_NAME Name: $IF2HQDS.pdf Parent file reference: 4385-2 Path hints",
+      "evidence": "datetime=2015-05-26T13:45:22.734543+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4411-2 Attribute name: $FILE_NAME Name: $IF2HQDS.pdf Parent file reference: 4385-2 Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$IF2HQDS.pdf",
+      "timestamp": "2015-05-26T13:45:22.734543+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4412-2 Attribute name: $FILE_NAME Name: $IW2WHIO.pdf Parent file reference: 4385-2 Path hints",
+      "evidence": "datetime=2015-05-26T13:45:22.734543+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4412-2 Attribute name: $FILE_NAME Name: $IW2WHIO.pdf Parent file reference: 4385-2 Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$IW2WHIO.pdf",
+      "timestamp": "2015-05-26T13:45:22.734543+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4413-2 Attribute name: $FILE_NAME Name: $I4JRZ47.mht Parent file reference: 4385-2 Path hints",
+      "evidence": "datetime=2015-05-26T13:45:22.734543+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4413-2 Attribute name: $FILE_NAME Name: $I4JRZ47.mht Parent file reference: 4385-2 Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$I4JRZ47.mht",
+      "timestamp": "2015-05-26T13:45:22.734543+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4409-2 Attribute name: $FILE_NAME Name: $RF2HQDS.pdf Parent file reference: 4385-2 Path hints",
+      "evidence": "datetime=2015-05-26T13:45:22.703343+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4409-2 Attribute name: $FILE_NAME Name: $RF2HQDS.pdf Parent file reference: 4385-2 Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$RF2HQDS.pdf",
+      "timestamp": "2015-05-26T13:45:22.703343+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4410-2 Attribute name: $FILE_NAME Name: $RW2WHIO.pdf Parent file reference: 4385-2 Path hints",
+      "evidence": "datetime=2015-05-26T13:45:22.703343+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4410-2 Attribute name: $FILE_NAME Name: $RW2WHIO.pdf Parent file reference: 4385-2 Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$RW2WHIO.pdf",
+      "timestamp": "2015-05-26T13:45:22.703343+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4407-2 Attribute name: $FILE_NAME Name: $RCPRR5E.url Parent file reference: 4385-2 Path hints",
+      "evidence": "datetime=2015-05-26T13:45:22.687743+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4407-2 Attribute name: $FILE_NAME Name: $RCPRR5E.url Parent file reference: 4385-2 Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$RCPRR5E.url",
+      "timestamp": "2015-05-26T13:45:22.687743+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4408-2 Attribute name: $FILE_NAME Name: $RJK0C4K.pdf Parent file reference: 4385-2 Path hints",
+      "evidence": "datetime=2015-05-26T13:45:22.687743+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4408-2 Attribute name: $FILE_NAME Name: $RJK0C4K.pdf Parent file reference: 4385-2 Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\$RJK0C4K.pdf",
+      "timestamp": "2015-05-26T13:45:22.687743+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4406-2 Attribute name: $FILE_NAME Name: desktop.ini Parent file reference: 4383-2 Path hints:",
+      "evidence": "datetime=2015-05-26T13:45:22.672143+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4406-2 Attribute name: $FILE_NAME Name: desktop.ini Parent file reference: 4383-2 Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1004\\desktop.ini",
+      "timestamp": "2015-05-26T13:45:22.672143+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4405-2 Attribute name: $FILE_NAME Name: desktop.ini Parent file reference: 4385-2 Path hints:",
+      "evidence": "datetime=2015-05-26T13:45:22.672143+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4405-2 Attribute name: $FILE_NAME Name: desktop.ini Parent file reference: 4385-2 Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1003\\desktop.ini",
+      "timestamp": "2015-05-26T13:45:22.672143+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "LOLBin in timeline: cmd.exe",
+      "evidence": "datetime=2014-02-20T19:23:25.735773+00:00 parser=winreg/appcompatcache msg=[HKEY_LOCAL_MACHINE\\System\\ControlSet001\\Control\\Session Manager\\AppCompatCache] Cached entry: 82 Path: \\??\\C:\\Windows\\System32\\cmd.exe",
+      "timestamp": "2014-02-20T19:23:25.735773+00:00",
+      "mitre_attack": "T1059",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "timeline.plaso",
+      "confidence": 0.7,
+      "description": "[T1070.006 Indicator Removal: Timestomp \u2014 MFT entry shows modified-time anomaly (anti-forensics candidate)] MFT entry modified-time anomaly: NTFS:\\$MFT File reference: 4402-2 Attribute name: $FILE_NAME Name: $I1UOG7R.pdf Parent file reference: 4381-2 Path hints",
+      "evidence": "datetime=2015-05-26T13:45:22.656543+00:00 parser=mft ts_desc=Metadata Modification Time msg=NTFS:\\$MFT File reference: 4402-2 Attribute name: $FILE_NAME Name: $I1UOG7R.pdf Parent file reference: 4381-2 Path hints: \\$RECYCLE.BIN\\S-1-5-21-1171287513-3642516788-2358256967-1001\\$I1UOG7R.pdf",
+      "timestamp": "2015-05-26T13:45:22.656543+00:00",
+      "mitre_attack": "T1070.006",
+      "related_findings": [],
+      "agent": "timeline"
+    },
+    {
+      "_source": "filesystem.fls",
+      "confidence": 0.0,
+      "description": "fls failed: fls failed (rc=1): Cannot determine file system type\n",
+      "evidence": "image=/cases/study case/2020JimmyWilson.E01 recursive=True max_depth=5",
+      "timestamp": "",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "filesystem"
+    },
+    {
+      "_source": "artifact.ewfinfo",
+      "confidence": 0.5,
+      "description": "Evidence chain: case=1 examiner=CEDONLEY",
+      "evidence": "md5=b267fb0cd94645425eee00258d3a9b58 sha1=a1102c70a50768b588225fdcad6efa5d5d57341b acquired=Thu Dec 14 11:52:41 2017",
+      "timestamp": "Thu Dec 14 11:52:41 2017",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "artifact"
+    },
+    {
+      "_source": "discovery.null_session_baseline.summary",
+      "confidence": 0.3,
+      "description": "Null-session baseline scan complete: 0 bursts emitted across 0 windows (4624-anon events scanned: 0)",
+      "evidence": "image=/cases/study case/2020JimmyWilson.E01 anon_events=0 buckets=0 baseline_mean=0.00 baseline_status=bootstrap z_threshold=3.0 abs_floor=20",
+      "evidence_dict": {
+        "anon_events": 0,
+        "buckets": 0,
+        "bursts_emitted": 0,
+        "baseline_status": "bootstrap",
+        "z_threshold": 3.0,
+        "abs_floor": 20,
+        "truncated": false
+      },
+      "timestamp": "2026-06-11T00:49:43.314328+00:00",
+      "mitre_attack": "T1087.002",
+      "related_findings": [],
+      "agent": "null_session_baseline"
+    },
+    {
+      "_source": "yara_forge.bundle_active",
+      "confidence": 0.0,
+      "description": "YARA Forge bundle active: tag=20260505 sha256=87ee463c13d49084...",
+      "evidence": "tag=20260505 sha256=87ee463c13d490842f36eba5ca03a2ed090b78f3fed0eef78ff7e74065191494 path=yara/forge/CURRENT/yara-forge-rules-core.yar fp_threshold=75",
+      "evidence_dict": {
+        "tag": "20260505",
+        "sha256": "87ee463c13d490842f36eba5ca03a2ed090b78f3fed0eef78ff7e74065191494",
+        "source_url": "https://github.com/YARAHQ/yara-forge",
+        "fp_threshold": 75,
+        "license_allowlist": null
+      },
+      "timestamp": "2026-06-11T00:49:45.204752+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "yara_hunt"
+    },
+    {
+      "_source": "yara_hunt.e01_unmounted_skip",
+      "confidence": 0.3,
+      "description": "YARA scan skipped for E01 image 2020JimmyWilson.E01: AGENTROPIX_YARA_MOUNT_PREFIX unset. Mount the E01 (ewfmount + filesystem mount) and set AGENTROPIX_YARA_MOUNT_PREFIX to the mounted root, or document the coverage gap in the case ledger.",
+      "evidence": "image=/cases/study case/2020JimmyWilson.E01 mount_prefix='' resolved=invalid",
+      "timestamp": "2026-06-11T00:49:45.205063+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "yara_hunt"
+    },
+    {
+      "_source": "memory.injection.skipped",
+      "confidence": 0.0,
+      "description": "InjectionDetector skipped: 2020JimmyWilson.E01 is not a memory image",
+      "evidence": "image=/cases/study case/2020JimmyWilson.E01 reason=non_memory_image",
+      "timestamp": "2026-06-11T00:49:45.215800+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "injection_detector"
+    },
+    {
+      "_source": "t1546_008_accessibility_ifeo_hijack.write_error",
+      "confidence": 0.0,
+      "description": "AccessibilityIfeoHijackDetector LEG-A failed: SOFTWARE hive not extracted",
+      "evidence": "image=/cases/study case/2020JimmyWilson.E01 host=2020JimmyWilson error=SOFTWARE hive not extracted",
+      "timestamp": "2026-06-11T00:49:45.374510+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "t1546_008_accessibility_ifeo_hijack"
+    },
+    {
+      "_source": "t1546_008_accessibility_ifeo_hijack.exec_indeterminate",
+      "confidence": 0.0,
+      "description": "AccessibilityIfeoHijackDetector LEG-B has no input: set AGENTROPIX_W203_MASTER_IOCS_PATH or AGENTROPIX_W203_RUN_DIR to a MASTER-IOCS.json",
+      "evidence": "image=/cases/study case/2020JimmyWilson.E01 host=2020JimmyWilson env_unset=true window=300s",
+      "timestamp": "2026-06-11T00:49:45.374539+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "t1546_008_accessibility_ifeo_hijack"
+    },
+    {
+      "_source": "detectors.t1059_001.summary",
+      "confidence": 0.3,
+      "description": "T1059.001 iex-loopback-c2 scan complete: 0 hits across 0 EID 4104 records",
+      "evidence": "image=/cases/study case/2020JimmyWilson.E01 hits=0 records_scanned=0 sb_truncated=0 prereq_state=satisfied redactor_failures=0 mitre=t1059.001",
+      "evidence_dict": {
+        "finding_type": "t1059.001.summary",
+        "hits": 0,
+        "records_scanned": 0,
+        "sb_truncated_count": 0,
+        "prereq_state": "satisfied",
+        "redactor_failures": 0,
+        "rule_version": "1"
+      },
+      "timestamp": "2026-06-11T00:49:48.667176+00:00",
+      "mitre_attack": "T1059.001",
+      "related_findings": [],
+      "agent": "t1059_001_iex_loopback_c2"
+    },
+    {
+      "_source": "memory.t1071_001.skipped",
+      "confidence": 0.0,
+      "description": "T1071SvchostOutboundHttpDetector skipped: 2020JimmyWilson.E01 is not a memory image",
+      "evidence": "image=/cases/study case/2020JimmyWilson.E01 reason=non_memory_image",
+      "timestamp": "2026-06-11T00:49:48.667468+00:00",
+      "mitre_attack": "T1071.001",
+      "related_findings": [],
+      "agent": "t1071_001_svchost_outbound_http"
+    },
+    {
+      "_source": "hunt.correlate",
+      "confidence": 0.85,
+      "description": "Cross-source agreement: 'file' flagged by 2 agents (filesystem, timeline)",
+      "evidence": "token=file agents=['filesystem', 'timeline'] findings=88",
+      "timestamp": "2026-06-11T00:49:48.701399+00:00",
+      "mitre_attack": "",
+      "related_findings": [
+        "filesystem",
+        "timeline"
+      ],
+      "agent": "hunt"
+    },
+    {
+      "_source": "hunt.correlate",
+      "confidence": 0.6,
+      "description": "Cross-source agreement: 'case' flagged by 9 agents (artifact, filesystem, injection_detector, memory, null_session_baseline, t1059_001_iex_loopback_c2, t1071_001_svchost_outbound_http, t1546_008_accessibility_ifeo_hijack, yara_hunt)",
+      "evidence": "token=case agents=['artifact', 'filesystem', 'injection_detector', 'memory', 'null_session_baseline', 't1059_001_iex_loopback_c2', 't1071_001_svchost_outbound_http', 't1546_008_accessibility_ifeo_hijack', 'yara_hunt'] findings=10",
+      "timestamp": "2026-06-11T00:49:48.701612+00:00",
+      "mitre_attack": "",
+      "related_findings": [
+        "artifact",
+        "filesystem",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "agent": "hunt"
+    },
+    {
+      "_source": "hunt.correlate",
+      "confidence": 0.4,
+      "description": "Cross-source agreement: 'across' flagged by 2 agents (null_session_baseline, t1059_001_iex_loopback_c2)",
+      "evidence": "token=across agents=['null_session_baseline', 't1059_001_iex_loopback_c2'] findings=2",
+      "timestamp": "2026-06-11T00:49:48.701728+00:00",
+      "mitre_attack": "",
+      "related_findings": [
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2"
+      ],
+      "agent": "hunt"
+    },
+    {
+      "_source": "hunt.correlate",
+      "confidence": 0.4,
+      "description": "Cross-source agreement: 'complete' flagged by 2 agents (null_session_baseline, t1059_001_iex_loopback_c2)",
+      "evidence": "token=complete agents=['null_session_baseline', 't1059_001_iex_loopback_c2'] findings=2",
+      "timestamp": "2026-06-11T00:49:48.701827+00:00",
+      "mitre_attack": "",
+      "related_findings": [
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2"
+      ],
+      "agent": "hunt"
+    },
+    {
+      "_source": "hunt.correlate",
+      "confidence": 0.4,
+      "description": "Cross-source agreement: 'coverage' flagged by 2 agents (memory, yara_hunt)",
+      "evidence": "token=coverage agents=['memory', 'yara_hunt'] findings=2",
+      "timestamp": "2026-06-11T00:49:48.701910+00:00",
+      "mitre_attack": "",
+      "related_findings": [
+        "memory",
+        "yara_hunt"
+      ],
+      "agent": "hunt"
+    },
+    {
+      "_source": "hunt.correlate",
+      "confidence": 0.4,
+      "description": "Cross-source agreement: 'scan' flagged by 3 agents (null_session_baseline, t1059_001_iex_loopback_c2, yara_hunt)",
+      "evidence": "token=scan agents=['null_session_baseline', 't1059_001_iex_loopback_c2', 'yara_hunt'] findings=3",
+      "timestamp": "2026-06-11T00:49:48.702003+00:00",
+      "mitre_attack": "",
+      "related_findings": [
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "yara_hunt"
+      ],
+      "agent": "hunt"
+    },
+    {
+      "_source": "hunt.correlate",
+      "confidence": 0.4,
+      "description": "Cross-source agreement: 'study' flagged by 8 agents (filesystem, injection_detector, memory, null_session_baseline, t1059_001_iex_loopback_c2, t1071_001_svchost_outbound_http, t1546_008_accessibility_ifeo_hijack, yara_hunt)",
+      "evidence": "token=study agents=['filesystem', 'injection_detector', 'memory', 'null_session_baseline', 't1059_001_iex_loopback_c2', 't1071_001_svchost_outbound_http', 't1546_008_accessibility_ifeo_hijack', 'yara_hunt'] findings=9",
+      "timestamp": "2026-06-11T00:49:48.702155+00:00",
+      "mitre_attack": "",
+      "related_findings": [
+        "filesystem",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "agent": "hunt"
+    }
+  ],
+  "trace": {
+    "tool_calls": [
+      {
+        "tool": "agent.memory",
+        "timestamp": "2026-06-11T00:40:37.042522+00:00",
+        "duration_ms": 0.11,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-11T00:49:40.886576+00:00",
+        "duration_ms": 543844.07,
+        "result_summary": "111 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-11T00:49:38.784880+00:00",
+        "duration_ms": 541730.75,
+        "result_summary": "ok",
+        "args_hash": "2e0f6e10b183575f",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/study case/2020JimmyWilson.E01\",\"event_count\":1261,\"events\":[{\"datetime\":\"2014-02-19T17:19:42.482240+00:00\",\"timestamp_desc\":\"Content Modification Time\",\"source\":\"\",\"source_long\":\"\",\"message\":\"[4624 / 0x1210] Provider identifier: {54849625-5478-4994-a5ba-3e3b0328c30d} Source Name: Microsoft-Windows-Security-Auditing Strings: ['S-1-5-18', 'IACIS-HDD-2014$', 'WORKGROUP', '0x00000000000003e7', 'S-1-5-21-1171287513-3642516788-2358256967-1001', 'BillyBob', 'IACIS-HDD-2014', '0x000000000018bfe7', '2', 'User32 ', 'Negotiate', 'IACIS-HDD-2014', '{00000000-0000-0000-0000-000000000000}', '-', '-', '0', '0x0000000000000cf8', 'C:\\\\\\\\Windows\\\\\\\\System32\\\\\\\\winlogon.exe', '127.0.0.1', '0'] Computer Name: IACIS-HDD-2014 Record Number: 3119 Event Level: 0\",\"parser\":\"winevtx\",\"display_name\":\"NTFS:\\\\Windows\\\\System32\\\\winevt\\\\Logs\\\\Security.evtx\",\"tag\":\"\"},{\"datetime\":\"2014-02-20T14:22:11.435619+00:00\",\"timestamp_desc\":\"Content Modification Time\",\"source\":\"\",\"source_long\":\"\",\"message\":\"[4624 / 0x1210] Provider identifier: {54849625-5478-4994-a5ba-3e3b0328c30d} Source Name: Microsoft-Windows-Security-Auditing Strings: ['S-1-0-0', '-', '-', '0x0000000000000000', 'S-1-5-18', 'SYSTEM', 'NT AUTHORITY', '0x00000000000003e7', '0', '-', '-', '-', '{00000000-0000-0000-0000-000000000000}', '-', '-', '0', '0x0000000000000004', None, '-', '-'] Computer Name: IACIS-HDD-2014 Record Number: 3125 Event Level: 0\",\"parser\":\"winevtx\",\"display_name\":\"NTFS:\\\\Windows\\\\System32\\\\winevt\\\\Logs\\\\Security.evtx\",\"tag\":\"\"},{\"datetime\":\"2014-02-20T14:22:12.262421+00:00\",\"timestamp_desc\":\"Content Modification Time\",\"source\":\"\",\"source_long\":\"\",\"message\":\"[4624 / 0x1210] Provider identifier: {54849625-5478-4994-a5ba-3e3b0328c30d} Source Name: Microsoft-Windows-Security-Auditing Strings: ['S-1-5-18', 'IACIS-HDD-2014$', 'WORKGROUP', '0x00000000000003e7', 'S-1-5-18', 'SYSTEM', 'NT AUTHORITY', '0x00000000000003e7', '5', 'Advapi  ', 'Negotiate', None, '{00000000-0000-0000-0000-000000000000}', '-', '-', '0', '0x00000000000001f8', 'C:\\\\\\\\Windows\\\\\\\\System32\\\\\\\\services.exe', '-', '-'] Computer Name: IACIS-HDD-2014 Record Number: 3127 Event Level: 0\",\"parser\":\"winevtx\",\"display_name\":\"NTFS:\\\\Windows\\\\System32\\\\winevt\\\\Logs\\\\Security.evtx\",\"tag\":\"\"},{\"datetime\":\"2014-02-20T14:22:12.449621+00:00\",\"timestamp_desc\":\"Content Modification Time\",\"source\":\"\",\"source_long\":\"\",\"message\":\"[4624 / 0x1210] Provider identifier: {54849625-5478-4994-a5ba-3e3b0328c30d} Source Name: Microsoft-Windows-Security-Auditing Strings: ['S-1-5-18', 'IACIS-HDD-2014$', 'WORKGROUP', '0x00000000000003e7', 'S-1-5-20', 'NETWORK SERVICE', 'NT AUTHORITY', '0x00000000000003e4', '5', 'Advapi  ', 'Negotiate', None, '{00000000-0000-0000-0000-000000000000}', '-', '-', '0', '0x00000000000001f8', 'C:\\\\\\\\Windows\\\\\\\\System32\\\\\\\\services.exe', '-', '-'] Computer Name: IACIS-HDD-2014 Record Number: 3129 Event Level: 0\",\"parser\":\"winevtx\",\"display_name\":\"NTFS:\\\\Windows\\\\System32\\\\winevt\\\\Logs\\\\Security.evtx\",\"tag\":\"\"},{\"datetime\":\"2014-02-20T14:22:12.512021+00:00\",\"timestamp_desc\":\"Content Modification Time\",\"source\":\"\",\"source_long\":\"\",\"message\":\"[4624 / 0x1210] Provider identifier: {54849625-5478-4994-a5ba-3e3b0328c30d} Source Name: Microsoft-Windows-Security-Auditing Strings: ['S-1-5-18', 'IACIS-HDD-2014$', 'WORKGROUP', '0x00000000000003e7', 'S-1-5-18', 'SYSTEM', 'NT AUTHORITY', '0x00000000000003e7', '5', 'Advapi  ', 'Negotiate', None, '{00000000-0000-0000-0000-000000000000}', '-', '-', '0', '0x00000000000001f8', 'C:\\\\\\\\Windows\\\\\\\\System32\\\\\\\\services.exe', '-', '-'] Computer Name: IACIS-HDD-2014 Record Number: 3131 Event Level: 0\",\"parser\":\"winevtx\",\"display_name\":\"NTFS:\\\\Windows\\\\System32\\\\winevt\\\\Logs\\\\Security.evtx\",\"tag\":\"\"},{\"datetime\":\"2014-02-20T14:22:15.257626+00:00\",\"timestamp_desc\":\"Content Modification Time\",\"source\":\"\",\"source_long\":\"\",\"message\":\"[4624 / 0x1210] Provider identifier: {54849625-5478-4994-a5ba-3e3b0328c30d} Source Name: Microsoft-Windows-Security-Auditing Strings: ['S-1-5-18', 'IACIS-HDD-2014$', 'WORKGROUP', '0x00000000000003e7', 'S-1-5-19', 'LOCAL SERVICE', 'NT AUTHORITY\u2026",
+        "output_hash": "9e9d379d4ff61cadc886cdbd5256068f1439856ddd00c4e5c76ffcc85b7936b4"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:38.940842+00:00",
+        "duration_ms": 145.58,
+        "result_summary": "miss /Windows/System32/winevt/Logs/Security.evtx"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:39.086421+00:00",
+        "duration_ms": 145.55,
+        "result_summary": "miss /Windows/System32/winevt/Logs/System.evtx"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:39.233801+00:00",
+        "duration_ms": 147.35,
+        "result_summary": "miss /Windows/System32/winevt/Logs/Application.evtx"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:39.588863+00:00",
+        "duration_ms": 355.02,
+        "result_summary": "miss /Windows/System32/winevt/Logs/Microsoft-Windows-PowerShell%4Operational.evtx"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:39.857586+00:00",
+        "duration_ms": 268.65,
+        "result_summary": "miss /Windows/System32/winevt/Logs/Microsoft-Windows-TaskScheduler%4Operational.evtx"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:40.003995+00:00",
+        "duration_ms": 146.37,
+        "result_summary": "miss /Windows/System32/winevt/Logs/Microsoft-Windows-Sysmon%4Operational.evtx"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:40.151229+00:00",
+        "duration_ms": 146.83,
+        "result_summary": "miss /Windows/System32/config/SecEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:40.301192+00:00",
+        "duration_ms": 149.93,
+        "result_summary": "miss /Windows/System32/config/SysEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:40.448203+00:00",
+        "duration_ms": 146.97,
+        "result_summary": "miss /Windows/System32/config/AppEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:40.594080+00:00",
+        "duration_ms": 145.83,
+        "result_summary": "miss /WINDOWS/system32/config/SecEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:40.739718+00:00",
+        "duration_ms": 145.59,
+        "result_summary": "miss /WINDOWS/system32/config/SysEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:40.884261+00:00",
+        "duration_ms": 144.51,
+        "result_summary": "miss /WINDOWS/system32/config/AppEvent.Evt"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-11T00:49:40.884870+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=510498 priority_hits=35735 events_recv=1261 detectors_fired=111",
+        "counters": {
+          "jsonl_rows_read": 510498,
+          "priority_hits_by_family": {
+            "4624": 1080,
+            "winreg_run": 19,
+            "mft_timestomp": 32176,
+            "lolbin": 2396,
+            "appdata_staging": 64
+          },
+          "parser_deque_sizes": {
+            "winreg/userassist": 112,
+            "winreg/winreg_default": 150,
+            "winreg/appcompatcache": 150,
+            "mft": 150,
+            "winreg/mrulistex_string_and_shell_item_list/shell_items": 20,
+            "winreg/mrulistex_shell_item_list/shell_items": 67,
+            "winreg/bagmru/shell_items": 42,
+            "winreg/windows_services": 150,
+            "winreg/explorer_programscache/shell_items": 150,
+            "winreg/winlogon": 12,
+            "winreg/msie_zone": 72,
+            "winreg/windows_run": 12,
+            "winreg/windows_task_cache": 150,
+            "winreg/windows_sam_users": 15,
+            "winevtx": 150,
+            "winreg/networks": 8,
+            "winreg/windows_version": 6,
+            "prefetch": 11,
+            "winreg/windows_timezone": 2,
+            "winreg/explorer_mountpoints2": 35,
+            "winreg/bagmru": 34,
+            "winreg/windows_boot_execute": 4,
+            "winreg/windows_usb_devices": 18,
+            "winreg/windows_usbstor_devices": 14,
+            "winreg/windows_typed_urls": 4,
+            "winreg/mrulistex_shell_item_list": 9,
+            "winreg/mrulistex_string_and_shell_item": 14,
+            "winreg/mrulistex_string": 16,
+            "winreg/mrulist_string": 7,
+            "winreg/mrulistex_string_and_shell_item_list": 2,
+            "winreg/explorer_programscache": 10,
+            "winreg/windows_shutdown": 4
+          },
+          "events_received_by_agent": 1261,
+          "detectors_fired_by_id": {
+            "4624_detector": 1,
+            "winreg_run_detector": 6,
+            "prefetch_detector": 9,
+            "mft_timestomp_detector": 62,
+            "lolbin_detector": 20,
+            "appdata_staging_detector": 13
+          },
+          "verbose_evtx": {
+            "enabled": false,
+            "cap": 0,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-06-11T00:49:41.036012+00:00",
+        "duration_ms": 149.41,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-06-11T00:49:41.035900+00:00",
+        "duration_ms": 149.17,
+        "result_summary": "ERROR: fls failed (rc=1): Cannot determine file system type\n",
+        "args_hash": "4ee017fa5f4b5b25",
+        "exit_code": 1,
+        "raw_output": "{\"tool\":\"fls\",\"error\":\"fls failed (rc=1): Cannot determine file system type\\n\",\"suggestion\":\"\"}",
+        "output_hash": "8ae3d481a95fbd90d99a9b923c5179092a165b31cbc2001fb917aaced890a06b"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-11T00:49:42.259939+00:00",
+        "duration_ms": 1223.84,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "mcp.get_image_info",
+        "timestamp": "2026-06-11T00:49:41.041260+00:00",
+        "duration_ms": 5.06,
+        "result_summary": "ok",
+        "args_hash": "fb13238886ccb157",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/study case/2020JimmyWilson.E01\",\"case_number\":\"1\",\"examiner\":\"CEDONLEY\",\"acquisition_date\":\"Thu Dec 14 11:52:41 2017\",\"media_size\":\"850 MiB (891289600 bytes)\",\"md5\":\"b267fb0cd94645425eee00258d3a9b58\",\"sha1\":\"a1102c70a50768b588225fdcad6efa5d5d57341b\",\"tool\":\"ewftools.ewfinfo\",\"raw_output\":\"ewfinfo 20140816\\n\\nAcquiry information\\n\\tCase number:\\t\\t1\\n\\tDescription:\\t\\tJimmy Wilson\\n\\tExaminer name:\\t\\tCEDONLEY\\n\\tEvidence number:\\t2\\n\\tNotes:\\t\\t\\t2018 Recertification\\n\\tAcquisition date:\\tThu Dec 14 11:52:41 2017\\n\\tSystem date:\\t\\tThu Dec 14 11:52:41 2017\\n\\tOperating system used:\\tWin 201x\\n\\tSoftware version used:\\tADI3.4.2.6\\n\\tPassword:\\t\\tN/A\\n\\nEWF information\\n\\tFile format:\\t\\tFTK Imager\\n\\tSectors per chunk:\\t64\\n\\tCompression method:\\tdeflate\\n\\tCompression level:\\tno compression\\n\\nMedia information\\n\\tMedia type:\\t\\tfixed disk\\n\\tIs physical:\\t\\tyes\\n\\tBytes per sector:\\t512\\n\\tNumber of sectors:\\t1740800\\n\\tMedia size:\\t\\t850 MiB (891289600 bytes)\\n\\nDigest hash information\\n\\tMD5:\\t\\t\\tb267fb0cd94645425eee00258d3a9b58\\n\\tSHA1:\\t\\t\\ta1102c70a50768b588225fdcad6efa5d5d57341b\\n\\n\",\"raw_stdout_sha256\":\"5c594e6a4acfc6d3d17207a016b3cf4c8f1d3b496a95722fb3766d46e1680cab\"}",
+        "output_hash": "e7b12319df0cf0bd0c4e406c04ab40890542365017c01cf75308c89d62a5c3dd"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:41.187768+00:00",
+        "duration_ms": 145.78,
+        "result_summary": "miss /Windows/System32/config/SOFTWARE"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:41.449207+00:00",
+        "duration_ms": 261.4,
+        "result_summary": "miss /Windows/System32/config/SYSTEM"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:41.810332+00:00",
+        "duration_ms": 361.05,
+        "result_summary": "miss /Windows/System32/config/SAM"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:41.957087+00:00",
+        "duration_ms": 146.72,
+        "result_summary": "miss /Windows/System32/config/SECURITY"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:42.106378+00:00",
+        "duration_ms": 149.26,
+        "result_summary": "miss /Windows/AppCompat/Programs/Amcache.hve"
+      },
+      {
+        "tool": "mcp.extract_files",
+        "timestamp": "2026-06-11T00:49:42.106719+00:00",
+        "duration_ms": 1065.02,
+        "result_summary": "ok",
+        "args_hash": "c6bf66b5fd168cf0",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/study case/2020JimmyWilson.E01\",\"offset\":0,\"fstype\":\"\",\"dest_dir\":\"/tmp/agentropix-sift-extract-v7iaydjk\",\"entry_count\":0,\"extracted\":[],\"missing\":[\"/Windows/System32/config/SOFTWARE\",\"/Windows/System32/config/SYSTEM\",\"/Windows/System32/config/SAM\",\"/Windows/System32/config/SECURITY\",\"/Windows/AppCompat/Programs/Amcache.hve\"],\"rejected\":[],\"tool\":\"sleuthkit.icat\",\"raw_stderr\":\"Cannot determine file system type\\n\\nCannot determine file system type\\n\\nCannot determine file system type\\n\\nCannot determine file system type\\n\\nCannot determine file system type\\n\",\"hints\":[]}",
+        "output_hash": "847a7ce9d58661e624711fb2b96a68ca2a872f6fcc576611e1083db308c30ec0"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-11T00:49:42.260210+00:00",
+        "duration_ms": 0.22,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.null_session_baseline",
+        "timestamp": "2026-06-11T00:49:43.314399+00:00",
+        "duration_ms": 1054.17,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:42.415653+00:00",
+        "duration_ms": 154.57,
+        "result_summary": "miss /Windows/System32/winevt/Logs/Security.evtx"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:42.561492+00:00",
+        "duration_ms": 145.56,
+        "result_summary": "miss /Windows/System32/config/SecEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:42.707778+00:00",
+        "duration_ms": 146.24,
+        "result_summary": "miss /Windows/System32/config/SysEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:42.856617+00:00",
+        "duration_ms": 148.8,
+        "result_summary": "miss /Windows/System32/config/AppEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:43.008335+00:00",
+        "duration_ms": 151.69,
+        "result_summary": "miss /WINDOWS/system32/config/SecEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:43.160270+00:00",
+        "duration_ms": 151.91,
+        "result_summary": "miss /WINDOWS/system32/config/SysEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:43.313455+00:00",
+        "duration_ms": 153.15,
+        "result_summary": "miss /WINDOWS/system32/config/AppEvent.Evt"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-11T00:49:43.317222+00:00",
+        "duration_ms": 2.8,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:43.315329+00:00",
+        "duration_ms": 0.59,
+        "result_summary": "ok",
+        "args_hash": "cfbbf5c4a9bba936",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:43.315791+00:00",
+        "duration_ms": 0.4,
+        "result_summary": "ok",
+        "args_hash": "12d74c87d9937fbb",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:43.316275+00:00",
+        "duration_ms": 0.43,
+        "result_summary": "ok",
+        "args_hash": "4f88b46e57bf2554",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:43.316730+00:00",
+        "duration_ms": 0.4,
+        "result_summary": "ok",
+        "args_hash": "808b10ff2a15cdb2",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.yara_hunt",
+        "timestamp": "2026-06-11T00:49:45.215700+00:00",
+        "duration_ms": 1898.46,
+        "result_summary": "2 finding(s)"
+      },
+      {
+        "tool": "agent.injection_detector",
+        "timestamp": "2026-06-11T00:49:45.221327+00:00",
+        "duration_ms": 5.57,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.t1546_008_accessibility_ifeo_hijack",
+        "timestamp": "2026-06-11T00:49:45.374589+00:00",
+        "duration_ms": 153.23,
+        "result_summary": "2 finding(s)"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:45.373897+00:00",
+        "duration_ms": 151.66,
+        "result_summary": "miss /Windows/System32/config/SOFTWARE"
+      },
+      {
+        "tool": "mcp.extract_files",
+        "timestamp": "2026-06-11T00:49:45.374227+00:00",
+        "duration_ms": 152.41,
+        "result_summary": "ok",
+        "args_hash": "6ded936345ababb8",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/study case/2020JimmyWilson.E01\",\"offset\":0,\"fstype\":\"\",\"dest_dir\":\"/tmp/agentropix-sift-w204-671167pr\",\"entry_count\":0,\"extracted\":[],\"missing\":[\"/Windows/System32/config/SOFTWARE\"],\"rejected\":[],\"tool\":\"sleuthkit.icat\",\"raw_stderr\":\"Cannot determine file system type\\n\",\"hints\":[]}",
+        "output_hash": "b98e5a7d9c9ede9a008dabf7179c523debc041f14d1ef7a8b5f52d96a350228b"
+      },
+      {
+        "tool": "agent.t1059_001_iex_loopback_c2",
+        "timestamp": "2026-06-11T00:49:48.667329+00:00",
+        "duration_ms": 3292.72,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:45.526413+00:00",
+        "duration_ms": 151.19,
+        "result_summary": "miss /Windows/System32/winevt/Logs/Microsoft-Windows-PowerShell%4Operational.evtx"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:45.674706+00:00",
+        "duration_ms": 147.97,
+        "result_summary": "miss /Windows/System32/config/SecEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:45.906536+00:00",
+        "duration_ms": 231.79,
+        "result_summary": "miss /Windows/System32/config/SysEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:46.329206+00:00",
+        "duration_ms": 422.61,
+        "result_summary": "miss /Windows/System32/config/AppEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:46.752736+00:00",
+        "duration_ms": 423.44,
+        "result_summary": "miss /WINDOWS/system32/config/SecEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:46.912633+00:00",
+        "duration_ms": 159.84,
+        "result_summary": "miss /WINDOWS/system32/config/SysEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:47.055642+00:00",
+        "duration_ms": 142.98,
+        "result_summary": "miss /WINDOWS/system32/config/AppEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:47.201360+00:00",
+        "duration_ms": 144.63,
+        "result_summary": "miss /Windows/System32/winevt/Logs/Security.evtx"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:47.494442+00:00",
+        "duration_ms": 292.83,
+        "result_summary": "miss /Windows/System32/config/SecEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:47.825957+00:00",
+        "duration_ms": 331.44,
+        "result_summary": "miss /Windows/System32/config/SysEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:47.970914+00:00",
+        "duration_ms": 144.91,
+        "result_summary": "miss /Windows/System32/config/AppEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:48.115482+00:00",
+        "duration_ms": 144.54,
+        "result_summary": "miss /WINDOWS/system32/config/SecEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:48.261265+00:00",
+        "duration_ms": 145.75,
+        "result_summary": "miss /WINDOWS/system32/config/SysEvent.Evt"
+      },
+      {
+        "tool": "mcp.extract_files.ifind",
+        "timestamp": "2026-06-11T00:49:48.665914+00:00",
+        "duration_ms": 404.6,
+        "result_summary": "miss /WINDOWS/system32/config/AppEvent.Evt"
+      },
+      {
+        "tool": "agent.t1071_001_svchost_outbound_http",
+        "timestamp": "2026-06-11T00:49:48.667566+00:00",
+        "duration_ms": 0.19,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.hunt",
+        "timestamp": "2026-06-11T00:49:48.702389+00:00",
+        "duration_ms": 34.78,
+        "result_summary": "7 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-11T00:49:48.735918+00:00",
+        "duration_ms": 0.2,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-11T00:49:48.740949+00:00",
+        "duration_ms": 4.99,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:48.737564+00:00",
+        "duration_ms": 0.92,
+        "result_summary": "ok",
+        "args_hash": "cfbbf5c4a9bba936",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:48.738525+00:00",
+        "duration_ms": 0.8,
+        "result_summary": "ok",
+        "args_hash": "12d74c87d9937fbb",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:48.739487+00:00",
+        "duration_ms": 0.81,
+        "result_summary": "ok",
+        "args_hash": "4f88b46e57bf2554",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:48.740415+00:00",
+        "duration_ms": 0.77,
+        "result_summary": "ok",
+        "args_hash": "808b10ff2a15cdb2",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-11T00:49:48.773808+00:00",
+        "duration_ms": 0.19,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-11T00:49:48.778766+00:00",
+        "duration_ms": 4.91,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:48.775257+00:00",
+        "duration_ms": 0.84,
+        "result_summary": "ok",
+        "args_hash": "cfbbf5c4a9bba936",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:48.776211+00:00",
+        "duration_ms": 0.8,
+        "result_summary": "ok",
+        "args_hash": "12d74c87d9937fbb",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:48.777325+00:00",
+        "duration_ms": 0.75,
+        "result_summary": "ok",
+        "args_hash": "4f88b46e57bf2554",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:48.778260+00:00",
+        "duration_ms": 0.78,
+        "result_summary": "ok",
+        "args_hash": "808b10ff2a15cdb2",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-11T00:49:48.812133+00:00",
+        "duration_ms": 0.26,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-11T00:49:48.816941+00:00",
+        "duration_ms": 4.76,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:48.813568+00:00",
+        "duration_ms": 0.84,
+        "result_summary": "ok",
+        "args_hash": "cfbbf5c4a9bba936",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:48.814532+00:00",
+        "duration_ms": 0.81,
+        "result_summary": "ok",
+        "args_hash": "12d74c87d9937fbb",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:48.815487+00:00",
+        "duration_ms": 0.8,
+        "result_summary": "ok",
+        "args_hash": "4f88b46e57bf2554",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:48.816414+00:00",
+        "duration_ms": 0.78,
+        "result_summary": "ok",
+        "args_hash": "808b10ff2a15cdb2",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-11T00:49:48.850692+00:00",
+        "duration_ms": 0.19,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-11T00:49:48.855507+00:00",
+        "duration_ms": 4.77,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:48.852135+00:00",
+        "duration_ms": 0.79,
+        "result_summary": "ok",
+        "args_hash": "cfbbf5c4a9bba936",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:48.853097+00:00",
+        "duration_ms": 0.75,
+        "result_summary": "ok",
+        "args_hash": "12d74c87d9937fbb",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:48.854000+00:00",
+        "duration_ms": 0.74,
+        "result_summary": "ok",
+        "args_hash": "4f88b46e57bf2554",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T00:49:48.854954+00:00",
+        "duration_ms": 0.75,
+        "result_summary": "ok",
+        "args_hash": "808b10ff2a15cdb2",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      }
+    ],
+    "counters": {
+      "trace.timeline.counters": {
+        "jsonl_rows_read": 510498,
+        "priority_hits_by_family": {
+          "4624": 1080,
+          "winreg_run": 19,
+          "mft_timestomp": 32176,
+          "lolbin": 2396,
+          "appdata_staging": 64
+        },
+        "parser_deque_sizes": {
+          "winreg/userassist": 112,
+          "winreg/winreg_default": 150,
+          "winreg/appcompatcache": 150,
+          "mft": 150,
+          "winreg/mrulistex_string_and_shell_item_list/shell_items": 20,
+          "winreg/mrulistex_shell_item_list/shell_items": 67,
+          "winreg/bagmru/shell_items": 42,
+          "winreg/windows_services": 150,
+          "winreg/explorer_programscache/shell_items": 150,
+          "winreg/winlogon": 12,
+          "winreg/msie_zone": 72,
+          "winreg/windows_run": 12,
+          "winreg/windows_task_cache": 150,
+          "winreg/windows_sam_users": 15,
+          "winevtx": 150,
+          "winreg/networks": 8,
+          "winreg/windows_version": 6,
+          "prefetch": 11,
+          "winreg/windows_timezone": 2,
+          "winreg/explorer_mountpoints2": 35,
+          "winreg/bagmru": 34,
+          "winreg/windows_boot_execute": 4,
+          "winreg/windows_usb_devices": 18,
+          "winreg/windows_usbstor_devices": 14,
+          "winreg/windows_typed_urls": 4,
+          "winreg/mrulistex_shell_item_list": 9,
+          "winreg/mrulistex_string_and_shell_item": 14,
+          "winreg/mrulistex_string": 16,
+          "winreg/mrulist_string": 7,
+          "winreg/mrulistex_string_and_shell_item_list": 2,
+          "winreg/explorer_programscache": 10,
+          "winreg/windows_shutdown": 4
+        },
+        "events_received_by_agent": 1261,
+        "detectors_fired_by_id": {
+          "4624_detector": 1,
+          "winreg_run_detector": 6,
+          "prefetch_detector": 9,
+          "mft_timestomp_detector": 62,
+          "lolbin_detector": 20,
+          "appdata_staging_detector": 13
+        },
+        "verbose_evtx": {
+          "enabled": false,
+          "cap": 0,
+          "emitted": 0,
+          "dropped": 0
+        }
+      }
+    },
+    "start_time": "2026-06-11T00:40:37.042360+00:00",
+    "end_time": "2026-06-11T00:49:48.888413+00:00",
+    "total_duration_ms": 551846.05
+  },
+  "thymus_audit": [
+    {
+      "timestamp": "2026-06-11T00:40:37.042826+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case/2020JimmyWilson.E01",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:40.886883+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case/2020JimmyWilson.E01",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:41.036394+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case/2020JimmyWilson.E01",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:41.041779+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case/2020JimmyWilson.E01",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:41.041907+00:00",
+      "action": "ALLOW",
+      "path": "/tmp/agentropix-sift-extract-v7iaydjk",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:43.314895+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:43.315519+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:43.315974+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:43.316447+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:45.222032+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case/2020JimmyWilson.E01",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:45.222155+00:00",
+      "action": "ALLOW",
+      "path": "/tmp/agentropix-sift-w204-671167pr",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:48.736993+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:48.738073+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:48.738990+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:48.739947+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:48.774750+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:48.775732+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:48.776683+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:48.777788+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:48.813104+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:48.814031+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:48.814988+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:48.815948+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:48.851633+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:48.852604+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:48.853571+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T00:49:48.854527+00:00",
+      "action": "ALLOW",
+      "path": "/cases/study case",
+      "reason": "within read-only zone"
+    }
+  ],
+  "critic_score": 1.0,
+  "critic_feedback": "continue: plan gap \u2014 2 planned agent(s) produced 0 findings (['discovery', 'mail']); score 1.00",
+  "iterations": [
+    {
+      "iteration": 1,
+      "plan": [
+        "memory",
+        "timeline",
+        "filesystem",
+        "artifact",
+        "discovery",
+        "null_session_baseline",
+        "mail",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "stable_agents": [
+        "artifact",
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "timeline",
+        "yara_hunt"
+      ],
+      "dropped_agents": [],
+      "gaps": [
+        "discovery",
+        "mail"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 2 planned agent(s) produced 0 findings (['discovery', 'mail']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 2,
+      "plan": [
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "artifact",
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "timeline",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "timeline",
+        "filesystem",
+        "artifact",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "discovery",
+        "mail"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 2 planned agent(s) produced 0 findings (['discovery', 'mail']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 3,
+      "plan": [
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "artifact",
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "timeline",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "timeline",
+        "filesystem",
+        "artifact",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "discovery",
+        "mail"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 2 planned agent(s) produced 0 findings (['discovery', 'mail']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 4,
+      "plan": [
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "artifact",
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "timeline",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "timeline",
+        "filesystem",
+        "artifact",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "discovery",
+        "mail"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 2 planned agent(s) produced 0 findings (['discovery', 'mail']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 5,
+      "plan": [
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "artifact",
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "timeline",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "timeline",
+        "filesystem",
+        "artifact",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "discovery",
+        "mail"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 2 planned agent(s) produced 0 findings (['discovery', 'mail']); score 1.00",
+      "should_halt": false
+    }
+  ],
+  "inference_constraint": "high",
+  "evidence_image_sha256": "6c18f662744d55e2769d9510f6173f04dab668c42b67ef27b675d22e628b4ed5",
+  "report_seal": "ff2f9e1e77d3465bcf061f4739de2865932a7d1c53bf68ba796be1f8d267137f",
+  "completion_proofs": [
+    "ARTIFACTS_PARSED",
+    "CROSS_AGENT_CORRELATION_DONE",
+    "FILESYSTEM_WALKED",
+    "INJECTION_DETECTION_COMPLETE",
+    "NULL_SESSION_BASELINE_COMPLETE",
+    "T1059_001_IEX_LOOPBACK_SCAN_COMPLETE",
+    "T1071_001_SVCHOST_OUTBOUND_HTTP_COMPLETE",
+    "T1546_008_ACCESSIBILITY_IFEO_HIJACK_COMPLETE",
+    "TIMELINE_GENERATED",
+    "YARA_HUNT_COMPLETE"
+  ],
+  "audit_log_seal": "3758da6b1f024570a38c4056ea8580183bad94517d302e550da556a049794ab6"
+}
