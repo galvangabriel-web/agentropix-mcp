@@ -1,0 +1,11 @@
+flowchart TD
+  A["Initial Access — Authorized Insider<br/>Valid Accounts · T1078"] --> B["Collection — StarkResearch file server<br/>STARK-FILESERVE / 192.168.1.5 / .3 · T1039"]
+  B --> C["Persistence / Evasion<br/>Masquerade account 'defaultprinter'<br/>Sec 4720 / 4724 · T1136.001"]
+  C --> D["Local Staging<br/>defaultprinter Desktop temp.zip · T1074.001"]
+  D --> E["Archive & Disguise<br/>vacation photos.7z (7-Zip)<br/>T1560.001 · T1036"]
+  E --> F["Exfiltration to Cloud<br/>Dropbox 984347879 + OneDrive · SRUM<br/>T1567.002"]
+  F --> G["Handler Coordination<br/>RU: Merrick to Bulgakov · CN: QQ / CAS<br/>T1567"]
+  G --> H["Anti-Forensics<br/>SDelete + prefetch / cache purge<br/>defeated by VSS · T1070.004"]
+  style A fill:#1f4e79,color:#fff
+  style F fill:#7a1f1f,color:#fff
+  style H fill:#5a3a1f,color:#fff

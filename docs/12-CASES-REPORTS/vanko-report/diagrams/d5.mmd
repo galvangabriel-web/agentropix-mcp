@@ -1,0 +1,10 @@
+flowchart LR
+  R["19 findings<br/>(5 phases)"] --> C["10 CONFIRMED"]
+  R --> X["9 REFUTED<br/>FP gate"]
+  C --> D["DRAFT<br/>record_finding"]
+  D --> A["APPROVED<br/>10x examiner HMAC"]
+  A --> W["Wazuh egress<br/>ledger seq 139"]
+  A --> RPT["Finalized DFIR report"]
+  style C fill:#1f5f3a,color:#fff
+  style X fill:#5a5a5a,color:#fff
+  style A fill:#1f4e79,color:#fff

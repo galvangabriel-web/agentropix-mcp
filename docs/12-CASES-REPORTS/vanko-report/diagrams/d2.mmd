@@ -1,0 +1,16 @@
+flowchart LR
+  FS["StarkResearch File Server<br/>STARK-FILESERVE<br/>192.168.1.5 / .3"] -->|"T1039 copy"| H
+  subgraph H["STARKSURFACE — user 'PC User'"]
+    DP["defaultprinter mule<br/>temp.zip (2.6 MB)"]
+    ARC["vacation photos.7z<br/>SHA-256 b210bcd8..."]
+  end
+  H -->|"T1567.002"| DBX["Dropbox<br/>account 984347879"]
+  H -->|"T1567.002"| OD["OneDrive<br/>cid CBDFA76592A9F765"]
+  H -.->|"artifact-level"| USB["USB volumes<br/>5650959F · C83A6C7B · 8C059ED1"]
+  DBX --> CN["China channel<br/>nina_kwai qq.com<br/>im.cas.cn — CAS Institute"]
+  H -->|"email · 3 attachments"| RU["Russia channel<br/>Merrick mmerr001 gmail.com<br/>to recruiter V. Bulgakov"]
+  style FS fill:#1f4e79,color:#fff
+  style DBX fill:#7a1f1f,color:#fff
+  style OD fill:#7a1f1f,color:#fff
+  style CN fill:#7a1f1f,color:#fff
+  style RU fill:#7a1f1f,color:#fff
