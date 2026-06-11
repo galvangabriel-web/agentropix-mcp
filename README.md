@@ -724,6 +724,28 @@ non-convergence, ATP exhaustion, plaso non-determinism, evidence mutation, secre
 bleed, doc/code drift — each with its concrete mitigation). Read it alongside the
 [SWOT above](#swot--strategic-assessment) and the [Architecture chapter](docs/02-architecture/README.md).
 
+### 🔮 The Future of Agentropix
+
+> *(operator addition, 2026-06-11 — forward-looking, not yet scheduled)*
+>
+> Beyond the Scale items already on the Gantt, **three directions define the next horizon**:
+>
+> 1. **🛰️ Threat-intelligence platform integration (CrowdStrike + Wazuh).** Integrate commercial
+>    TI platforms such as **CrowdStrike** to gather richer insight about IOCs surfaced by a triage
+>    run, and complement that response with the existing open-source **Wazuh** solution —
+>    *commercial enrichment and open-source response working the same indicator set*.
+> 2. **🧭 Agent scheduler with auditable agent-to-agent messaging.** Optimize the Agentropix
+>    engine with an **agent scheduler** that independently manages all agent-to-agent
+>    communication and tracks every inter-agent message — *making the swarm's internal traffic
+>    itself auditable and troubleshootable*, the same discipline the tool-call trace already
+>    applies at the wrapper boundary.
+> 3. **🧪 Binary-analysis pipeline with a dedicated sandbox.** Integrate a pipeline that lets
+>    Agentropix analyze recovered binaries using open-source solutions and a **dedicated sandbox**
+>    for detonation — *testing and analyzing behaviors safely*, then feeding the verdicts back
+>    into the case's findings and IOC exports.
+>
+> Full context: [PROJECT-ROADMAP-2026-06-11.md → The Future of Agentropix](docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md#the-future-of-agentropix-operator-addition-2026-06-11--forward-looking-not-yet-scheduled).
+
 ---
 
 ## Configuration
