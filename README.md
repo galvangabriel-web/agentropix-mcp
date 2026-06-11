@@ -681,6 +681,28 @@ Full competitive analysis: [Competitive Positioning](docs/01-overview/competitiv
 
 ---
 
+## 🗺️ Project Roadmap
+
+Where the project is and the concrete path to GA — the full document is
+**[PROJECT-ROADMAP-2026-06-11.md](docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md)**
+(development Gantt, system-lifecycle state machine, milestones, technical specifications, risk register).
+
+[![Development Gantt — release trajectory & critical path](docs/02-architecture/assets/roadmap-gantt.png)](docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md)
+
+| Phase | Status | What it delivered / delivers |
+|---|---|---|
+| **1 — Foundation** | ✅ Complete | The bio-agentic stack (RalphEngine substrate, StemCell lifecycle, Thymus immune gate, Metabolic Ledger, Oncologist monitor) + the 16 governed MCP forensic wrappers (timeout / memory ceiling / retry / stderr capture each). |
+| **2 — Orchestration** | ✅ Complete | The Trinity Loop (Architect → Swarm → Critic → Router), the 7 forensic bio-agents, the quorum Blackboard, the Hippocampus inheritance bridge, and the deterministic Critic halt gate (`score ≥ 0.85` or idempotence). |
+| **3 — Scale & GA** | 🔵 Current → Upcoming | GA hardening, not feature invention: land W-082 `raw_stdout_sha256` (tamper-evident raw tool output) and wire `gitleaks` into CI — the **critical path** — mitigate W-071 plaso ordering jitter, finish packaging (`pipx`/wheel, ADR-023/024 polish), then the GA-readiness doc + QA/Security/Product sign-offs → **v0.1.0 GA tag**. Future scale: credential lifecycle + two-person rule, SPIRE cloud identities, multi-tenant alerting, audit-log seal hardening. |
+
+The roadmap also carries the **system-lifecycle state machine** (orchestration, thread taxonomy,
+apoptosis — how a run is born, governed, and dies) and a 7-row **risk register** (R1–R7: loop
+non-convergence, ATP exhaustion, plaso non-determinism, evidence mutation, secret leakage, context
+bleed, doc/code drift — each with its concrete mitigation). Read it alongside the
+[SWOT above](#swot--strategic-assessment) and the [Architecture chapter](docs/02-architecture/README.md).
+
+---
+
 ## Configuration
 
 Behavior is tuned through the `AGENTROPIX_*` environment surface — Critic halt threshold, Blackboard
