@@ -129,7 +129,9 @@ The story sections map onto committed pages — assemble the Devpost text from t
   traceability appendix (§7). The 10 raw evidence files sit beside it
   ([folder README](docs/12-CASES-REPORTS/srl-2018-report/submission/README.md)) — per run: sealed `report.json`, `audit-log.json`,
   `session-key`, **live `run.log`**, and **`thymus-audit.jsonl`** (artifact types no other
-  published run folder carries).
+  published run folder carries). Its [**Visual Atlas**](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-VISUAL-ATLAS.md)
+  renders the same evidence as thirteen color diagrams (communication graph, timestamp chain,
+  self-correction funnels, governance pies, seal chain).
 - **Persistent-loop trace (iteration-over-iteration, approach changing):**
   [`EXECUTION-LOG.md`](case-activation/runs/jimmy-wilson-poc/EXECUTION-LOG.md) — tool execution log
   with timestamps + durations, the Trinity trace (13 agents → 2 after the Critic marks 11 stable),

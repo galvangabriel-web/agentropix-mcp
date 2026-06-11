@@ -1,0 +1,24 @@
+flowchart LR
+  subgraph SRC["Challenge.raw (notch) — 13-agent plan"]
+    NSB["null_session_baseline<br/>evtx_dump failed (rc=1)"]
+    T59["t1059.001 iex-loopback<br/>evtx_dump failed (rc=1)"]
+    YH["yara_hunt<br/>found no scannable files"]
+    SKIP["no token contributed:<br/>memory, injection_detector,<br/>t1071.001 (not a RAM image)<br/>t1546.008 (not an E01 image)<br/>filesystem: fls failed (rc=1)<br/>timeline, artifact, discovery,<br/>mail (no findings)"]
+  end
+  K(["found (0.3)"])
+  HUNT["hunt correlator<br/>1 cross-source edge"]
+  NSB --> K
+  T59 --> K
+  YH --> K
+  K --> HUNT
+
+  classDef disk fill:#bbdefb,stroke:#1565c0,color:#1a1a1a
+  classDef det fill:#e1bee7,stroke:#6a1b9a,color:#1a1a1a
+  classDef skip fill:#e0e0e0,stroke:#616161,color:#1a1a1a
+  classDef tok fill:#ffe0b2,stroke:#e65100,color:#1a1a1a
+  classDef hub fill:#ffe0b2,stroke:#e65100,stroke-width:3px,color:#1a1a1a
+  class NSB,YH disk
+  class T59 det
+  class SKIP skip
+  class K tok
+  class HUNT hub

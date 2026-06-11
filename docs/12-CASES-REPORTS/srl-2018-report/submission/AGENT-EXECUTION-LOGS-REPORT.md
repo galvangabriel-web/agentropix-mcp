@@ -13,6 +13,11 @@
 
 ---
 
+> 🎨 **Prefer pictures?** The [**Visual Atlas**](AGENT-EXECUTION-VISUAL-ATLAS.md) renders this
+> report's §3–§6 as thirteen color diagrams — the agent communication graph, the end-to-end
+> timestamp chain (with a 217-microsecond zoom), the self-correction funnels, the Thymus gate
+> pies, and the seal cross-binding chain — all generated from the raw files in this folder.
+
 ## 1. Executive Summary & Determinism Frame
 
 This report is the evaluator-facing "Agent Execution Logs" artifact for the Agentropix-SIFT hackathon submission. It covers **both** cases shipped in `/home/admin2/agentropix-sift/submission/`:

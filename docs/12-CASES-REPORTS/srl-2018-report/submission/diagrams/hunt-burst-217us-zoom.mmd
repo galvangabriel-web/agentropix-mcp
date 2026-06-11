@@ -1,0 +1,25 @@
+flowchart TD
+    P["tc 151 - agent.hunt<br/>15:56:32.095698 UTC - 2.33 ms<br/>8 cross-source findings"]:::tool
+    T0["+0 us - .095393<br/>token case<br/>artifact + yara_hunt"]:::hunt
+    T1["+55 us - .095448<br/>token evidence<br/>artifact + T1546.008"]:::hunt
+    T2["+89 us - .095482<br/>token across<br/>null_session + T1059.001"]:::hunt
+    T3["+118 us - .095511<br/>token complete<br/>null_session + T1059.001"]:::hunt
+    T4["+142 us - .095535<br/>token coverage<br/>memory + yara_hunt"]:::hunt
+    T5["+167 us - .095560<br/>token scan<br/>3 agents agree"]:::hunt
+    T6["+195 us - .095588<br/>token yara<br/>3 agents agree"]:::hunt
+    T7["+217 us - .095610<br/>token host<br/>T1059.001 + T1546.008"]:::hunt
+    S["completion proof<br/>CROSS_AGENT_CORRELATION_DONE"]:::seal
+
+    P --> T0
+    T0 -->|"55 us"| T1
+    T1 -->|"34 us"| T2
+    T2 -->|"29 us"| T3
+    T3 -->|"24 us"| T4
+    T4 -->|"25 us"| T5
+    T5 -->|"28 us"| T6
+    T6 -->|"22 us"| T7
+    T7 --> S
+
+    classDef tool fill:#bbdefb,stroke:#1565c0,color:#1a1a1a
+    classDef hunt fill:#ffe0b2,stroke:#ef6c00,color:#1a1a1a
+    classDef seal fill:#e1bee7,stroke:#6a1b9a,color:#1a1a1a

@@ -13,7 +13,7 @@ This folder is the evaluator-facing case report for SRL-2018.
 4. **[submission/AGENT-EXECUTION-LOGS-REPORT.md](submission/AGENT-EXECUTION-LOGS-REPORT.md)** — the
    **Agent Execution Logs gold report**: the autonomous engine run over this case's DC image
    (`base-dc`: 22 findings · 176 tool calls) plus a `Challenge_NotchItUp` comparison run, every
-   claim cited as `file:json-path -> value` against the raw sealed evidence committed beside it.
+   claim cited as `file:json-path -> value` against the raw sealed evidence committed beside it; its [Visual Atlas](submission/AGENT-EXECUTION-VISUAL-ATLAS.md) tells the same story in thirteen color diagrams.
 
 ## Folder map
 | Path | Contents |

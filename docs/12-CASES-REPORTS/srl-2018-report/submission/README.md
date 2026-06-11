@@ -7,6 +7,10 @@
 > (`thymus-audit.jsonl`, every evidence-path decision with ALLOW/REJECT + reason). Per-run HMAC
 > session keys are published under the repo's standing burned-key policy.
 
+**Visual reader? → [`AGENT-EXECUTION-VISUAL-ATLAS.md`](AGENT-EXECUTION-VISUAL-ATLAS.md)** — thirteen
+color diagrams (communication graph, timestamp chain, self-correction funnels, Thymus pies,
+seal chain) generated from this folder's raw data ([`diagrams/`](diagrams/) holds PNG + Mermaid sources).
+
 **Start here → [`AGENT-EXECUTION-LOGS-REPORT.md`](AGENT-EXECUTION-LOGS-REPORT.md)** — the gold
 report: agent-to-agent handoff log (timestamped, every edge VERIFIED against records),
 full tool-execution sequence with worked 3-way cross-file correlations, the

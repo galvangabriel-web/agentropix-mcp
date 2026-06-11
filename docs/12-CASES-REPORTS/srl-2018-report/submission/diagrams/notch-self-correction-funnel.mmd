@@ -1,0 +1,21 @@
+flowchart TD
+    P1["ITER 1 - plan: 13 agents (same roster)"]:::plan
+    P1 --> S1["9 STABLE - findings banked<br/>memory, filesystem, null_session_baseline<br/>yara_hunt, injection_detector, hunt<br/>t1546_008, t1059_001, t1071_001"]:::stable
+    P1 --> G1["4 GAPS - 0 findings<br/>timeline, artifact, discovery, mail"]:::gap
+    S1 --> DR["DROPPED from plan, iters 2 to 5<br/>results kept, never re-run"]:::dropped
+    G1 --> C1["Critic 1.00, should_halt false<br/>continue: plan gap, re-plan gaps only"]:::critic
+    C1 --> P2["ITER 2 - plan: 4<br/>timeline, artifact, discovery, mail"]:::plan
+    P2 --> G2["0 findings again"]:::gap
+    G2 --> P3["ITER 3 - plan: 4"]:::plan
+    P3 --> G3["0 findings"]:::gap
+    G3 --> P4["ITER 4 - plan: 4"]:::plan
+    P4 --> G4["0 findings"]:::gap
+    G4 --> P5["ITER 5 - plan: 4"]:::plan
+    P5 --> G5["0 findings"]:::gap
+    G5 --> FIN["STATUS: budget_exhausted<br/>5 of 5 iterations, 10 findings sealed"]:::final
+    classDef plan fill:#bbdefb,stroke:#1565c0,color:#1a1a1a
+    classDef stable fill:#c8e6c9,stroke:#2e7d32,color:#1a1a1a
+    classDef gap fill:#ffcdd2,stroke:#c62828,color:#1a1a1a
+    classDef dropped fill:#e0e0e0,stroke:#757575,color:#1a1a1a
+    classDef critic fill:#e1bee7,stroke:#6a1b9a,color:#1a1a1a
+    classDef final fill:#ffe0b2,stroke:#e65100,color:#1a1a1a
