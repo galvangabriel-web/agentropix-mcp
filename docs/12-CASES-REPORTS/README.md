@@ -16,26 +16,26 @@ memory payloads, 9 distinct malicious SHA-256) — samples withheld, custody pro
 
 **Read in this order:**
 
-1. [srl-2015/README.md](srl-2015/README.md) — **how to read, analyze & understand this
+1. [srl-2015-report/README.md](srl-2015-report/README.md) — **how to read, analyze & understand this
    investigation**: per-file map, the full provenance / chain-of-custody section (evidence image →
    SHA-256 → finding → IOC → VT/OTX verdict → Wazuh doc, RAW vs SANITIZED, withheld-by-reference
    hashes), and an "analyze it yourself" guide.
-2. [srl-2015/reports/SRL-2015-full-report.pdf](srl-2015/reports/SRL-2015-full-report.pdf) — the
+2. [srl-2015-report/reports/SRL-2015-full-report.pdf](srl-2015-report/reports/SRL-2015-full-report.pdf) — the
    complete forensic report (17 approved findings, IOC table, MITRE mapping, Wazuh reconciliation);
-   condensed: [executive summary](srl-2015/reports/SRL-2015-executive-summary.pdf).
-3. [srl-2015/deep-analysis/SRL-2015-memory-deep-analysis.md](srl-2015/deep-analysis/SRL-2015-memory-deep-analysis.md)
+   condensed: [executive summary](srl-2015-report/reports/SRL-2015-executive-summary.pdf).
+3. [srl-2015-report/deep-analysis/SRL-2015-memory-deep-analysis.md](srl-2015-report/deep-analysis/SRL-2015-memory-deep-analysis.md)
    — static reverse-engineering of the 5 memory-injection payloads (one VB6/LZMA loader family, two
-   compiler variants, shipped [YARA rule](srl-2015/deep-analysis/srl2015_meminject.yar)).
+   compiler variants, shipped [YARA rule](srl-2015-report/deep-analysis/srl2015_meminject.yar)).
 
 **Recorded investigation replay** (~53 s, faithful command reenactment of the real 2026-06-10 run —
-chapters in [video/README.md](srl-2015/video/README.md)):
+chapters in [video/README.md](srl-2015-report/video/README.md)):
 
-[![SRL-2015 investigation replay (animated GIF — click for the MP4)](srl-2015/video/SRL-2015-investigation.gif)](srl-2015/video/SRL-2015-investigation-web.mp4)
+[![SRL-2015 investigation replay (animated GIF — click for the MP4)](srl-2015-report/video/SRL-2015-investigation.gif)](srl-2015-report/video/SRL-2015-investigation-web.mp4)
 
 > ▶ The animation above is the inline GIF replay (auto-plays on GitHub). For full quality:
-> **[download the MP4 (1.5 MB)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/srl-2015/video/SRL-2015-investigation-web.mp4)**
+> **[download the MP4 (1.5 MB)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/srl-2015-report/video/SRL-2015-investigation-web.mp4)**
 > and open it locally (any browser/VLC plays it). The
-> [asciinema source](srl-2015/video/session.cast) is also included.
+> [asciinema source](srl-2015-report/video/session.cast) is also included.
 > *Why no inline player: GitHub's Markdown sanitizer strips `<video>` tags entirely and renders
 > `![ ](*.mp4)` as a broken image — repo-committed MP4s cannot play inline on github.com.*
 
@@ -62,7 +62,7 @@ External RDP foothold → dual C2 (Metasploit/Meterpreter + PowerShell Empire) �
 > `![ ](*.mp4)` as a broken image — repo-committed MP4s cannot play inline on github.com, and at
 > 19 MB this file exceeds the blob-preview limit ("we can't show files that are this big").*
 
-**Correlate:** same Stark Research Labs org as [SRL-2015](srl-2015/README.md) (user `nfury` appears in both) — commodity C2 frameworks here vs SRL-2015's custom in-memory loader; contrast with the malware-free insider case [VANKO](vanko-report/VANKO-FORENSIC-REPORT.md).
+**Correlate:** same Stark Research Labs org as [SRL-2015](srl-2015-report/README.md) (user `nfury` appears in both) — commodity C2 frameworks here vs SRL-2015's custom in-memory loader; contrast with the malware-free insider case [VANKO](vanko-report/VANKO-FORENSIC-REPORT.md).
 
 ---
 
@@ -88,4 +88,4 @@ A trusted insider (Anthony Vanko, STARKSURFACE / `PC User`) copied classified ze
 > *Why no inline player: GitHub's Markdown sanitizer strips `<video>` tags entirely and renders
 > `![ ](*.mp4)` as a broken image — repo-committed MP4s cannot play inline on github.com.*
 
-**Correlate:** the no-malware counterpoint to the two intrusion cases — staged-archive exfiltration parallels [SRL-2015](srl-2015/README.md) (T1560.001), and anti-forensics defeat (VSS here, timestomp detection there) parallels [SRL-2018](srl-2018-report/SRL-2018-FORENSIC-REPORT.md).
+**Correlate:** the no-malware counterpoint to the two intrusion cases — staged-archive exfiltration parallels [SRL-2015](srl-2015-report/README.md) (T1560.001), and anti-forensics defeat (VSS here, timestomp detection there) parallels [SRL-2018](srl-2018-report/SRL-2018-FORENSIC-REPORT.md).
