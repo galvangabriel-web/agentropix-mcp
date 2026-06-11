@@ -48,3 +48,17 @@ agent-to-agent message logs with timestamps (multi-agent), tool-execution logs w
 traces showing the approach changing (persistent loop: 13 agents → 2 on base-dc, 13 → 4 on notch).
 Master routing: [🧭 EVALUATION-MAP.md](../../../../EVALUATION-MAP.md). The narrative case report for
 the same evidence estate is one level up: [`../README.md`](../README.md).
+
+## 🎬 The animated walkthrough
+
+A 108-second **Animotion-animated presentation** of this package — the timestamp chain with the
+91-minute wait drawn to scale, the 61-shield REJECT storm with a live counter, the 217 µs
+correlation burst chip-by-chip, the 13 → 2 self-correction roster, the producers → tokens → hunt
+flow, and the animated ALLOW/REJECT + seal cross-bind explainer. Rendered deterministically
+(virtual-time capture, 12 fps) from [`execution-logs-animated-deck.html`](execution-logs-animated-deck.html);
+animations & icons via the Animotion MCP.
+
+[![Animated walkthrough — poster frame (click to play in your browser)](execution-logs-animated-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/EXECUTION-LOGS-ANIMATED.mp4)
+
+> ▶ *The poster links to the **GitHub Pages copy, which plays directly in your browser**; or*
+> ***[download the MP4 (980 KB, 1 min 48 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/srl-2018-report/submission/EXECUTION-LOGS-ANIMATED.mp4)***.

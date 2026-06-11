@@ -7,6 +7,10 @@
 > trails) — no invented numbers. Diagrams are committed as PNG (rendered with mermaid-cli) so they
 > always display on GitHub; every figure's Mermaid source is in a collapsed block beneath it.
 >
+> 🎬 **Moving pictures:** the same topics, animated — the
+> [**108-second walkthrough video**](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/EXECUTION-LOGS-ANIMATED.mp4) (plays in-browser;
+> [details](README.md#-the-animated-walkthrough)).
+>
 > **Shared palette:** 🟦 blue = agents/tools/files · 🟪 purple = ATT&CK detectors & governance/seals ·
 > 🟩 green = success/ALLOW/stable · 🟥 red = errors/REJECT/timeouts/gaps · 🟧 amber = correlation & anchors ·
 > ⬜ grey = skipped/silent.

@@ -131,7 +131,9 @@ The story sections map onto committed pages — assemble the Devpost text from t
   `session-key`, **live `run.log`**, and **`thymus-audit.jsonl`** (artifact types no other
   published run folder carries). Its [**Visual Atlas**](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-VISUAL-ATLAS.md)
   renders the same evidence as thirteen color diagrams (communication graph, timestamp chain,
-  self-correction funnels, governance pies, seal chain).
+  self-correction funnels, governance pies, seal chain), and the
+  [108-second animated walkthrough](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/EXECUTION-LOGS-ANIMATED.mp4)
+  plays the same story in motion (in-browser).
 - **Persistent-loop trace (iteration-over-iteration, approach changing):**
   [`EXECUTION-LOG.md`](case-activation/runs/jimmy-wilson-poc/EXECUTION-LOG.md) — tool execution log
   with timestamps + durations, the Trinity trace (13 agents → 2 after the Critic marks 11 stable),
