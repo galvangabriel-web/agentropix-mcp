@@ -4,7 +4,11 @@
 > `2020JimmyWilson.E01` (NTFS disk). The video is [`POC-RUN.mp4`](POC-RUN.mp4); the sealed
 > machine record is [`report.json`](report.json) + [`report.audit-log.json`](report.audit-log.json).
 > This page extracts the three views a reviewer needs: **tool execution (with timestamps)**,
-> **iteration-over-iteration traces**, and **agent / Blackboard activity**.
+> **iteration-over-iteration traces**, and **agent / Blackboard activity**. The richer
+> evaluator-facing **Agent Execution Logs gold report** — two further engine runs (SRL-2018
+> `base-dc` + Challenge_NotchItUp) with `file:json-path -> value` citations, timestamped handoff
+> graphs, and raw `run.log` + Thymus audit trails — is at
+> [docs/12-CASES-REPORTS/srl-2018-report/submission/](../../../docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md).
 
 ## Run header
 

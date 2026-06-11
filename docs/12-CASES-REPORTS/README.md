@@ -50,6 +50,7 @@ External RDP foothold → dual C2 (Metasploit/Meterpreter + PowerShell Empire) �
 1. [srl-2018-report/SRL-2018-FORENSIC-REPORT.md](srl-2018-report/SRL-2018-FORENSIC-REPORT.md) — the full technical forensic report: attack chain, recovered malware toolkit (9 SHA-256), network/behavioural IOCs, the 12 sealed findings, ATT&CK mapping, and methodology + caveats (renders inline with diagrams).
 2. [srl-2018-report/TECHNICAL-APPENDIX.md](srl-2018-report/TECHNICAL-APPENDIX.md) — machine-extracted depth: per-host network sockets (`get_netscan`), the rd-01 injected-code regions (`get_malfind`), and the evtx lateral-movement matrix.
 3. [srl-2018-report/WAZUH-IOC-GALLERY.md](srl-2018-report/WAZUH-IOC-GALLERY.md) — 13 Wazuh-dashboard captures of every pushed IOC (findings index in Discover + manager CDB lists).
+4. [srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md](srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md) — the **Agent Execution Logs gold report**: the autonomous engine run over the same DC image (22 findings · 176 tool calls) + a NotchItUp comparison run, with all 10 raw sealed evidence files (report / audit-log / session-key / live run.log / Thymus trail) committed beside it.
 
 **Recorded analysis session** (254 agentropix MCP actions, paged for readability):
 

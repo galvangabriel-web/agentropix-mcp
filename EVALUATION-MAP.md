@@ -13,7 +13,7 @@ that satisfy it, with a reading path. Statuses are honest — ✅ means committe
 | 5 | Dataset documentation | ✅ | [`docs/06-use-cases/reproduce-datasets.md`](docs/06-use-cases/reproduce-datasets.md) |
 | 6 | Accuracy report + evidence-integrity approach | ✅ | [`docs/07-sdlc-ops/dataset-recall.md`](docs/07-sdlc-ops/dataset-recall.md) |
 | 7 | Try-it-out instructions | ✅ | [`README.md` → Connect in 60 seconds](README.md#-connect-in-60-seconds) |
-| 8 | Agent execution logs | ✅ | [`case-activation/runs/jimmy-wilson-poc/EXECUTION-LOG.md`](case-activation/runs/jimmy-wilson-poc/EXECUTION-LOG.md) |
+| 8 | Agent execution logs | ✅ | [`AGENT-EXECUTION-LOGS-REPORT.md`](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md) (gold report) · [`EXECUTION-LOG.md`](case-activation/runs/jimmy-wilson-poc/EXECUTION-LOG.md) |
 
 ---
 
@@ -42,7 +42,9 @@ that satisfy it, with a reading path. Statuses are honest — ✅ means committe
 - **The self-correction sequence to show:** the Trinity iteration trace — iteration 1 runs all 13
   agents, the Critic marks 11 **stable**, iterations 2–5 re-run only the 2 still producing new
   evidence (the approach visibly changing). On film in `POC-RUN.mp4`; explained line-by-line in
-  [`EXECUTION-LOG.md`](case-activation/runs/jimmy-wilson-poc/EXECUTION-LOG.md).
+  [`EXECUTION-LOG.md`](case-activation/runs/jimmy-wilson-poc/EXECUTION-LOG.md). The same
+  plan-shrink narrative is documented for two further engine runs (13 → 2 and 13 → 4) in the
+  [gold report §5](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md) — grounded material for the narration script.
 - ⚠️ **Pending operator action:** cut a ≤5-minute screencast **with audio narration** from this
   footage and upload to YouTube/Vimeo ≥48 h before the deadline. The committed MP4s are silent
   screen captures — narration is not yet recorded.
@@ -100,6 +102,9 @@ The story sections map onto committed pages — assemble the Devpost text from t
   exists in the surface, and each invariant carries an **adversarial test case** describing exactly
   what happens when the agent attempts a bypass. Plus [provenance & grounding](docs/05-safety-forensics/provenance-grounding.md)
   and the pre/post SHA-256 discipline ([honest nuance in README §Safety](README.md#safety--anti-hallucination)).
+  **Live-run proof:** the submission package's §6 *Governance & Sealed Audit Correlation* and its raw
+  [`base-dc-thymus-audit.jsonl`](docs/12-CASES-REPORTS/srl-2018-report/submission/base-dc-thymus-audit.jsonl) — **146 recorded decisions, 61 real
+  `REJECT`s** of out-of-allowlist paths during the run, seals cross-bound to entry counts ([gold report](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md)).
 
 ## 7 · Try-it-out instructions
 
@@ -115,6 +120,16 @@ The story sections map onto committed pages — assemble the Devpost text from t
 
 ## 8 · Agent execution logs
 
+- **The gold report (start here):** [`AGENT-EXECUTION-LOGS-REPORT.md`](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md) — two engine runs
+  (**base-dc** = the SRL-2018 domain controller E01, 22 findings · 176 tool calls; **notch** =
+  `Challenge_NotchItUp` raw image, 10 findings · 60 tool calls), every claim in strict
+  `file:json-path -> value` citation form: agent roster (§2), **timestamped agent-to-agent handoff
+  log** (§3, every edge VERIFIED), **full tool-execution sequence** with worked 3-way cross-file
+  correlations (§4), **iteration-over-iteration trace** (§5), sealed-audit correlation (§6), and a
+  traceability appendix (§7). The 10 raw evidence files sit beside it
+  ([folder README](docs/12-CASES-REPORTS/srl-2018-report/submission/README.md)) — per run: sealed `report.json`, `audit-log.json`,
+  `session-key`, **live `run.log`**, and **`thymus-audit.jsonl`** (artifact types no other
+  published run folder carries).
 - **Persistent-loop trace (iteration-over-iteration, approach changing):**
   [`EXECUTION-LOG.md`](case-activation/runs/jimmy-wilson-poc/EXECUTION-LOG.md) — tool execution log
   with timestamps + durations, the Trinity trace (13 agents → 2 after the Critic marks 11 stable),

@@ -29,6 +29,13 @@
 The raw captures for Steps 9–10 final state (persisted finding `F-NOTCH-001`, approval record
 `6434ea81…`, sealed report `8c5ab7a6…`) are reproduced verbatim inside [EXECUTED-RUN.md](EXECUTED-RUN.md).
 
+> 🔗 **Same evidence, second engine:** a separate autonomous `agentropix-sift` **engine** triage of
+> this exact `Challenge.raw` (identical evidence SHA-256 `80366d7e…c1407b23`; 10 findings · 60 tool
+> calls · 5 iterations) is documented in the evaluator-facing
+> [AGENT-EXECUTION-LOGS-REPORT.md](../../../docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md),
+> with its raw sealed `notch-*` evidence (report, audit-log, session-key, live run.log, Thymus trail)
+> committed alongside.
+
 ## Inside the files (excerpts)
 
 From [steps1-3.json](steps1-3.json) — `evidence_register` establishes chain of custody before any analysis:

@@ -537,7 +537,11 @@ This exact sequence was executed live and recorded against the **Jimmy Wilson** 
 
 The full proof — recorded video, sealed reports, raw logs of three reproducible runs, and the
 agent-execution trace — is published at
-[`case-activation/runs/jimmy-wilson-poc/`](case-activation/runs/jimmy-wilson-poc/). The wider
+[`case-activation/runs/jimmy-wilson-poc/`](case-activation/runs/jimmy-wilson-poc/). The
+evaluator-facing **Agent Execution Logs gold report** — two further engine runs (the SRL-2018
+domain controller + Challenge_NotchItUp) with timestamped agent-to-agent handoff chains, full tool
+sequences, and the raw sealed evidence incl. live `run.log` + Thymus audit trails — is at
+[`docs/12-CASES-REPORTS/srl-2018-report/submission/`](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md). The wider
 [`case-activation/`](case-activation/) folder holds a per-case Activation Guide for every evidence
 set on this host plus the captured executed runs ([`case-activation/runs/`](case-activation/runs/)).
 
