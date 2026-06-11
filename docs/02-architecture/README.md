@@ -20,5 +20,7 @@ How the engine is built — from the outside-in (context → components) down to
 8. [ez-tools-integration.md](ez-tools-integration.md) — how Eric Zimmerman's EZ Tools are wrapped as governed MCP tools (genuine `.NET` binaries vs the three Linux substitutes).
 9. [module-map.md](module-map.md) — *(shared reference)* where each package and component lives in `src/` (machine-extracted).
 10. [PROJECT-ROADMAP-2026-06-11.md](PROJECT-ROADMAP-2026-06-11.md) — 🗺️ *(strategic)* where it's all going: Gantt/critical path, lifecycle state machine, GA milestones, risks.
+11. [SECURITY-INVARIANT-AUDIT-2026-06-11.md](SECURITY-INVARIANT-AUDIT-2026-06-11.md) — 🔒 *(audit)* the six safety/anti-hallucination invariants traced to source file:line — 5 Enforced, #3 Partially (structural, not literal) — with adversarial test cases and hardening recommendations.
+12. [AGENTROPIX-TUNABLE-FEATURES-CATALOG.md](AGENTROPIX-TUNABLE-FEATURES-CATALOG.md) — 🎛️ *(reference)* the explanatory catalog of all 252 tunables: 16 feature toggles, 125 performance/scaling knobs, 18 detection thresholds, 17 security/egress gates, 54 tool paths/data sets, and the rest.
 
 > For "how does an agent actually call a tool, station by station," continue to [docs/10-agents/fastmcp-execution.md](../10-agents/fastmcp-execution.md).

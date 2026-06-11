@@ -621,14 +621,37 @@ Agentropix-SIFT is engineered so that the LLM **cannot** become the source of a 
   deterministic forensic binary; the LLM narrates and proposes but never authors evidence.
 - **No LLM self-rating** — the Critic halts on a deterministic *convergence fingerprint* (default
   threshold **0.85**, `trinity/critic.py`), not on a model's self-assessed confidence.
-- **Pre/post SHA-256 evidence invariant** — evidence is hashed before and after every run; any mutation
-  aborts the run. The engine reads but never alters the image.
+- **Pre/post SHA-256 evidence invariant** — evidence is hashed at session start and re-verified in
+  tests; immutability is enforced *structurally* (Thymus + no write tool exists), per the 2026-06-11
+  source audit below. The engine reads but never alters the image.
 - **Thymus read-only policy** — deny-by-default boundary (`mcp_server/thymus_policy.py`) blocking
   write/exec paths *before* a tool executes; no write tool exists in the surface.
 - **Courtroom HMAC-SHA256 seal** — the audit log (JSONL) is sealed and the provenance chain validated
   (`courtroom.py`, `provenance/`), giving a tamper-evident chain of custody.
 - **Human-in-the-loop** — the optional approval sidecar (`approval_sidecar/`) holds findings in DRAFT
   until an examiner APPROVES them.
+
+### 🔒 Source-traced invariant audit (2026-06-11)
+
+The six guarantees above were **audited against the source, file:line by file:line** — no prompt-only
+claims accepted. Headline: **5 of 6 invariants Enforced; #3 Partially Enforced** — the literal
+per-tool abort-on-delta mechanism does not exist, but the evidence-immutability goal is met by a
+stronger structural design (no write tool + deny-by-default Thymus). The audit's Unified Compliance
+Matrix, verbatim:
+
+| # | Invariant | Status | Primary enforcement site(s) | Key lines |
+|---|-----------|--------|------------------------------|-----------|
+| 1 | Deterministic-tools-only findings | ✅ Enforced | `agents/_base.py` (Finding model + sole publish path); `orchestrator.py` (report built from Blackboard) | `_base.py:40-92, 130-149`; `orchestrator.py:69, 277-284` |
+| 2 | No LLM self-rating (Critic) | ✅ Enforced | `trinity/critic.py` (arithmetic score, threshold halt) | `critic.py:120-122, 180-206`; threshold clamp `76-81` |
+| 3 | Pre/post SHA-256 evidence invariant | ⚠️ Partially Enforced | `courtroom.py` (session-start hash); immutability via Thymus + no-write-tools; tested pre/post | `courtroom.py:89-142`; `orchestrator.py:292, 311`; `thymus_policy.py:362-369` — **no runtime `sys.exit()` on delta** |
+| 4 | Thymus read-only policy | ✅ Enforced | `mcp_server/thymus_policy.py` (deny-by-default allowlist; writes always reject) | `thymus_policy.py:264-267, 289-308, 325-330, 362-369` |
+| 5 | Courtroom HMAC-SHA256 seal | ✅ Enforced | `courtroom.py` (seal + cross-bound audit seal); `hash_chain.py` (per-entry chain); `provenance/validate.py` (external validator, non-zero exit) | `courtroom.py:161-182, 341-397`; `hash_chain.py:73-101`; `validate.py:90, 278-363` |
+| 6 | Human-in-the-loop sidecar | ✅ Enforced | `approval_sidecar/` (DRAFT default, signed promotion, 409 precondition, APPROVED-only export) | `models.py:15`; `app.py:222, 225-259, 379`; `reports/transformers.py:157`, `markdown.py:82` |
+
+Each invariant in the full document carries its implementation verification, deterministic
+mechanics, an adversarial forensic test case, and the auditor's hardening recommendations (e.g. a
+session-end re-hash tripwire to close #3's literal gap). **Complete text:
+[SECURITY-INVARIANT-AUDIT-2026-06-11.md](docs/02-architecture/SECURITY-INVARIANT-AUDIT-2026-06-11.md).**
 
 Deep dives: [Anti-Hallucination](docs/05-safety-forensics/anti-hallucination.md) ·
 [Provenance & Grounding](docs/05-safety-forensics/provenance-grounding.md) ·
@@ -743,7 +766,7 @@ the question it answers. The portal is organized into twelve numbered sections u
 | # | Section | What it contains |
 |---|---------|------------------|
 | 1 | [Overview](docs/01-overview/what-is-agentropix.md) | What Agentropix-SIFT is and why, the capability matrix, the 3-command Quickstart, the complete operator User Guide, and how it compares to alternatives. |
-| 2 | [Architecture](docs/02-architecture/main-architectural-agentropix-design.md) | How the engine is built — **the validated architecture diagram** (pattern + guardrails, HD PDF), system context, internal components, the Trinity Loop, the Swarm + Blackboard, the FastMCP server (and the Thymus boundary), sequence diagrams, and the 🗺️ **[Strategic Project Roadmap](docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md)** (Gantt/critical path, lifecycle state machine, GA milestones, risks). |
+| 2 | [Architecture](docs/02-architecture/main-architectural-agentropix-design.md) | How the engine is built — **the validated architecture diagram** (pattern + guardrails, HD PDF), system context, internal components, the Trinity Loop, the Swarm + Blackboard, the FastMCP server (and the Thymus boundary), sequence diagrams, the 🗺️ **[Strategic Project Roadmap](docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md)** (Gantt/critical path, lifecycle state machine, GA milestones, risks), the 🔒 **[Security Invariant Audit](docs/02-architecture/SECURITY-INVARIANT-AUDIT-2026-06-11.md)** (6 invariants source-traced), and the 🎛️ **[Tunable Features Catalog](docs/02-architecture/AGENTROPIX-TUNABLE-FEATURES-CATALOG.md)** (252 documented knobs). |
 | 3 | [Data](docs/03-data/data-models.md) | The data model — case/finding/report schemas, the data dictionary, the entity-relationship view, and what gets persisted to disk. |
 | 4 | [MCP Tools](docs/04-mcp-tools/tool-reference.md) | The 71-tool MCP surface — the full tool reference, the typed Response Envelope, which agent invokes which tool, and the capability map. |
 | 5 | [Safety & Forensics](docs/05-safety-forensics/anti-hallucination.md) | Why you can trust the output — anti-hallucination guarantees, provenance grounding, the Courtroom audit seal, the human-in-the-loop gate, the Approval Portal, and the AI disclosure. |
