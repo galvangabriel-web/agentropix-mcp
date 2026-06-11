@@ -1,0 +1,30 @@
+{
+  "case_id": "SRL-2015-APT-ENTERPRISE",
+  "profile": "executive",
+  "report_id": "98bbfc3773232ddbb9322bfb9e1e115c9b7b36aca0b3b2aba93d1a35507a86a5",
+  "snapshot_at": "2026-06-10T19:31:36.996895+00:00",
+  "approved_finding_count": 17,
+  "sections": {
+    "approved_finding_count": 17,
+    "top_tactics": [],
+    "top_hosts": [],
+    "severity_mix": [
+      {
+        "severity": "high",
+        "count": 14
+      },
+      {
+        "severity": "medium",
+        "count": 2
+      },
+      {
+        "severity": "critical",
+        "count": 1
+      }
+    ]
+  },
+  "truncated": false,
+  "result_bytes": 498,
+  "error": "",
+  "warning": ""
+}
