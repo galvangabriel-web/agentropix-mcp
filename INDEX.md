@@ -1,5 +1,8 @@
 # Agentropix-SIFT — Documentation Index
 
+> 🧭 **Judges / evaluators:** start with the [Evaluation Map](EVALUATION-MAP.md) — it routes all
+> 8 submission requirements to their evidence in this repository.
+
 **The entry point.** This is the routed master table of contents for the entire
 Agentropix-SIFT documentation set. Every chapter is mapped to its primary **audience**
 (operator / examiner / developer / auditor) and the **question it answers**, so you can jump

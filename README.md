@@ -20,6 +20,10 @@
 >
 > — *Gabriel Galvan*
 
+> 🧭 **Judges:** the **[Evaluation Map](EVALUATION-MAP.md)** routes each of the 8 submission
+> requirements (code · demo video · architecture diagram · project story · datasets · accuracy ·
+> try-it-out · execution logs) to its exact evidence in this repository.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#license)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
 [![MCP tools: 72](https://img.shields.io/badge/MCP%20tools-72-green.svg)](docs/04-mcp-tools/tool-reference.md)
