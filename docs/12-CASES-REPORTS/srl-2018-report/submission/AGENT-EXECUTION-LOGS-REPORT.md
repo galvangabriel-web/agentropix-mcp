@@ -67,41 +67,45 @@ The roster is **constant**; each agent's *behavior* is **evidence-type-gated**, 
 
 ### 2.1 base-dc roster (13 agents)
 
+*Evidence citations below are JSONPaths into [`base-dc-report.json`](base-dc-report.json).*
+
 | Agent | Duty / responsibility | Findings (count + brief) | Ending state | Evidence |
 |---|---|---|---|---|
-| memory | RAM/Volatility process analysis (T1055) — MEMORY-ONLY | 1 (skip: "image is not a memory dump (disk-only)") | skipped (evidence-gated) | `base-dc-report.json:$.findings[0]._source -> "memory.skip"` |
-| timeline | Plaso/log2timeline super-timeline | 1 (WRAPPER_TIMEOUT after 5452s) | timeout (recovered → TIMELINE_GENERATED proof) | `base-dc-report.json:$.findings[1]._source -> "timeline.plaso"`; `:$.trace.tool_calls[1].duration_ms -> "5461792.98"` |
-| filesystem | TSK `fls` filesystem walk | 1 (fls timed out after 60.0s) | degraded (stable in loop) | `base-dc-report.json:$.findings[2]._source -> "filesystem.fls"` |
-| artifact | EWF/ewfinfo evidence-chain + extraction — DISK(E01)-ONLY | 2 (chain: `case=20180905-001 examiner=Clint Barton`; extract REJECTed) | stable / productive | `base-dc-report.json:$.findings[3]._source -> "artifact.ewfinfo"`; `:$.findings[4]._source -> "artifact.extract"` |
-| discovery | Host/share discovery | 0 in every iteration | **gap-0-findings (persistent)** | `base-dc-report.json:$.trace.tool_calls[138].result_summary -> "0 finding(s)"`; `:$.iterations[0].gaps -> "['discovery', 'mail']"` |
-| null_session_baseline | SMB null-session / 4624-anon baseline (Security.evtx) | 1 (0 bursts across 81 windows) | stable | `base-dc-report.json:$.findings[5]._source -> "discovery.null_session_baseline.summary"` |
-| mail | Mail/email artifact scan | 0 in every iteration | **gap-0-findings (persistent)** | `base-dc-report.json:$.trace.tool_calls[140].result_summary -> "0 finding(s)"`; `:$.iterations[0].gaps -> "['discovery', 'mail']"` |
-| yara_hunt | YARA Forge signature scan | 2 (bundle active `tag=20260505 sha256=87ee463c…`; E01-unmounted skip) | stable (graceful degrade) | `base-dc-report.json:$.findings[6]._source -> "yara_forge.bundle_active"`; `:$.findings[7]._source -> "yara_hunt.e01_unmounted_skip"` |
-| injection_detector | Process-injection detection — MEMORY-ONLY | 1 (skip: "not a memory image") | skipped (evidence-gated) | `base-dc-report.json:$.findings[8]._source -> "memory.injection.skipped"` |
-| t1546_008_accessibility_ifeo_hijack | ATT&CK T1546.008 IFEO/accessibility hijack — E01-disk-only | 2 (LEG-A blocked by Thymus REJECT) | ran / blocked-write | `base-dc-report.json:$.findings[9]._source -> "t1546_008_accessibility_ifeo_hijack.write_error"` |
-| t1059_001_iex_loopback_c2 | ATT&CK T1059.001 PowerShell IEX loopback-C2 (EID 4104) | 2 (0 hits across 999 records) | stable | `base-dc-report.json:$.findings[12]._source -> "detectors.t1059_001.summary"` |
-| t1071_001_svchost_outbound_http | ATT&CK T1071.001 svchost outbound-HTTP C2 — MEMORY-ONLY | 1 (skip: "not a memory image") | skipped (evidence-gated) | `base-dc-report.json:$.findings[13]._source -> "memory.t1071_001.skipped"` |
-| hunt | Terminal cross-agent correlation (consumes upstream findings) | 8 (`hunt.correlate` cross-source-agreement edges) | stable / terminal | `base-dc-report.json:$.findings[14]._source -> "hunt.correlate"`; `:$.trace.tool_calls[151].result_summary -> "8 finding(s)"` |
+| memory | RAM/Volatility process analysis (T1055) — MEMORY-ONLY | 1 (skip: "image is not a memory dump (disk-only)") | skipped (evidence-gated) | `$.findings[0]._source -> "memory.skip"` |
+| timeline | Plaso/log2timeline super-timeline | 1 (WRAPPER_TIMEOUT after 5452s) | timeout (recovered → TIMELINE_GENERATED proof) | `$.findings[1]._source -> "timeline.plaso"`; `:$.trace.tool_calls[1].duration_ms -> "5461792.98"` |
+| filesystem | TSK `fls` filesystem walk | 1 (fls timed out after 60.0s) | degraded (stable in loop) | `$.findings[2]._source -> "filesystem.fls"` |
+| artifact | EWF/ewfinfo evidence-chain + extraction — DISK(E01)-ONLY | 2 (chain: `case=20180905-001 examiner=Clint Barton`; extract REJECTed) | stable / productive | `$.findings[3]._source -> "artifact.ewfinfo"`; `:$.findings[4]._source -> "artifact.extract"` |
+| discovery | Host/share discovery | 0 in every iteration | **gap-0-findings (persistent)** | `$.trace.tool_calls[138].result_summary -> "0 finding(s)"`; `:$.iterations[0].gaps -> "['discovery', 'mail']"` |
+| null_session_baseline | SMB null-session / 4624-anon baseline (Security.evtx) | 1 (0 bursts across 81 windows) | stable | `$.findings[5]._source -> "discovery.null_session_baseline.summary"` |
+| mail | Mail/email artifact scan | 0 in every iteration | **gap-0-findings (persistent)** | `$.trace.tool_calls[140].result_summary -> "0 finding(s)"`; `:$.iterations[0].gaps -> "['discovery', 'mail']"` |
+| yara_hunt | YARA Forge signature scan | 2 (bundle active `tag=20260505 sha256=87ee463c…`; E01-unmounted skip) | stable (graceful degrade) | `$.findings[6]._source -> "yara_forge.bundle_active"`; `:$.findings[7]._source -> "yara_hunt.e01_unmounted_skip"` |
+| injection_detector | Process-injection detection — MEMORY-ONLY | 1 (skip: "not a memory image") | skipped (evidence-gated) | `$.findings[8]._source -> "memory.injection.skipped"` |
+| t1546_008_accessibility_ifeo_hijack | ATT&CK T1546.008 IFEO/accessibility hijack — E01-disk-only | 2 (LEG-A blocked by Thymus REJECT) | ran / blocked-write | `$.findings[9]._source -> "t1546_008_accessibility_ifeo_hijack.write_error"` |
+| t1059_001_iex_loopback_c2 | ATT&CK T1059.001 PowerShell IEX loopback-C2 (EID 4104) | 2 (0 hits across 999 records) | stable | `$.findings[12]._source -> "detectors.t1059_001.summary"` |
+| t1071_001_svchost_outbound_http | ATT&CK T1071.001 svchost outbound-HTTP C2 — MEMORY-ONLY | 1 (skip: "not a memory image") | skipped (evidence-gated) | `$.findings[13]._source -> "memory.t1071_001.skipped"` |
+| hunt | Terminal cross-agent correlation (consumes upstream findings) | 8 (`hunt.correlate` cross-source-agreement edges) | stable / terminal | `$.findings[14]._source -> "hunt.correlate"`; `:$.trace.tool_calls[151].result_summary -> "8 finding(s)"` |
 
 **Ending-state cross-check (base-dc).** 11 agents are STABLE every iteration (`base-dc-report.json:$.iterations[1].stable_agents -> "['artifact', 'filesystem', 'hunt', 'injection_detector', 'memory', 'null_session_baseline', 't1059_001_iex_loopback_c2', 't1071_001_svchost_outbound_http', 't1546_008_accessibility_ifeo_hijack', 'timeline', 'yara_hunt']"`); `discovery` and `mail` are the only persistent gaps. No agent was Critic-dropped for *bad* output — the `dropped_agents[]` list in iterations 2–5 simply reflects already-stable agents not being re-run. Completion proofs corroborate: `base-dc-report.json:$.completion_proofs[0] -> "ARTIFACTS_PARSED"` and `:$.completion_proofs[8] -> "TIMELINE_GENERATED"` (10 tokens total).
 
 ### 2.2 notch roster (same 13 agents)
 
+*Citations are JSONPaths into [`notch-report.json`](notch-report.json).*
+
 | Agent | Findings (count + brief) | Ending state | Evidence |
 |---|---|---|---|
-| memory | 1 (same disk-only skip) | skipped | `notch-report.json:$.findings[0]._source -> "memory.skip"` |
-| timeline | 0 across 5 firings (no timeline on raw image) | **gap-0-findings** | `notch-report.json:$.trace.tool_calls[1].result_summary -> "0 finding(s)"` |
-| filesystem | 1 (fls "Cannot determine file system type") | degraded / stable | `notch-report.json:$.findings[1]._source -> "filesystem.fls"` |
-| artifact | 0 across 5 firings (no EWF chain on raw) | **gap-0-findings** | `notch-report.json:$.trace.tool_calls[6].result_summary -> "0 finding(s)"` |
-| discovery | 0 every iteration | **gap-0-findings** | `notch-report.json:$.iterations[0].gaps -> "['artifact', 'discovery', 'mail', 'timeline']"` |
-| null_session_baseline | 1 (error opening Security.evtx, evtx_dump rc=1) | degraded / stable | `notch-report.json:$.findings[2]._source -> "discovery.null_session_baseline.error"` |
-| mail | 0 every iteration | **gap-0-findings** | `notch-report.json:$.trace.tool_calls[9].result_summary -> "0 finding(s)"` |
-| yara_hunt | 2 (bundle active; no scannable files under Challenge.raw) | stable | `notch-report.json:$.findings[4]._source -> "yara_hunt.empty"` |
-| injection_detector | 1 (skip: "Challenge.raw is not a memory image") | skipped | `notch-report.json:$.findings[5]._source -> "memory.injection.skipped"` |
-| t1546_008_accessibility_ifeo_hijack | 1 (skip: "Challenge.raw is not an E01 disk image") | skipped | `notch-report.json:$.findings[6]._source -> "t1546_008_accessibility_ifeo_hijack.skipped"` |
-| t1059_001_iex_loopback_c2 | 1 (error obtaining PowerShell/Operational records, rc=1) | degraded / stable | `notch-report.json:$.findings[7]._source -> "detectors.t1059_001.error"` |
-| t1071_001_svchost_outbound_http | 1 (same memory-only skip) | skipped | `notch-report.json:$.findings[8]._source -> "memory.t1071_001.skipped"` |
-| hunt | 1 (single `hunt.correlate` edge) | stable / terminal | `notch-report.json:$.findings[9]._source -> "hunt.correlate"` |
+| memory | 1 (same disk-only skip) | skipped | `$.findings[0]._source -> "memory.skip"` |
+| timeline | 0 across 5 firings (no timeline on raw image) | **gap-0-findings** | `$.trace.tool_calls[1].result_summary -> "0 finding(s)"` |
+| filesystem | 1 (fls "Cannot determine file system type") | degraded / stable | `$.findings[1]._source -> "filesystem.fls"` |
+| artifact | 0 across 5 firings (no EWF chain on raw) | **gap-0-findings** | `$.trace.tool_calls[6].result_summary -> "0 finding(s)"` |
+| discovery | 0 every iteration | **gap-0-findings** | `$.iterations[0].gaps -> "['artifact', 'discovery', 'mail', 'timeline']"` |
+| null_session_baseline | 1 (error opening Security.evtx, evtx_dump rc=1) | degraded / stable | `$.findings[2]._source -> "discovery.null_session_baseline.error"` |
+| mail | 0 every iteration | **gap-0-findings** | `$.trace.tool_calls[9].result_summary -> "0 finding(s)"` |
+| yara_hunt | 2 (bundle active; no scannable files under Challenge.raw) | stable | `$.findings[4]._source -> "yara_hunt.empty"` |
+| injection_detector | 1 (skip: "Challenge.raw is not a memory image") | skipped | `$.findings[5]._source -> "memory.injection.skipped"` |
+| t1546_008_accessibility_ifeo_hijack | 1 (skip: "Challenge.raw is not an E01 disk image") | skipped | `$.findings[6]._source -> "t1546_008_accessibility_ifeo_hijack.skipped"` |
+| t1059_001_iex_loopback_c2 | 1 (error obtaining PowerShell/Operational records, rc=1) | degraded / stable | `$.findings[7]._source -> "detectors.t1059_001.error"` |
+| t1071_001_svchost_outbound_http | 1 (same memory-only skip) | skipped | `$.findings[8]._source -> "memory.t1071_001.skipped"` |
+| hunt | 1 (single `hunt.correlate` edge) | stable / terminal | `$.findings[9]._source -> "hunt.correlate"` |
 
 **Ending-state cross-check (notch).** 9 agents stable (`notch-report.json:$.iterations[0].stable_agents -> "['filesystem', 'hunt', 'injection_detector', 'memory', 'null_session_baseline', 't1059_001_iex_loopback_c2', 't1071_001_svchost_outbound_http', 't1546_008_accessibility_ifeo_hijack', 'yara_hunt']"`); 4 gaps (`artifact`, `discovery`, `mail`, `timeline`). `artifact`+`timeline` drop out of the stable set vs base-dc precisely because the raw image yields no EWF/timeline data — corroborated by completion proofs lacking both tokens: `notch-report.json:$.completion_proofs -> "['CROSS_AGENT_CORRELATION_DONE', 'FILESYSTEM_WALKED', 'INJECTION_DETECTION_COMPLETE', 'NULL_SESSION_BASELINE_COMPLETE', 'T1059_001_IEX_LOOPBACK_SCAN_COMPLETE', 'T1071_001_SVCHOST_OUTBOUND_HTTP_COMPLETE', 'T1546_008_ACCESSIBILITY_IFEO_HIJACK_COMPLETE', 'YARA_HUNT_COMPLETE']"` (8 tokens; no `ARTIFACTS_PARSED`, no `TIMELINE_GENERATED`).
 
@@ -113,19 +117,21 @@ The roster is **constant**; each agent's *behavior* is **evidence-type-gated**, 
 
 ### 3.1 base-dc ordered, timestamped agent run-chain
 
+*Citations are JSONPaths into [`base-dc-report.json`](base-dc-report.json).*
+
 From `trace.tool_calls[]` `agent.*` rollups:
 
 | # | Agent | Rollup timestamp | Duration (ms) | Result | Citation |
 |---|---|---|---|---|---|
-| 1 | memory | 14:22:29.657678 | 0.11 | 1 finding | `base-dc-report.json:$.trace.tool_calls[0].timestamp -> "2026-06-11T14:22:29.657678+00:00"` |
-| 2 | timeline | 15:53:31.502 | 5,461,792.98 | 1 finding (timeout) | `base-dc-report.json:$.trace.tool_calls[1].duration_ms -> "5461792.98"` |
-| 3 | filesystem | 15:54:31.620964 | 60,117 | 1 finding (fls timeout) | `base-dc-report.json:$.trace.tool_calls[4].timestamp -> "2026-06-11T15:54:31.620964+00:00"` |
-| 4 | artifact | 15:54:35.623 | 4,002 | 2 findings | `base-dc-report.json:$.trace.tool_calls[6].result_summary -> "2 finding(s)"` |
-| 5 | null_session_baseline | 15:55:32.320296 | 56,696 | 1 finding | `base-dc-report.json:$.trace.tool_calls[139].timestamp -> "2026-06-11T15:55:32.320296+00:00"` |
-| 6 | yara_hunt | 15:55:33.820604 | 1,477 | 2 findings | `base-dc-report.json:$.trace.tool_calls[145].timestamp -> "2026-06-11T15:55:33.820604+00:00"` |
-| 7 | t1546_008_accessibility_ifeo_hijack | 15:55:33.829 | — | 2 findings | `base-dc-report.json:$.trace.tool_calls[147].result_summary -> "2 finding(s)"` |
-| 8 | t1059_001_iex_loopback_c2 | 15:56:32.093218 | 58,263 | 2 findings | `base-dc-report.json:$.trace.tool_calls[149].timestamp -> "2026-06-11T15:56:32.093218+00:00"` |
-| 9 | **hunt (terminal consumer)** | 15:56:32.095698 | 2.33 | **8 findings** | `base-dc-report.json:$.trace.tool_calls[151].timestamp -> "2026-06-11T15:56:32.095698+00:00"`; `:$.trace.tool_calls[151].result_summary -> "8 finding(s)"` |
+| 1 | memory | 14:22:29.657678 | 0.11 | 1 finding | `$.trace.tool_calls[0].timestamp -> "2026-06-11T14:22:29.657678+00:00"` |
+| 2 | timeline | 15:53:31.502 | 5,461,792.98 | 1 finding (timeout) | `$.trace.tool_calls[1].duration_ms -> "5461792.98"` |
+| 3 | filesystem | 15:54:31.620964 | 60,117 | 1 finding (fls timeout) | `$.trace.tool_calls[4].timestamp -> "2026-06-11T15:54:31.620964+00:00"` |
+| 4 | artifact | 15:54:35.623 | 4,002 | 2 findings | `$.trace.tool_calls[6].result_summary -> "2 finding(s)"` |
+| 5 | null_session_baseline | 15:55:32.320296 | 56,696 | 1 finding | `$.trace.tool_calls[139].timestamp -> "2026-06-11T15:55:32.320296+00:00"` |
+| 6 | yara_hunt | 15:55:33.820604 | 1,477 | 2 findings | `$.trace.tool_calls[145].timestamp -> "2026-06-11T15:55:33.820604+00:00"` |
+| 7 | t1546_008_accessibility_ifeo_hijack | 15:55:33.829 | — | 2 findings | `$.trace.tool_calls[147].result_summary -> "2 finding(s)"` |
+| 8 | t1059_001_iex_loopback_c2 | 15:56:32.093218 | 58,263 | 2 findings | `$.trace.tool_calls[149].timestamp -> "2026-06-11T15:56:32.093218+00:00"` |
+| 9 | **hunt (terminal consumer)** | 15:56:32.095698 | 2.33 | **8 findings** | `$.trace.tool_calls[151].timestamp -> "2026-06-11T15:56:32.095698+00:00"`; `:$.trace.tool_calls[151].result_summary -> "8 finding(s)"` |
 
 `hunt` runs **last** among producers; its rollup timestamp (15:56:32.095698) is strictly later than every upstream producer rollup, confirming it is the downstream consumer.
 
