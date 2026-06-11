@@ -39,12 +39,18 @@ that satisfy it, with a reading path. Statuses are honest — ✅ means committe
     [Notch It Up](case-activation/runs/challenge-notchitup/README.md).
   - [`vanko-report/findings-presentation.mp4`](docs/12-CASES-REPORTS/vanko-report/README.md) — the
     ~9-min narrated-by-slides evidence walkthrough.
+  - 🎬 [`EXECUTION-LOGS-ANIMATED.mp4`](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/EXECUTION-LOGS-ANIMATED.mp4) — the **108-second
+    Animotion-animated walkthrough** of the Agent Execution Logs package (timestamp chain with the
+    91-min wait to scale, the 61-REJECT storm, the 217 µs burst, the self-correcting plan, the seal
+    cross-bind); deterministic virtual-time render from the committed
+    [deck source](docs/12-CASES-REPORTS/srl-2018-report/submission/execution-logs-animated-deck.html) — a strong visual backbone for the
+    ≤5-minute submission cut.
 - **The self-correction sequence to show:** the Trinity iteration trace — iteration 1 runs all 13
   agents, the Critic marks 11 **stable**, iterations 2–5 re-run only the 2 still producing new
   evidence (the approach visibly changing). On film in `POC-RUN.mp4`; explained line-by-line in
   [`EXECUTION-LOG.md`](case-activation/runs/jimmy-wilson-poc/EXECUTION-LOG.md). The same
   plan-shrink narrative is documented for two further engine runs (13 → 2 and 13 → 4) in the
-  [gold report §5](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md) — grounded material for the narration script.
+  [gold report §5](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md), and **already animated scene-by-scene** in `EXECUTION-LOGS-ANIMATED.mp4` above — grounded material for the narration script.
 - ⚠️ **Pending operator action:** cut a ≤5-minute screencast **with audio narration** from this
   footage and upload to YouTube/Vimeo ≥48 h before the deadline. The committed MP4s are silent
   screen captures — narration is not yet recorded.
