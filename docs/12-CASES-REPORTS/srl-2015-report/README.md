@@ -211,6 +211,15 @@ All three cases push findings/IOCs to the **same** Wazuh evidence cluster under 
 `case_id`s, so the Discover screenshots across the three galleries can be correlated by index
 pattern (`agentropix-*`) and case filter.
 
+## 🎬 The execution-logs animation
+
+[![SRL-2015 execution logs animated — poster (click to play in your browser)](execution-logs-srl2015-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2015-report/watch-execution-logs.html)
+
+> ▶ *The poster links to the **auto-playing GitHub Pages player**; or*
+> ***[download the MP4 (1.2 MB, 2 min 24 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/srl-2015-report/EXECUTION-LOGS-SRL2015-ANIMATED.mp4)***
+> *— 4 hosts, 8 sealed runs, the 13-agent chain, 15-iteration traces, and the cross-host APT reveal,
+> animated from [`AGENT-EXECUTION-LOGS-REPORT-SRL2015.md`](AGENT-EXECUTION-LOGS-REPORT-SRL2015.md).*
+
 ## 🎬 The investigation replay
 
 [![SRL-2015 investigation replay (animated GIF — click for the MP4)](video/SRL-2015-investigation.gif)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2015-report/video/SRL-2015-investigation-web.mp4)

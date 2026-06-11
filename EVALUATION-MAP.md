@@ -154,7 +154,8 @@ The story sections map onto committed pages — assemble the Devpost text from t
   findings, **15-iteration** persistent loops): roster chain recreation, timestamped A2A message
   log, iteration deltas, **cross-host APT correlation** (the spinlock.exe implant traced
   workstation → Domain Controller), inline Thymus trails and a verified-absence GAP register —
-  82 claims, all `[host/modality $.jsonpath = value]` cited.
+  82 claims, all `[host/modality $.jsonpath = value]` cited — with its own
+  [2 min 24 s animated walkthrough](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2015-report/watch-execution-logs.html) (auto-plays).
 - **Persistent-loop trace (iteration-over-iteration, approach changing):**
   [`EXECUTION-LOG.md`](case-activation/runs/jimmy-wilson-poc/EXECUTION-LOG.md) — tool execution log
   with timestamps + durations, the Trinity trace (13 agents → 2 after the Critic marks 11 stable),

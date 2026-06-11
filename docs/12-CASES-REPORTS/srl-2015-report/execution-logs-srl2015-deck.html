@@ -1,0 +1,353 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+@keyframes animotion-fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animotion-fade-in { animation: animotion-fadeIn 0.6s ease-out both; }
+
+@keyframes animotion-fadeInLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+
+.animotion-fade-in-left { animation: animotion-fadeInLeft 0.6s ease-out both; }
+
+@keyframes animotion-fadeInLeftBig { from { opacity: 0; transform: translateX(-200px); } to { opacity: 1; transform: translateX(0); } }
+
+.animotion-fade-in-left-big { animation: animotion-fadeInLeftBig 0.8s ease-out both; }
+
+@keyframes animotion-zoomIn { from { opacity: 0; transform: scale(0.3); } to { opacity: 1; transform: scale(1); } }
+
+.animotion-zoom-in { animation: animotion-zoomIn 0.5s ease-out both; }
+
+@keyframes animotion-zoomInLeft { from { opacity: 0; transform: scale(0.1) translateX(-1000px); } 60% { opacity: 1; transform: scale(0.475) translateX(10px); } to { transform: scale(1) translateX(0); } }
+
+.animotion-zoom-in-left { animation: animotion-zoomInLeft 0.6s cubic-bezier(0.55, 0.055, 0.675, 0.19) both; }
+
+@keyframes animotion-bounceIn { 0% { opacity: 0; transform: scale(0.3); } 20% { transform: scale(1.1); } 40% { transform: scale(0.9); } 60% { opacity: 1; transform: scale(1.03); } 80% { transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+
+.animotion-bounce-in { animation: animotion-bounceIn 0.75s cubic-bezier(0.215, 0.61, 0.355, 1) both; }
+
+@keyframes animotion-jackInTheBox { 0% { opacity: 0; transform: scale(0.1) rotate(30deg); transform-origin: center bottom; } 50% { transform: rotate(-10deg); } 70% { transform: rotate(3deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+
+.animotion-jack-in-the-box { animation: animotion-jackInTheBox 0.8s ease both; }
+
+@keyframes animotion-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } to { transform: scale(1); } }
+
+.animotion-pulse { animation: animotion-pulse 1s ease-in-out infinite; }
+
+@keyframes animotion-shakeX { 0%, to { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); } 20%, 40%, 60%, 80% { transform: translateX(10px); } }
+
+.animotion-shake-x { animation: animotion-shakeX 0.8s ease-in-out both; }
+
+@keyframes animotion-typewriter { from { width: 0; } to { width: 100%; } }
+
+.animotion-typewriter { animation: animotion-typewriter 2s steps(30, end) both; overflow: hidden; white-space: nowrap; border-right: 2px solid; }
+@keyframes vt-tick { from { opacity:0.01 } to { opacity:0.02 } }
+.vt-ticker { position:fixed; bottom:0; right:0; width:2px; height:2px; background:#0d1117; animation:vt-tick 0.12s infinite alternate; }
+* { box-sizing:border-box; margin:0; padding:0; }
+html,body { width:1600px; height:900px; overflow:hidden; background:#0d1117; color:#e6edf3; font-family:'DejaVu Sans',system-ui,sans-serif; }
+.scene { position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; padding:50px 70px; text-align:center; }
+.scene.on { display:flex; }
+h1 { font-size:54px; margin-bottom:16px; } h2 { font-size:38px; margin-bottom:24px; }
+.sub { font-size:23px; color:#8b949e; } .big { font-size:40px; font-weight:bold; }
+.kicker { font-size:18px; letter-spacing:4px; color:#d29922; text-transform:uppercase; margin-bottom:22px; }
+.reqnum { font-size:16px; letter-spacing:5px; color:#f85149; margin-bottom:10px; }
+.cards { display:flex; gap:40px; margin-top:20px; justify-content:center; }
+.card { background:#161b22; border:2px solid #30363d; border-radius:16px; padding:26px 30px; }
+.card h3 { font-size:26px; margin-bottom:8px; }
+.blue { color:#58a6ff } .green { color:#3fb950 } .red { color:#f85149 } .amber { color:#d29922 } .purple { color:#bc8cff }
+.chain { display:flex; flex-direction:column; gap:10px; align-items:flex-start; margin-top:14px; }
+.ev { display:flex; align-items:center; gap:16px; background:#161b22; border-left:6px solid #30363d; border-radius:8px; padding:12px 22px; font-size:22px; }
+.ev .t { font-family:monospace; color:#8b949e; width:150px; text-align:left; }
+.ev.ok { border-color:#3fb950 } .ev.hunt { border-color:#d29922 }
+.waitbar { height:26px; background:linear-gradient(90deg,#f85149,#da3633); border-radius:13px; width:0; transition:width 6s linear; }
+.chips { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:20px; max-width:1340px; }
+.chip { background:#161b22; border:2px solid #58a6ff; border-radius:24px; padding:10px 22px; font-size:21px; }
+.chip.gap { border-color:#f85149; background:#2d1214 }
+.counter { font-size:84px; font-weight:bold; font-family:monospace; }
+.leftcol { text-align:left; line-height:1.7; }
+.leftcol ul { list-style:none } .leftcol li { margin-bottom:14px; padding-left:28px; position:relative }
+.leftcol li:before { content:"▸"; position:absolute; left:0; color:#d29922 }
+.hidden { opacity:0 }
+.d1 { animation-delay:.3s } .d2 { animation-delay:.9s } .d3 { animation-delay:1.5s } .d4 { animation-delay:2.1s } .d5 { animation-delay:2.7s }
+.fill-back { animation-fill-mode:backwards }
+</style></head><body><div class="vt-ticker"></div>
+<div class="scene on" id="s1">
+  <div class="kicker animotion-fade-in fill-back">srl-2015 · agent execution logs</div>
+  <h1 class="animotion-zoom-in fill-back d1" style="font-size:64px">4 hosts. 8 sealed runs.<br/>One APT campaign.</h1>
+  <div class="sub animotion-fade-in fill-back d3">a multi-agent forensic swarm, replayed from its own sealed records</div>
+</div>
+<div class="scene" id="s2">
+  <h2 class="animotion-fade-in fill-back"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:40px;height:40px;color:#58a6ff" 
+  class="lucide lucide-cpu"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 20v2" />
+  <path d="M12 2v2" />
+  <path d="M17 20v2" />
+  <path d="M17 2v2" />
+  <path d="M2 12h2" />
+  <path d="M2 17h2" />
+  <path d="M2 7h2" />
+  <path d="M20 12h2" />
+  <path d="M20 17h2" />
+  <path d="M20 7h2" />
+  <path d="M7 20v2" />
+  <path d="M7 2v2" />
+  <rect x="4" y="4" width="16" height="16" rx="2" />
+  <rect x="8" y="8" width="8" height="8" rx="1" />
+</svg> The estate — disk + memory, every host</h2>
+  <div class="chips" style="gap:22px">
+    <div class="card animotion-fade-in-left fill-back d1" style="width:330px;border-color:#bc8cff"><h3 class="purple">win2008R2-controller</h3><div class="sub">DOMAIN CONTROLLER</div><div class="big">196 + 512</div></div>
+    <div class="card animotion-fade-in-left fill-back d2" style="width:300px"><h3 class="blue">win7-64-nfury</h3><div class="sub">workstation</div><div class="big">484 + 432</div></div>
+    <div class="card animotion-fade-in-left fill-back d3" style="width:300px"><h3 class="blue">win7-32-nromanoff</h3><div class="sub">workstation</div><div class="big">250 + 10</div></div>
+    <div class="card animotion-fade-in-left fill-back d4" style="width:300px"><h3 class="blue">xp-tdungan</h3><div class="sub">workstation</div><div class="big">339 + 10</div></div>
+  </div>
+  <div style="margin-top:30px" class="animotion-fade-in fill-back d5"><span class="counter green" id="total">0</span><span class="sub"> sealed findings · 8 independent runs · 8 distinct evidence SHA-256</span></div>
+</div>
+<div class="scene" id="s3">
+  <h2 class="animotion-fade-in fill-back"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:40px;height:40px;color:#3fb950" 
+  class="lucide lucide-bot"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 8V4H8" />
+  <rect width="16" height="12" x="4" y="8" rx="2" />
+  <path d="M2 14h2" />
+  <path d="M20 14h2" />
+  <path d="M15 13v2" />
+  <path d="M9 13v2" />
+</svg> One roster, byte-identical, ×8</h2>
+  <div class="chips" id="roster"></div>
+  <div class="sub animotion-fade-in fill-back" style="margin-top:26px;animation-delay:5.5s">the same 13-agent plan on every host, every modality — differences are <b>outcome-driven</b>, never configured</div>
+</div>
+<div class="scene" id="s4">
+  <h2 class="animotion-fade-in fill-back"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:40px;height:40px;color:#d29922" 
+  class="lucide lucide-clock"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 6v6l4 2" />
+</svg> The controller-disk chain — a 106-minute long-pole</h2>
+  <div class="chain">
+    <div class="ev ok animotion-fade-in-left fill-back d1" style="opacity:1"><span class="t">14:07:03</span> agent.memory — legitimate skip (disk image), first blackboard finding</div>
+    <div style="display:flex;align-items:center;gap:18px;width:980px" class="animotion-fade-in fill-back d2"><div class="waitbar" id="wait"></div><span class="red" style="font-size:22px;white-space:nowrap">timeline: 6,357,748 ms ≈ 106 min</span></div>
+    <div class="ev ok animotion-fade-in-left fill-back d3" style="opacity:1"><span class="t">15:53:01</span> agent.timeline lands — then the floodgates open</div>
+    <div class="ev ok animotion-fade-in-left fill-back d4" style="opacity:1"><span class="t">15:53:49</span> filesystem: 33 findings (mcp.fls walked <b>204,884</b> entries, exit 0)</div>
+    <div class="ev ok animotion-fade-in-left fill-back d5" style="opacity:1"><span class="t">15:55:24</span> artifact: 146 findings — the biggest producer</div>
+    <div class="ev hunt animotion-fade-in-left fill-back d6" style="opacity:1"><span class="t">15:56:17</span> detector wave → hunt fan-in closes the chain</div>
+  </div>
+</div>
+<div class="scene" id="s5">
+  <h2 class="animotion-fade-in fill-back"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:40px;height:40px;color:#d29922" 
+  class="lucide lucide-timer"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <line x1="10" x2="14" y1="2" y2="2" />
+  <line x1="12" x2="15" y1="14" y2="11" />
+  <circle cx="12" cy="14" r="8" />
+</svg> The correlation bursts</h2>
+  <div class="cards">
+    <div class="card animotion-zoom-in fill-back d1" style="width:460px;border-color:#d29922"><h3 class="amber">controller</h3><div class="big">10 correlations</div><div class="sub">in <b class="amber">0.56 ms</b> · 15:56:17.472631 → .473188</div></div>
+    <div class="card animotion-zoom-in fill-back d3" style="width:460px;border-color:#d29922"><h3 class="amber">nfury</h3><div class="big">41 correlations</div><div class="sub">in <b class="amber">5.4 ms</b> · strongest: 4 agents agree on “beacon” @ 0.95</div></div>
+  </div>
+  <div class="sub animotion-fade-in fill-back d5" style="margin-top:26px">publish-then-rollup on the blackboard — every burst lands <i>before</i> its agent rollup timestamp</div>
+</div>
+<div class="scene" id="s6">
+  <h2 class="animotion-fade-in fill-back"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:40px;height:40px;color:#3fb950" 
+  class="lucide lucide-git-branch"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M15 6a9 9 0 0 0-9 9V3" />
+  <circle cx="18" cy="6" r="3" />
+  <circle cx="6" cy="18" r="3" />
+</svg> 15 iterations — honest to the end</h2>
+  <div class="chips" id="iters"></div>
+  <div class="sub hidden" id="iterN" style="margin-top:24px">plans collapse after round 1 (nfury 13 → 2 · controller 13 → 3, its yara_hunt never stabilized)<br/>
+  <b class="red">discovery + mail: commissioned ×15, re-planned ×14, zero findings — case-wide</b><br/>
+  critic pinned at 1.0, should_halt never fired → <b class="amber">budget_exhausted</b>, the honest ending</div>
+</div>
+<div class="scene" id="s7">
+  <h2 class="animotion-zoom-in fill-back" style="font-size:48px">Then the correlator looked<br/><span class="red">ACROSS the hosts…</span></h2>
+</div>
+<div class="scene" id="s8">
+  <div class="reqnum animotion-fade-in fill-back">CROSS-HOST · CONFIRMED</div>
+  <h2 class="animotion-fade-in fill-back"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:40px;height:40px;color:#f85149" 
+  class="lucide lucide-zap"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
+</svg> spinlock.exe — the implant that reached the DC</h2>
+  <div class="chips" style="gap:30px;margin-top:30px">
+    <div class="card animotion-fade-in-left fill-back d1" style="width:360px;border-color:#f85149"><h3>xp-tdungan</h3><div class="sub"><b class="red">EXECUTED</b> — prefetch run count 4</div></div>
+    <div style="font-size:42px" class="red animotion-fade-in fill-back d2">⟶</div>
+    <div class="card animotion-fade-in-left fill-back d3" style="width:360px;border-color:#f85149"><h3>win7-64-nfury</h3><div class="sub">persisted — scheduled task <b>At1</b></div></div>
+    <div style="font-size:42px" class="red animotion-fade-in fill-back d4">⟶</div>
+    <div class="card animotion-jack-in-the-box fill-back d5" style="width:380px;border-color:#bc8cff"><h3 class="purple">DOMAIN CONTROLLER</h3><div class="sub">same binary, task <b>At2</b> — <b class="red">byte-identical args</b></div></div>
+  </div>
+  <div class="sub animotion-fade-in fill-back" style="margin-top:28px;animation-delay:7s">one implant, three hosts — cited to $.findings on each image</div>
+</div>
+<div class="scene" id="s9">
+  <div class="reqnum animotion-fade-in fill-back">CROSS-HOST · CONFIRMED</div>
+  <h2 class="animotion-fade-in fill-back"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:40px;height:40px;color:#f85149" 
+  class="lucide lucide-network"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect x="16" y="16" width="6" height="6" rx="1" />
+  <rect x="2" y="16" width="6" height="6" rx="1" />
+  <rect x="9" y="2" width="6" height="6" rx="1" />
+  <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" />
+  <path d="M12 12V8" />
+</svg> The campaign toolkit, host by host</h2>
+  <div class="leftcol animotion-fade-in fill-back d2" style="width:1000px;font-size:24px">
+  <ul>
+  <li><b>AdobeCollabSync.exe</b> — staged in the filesystem root of <b class="red">ALL FOUR</b> disk images</li>
+  <li><b>beacon[1].js</b> — identical dropper on all three workstations</li>
+  <li><b>fake svchost.exe</b> at <span class="amber">c:\windows\system32\dllhost\</span> — tasked on nfury, executed ×6 on xp (masquerade)</li>
+  <li><b>nfury anti-forensics:</b> 163 timestomp findings — impossible datetime <b class="red">2669-03-11</b></li>
+  </ul></div>
+</div>
+<div class="scene" id="s10">
+  <div class="reqnum animotion-fade-in fill-back">THE PIVOT</div>
+  <h2 class="animotion-fade-in fill-back"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:40px;height:40px;color:#f85149" 
+  class="lucide lucide-key-round"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
+  <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
+</svg> Credentials — dumped ON the Domain Controller</h2>
+  <div class="leftcol animotion-fade-in fill-back d2" style="width:1000px;font-size:24px">
+  <ul>
+  <li><b>T1003.002 credential dumping</b> on <b>every</b> disk image: 101 · 99 · 100 · 100 hits</li>
+  <li><b class="red">procdump.exe on the DC's disk root</b> — an allocated copy <i>and</i> a deleted trace</li>
+  <li><b>Memory corroborates:</b> live SAM NTLM hashes from nfury RAM — incl. non-default <span class="amber">SRL-Helpdesk (rid 1001)</span> — and from the DC's own memory</li>
+  <li>Anonymous-logon IPC$ bursts against the DC: <b>z-score 6.10</b> vs live baseline</li>
+  </ul></div>
+</div>
+<div class="scene" id="s11">
+  <h2 class="animotion-fade-in fill-back"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:40px;height:40px;color:#bc8cff" 
+  class="lucide lucide-lock"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+</svg> Sealed, gated, and honest about its gaps</h2>
+  <div class="leftcol animotion-fade-in fill-back d2" style="width:1040px;font-size:24px">
+  <ul>
+  <li><b>8 distinct evidence SHA-256 · 8 report seals · 8 audit seals</b> — no image counted twice</li>
+  <li><b>Thymus trail inline:</b> 158+234+242+72+… decisions — <b class="green">every action ALLOW</b>, scratch paths gated too</li>
+  <li><b>Honest failure preserved:</b> controller log2timeline exit 1 — the error output itself hashed into the record</li>
+  <li><b class="amber">GAP REGISTER:</b> nromanoff has no run log — recorded as a verified absence, <i>nothing fabricated</i></li>
+  </ul></div>
+</div>
+<div class="scene" id="s12">
+  <div class="animotion-zoom-in fill-back"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:84px;height:84px;color:#3fb950" 
+  class="lucide lucide-circle-check"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <path d="m9 12 2 2 4-4" />
+</svg></div>
+  <h2 class="animotion-fade-in fill-back d1">2,233 findings · 8 seals · 82 cited proofs</h2>
+  <div class="sub animotion-fade-in fill-back d2" style="font-size:26px">every claim: <b class="amber">[host/modality $.jsonpath = verbatim value]</b></div>
+  <div class="sub animotion-fade-in fill-back d4" style="margin-top:22px">AGENT-EXECUTION-LOGS-REPORT-SRL2015.md · docs/12-CASES-REPORTS/srl-2015-report/<br/>honesty valued over perfection</div>
+</div>
+<script>
+const SCENES=[["s1", 8000], ["s2", 13000], ["s3", 12000], ["s4", 15000], ["s5", 12000], ["s6", 14000], ["s7", 6000], ["s8", 15000], ["s9", 13000], ["s10", 13000], ["s11", 13000], ["s12", 10000]];
+function show(id){document.querySelectorAll('.scene').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');}
+function counterTo(el,t_,ms){const t0=performance.now();function st(t){const k=Math.min(1,(t-t0)/ms);el.textContent=Math.round(k*t_).toLocaleString();if(k<1)requestAnimationFrame(st);}requestAnimationFrame(st);}
+const hooks={
+ s2(){setTimeout(()=>counterTo(document.getElementById('total'),2233,4500),3000);},
+ s3(){const ag=["memory","timeline","filesystem","artifact","discovery","null_session_baseline","mail","yara_hunt","injection_detector","t1546_008","t1059_001","t1071_001","hunt"];const r=document.getElementById('roster');ag.forEach((n,i)=>{const c=document.createElement('div');c.className='chip animotion-bounce-in fill-back';c.style.animationDelay=(0.3+i*0.32)+'s';c.textContent=n;r.appendChild(c);});},
+ s4(){setTimeout(()=>{document.getElementById('wait').style.width='640px';},1500);},
+ s6(){const it=document.getElementById('iters');for(let i=1;i<=15;i++){const c=document.createElement('div');c.className='chip animotion-fade-in fill-back';c.style.animationDelay=(0.3+i*0.22)+'s';c.textContent='iter '+i+(i===1?' · 13 agents':' · gaps only');if(i>1)c.classList.add('gap');it.appendChild(c);}setTimeout(()=>{const n=document.getElementById('iterN');n.classList.remove('hidden');n.classList.add('animotion-fade-in');},4800);}
+};
+let idx=0;
+function next(){if(idx>=SCENES.length){document.title='DONE';return;}const[id,dur]=SCENES[idx++];show(id);if(hooks[id])hooks[id]();setTimeout(next,dur);}
+window.__start=next;
+</script></body></html>

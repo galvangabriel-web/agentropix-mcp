@@ -6,6 +6,11 @@
 > **Determinism frame:** the LLM is the Layer-1 orchestrator ONLY; every fact below originates from a deterministic MCP tool call and is cited to its exact file location (`inference_constraint="high"` in all 8 reports).
 > **Provenance of this report:** produced by a multi-agent workflow (run `wf_a4ab37c9-dbc`): an on-the-fly prompt-optimizer agent rewrote the task spec, 5 parallel extractor agents pulled the evidence below (82 cited items), and final assembly was rendered deterministically from their journaled, schema-validated outputs.
 
+> 🎬 **Watch it instead:** the [**2 min 24 s animated walkthrough**](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2015-report/watch-execution-logs.html)
+> (auto-plays) — the estate, the 106-minute long-pole, the correlation bursts, the 15-iteration
+> honest ending, and the cross-host spinlock.exe → Domain-Controller reveal, all drawn from the
+> sealed data below ([deck source](execution-logs-srl2015-deck.html)).
+
 ## Optimizer note — how this report's structure was generated
 The report spec was produced at runtime by a prompt-optimizer agent that read the real files first. Its key improvements over the raw request:
 - Verified scale against the real files instead of trusting the headline figures: confirmed controller disk 196/219, controller memory 512/84, nfury disk 484/292 & memory 432/84, nromanoff disk 250/280 & memory 10/160, xp disk 339/144 & memory 10/160 — and flagged that several upstream headline numbers (e.g. xp disk tool_calls, controller memory tool_calls) drift, so the prompt pins verified counts.
