@@ -11,6 +11,11 @@
 
 ### 1.1 Development Gantt — Release Trajectory & Critical Path
 
+![Development Gantt — release trajectory & critical path](assets/roadmap-gantt.png)
+
+<details>
+<summary>Mermaid source (rendered above as PNG for guaranteed display)</summary>
+
 ```mermaid
 gantt
     title Agentropix-SIFT — Release Trajectory (2026)
@@ -55,11 +60,18 @@ gantt
     Audit-log seal hardening (ADR-022)          :f4, after ga, 7d
 ```
 
+</details>
+
 **Critical path (red):** `W-082 raw_stdout_sha256 → gitleaks CI → GA readiness/sign-off → v0.1.0 GA`. Everything that gates court-defensibility (evidence hashing, secret leakage, sign-off) sits on this chain; detector depth and cloud identity are parallelizable off it.
 
 ---
 
 ### 1.2 System Lifecycle — Orchestration, Thread Taxonomy & Apoptosis
+
+![System lifecycle — orchestration, thread taxonomy & apoptosis](assets/roadmap-lifecycle.png)
+
+<details>
+<summary>Mermaid source (rendered above as PNG for guaranteed display)</summary>
 
 ```mermaid
 stateDiagram-v2
@@ -111,6 +123,8 @@ stateDiagram-v2
 
     Apoptosis --> [*] : JSON report -> stdout / Telegram / file
 ```
+
+</details>
 
 **Reading the diagram:** the **StemCell Niche** differentiates a worker and grants a **Telomere Budget** (ATP ceiling). The **Base Thread** clears the **Thymus** read-only gate, then runs the **Trinity / ralph-loop**: **P-Thread** (Architect plan) → **F-Threads** (7 forensic swarm agents) → **B-Thread** (Blackboard correlation) → **C-Thread** (Critic scoring) → **L-Thread** (Hippocampus lineage). The supervisor `/bmad:verify` step is the deterministic halt gate; **Apoptosis** fires on convergence (`score ≥ 0.85`), idempotence, or budget exhaustion, then seals the audit ledger and emits the report.
 
