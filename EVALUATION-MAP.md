@@ -48,6 +48,10 @@ that satisfy it, with a reading path. Statuses are honest — ✅ means committe
     Submission Evidence Tour** (auto-plays): one animated scene per requirement 1–8 with a
     live-captured REAL-PROOF panel each, plus the Built-With tags — an end-to-end visual summary
     of this entire map ([deck source + proof captures](assets/submission-tour/)).
+  - 🎬 [`EXECUTION-LOGS-SRL2015-ANIMATED.mp4`](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2015-report/watch-execution-logs.html) — the
+    **144-second SRL-2015 multi-host animation** (auto-plays): 4 hosts × disk+memory, 8 sealed
+    runs, the 106-minute long-pole to scale, 15-iteration honest traces, and the cross-host
+    spinlock.exe → Domain-Controller reveal ([deck source](docs/12-CASES-REPORTS/srl-2015-report/execution-logs-srl2015-deck.html)).
   - 🎬 [`EXECUTION-LOGS-ANIMATED.mp4`](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/watch.html) — the **108-second
     Animotion-animated walkthrough** of the Agent Execution Logs package (timestamp chain with the
     91-min wait to scale, the 61-REJECT storm, the 217 µs burst, the self-correcting plan, the seal
