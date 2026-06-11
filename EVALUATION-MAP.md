@@ -44,6 +44,10 @@ that satisfy it, with a reading path. Statuses are honest — ✅ means committe
     [Notch It Up](case-activation/runs/challenge-notchitup/README.md).
   - [`vanko-report/findings-presentation.mp4`](docs/12-CASES-REPORTS/vanko-report/README.md) — the
     ~9-min narrated-by-slides evidence walkthrough.
+  - 🧭 [`SUBMISSION-TOUR.mp4`](https://galvangabriel-web.github.io/agentropix-mcp/assets/submission-tour/watch-tour.html) — the **144-second
+    Submission Evidence Tour** (auto-plays): one animated scene per requirement 1–8 with a
+    live-captured REAL-PROOF panel each, plus the Built-With tags — an end-to-end visual summary
+    of this entire map ([deck source + proof captures](assets/submission-tour/)).
   - 🎬 [`EXECUTION-LOGS-ANIMATED.mp4`](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/watch.html) — the **108-second
     Animotion-animated walkthrough** of the Agent Execution Logs package (timestamp chain with the
     91-min wait to scale, the 61-REJECT storm, the 217 µs burst, the self-correcting plan, the seal
