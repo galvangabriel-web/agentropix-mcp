@@ -1,0 +1,1201 @@
+{
+  "version": "0.2.0-dev",
+  "image": "/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd",
+  "max_iterations": 5,
+  "iterations_completed": 5,
+  "status": "budget_exhausted",
+  "findings": [
+    {
+      "_source": "memory.skip",
+      "confidence": 0.0,
+      "description": "MemoryAgent skipped: image is not a memory dump (disk-only). Volatility plugins require RAM capture; T1055 disk-side coverage is provided by the AppData-staging detector in TimelineAgent (W-067).",
+      "evidence": "image=/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd suffix=.dd",
+      "timestamp": "2026-06-10T23:48:42.464282+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "memory"
+    },
+    {
+      "_source": "discovery.null_session_baseline.error",
+      "confidence": 0.0,
+      "description": "NullSessionBaselineAgent failed to read Security.evtx: evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[EB, 3C, 90, 6D, 6B, 64, 6F, 73]`\n",
+      "evidence": "image=/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd error=evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[EB, 3C, 90, 6D, 6B, 64, 6F, 73]`\n",
+      "timestamp": "2026-06-10T23:48:56.737055+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "null_session_baseline"
+    },
+    {
+      "_source": "yara_forge.bundle_active",
+      "confidence": 0.0,
+      "description": "YARA Forge bundle active: tag=20260505 sha256=87ee463c13d49084...",
+      "evidence": "tag=20260505 sha256=87ee463c13d490842f36eba5ca03a2ed090b78f3fed0eef78ff7e74065191494 path=yara/forge/CURRENT/yara-forge-rules-core.yar fp_threshold=75",
+      "evidence_dict": {
+        "tag": "20260505",
+        "sha256": "87ee463c13d490842f36eba5ca03a2ed090b78f3fed0eef78ff7e74065191494",
+        "source_url": "https://github.com/YARAHQ/yara-forge",
+        "fp_threshold": 75,
+        "license_allowlist": null
+      },
+      "timestamp": "2026-06-10T23:48:58.997740+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "yara_hunt"
+    },
+    {
+      "_source": "yara_hunt.empty",
+      "confidence": 0.2,
+      "description": "YARAHuntAgent found no scannable files under /cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd",
+      "evidence": "scan_root=/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd",
+      "timestamp": "2026-06-10T23:48:58.997872+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "yara_hunt"
+    },
+    {
+      "_source": "memory.injection.skipped",
+      "confidence": 0.0,
+      "description": "InjectionDetector skipped: RHINOUSB.dd is not a memory image",
+      "evidence": "image=/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd reason=non_memory_image",
+      "timestamp": "2026-06-10T23:48:59.008146+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "injection_detector"
+    },
+    {
+      "_source": "t1546_008_accessibility_ifeo_hijack.skipped",
+      "confidence": 0.0,
+      "description": "AccessibilityIfeoHijackDetector skipped: RHINOUSB.dd is not an E01 disk image",
+      "evidence": "image=/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd reason=non_e01_image",
+      "timestamp": "2026-06-10T23:48:59.013645+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "t1546_008_accessibility_ifeo_hijack"
+    },
+    {
+      "_source": "detectors.t1059_001.error",
+      "confidence": 0.0,
+      "description": "T1059.001 detector failed to obtain PowerShell/Operational records: evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[EB, 3C, 90, 6D, 6B, 64, 6F, 73]`\n",
+      "evidence": "image=/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd error=RuntimeError: evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[EB, 3C, 90, 6D, 6B, 64, 6F, 73]`\n",
+      "timestamp": "2026-06-10T23:48:59.017561+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "t1059_001_iex_loopback_c2"
+    },
+    {
+      "_source": "memory.t1071_001.skipped",
+      "confidence": 0.0,
+      "description": "T1071SvchostOutboundHttpDetector skipped: RHINOUSB.dd is not a memory image",
+      "evidence": "image=/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd reason=non_memory_image",
+      "timestamp": "2026-06-10T23:48:59.017720+00:00",
+      "mitre_attack": "T1071.001",
+      "related_findings": [],
+      "agent": "t1071_001_svchost_outbound_http"
+    },
+    {
+      "_source": "hunt.correlate",
+      "confidence": 0.30000000000000004,
+      "description": "Cross-source agreement: 'found' flagged by 3 agents (null_session_baseline, t1059_001_iex_loopback_c2, yara_hunt)",
+      "evidence": "token=found agents=['null_session_baseline', 't1059_001_iex_loopback_c2', 'yara_hunt'] findings=3",
+      "timestamp": "2026-06-10T23:48:59.019624+00:00",
+      "mitre_attack": "",
+      "related_findings": [
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "yara_hunt"
+      ],
+      "agent": "hunt"
+    }
+  ],
+  "trace": {
+    "tool_calls": [
+      {
+        "tool": "agent.memory",
+        "timestamp": "2026-06-10T23:48:42.464385+00:00",
+        "duration_ms": 0.14,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T23:48:56.614001+00:00",
+        "duration_ms": 14148.57,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T23:48:56.613789+00:00",
+        "duration_ms": 14148.0,
+        "result_summary": "ok",
+        "args_hash": "6bfa8ccd30494877",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-qlm9c9l1/timeline.plaso\",\"raw_stderr\":\"2026-06-10 23:48:44,434 [INFO] (MainProcess) PID:1933463 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"cd0cad9ce644f840ae2a76b1eb6dd94553ae1d09aa31e2daad9fcef461229d6c\"}",
+        "output_hash": "fbe1f9e88555f679e88a43f435692731f33d6cb18b0c71e74bd34b25f3123f8e"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T23:48:56.613907+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": false,
+            "cap": 0,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-06-10T23:48:56.733186+00:00",
+        "duration_ms": 119.15,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-06-10T23:48:56.733082+00:00",
+        "duration_ms": 118.72,
+        "result_summary": "ok",
+        "args_hash": "d9883d6bc8dd82a9",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd\",\"offset\":0,\"entry_count\":6,\"entries\":[{\"entry_type\":\"r\",\"allocated\":true,\"inode\":\"4\",\"name\":\"gumbo1.txt\",\"full_path\":\"/gumbo1.txt\",\"modified_time\":\"2004-04-30 18:11:20 (UTC)\",\"accessed_time\":\"2004-04-30 00:00:00 (UTC)\",\"size\":2815},{\"entry_type\":\"r\",\"allocated\":true,\"inode\":\"6\",\"name\":\"gumbo2.txt\",\"full_path\":\"/gumbo2.txt\",\"modified_time\":\"2004-04-30 18:11:24 (UTC)\",\"accessed_time\":\"2004-04-30 00:00:00 (UTC)\",\"size\":1293},{\"entry_type\":\"v\",\"allocated\":true,\"inode\":\"8101619\",\"name\":\"$MBR\",\"full_path\":\"/$MBR\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":512},{\"entry_type\":\"v\",\"allocated\":true,\"inode\":\"8101620\",\"name\":\"$FAT1\",\"full_path\":\"/$FAT1\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":126976},{\"entry_type\":\"v\",\"allocated\":true,\"inode\":\"8101621\",\"name\":\"$FAT2\",\"full_path\":\"/$FAT2\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":126976},{\"entry_type\":\"V\",\"allocated\":true,\"inode\":\"8101622\",\"name\":\"$OrphanFiles\",\"full_path\":\"/$OrphanFiles\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":0}],\"tool\":\"sleuthkit.fls\",\"raw_stderr\":\"\",\"raw_stdout_sha256\":\"31d1029da5b697d8806a3169ff27ccb6ff86d9c8347e7fbf79f66a08cbd57c1e\",\"summary_only\":false}",
+        "output_hash": "401907a9e147a885c0c6b31662f91aed91cd358cb0ac1049ea59ce395d2c9173"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T23:48:56.733268+00:00",
+        "duration_ms": 0.06,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T23:48:56.733407+00:00",
+        "duration_ms": 0.12,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.null_session_baseline",
+        "timestamp": "2026-06-10T23:48:56.737246+00:00",
+        "duration_ms": 3.81,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T23:48:56.740915+00:00",
+        "duration_ms": 3.64,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:48:56.738869+00:00",
+        "duration_ms": 1.02,
+        "result_summary": "ok",
+        "args_hash": "b94400486d1ba11b",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:48:56.739370+00:00",
+        "duration_ms": 0.41,
+        "result_summary": "ok",
+        "args_hash": "38ad36f07418ea25",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:48:56.739885+00:00",
+        "duration_ms": 0.45,
+        "result_summary": "ok",
+        "args_hash": "8c0b1249b0c2b593",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:48:56.740347+00:00",
+        "duration_ms": 0.37,
+        "result_summary": "ok",
+        "args_hash": "ab6b484ff35796a7",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.yara_hunt",
+        "timestamp": "2026-06-10T23:48:59.008019+00:00",
+        "duration_ms": 2267.07,
+        "result_summary": "2 finding(s)"
+      },
+      {
+        "tool": "agent.injection_detector",
+        "timestamp": "2026-06-10T23:48:59.013563+00:00",
+        "duration_ms": 5.48,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.t1546_008_accessibility_ifeo_hijack",
+        "timestamp": "2026-06-10T23:48:59.013677+00:00",
+        "duration_ms": 0.08,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.t1059_001_iex_loopback_c2",
+        "timestamp": "2026-06-10T23:48:59.017642+00:00",
+        "duration_ms": 3.94,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.t1071_001_svchost_outbound_http",
+        "timestamp": "2026-06-10T23:48:59.017764+00:00",
+        "duration_ms": 0.1,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.hunt",
+        "timestamp": "2026-06-10T23:48:59.019717+00:00",
+        "duration_ms": 1.93,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T23:49:11.926705+00:00",
+        "duration_ms": 12905.85,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T23:49:11.926606+00:00",
+        "duration_ms": 12905.57,
+        "result_summary": "ok",
+        "args_hash": "6bfa8ccd30494877",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-jl0rz0tw/timeline.plaso\",\"raw_stderr\":\"2026-06-10 23:49:00,158 [INFO] (MainProcess) PID:1933631 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"d4a26f4c29f41e6650a264d0dc8e4bea483c28261ee55e95400dbd7c07e5c197\"}",
+        "output_hash": "2e5f9559d0b02cc05cb89e1131944f870ea2848c1cbae9f7f03ab2fdb6e54790"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T23:49:11.926670+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": false,
+            "cap": 0,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-06-10T23:49:12.055155+00:00",
+        "duration_ms": 128.43,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-06-10T23:49:12.055066+00:00",
+        "duration_ms": 128.16,
+        "result_summary": "ok",
+        "args_hash": "d9883d6bc8dd82a9",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd\",\"offset\":0,\"entry_count\":6,\"entries\":[{\"entry_type\":\"r\",\"allocated\":true,\"inode\":\"4\",\"name\":\"gumbo1.txt\",\"full_path\":\"/gumbo1.txt\",\"modified_time\":\"2004-04-30 18:11:20 (UTC)\",\"accessed_time\":\"2004-04-30 00:00:00 (UTC)\",\"size\":2815},{\"entry_type\":\"r\",\"allocated\":true,\"inode\":\"6\",\"name\":\"gumbo2.txt\",\"full_path\":\"/gumbo2.txt\",\"modified_time\":\"2004-04-30 18:11:24 (UTC)\",\"accessed_time\":\"2004-04-30 00:00:00 (UTC)\",\"size\":1293},{\"entry_type\":\"v\",\"allocated\":true,\"inode\":\"8101619\",\"name\":\"$MBR\",\"full_path\":\"/$MBR\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":512},{\"entry_type\":\"v\",\"allocated\":true,\"inode\":\"8101620\",\"name\":\"$FAT1\",\"full_path\":\"/$FAT1\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":126976},{\"entry_type\":\"v\",\"allocated\":true,\"inode\":\"8101621\",\"name\":\"$FAT2\",\"full_path\":\"/$FAT2\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":126976},{\"entry_type\":\"V\",\"allocated\":true,\"inode\":\"8101622\",\"name\":\"$OrphanFiles\",\"full_path\":\"/$OrphanFiles\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":0}],\"tool\":\"sleuthkit.fls\",\"raw_stderr\":\"\",\"raw_stdout_sha256\":\"31d1029da5b697d8806a3169ff27ccb6ff86d9c8347e7fbf79f66a08cbd57c1e\",\"summary_only\":false}",
+        "output_hash": "401907a9e147a885c0c6b31662f91aed91cd358cb0ac1049ea59ce395d2c9173"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T23:49:12.055210+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T23:49:12.055278+00:00",
+        "duration_ms": 0.06,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T23:49:12.057546+00:00",
+        "duration_ms": 2.26,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:49:12.056133+00:00",
+        "duration_ms": 0.43,
+        "result_summary": "ok",
+        "args_hash": "b94400486d1ba11b",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:49:12.056529+00:00",
+        "duration_ms": 0.34,
+        "result_summary": "ok",
+        "args_hash": "38ad36f07418ea25",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:49:12.056916+00:00",
+        "duration_ms": 0.32,
+        "result_summary": "ok",
+        "args_hash": "8c0b1249b0c2b593",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:49:12.057285+00:00",
+        "duration_ms": 0.31,
+        "result_summary": "ok",
+        "args_hash": "ab6b484ff35796a7",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T23:49:25.071197+00:00",
+        "duration_ms": 13012.37,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T23:49:25.071110+00:00",
+        "duration_ms": 13012.14,
+        "result_summary": "ok",
+        "args_hash": "6bfa8ccd30494877",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-xrz3h9xe/timeline.plaso\",\"raw_stderr\":\"2026-06-10 23:49:13,145 [INFO] (MainProcess) PID:1933707 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"2e27b23630fbdd26dbd6a1b372feb9a45c06bd35595b7ca8537a681d36630dc6\"}",
+        "output_hash": "2ca63cf92c8adeb896f6fabf0856ec2bd562b86ee12ff1272553f49da257c67d"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T23:49:25.071167+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": false,
+            "cap": 0,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-06-10T23:49:25.194626+00:00",
+        "duration_ms": 123.41,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-06-10T23:49:25.194539+00:00",
+        "duration_ms": 123.15,
+        "result_summary": "ok",
+        "args_hash": "d9883d6bc8dd82a9",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd\",\"offset\":0,\"entry_count\":6,\"entries\":[{\"entry_type\":\"r\",\"allocated\":true,\"inode\":\"4\",\"name\":\"gumbo1.txt\",\"full_path\":\"/gumbo1.txt\",\"modified_time\":\"2004-04-30 18:11:20 (UTC)\",\"accessed_time\":\"2004-04-30 00:00:00 (UTC)\",\"size\":2815},{\"entry_type\":\"r\",\"allocated\":true,\"inode\":\"6\",\"name\":\"gumbo2.txt\",\"full_path\":\"/gumbo2.txt\",\"modified_time\":\"2004-04-30 18:11:24 (UTC)\",\"accessed_time\":\"2004-04-30 00:00:00 (UTC)\",\"size\":1293},{\"entry_type\":\"v\",\"allocated\":true,\"inode\":\"8101619\",\"name\":\"$MBR\",\"full_path\":\"/$MBR\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":512},{\"entry_type\":\"v\",\"allocated\":true,\"inode\":\"8101620\",\"name\":\"$FAT1\",\"full_path\":\"/$FAT1\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":126976},{\"entry_type\":\"v\",\"allocated\":true,\"inode\":\"8101621\",\"name\":\"$FAT2\",\"full_path\":\"/$FAT2\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":126976},{\"entry_type\":\"V\",\"allocated\":true,\"inode\":\"8101622\",\"name\":\"$OrphanFiles\",\"full_path\":\"/$OrphanFiles\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":0}],\"tool\":\"sleuthkit.fls\",\"raw_stderr\":\"\",\"raw_stdout_sha256\":\"31d1029da5b697d8806a3169ff27ccb6ff86d9c8347e7fbf79f66a08cbd57c1e\",\"summary_only\":false}",
+        "output_hash": "401907a9e147a885c0c6b31662f91aed91cd358cb0ac1049ea59ce395d2c9173"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T23:49:25.194677+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T23:49:25.194730+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T23:49:25.196871+00:00",
+        "duration_ms": 2.13,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:49:25.195530+00:00",
+        "duration_ms": 0.43,
+        "result_summary": "ok",
+        "args_hash": "b94400486d1ba11b",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:49:25.195895+00:00",
+        "duration_ms": 0.31,
+        "result_summary": "ok",
+        "args_hash": "38ad36f07418ea25",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:49:25.196254+00:00",
+        "duration_ms": 0.3,
+        "result_summary": "ok",
+        "args_hash": "8c0b1249b0c2b593",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:49:25.196640+00:00",
+        "duration_ms": 0.33,
+        "result_summary": "ok",
+        "args_hash": "ab6b484ff35796a7",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T23:49:38.451782+00:00",
+        "duration_ms": 13253.61,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T23:49:38.451621+00:00",
+        "duration_ms": 13253.23,
+        "result_summary": "ok",
+        "args_hash": "6bfa8ccd30494877",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-clqfynbf/timeline.plaso\",\"raw_stderr\":\"2026-06-10 23:49:26,259 [INFO] (MainProcess) PID:1933801 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"69b0bc3f4e7ade57899f2fb9a7b5a76ac00143840555e86d402398c4913334ef\"}",
+        "output_hash": "c59653bbaf8912d2c38b465c23177b6477f586838aa9d14590c4b8fbaeec40e7"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T23:49:38.451716+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": false,
+            "cap": 0,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-06-10T23:49:38.756966+00:00",
+        "duration_ms": 305.14,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-06-10T23:49:38.756789+00:00",
+        "duration_ms": 304.61,
+        "result_summary": "ok",
+        "args_hash": "d9883d6bc8dd82a9",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd\",\"offset\":0,\"entry_count\":6,\"entries\":[{\"entry_type\":\"r\",\"allocated\":true,\"inode\":\"4\",\"name\":\"gumbo1.txt\",\"full_path\":\"/gumbo1.txt\",\"modified_time\":\"2004-04-30 18:11:20 (UTC)\",\"accessed_time\":\"2004-04-30 00:00:00 (UTC)\",\"size\":2815},{\"entry_type\":\"r\",\"allocated\":true,\"inode\":\"6\",\"name\":\"gumbo2.txt\",\"full_path\":\"/gumbo2.txt\",\"modified_time\":\"2004-04-30 18:11:24 (UTC)\",\"accessed_time\":\"2004-04-30 00:00:00 (UTC)\",\"size\":1293},{\"entry_type\":\"v\",\"allocated\":true,\"inode\":\"8101619\",\"name\":\"$MBR\",\"full_path\":\"/$MBR\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":512},{\"entry_type\":\"v\",\"allocated\":true,\"inode\":\"8101620\",\"name\":\"$FAT1\",\"full_path\":\"/$FAT1\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":126976},{\"entry_type\":\"v\",\"allocated\":true,\"inode\":\"8101621\",\"name\":\"$FAT2\",\"full_path\":\"/$FAT2\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":126976},{\"entry_type\":\"V\",\"allocated\":true,\"inode\":\"8101622\",\"name\":\"$OrphanFiles\",\"full_path\":\"/$OrphanFiles\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":0}],\"tool\":\"sleuthkit.fls\",\"raw_stderr\":\"\",\"raw_stdout_sha256\":\"31d1029da5b697d8806a3169ff27ccb6ff86d9c8347e7fbf79f66a08cbd57c1e\",\"summary_only\":false}",
+        "output_hash": "401907a9e147a885c0c6b31662f91aed91cd358cb0ac1049ea59ce395d2c9173"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T23:49:38.757080+00:00",
+        "duration_ms": 0.08,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T23:49:38.757209+00:00",
+        "duration_ms": 0.1,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T23:49:38.762739+00:00",
+        "duration_ms": 5.5,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:49:38.759022+00:00",
+        "duration_ms": 1.02,
+        "result_summary": "ok",
+        "args_hash": "b94400486d1ba11b",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:49:38.760058+00:00",
+        "duration_ms": 0.88,
+        "result_summary": "ok",
+        "args_hash": "38ad36f07418ea25",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:49:38.761115+00:00",
+        "duration_ms": 0.9,
+        "result_summary": "ok",
+        "args_hash": "8c0b1249b0c2b593",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:49:38.762096+00:00",
+        "duration_ms": 0.83,
+        "result_summary": "ok",
+        "args_hash": "ab6b484ff35796a7",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T23:49:52.151110+00:00",
+        "duration_ms": 13385.41,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T23:49:52.150926+00:00",
+        "duration_ms": 13384.91,
+        "result_summary": "ok",
+        "args_hash": "6bfa8ccd30494877",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-ftpkzeed/timeline.plaso\",\"raw_stderr\":\"2026-06-10 23:49:40,169 [INFO] (MainProcess) PID:1933867 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"99664dc80a8e0afdf2e2d945937f7e421838c0252fac43232d265b6ff025e319\"}",
+        "output_hash": "2d13cbc8ac71d2f7f9783d9b2d88ebe28461f2ecda3bcff91890e1d7282847c7"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T23:49:52.151038+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": false,
+            "cap": 0,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-06-10T23:49:52.462761+00:00",
+        "duration_ms": 311.61,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-06-10T23:49:52.462580+00:00",
+        "duration_ms": 311.03,
+        "result_summary": "ok",
+        "args_hash": "d9883d6bc8dd82a9",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd\",\"offset\":0,\"entry_count\":6,\"entries\":[{\"entry_type\":\"r\",\"allocated\":true,\"inode\":\"4\",\"name\":\"gumbo1.txt\",\"full_path\":\"/gumbo1.txt\",\"modified_time\":\"2004-04-30 18:11:20 (UTC)\",\"accessed_time\":\"2004-04-30 00:00:00 (UTC)\",\"size\":2815},{\"entry_type\":\"r\",\"allocated\":true,\"inode\":\"6\",\"name\":\"gumbo2.txt\",\"full_path\":\"/gumbo2.txt\",\"modified_time\":\"2004-04-30 18:11:24 (UTC)\",\"accessed_time\":\"2004-04-30 00:00:00 (UTC)\",\"size\":1293},{\"entry_type\":\"v\",\"allocated\":true,\"inode\":\"8101619\",\"name\":\"$MBR\",\"full_path\":\"/$MBR\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":512},{\"entry_type\":\"v\",\"allocated\":true,\"inode\":\"8101620\",\"name\":\"$FAT1\",\"full_path\":\"/$FAT1\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":126976},{\"entry_type\":\"v\",\"allocated\":true,\"inode\":\"8101621\",\"name\":\"$FAT2\",\"full_path\":\"/$FAT2\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":126976},{\"entry_type\":\"V\",\"allocated\":true,\"inode\":\"8101622\",\"name\":\"$OrphanFiles\",\"full_path\":\"/$OrphanFiles\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":0}],\"tool\":\"sleuthkit.fls\",\"raw_stderr\":\"\",\"raw_stdout_sha256\":\"31d1029da5b697d8806a3169ff27ccb6ff86d9c8347e7fbf79f66a08cbd57c1e\",\"summary_only\":false}",
+        "output_hash": "401907a9e147a885c0c6b31662f91aed91cd358cb0ac1049ea59ce395d2c9173"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T23:49:52.462873+00:00",
+        "duration_ms": 0.08,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T23:49:52.462994+00:00",
+        "duration_ms": 0.09,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T23:49:52.468397+00:00",
+        "duration_ms": 5.37,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:49:52.464793+00:00",
+        "duration_ms": 1.01,
+        "result_summary": "ok",
+        "args_hash": "b94400486d1ba11b",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:49:52.465781+00:00",
+        "duration_ms": 0.84,
+        "result_summary": "ok",
+        "args_hash": "38ad36f07418ea25",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:49:52.466794+00:00",
+        "duration_ms": 0.86,
+        "result_summary": "ok",
+        "args_hash": "8c0b1249b0c2b593",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T23:49:52.467779+00:00",
+        "duration_ms": 0.82,
+        "result_summary": "ok",
+        "args_hash": "ab6b484ff35796a7",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      }
+    ],
+    "counters": {
+      "trace.timeline.counters": {
+        "jsonl_rows_read": 0,
+        "priority_hits_by_family": {
+          "4624": 0,
+          "winreg_run": 0,
+          "mft_timestomp": 0,
+          "lolbin": 0,
+          "appdata_staging": 0
+        },
+        "parser_deque_sizes": {},
+        "events_received_by_agent": 0,
+        "detectors_fired_by_id": {
+          "4624_detector": 0,
+          "winreg_run_detector": 0,
+          "prefetch_detector": 0,
+          "mft_timestomp_detector": 0,
+          "lolbin_detector": 0,
+          "appdata_staging_detector": 0
+        },
+        "verbose_evtx": {
+          "enabled": false,
+          "cap": 0,
+          "emitted": 0,
+          "dropped": 0
+        }
+      }
+    },
+    "start_time": "2026-06-10T23:48:42.464180+00:00",
+    "end_time": "2026-06-10T23:49:52.471240+00:00",
+    "total_duration_ms": 70007.06
+  },
+  "thymus_audit": [
+    {
+      "timestamp": "2026-06-10T23:48:42.464771+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:48:56.614664+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:48:56.738106+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:48:56.739078+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:48:56.739625+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:48:56.740069+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:48:59.021193+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:11.927061+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:12.055910+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:12.056352+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:12.056741+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:12.057113+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:12.059116+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:25.071550+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:25.195291+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:25.195728+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:25.196089+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:25.196473+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:25.198466+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:38.452549+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:38.758509+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:38.759618+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:38.760673+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:38.761665+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:38.766456+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:52.151960+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:52.464237+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:52.465299+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:52.466313+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T23:49:52.467308+00:00",
+      "action": "ALLOW",
+      "path": "/cases/nist5/DFRWS2005-RODEO",
+      "reason": "within read-only zone"
+    }
+  ],
+  "critic_score": 1.0,
+  "critic_feedback": "continue: plan gap \u2014 5 planned agent(s) produced 0 findings (['artifact', 'discovery', 'filesystem', 'mail', 'timeline']); score 1.00",
+  "iterations": [
+    {
+      "iteration": 1,
+      "plan": [
+        "memory",
+        "timeline",
+        "filesystem",
+        "artifact",
+        "discovery",
+        "null_session_baseline",
+        "mail",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "stable_agents": [
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "filesystem",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 5 planned agent(s) produced 0 findings (['artifact', 'discovery', 'filesystem', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 2,
+      "plan": [
+        "timeline",
+        "filesystem",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "filesystem",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 5 planned agent(s) produced 0 findings (['artifact', 'discovery', 'filesystem', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 3,
+      "plan": [
+        "timeline",
+        "filesystem",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "filesystem",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 5 planned agent(s) produced 0 findings (['artifact', 'discovery', 'filesystem', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 4,
+      "plan": [
+        "timeline",
+        "filesystem",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "filesystem",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 5 planned agent(s) produced 0 findings (['artifact', 'discovery', 'filesystem', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 5,
+      "plan": [
+        "timeline",
+        "filesystem",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "filesystem",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 5 planned agent(s) produced 0 findings (['artifact', 'discovery', 'filesystem', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    }
+  ],
+  "inference_constraint": "high",
+  "evidence_image_sha256": "ce550424200a997c61b413941c8ef4df9619a2f96579674952294a176a32be65",
+  "report_seal": "e3c8d7b7d411592310bb747e9c62e105ed800c9d86e98ebf8adce049365f8f7e",
+  "completion_proofs": [
+    "CROSS_AGENT_CORRELATION_DONE",
+    "INJECTION_DETECTION_COMPLETE",
+    "NULL_SESSION_BASELINE_COMPLETE",
+    "T1059_001_IEX_LOOPBACK_SCAN_COMPLETE",
+    "T1071_001_SVCHOST_OUTBOUND_HTTP_COMPLETE",
+    "T1546_008_ACCESSIBILITY_IFEO_HIJACK_COMPLETE",
+    "YARA_HUNT_COMPLETE"
+  ],
+  "audit_log_seal": "d5991354f6927d5e6eb5c9e315ea8215fcea12ac6b5b7f311138ab8cb1429048"
+}

@@ -1,0 +1,1200 @@
+{
+  "version": "0.2.0-dev",
+  "image": "samples/sample.dd",
+  "max_iterations": 5,
+  "iterations_completed": 5,
+  "status": "budget_exhausted",
+  "findings": [
+    {
+      "_source": "memory.skip",
+      "confidence": 0.0,
+      "description": "MemoryAgent skipped: image is not a memory dump (disk-only). Volatility plugins require RAM capture; T1055 disk-side coverage is provided by the AppData-staging detector in TimelineAgent (W-067).",
+      "evidence": "image=samples/sample.dd suffix=.dd",
+      "timestamp": "2026-06-09T21:52:47.091105+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "memory"
+    },
+    {
+      "_source": "discovery.null_session_baseline.error",
+      "confidence": 0.0,
+      "description": "NullSessionBaselineAgent failed to read Security.evtx: evtx_dump failed (rc=1): Error: Failed to open evtx file at: samples/sample.dd\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[ 0,  0,  0,  0,  0,  0,  0,  0]`\n",
+      "evidence": "image=samples/sample.dd error=evtx_dump failed (rc=1): Error: Failed to open evtx file at: samples/sample.dd\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[ 0,  0,  0,  0,  0,  0,  0,  0]`\n",
+      "timestamp": "2026-06-09T21:53:00.716100+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "null_session_baseline"
+    },
+    {
+      "_source": "yara_forge.bundle_active",
+      "confidence": 0.0,
+      "description": "YARA Forge bundle active: tag=20260505 sha256=87ee463c13d49084...",
+      "evidence": "tag=20260505 sha256=87ee463c13d490842f36eba5ca03a2ed090b78f3fed0eef78ff7e74065191494 path=yara/forge/CURRENT/yara-forge-rules-core.yar fp_threshold=75",
+      "evidence_dict": {
+        "tag": "20260505",
+        "sha256": "87ee463c13d490842f36eba5ca03a2ed090b78f3fed0eef78ff7e74065191494",
+        "source_url": "https://github.com/YARAHQ/yara-forge",
+        "fp_threshold": 75,
+        "license_allowlist": null
+      },
+      "timestamp": "2026-06-09T21:53:02.595637+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "yara_hunt"
+    },
+    {
+      "_source": "memory.injection.skipped",
+      "confidence": 0.0,
+      "description": "InjectionDetector skipped: sample.dd is not a memory image",
+      "evidence": "image=samples/sample.dd reason=non_memory_image",
+      "timestamp": "2026-06-09T21:53:02.684344+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "injection_detector"
+    },
+    {
+      "_source": "t1546_008_accessibility_ifeo_hijack.skipped",
+      "confidence": 0.0,
+      "description": "AccessibilityIfeoHijackDetector skipped: sample.dd is not an E01 disk image",
+      "evidence": "image=samples/sample.dd reason=non_e01_image",
+      "timestamp": "2026-06-09T21:53:02.693035+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "t1546_008_accessibility_ifeo_hijack"
+    },
+    {
+      "_source": "detectors.t1059_001.error",
+      "confidence": 0.0,
+      "description": "T1059.001 detector failed to obtain PowerShell/Operational records: evtx_dump failed (rc=1): Error: Failed to open evtx file at: samples/sample.dd\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[ 0,  0,  0,  0,  0,  0,  0,  0]`\n",
+      "evidence": "image=samples/sample.dd error=RuntimeError: evtx_dump failed (rc=1): Error: Failed to open evtx file at: samples/sample.dd\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[ 0,  0,  0,  0,  0,  0,  0,  0]`\n",
+      "timestamp": "2026-06-09T21:53:02.697715+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "t1059_001_iex_loopback_c2"
+    },
+    {
+      "_source": "memory.t1071_001.skipped",
+      "confidence": 0.0,
+      "description": "T1071SvchostOutboundHttpDetector skipped: sample.dd is not a memory image",
+      "evidence": "image=samples/sample.dd reason=non_memory_image",
+      "timestamp": "2026-06-09T21:53:02.697936+00:00",
+      "mitre_attack": "T1071.001",
+      "related_findings": [],
+      "agent": "t1071_001_svchost_outbound_http"
+    }
+  ],
+  "trace": {
+    "tool_calls": [
+      {
+        "tool": "agent.memory",
+        "timestamp": "2026-06-09T21:52:47.091184+00:00",
+        "duration_ms": 0.11,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-09T21:53:00.635867+00:00",
+        "duration_ms": 13545.84,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-09T21:53:00.635226+00:00",
+        "duration_ms": 13544.41,
+        "result_summary": "ok",
+        "args_hash": "4f27fcd6987d66ad",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-4lrs9db0/timeline.plaso\",\"raw_stderr\":\"2026-06-09 21:52:48,473 [INFO] (MainProcess) PID:1226980 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"5c2c4109eecaf7e49005a82446341b36bf770c10b823563cb72dd994b4339c5e\"}",
+        "output_hash": "4f3c212e4b59307278f4fe791420bc79b8e114e3a73f60ed5010dff56db9cb98"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-09T21:53:00.635599+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": false,
+            "cap": 0,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-06-09T21:53:00.702250+00:00",
+        "duration_ms": 66.26,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-06-09T21:53:00.701882+00:00",
+        "duration_ms": 65.0,
+        "result_summary": "ok",
+        "args_hash": "be4368a6675755f3",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"offset\":0,\"entry_count\":2,\"entries\":[{\"entry_type\":\"d\",\"allocated\":true,\"inode\":\"11\",\"name\":\"lost+found\",\"full_path\":\"/lost+found\",\"modified_time\":\"2026-04-15 01:50:51 (UTC)\",\"accessed_time\":\"2026-04-15 01:50:51 (UTC)\",\"size\":16384},{\"entry_type\":\"V\",\"allocated\":true,\"inode\":\"2561\",\"name\":\"$OrphanFiles\",\"full_path\":\"/$OrphanFiles\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":0}],\"tool\":\"sleuthkit.fls\",\"raw_stderr\":\"\",\"raw_stdout_sha256\":\"854a648699874a7016b2297d6bec518e028aa4fa8fe1276a4c491644c17a0bd1\",\"summary_only\":false}",
+        "output_hash": "f43674c069e13daaec1a89019e56843e74f3ed3e085a984aabbffe15105e6d0c"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-09T21:53:00.702626+00:00",
+        "duration_ms": 0.23,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-09T21:53:00.703344+00:00",
+        "duration_ms": 0.59,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.null_session_baseline",
+        "timestamp": "2026-06-09T21:53:00.717335+00:00",
+        "duration_ms": 13.78,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-09T21:53:00.734171+00:00",
+        "duration_ms": 16.55,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:00.726473+00:00",
+        "duration_ms": 6.42,
+        "result_summary": "ok",
+        "args_hash": "0a60f766b7690036",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:00.728306+00:00",
+        "duration_ms": 1.62,
+        "result_summary": "ok",
+        "args_hash": "8cad0aecaa23836b",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:00.729885+00:00",
+        "duration_ms": 1.41,
+        "result_summary": "ok",
+        "args_hash": "733998af2372970d",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:00.731388+00:00",
+        "duration_ms": 1.35,
+        "result_summary": "ok",
+        "args_hash": "df78b53a55cfdc4c",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.yara_hunt",
+        "timestamp": "2026-06-09T21:53:02.684149+00:00",
+        "duration_ms": 1949.79,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.injection_detector",
+        "timestamp": "2026-06-09T21:53:02.692873+00:00",
+        "duration_ms": 8.66,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.t1546_008_accessibility_ifeo_hijack",
+        "timestamp": "2026-06-09T21:53:02.693105+00:00",
+        "duration_ms": 0.14,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.t1059_001_iex_loopback_c2",
+        "timestamp": "2026-06-09T21:53:02.697800+00:00",
+        "duration_ms": 4.62,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.t1071_001_svchost_outbound_http",
+        "timestamp": "2026-06-09T21:53:02.697971+00:00",
+        "duration_ms": 0.14,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.hunt",
+        "timestamp": "2026-06-09T21:53:02.700031+00:00",
+        "duration_ms": 2.02,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-09T21:53:15.516021+00:00",
+        "duration_ms": 12814.71,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-09T21:53:15.515786+00:00",
+        "duration_ms": 12813.89,
+        "result_summary": "ok",
+        "args_hash": "4f27fcd6987d66ad",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-0of50ufv/timeline.plaso\",\"raw_stderr\":\"2026-06-09 21:53:03,768 [INFO] (MainProcess) PID:1227081 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"873c91132c974e268c34f8525df58704ce1cc26380adca5da017f804b2207af2\"}",
+        "output_hash": "d7e7df959287bf63184c582614181d53e06f7d79584b39eacb9c429786074a67"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-09T21:53:15.515941+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": false,
+            "cap": 0,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-06-09T21:53:15.579242+00:00",
+        "duration_ms": 63.14,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-06-09T21:53:15.579092+00:00",
+        "duration_ms": 62.65,
+        "result_summary": "ok",
+        "args_hash": "be4368a6675755f3",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"offset\":0,\"entry_count\":2,\"entries\":[{\"entry_type\":\"d\",\"allocated\":true,\"inode\":\"11\",\"name\":\"lost+found\",\"full_path\":\"/lost+found\",\"modified_time\":\"2026-04-15 01:50:51 (UTC)\",\"accessed_time\":\"2026-04-15 01:50:51 (UTC)\",\"size\":16384},{\"entry_type\":\"V\",\"allocated\":true,\"inode\":\"2561\",\"name\":\"$OrphanFiles\",\"full_path\":\"/$OrphanFiles\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":0}],\"tool\":\"sleuthkit.fls\",\"raw_stderr\":\"\",\"raw_stdout_sha256\":\"854a648699874a7016b2297d6bec518e028aa4fa8fe1276a4c491644c17a0bd1\",\"summary_only\":false}",
+        "output_hash": "f43674c069e13daaec1a89019e56843e74f3ed3e085a984aabbffe15105e6d0c"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-09T21:53:15.579378+00:00",
+        "duration_ms": 0.1,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-09T21:53:15.579563+00:00",
+        "duration_ms": 0.15,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-09T21:53:15.585931+00:00",
+        "duration_ms": 6.33,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:15.581593+00:00",
+        "duration_ms": 1.28,
+        "result_summary": "ok",
+        "args_hash": "0a60f766b7690036",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:15.582809+00:00",
+        "duration_ms": 1.06,
+        "result_summary": "ok",
+        "args_hash": "8cad0aecaa23836b",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:15.584021+00:00",
+        "duration_ms": 1.06,
+        "result_summary": "ok",
+        "args_hash": "733998af2372970d",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:15.585317+00:00",
+        "duration_ms": 1.14,
+        "result_summary": "ok",
+        "args_hash": "df78b53a55cfdc4c",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.hunt",
+        "timestamp": "2026-06-09T21:53:15.588523+00:00",
+        "duration_ms": 2.55,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-09T21:53:29.101489+00:00",
+        "duration_ms": 13510.54,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-09T21:53:29.101264+00:00",
+        "duration_ms": 13509.99,
+        "result_summary": "ok",
+        "args_hash": "4f27fcd6987d66ad",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-gqj_byvn/timeline.plaso\",\"raw_stderr\":\"2026-06-09 21:53:17,048 [INFO] (MainProcess) PID:1227176 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"f57a785a3a30af420dea003e6188c39741ced58ff361bc92db203f859d0d5ee1\"}",
+        "output_hash": "ae69a25429490d4ac425297f57cfd008c60e7bc57ab673bdec69bf2612887c85"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-09T21:53:29.101370+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": false,
+            "cap": 0,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-06-09T21:53:29.166606+00:00",
+        "duration_ms": 65.07,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-06-09T21:53:29.166458+00:00",
+        "duration_ms": 64.55,
+        "result_summary": "ok",
+        "args_hash": "be4368a6675755f3",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"offset\":0,\"entry_count\":2,\"entries\":[{\"entry_type\":\"d\",\"allocated\":true,\"inode\":\"11\",\"name\":\"lost+found\",\"full_path\":\"/lost+found\",\"modified_time\":\"2026-04-15 01:50:51 (UTC)\",\"accessed_time\":\"2026-04-15 01:50:51 (UTC)\",\"size\":16384},{\"entry_type\":\"V\",\"allocated\":true,\"inode\":\"2561\",\"name\":\"$OrphanFiles\",\"full_path\":\"/$OrphanFiles\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":0}],\"tool\":\"sleuthkit.fls\",\"raw_stderr\":\"\",\"raw_stdout_sha256\":\"854a648699874a7016b2297d6bec518e028aa4fa8fe1276a4c491644c17a0bd1\",\"summary_only\":false}",
+        "output_hash": "f43674c069e13daaec1a89019e56843e74f3ed3e085a984aabbffe15105e6d0c"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-09T21:53:29.166723+00:00",
+        "duration_ms": 0.08,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-09T21:53:29.166847+00:00",
+        "duration_ms": 0.09,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-09T21:53:29.173346+00:00",
+        "duration_ms": 6.47,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:29.168897+00:00",
+        "duration_ms": 1.21,
+        "result_summary": "ok",
+        "args_hash": "0a60f766b7690036",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:29.170124+00:00",
+        "duration_ms": 1.08,
+        "result_summary": "ok",
+        "args_hash": "8cad0aecaa23836b",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:29.171360+00:00",
+        "duration_ms": 1.09,
+        "result_summary": "ok",
+        "args_hash": "733998af2372970d",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:29.172682+00:00",
+        "duration_ms": 1.06,
+        "result_summary": "ok",
+        "args_hash": "df78b53a55cfdc4c",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.hunt",
+        "timestamp": "2026-06-09T21:53:29.175746+00:00",
+        "duration_ms": 2.36,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-09T21:53:43.079718+00:00",
+        "duration_ms": 13901.61,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-09T21:53:43.079467+00:00",
+        "duration_ms": 13901.01,
+        "result_summary": "ok",
+        "args_hash": "4f27fcd6987d66ad",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-d420nj44/timeline.plaso\",\"raw_stderr\":\"2026-06-09 21:53:30,627 [INFO] (MainProcess) PID:1227333 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"81ea7199f9c62607ce7e6b3c84868b24fbacdda339b8c3dd4af104c62bf8c7e2\"}",
+        "output_hash": "db2a8f1041429ab9ad6a94fa32145f1a8bdbb678f4c70613e96206e03ae96d9c"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-09T21:53:43.079572+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": false,
+            "cap": 0,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-06-09T21:53:43.143211+00:00",
+        "duration_ms": 63.45,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-06-09T21:53:43.143067+00:00",
+        "duration_ms": 62.96,
+        "result_summary": "ok",
+        "args_hash": "be4368a6675755f3",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"offset\":0,\"entry_count\":2,\"entries\":[{\"entry_type\":\"d\",\"allocated\":true,\"inode\":\"11\",\"name\":\"lost+found\",\"full_path\":\"/lost+found\",\"modified_time\":\"2026-04-15 01:50:51 (UTC)\",\"accessed_time\":\"2026-04-15 01:50:51 (UTC)\",\"size\":16384},{\"entry_type\":\"V\",\"allocated\":true,\"inode\":\"2561\",\"name\":\"$OrphanFiles\",\"full_path\":\"/$OrphanFiles\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":0}],\"tool\":\"sleuthkit.fls\",\"raw_stderr\":\"\",\"raw_stdout_sha256\":\"854a648699874a7016b2297d6bec518e028aa4fa8fe1276a4c491644c17a0bd1\",\"summary_only\":false}",
+        "output_hash": "f43674c069e13daaec1a89019e56843e74f3ed3e085a984aabbffe15105e6d0c"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-09T21:53:43.143326+00:00",
+        "duration_ms": 0.08,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-09T21:53:43.143497+00:00",
+        "duration_ms": 0.14,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-09T21:53:43.149693+00:00",
+        "duration_ms": 6.16,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:43.145480+00:00",
+        "duration_ms": 1.2,
+        "result_summary": "ok",
+        "args_hash": "0a60f766b7690036",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:43.146681+00:00",
+        "duration_ms": 1.05,
+        "result_summary": "ok",
+        "args_hash": "8cad0aecaa23836b",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:43.147893+00:00",
+        "duration_ms": 1.06,
+        "result_summary": "ok",
+        "args_hash": "733998af2372970d",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:43.149067+00:00",
+        "duration_ms": 1.03,
+        "result_summary": "ok",
+        "args_hash": "df78b53a55cfdc4c",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.hunt",
+        "timestamp": "2026-06-09T21:53:43.152131+00:00",
+        "duration_ms": 2.4,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-09T21:53:58.454942+00:00",
+        "duration_ms": 15299.86,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-09T21:53:58.454641+00:00",
+        "duration_ms": 15299.1,
+        "result_summary": "ok",
+        "args_hash": "4f27fcd6987d66ad",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-j4cley3k/timeline.plaso\",\"raw_stderr\":\"2026-06-09 21:53:45,079 [INFO] (MainProcess) PID:1227431 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"d02eee74d86ca2f43ce1d65d1d928161ce5119fbf4a89cde3df4cae0b4fa3474\"}",
+        "output_hash": "056244c5f62c5ffab8335c09a109add71205920c941cd9ca6983324ccac9afe5"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-09T21:53:58.454808+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": false,
+            "cap": 0,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-06-09T21:53:58.518945+00:00",
+        "duration_ms": 63.93,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-06-09T21:53:58.518772+00:00",
+        "duration_ms": 63.29,
+        "result_summary": "ok",
+        "args_hash": "be4368a6675755f3",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"offset\":0,\"entry_count\":2,\"entries\":[{\"entry_type\":\"d\",\"allocated\":true,\"inode\":\"11\",\"name\":\"lost+found\",\"full_path\":\"/lost+found\",\"modified_time\":\"2026-04-15 01:50:51 (UTC)\",\"accessed_time\":\"2026-04-15 01:50:51 (UTC)\",\"size\":16384},{\"entry_type\":\"V\",\"allocated\":true,\"inode\":\"2561\",\"name\":\"$OrphanFiles\",\"full_path\":\"/$OrphanFiles\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":0}],\"tool\":\"sleuthkit.fls\",\"raw_stderr\":\"\",\"raw_stdout_sha256\":\"854a648699874a7016b2297d6bec518e028aa4fa8fe1276a4c491644c17a0bd1\",\"summary_only\":false}",
+        "output_hash": "f43674c069e13daaec1a89019e56843e74f3ed3e085a984aabbffe15105e6d0c"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-09T21:53:58.519183+00:00",
+        "duration_ms": 0.17,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-09T21:53:58.519502+00:00",
+        "duration_ms": 0.27,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-09T21:53:58.526990+00:00",
+        "duration_ms": 7.43,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:58.522475+00:00",
+        "duration_ms": 1.75,
+        "result_summary": "ok",
+        "args_hash": "0a60f766b7690036",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:58.523760+00:00",
+        "duration_ms": 1.14,
+        "result_summary": "ok",
+        "args_hash": "8cad0aecaa23836b",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:58.525078+00:00",
+        "duration_ms": 1.12,
+        "result_summary": "ok",
+        "args_hash": "733998af2372970d",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-09T21:53:58.526341+00:00",
+        "duration_ms": 1.07,
+        "result_summary": "ok",
+        "args_hash": "df78b53a55cfdc4c",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.hunt",
+        "timestamp": "2026-06-09T21:53:58.530002+00:00",
+        "duration_ms": 2.96,
+        "result_summary": "0 finding(s)"
+      }
+    ],
+    "counters": {
+      "trace.timeline.counters": {
+        "jsonl_rows_read": 0,
+        "priority_hits_by_family": {
+          "4624": 0,
+          "winreg_run": 0,
+          "mft_timestomp": 0,
+          "lolbin": 0,
+          "appdata_staging": 0
+        },
+        "parser_deque_sizes": {},
+        "events_received_by_agent": 0,
+        "detectors_fired_by_id": {
+          "4624_detector": 0,
+          "winreg_run_detector": 0,
+          "prefetch_detector": 0,
+          "mft_timestomp_detector": 0,
+          "lolbin_detector": 0,
+          "appdata_staging_detector": 0
+        },
+        "verbose_evtx": {
+          "enabled": false,
+          "cap": 0,
+          "emitted": 0,
+          "dropped": 0
+        }
+      }
+    },
+    "start_time": "2026-06-09T21:52:47.091024+00:00",
+    "end_time": "2026-06-09T21:53:58.532802+00:00",
+    "total_duration_ms": 71441.78
+  },
+  "thymus_audit": [
+    {
+      "timestamp": "2026-06-09T21:52:47.091488+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:00.637703+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:00.721334+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:00.727144+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:00.728854+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:00.730355+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:02.701880+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:15.516912+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:15.580749+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:15.582056+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:15.583286+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:15.584577+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:15.591662+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:29.102248+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:29.168074+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:29.169354+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:29.170669+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:29.171921+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:29.178811+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:43.080533+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:43.144659+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:43.145941+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:43.147162+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:43.148338+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:43.155150+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:58.456007+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:58.521426+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:58.522977+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:58.524369+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-09T21:53:58.525584+00:00",
+      "action": "ALLOW",
+      "path": "samples",
+      "reason": "within read-only zone"
+    }
+  ],
+  "critic_score": 1.0,
+  "critic_feedback": "continue: plan gap \u2014 6 planned agent(s) produced 0 findings (['artifact', 'discovery', 'filesystem', 'hunt', 'mail', 'timeline']); score 1.00",
+  "iterations": [
+    {
+      "iteration": 1,
+      "plan": [
+        "memory",
+        "timeline",
+        "filesystem",
+        "artifact",
+        "discovery",
+        "null_session_baseline",
+        "mail",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "stable_agents": [
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "filesystem",
+        "hunt",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 6 planned agent(s) produced 0 findings (['artifact', 'discovery', 'filesystem', 'hunt', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 2,
+      "plan": [
+        "timeline",
+        "filesystem",
+        "artifact",
+        "discovery",
+        "mail",
+        "hunt"
+      ],
+      "stable_agents": [
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "filesystem",
+        "hunt",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 6 planned agent(s) produced 0 findings (['artifact', 'discovery', 'filesystem', 'hunt', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 3,
+      "plan": [
+        "timeline",
+        "filesystem",
+        "artifact",
+        "discovery",
+        "mail",
+        "hunt"
+      ],
+      "stable_agents": [
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "filesystem",
+        "hunt",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 6 planned agent(s) produced 0 findings (['artifact', 'discovery', 'filesystem', 'hunt', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 4,
+      "plan": [
+        "timeline",
+        "filesystem",
+        "artifact",
+        "discovery",
+        "mail",
+        "hunt"
+      ],
+      "stable_agents": [
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "filesystem",
+        "hunt",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 6 planned agent(s) produced 0 findings (['artifact', 'discovery', 'filesystem', 'hunt', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 5,
+      "plan": [
+        "timeline",
+        "filesystem",
+        "artifact",
+        "discovery",
+        "mail",
+        "hunt"
+      ],
+      "stable_agents": [
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "filesystem",
+        "hunt",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 6 planned agent(s) produced 0 findings (['artifact', 'discovery', 'filesystem', 'hunt', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    }
+  ],
+  "inference_constraint": "high",
+  "evidence_image_sha256": "459ea50df1c5cb7ccfc19abffaa88a7cd91eadcd24df85a2f00a1ff7a637e80b",
+  "report_seal": "31142f21b9aac3fd736a6a7c05415bb7ecb1f26b23dabb6e6c4a155d653e0fcb",
+  "completion_proofs": [
+    "INJECTION_DETECTION_COMPLETE",
+    "NULL_SESSION_BASELINE_COMPLETE",
+    "T1059_001_IEX_LOOPBACK_SCAN_COMPLETE",
+    "T1071_001_SVCHOST_OUTBOUND_HTTP_COMPLETE",
+    "T1546_008_ACCESSIBILITY_IFEO_HIJACK_COMPLETE",
+    "YARA_HUNT_COMPLETE"
+  ],
+  "audit_log_seal": "47661ec41c54d93c16e5e3bccc18574cbb2bc045441c0db7318f3743fe53f9d8"
+}

@@ -18,6 +18,10 @@
   operator decision (treat as burned): it lets anyone independently re-verify `report_seal` /
   `audit_log_seal`, but the same key can also re-seal a modified report — so the seal is a
   verification/demo artifact here, not a tamper-proof.
+- **[`raw/`](raw/)** — the earlier, first Rodeo run, unedited (`rodeo.json` + `.audit-log.json` +
+  `.session-key`): 2026-06-10 23:48 → 23:49 UTC, same evidence SHA-256 `ce550424…`, **identical
+  result** (9 findings · 68 tool calls · 5 iterations), own seal `e3c8d7b7…` / own key. Two
+  independent runs minutes apart reproducing the same outcome on the same image.
 
 ## Run summary (from `report.json`)
 
