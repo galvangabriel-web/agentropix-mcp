@@ -84,10 +84,10 @@ the server, then either re-query `health` (operator) or ask the session (end-use
 
 *Output A (healthy):*
 ```json
-{ "status": "ok", "server": "agentropix-sift", "tool_count": 71, "version": "..." }
+{ "status": "ok", "server": "agentropix-sift", "tool_count": 72, "version": "..." }
 ```
 
-`status: ok` with `tool_count: 71` (the canonical figure — see [`canonical-facts.md`](../08-reference/canonical-facts.md))
+`status: ok` with `tool_count: 72` (the canonical figure — see [`canonical-facts.md`](../08-reference/canonical-facts.md))
 confirms the restart picked up your new environment.
 
 ---

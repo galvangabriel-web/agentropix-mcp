@@ -1,7 +1,7 @@
 # Agentropix MCP — server source
 
 The **Agentropix-SIFT MCP server** package: the FastMCP application that exposes the
-71-tool forensic surface (canonical count — the live number is reported by the `health` tool)
+72-tool forensic surface (canonical count — the live number is reported by the `health` tool)
 to any MCP client (Claude Code, Claude Desktop, or a headless JSON-RPC driver).
 
 ## Install

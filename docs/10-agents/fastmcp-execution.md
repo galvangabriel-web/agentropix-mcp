@@ -81,7 +81,7 @@ sequenceDiagram
 
 > 🔍 **[Open as SVG — full size, zoomable](assets/fastmcp-execution-1.svg)** (renders larger than the page column; the SVG zooms losslessly in a browser tab).
 
-Every one of the 71 tools inherits all eleven stations — **there is no opt-out**
+Every one of the 72 tools inherits all eleven stations — **there is no opt-out**
 (`docs/MCP-REQUEST-FLOW.md` §"What the layer guarantees").
 
 ---

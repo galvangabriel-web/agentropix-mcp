@@ -28,7 +28,7 @@ tool, every `run_volatility` plugin must be allowlisted, and `get_image_info` /
 All patched guides were mirrored to `/home/admin2/agentropix-sift/docs/portal/case-activation/`.
 
 > **Post-audit verification (main loop):** the audit's consequential removals were re-checked against
-> a fresh `tools/list` of the live MCP (71 tools): `get_hashdump`, `get_srum`, and `mmls` are confirmed
+> a fresh `tools/list` of the live MCP (72 tools): `get_hashdump`, `get_srum`, and `mmls` are confirmed
 > **not** MCP tools; `srum_extract`, `get_partitions`, `parse_gpt`, `get_image_info` confirmed present.
 > One guide the per-file audit marked CLEAN (`cfreds`) still had `mmls {…}` as a primary 🖥️ MCP slot —
 > caught here and fixed (`fls` is a real MCP tool, so `fls {…}` calls were correctly left intact).

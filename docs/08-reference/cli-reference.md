@@ -36,7 +36,7 @@ This page documents the two `agentropix-sift` CLI commands line-by-line from `cl
 | [Invocation and global help](#invocation-and-global-help) | The console entry point, a call-flow diagram, and how to read `--help` for both commands (plus the connected-session `health` equivalent). |
 | [`agentropix-sift run`](#agentropix-sift-run) | The primary triage command: synopsis, all arguments/options, preflight guards, the Stop-hook sentinel, sealed output artifacts, console summary, and worked Execution→Output examples. |
 | [`agentropix-sift doctor`](#agentropix-sift-doctor) | The readiness check: the 18 backing binaries it probes, `AGENTROPIX_*_TOOL` overrides, exit codes, and Execution→Output examples for present/override/missing cases. |
-| [The MCP server entry point](#the-mcp-server-entry-point) | Why the 71-tool FastMCP server is launched out-of-band (not a subcommand) and where to find its tool surface and request flow. |
+| [The MCP server entry point](#the-mcp-server-entry-point) | Why the 72-tool FastMCP server is launched out-of-band (not a subcommand) and where to find its tool surface and request flow. |
 | [Related references](#related-references) | Cross-links to the glossary, ADR index, agents list, and environment-variable reference. |
 
 ---
@@ -122,12 +122,12 @@ agentropix-sift run IMAGE [--max-iterations N] [--out PATH] [--verbose]
 > ```
 > **💬 End-user (prompt):** *"Investigate this disk image end to end — run the full triage,
 > stage every finding as DRAFT, and give me the sealed report. Don't approve anything."*
-> The session drives the same autonomous **Trinity Loop** over the 71 MCP tools and, when
+> The session drives the same autonomous **Trinity Loop** over the 72 MCP tools and, when
 > it finishes, hands back the sealed document by routing to the **`report_generate`** tool
 > (and `case_status` for progress). A simple, focused request is enough — the session
 > recognises this as the Agentropix triage capability and orchestrates the swarm for you.
 > *(Mapped tools: `report_generate`, `case_status`; the loop itself consumes the full
-> 71-tool surface — see [tool list](../04-mcp-tools/tool-list.md).)*
+> 72-tool surface — see [tool list](../04-mcp-tools/tool-list.md).)*
 >
 > *Why no single "run" MCP tool?* The CLI `run` command is an orchestrator, not a tool —
 > it launches the swarm that *calls* the MCP tools. The end-user equivalent is the
@@ -435,7 +435,7 @@ resolve it, or set the binary's `AGENTROPIX_*_TOOL` override, before a real run.
 
 ## The MCP server entry point
 
-The 71-tool FastMCP server is **not** a subcommand of this Typer app. It is a
+The 72-tool FastMCP server is **not** a subcommand of this Typer app. It is a
 single FastMCP application (`mcp_server/fastmcp_app.py`) launched out-of-band —
 in the verified host configuration via the repo's `scripts/start-mcp.sh`
 launcher (referenced throughout the weakness ledger; e.g.
@@ -445,7 +445,7 @@ the subject of [ADR-017](adr-index.md#adr-017)
 [tool list reference](../04-mcp-tools/tool-list.md); for request flow see
 `docs/MCP-REQUEST-FLOW.md` upstream.
 
-> The MCP tool count is **71** distinct tool functions (cite
+> The MCP tool count is **72** distinct tool functions (cite
 > [`canonical-facts.md`](canonical-facts.md) / `CANONICAL_FACTS.md`). The `run` command
 > consumes those tools indirectly through the swarm agents; it does not register
 > or list them itself.
@@ -459,4 +459,4 @@ the subject of [ADR-017](adr-index.md#adr-017)
 - [Section 11 — ADRs (in-portal copies)](../11-ADR/README.md) — full text of the ADRs cited above: [ADR-016](../11-ADR/ADR-016-courtroom-audit.md) / [ADR-022](../11-ADR/ADR-022-audit-log-seal.md) (sealing) and [ADR-017](../11-ADR/ADR-017-tailnet-mcp-exposure.md) (tailnet MCP exposure).
 - [Agents list](../10-agents/agents-list.md) — Trinity roles and the swarm agents the `run` loop drives.
 - [Environment variables](../07-sdlc-ops/env-vars.md) — full `AGENTROPIX_*` namespace, including the `*_TOOL` overrides and `AGENTROPIX_AUDIT_LOG`.
-- [Canonical facts](canonical-facts.md) — the numeric source of truth for the 71-tool surface and test counts cited above.
+- [Canonical facts](canonical-facts.md) — the numeric source of truth for the 72-tool surface and test counts cited above.

@@ -41,7 +41,7 @@ defined under `[project.scripts]`, `pyproject.toml:60-62`):
 | Console script | Entry point | Role |
 |----------------|-------------|------|
 | `agentropix-sift` | `agentropix_sift.cli:main` | Typer CLI — `run` an image, `doctor` the SIFT binaries |
-| `agentropix-sift-mcp` | `agentropix_sift.mcp_server.fastmcp_app:main` | FastMCP server hosting the 71 MCP tools |
+| `agentropix-sift-mcp` | `agentropix_sift.mcp_server.fastmcp_app:main` | FastMCP server hosting the 72 MCP tools |
 
 ```mermaid
 graph TD
@@ -50,7 +50,7 @@ graph TD
     TRIN["trinity/<br/>Architect · Critic"]
     AG["agents/<br/>7 specialists + detectors"]
     BB["agents/_blackboard.py<br/>Blackboard · Correlation"]
-    MCP["mcp_server/<br/>FastMCP server (71 tools)"]
+    MCP["mcp_server/<br/>FastMCP server (72 tools)"]
     THY["mcp_server/thymus_policy.py<br/>read-only policy (S-02)"]
     WRAP["mcp_server/wrappers/<br/>forensic tool drivers"]
     COURT["courtroom.py<br/>HMAC seal / SHA-256"]
@@ -129,7 +129,7 @@ contract.
 fixed-point convergence fingerprint or a score threshold — **never** an LLM self-rating
 (`trinity/critic.py`).
 
-### `mcp_server/` — the single FastMCP server (71 tools)
+### `mcp_server/` — the single FastMCP server (72 tools)
 
 | Key file | Purpose |
 |----------|---------|
@@ -143,7 +143,7 @@ fixed-point convergence fingerprint or a score threshold — **never** an LLM se
 | `audit_analyzer.py`, `_startup_banner.py`, `_status.py` | Audit analysis, boot banner, status taxonomy |
 | `wrappers/` | Forensic wrapper modules (see below) |
 
-The **71** distinct tool functions are reached as 74 `@app.tool()` decorator occurrences
+The **72** distinct tool functions are reached as 72 `@app.tool()` decorator occurrences
 (67 in `fastmcp_app.py` + 5 wazuh wrappers, with `wazuh_hunt_ioc` registered in two modules);
 see [CANONICAL_FACTS](../08-reference/canonical-facts.md).
 

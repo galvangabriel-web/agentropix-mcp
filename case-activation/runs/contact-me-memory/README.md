@@ -71,7 +71,7 @@ The sealed report contains exactly one approved finding (`F-CONTACTME-001`) — 
 
 - **The image is unprofileable.** Volatility3 2.28.0 could not validate `kernel.layer_name` / `kernel.symbol_table_name` for this raw capture. All `windows.*` results (pslist placeholders, 0 sockets, 0 malfind hits, 0 services, single-`unknown`-root process tree) are gated by that, **not** evidence of a clean host. No clean-or-compromised determination is possible from this capture.
 - **A `status: ok` is not a profile match.** Several wrappers returned `ok` with placeholder/empty payloads; the populated-pslist test — not the HTTP/tool status — is the true signal that a memory profile resolved. The transcript calls this out explicitly.
-- **`tool_count: 72` vs canonical 71.** The live `health` call reports 72; the canonical catalogue figure is 71 — the transcript records the live number verbatim rather than reconciling it.
+- **`tool_count: 72` vs the then-canonical 71.** The live `health` call reported 72 while the catalogue still said 71; the transcript records the live number verbatim. *Resolved 2026-06-11: the canonical figure is now **72*** ([canonical-facts](../../../docs/08-reference/canonical-facts.md)).
 - **The captured `report_generate` is the failed (DRAFT-only) attempt.** The `case_not_found` response in `step13_report_generate.json` is genuine; the sealed run with `approved_finding_count: 1` came after the real index + simulated approval and is documented in the transcript and `reports/`.
 - All `.err` files are empty — captured stderr was empty, i.e. the capture harness itself ran clean.
 

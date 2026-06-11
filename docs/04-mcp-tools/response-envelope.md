@@ -1,6 +1,6 @@
 # Tool Response Envelope
 
-> **What a tool call actually returns.** Every one of the [71 MCP tools](tool-reference.md) returns a
+> **What a tool call actually returns.** Every one of the [72 MCP tools](tool-reference.md) returns a
 > **typed Pydantic model** — not a free-form dict — and that model is serialized to the wire with
 > `result.model_dump()` at the FastMCP boundary (`fastmcp_app.py:382-385`). There is no single global
 > envelope class wrapping all tools; instead a recurring set of cross-cutting fields appears across the
@@ -292,7 +292,7 @@ contract see the [schema reference](../03-data/schema-er.md).
 
 **Within this section (04 · MCP Tools)**
 
-- [Tool reference](tool-reference.md) — the master categorized index of all 71 tools, with the
+- [Tool reference](tool-reference.md) — the master categorized index of all 72 tools, with the
   [degradation contract (W-135)](tool-reference.md#degradation-contract-w-135) and
   [auth & mutation model](tool-reference.md#auth--mutation-model-applies-across-the-catalogue) this page cross-references.
 - [Capability map](capability-map.md) — what the catalogue lets you *do*, grouped by capability.
@@ -314,7 +314,7 @@ contract see the [schema reference](../03-data/schema-er.md).
 
 **Reference & decisions**
 
-- [Canonical facts](../08-reference/canonical-facts.md) — oracle figures (71 tools, 16 wrappers, …) used throughout this page.
+- [Canonical facts](../08-reference/canonical-facts.md) — oracle figures (72 tools, 16 wrappers, …) used throughout this page.
 - [ADR-011 — evidence gates](../11-ADR/ADR-011-evidence-gates.md) — the `mutation_token` / dry-run gating behind the mutation fields.
 - [ADR-016 — courtroom audit](../11-ADR/ADR-016-courtroom-audit.md) and [ADR-022 — audit-log seal](../11-ADR/ADR-022-audit-log-seal.md) — the `audit_id` and `report_seal` provenance chain.
 - [ADR-024 — multi-tier report engine](../11-ADR/ADR-024-multi-tier-report-engine.md) — the byte-budget (`truncated` / `result_bytes`) and approval-filtered (`warning`) behavior of `ReportGenerateResult`.

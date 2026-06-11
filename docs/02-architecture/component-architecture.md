@@ -29,7 +29,7 @@ handful of architectural concepts; each is defined once here and detailed on its
 - **Critic** — the deterministic scorer inside the Trinity Loop; halts iteration once the
   confidence score crosses the halt threshold (default `0.85`). Code: `trinity/critic.py`.
 - **FastMCP** — the single Model Context Protocol (MCP) server process that exposes the
-  **71** forensic tools to MCP clients over a bearer token. Code: `mcp_server/` →
+  **72** forensic tools to MCP clients over a bearer token. Code: `mcp_server/` →
   [mcp-server.md](mcp-server.md).
 
 ---
@@ -72,7 +72,7 @@ flowchart TB
     subgraph Entry["Entry points — tailnet-only (ADR-017)"]
         direction LR
         CLI["cli.py<br/>Typer: run, doctor"]:::api
-        MCP["mcp_server<br/>FastMCP · 71 tools<br/>bearer-token"]:::api
+        MCP["mcp_server<br/>FastMCP · 72 tools<br/>bearer-token"]:::api
     end
     Orch["orchestrator.py<br/>run_triage"]:::core
     Trinity["trinity<br/>Architect → Swarm → Critic"]:::core
@@ -256,7 +256,7 @@ For the per-call execution model that exercises this spine station by station, s
 
 | Package / module | Responsibility | Detail |
 |------------------|----------------|--------|
-| `mcp_server/` | FastMCP server, 71 tools, Thymus, trace, config | [mcp-server.md](mcp-server.md) |
+| `mcp_server/` | FastMCP server, 72 tools, Thymus, trace, config | [mcp-server.md](mcp-server.md) |
 | `mcp_server/wrappers/` | ~40 forensic drivers over the 16 SIFT binaries + EZ-Tools | [module-map.md](module-map.md) |
 | `agents/` | DFIR Swarm + Blackboard | [swarm-agents.md](swarm-agents.md) |
 | `detectors/` | Deterministic ATT&CK detector agents | [swarm-agents.md](swarm-agents.md#3-attck-detector-agents) |

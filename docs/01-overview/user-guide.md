@@ -35,7 +35,7 @@ prompt a non-technical user types to get the *same result*. You only need to fol
 | [How to read this guide](#how-to-read-this-guide) | The two audience tracks (🖥️ expert command vs 💬 end-user prompt), the real-data note, and how the GOTCHA boxes work. |
 | [Usability matrix — find your lane](#usability-matrix--find-your-lane) | Pick your lane: **Manual ↔ Autonomous** × **Expert (CLI) ↔ Non-expert (prompt)**. |
 | [The end-to-end pipeline at a glance](#the-end-to-end-pipeline-at-a-glance) | The whole investigation lifecycle (install → triage → review → approve → seal → escalate) in one diagram. |
-| [Tool capability map (summary)](#tool-capability-map-summary) | The 71 MCP tools grouped by DFIR function (full table in the [capability map](../04-mcp-tools/capability-map.md)). |
+| [Tool capability map (summary)](#tool-capability-map-summary) | The 72 MCP tools grouped by DFIR function (full table in the [capability map](../04-mcp-tools/capability-map.md)). |
 | [The 1 MB cap (Desktop-only)](#the-1-mb-cap-desktop-only-and-how-to-size-tool-output) | Claude Desktop's 1 MB response limit and how to bound tool output. |
 | [Gotchas at a glance](#gotchas-at-a-glance) | The real-data quirks/bugs you'll encounter, collected up front. |
 | [Phase 0 — Prerequisites and clients](#phase-0--prerequisites-and-clients) | Install, pre-flight (`doctor`), and choosing Claude Desktop vs the CLI. |
@@ -76,7 +76,7 @@ will match. Where we quote a number, it is what the platform actually returned t
 > NTFS @ sector 63, `fls` first-entry `/Documents and Settings` inode `3671-144-7`, YARA empty-string
 > hash `e3b0c442…`, DRAFT finding `indexed:false`). GOTCHAs B2 (offset 63), B3 (allowlisted `out_dir`),
 > B4 (`finding_id` required) all behaved as documented. Two live deltas are called out inline where they
-> occur: the live `health.tool_count` now reports **72** (a reproducible +1 over the canonical **71**;
+> occur: the live `health.tool_count` now reports **72** (since 2026-06-11 also the canonical figure;
 > see the note at [§1.2](#12-sanity-check--call-health)) and `report_generate` on a brand-new
 > DRAFT-only case can return `case_not_found` (see [Phase 7](#phase-7--generate-and-verify-the-sealed-report)).
 > `bulk_extractor` feature totals are snapshot-specific and vary run-to-run (expected).
@@ -138,7 +138,7 @@ the guide. All four operate on the **same real CFReDS data** and reach the **sam
 > `mcp_tool_count=71`, `test_count=4464`). The LLM only *orchestrates*; the facts come from
 > deterministic tools. Throughout this guide the **validated 2026-05-29 CFReDS run** is quoted as a
 > worked example — that run was captured against an earlier build whose live `tools/list` enumerated
-> **62** tools; treat 62 as the snapshot inventory and **71** as the current platform figure.
+> **62** tools; treat 62 as the snapshot inventory and **72** as the current platform figure.
 
 ---
 
@@ -175,7 +175,7 @@ flowchart LR
 
 ## Tool capability map (summary)
 
-The platform's **71 tools** group into DFIR functions — discovery/health, disk/partition, memory,
+The platform's **72 tools** group into DFIR functions — discovery/health, disk/partition, memory,
 registry & execution artifacts, filesystem/MFT, timeline, event logs, email/PST, YARA/carve/strings,
 IOC pivot, threat intel, Wazuh, and case/findings/reporting. Use the map to pick the right tool for the
 phase you're in.
@@ -461,7 +461,7 @@ From any connected client, call the `health` tool. Expect a small JSON object in
 
 > **🖥️ Expert (command/MCP call):**
 > ```text
-> health  ->  { "status": "ok", "server": "agentropix-sift", "tool_count": 71,
+> health  ->  { "status": "ok", "server": "agentropix-sift", "tool_count": 72,
 >               "version": "...", "uptime_seconds": ... }
 > ```
 > **💬 End-user (prompt):** *"How many Agentropix forensic tools are available right now?"*
@@ -471,22 +471,22 @@ From any connected client, call the `health` tool. Expect a small JSON object in
 
 *Execution D:* call the `health` tool.
 
-*Output D:* `{ "status": "ok", "server": "agentropix-sift", "tool_count": 71, "version": "...",
+*Output D:* `{ "status": "ok", "server": "agentropix-sift", "tool_count": 72, "version": "...",
 "uptime_seconds": ... }`. (The `version` field here is the server's internal build string, e.g.
 `0.1.0-dev`, which is **distinct** from the MCP `serverInfo.version` reported during `initialize`,
 e.g. `3.2.4` — don't conflate the two. The uptime field is named `uptime_seconds`.)
 
 > ⚠️ **Always live-verify the tool count.** The startup banner under-reports (it once showed `38`).
 > Trust the live `health.tool_count` / `tools/list`, never the banner or stale docs. The 2026-05-29
-> snapshot showed `62`; the canonical platform figure is `71` (`{{ref:CANONICAL_FACTS#mcp_tool_count}}`).
+> snapshot showed `62`; the canonical platform figure is `72` (`{{ref:CANONICAL_FACTS#mcp_tool_count}}`).
 >
-> **Live drift note (2026-06-06):** a live re-verification returned `health.tool_count = 72` and
-> `tools/list` likewise enumerated **72** distinct tools — a reproducible **+1** over the canonical
-> `71`. The extra tool is *not* a new capability: the running server has always exposed 72 distinct
-> tool names (the same 72 tabled in [`tool-list.md`](../04-mcp-tools/tool-list.md)); the canonical
-> `71` is a derivation-arithmetic figure that over-subtracts the `wazuh_hunt_ioc` double-registration.
-> The canonical number stays **71** in this guide until the operator re-runs the `CANONICAL_FACTS`
-> refresh (which must update every doc + the drift gate atomically). When in doubt, trust your own
+> **Drift resolved (2026-06-11):** the 2026-06-06 live re-verification that returned
+> `health.tool_count = 72` was correct — this guide's earlier drift note had it right: the old
+> canonical `71` was a derivation-arithmetic figure (67+5 mis-summed, plus a `wazuh_hunt_ioc`
+> double-registration that no longer exists at oracle HEAD `88844e98`). The operator re-ran the
+> verification on 2026-06-11 (live `tools/list` = 72 unique names + source decorator count = 72)
+> and the canonical figure was updated to **72** everywhere
+> ([`canonical-facts.md`](../08-reference/canonical-facts.md)). When in doubt, trust your own
 > live `health.tool_count`.
 
 ---
@@ -1192,7 +1192,7 @@ The hands-on lane: you ask one focused question per step (Phase 0 → 8) and ins
 
 5. > *"How many Agentropix forensic tools are available right now?"*
 
-   **Expect:** the session calls `health` and returns the live `tool_count` (canonical `71`; trust the live number, not the startup banner) (see §Phase 1.2).
+   **Expect:** the session calls `health` and returns the live `tool_count` (canonical `72`; trust the live number, not the startup banner) (see §Phase 1.2).
 
 6. > *"Open a new high-severity case for the CFReDS hacking image (Greg Schardt / Mr. Evil), examiner victor.galvan, and make it the active case."*
 
@@ -1297,6 +1297,6 @@ not sign chain-of-custody.
   [Audit & Courtroom Seal](../05-safety-forensics/audit-courtroom.md) ·
   [Provenance & Grounding](../05-safety-forensics/provenance-grounding.md).
 - **Shared references (oracle)** — [`canonical-facts.md`](../08-reference/canonical-facts.md) (canonical numbers:
-  71 MCP tools, 16 wrappers, 4464 tests), [`tool-list.md`](../04-mcp-tools/tool-list.md) (all
-  71 tools), [`env-vars.md`](../07-sdlc-ops/env-vars.md),
+  72 MCP tools, 16 wrappers, 4464 tests), [`tool-list.md`](../04-mcp-tools/tool-list.md) (all
+  72 tools), [`env-vars.md`](../07-sdlc-ops/env-vars.md),
   [`agents-list.md`](../10-agents/agents-list.md).

@@ -1,10 +1,11 @@
 # MCP Tool List (shared reference)
 
-> The full **71** distinct MCP tools exposed by the single FastMCP server. Derived from
+> The full **72** distinct MCP tools exposed by the single FastMCP server. Derived from
 > `docs/tools/_TOOL-CATALOGUE.md` (live-derived) cross-checked against
 > `src/agentropix_sift/mcp_server/fastmcp_app.py` and `src/agentropix_sift/mcp_server/wrappers/`.
-> **71 distinct tool functions** = 74 `@app.tool()` decorator occurrences (67 in `fastmcp_app.py`
-> + 5 wazuh wrappers; `wazuh_hunt_ioc` registered twice). Canonical fact: `mcp_tool_count = 71`.
+> **72 distinct tool functions** = 72 `@app.tool()` decorator occurrences (67 in `fastmcp_app.py`
+> + 5 in the wazuh wrappers — verified against oracle HEAD `88844e98` and the live `tools/list`,
+> 2026-06-11). Canonical fact: `mcp_tool_count = 72`.
 > The running server's `tools/list` is the authoritative arg schema.
 
 ## The 16 SIFT forensic tools (the wrapped binaries)
@@ -177,7 +178,7 @@ Legend: **[SIFT-16]** = drives one of the 16 SIFT forensic binaries. **[MUT]** =
 **Total: 4 + 10 + 7 + 16 + 6 + 4 + 6 + 7 + 2 + 5 + 5 = 72 rows listed; `wazuh_hunt_ioc` is the
 double-registered tool, so distinct tool functions = 71.** (The catalogue notes the 74→71
 reconciliation: 74 decorator occurrences, `wazuh_hunt_ioc` registered in two modules.) When an exact
-count matters in a chapter, cite `mcp_tool_count = 71` from [`canonical-facts.md`](../08-reference/canonical-facts.md) and re-query the live
+count matters in a chapter, cite `mcp_tool_count = 72` from [`canonical-facts.md`](../08-reference/canonical-facts.md) and re-query the live
 `tools/list`. Backing-module attributions for a few tools are best-effort from wrapper names; confirm
 against `fastmcp_app.py` registration before asserting a non-obvious module in prose.
 
@@ -195,10 +196,10 @@ against `fastmcp_app.py` registration before asserting a non-obvious module in p
 **Related elsewhere in the portal:**
 
 - [MCP server architecture](../02-architecture/mcp-server.md) — the single FastMCP server that
-  registers and exposes these 71 tools.
+  registers and exposes these 72 tools.
 - [Swarm agents](../10-agents/README.md) · [Agents list](../10-agents/agents-list.md) — the agents
   that call these tools.
-- [Canonical facts](../08-reference/canonical-facts.md) — oracle for `mcp_tool_count = 71`, the 16
+- [Canonical facts](../08-reference/canonical-facts.md) — oracle for `mcp_tool_count = 72`, the 16
   forensic wrappers, and other figures cited above.
 - [Data dictionary](../03-data/data-dictionary.md) — the case artifacts the mutating tools persist.
 

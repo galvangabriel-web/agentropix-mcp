@@ -87,7 +87,7 @@ flowchart TB
         CRIT["Critic<br/>(deterministic score<br/>+ fingerprint halt)"]
     end
     THYMUS{{"Thymus read-only policy<br/>(path allowlist, audit ring)"}}
-    MCP["FastMCP server<br/>71 MCP tools"]
+    MCP["FastMCP server<br/>72 MCP tools"]
     TOOLS[["16 SIFT forensic binaries<br/>vol · plaso · fls · yara · …"]]
     BB[("Blackboard<br/>cross-agent correlation")]
     SEAL["Courtroom seal<br/>HMAC-SHA256<br/>+ SHA-256 binding"]
@@ -152,7 +152,7 @@ report, and writes an HMAC-SHA256 `report_seal` plus a mode-0600 session key. Th
 result is three files on disk — `report.json`, `<stem>.audit-log.json`, and
 `<stem>.session-key` — any of which a judge can independently verify.
 
-> The canonical numbers used above — **71 MCP tools**, **16 SIFT forensic wrappers**,
+> The canonical numbers used above — **72 MCP tools**, **16 SIFT forensic wrappers**,
 > the **0.85** halt threshold, the **7-agent** core swarm — are tracked in
 > [`canonical-facts.md`](../08-reference/canonical-facts.md) (mirroring upstream `CANONICAL_FACTS.md`).
 > When a count is load-bearing in your own work, re-query the live `tools/list`.

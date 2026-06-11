@@ -7,7 +7,7 @@ plus `docs/12-CASES-REPORTS` (sealed DFIR case reports) — 12 numbered categori
 reading order is layered on via a "Read in this order" list, non-destructively — filenames are not renamed.
 
 ## Source of truth & accuracy
-- **Canonical numbers come from [`docs/08-reference/canonical-facts.md`](docs/08-reference/canonical-facts.md)** — `71` MCP tools, `16` forensic
+- **Canonical numbers come from [`docs/08-reference/canonical-facts.md`](docs/08-reference/canonical-facts.md)** — `72` MCP tools, `16` forensic
   wrappers, `4464` tests, `72/72 (100%)` disk recall, `108/118 (91.5%)` memory recall, Python `3.12+`.
   **Never state a number that contradicts it.** Stale figures may only appear inside an explicit
   "earlier draft said X, canonical is Y" reconciliation note.
@@ -17,7 +17,7 @@ reading order is layered on via a "Read in this order" list, non-destructively �
 
 ## MCP-call accuracy (validate every tool/plugin against the live MCP)
 Docs are full of 🖥️ MCP calls and `run_volatility` plugins; a wrong name is a real, demo-breaking bug.
-- **Every documented MCP tool name must exist in the live tool list** (`71` tools — query `tools/list`
+- **Every documented MCP tool name must exist in the live tool list** (`72` tools — query `tools/list`
   via the MCP, or [`docs/04-mcp-tools/tool-list.md`](docs/04-mcp-tools/tool-list.md)). Non-tools that crept into drafts:
   `get_hashdump`/`hashdump` (no credential-dump capability is exposed — drop the step), `get_srum`
   (→ `srum_extract`), and `mmls` used as an MCP slot (→ `get_partitions`/`parse_gpt`; note `fls` *is* a

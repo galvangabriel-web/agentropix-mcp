@@ -80,7 +80,7 @@ With nothing approved, `report_generate` refuses to seal. After the real index a
 - **`windows.info` is disallowed by design.** The guide assumed an OS-identification step; the live allowlist rejected it (excerpt above). The wrappers, not arbitrary plugin names, are the supported path.
 - **No false timeout.** The heavy `malfind` plugin ran to completion well under the 300 s callTool ceiling.
 - **The captured `report_generate` files show the pre-approval failure.** Both `step13*.json` responses are genuine `case_not_found` results from the DRAFT-only state; the sealed run came after the real index + simulated approval (transcript Steps 12–14, `reports/`).
-- **`tool_count: 72` vs canonical 71** — the live number is recorded verbatim, not reconciled.
+- **`tool_count: 72` vs the then-canonical 71** — the live number was recorded verbatim. *Resolved 2026-06-11: canonical is now **72***.
 - All 8 `.err` files are empty — captured stderr was empty, i.e. the capture harness ran clean. Two passes of the run were captured (~21:33Z and ~22:29Z); where both were kept, the duplicates are noted in the table above.
 
 ## 🎬 The recorded session

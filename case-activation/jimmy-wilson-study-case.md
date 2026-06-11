@@ -12,7 +12,7 @@
 > Procedure source-of-truth: `/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md` (8 steps).
 > House style + dual-audience (🖥️ command / 💬 prompt) + numbered-prompt playbook mirror
 > `/home/admin2/docu_agentro/docs/01-overview/user-guide.md`. Canonical numbers: `.crew/facts.md`
-> (**71 MCP tools**, 16 SIFT wrappers, 4464 tests).
+> (**72 MCP tools**, 16 SIFT wrappers, 4464 tests).
 
 ---
 
@@ -204,7 +204,7 @@ this training image has modest live-threat value, so it's usually skipped.
 
 ## 3. Activate & start — prompt sequences
 
-Both lanes hit the **same deterministic MCP engine** (71 tools). Pick one. Each operator action shows
+Both lanes hit the **same deterministic MCP engine** (72 tools). Pick one. Each operator action shows
 the 🖥️ command equivalent and an **Expect:** line.
 
 ### 3A — MANUAL (numbered 💬 prompts to activate + begin)
@@ -226,7 +226,7 @@ Type these into a Claude session that has the `agentropix-sift` MCP connected, t
 
 4. 💬 *"How many Agentropix forensic tools are available right now?"*
    🖥️ MCP `health`
-   **Expect:** `status: ok` with a live `tool_count` (canonical **71**; trust the live number, not the banner).
+   **Expect:** `status: ok` with a live `tool_count` (canonical **72**; trust the live number, not the banner).
 
 5. 💬 *"Open a new medium-severity study case `STUDY-CASE-JWILSON` for the Jimmy Wilson disk image at `/cases/study case/2020JimmyWilson.E01`, examiner victor.galvan, and make it the active case."*
    🖥️ MCP `case_init {…case_id:"STUDY-CASE-JWILSON"…}` → then `case_activate { case_id:"STUDY-CASE-JWILSON" }`

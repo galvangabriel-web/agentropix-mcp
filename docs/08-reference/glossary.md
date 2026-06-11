@@ -55,7 +55,7 @@ A decoder ring split into five lookup tables — jump straight to the kind of na
 | **Inference constraint = high** | The fixed assertion printed after every run: the LLM is the orchestrator; facts come from MCP tools. | `cli.py:152`; ADR-016 |
 | **IOC** | Indicator of Compromise (filename, hash, IP, domain) surfaced by agents and optionally pushed to Wazuh. | ADR-018 |
 | **Lamarckian inheritance** | The learning pattern the [Hippocampus bridge](#core-terms-alphabetized) implements: each Trinity iteration writes its reasoning trace, and the next iteration's Architect inherits the top-K most similar prior traces as planning context — improvements acquired during a run are passed forward within the same process. | `memory/hippocampus_bridge.py:19` |
-| **MCP** | Model Context Protocol; the integration substrate for every `mcp_*` tool. The FastMCP server exposes **71** distinct tools. | AGENTS.md; canonical-facts.md |
+| **MCP** | Model Context Protocol; the integration substrate for every `mcp_*` tool. The FastMCP server exposes **72** distinct tools. | AGENTS.md; canonical-facts.md |
 | **Mutation token** | A one-shot, TTL-bound capability (`egt_<ULID>`) minted by the [evidence gate](#core-terms-alphabetized) and required by every write-capable tool (`record_finding`, `idx_ingest`, `promote_iocs`, `promote_executable_registry`, `wazuh_index_findings`, `wazuh_publish_iocs`). Sourced from `AGENTROPIX_MUTATION_TOKEN` (env, never a CLI flag); consumed on use so it cannot be replayed. Read-only triage never needs one. See [tool reference](../04-mcp-tools/tool-reference.md) `[MUT]`. | tool-reference.md; ADR-018 |
 | **Provenance** (chain) | Validation under `provenance/` that ties every finding back to the deterministic tool call that generated it — the audit thread behind the "deterministic-tools-only" guarantee. Often referred to simply as *provenance*. See [Provenance grounding](../05-safety-forensics/provenance-grounding.md). | seed; module-map |
 | **Quorum threshold** | Minimum number of agents that must observe a token for it to become a correlation (default **2**). | `agents/_blackboard.py:86` |
@@ -127,7 +127,7 @@ A few load-bearing IDs referenced elsewhere in this portal:
 | **W-072** | Credential-dump triage via `impacket-secretsdump.py`. | [ADR-014](adr-index.md#adr-014) ([full text](../11-ADR/ADR-014-W072-impacket-secretsdump.md)) |
 | **W-081** | Ralph-loop Stop-hook sentinel for in-flight triage (M8.3). | `cli.py:92-114` |
 | **W-110** | `run_volatility(plugin="netscan")` rc=1 on SRL-2018 DC. | AGENTS.md (MCP-100%) |
-| **W-113** | MCP-100% campaign anchor — definition-of-done for the 71-tool surface. | AGENTS.md |
+| **W-113** | MCP-100% campaign anchor — definition-of-done for the 72-tool surface. | AGENTS.md |
 | **W-164** | Dangling-evidence-symlink rejection preflight (recall-collapse guard). | `cli.py:62-74` |
 | **W-196** | Per-agent `Finding.agent` stamping (enables per-agent recall). | `agents/_base.py` |
 | **W-282** | Mount-based Plaso fallback for tail-truncated EWF (`AGENTROPIX_PLASO_TAIL_PAD=1`). | SIFT-WEAKNESSES dashboard |

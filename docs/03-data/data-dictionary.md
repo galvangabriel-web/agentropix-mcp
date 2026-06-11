@@ -453,7 +453,7 @@ Structured result of one `pdf_extract_text` call.
 
 ## 12. MCP tool envelope — `ToolError`
 
-Every one of the [71 MCP tools](../04-mcp-tools/tool-list.md) ([`CANONICAL_FACTS.md`](../08-reference/canonical-facts.md))
+Every one of the [72 MCP tools](../04-mcp-tools/tool-list.md) ([`CANONICAL_FACTS.md`](../08-reference/canonical-facts.md))
 returns either its own typed success payload (a Pydantic model dump or dict — e.g. `PdfDocument`,
 `ExtractArchiveManifest`) **or** a structured error. The error envelope is uniform:
 

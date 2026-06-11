@@ -315,7 +315,7 @@ final iteration's `score`/`feedback` also surface as the top-level `critic_score
 
 ## 5. The MCP tool envelope
 
-Every one of the [71 MCP tools](../04-mcp-tools/tool-list.md) ([`CANONICAL_FACTS.md`](../08-reference/canonical-facts.md))
+Every one of the [72 MCP tools](../04-mcp-tools/tool-list.md) ([`CANONICAL_FACTS.md`](../08-reference/canonical-facts.md))
 returns one of two shapes: a **typed success payload** or a **`ToolError`**. There is no third
 "raised exception" path that reaches the trace — tools catch and convert.
 
