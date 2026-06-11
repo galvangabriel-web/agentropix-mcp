@@ -1,5 +1,25 @@
 # Agentropix-SIFT
 
+> **Dear Evaluator,**
+>
+> My name is **Gabriel Galvan**, and I am proud to introduce the **Agentropix MCP** solution.
+>
+> This innovative solution enables the initial triage phase of modern digital forensic
+> investigations. I created this repository to demonstrate how Agentropix was designed, the key
+> considerations that guided its development, and the features it provides. A detailed roadmap
+> outlining the project's vision, architecture, and capabilities is included at the end of this
+> document.
+>
+> The documentation section is fully completed and contains all the information required to
+> understand how the solution works. In addition, you will find case analyses, technical reports,
+> specifications, and supporting documentation that demonstrate the functionality and
+> effectiveness of Agentropix MCP.
+>
+> Thank you for taking the time to evaluate this project. I hope you find Agentropix MCP both
+> innovative and valuable for modern forensic analysis workflows.
+>
+> — *Gabriel Galvan*
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#license)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
 [![MCP tools: 72](https://img.shields.io/badge/MCP%20tools-72-green.svg)](docs/04-mcp-tools/tool-reference.md)
