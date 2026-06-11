@@ -61,3 +61,11 @@ agent landing its 111 findings near the end of the recorded run:
 - Token usage was **not collected** — the LLM is the edge orchestrator; facts come from
   deterministic tools (see `EXECUTION-LOG.md` §4). Not faked after the fact.
 - The audit-log companions are sealed but empty (`audit_log_enabled: false` in these runs).
+
+## 🎬 The recorded session
+
+[![Jimmy Wilson PoC run — poster frame (click for the MP4)](poc-run-poster.png)](POC-RUN.mp4)
+
+> ▶ *GitHub does not play repo-committed MP4s inline — click the poster to open the file, or*
+> ***[download the MP4 (369 KB)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/case-activation/runs/jimmy-wilson-poc/POC-RUN.mp4)*** *— a ~9 s paged playback of the
+> `uv sync` → `doctor` → `run` session captured live (asciinema → agg → ffmpeg).*

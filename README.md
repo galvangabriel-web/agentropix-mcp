@@ -492,16 +492,32 @@ sealed runs). These commands run from a checkout of the **full `agentropix-sift`
 distribution** — *not* from this documentation portal:
 
 ```bash
-uv sync                                                        # 1. install the orchestration layer
-uv run agentropix-sift doctor                                  # 2. pre-flight the toolchain
-uv run agentropix-sift run samples/sample.dd -o report.json    # 3. first triage (synthetic fixture)
+uv sync                                                          # 1. install the orchestration layer
+uv run agentropix-sift doctor                                   # 2. pre-flight — all 16 SIFT tools OK
+uv run agentropix-sift run "/cases/study case/2020JimmyWilson.E01" -o report.json   # 3. triage
 ```
 
+This exact sequence was executed live and recorded against the **Jimmy Wilson** study case:
+
+| Step | Result |
+|---|---|
+| `uv sync` | dependencies resolved |
+| `doctor` | **All tools available** — the 16 SIFT binaries (vol, fls/mmls/icat, ewfinfo, evtx_dump, yara, bulk_extractor, rip.pl, EZ-Tools, …) resolve on PATH |
+| `run` | **129 findings · 86 tool calls · 5 iterations**, sealed `report.json` (HMAC) + audit-log, evidence SHA-256 `6c18f662…`, status `budget_exhausted`, critic_score 1.0 |
+
+The full proof — recorded video, sealed reports, raw logs of three reproducible runs, and the
+agent-execution trace — is published at
+[`case-activation/runs/jimmy-wilson-poc/`](case-activation/runs/jimmy-wilson-poc/). The wider
+[`case-activation/`](case-activation/) folder holds a per-case Activation Guide for every evidence
+set on this host plus the captured executed runs ([`case-activation/runs/`](case-activation/runs/)).
+
 > **Honest scope note.** The engine repo ships the `pyproject.toml`, `uv.lock`,
-> `src/agentropix_sift/`, and the synthetic `samples/sample.dd` fixture those three commands need.
+> `src/agentropix_sift/`, and a synthetic `samples/sample.dd` fixture for a first smoke run
+> (that earliest sealed record is also published:
+> [`case-activation/runs/engine-smoke-sample-dd/`](case-activation/runs/engine-smoke-sample-dd/)).
 > It is a separate, **currently private** distribution — request access from the operator. This
 > docs portal intentionally vendors only the MCP-server package, so Path B does not run from this
-> checkout.
+> checkout; the case images under `/cases/` live on the operator's host.
 
 The engine installs two console scripts — `agentropix-sift` (the triage CLI) and `agentropix-sift-mcp`
 (the MCP server). The full step-by-step for both paths, including example `doctor` output, is in the
@@ -693,7 +709,8 @@ Full table with per-row sources and verification dates:
 ## Documentation map
 
 Start at the routed [master table of contents](INDEX.md), which maps every chapter to its audience and
-the question it answers. The portal is organized into eleven numbered sections under `docs/`:
+the question it answers. The portal is organized into twelve numbered sections under `docs/`, plus the
+`case-activation/` operational annex:
 
 | # | Section | What it contains |
 |---|---------|------------------|
@@ -708,6 +725,8 @@ the question it answers. The portal is organized into eleven numbered sections u
 | 9 | [Integrations](docs/09-integrations/wazuh-portal.md) | Connecting to external systems — the Wazuh/SOC portal operator's guide and how to connect a remote client to a live internal MCP server. |
 | 10 | [Agents](docs/10-agents/agentic-architecture.md) | What "agent" means here — the agentic architecture, the build-time delegation model, the FastMCP tool-execution path, and the canonical runtime swarm roster. |
 | 11 | [ADRs](docs/11-ADR/README.md) | The **decision contract** — the immutable Architecture Decision Records mirrored from the oracle (001–024 + milestone/defer records). Read the status column literally. |
+| 12 | [Cases Reports](docs/12-CASES-REPORTS/README.md) | Sealed DFIR case reports — one folder per investigated case (forensic report, technical appendix, Wazuh IOC gallery, diagrams, recorded-session video). |
+| — | [case-activation/](case-activation/README.md) | The operational annex — a per-case **Activation Guide** for every evidence set (real paths, sizes, custody hashes) and [`runs/`](case-activation/runs/README.md): captured executed runs (raw MCP step outputs, sealed engine PoC reports, videos). |
 
 The portal's documentation-QA working notes (render audits, case-guide sweeps) live under
 [`docs/issues/`](docs/issues/) — maintainer-facing, not reader chapters.
