@@ -404,9 +404,11 @@ rationale narratives in [Design Decisions](docs/08-reference/design-decisions.md
 ![Stage 5 seal](https://img.shields.io/badge/⑤_SEAL-courtroom-c0392b?style=for-the-badge)
 ![Stage 6 escalate](https://img.shields.io/badge/⑥_ESCALATE-SIEM-16a085?style=for-the-badge)
 
-![Six guarded stages of the Agentropix-SIFT investigation workflow — ① doctor (pre-flight) → ② run (triage) → ③ review (verify) → 🧑‍⚖️ human gate → ④ approve (HITL) → ⑤ seal (courtroom) → ⑥ escalate (SIEM), with a reject/re-run loop back to run](assets/readme-3.png)
+![Animated: the six guarded stages light up in sequence — doctor pre-flight, run triage, examiner review, the human HMAC approval gate, the courtroom seal, and the SIEM escalation — ending on “SEALED · HMAC-SHA256 · court-ready”](assets/workflow-animated.gif)
 
-> 🔍 Rendered as PNG so it shows inline on every browser — [**Open as SVG** (full size, zoomable)](assets/readme-3.svg).
+> 🎬 *The banner above is a live animation (Animotion MCP; [deck source](assets/workflow-animated-deck.html)) — watch the stages light up,
+> the* ***human gate*** *hold the line, and the seal close. Want the full detail graph instead?*
+> *[**Static diagram (PNG)**](assets/readme-3.png) · [**SVG** (full size, zoomable)](assets/readme-3.svg).
 
 The vivid lane below is the *load-bearing* part: each stage shows **both** ways to reach the same result —
 the **🖥️ expert command** and the **💬 plain-language prompt** a non-technical examiner types into a Claude
