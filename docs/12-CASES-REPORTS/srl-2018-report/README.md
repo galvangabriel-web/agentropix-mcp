@@ -31,3 +31,11 @@ Findings/IOCs were indexed to the live Wazuh cluster; the dashboard gallery in
 - [SRL-2015 — multi-host APT (Stark Research Labs)](../srl-2015-report/)
 - [VANKO — insider exfiltration](../vanko-report/)
 - [↑ all cases index](../README.md)
+
+## 🎬 The recorded analyst session
+
+[![SRL-2018 recorded analyst walkthrough — poster frame (click for the MP4)](training-session-poster.png)](training-session-paged.mp4)
+
+> ▶ *GitHub does not play repo-committed MP4s inline — click the poster to open the file, or*
+> ***[download the MP4 (19 MB, 5 min 48 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/srl-2018-report/training-session-paged.mp4)*** *— the
+> paged action-log replay of the analyst walkthrough.*
