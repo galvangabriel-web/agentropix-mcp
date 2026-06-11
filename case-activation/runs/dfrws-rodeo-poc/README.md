@@ -14,8 +14,10 @@
 - **[`report.audit-log.json`](report.audit-log.json)** — the sealed (empty-in-this-run) audit-log
   companion (`audit_log_enabled: false` — engine audit-logging was not switched on for this PoC run;
   honest as captured).
-- The **HMAC session key is withheld** (kept off-repo, same policy as the Jimmy Wilson PoC) — the
-  seals prove integrity to the key holder; publishing the key would let anyone re-seal a modified report.
+- **[`report.session-key`](report.session-key)** — the per-run HMAC session key, published by explicit
+  operator decision (treat as burned): it lets anyone independently re-verify `report_seal` /
+  `audit_log_seal`, but the same key can also re-seal a modified report — so the seal is a
+  verification/demo artifact here, not a tamper-proof.
 
 ## Run summary (from `report.json`)
 

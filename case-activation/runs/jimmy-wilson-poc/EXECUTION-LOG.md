@@ -84,4 +84,4 @@ The 13-agent swarm coordinates over a shared **Blackboard** (each agent `publish
 **Not collected, by design.** Agentropix-SIFT keeps the LLM at the edge as an *orchestrator* (`inference_constraint: high (LLM is orchestrator; facts from MCP tools)`); every fact in this run came from a deterministic SIFT tool, not the model. The engine is therefore **uninstrumented for token usage** — there is no token count to report, and inventing one would be dishonest. Rationale and the broader integrity limits are in [`docs/07-sdlc-ops/observability-and-integrity-notes.md`](../../../docs/07-sdlc-ops/observability-and-integrity-notes.md).
 
 ---
-*Generated from the sealed `report.json`. The per-run HMAC session key is withheld, so the seals here are inspectable but not independently re-verifiable — by design.*
+*Generated from the sealed `report.json`. The per-run HMAC session key is published alongside it ([`report.session-key`](report.session-key), explicit operator decision — treat as burned): the seals are now independently re-verifiable, at the cost of the key also being able to re-seal a modified report.*
