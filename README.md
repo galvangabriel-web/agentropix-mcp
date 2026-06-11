@@ -541,7 +541,11 @@ agent-execution trace — is published at
 evaluator-facing **Agent Execution Logs gold report** — two further engine runs (the SRL-2018
 domain controller + Challenge_NotchItUp) with timestamped agent-to-agent handoff chains, full tool
 sequences, and the raw sealed evidence incl. live `run.log` + Thymus audit trails — is at
-[`docs/12-CASES-REPORTS/srl-2018-report/submission/`](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md). The wider
+[`docs/12-CASES-REPORTS/srl-2018-report/submission/`](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md),
+with its 🎨 **[Visual Atlas](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-VISUAL-ATLAS.md)** —
+thirteen color diagrams (agent-communication graph, end-to-end timestamp chain with a
+217-microsecond correlation-burst zoom, self-correction funnels, Thymus ALLOW/REJECT pies, and the
+HMAC seal cross-binding chain) generated from and verified against the raw run data. The wider
 [`case-activation/`](case-activation/) folder holds a per-case Activation Guide for every evidence
 set on this host plus the captured executed runs ([`case-activation/runs/`](case-activation/runs/)).
 
