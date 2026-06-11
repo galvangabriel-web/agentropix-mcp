@@ -15,6 +15,12 @@
 
 **A local, CLI-driven, bio-agentic DFIR triage engine for the SANS SIFT Workstation.**
 
+> 🗺️ **Evaluators — the [Strategic Project Roadmap](docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md)
+> (2026-06-11)** is the "where this is, where it's going" document: the development Gantt with the
+> critical path to GA, the system-lifecycle state machine (orchestration, thread taxonomy, apoptosis),
+> phase milestones (Foundation → Orchestration → Scale & GA), technical specifications, and risk
+> mitigation — the strategic companion to the [Architecture chapter](docs/02-architecture/README.md).
+
 ---
 
 ## ⚡ Connect in 60 seconds
@@ -715,7 +721,7 @@ the question it answers. The portal is organized into twelve numbered sections u
 | # | Section | What it contains |
 |---|---------|------------------|
 | 1 | [Overview](docs/01-overview/what-is-agentropix.md) | What Agentropix-SIFT is and why, the capability matrix, the 3-command Quickstart, the complete operator User Guide, and how it compares to alternatives. |
-| 2 | [Architecture](docs/02-architecture/main-architectural-agentropix-design.md) | How the engine is built — **the validated architecture diagram** (pattern + guardrails, HD PDF), system context, internal components, the Trinity Loop, the Swarm + Blackboard, the FastMCP server (and the Thymus boundary), and sequence diagrams. |
+| 2 | [Architecture](docs/02-architecture/main-architectural-agentropix-design.md) | How the engine is built — **the validated architecture diagram** (pattern + guardrails, HD PDF), system context, internal components, the Trinity Loop, the Swarm + Blackboard, the FastMCP server (and the Thymus boundary), sequence diagrams, and the 🗺️ **[Strategic Project Roadmap](docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md)** (Gantt/critical path, lifecycle state machine, GA milestones, risks). |
 | 3 | [Data](docs/03-data/data-models.md) | The data model — case/finding/report schemas, the data dictionary, the entity-relationship view, and what gets persisted to disk. |
 | 4 | [MCP Tools](docs/04-mcp-tools/tool-reference.md) | The 71-tool MCP surface — the full tool reference, the typed Response Envelope, which agent invokes which tool, and the capability map. |
 | 5 | [Safety & Forensics](docs/05-safety-forensics/anti-hallucination.md) | Why you can trust the output — anti-hallucination guarantees, provenance grounding, the Courtroom audit seal, the human-in-the-loop gate, the Approval Portal, and the AI disclosure. |
