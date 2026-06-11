@@ -71,19 +71,19 @@ The roster is **constant**; each agent's *behavior* is **evidence-type-gated**, 
 
 | Agent | Duty / responsibility | Findings (count + brief) | Ending state | Evidence |
 |---|---|---|---|---|
-| memory | RAM/Volatility (T1055) — MEMORY-ONLY | 1 (skip: "image is not a memory dump (disk-only)") | skipped (evidence-gated) | `$.findings[0]._source -> "memory.skip"` |
-| timeline | Plaso super-timeline | 1 (WRAPPER_TIMEOUT after 5452s) | timeout (recovered → TIMELINE_GENERATED proof) | `$.findings[1]._source -> "timeline.plaso"`; `:$.trace.tool_calls[1].duration_ms -> "5461792.98"` |
-| filesystem | TSK `fls` filesystem walk | 1 (fls timed out after 60.0s) | degraded (stable in loop) | `$.findings[2]._source -> "filesystem.fls"` |
-| artifact | EWF evidence-chain + extraction — DISK-ONLY | 2 (chain: `case=20180905-001 examiner=Clint Barton`; extract REJECTed) | stable / productive | `$.findings[3]._source -> "artifact.ewfinfo"`; `:$.findings[4]._source -> "artifact.extract"` |
-| discovery | Host/share discovery | 0 in every iteration | **gap-0-findings (persistent)** | `$.trace.tool_calls[138].result_summary -> "0 finding(s)"`; `:$.iterations[0].gaps -> "['discovery', 'mail']"` |
-| null_session_baseline | SMB null-session baseline (Security.evtx) | 1 (0 bursts across 81 windows) | stable | `$.findings[5]._source -> "discovery.null_session_baseline.summary"` |
-| mail | Mail/email artifact scan | 0 in every iteration | **gap-0-findings (persistent)** | `$.trace.tool_calls[140].result_summary -> "0 finding(s)"`; `:$.iterations[0].gaps -> "['discovery', 'mail']"` |
-| yara_hunt | YARA Forge signature scan | 2 (bundle active `tag=20260505 sha256=87ee463c…`; E01-unmounted skip) | stable (graceful degrade) | `$.findings[6]._source -> "yara_forge.bundle_active"`; `:$.findings[7]._source -> "yara_hunt.e01_unmounted_skip"` |
-| injection_detector | Process-injection detection — MEMORY-ONLY | 1 (skip: "not a memory image") | skipped (evidence-gated) | `$.findings[8]._source -> "memory.injection.skipped"` |
-| t1546_008_accessibility_ifeo_hijack | T1546.008 IFEO hijack — DISK-ONLY | 2 (LEG-A blocked by Thymus REJECT) | ran / blocked-write | `$.findings[9]._source -> "t1546_008_accessibility_ifeo_hijack.write_error"` |
-| t1059_001_iex_loopback_c2 | T1059.001 IEX loopback-C2 (EID 4104) | 2 (0 hits across 999 records) | stable | `$.findings[12]._source -> "detectors.t1059_001.summary"` |
-| t1071_001_svchost_outbound_http | T1071.001 svchost HTTP C2 — MEMORY-ONLY | 1 (skip: "not a memory image") | skipped (evidence-gated) | `$.findings[13]._source -> "memory.t1071_001.skipped"` |
-| hunt | Terminal cross-agent correlation | 8 (`hunt.correlate` cross-source-agreement edges) | stable / terminal | `$.findings[14]._source -> "hunt.correlate"`; `:$.trace.tool_calls[151].result_summary -> "8 finding(s)"` |
+| memory | RAM/Volatility (T1055) — MEMORY-ONLY | 1 (skip: "image is not a memory dump (disk-only)") | skipped (evidence-gated) | `$.findings[0]._source` |
+| timeline | Plaso super-timeline | 1 (WRAPPER_TIMEOUT after 5452s) | timeout (recovered → TIMELINE_GENERATED proof) | `$.findings[1]._source`; `:$.trace.tool_calls[1].duration_ms` |
+| filesystem | TSK `fls` filesystem walk | 1 (fls timed out after 60.0s) | degraded (stable in loop) | `$.findings[2]._source` |
+| artifact | EWF evidence-chain + extraction — DISK-ONLY | 2 (chain: `case=20180905-001 examiner=Clint Barton`; extract REJECTed) | stable / productive | `$.findings[3]._source`; `:$.findings[4]._source` |
+| discovery | Host/share discovery | 0 in every iteration | **gap-0-findings (persistent)** | `$.trace.tool_calls[138].result_summary`; `:$.iterations[0].gaps` |
+| null_session_baseline | SMB null-session baseline (Security.evtx) | 1 (0 bursts across 81 windows) | stable | `$.findings[5]._source` |
+| mail | Mail/email artifact scan | 0 in every iteration | **gap-0-findings (persistent)** | `$.trace.tool_calls[140].result_summary`; `:$.iterations[0].gaps` |
+| yara_hunt | YARA Forge signature scan | 2 (bundle active `tag=20260505 sha256=87ee463c…`; E01-unmounted skip) | stable (graceful degrade) | `$.findings[6]._source`; `:$.findings[7]._source` |
+| injection_detector | Process-injection detection — MEMORY-ONLY | 1 (skip: "not a memory image") | skipped (evidence-gated) | `$.findings[8]._source` |
+| t1546_008_accessibility_ifeo_hijack | T1546.008 IFEO hijack — DISK-ONLY | 2 (LEG-A blocked by Thymus REJECT) | ran / blocked-write | `$.findings[9]._source` |
+| t1059_001_iex_loopback_c2 | T1059.001 IEX loopback-C2 (EID 4104) | 2 (0 hits across 999 records) | stable | `$.findings[12]._source` |
+| t1071_001_svchost_outbound_http | T1071.001 svchost HTTP C2 — MEMORY-ONLY | 1 (skip: "not a memory image") | skipped (evidence-gated) | `$.findings[13]._source` |
+| hunt | Terminal cross-agent correlation | 8 (`hunt.correlate` cross-source-agreement edges) | stable / terminal | `$.findings[14]._source`; `:$.trace.tool_calls[151].result_summary` |
 
 **Ending-state cross-check (base-dc).** 11 agents are STABLE every iteration (`base-dc-report.json:$.iterations[1].stable_agents -> "['artifact', 'filesystem', 'hunt', 'injection_detector', 'memory', 'null_session_baseline', 't1059_001_iex_loopback_c2', 't1071_001_svchost_outbound_http', 't1546_008_accessibility_ifeo_hijack', 'timeline', 'yara_hunt']"`); `discovery` and `mail` are the only persistent gaps. No agent was Critic-dropped for *bad* output — the `dropped_agents[]` list in iterations 2–5 simply reflects already-stable agents not being re-run. Completion proofs corroborate: `base-dc-report.json:$.completion_proofs[0] -> "ARTIFACTS_PARSED"` and `:$.completion_proofs[8] -> "TIMELINE_GENERATED"` (10 tokens total).
 
@@ -177,11 +177,13 @@ The persistent loop then re-runs `timeline`/`artifact`/`discovery`/`mail` four m
 
 The trace merges **agent rollups** (`tool="agent.<name>"`, no `exit_code`) with **MCP tool calls** (`tool="mcp.<name>"`, carrying `exit_code`/`args_hash`/`output_hash`/`raw_output`). Selected base-dc MCP calls with their provenance and cross-file correlation:
 
-| idx | Tool | Timestamp | exit | dur (ms) | args_hash | output_hash | Summary | Cross-file correlation |
-|---|---|---|---|---|---|---|---|---|
-| 2 | mcp.get_timeline | 15:53:31.501464 | **1** | 5,461,790.48 | `139ede1a10dd7b34` | `b381d47f…caddb4` | `ERROR: log2timeline timed out after 5452s` | see below |
-| 7 | mcp.get_image_info | 15:54:31.700740 | 0 | 79.43 | `8577519004d987c9` | `4f23dd75…88f2cf` | `ok` | clean deterministic call |
-| 8 | mcp.extract_files | 15:54:31.702836 | **1** | 0.86 | `9cb427e21b5cd9ea` | `6438c489…0c5235` | `Thymus REJECT_OUTSIDE_ALLOWLIST ('…extract-yazy9cbj')` — full message in §4.2 | see below |
+| idx | Tool | Timestamp | exit | dur (ms) | args_hash | Summary | Cross-file correlation |
+|---|---|---|---|---|---|---|---|
+| 2 | mcp.get_timeline | 15:53:31.501464 | **1** | 5,461,790.48 | `139ede1a10dd7b34` | `ERROR: log2timeline timed out after 5452s` | see below |
+| 7 | mcp.get_image_info | 15:54:31.700740 | 0 | 79.43 | `8577519004d987c9` | `ok` | clean deterministic call |
+| 8 | mcp.extract_files | 15:54:31.702836 | **1** | 0.86 | `9cb427e21b5cd9ea` | `Thymus REJECT_OUTSIDE_ALLOWLIST ('…extract-yazy9cbj')` — full message in §4.2 | see below |
+
+*`output_hash` values for these rows appear verbatim in the citations below and §4.1.*
 
 Citations: `base-dc-report.json:$.trace.tool_calls[2].exit_code -> "1"`, `:$.trace.tool_calls[2].args_hash -> "139ede1a10dd7b34"`, `:$.trace.tool_calls[2].output_hash -> "b381d47fc669e2e2b0be1541c10b43937a063834af10eab90145ebff19caddb4"`; `:$.trace.tool_calls[7].exit_code -> "0"`, `:$.trace.tool_calls[7].result_summary -> "ok"`; `:$.trace.tool_calls[8].exit_code -> "1"`, `:$.trace.tool_calls[8].args_hash -> "9cb427e21b5cd9ea"`.
 
