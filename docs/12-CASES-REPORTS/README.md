@@ -23,6 +23,10 @@ memory payloads, 9 distinct malicious SHA-256) — samples withheld, custody pro
 2. [srl-2015-report/reports/SRL-2015-full-report.pdf](srl-2015-report/reports/SRL-2015-full-report.pdf) — the
    complete forensic report (17 approved findings, IOC table, MITRE mapping, Wazuh reconciliation);
    condensed: [executive summary](srl-2015-report/reports/SRL-2015-executive-summary.pdf).
+3½. [srl-2015-report/AGENT-EXECUTION-LOGS-REPORT-SRL2015.md](srl-2015-report/AGENT-EXECUTION-LOGS-REPORT-SRL2015.md)
+   — the **Agent Execution Logs** for the autonomous engine pipeline over all 4 hosts × disk+memory
+   (8 sealed runs, 2,233 findings): communication chain, timestamped A2A log, 15-iteration traces,
+   cross-host APT correlation, integrity ledger — 82 JSONPath-cited claims.
 3. [srl-2015-report/deep-analysis/SRL-2015-memory-deep-analysis.md](srl-2015-report/deep-analysis/SRL-2015-memory-deep-analysis.md)
    — static reverse-engineering of the 5 memory-injection payloads (one VB6/LZMA loader family, two
    compiler variants, shipped [YARA rule](srl-2015-report/deep-analysis/srl2015_meminject.yar)).

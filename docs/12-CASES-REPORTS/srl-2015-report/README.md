@@ -29,6 +29,7 @@ YARA rule for it.
 | Path | What it is | Why you'd open it |
 |---|---|---|
 | [`INDEX.md`](INDEX.md) | The deliverable's own index: headline numbers with per-metric source, file map, and the **sealed source-deliverable SHA-256 list** | First stop; the integrity baseline referenced in §3.4 |
+| [`AGENT-EXECUTION-LOGS-REPORT-SRL2015.md`](AGENT-EXECUTION-LOGS-REPORT-SRL2015.md) | **Agent Execution Logs** for the full-engine pipeline over this case: 8 sealed runs (4 hosts × disk/memory, 2,233 findings), the 13-agent communication chain, timestamped A2A message log, 15-iteration persistent-loop traces, cross-host APT correlation (spinlock.exe → DC), and the integrity/Thymus attestation — 82 claims, every one cited `[host/modality $.jsonpath = value]` | Submission requirement #8, multi-host edition |
 | **`reports/`** | | |
 | [`reports/SRL-2015-full-report.pdf`](reports/SRL-2015-full-report.pdf) / [`.html`](reports/SRL-2015-full-report.html) | Complete forensic report rendered from the MCP `report_generate(profile=full)` payload: all 17 approved findings, per-host detail, IOC table, MITRE mapping, Wazuh reconciliation screenshots, methodology | The human-readable case file |
 | [`reports/SRL-2015-executive-summary.pdf`](reports/SRL-2015-executive-summary.pdf) / [`.html`](reports/SRL-2015-executive-summary.html) | Leadership summary: scope, headline counts, malicious IOCs, recommended actions | 5-minute read |

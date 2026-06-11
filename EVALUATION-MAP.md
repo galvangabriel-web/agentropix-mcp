@@ -149,6 +149,12 @@ The story sections map onto committed pages — assemble the Devpost text from t
   self-correction funnels, governance pies, seal chain), and the
   [108-second animated walkthrough](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/watch.html)
   plays the same story in motion (in-browser).
+- **The multi-host edition:** [`AGENT-EXECUTION-LOGS-REPORT-SRL2015.md`](docs/12-CASES-REPORTS/srl-2015-report/AGENT-EXECUTION-LOGS-REPORT-SRL2015.md)
+  — the same discipline scaled to **8 sealed runs** (SRL-2015: 4 hosts × disk/memory, 2,233
+  findings, **15-iteration** persistent loops): roster chain recreation, timestamped A2A message
+  log, iteration deltas, **cross-host APT correlation** (the spinlock.exe implant traced
+  workstation → Domain Controller), inline Thymus trails and a verified-absence GAP register —
+  82 claims, all `[host/modality $.jsonpath = value]` cited.
 - **Persistent-loop trace (iteration-over-iteration, approach changing):**
   [`EXECUTION-LOG.md`](case-activation/runs/jimmy-wilson-poc/EXECUTION-LOG.md) — tool execution log
   with timestamps + durations, the Trinity trace (13 agents → 2 after the Critic marks 11 stable),
