@@ -545,7 +545,12 @@ sequences, and the raw sealed evidence incl. live `run.log` + Thymus audit trail
 with its 🎨 **[Visual Atlas](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-VISUAL-ATLAS.md)** —
 thirteen color diagrams (agent-communication graph, end-to-end timestamp chain with a
 217-microsecond correlation-burst zoom, self-correction funnels, Thymus ALLOW/REJECT pies, and the
-HMAC seal cross-binding chain) generated from and verified against the raw run data. The wider
+HMAC seal cross-binding chain) generated from and verified against the raw run data — and its
+🎬 **[108-second animated walkthrough](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/EXECUTION-LOGS-ANIMATED.mp4)**
+(plays directly in your browser): the same topics in motion — the 91-minute wait drawn to scale,
+the 61-shield REJECT storm, the microsecond burst, and the self-correcting plan — animated with
+the Animotion MCP and rendered deterministically from the committed
+[deck source](docs/12-CASES-REPORTS/srl-2018-report/submission/execution-logs-animated-deck.html). The wider
 [`case-activation/`](case-activation/) folder holds a per-case Activation Guide for every evidence
 set on this host plus the captured executed runs ([`case-activation/runs/`](case-activation/runs/)).
 
