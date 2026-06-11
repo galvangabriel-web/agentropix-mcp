@@ -552,7 +552,11 @@ HMAC seal cross-binding chain) generated from and verified against the raw run d
 (plays directly in your browser): the same topics in motion — the 91-minute wait drawn to scale,
 the 61-shield REJECT storm, the microsecond burst, and the self-correcting plan — animated with
 the Animotion MCP and rendered deterministically from the committed
-[deck source](docs/12-CASES-REPORTS/srl-2018-report/submission/execution-logs-animated-deck.html). The wider
+[deck source](docs/12-CASES-REPORTS/srl-2018-report/submission/execution-logs-animated-deck.html).
+The **multi-host edition** scales the same discipline to SRL-2015 — 4 hosts × disk+memory, **8 sealed
+runs, 2,233 findings, 15-iteration loops**, and the cross-host spinlock.exe → Domain-Controller
+correlation: 📄 [report](docs/12-CASES-REPORTS/srl-2015-report/AGENT-EXECUTION-LOGS-REPORT-SRL2015.md) ·
+🎬 **[2 min 24 s animated walkthrough](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2015-report/watch-execution-logs.html)** (auto-plays). The wider
 [`case-activation/`](case-activation/) folder holds a per-case Activation Guide for every evidence
 set on this host plus the captured executed runs ([`case-activation/runs/`](case-activation/runs/)).
 
