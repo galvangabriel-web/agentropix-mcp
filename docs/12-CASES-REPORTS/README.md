@@ -30,7 +30,7 @@ memory payloads, 9 distinct malicious SHA-256) — samples withheld, custody pro
 **Recorded investigation replay** (~53 s, faithful command reenactment of the real 2026-06-10 run —
 chapters in [video/README.md](srl-2015-report/video/README.md)):
 
-[![SRL-2015 investigation replay (animated GIF — click for the MP4)](srl-2015-report/video/SRL-2015-investigation.gif)](srl-2015-report/video/SRL-2015-investigation-web.mp4)
+[![SRL-2015 investigation replay (animated GIF — click for the MP4)](srl-2015-report/video/SRL-2015-investigation.gif)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2015-report/video/SRL-2015-investigation-web.mp4)
 
 > ▶ The animation above is the inline GIF replay (auto-plays on GitHub). For full quality:
 > **[download the MP4 (1.5 MB)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/srl-2015-report/video/SRL-2015-investigation-web.mp4)**
@@ -53,7 +53,7 @@ External RDP foothold → dual C2 (Metasploit/Meterpreter + PowerShell Empire) �
 
 **Recorded analysis session** (254 agentropix MCP actions, paged for readability):
 
-[![Recorded analysis session — poster frame (click for the MP4)](srl-2018-report/training-session-poster.png)](srl-2018-report/training-session-paged.mp4)
+[![Recorded analysis session — poster frame (click for the MP4)](srl-2018-report/training-session-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/training-session-paged.mp4)
 
 > ▶ The image above is a poster frame.
 > **[Download the full session video (MP4, 19 MB)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/srl-2018-report/training-session-paged.mp4)**
@@ -78,7 +78,7 @@ A trusted insider (Anthony Vanko, STARKSURFACE / `PC User`) copied classified ze
 
 **Forensic evidence presentation** (~9 min) — the 8 key facts, each shown with its cross-source correlated artifacts (proof red-boxed), the technical correlation, and what it means to the case; bookended by the architecture and timeline diagrams:
 
-[![VANKO forensic evidence presentation — poster frame (click for the MP4)](vanko-report/findings-presentation-poster.png)](vanko-report/findings-presentation.mp4)
+[![VANKO forensic evidence presentation — poster frame (click for the MP4)](vanko-report/findings-presentation-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/vanko-report/findings-presentation.mp4)
 
 > ▶ The image above is a poster frame.
 > **[Download the full presentation video (MP4, 14 MB)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/vanko-report/findings-presentation.mp4)**

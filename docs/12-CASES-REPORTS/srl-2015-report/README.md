@@ -212,7 +212,7 @@ pattern (`agentropix-*`) and case filter.
 
 ## 🎬 The investigation replay
 
-[![SRL-2015 investigation replay (animated GIF — click for the MP4)](video/SRL-2015-investigation.gif)](video/SRL-2015-investigation-web.mp4)
+[![SRL-2015 investigation replay (animated GIF — click for the MP4)](video/SRL-2015-investigation.gif)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2015-report/video/SRL-2015-investigation-web.mp4)
 
 > ▶ *The GIF above plays inline; for the full-quality version,*
 > ***[download the MP4 (1.5 MB, 53 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/srl-2015-report/video/SRL-2015-investigation-web.mp4)***

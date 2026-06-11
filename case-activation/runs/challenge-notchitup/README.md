@@ -87,7 +87,7 @@ By design, no report materializes before an approval exists. The final sealed re
 
 ## 🎬 The recorded session
 
-[![Challenge Notch It Up executed run — poster frame (click for the MP4)](executed-run-poster.png)](EXECUTED-RUN.mp4)
+[![Challenge Notch It Up executed run — poster frame (click for the MP4)](executed-run-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/case-activation/runs/challenge-notchitup/EXECUTED-RUN.mp4)
 
-> ▶ *GitHub does not play repo-committed MP4s inline — click the poster to open the file, or*
+> ▶ *GitHub's repo pages can't play committed MP4s — the poster links to the **GitHub Pages copy, which plays directly in your browser**; or*
 > ***[download the MP4 (24 MB, 59 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/case-activation/runs/challenge-notchitup/EXECUTED-RUN.mp4)*** *— the full activation sequence captured live and rendered to video.*

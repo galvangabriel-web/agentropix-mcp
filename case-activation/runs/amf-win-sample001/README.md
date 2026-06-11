@@ -79,7 +79,7 @@ By design, no report materializes before an approval exists. The contrast with t
 
 ## 🎬 The recorded session
 
-[![AMF Windows sample001 executed run — poster frame (click for the MP4)](executed-run-poster.png)](EXECUTED-RUN.mp4)
+[![AMF Windows sample001 executed run — poster frame (click for the MP4)](executed-run-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/case-activation/runs/amf-win-sample001/EXECUTED-RUN.mp4)
 
-> ▶ *GitHub does not play repo-committed MP4s inline — click the poster to open the file, or*
+> ▶ *GitHub's repo pages can't play committed MP4s — the poster links to the **GitHub Pages copy, which plays directly in your browser**; or*
 > ***[download the MP4 (29 MB, 68 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/case-activation/runs/amf-win-sample001/EXECUTED-RUN.mp4)*** *— the full activation sequence captured live and rendered to video.*

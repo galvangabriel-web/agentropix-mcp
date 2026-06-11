@@ -52,13 +52,13 @@ trail of the investigation run — kept locally for reproducibility and audit.
 **Findings presentation** — the ~9-minute technical evidence walkthrough: 8 key facts, each with
 red-boxed artifact proof and a cross-source correlation panel.
 
-[![VANKO findings presentation — poster frame (click for the MP4)](findings-presentation-poster.png)](findings-presentation.mp4)
+[![VANKO findings presentation — poster frame (click for the MP4)](findings-presentation-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/vanko-report/findings-presentation.mp4)
 
 > ▶ ***[download the MP4 (14 MB, 8 min 48 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/vanko-report/findings-presentation.mp4)***
 
 **Training-session replay** — the raw paged action-log playback of the investigation run.
 
-[![VANKO training-session replay — poster frame (click for the MP4)](training-session-poster.png)](training-session-paged.mp4)
+[![VANKO training-session replay — poster frame (click for the MP4)](training-session-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/vanko-report/training-session-paged.mp4)
 
-> ▶ *GitHub does not play repo-committed MP4s inline — click a poster to open the file, or*
+> ▶ *GitHub's repo pages can't play committed MP4s — each poster links to the **GitHub Pages copy, which plays directly in your browser**; or*
 > ***[download the MP4 (8.1 MB, 2 min 24 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/vanko-report/training-session-paged.mp4)***.

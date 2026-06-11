@@ -34,8 +34,8 @@ Findings/IOCs were indexed to the live Wazuh cluster; the dashboard gallery in
 
 ## 🎬 The recorded analyst session
 
-[![SRL-2018 recorded analyst walkthrough — poster frame (click for the MP4)](training-session-poster.png)](training-session-paged.mp4)
+[![SRL-2018 recorded analyst walkthrough — poster frame (click for the MP4)](training-session-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/training-session-paged.mp4)
 
-> ▶ *GitHub does not play repo-committed MP4s inline — click the poster to open the file, or*
+> ▶ *GitHub's repo pages can't play committed MP4s — the poster links to the **GitHub Pages copy, which plays directly in your browser**; or*
 > ***[download the MP4 (19 MB, 5 min 48 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/srl-2018-report/training-session-paged.mp4)*** *— the
 > paged action-log replay of the analyst walkthrough.*

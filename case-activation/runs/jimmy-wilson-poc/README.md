@@ -64,8 +64,8 @@ agent landing its 111 findings near the end of the recorded run:
 
 ## 🎬 The recorded session
 
-[![Jimmy Wilson PoC run — poster frame (click for the MP4)](poc-run-poster.png)](POC-RUN.mp4)
+[![Jimmy Wilson PoC run — poster frame (click for the MP4)](poc-run-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/case-activation/runs/jimmy-wilson-poc/POC-RUN.mp4)
 
-> ▶ *GitHub does not play repo-committed MP4s inline — click the poster to open the file, or*
+> ▶ *GitHub's repo pages can't play committed MP4s — the poster links to the **GitHub Pages copy, which plays directly in your browser**; or*
 > ***[download the MP4 (369 KB)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/case-activation/runs/jimmy-wilson-poc/POC-RUN.mp4)*** *— a ~9 s paged playback of the
 > `uv sync` → `doctor` → `run` session captured live (asciinema → agg → ffmpeg).*
