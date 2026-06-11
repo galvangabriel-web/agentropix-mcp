@@ -58,7 +58,7 @@ flow, and the animated ALLOW/REJECT + seal cross-bind explainer. Rendered determ
 (virtual-time capture, 12 fps) from [`execution-logs-animated-deck.html`](execution-logs-animated-deck.html);
 animations & icons via the Animotion MCP.
 
-[![Animated walkthrough — poster frame (click to play in your browser)](execution-logs-animated-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/EXECUTION-LOGS-ANIMATED.mp4)
+[![Animated walkthrough — poster frame (click to play in your browser)](execution-logs-animated-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/watch.html)
 
 > ▶ *The poster links to the **GitHub Pages copy, which plays directly in your browser**; or*
 > ***[download the MP4 (980 KB, 1 min 48 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/srl-2018-report/submission/EXECUTION-LOGS-ANIMATED.mp4)***.

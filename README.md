@@ -546,7 +546,7 @@ with its 🎨 **[Visual Atlas](docs/12-CASES-REPORTS/srl-2018-report/submission/
 thirteen color diagrams (agent-communication graph, end-to-end timestamp chain with a
 217-microsecond correlation-burst zoom, self-correction funnels, Thymus ALLOW/REJECT pies, and the
 HMAC seal cross-binding chain) generated from and verified against the raw run data — and its
-🎬 **[108-second animated walkthrough](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/EXECUTION-LOGS-ANIMATED.mp4)**
+🎬 **[108-second animated walkthrough](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/watch.html)**
 (plays directly in your browser): the same topics in motion — the 91-minute wait drawn to scale,
 the 61-shield REJECT storm, the microsecond burst, and the self-correcting plan — animated with
 the Animotion MCP and rendered deterministically from the committed

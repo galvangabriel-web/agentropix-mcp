@@ -39,7 +39,7 @@ that satisfy it, with a reading path. Statuses are honest — ✅ means committe
     [Notch It Up](case-activation/runs/challenge-notchitup/README.md).
   - [`vanko-report/findings-presentation.mp4`](docs/12-CASES-REPORTS/vanko-report/README.md) — the
     ~9-min narrated-by-slides evidence walkthrough.
-  - 🎬 [`EXECUTION-LOGS-ANIMATED.mp4`](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/EXECUTION-LOGS-ANIMATED.mp4) — the **108-second
+  - 🎬 [`EXECUTION-LOGS-ANIMATED.mp4`](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/watch.html) — the **108-second
     Animotion-animated walkthrough** of the Agent Execution Logs package (timestamp chain with the
     91-min wait to scale, the 61-REJECT storm, the 217 µs burst, the self-correcting plan, the seal
     cross-bind); deterministic virtual-time render from the committed
@@ -138,7 +138,7 @@ The story sections map onto committed pages — assemble the Devpost text from t
   published run folder carries). Its [**Visual Atlas**](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-VISUAL-ATLAS.md)
   renders the same evidence as thirteen color diagrams (communication graph, timestamp chain,
   self-correction funnels, governance pies, seal chain), and the
-  [108-second animated walkthrough](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/EXECUTION-LOGS-ANIMATED.mp4)
+  [108-second animated walkthrough](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/watch.html)
   plays the same story in motion (in-browser).
 - **Persistent-loop trace (iteration-over-iteration, approach changing):**
   [`EXECUTION-LOG.md`](case-activation/runs/jimmy-wilson-poc/EXECUTION-LOG.md) — tool execution log

@@ -17,7 +17,7 @@
 > report's §3–§6 as thirteen color diagrams — the agent communication graph, the end-to-end
 > timestamp chain (with a 217-microsecond zoom), the self-correction funnels, the Thymus gate
 > pies, and the seal cross-binding chain — all generated from the raw files in this folder. There is
-> also a [**108-second animated walkthrough**](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/EXECUTION-LOGS-ANIMATED.mp4) of the same
+> also a [**108-second animated walkthrough**](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/watch.html) of the same
 > topics (plays in-browser).
 
 ## 1. Executive Summary & Determinism Frame
