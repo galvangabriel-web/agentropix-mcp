@@ -76,3 +76,10 @@ By design, no report materializes before an approval exists. The contrast with t
 - **The first `malfind` pass timed out** at the 180 s SDK default ([step6.json](step6.json)); the standalone re-run with a 300 s `callTool` timeout completed in 75 s ([step6_malfind_300s.json](step6_malfind_300s.json)).
 - **The pre-approval `report_generate` returned `case_not_found`** with `approved_finding_count: 0` — intended behavior, not a failure.
 - **The Step 10 approval is SIMULATED** (Playwright automation, labelled as such in the transcript). Treat the approval record `4a881577…` as automated, not human-attested.
+
+## 🎬 The recorded session
+
+[![AMF Windows sample001 executed run — poster frame (click for the MP4)](executed-run-poster.png)](EXECUTED-RUN.mp4)
+
+> ▶ *GitHub does not play repo-committed MP4s inline — click the poster to open the file, or*
+> ***[download the MP4 (29 MB, 68 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/case-activation/runs/amf-win-sample001/EXECUTED-RUN.mp4)*** *— the full activation sequence captured live and rendered to video.*

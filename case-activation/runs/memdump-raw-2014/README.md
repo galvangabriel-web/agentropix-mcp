@@ -82,3 +82,10 @@ With nothing approved, `report_generate` refuses to seal. After the real index a
 - **The captured `report_generate` files show the pre-approval failure.** Both `step13*.json` responses are genuine `case_not_found` results from the DRAFT-only state; the sealed run came after the real index + simulated approval (transcript Steps 12–14, `reports/`).
 - **`tool_count: 72` vs canonical 71** — the live number is recorded verbatim, not reconciled.
 - All 8 `.err` files are empty — captured stderr was empty, i.e. the capture harness ran clean. Two passes of the run were captured (~21:33Z and ~22:29Z); where both were kept, the duplicates are noted in the table above.
+
+## 🎬 The recorded session
+
+[![memdump (raw 2014) executed run — poster frame (click for the MP4)](executed-run-poster.png)](EXECUTED-RUN.mp4)
+
+> ▶ *GitHub does not play repo-committed MP4s inline — click the poster to open the file, or*
+> ***[download the MP4 (29 MB, 73 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/case-activation/runs/memdump-raw-2014/EXECUTED-RUN.mp4)*** *— the full activation sequence captured live and rendered to video.*

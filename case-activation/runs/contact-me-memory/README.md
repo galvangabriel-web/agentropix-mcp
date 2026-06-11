@@ -74,3 +74,10 @@ The sealed report contains exactly one approved finding (`F-CONTACTME-001`) — 
 - **`tool_count: 72` vs canonical 71.** The live `health` call reports 72; the canonical catalogue figure is 71 — the transcript records the live number verbatim rather than reconciling it.
 - **The captured `report_generate` is the failed (DRAFT-only) attempt.** The `case_not_found` response in `step13_report_generate.json` is genuine; the sealed run with `approved_finding_count: 1` came after the real index + simulated approval and is documented in the transcript and `reports/`.
 - All `.err` files are empty — captured stderr was empty, i.e. the capture harness itself ran clean.
+
+## 🎬 The recorded session
+
+[![CTF Contact Me executed run — poster frame (click for the MP4)](executed-run-poster.png)](EXECUTED-RUN.mp4)
+
+> ▶ *GitHub does not play repo-committed MP4s inline — click the poster to open the file, or*
+> ***[download the MP4 (24 MB, 56 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/case-activation/runs/contact-me-memory/EXECUTED-RUN.mp4)*** *— the full activation sequence captured live and rendered to video.*

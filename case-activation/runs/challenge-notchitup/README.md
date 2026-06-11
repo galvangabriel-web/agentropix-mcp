@@ -84,3 +84,10 @@ By design, no report materializes before an approval exists. The final sealed re
 - **The Step 9 approval is SIMULATED** (Playwright-automated, labelled as such in the transcript). Treat the approval record `6434ea81…` as automated, not human-attested.
 - **No separate "identify the OS" step was run**: the populated 53-row pslist *is* the kernel-symbol-table match (Windows x64, 2019-08-19 boot). `malfind` ran to completion with no false timeout on this image.
 - The netscan IPs (`172.217.x.x`, `10.0.2.15`) and browser endpoints are artifacts recovered from inside the evidence image, presented as-is.
+
+## 🎬 The recorded session
+
+[![Challenge Notch It Up executed run — poster frame (click for the MP4)](executed-run-poster.png)](EXECUTED-RUN.mp4)
+
+> ▶ *GitHub does not play repo-committed MP4s inline — click the poster to open the file, or*
+> ***[download the MP4 (24 MB, 59 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/case-activation/runs/challenge-notchitup/EXECUTED-RUN.mp4)*** *— the full activation sequence captured live and rendered to video.*
