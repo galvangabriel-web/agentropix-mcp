@@ -74,11 +74,11 @@ The roster is **constant**; each agent's *behavior* is **evidence-type-gated**, 
 | memory | RAM/Volatility (T1055) — MEMORY-ONLY | 1 (skip: "image is not a memory dump (disk-only)") | skipped (evidence-gated) | `$.findings[0]._source` |
 | timeline | Plaso super-timeline | 1 (WRAPPER_TIMEOUT after 5452s) | timeout (recovered → TIMELINE_GENERATED proof) | `$.findings[1]._source`; `:$.trace.tool_calls[1].duration_ms` |
 | filesystem | TSK `fls` filesystem walk | 1 (fls timed out after 60.0s) | degraded (stable in loop) | `$.findings[2]._source` |
-| artifact | EWF evidence-chain + extraction — DISK-ONLY | 2 (chain: `case=20180905-001 examiner=Clint Barton`; extract REJECTed) | stable / productive | `$.findings[3]._source`; `:$.findings[4]._source` |
+| artifact | EWF evidence-chain + extraction — DISK-ONLY | 2 (chain: “case=20180905-001 examiner=Clint Barton”; extract REJECTed) | stable / productive | `$.findings[3]._source`; `:$.findings[4]._source` |
 | discovery | Host/share discovery | 0 in every iteration | **gap-0-findings (persistent)** | `$.trace.tool_calls[138].result_summary`; `:$.iterations[0].gaps` |
 | null_session_baseline | SMB null-session baseline (Security.evtx) | 1 (0 bursts across 81 windows) | stable | `$.findings[5]._source` |
 | mail | Mail/email artifact scan | 0 in every iteration | **gap-0-findings (persistent)** | `$.trace.tool_calls[140].result_summary`; `:$.iterations[0].gaps` |
-| yara_hunt | YARA Forge signature scan | 2 (bundle active `tag=20260505 sha256=87ee463c…`; E01-unmounted skip) | stable (graceful degrade) | `$.findings[6]._source`; `:$.findings[7]._source` |
+| yara_hunt | YARA Forge signature scan | 2 (bundle active “tag=20260505 sha256=87ee463c…”; E01-unmounted skip) | stable (graceful degrade) | `$.findings[6]._source`; `:$.findings[7]._source` |
 | injection_detector | Process-injection detection — MEMORY-ONLY | 1 (skip: "not a memory image") | skipped (evidence-gated) | `$.findings[8]._source` |
 | t1546_008_accessibility_ifeo_hijack | T1546.008 IFEO hijack — DISK-ONLY | 2 (LEG-A blocked by Thymus REJECT) | ran / blocked-write | `$.findings[9]._source` |
 | t1059_001_iex_loopback_c2 | T1059.001 IEX loopback-C2 (EID 4104) | 2 (0 hits across 999 records) | stable | `$.findings[12]._source` |
