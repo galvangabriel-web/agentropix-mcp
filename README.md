@@ -26,7 +26,9 @@
 > 🎬 **[2 min 24 s Submission Evidence Tour](https://galvangabriel-web.github.io/agentropix-mcp/assets/submission-tour/watch-tour.html)**
 > (auto-plays): one animated scene per requirement, each with a live-captured proof panel. And for
 > the investigation flow itself, the 🎞️ **[six-stage workflow animation](#-recommended-investigation-workflow)**
-> plays inline right on this page — doctor → run → review → human gate → seal → escalate.
+> plays inline right on this page — doctor → run → review → human gate → seal → escalate — and the
+> 🎞️ **[safety proof reel](#%EF%B8%8F-the-six-guarantees-proven-on-screen)** shows every anti-hallucination
+> guarantee backed by real cited evidence from the sealed execution logs.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#license)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
