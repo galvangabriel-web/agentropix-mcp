@@ -1,0 +1,645 @@
+{
+  "version": "0.2.0-dev",
+  "image": "samples/sample.dd",
+  "max_iterations": 5,
+  "iterations_completed": 5,
+  "status": "budget_exhausted",
+  "findings": [
+    {
+      "_source": "memory.skip",
+      "confidence": 0.0,
+      "description": "MemoryAgent skipped: image is not a memory dump (disk-only). Volatility plugins require RAM capture; T1055 disk-side coverage is provided by the AppData-staging detector in TimelineAgent (W-067).",
+      "evidence": "image=samples/sample.dd suffix=.dd",
+      "timestamp": "2026-05-03T01:01:40.934027+00:00",
+      "mitre_attack": "",
+      "related_findings": []
+    },
+    {
+      "_source": "yara_hunt.rule_error",
+      "confidence": 0.3,
+      "description": "YARA rule compilation failed: ~/agentropix-sift/src/agentropix_sift/detectors/yara_rules/cobalt_strike/cobalt_strike_beacon_gen4.yar(42): unreferenced string \"$config_a\"",
+      "evidence": "rules_dir=~/agentropix-sift/src/agentropix_sift/detectors/yara_rules error=~/agentropix-sift/src/agentropix_sift/detectors/yara_rules/cobalt_strike/cobalt_strike_beacon_gen4.yar(42): unreferenced string \"$config_a\"",
+      "timestamp": "2026-05-03T01:01:50.081403+00:00",
+      "mitre_attack": "",
+      "related_findings": []
+    },
+    {
+      "_source": "memory.injection.skipped",
+      "confidence": 0.2,
+      "description": "InjectionDetector skipped: sample.dd is not a memory image",
+      "evidence": "image=samples/sample.dd reason=non_memory_image",
+      "timestamp": "2026-05-03T01:01:50.081472+00:00",
+      "mitre_attack": "",
+      "related_findings": []
+    }
+  ],
+  "trace": {
+    "tool_calls": [
+      {
+        "tool": "agent.memory",
+        "timestamp": "2026-05-03T01:01:40.934054+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-05-03T01:01:50.069971+00:00",
+        "duration_ms": 9135.91,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-05-03T01:01:50.069930+00:00",
+        "duration_ms": 9135.79,
+        "result_summary": "ok",
+        "args_hash": "4f27fcd6987d66ad",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-b4_coxsg/timeline.plaso\",\"raw_stderr\":\"2026-05-03 01:01:41,286 [INFO] (MainProcess) PID:773274 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"d62f669ad27f2657e803fb334964ef3cadfc83e2e35bc4d155c4bfb925ddb3bd\"}",
+        "output_hash": "5659f75377701191dce12b48d523343ec8691035ecea3327d34f2aef71f9d2a4"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-05-03T01:01:50.069955+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-05-03T01:01:50.077972+00:00",
+        "duration_ms": 7.99,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-05-03T01:01:50.077939+00:00",
+        "duration_ms": 7.88,
+        "result_summary": "ok",
+        "args_hash": "be4368a6675755f3",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"offset\":0,\"entry_count\":2,\"entries\":[{\"entry_type\":\"d\",\"allocated\":true,\"inode\":\"11\",\"name\":\"lost+found\",\"full_path\":\"/lost+found\",\"modified_time\":\"2026-04-15 01:50:51 (UTC)\",\"accessed_time\":\"2026-04-15 01:50:51 (UTC)\",\"size\":16384},{\"entry_type\":\"V\",\"allocated\":true,\"inode\":\"2561\",\"name\":\"$OrphanFiles\",\"full_path\":\"/$OrphanFiles\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":0}],\"tool\":\"sleuthkit.fls\",\"raw_stderr\":\"\",\"raw_stdout_sha256\":\"854a648699874a7016b2297d6bec518e028aa4fa8fe1276a4c491644c17a0bd1\"}",
+        "output_hash": "64a69d5e3d52836650703b74cba9a6c4a385dea029664268a1171b9f7d23c338"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-05-03T01:01:50.077995+00:00",
+        "duration_ms": 0.02,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.yara_hunt",
+        "timestamp": "2026-05-03T01:01:50.081448+00:00",
+        "duration_ms": 3.45,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.injection_detector",
+        "timestamp": "2026-05-03T01:01:50.081480+00:00",
+        "duration_ms": 0.02,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.hunt",
+        "timestamp": "2026-05-03T01:01:50.081898+00:00",
+        "duration_ms": 0.41,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-05-03T01:01:59.224286+00:00",
+        "duration_ms": 9142.23,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-05-03T01:01:59.224252+00:00",
+        "duration_ms": 9142.14,
+        "result_summary": "ok",
+        "args_hash": "4f27fcd6987d66ad",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-k9i848gg/timeline.plaso\",\"raw_stderr\":\"2026-05-03 01:01:50,439 [INFO] (MainProcess) PID:773331 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"88d1298210f222dc34955401980159a00bf9c3fba832ee118ded39086d47b4d2\"}",
+        "output_hash": "9148a357fe428a34bd8a4bc33600507d73fcc2558a095df1fe9218d2c08cdb4f"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-05-03T01:01:59.224273+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-05-03T01:01:59.232299+00:00",
+        "duration_ms": 8.0,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-05-03T01:01:59.232273+00:00",
+        "duration_ms": 7.91,
+        "result_summary": "ok",
+        "args_hash": "be4368a6675755f3",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"offset\":0,\"entry_count\":2,\"entries\":[{\"entry_type\":\"d\",\"allocated\":true,\"inode\":\"11\",\"name\":\"lost+found\",\"full_path\":\"/lost+found\",\"modified_time\":\"2026-04-15 01:50:51 (UTC)\",\"accessed_time\":\"2026-04-15 01:50:51 (UTC)\",\"size\":16384},{\"entry_type\":\"V\",\"allocated\":true,\"inode\":\"2561\",\"name\":\"$OrphanFiles\",\"full_path\":\"/$OrphanFiles\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":0}],\"tool\":\"sleuthkit.fls\",\"raw_stderr\":\"\",\"raw_stdout_sha256\":\"854a648699874a7016b2297d6bec518e028aa4fa8fe1276a4c491644c17a0bd1\"}",
+        "output_hash": "64a69d5e3d52836650703b74cba9a6c4a385dea029664268a1171b9f7d23c338"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-05-03T01:01:59.232322+00:00",
+        "duration_ms": 0.02,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.hunt",
+        "timestamp": "2026-05-03T01:01:59.232465+00:00",
+        "duration_ms": 0.14,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-05-03T01:02:08.360150+00:00",
+        "duration_ms": 9127.52,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-05-03T01:02:08.360112+00:00",
+        "duration_ms": 9127.42,
+        "result_summary": "ok",
+        "args_hash": "4f27fcd6987d66ad",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-9am9jkwb/timeline.plaso\",\"raw_stderr\":\"2026-05-03 01:01:59,575 [INFO] (MainProcess) PID:773389 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"67777c26e3d6556a6e0a01558b0beb87f67ae5685e237466f830f5d4dc8e7493\"}",
+        "output_hash": "aa3212b5afe90426b0e9aff02dc9518eb5239452d38fe6e95dfedacd2292befd"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-05-03T01:02:08.360135+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-05-03T01:02:08.369893+00:00",
+        "duration_ms": 9.73,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-05-03T01:02:08.369865+00:00",
+        "duration_ms": 9.63,
+        "result_summary": "ok",
+        "args_hash": "be4368a6675755f3",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"offset\":0,\"entry_count\":2,\"entries\":[{\"entry_type\":\"d\",\"allocated\":true,\"inode\":\"11\",\"name\":\"lost+found\",\"full_path\":\"/lost+found\",\"modified_time\":\"2026-04-15 01:50:51 (UTC)\",\"accessed_time\":\"2026-04-15 01:50:51 (UTC)\",\"size\":16384},{\"entry_type\":\"V\",\"allocated\":true,\"inode\":\"2561\",\"name\":\"$OrphanFiles\",\"full_path\":\"/$OrphanFiles\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":0}],\"tool\":\"sleuthkit.fls\",\"raw_stderr\":\"\",\"raw_stdout_sha256\":\"854a648699874a7016b2297d6bec518e028aa4fa8fe1276a4c491644c17a0bd1\"}",
+        "output_hash": "64a69d5e3d52836650703b74cba9a6c4a385dea029664268a1171b9f7d23c338"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-05-03T01:02:08.369913+00:00",
+        "duration_ms": 0.01,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.hunt",
+        "timestamp": "2026-05-03T01:02:08.370053+00:00",
+        "duration_ms": 0.14,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-05-03T01:02:17.498661+00:00",
+        "duration_ms": 9128.47,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-05-03T01:02:17.498625+00:00",
+        "duration_ms": 9128.36,
+        "result_summary": "ok",
+        "args_hash": "4f27fcd6987d66ad",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-oces_es5/timeline.plaso\",\"raw_stderr\":\"2026-05-03 01:02:08,714 [INFO] (MainProcess) PID:773440 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"62b9e6c4a262960860e5acdba421ee1bc1bb4fda9a5410d8bb052325129a185f\"}",
+        "output_hash": "a807ab2479ce305b934dc0f48910d8d8655751828ba0f3aa0cd40be673eb21dc"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-05-03T01:02:17.498647+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-05-03T01:02:17.506352+00:00",
+        "duration_ms": 7.68,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-05-03T01:02:17.506329+00:00",
+        "duration_ms": 7.6,
+        "result_summary": "ok",
+        "args_hash": "be4368a6675755f3",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"offset\":0,\"entry_count\":2,\"entries\":[{\"entry_type\":\"d\",\"allocated\":true,\"inode\":\"11\",\"name\":\"lost+found\",\"full_path\":\"/lost+found\",\"modified_time\":\"2026-04-15 01:50:51 (UTC)\",\"accessed_time\":\"2026-04-15 01:50:51 (UTC)\",\"size\":16384},{\"entry_type\":\"V\",\"allocated\":true,\"inode\":\"2561\",\"name\":\"$OrphanFiles\",\"full_path\":\"/$OrphanFiles\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":0}],\"tool\":\"sleuthkit.fls\",\"raw_stderr\":\"\",\"raw_stdout_sha256\":\"854a648699874a7016b2297d6bec518e028aa4fa8fe1276a4c491644c17a0bd1\"}",
+        "output_hash": "64a69d5e3d52836650703b74cba9a6c4a385dea029664268a1171b9f7d23c338"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-05-03T01:02:17.506372+00:00",
+        "duration_ms": 0.01,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.hunt",
+        "timestamp": "2026-05-03T01:02:17.506531+00:00",
+        "duration_ms": 0.15,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-05-03T01:02:26.638160+00:00",
+        "duration_ms": 9131.47,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-05-03T01:02:26.638125+00:00",
+        "duration_ms": 9131.38,
+        "result_summary": "ok",
+        "args_hash": "4f27fcd6987d66ad",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-c7o9v1re/timeline.plaso\",\"raw_stderr\":\"2026-05-03 01:02:17,858 [INFO] (MainProcess) PID:773503 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"3e7fbc8a069a077e97c3b3aa805eb2f7bc8bb5ed33d0361914b592390c4d6da9\"}",
+        "output_hash": "a0934c453a9491404c8d4da234d1c7965178f8dde5aec0763a509af14607590e"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-05-03T01:02:26.638146+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-05-03T01:02:26.645986+00:00",
+        "duration_ms": 7.82,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-05-03T01:02:26.645962+00:00",
+        "duration_ms": 7.73,
+        "result_summary": "ok",
+        "args_hash": "be4368a6675755f3",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"samples/sample.dd\",\"offset\":0,\"entry_count\":2,\"entries\":[{\"entry_type\":\"d\",\"allocated\":true,\"inode\":\"11\",\"name\":\"lost+found\",\"full_path\":\"/lost+found\",\"modified_time\":\"2026-04-15 01:50:51 (UTC)\",\"accessed_time\":\"2026-04-15 01:50:51 (UTC)\",\"size\":16384},{\"entry_type\":\"V\",\"allocated\":true,\"inode\":\"2561\",\"name\":\"$OrphanFiles\",\"full_path\":\"/$OrphanFiles\",\"modified_time\":\"0000-00-00 00:00:00 (UTC)\",\"accessed_time\":\"0000-00-00 00:00:00 (UTC)\",\"size\":0}],\"tool\":\"sleuthkit.fls\",\"raw_stderr\":\"\",\"raw_stdout_sha256\":\"854a648699874a7016b2297d6bec518e028aa4fa8fe1276a4c491644c17a0bd1\"}",
+        "output_hash": "64a69d5e3d52836650703b74cba9a6c4a385dea029664268a1171b9f7d23c338"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-05-03T01:02:26.646005+00:00",
+        "duration_ms": 0.01,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.hunt",
+        "timestamp": "2026-05-03T01:02:26.646139+00:00",
+        "duration_ms": 0.13,
+        "result_summary": "0 finding(s)"
+      }
+    ],
+    "counters": {
+      "trace.timeline.counters": {
+        "jsonl_rows_read": 0,
+        "priority_hits_by_family": {
+          "4624": 0,
+          "winreg_run": 0,
+          "mft_timestomp": 0,
+          "lolbin": 0,
+          "appdata_staging": 0
+        },
+        "parser_deque_sizes": {},
+        "events_received_by_agent": 0,
+        "detectors_fired_by_id": {
+          "4624_detector": 0,
+          "winreg_run_detector": 0,
+          "prefetch_detector": 0,
+          "mft_timestomp_detector": 0,
+          "lolbin_detector": 0,
+          "appdata_staging_detector": 0
+        }
+      }
+    },
+    "start_time": "2026-05-03T01:01:40.933993+00:00",
+    "end_time": "2026-05-03T01:02:26.646260+00:00",
+    "total_duration_ms": 45712.27
+  },
+  "thymus_audit": [
+    {
+      "timestamp": "2026-05-03T01:01:40.934155+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-05-03T01:01:50.070100+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-05-03T01:01:50.082156+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-05-03T01:01:59.224402+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-05-03T01:01:59.232718+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-05-03T01:02:08.360283+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-05-03T01:02:08.370290+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-05-03T01:02:17.498780+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-05-03T01:02:17.506780+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-05-03T01:02:26.638281+00:00",
+      "action": "ALLOW",
+      "path": "samples/sample.dd",
+      "reason": "within read-only zone"
+    }
+  ],
+  "critic_score": 1.0,
+  "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'filesystem', 'hunt', 'timeline']); score 1.00",
+  "iterations": [
+    {
+      "iteration": 1,
+      "plan": [
+        "memory",
+        "timeline",
+        "filesystem",
+        "artifact",
+        "yara_hunt",
+        "injection_detector",
+        "hunt"
+      ],
+      "stable_agents": [
+        "injection_detector",
+        "memory",
+        "yara_hunt"
+      ],
+      "dropped_agents": [],
+      "gaps": [
+        "artifact",
+        "filesystem",
+        "hunt",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'filesystem', 'hunt', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 2,
+      "plan": [
+        "timeline",
+        "filesystem",
+        "artifact",
+        "hunt"
+      ],
+      "stable_agents": [
+        "injection_detector",
+        "memory",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "yara_hunt",
+        "injection_detector"
+      ],
+      "gaps": [
+        "artifact",
+        "filesystem",
+        "hunt",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'filesystem', 'hunt', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 3,
+      "plan": [
+        "timeline",
+        "filesystem",
+        "artifact",
+        "hunt"
+      ],
+      "stable_agents": [
+        "injection_detector",
+        "memory",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "yara_hunt",
+        "injection_detector"
+      ],
+      "gaps": [
+        "artifact",
+        "filesystem",
+        "hunt",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'filesystem', 'hunt', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 4,
+      "plan": [
+        "timeline",
+        "filesystem",
+        "artifact",
+        "hunt"
+      ],
+      "stable_agents": [
+        "injection_detector",
+        "memory",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "yara_hunt",
+        "injection_detector"
+      ],
+      "gaps": [
+        "artifact",
+        "filesystem",
+        "hunt",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'filesystem', 'hunt', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 5,
+      "plan": [
+        "timeline",
+        "filesystem",
+        "artifact",
+        "hunt"
+      ],
+      "stable_agents": [
+        "injection_detector",
+        "memory",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "yara_hunt",
+        "injection_detector"
+      ],
+      "gaps": [
+        "artifact",
+        "filesystem",
+        "hunt",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'filesystem', 'hunt', 'timeline']); score 1.00",
+      "should_halt": false
+    }
+  ],
+  "inference_constraint": "high",
+  "evidence_image_sha256": "459ea50df1c5cb7ccfc19abffaa88a7cd91eadcd24df85a2f00a1ff7a637e80b",
+  "report_seal": "d9f168220992b8ca9723dfbdf3692f8c8d2fb02a97d8c6f9faccd6d21393bf14",
+  "completion_proofs": [
+    "INJECTION_DETECTION_COMPLETE",
+    "YARA_HUNT_COMPLETE"
+  ]
+}

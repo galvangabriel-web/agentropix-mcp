@@ -1,0 +1,4 @@
+seal: d9f168220992b8ca ... key bytes: 32
+verify_seal: True
+findings count: 3
+tool_calls count: 38
