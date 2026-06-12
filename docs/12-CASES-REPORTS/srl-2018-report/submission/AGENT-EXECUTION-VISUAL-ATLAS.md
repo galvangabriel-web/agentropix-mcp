@@ -213,24 +213,19 @@ flowchart TD
 
 </details>
 
-### Where the 5,642 seconds went
+### Where the 5,642 seconds went *(redesigned — the pie was hiding the story)*
 
-![Wall-clock budget of the 94-minute base-dc run: a single blocked log2timeline call dominates everything else combined by a factor of 30.](diagrams/base-dc-wallclock-pie.png)
+![Proportional bar of the base-dc wall clock: log2timeline's 5,461.8 s wait fills 96.8% of the full-run bar, and a magnified second bar reveals the three ~60 s phases the pie hid — the extract_files storm, the fls timeout, and the detector scans.](diagrams/base-dc-wallclock-pie.png)
 
-*Wall-clock budget of the 94-minute base-dc run: a single blocked log2timeline call dominates everything else combined by a factor of 30.*
+*Wall-clock budget of the 94-minute base-dc run, as a proportional bar with the 3.2% remainder magnified — the earlier pie made everything except the timeout invisible, which is exactly why it got redesigned.*
 
-**What to see:** The log2timeline slice (5,461.8 s measured duration_ms on tc[2], against its 5452 s configured cap) is 96.8% of the run; the three remaining phases — the 60.1 s fls timeout, the 62.1 s extract_files Thymus-REJECT storm, and the 58.3 s T1059/T1071 detector scans — are near-invisible slivers. The entire correlation, final sweep, and sealing tail adds under 30 ms and does not register at this scale.
+**What to see:** The top bar is the whole run: one blocked log2timeline call (5,461.8 s measured duration_ms on tc[2], against its 5452 s configured cap) is 96.8% of it. The magnified bar below is the surviving 3.2% (180.5 s), where the real texture lives: the 62.1 s extract_files storm (with its 61 Thymus REJECTs), the 60.1 s fls timeout, and the 58.3 s detector scans. Still invisible at any scale: the correlation burst, final sweep, and sealing — under 30 ms combined.
 
 <details>
-<summary>Mermaid source</summary>
+<summary>Sources — the redesigned bar (HTML) and the superseded pie (Mermaid)</summary>
 
-```mermaid
-pie showData title base-dc wall clock - 5642 s total (14:22:29 - 15:56:32 UTC)
-    "log2timeline timeout wait" : 5461.8
-    "fls timeout" : 60.1
-    "extract_files storm + artifact phase" : 62.1
-    "T1059 / T1071 detector scans" : 58.3
-```
+The current figure is rendered from [`diagrams/animated-decks/wallclock-bar.html`](diagrams/animated-decks/wallclock-bar.html).
+The original pie source remains at [`diagrams/base-dc-wallclock-pie.mmd`](diagrams/base-dc-wallclock-pie.mmd) — kept for provenance; superseded 2026-06-12 because a 96.8% slice rendered every other slice unreadable.
 
 </details>
 
