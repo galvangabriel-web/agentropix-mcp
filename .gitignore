@@ -16,3 +16,7 @@ dist/
 
 # local-only video archive (never publish)
 videoos/
+
+# local-only grading/self-review material (never publish)
+evaluation/
+evaluation1/
