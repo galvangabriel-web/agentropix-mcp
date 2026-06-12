@@ -48,6 +48,11 @@ that satisfy it, with a reading path. Statuses are honest — ✅ means committe
     Submission Evidence Tour** (auto-plays): one animated scene per requirement 1–8 with a
     live-captured REAL-PROOF panel each, plus the Built-With tags — an end-to-end visual summary
     of this entire map ([deck source + proof captures](assets/submission-tour/)).
+  - 🎞️ [Visual Atlas section animations ×6](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-VISUAL-ATLAS.md) — looping
+    Animotion GIFs that auto-play inline throughout the redesigned Atlas (hero banner, the
+    agent gossip graph, the 91-min-vs-217-µs clock, the self-correction funnel, the 85/61
+    ALLOW-REJECT counters, the findings bar race) — friendly on the surface, every value sealed
+    underneath.
   - 🎞️ [`safety-proof-animated.gif`](assets/safety-proof-animated.gif) — the **73-second
     six-guarantee proof reel, v2** (auto-plays inline in the README's Safety section): each
     anti-hallucination guarantee shown with real cited evidence from the SRL-2015 + SRL-2018
@@ -165,7 +170,10 @@ The story sections map onto committed pages — assemble the Devpost text from t
   `session-key`, **live `run.log`**, and **`thymus-audit.jsonl`** (artifact types no other
   published run folder carries). Its [**Visual Atlas**](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-VISUAL-ATLAS.md)
   renders the same evidence as thirteen color diagrams (communication graph, timestamp chain,
-  self-correction funnels, governance pies, seal chain), and the
+  self-correction funnels, governance pies, seal chain) — **redesigned 2026-06-12 with six looping
+  Animotion section animations** (hero, gossip graph, geology-vs-lightning clock, 13-became-2
+  funnel, bouncer-and-seal counters, findings bar race; deck sources in
+  [`diagrams/animated-decks/`](docs/12-CASES-REPORTS/srl-2018-report/submission/diagrams/animated-decks/)) — and the
   [108-second animated walkthrough](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/watch.html)
   plays the same story in motion (in-browser).
 - **The multi-host edition:** [`AGENT-EXECUTION-LOGS-REPORT-SRL2015.md`](docs/12-CASES-REPORTS/srl-2015-report/AGENT-EXECUTION-LOGS-REPORT-SRL2015.md)
