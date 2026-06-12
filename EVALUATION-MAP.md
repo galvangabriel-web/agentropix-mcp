@@ -48,6 +48,10 @@ that satisfy it, with a reading path. Statuses are honest — ✅ means committe
     Submission Evidence Tour** (auto-plays): one animated scene per requirement 1–8 with a
     live-captured REAL-PROOF panel each, plus the Built-With tags — an end-to-end visual summary
     of this entire map ([deck source + proof captures](assets/submission-tour/)).
+  - 🎞️ [`safety-proof-animated.gif`](assets/safety-proof-animated.gif) — the **55-second
+    six-guarantee proof reel** (auto-plays inline in the README's Safety section): each
+    anti-hallucination guarantee shown with real cited evidence from the SRL-2015 + SRL-2018
+    Agent Execution Logs ([deck source](assets/safety-proof-deck.html)).
   - 🎞️ [`workflow-animated.gif`](assets/workflow-animated.gif) — the **17-second six-stage
     investigation-workflow animation** (doctor → run → review → human HMAC gate → seal → escalate,
     ending on the SEALED badge). The one asset that **auto-plays inline on github.com itself** —
@@ -126,6 +130,11 @@ The story sections map onto committed pages — assemble the Devpost text from t
   exists in the surface, and each invariant carries an **adversarial test case** describing exactly
   what happens when the agent attempts a bypass. Plus [provenance & grounding](docs/05-safety-forensics/provenance-grounding.md)
   and the pre/post SHA-256 discipline ([honest nuance in README §Safety](README.md#safety--anti-hallucination)).
+  **Proof reel:** the 🎞️ [safety-proof animation](assets/safety-proof-animated.gif) (auto-plays inline
+  in the [README's Safety section](README.md#safety--anti-hallucination)) shows all six guarantees with
+  real cited values from both Agent Execution Logs reports — the 204,884-entry fls walk, critic pinned
+  at 1.0 across 10 runs, 10 distinct evidence SHA-256, the 61 live REJECTs, the seal cross-bind, and
+  the 17+12 examiner-approved findings ([deck source](assets/safety-proof-deck.html)).
   **Live-run proof:** the submission package's §6 *Governance & Sealed Audit Correlation* and its raw
   [`base-dc-thymus-audit.jsonl`](docs/12-CASES-REPORTS/srl-2018-report/submission/base-dc-thymus-audit.jsonl) — **146 recorded decisions, 61 real
   `REJECT`s** of out-of-allowlist paths during the run, seals cross-bound to entry counts ([gold report](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md)).
