@@ -41,7 +41,7 @@ get_pslist            # running processes — ALSO auto-detects the OS/kernel pr
 ```
 
 > `run_volatility` is the generic Volatility driver for any plugin the named wrappers don't cover.
-> Total MCP surface is **71** tools ({{ref:CANONICAL_FACTS#mcp_tool_count}}); the live
+> Total MCP surface is **72** tools ({{ref:CANONICAL_FACTS#mcp_tool_count}}); the live
 > `health.tool_count` may report **72** (a reproducible +1 — see the user-guide §1.2 note).
 
 ---

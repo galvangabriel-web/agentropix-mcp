@@ -1,0 +1,33 @@
+flowchart TD
+    A["14:22:29.658 UTC<br/>agent.memory baseline<br/>0.11 ms - 1 finding"]:::ok
+    B["15:53:31.501<br/>get_timeline FAIL exit 1<br/>log2timeline timed out after 5452 s"]:::bad
+    C["15:54:31.620<br/>fls FAIL<br/>timed out after 60.0 s"]:::bad
+    D["15:54:31.700<br/>get_image_info OK<br/>79.43 ms - E01 metadata"]:::ok
+    E["15:54:31.702836<br/>extract_files call 1<br/>Thymus REJECT_OUTSIDE_ALLOWLIST"]:::rej
+    F["15:54:35.582 - 15:55:33.829<br/>extract_files storm - 131 calls<br/>61 Thymus REJECT + 70 rate-limited"]:::rej
+    G["15:55:32.320<br/>null_session_baseline done<br/>56.7 s - 1 finding"]:::ok
+    H["15:55:33.811 - .829<br/>yara_hunt + injection + T1546.008<br/>5 findings - YARA mount skipped"]:::ok
+    I["15:56:32.093<br/>T1059.001 IEX + T1071.001 svchost<br/>58.3 s - 3 findings"]:::ok
+    J["15:56:32.095393 - .095610<br/>agent.hunt correlation burst<br/>8 findings in 217 microseconds"]:::hunt
+    K["15:56:32.119754<br/>final list_files sweep<br/>tool call 176 of 176"]:::tool
+    L["SEALED REPORT<br/>22 findings - budget_exhausted - critic 1.0<br/>report_seal 151c9e88 - audit seal 1085b493<br/>146 audit entries - evidence SHA e2b9cf0c"]:::seal
+
+    A -->|"91 min 02 s blocked - 96.8% of run"| B
+    B -->|"+60.1 s"| C
+    C -->|"+80 ms"| D
+    D -->|"+2 ms"| E
+    E -->|"storm spans 62.1 s"| F
+    E -->|"parallel - 60.6 s later"| G
+    F --> H
+    G --> H
+    H -->|"+58.3 s scan"| I
+    I -->|"+2.3 ms"| J
+    J -->|"+24 ms"| K
+    K --> L
+
+    classDef ok fill:#c8e6c9,stroke:#2e7d32,color:#1a1a1a
+    classDef bad fill:#ffcdd2,stroke:#c62828,color:#1a1a1a
+    classDef rej fill:#ffcdd2,stroke:#b71c1c,stroke-dasharray:4 3,color:#1a1a1a
+    classDef tool fill:#bbdefb,stroke:#1565c0,color:#1a1a1a
+    classDef hunt fill:#ffe0b2,stroke:#ef6c00,color:#1a1a1a
+    classDef seal fill:#e1bee7,stroke:#6a1b9a,color:#1a1a1a

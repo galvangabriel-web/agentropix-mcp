@@ -1,0 +1,412 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+@keyframes animotion-fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animotion-fade-in { animation: animotion-fadeIn 0.6s ease-out both; }
+
+@keyframes animotion-fadeInLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+
+.animotion-fade-in-left { animation: animotion-fadeInLeft 0.6s ease-out both; }
+
+@keyframes animotion-fadeInLeftBig { from { opacity: 0; transform: translateX(-200px); } to { opacity: 1; transform: translateX(0); } }
+
+.animotion-fade-in-left-big { animation: animotion-fadeInLeftBig 0.8s ease-out both; }
+
+@keyframes animotion-zoomIn { from { opacity: 0; transform: scale(0.3); } to { opacity: 1; transform: scale(1); } }
+
+.animotion-zoom-in { animation: animotion-zoomIn 0.5s ease-out both; }
+
+@keyframes animotion-zoomInLeft { from { opacity: 0; transform: scale(0.1) translateX(-1000px); } 60% { opacity: 1; transform: scale(0.475) translateX(10px); } to { transform: scale(1) translateX(0); } }
+
+.animotion-zoom-in-left { animation: animotion-zoomInLeft 0.6s cubic-bezier(0.55, 0.055, 0.675, 0.19) both; }
+
+@keyframes animotion-bounceIn { 0% { opacity: 0; transform: scale(0.3); } 20% { transform: scale(1.1); } 40% { transform: scale(0.9); } 60% { opacity: 1; transform: scale(1.03); } 80% { transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+
+.animotion-bounce-in { animation: animotion-bounceIn 0.75s cubic-bezier(0.215, 0.61, 0.355, 1) both; }
+
+@keyframes animotion-jackInTheBox { 0% { opacity: 0; transform: scale(0.1) rotate(30deg); transform-origin: center bottom; } 50% { transform: rotate(-10deg); } 70% { transform: rotate(3deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+
+.animotion-jack-in-the-box { animation: animotion-jackInTheBox 0.8s ease both; }
+
+@keyframes animotion-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } to { transform: scale(1); } }
+
+.animotion-pulse { animation: animotion-pulse 1s ease-in-out infinite; }
+
+@keyframes animotion-shakeX { 0%, to { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); } 20%, 40%, 60%, 80% { transform: translateX(10px); } }
+
+.animotion-shake-x { animation: animotion-shakeX 0.8s ease-in-out both; }
+
+@keyframes animotion-typewriter { from { width: 0; } to { width: 100%; } }
+
+.animotion-typewriter { animation: animotion-typewriter 2s steps(30, end) both; overflow: hidden; white-space: nowrap; border-right: 2px solid; }
+@keyframes vt-tick { from { opacity:0.01 } to { opacity:0.02 } }
+.vt-ticker { position:fixed; bottom:0; right:0; width:2px; height:2px; background:#0d1117; animation:vt-tick 0.12s infinite alternate; }
+* { box-sizing:border-box; margin:0; padding:0; }
+html,body { width:1600px; height:900px; overflow:hidden; background:#0d1117; color:#e6edf3; font-family:'DejaVu Sans',system-ui,sans-serif; }
+.scene { position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; padding:50px 70px; text-align:center; }
+.scene.on { display:flex; }
+h1 { font-size:52px; margin-bottom:16px; } h2 { font-size:38px; margin-bottom:20px; }
+.sub { font-size:23px; color:#8b949e; }
+.kicker { font-size:18px; letter-spacing:4px; color:#d29922; text-transform:uppercase; margin-bottom:22px; }
+.reqnum { font-size:16px; letter-spacing:5px; color:#58a6ff; margin-bottom:10px; }
+.row { display:flex; gap:46px; align-items:center; justify-content:center; }
+.leftcol { width:640px; text-align:left; font-size:22px; line-height:1.65; }
+.leftcol ul { list-style:none; } .leftcol li { margin-bottom:12px; padding-left:28px; position:relative; }
+.leftcol li:before { content:"▸"; position:absolute; left:0; color:#d29922; }
+.proofwrap { position:relative; }
+.prooftag { position:absolute; top:-16px; left:18px; background:#f85149; color:#fff; font-size:15px; font-weight:bold; padding:4px 14px; border-radius:6px; letter-spacing:1px; z-index:2; }
+.proofimg { max-width:720px; max-height:620px; border:4px solid #f85149; border-radius:12px; background:#fff; }
+.green { color:#3fb950 } .red { color:#f85149 } .amber { color:#d29922 } .purple { color:#bc8cff }
+.chips { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:20px; }
+.chip { background:#161b22; border:2px solid #58a6ff; border-radius:24px; padding:10px 24px; font-size:22px; }
+.code { font-family:monospace; background:#161b22; border:1px solid #30363d; border-radius:10px; padding:20px 24px; text-align:left; color:#7ee787; }
+.d1 { animation-delay:.3s } .d2 { animation-delay:.8s } .d3 { animation-delay:1.4s } .d4 { animation-delay:2s }
+.fill-back { animation-fill-mode:backwards; }
+</style></head><body><div class="vt-ticker"></div>
+<div class="scene on" id="s1">
+  <div class="kicker animotion-fade-in fill-back">agentropix-mcp · submission evidence tour</div>
+  <div class="animotion-zoom-in fill-back d1"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:90px;height:90px;color:#3fb950" 
+  class="lucide lucide-circle-check"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <path d="m9 12 2 2 4-4" />
+</svg></div>
+  <h1 class="animotion-fade-in fill-back d2">8 Requirements · Real Proof, Committed</h1>
+  <div class="sub animotion-fade-in fill-back d3">every answer routed by EVALUATION-MAP.md · every proof a live capture or sealed artifact<br/>honesty valued over perfection — pending items shown as pending</div>
+</div>
+<div class="scene" id="s2">
+  <div class="reqnum animotion-fade-in fill-back">REQUIREMENT 1 OF 8</div>
+  <h2 class="animotion-fade-in fill-back d1"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:38px;height:38px;color:#58a6ff" 
+  class="lucide lucide-file-text"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg> 1 — Code Repository</h2>
+  <div class="row" style="align-items:flex-start;margin-top:8px">
+    <div class="leftcol animotion-fade-in-left fill-back d2">
+  <ul>
+  <li><b>Public GitHub:</b> github.com/galvangabriel-web/<b>agentropix-mcp</b></li>
+  <li><b>README:</b> evaluator letter + Connect-in-60-seconds + Path A/B setup</li>
+  <li><b>License:</b> <span class="green">MIT</span> (LICENSE at root)</li>
+  <li><b>Releases:</b> installable wheels, latest <b>v0.3.0</b></li>
+  </ul></div>
+    <div class="proofwrap animotion-zoom-in fill-back d3">
+      <div class="prooftag">REAL PROOF · captured live</div>
+      <img src="proof/repo-front.png" class="proofimg"/></div>
+  </div>
+</div>
+<div class="scene" id="s3">
+  <div class="reqnum animotion-fade-in fill-back">REQUIREMENT 2 OF 8</div>
+  <h2 class="animotion-fade-in fill-back d1"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:38px;height:38px;color:#d29922" 
+  class="lucide lucide-zap"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
+</svg> 2 — Demo Video</h2>
+  <div class="row" style="align-items:flex-start;margin-top:8px">
+    <div class="leftcol animotion-fade-in-left fill-back d2">
+  <ul>
+  <li><b>Committed footage, plays in-browser:</b> engine PoC screencasts, 4 MCP runs, the 9-min VANKO presentation</li>
+  <li><b>Self-correction on film:</b> the 13 → 2 plan shrink (POC-RUN + animated walkthrough)</li>
+  <li><b>watch.html:</b> auto-starts on open</li>
+  <li class="amber">⚠ pending: ≤5-min narrated YouTube cut (honestly flagged in the map)</li>
+  </ul></div>
+    <div class="proofwrap animotion-zoom-in fill-back d3">
+      <div class="prooftag">REAL PROOF · captured live</div>
+      <img src="proof/animwalk.png" class="proofimg"/></div>
+  </div>
+</div>
+<div class="scene" id="s4">
+  <div class="reqnum animotion-fade-in fill-back">REQUIREMENT 3 OF 8</div>
+  <h2 class="animotion-fade-in fill-back d1"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:38px;height:38px;color:#bc8cff" 
+  class="lucide lucide-network"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect x="16" y="16" width="6" height="6" rx="1" />
+  <rect x="2" y="16" width="6" height="6" rx="1" />
+  <rect x="9" y="2" width="6" height="6" rx="1" />
+  <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" />
+  <path d="M12 12V8" />
+</svg> 3 — Architecture Diagram</h2>
+  <div class="row" style="align-items:flex-start;margin-top:8px">
+    <div class="leftcol animotion-fade-in-left fill-back d2">
+  <ul>
+  <li><b>Pattern named:</b> <span class="purple">Custom MCP Server</span></li>
+  <li><b>Shows:</b> agent layer → MCP server → 16 SIFT tools → data sources → output pipeline</li>
+  <li><b>Guardrails split:</b> architectural (Thymus, no write tool) vs prompt-based — every box source-cited</li>
+  <li><b>Formats:</b> PNG · SVG · HD PDF, committed</li>
+  </ul></div>
+    <div class="proofwrap animotion-zoom-in fill-back d3">
+      <div class="prooftag">REAL PROOF · captured live</div>
+      <img src="proof/archdiag.png" class="proofimg"/></div>
+  </div>
+</div>
+<div class="scene" id="s5">
+  <div class="reqnum animotion-fade-in fill-back">REQUIREMENT 4 OF 8</div>
+  <h2 class="animotion-fade-in fill-back d1"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:38px;height:38px;color:#3fb950" 
+  class="lucide lucide-file-text"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg> 4 — Devpost Story</h2>
+  <div class="row" style="align-items:flex-start;margin-top:8px">
+    <div class="leftcol animotion-fade-in-left fill-back d2">
+  <ul>
+  <li><b>What it does:</b> what-is-agentropix · what-you-get</li>
+  <li><b>How we built it:</b> implementation · architecture chapter</li>
+  <li><b>Challenges + learned:</b> lessons-learned (real GOTCHAs)</li>
+  <li><b>What's next:</b> 🗺️ PROJECT-ROADMAP → The Future of Agentropix</li>
+  <li><b>Autonomy qualities:</b> deterministic halt · no LLM self-rating · HITL</li>
+  </ul></div>
+    <div class="proofwrap animotion-zoom-in fill-back d3">
+      <div class="prooftag">REAL PROOF · captured live</div>
+      <img src="proof/evalmap.png" class="proofimg"/></div>
+  </div>
+</div>
+<div class="scene" id="s6">
+  <div class="reqnum animotion-fade-in fill-back">REQUIREMENT 5 OF 8</div>
+  <h2 class="animotion-fade-in fill-back d1"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:38px;height:38px;color:#58a6ff" 
+  class="lucide lucide-gauge"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m12 14 4-4" />
+  <path d="M3.34 19a10 10 0 1 1 17.32 0" />
+</svg> 5 — Dataset Documentation</h2>
+  <div class="row" style="align-items:flex-start;margin-top:8px">
+    <div class="leftcol animotion-fade-in-left fill-back d2">
+  <ul>
+  <li><b>14 documented evidence sets</b> with byte-exact sizes + custody hashes</li>
+  <li>CFReDS · DFRWS 2005 · SANS FOR500/FOR508 · MemLabs · AMF corpus…</li>
+  <li><b>Public download URLs:</b> reproduce-datasets.md</li>
+  <li><b>What was found:</b> 3 sealed case reports + per-run sealed report.json</li>
+  </ul></div>
+    <div class="proofwrap animotion-zoom-in fill-back d3">
+      <div class="prooftag">REAL PROOF · captured live</div>
+      <img src="proof/datasets.png" class="proofimg"/></div>
+  </div>
+</div>
+<div class="scene" id="s7">
+  <div class="reqnum animotion-fade-in fill-back">REQUIREMENT 6 OF 8</div>
+  <h2 class="animotion-fade-in fill-back d1"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:38px;height:38px;color:#3fb950" 
+  class="lucide lucide-shield-check"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+  <path d="m9 12 2 2 4-4" />
+</svg> 6 — Accuracy Report</h2>
+  <div class="row" style="align-items:flex-start;margin-top:8px">
+    <div class="leftcol animotion-fade-in-left fill-back d2">
+  <ul>
+  <li><b>Disk recall:</b> <span class="green">72/72 (100%)</span> · <b>memory:</b> 108/118 — the 10 misses enumerated</li>
+  <li><b>False positives:</b> VANKO 19 candidates → <span class="red">9 refuted</span> by the FP gate, 10 confirmed</li>
+  <li><b>Anti-hallucination:</b> invariant audit, file:line-cited — 5/6 Enforced, the gap stated</li>
+  <li><b>Bypass behavior, live:</b> <span class="red">61 real Thymus REJECTs</span> on the sealed record</li>
+  </ul></div>
+    <div class="proofwrap animotion-zoom-in fill-back d3">
+      <div class="prooftag">REAL PROOF · captured live</div>
+      <img src="proof/accuracy.png" class="proofimg"/></div>
+  </div>
+</div>
+<div class="scene" id="s8">
+  <div class="reqnum animotion-fade-in fill-back">REQUIREMENT 7 OF 8</div>
+  <h2 class="animotion-fade-in fill-back d1"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:38px;height:38px;color:#d29922" 
+  class="lucide lucide-cpu"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 20v2" />
+  <path d="M12 2v2" />
+  <path d="M17 20v2" />
+  <path d="M17 2v2" />
+  <path d="M2 12h2" />
+  <path d="M2 17h2" />
+  <path d="M2 7h2" />
+  <path d="M20 12h2" />
+  <path d="M20 17h2" />
+  <path d="M20 7h2" />
+  <path d="M7 20v2" />
+  <path d="M7 2v2" />
+  <rect x="4" y="4" width="16" height="16" rx="2" />
+  <rect x="8" y="8" width="8" height="8" rx="1" />
+</svg> 7 — Try It Out</h2>
+  <div class="row" style="align-items:flex-start;margin-top:8px">
+    <div class="leftcol animotion-fade-in-left fill-back d2">
+  <div class="code" style="font-size:17px">pip install …/agentropix_mcp-0.2.2-py3-none-any.whl<br/>
+AGENTROPIX_MCP_AUTH_TOKEN=$(openssl rand -base64 32) agentropix-mcp --transport http --port 8765<br/>
+claude mcp add --transport http agentropix-sift http://127.0.0.1:8765/mcp …</div>
+  <ul style="margin-top:14px">
+  <li><b>3 commands local</b> — or the live tailnet server (Client Setup guide)</li>
+  <li><b>Provided data:</b> public dataset URLs + 14 per-case activation guides</li>
+  </ul></div>
+    <div class="proofwrap animotion-zoom-in fill-back d3">
+      <div class="prooftag">REAL PROOF · captured live</div>
+      <img src="proof/releases.png" class="proofimg"/></div>
+  </div>
+</div>
+<div class="scene" id="s9">
+  <div class="reqnum animotion-fade-in fill-back">REQUIREMENT 8 OF 8</div>
+  <h2 class="animotion-fade-in fill-back d1"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:38px;height:38px;color:#d29922" 
+  class="lucide lucide-timer"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <line x1="10" x2="14" y1="2" y2="2" />
+  <line x1="12" x2="15" y1="14" y2="11" />
+  <circle cx="12" cy="14" r="8" />
+</svg> 8 — Agent Execution Logs</h2>
+  <div class="row" style="align-items:flex-start;margin-top:8px">
+    <div class="leftcol animotion-fade-in-left fill-back d2">
+  <ul>
+  <li><b>Gold report:</b> 2 engine runs, every claim <span class="amber">file:json-path → value</span></li>
+  <li><b>A2A messages, timestamped:</b> 8 VERIFIED handoff edges (217 µs burst)</li>
+  <li><b>Tool logs:</b> 176 + 60 calls with args/output hashes; token usage = honest negative</li>
+  <li><b>Iteration traces:</b> plans shrink 13 → 2 and 13 → 4 to budget_exhausted</li>
+  <li><b>Raw evidence beside it:</b> sealed reports · run.log · Thymus trails · keys</li>
+  </ul></div>
+    <div class="proofwrap animotion-zoom-in fill-back d3">
+      <div class="prooftag">REAL PROOF · captured live</div>
+      <img src="proof/goldreport.png" class="proofimg"/></div>
+  </div>
+</div>
+<div class="scene" id="s10">
+  <h2 class="animotion-fade-in fill-back"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:40px;height:40px;color:#58a6ff" 
+  class="lucide lucide-bot"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 8V4H8" />
+  <rect width="16" height="12" x="4" y="8" rx="2" />
+  <path d="M2 14h2" />
+  <path d="M20 14h2" />
+  <path d="M15 13v2" />
+  <path d="M9 13v2" />
+</svg> Built With</h2>
+  <div class="chips" id="tags" style="max-width:1200px"></div>
+  <div class="sub animotion-fade-in fill-back" style="margin-top:26px;animation-delay:8s">architectural pattern: <b class="purple">Custom MCP Server</b> (FastMCP)</div>
+</div>
+<div class="scene" id="s11">
+  <div class="animotion-zoom-in fill-back"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:84px;height:84px;color:#3fb950" 
+  class="lucide lucide-circle-check"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <path d="m9 12 2 2 4-4" />
+</svg></div>
+  <h2 class="animotion-fade-in fill-back d1">One map routes it all</h2>
+  <div class="sub animotion-fade-in fill-back d2" style="font-size:28px"><b>EVALUATION-MAP.md</b> — requirement → evidence, with honest status flags</div>
+  <div class="sub animotion-fade-in fill-back d4" style="margin-top:20px">github.com/galvangabriel-web/agentropix-mcp</div>
+</div>
+<script>
+const SCENES=[["s1", 8000], ["s2", 14000], ["s3", 14000], ["s4", 14000], ["s5", 12000], ["s6", 14000], ["s7", 16000], ["s8", 12000], ["s9", 16000], ["s10", 14000], ["s11", 10000]];
+function show(id){document.querySelectorAll('.scene').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');}
+const hooks={
+ s10(){const tags=["Claude Code","OpenClaw","SIFT Workstation","FastMCP","MCP","Volatility 3","Plaso / log2timeline","Sleuth Kit","YARA","bulk_extractor","RegRipper","EZ Tools","Wazuh","Python 3.12","Pydantic","Mermaid","Playwright","GitHub Pages","Animotion MCP","asciinema","ffmpeg"];const t=document.getElementById('tags');tags.forEach((x,i)=>{const c=document.createElement('div');c.className='chip animotion-bounce-in fill-back';c.style.animationDelay=(0.3+i*0.35)+'s';c.textContent=x;t.appendChild(c);});}
+};
+let idx=0;
+function next(){if(idx>=SCENES.length){document.title='DONE';return;}const[id,dur]=SCENES[idx++];show(id);if(hooks[id])hooks[id]();setTimeout(next,dur);}
+window.__start=next;
+</script></body></html>

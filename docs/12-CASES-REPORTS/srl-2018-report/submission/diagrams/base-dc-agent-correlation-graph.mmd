@@ -1,0 +1,63 @@
+flowchart LR
+  subgraph SRC["base-dc-cdrive.E01 — 13-agent plan"]
+    ART["artifact<br/>chain: case 20180905-001"]
+    YH["yara_hunt<br/>Forge tag 20260505"]
+    NSB["null_session_baseline<br/>0 bursts / 81 windows"]
+    T59["t1059.001 iex-loopback<br/>0 hits / 999 EID 4104"]
+    T46["t1546.008 IFEO hijack<br/>LEG-A Thymus REJECT"]
+    MEM["memory<br/>skipped: not a RAM dump"]
+    ERR["timed out, no token:<br/>timeline (5452s)<br/>filesystem fls (60s)"]
+    QUIET["no token contributed:<br/>injection_detector, t1071.001 (skipped)<br/>discovery, mail (no findings)"]
+  end
+  subgraph TOK["correlation tokens (confidence)"]
+    Kcase(["case (0.6)"])
+    Kevid(["evidence (0.6)"])
+    Kyara(["yara (0.4)"])
+    Kscan(["scan (0.4)"])
+    Kacross(["across (0.4)"])
+    Kcomp(["complete (0.4)"])
+    Kcov(["coverage (0.4)"])
+    Khost(["host (0.3)"])
+  end
+  HUNT["hunt correlator<br/>8 cross-source edges"]
+
+  ART --> Kcase
+  YH --> Kcase
+  ART --> Kevid
+  T46 --> Kevid
+  ART --> Kyara
+  T46 --> Kyara
+  YH --> Kyara
+  NSB --> Kscan
+  T59 --> Kscan
+  YH --> Kscan
+  NSB --> Kacross
+  T59 --> Kacross
+  NSB --> Kcomp
+  T59 --> Kcomp
+  MEM --> Kcov
+  YH --> Kcov
+  T59 --> Khost
+  T46 --> Khost
+
+  Kcase --> HUNT
+  Kevid --> HUNT
+  Kyara --> HUNT
+  Kscan --> HUNT
+  Kacross --> HUNT
+  Kcomp --> HUNT
+  Kcov --> HUNT
+  Khost --> HUNT
+
+  classDef disk fill:#bbdefb,stroke:#1565c0,color:#1a1a1a
+  classDef det fill:#e1bee7,stroke:#6a1b9a,color:#1a1a1a
+  classDef skip fill:#e0e0e0,stroke:#616161,color:#1a1a1a
+  classDef err fill:#ffcdd2,stroke:#b71c1c,color:#1a1a1a
+  classDef tok fill:#ffe0b2,stroke:#e65100,color:#1a1a1a
+  classDef hub fill:#ffe0b2,stroke:#e65100,stroke-width:3px,color:#1a1a1a
+  class ART,YH,NSB disk
+  class T59,T46 det
+  class MEM,QUIET skip
+  class ERR err
+  class Kcase,Kevid,Kyara,Kscan,Kacross,Kcomp,Kcov,Khost tok
+  class HUNT hub

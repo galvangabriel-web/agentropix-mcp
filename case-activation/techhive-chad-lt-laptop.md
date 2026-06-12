@@ -9,7 +9,7 @@
 > Procedure source-of-truth: `END-USER-CASE-GUIDE.md`
 > (8 steps). House style + dual-audience (🖥️ command / 💬 prompt) + numbered playbook follow
 > [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md). Canonical numbers cite
-> [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (**71 MCP tools**, **16 SIFT wrappers**, **4464 tests**).
+> [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (**72 MCP tools**, **16 SIFT wrappers**, **4464 tests**).
 
 ---
 
@@ -49,7 +49,7 @@
 | **8** | **497,313,792** | ~1.3 GB NTFS | None | Readable NTFS (recovery/utility; ~640 MB in use) |
 | **9** | **500,045,824** | ~244 GB NTFS | None | Readable NTFS (data; mostly empty, ~101 MB in use) |
 
-> ⚠️ **Load-bearing caveat — BitLocker.** The platform's **71 MCP tools include no BitLocker
+> ⚠️ **Load-bearing caveat — BitLocker.** The platform's **72 MCP tools include no BitLocker
 > decryption wrapper** (verified: no `bitlocker`/`dislocker` handler in `src/` or `TOOL-CONTRACTS.md`).
 > Filesystem/registry/timeline tools (`fls`, `extract_files`, `get_registry`, …) can read the
 > **plaintext** NTFS partitions (8 and 9) directly via their TSK `offset`, but they **cannot read
@@ -188,7 +188,7 @@ Then verify the seal (`verify_seal.py`); optionally curate IOCs and push to Wazu
 
 ## 3. "Activate & start" prompt sequences
 
-Both lanes hit the **same 71-tool deterministic MCP engine** and reach the same sealed result — only
+Both lanes hit the **same 72-tool deterministic MCP engine** and reach the same sealed result — only
 *who drives the tool chain* differs. Run top-to-bottom; check each **Expect:** before continuing.
 
 ### 3A — MANUAL prompt sequence (💬 end-user; 🖥️ command equivalent shown per step)
@@ -207,7 +207,7 @@ Both lanes hit the **same 71-tool deterministic MCP engine** and reach the same 
 
 4. 💬 *"How many Agentropix forensic tools are available right now?"*
    🖥️ MCP call `health`
-   **Expect:** live `tool_count` (canonical **71**; trust the live number, not the banner).
+   **Expect:** live `tool_count` (canonical **72**; trust the live number, not the banner).
 
 5. 💬 *"Open a new medium-severity case for the TheTechHive Chad_LT disk image (Windows-on-ARM laptop), case id TECHHIVE-CHAD-LT, examiner victor.galvan, and make it the active case."*
    🖥️ MCP `case_init {…}` then `case_activate { "case_id":"TECHHIVE-CHAD-LT" }`

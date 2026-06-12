@@ -2,7 +2,7 @@
 
 > **LOCAL / OPERATIONAL — tracked, not yet public-safe.** This directory (`/home/admin2/docu_agentro/case-activation/`) **is** version-controlled and pushed to the internal GitLab, but it holds **real case inventory, on-disk paths, and custody hashes** — scrub paths/case names before the repo is ever made public.
 
-**How to use:** Pick your case from the tables below → open its per-case Activation Guide → run either the **Manual** numbered prompt sequence (interactive, you drive each step) or the **Autonomous** sequence (detached driver runs to a DRAFT, you approve in the portal). Every guide instantiates the 8-step template procedure (`pick → case_init → case_status → evidence_register → analyze → record_finding → approve → report`) from `END-USER-CASE-GUIDE.md` with that case's real specifics, using the canonical 71-tool / 16-wrapper / 4464-test SIFT MCP surface. The MCP endpoint is shown as a `<TAILNET-HOST>` placeholder in every guide; the approval step is always a human hard-stop.
+**How to use:** Pick your case from the tables below → open its per-case Activation Guide → run either the **Manual** numbered prompt sequence (interactive, you drive each step) or the **Autonomous** sequence (detached driver runs to a DRAFT, you approve in the portal). Every guide instantiates the 8-step template procedure (`pick → case_init → case_status → evidence_register → analyze → record_finding → approve → report`) from `END-USER-CASE-GUIDE.md` with that case's real specifics, using the canonical 72-tool / 16-wrapper / 4464-test SIFT MCP surface. The MCP endpoint is shown as a `<TAILNET-HOST>` placeholder in every guide; the approval step is always a human hard-stop.
 
 14 cases documented · 9 folders skipped/duplicate · all evidence paths verified present · directory tracked (internal GitLab).
 
@@ -77,6 +77,7 @@ Educational recordings of a real executed activation sequence (live MCP calls, c
 | Challenge "Notch It Up" | MANUAL | [EXECUTED-RUN.md](./runs/challenge-notchitup/EXECUTED-RUN.md) | [EXECUTED-RUN.mp4](./runs/challenge-notchitup/EXECUTED-RUN.mp4) (50.6s) | ✅ SIMULATED demo |
 | VANKO — "Abducted Zebrafish" | activation only (steps 0–5) | [EXECUTED-RUN.md](./runs/vanko-abducted-zebrafish/EXECUTED-RUN.md) | — | — (full sealed report: [`docs/12-CASES-REPORTS/vanko-report/`](../docs/12-CASES-REPORTS/vanko-report/)) |
 | Jimmy Wilson — **full engine triage** (`agentropix-sift run`) | end-to-end (`uv sync`→`doctor`→`run`) | [EXECUTED-RUN.md](./runs/jimmy-wilson-poc/EXECUTED-RUN.md) + [EXECUTION-LOG.md](./runs/jimmy-wilson-poc/EXECUTION-LOG.md) | [POC-RUN.mp4](./runs/jimmy-wilson-poc/POC-RUN.mp4) | sealed [`report.json`](./runs/jimmy-wilson-poc/report.json) (129 findings · 86 tool calls) |
+| DFRWS 2005 Rodeo USB — **full engine triage** (`agentropix-sift run`) | end-to-end (`run` on raw dd, honest-negatives case) | [README.md](./runs/dfrws-rodeo-poc/README.md) | — | sealed [`report.json`](./runs/dfrws-rodeo-poc/report.json) (9 findings · 68 tool calls) |
 
 The per-case **report** (comprehensive + exec one-pager) is in the table just below. *(The VANKO run captured **activation only** — `case_init`→`get_image_info`, no analysis/approval; its full 10-confirmed-finding investigation is the sealed report under `docs/12-CASES-REPORTS/vanko-report/`, not a recorded activation video.)*
 
@@ -93,4 +94,4 @@ The transcript captures the real tool responses/exits step by step. Each recorde
 
 ---
 
-*SIFT MCP surface: 71 tools / 16 wrappers / 4464 tests (`/home/admin2/docu_agentro/.crew/facts.md`). Evidence licensing where applicable (e.g. AMF: CC-BY-NC-SA 3.0) is noted in the individual guides. Approval remains a human hard-stop in every workflow.*
+*SIFT MCP surface: 72 tools / 16 wrappers / 4464 tests (`/home/admin2/docu_agentro/.crew/facts.md`). Evidence licensing where applicable (e.g. AMF: CC-BY-NC-SA 3.0) is noted in the individual guides. Approval remains a human hard-stop in every workflow.*

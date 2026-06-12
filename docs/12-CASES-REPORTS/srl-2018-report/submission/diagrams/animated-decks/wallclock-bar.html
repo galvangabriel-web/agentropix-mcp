@@ -1,0 +1,38 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+* { box-sizing:border-box; margin:0; padding:0 }
+html,body { width:1400px; height:560px; background:#ffffff; color:#1a1a1a; font-family:'DejaVu Sans',system-ui,sans-serif }
+.wrap { padding:36px 56px; display:flex; flex-direction:column; gap:20px }
+h1 { font-size:27px } .sub { font-size:17px; color:#57606a }
+.barrow { display:flex; height:56px; border-radius:10px; overflow:hidden; border:1px solid #d0d7de }
+.seg { display:flex; align-items:center; justify-content:center; font-size:17px; color:#fff; font-weight:bold; white-space:nowrap }
+.zoomlink { border-left:3px dashed #57606a; border-right:3px dashed #57606a; border-bottom:3px dashed #57606a; height:22px; margin-left:1248px; width:38px; border-top:none }
+.legend { display:flex; gap:26px; font-size:16px; flex-wrap:wrap }
+.sw { display:inline-block; width:14px; height:14px; border-radius:3px; margin-right:7px; vertical-align:-2px }
+.note { font-size:15px; color:#57606a; font-style:italic }
+.zlabel { font-size:16px; font-weight:bold; color:#57606a; margin-left:980px }
+</style></head><body><div class="wrap">
+<h1>base-dc: where the 5,642 seconds went <span class="sub">(14:22:29 → 15:56:32 UTC)</span></h1>
+<div class="sub">A pie chart hides this story — one slice is 96.8%. A proportional bar tells it honestly:</div>
+
+<div class="barrow">
+  <div class="seg" style="width:1248px;background:#c62828">log2timeline timeout wait — 5,461.8 s&nbsp;&nbsp;(96.8% of the entire run)</div>
+  <div class="seg" style="width:40px;background:#57606a" title="everything else">3.2%</div>
+</div>
+
+<div class="zoomlink"></div>
+<div class="zlabel">⌄ the other 3.2% — 180.5 s, magnified ⌄</div>
+
+<div class="barrow" style="height:50px">
+  <div class="seg" style="width:444px;background:#e65100">extract_files storm + artifact — 62.1 s</div>
+  <div class="seg" style="width:430px;background:#c62828">fls timeout — 60.1 s</div>
+  <div class="seg" style="width:417px;background:#1565c0">T1059/T1071 detector scans — 58.3 s</div>
+</div>
+
+<div class="legend">
+  <span><span class="sw" style="background:#c62828"></span>blocked / timed out</span>
+  <span><span class="sw" style="background:#e65100"></span>governed activity (61 Thymus REJECTs inside)</span>
+  <span><span class="sw" style="background:#1565c0"></span>productive scans</span>
+</div>
+<div class="note">Not visible at any scale: the 8-finding correlation burst + final sweep + sealing — under 30 ms combined.
+Source: base-dc-report.json $.trace.tool_calls[] durations (tc[2] 5,461,790 ms; fls 60.1 s; storm window 15:54:35→15:55:33; detectors 58.3 s).</div>
+</div></body></html>

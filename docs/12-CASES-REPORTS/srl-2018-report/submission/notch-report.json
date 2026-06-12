@@ -1,0 +1,1124 @@
+{
+  "version": "0.2.0-dev",
+  "image": "/cases/Challenge_NotchItUp/Challenge.raw",
+  "max_iterations": 5,
+  "iterations_completed": 5,
+  "status": "budget_exhausted",
+  "findings": [
+    {
+      "_source": "memory.skip",
+      "confidence": 0.0,
+      "description": "MemoryAgent skipped: image is not a memory dump (disk-only). Volatility plugins require RAM capture; T1055 disk-side coverage is provided by the AppData-staging detector in TimelineAgent (W-067).",
+      "evidence": "image=/cases/Challenge_NotchItUp/Challenge.raw suffix=.raw",
+      "timestamp": "2026-06-11T12:42:51.819183+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "memory"
+    },
+    {
+      "_source": "filesystem.fls",
+      "confidence": 0.0,
+      "description": "fls failed: fls failed (rc=1): Cannot determine file system type\n",
+      "evidence": "image=/cases/Challenge_NotchItUp/Challenge.raw recursive=True max_depth=5",
+      "timestamp": "",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "filesystem"
+    },
+    {
+      "_source": "discovery.null_session_baseline.error",
+      "confidence": 0.0,
+      "description": "NullSessionBaselineAgent failed to read Security.evtx: evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/Challenge_NotchItUp/Challenge.raw\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[ 0,  0,  0,  0,  0,  0,  0,  0]`\n",
+      "evidence": "image=/cases/Challenge_NotchItUp/Challenge.raw error=evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/Challenge_NotchItUp/Challenge.raw\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[ 0,  0,  0,  0,  0,  0,  0,  0]`\n",
+      "timestamp": "2026-06-11T12:43:06.569742+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "null_session_baseline"
+    },
+    {
+      "_source": "yara_forge.bundle_active",
+      "confidence": 0.0,
+      "description": "YARA Forge bundle active: tag=20260505 sha256=87ee463c13d49084...",
+      "evidence": "tag=20260505 sha256=87ee463c13d490842f36eba5ca03a2ed090b78f3fed0eef78ff7e74065191494 path=yara/forge/CURRENT/yara-forge-rules-core.yar fp_threshold=75",
+      "evidence_dict": {
+        "tag": "20260505",
+        "sha256": "87ee463c13d490842f36eba5ca03a2ed090b78f3fed0eef78ff7e74065191494",
+        "source_url": "https://github.com/YARAHQ/yara-forge",
+        "fp_threshold": 75,
+        "license_allowlist": null
+      },
+      "timestamp": "2026-06-11T12:43:08.766996+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "yara_hunt"
+    },
+    {
+      "_source": "yara_hunt.empty",
+      "confidence": 0.2,
+      "description": "YARAHuntAgent found no scannable files under /cases/Challenge_NotchItUp/Challenge.raw",
+      "evidence": "scan_root=/cases/Challenge_NotchItUp/Challenge.raw",
+      "timestamp": "2026-06-11T12:43:08.767166+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "yara_hunt"
+    },
+    {
+      "_source": "memory.injection.skipped",
+      "confidence": 0.0,
+      "description": "InjectionDetector skipped: Challenge.raw is not a memory image",
+      "evidence": "image=/cases/Challenge_NotchItUp/Challenge.raw reason=non_memory_image",
+      "timestamp": "2026-06-11T12:43:08.791912+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "injection_detector"
+    },
+    {
+      "_source": "t1546_008_accessibility_ifeo_hijack.skipped",
+      "confidence": 0.0,
+      "description": "AccessibilityIfeoHijackDetector skipped: Challenge.raw is not an E01 disk image",
+      "evidence": "image=/cases/Challenge_NotchItUp/Challenge.raw reason=non_e01_image",
+      "timestamp": "2026-06-11T12:43:08.798670+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "t1546_008_accessibility_ifeo_hijack"
+    },
+    {
+      "_source": "detectors.t1059_001.error",
+      "confidence": 0.0,
+      "description": "T1059.001 detector failed to obtain PowerShell/Operational records: evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/Challenge_NotchItUp/Challenge.raw\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[ 0,  0,  0,  0,  0,  0,  0,  0]`\n",
+      "evidence": "image=/cases/Challenge_NotchItUp/Challenge.raw error=RuntimeError: evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/Challenge_NotchItUp/Challenge.raw\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[ 0,  0,  0,  0,  0,  0,  0,  0]`\n",
+      "timestamp": "2026-06-11T12:43:08.802829+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "t1059_001_iex_loopback_c2"
+    },
+    {
+      "_source": "memory.t1071_001.skipped",
+      "confidence": 0.0,
+      "description": "T1071SvchostOutboundHttpDetector skipped: Challenge.raw is not a memory image",
+      "evidence": "image=/cases/Challenge_NotchItUp/Challenge.raw reason=non_memory_image",
+      "timestamp": "2026-06-11T12:43:08.802972+00:00",
+      "mitre_attack": "T1071.001",
+      "related_findings": [],
+      "agent": "t1071_001_svchost_outbound_http"
+    },
+    {
+      "_source": "hunt.correlate",
+      "confidence": 0.30000000000000004,
+      "description": "Cross-source agreement: 'found' flagged by 3 agents (null_session_baseline, t1059_001_iex_loopback_c2, yara_hunt)",
+      "evidence": "token=found agents=['null_session_baseline', 't1059_001_iex_loopback_c2', 'yara_hunt'] findings=3",
+      "timestamp": "2026-06-11T12:43:08.805112+00:00",
+      "mitre_attack": "",
+      "related_findings": [
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "yara_hunt"
+      ],
+      "agent": "hunt"
+    }
+  ],
+  "trace": {
+    "tool_calls": [
+      {
+        "tool": "agent.memory",
+        "timestamp": "2026-06-11T12:42:51.819267+00:00",
+        "duration_ms": 0.12,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-11T12:43:06.440603+00:00",
+        "duration_ms": 14620.55,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-11T12:43:06.440125+00:00",
+        "duration_ms": 14619.18,
+        "result_summary": "ok",
+        "args_hash": "5ba7e007038a2307",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/Challenge_NotchItUp/Challenge.raw\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/claude-1001/agentropix-sift-nq5yth2w/timeline.plaso\",\"raw_stderr\":\"2026-06-11 12:42:53,321 [INFO] (MainProcess) PID:2084273 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"431dc01f77295004f24608edd75d7f16b9b3ec68ba4dc32c6f9f728141607250\"}",
+        "output_hash": "66119ccb5b63cb75a62f3f8c09d236d9637c8b4ff81bfbe843b1f2e1d7c6a11a"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-11T12:43:06.440366+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": false,
+            "cap": 0,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-06-11T12:43:06.558860+00:00",
+        "duration_ms": 118.12,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-06-11T12:43:06.557369+00:00",
+        "duration_ms": 115.93,
+        "result_summary": "ERROR: fls failed (rc=1): Cannot determine file system type\n",
+        "args_hash": "54ce3f27586e0886",
+        "exit_code": 1,
+        "raw_output": "{\"tool\":\"fls\",\"error\":\"fls failed (rc=1): Cannot determine file system type\\n\",\"suggestion\":\"\"}",
+        "output_hash": "8ae3d481a95fbd90d99a9b923c5179092a165b31cbc2001fb917aaced890a06b"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-11T12:43:06.559113+00:00",
+        "duration_ms": 0.16,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-11T12:43:06.559405+00:00",
+        "duration_ms": 0.22,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.null_session_baseline",
+        "timestamp": "2026-06-11T12:43:06.570037+00:00",
+        "duration_ms": 10.56,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-11T12:43:06.580350+00:00",
+        "duration_ms": 10.25,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:43:06.574175+00:00",
+        "duration_ms": 2.99,
+        "result_summary": "ok",
+        "args_hash": "81a7b43334225dfb",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:43:06.575834+00:00",
+        "duration_ms": 1.5,
+        "result_summary": "ok",
+        "args_hash": "849685d59e1940b3",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:43:06.577521+00:00",
+        "duration_ms": 1.48,
+        "result_summary": "ok",
+        "args_hash": "af9000f2782b439a",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:43:06.579168+00:00",
+        "duration_ms": 1.49,
+        "result_summary": "ok",
+        "args_hash": "259b1d393247d4b4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.yara_hunt",
+        "timestamp": "2026-06-11T12:43:08.791794+00:00",
+        "duration_ms": 2211.39,
+        "result_summary": "2 finding(s)"
+      },
+      {
+        "tool": "agent.injection_detector",
+        "timestamp": "2026-06-11T12:43:08.798581+00:00",
+        "duration_ms": 6.74,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.t1546_008_accessibility_ifeo_hijack",
+        "timestamp": "2026-06-11T12:43:08.798708+00:00",
+        "duration_ms": 0.08,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.t1059_001_iex_loopback_c2",
+        "timestamp": "2026-06-11T12:43:08.802913+00:00",
+        "duration_ms": 4.18,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.t1071_001_svchost_outbound_http",
+        "timestamp": "2026-06-11T12:43:08.803010+00:00",
+        "duration_ms": 0.08,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.hunt",
+        "timestamp": "2026-06-11T12:43:08.805217+00:00",
+        "duration_ms": 2.19,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-11T12:43:22.900753+00:00",
+        "duration_ms": 14094.29,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-11T12:43:22.900526+00:00",
+        "duration_ms": 14093.78,
+        "result_summary": "ok",
+        "args_hash": "5ba7e007038a2307",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/Challenge_NotchItUp/Challenge.raw\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/claude-1001/agentropix-sift-qtkvmihu/timeline.plaso\",\"raw_stderr\":\"2026-06-11 12:43:09,950 [INFO] (MainProcess) PID:2084354 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"57d5de666cd8ab7112e8c974695eed19395e52d89827f12c7b53e038b7804b53\"}",
+        "output_hash": "d2e4b1af40c9e9e36c0299928c7fd85b60128e100b58a37773e61992c0c232f8"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-11T12:43:22.900671+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": false,
+            "cap": 0,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-11T12:43:22.900978+00:00",
+        "duration_ms": 0.17,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-11T12:43:22.901158+00:00",
+        "duration_ms": 0.13,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-11T12:43:22.907726+00:00",
+        "duration_ms": 6.52,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:43:22.903280+00:00",
+        "duration_ms": 1.47,
+        "result_summary": "ok",
+        "args_hash": "81a7b43334225dfb",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:43:22.904564+00:00",
+        "duration_ms": 1.13,
+        "result_summary": "ok",
+        "args_hash": "849685d59e1940b3",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:43:22.905857+00:00",
+        "duration_ms": 1.14,
+        "result_summary": "ok",
+        "args_hash": "af9000f2782b439a",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:43:22.907212+00:00",
+        "duration_ms": 1.13,
+        "result_summary": "ok",
+        "args_hash": "259b1d393247d4b4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-11T12:43:36.239332+00:00",
+        "duration_ms": 13328.31,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-11T12:43:36.239143+00:00",
+        "duration_ms": 13327.79,
+        "result_summary": "ok",
+        "args_hash": "5ba7e007038a2307",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/Challenge_NotchItUp/Challenge.raw\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/claude-1001/agentropix-sift-2z5vxb5y/timeline.plaso\",\"raw_stderr\":\"2026-06-11 12:43:24,331 [INFO] (MainProcess) PID:2084381 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"08435149939984d90cae4551f0726348de164139cf645957ca763aae913f2083\"}",
+        "output_hash": "1e5876bada03823c2829d7d4357a3dd3a43a8425074ee0b0fa1b15849ec106f5"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-11T12:43:36.239254+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": false,
+            "cap": 0,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-11T12:43:36.239498+00:00",
+        "duration_ms": 0.12,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-11T12:43:36.239634+00:00",
+        "duration_ms": 0.1,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-11T12:43:36.246255+00:00",
+        "duration_ms": 6.59,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:43:36.241670+00:00",
+        "duration_ms": 1.4,
+        "result_summary": "ok",
+        "args_hash": "81a7b43334225dfb",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:43:36.243067+00:00",
+        "duration_ms": 1.24,
+        "result_summary": "ok",
+        "args_hash": "849685d59e1940b3",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:43:36.244365+00:00",
+        "duration_ms": 1.14,
+        "result_summary": "ok",
+        "args_hash": "af9000f2782b439a",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:43:36.245667+00:00",
+        "duration_ms": 1.15,
+        "result_summary": "ok",
+        "args_hash": "259b1d393247d4b4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-11T12:43:49.670315+00:00",
+        "duration_ms": 13420.58,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-11T12:43:49.670138+00:00",
+        "duration_ms": 13420.09,
+        "result_summary": "ok",
+        "args_hash": "5ba7e007038a2307",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/Challenge_NotchItUp/Challenge.raw\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/claude-1001/agentropix-sift-hyttga9m/timeline.plaso\",\"raw_stderr\":\"2026-06-11 12:43:37,757 [INFO] (MainProcess) PID:2084414 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"47abdc52ad6246fe60406c97057e1f213b97d2dbcb1f90b588f9570ed50187ee\"}",
+        "output_hash": "26fa8c6b000d6b7966ae71461ee21d4624a87c3dafbaa6c21add754185876ad2"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-11T12:43:49.670241+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": false,
+            "cap": 0,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-11T12:43:49.670429+00:00",
+        "duration_ms": 0.07,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-11T12:43:49.670556+00:00",
+        "duration_ms": 0.1,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-11T12:43:49.676940+00:00",
+        "duration_ms": 6.35,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:43:49.672466+00:00",
+        "duration_ms": 1.3,
+        "result_summary": "ok",
+        "args_hash": "81a7b43334225dfb",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:43:49.673759+00:00",
+        "duration_ms": 1.14,
+        "result_summary": "ok",
+        "args_hash": "849685d59e1940b3",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:43:49.675061+00:00",
+        "duration_ms": 1.15,
+        "result_summary": "ok",
+        "args_hash": "af9000f2782b439a",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:43:49.676451+00:00",
+        "duration_ms": 1.18,
+        "result_summary": "ok",
+        "args_hash": "259b1d393247d4b4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-11T12:44:04.246059+00:00",
+        "duration_ms": 14564.08,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-11T12:44:04.245864+00:00",
+        "duration_ms": 14563.48,
+        "result_summary": "ok",
+        "args_hash": "5ba7e007038a2307",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/Challenge_NotchItUp/Challenge.raw\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/claude-1001/agentropix-sift-pogym756/timeline.plaso\",\"raw_stderr\":\"2026-06-11 12:43:51,234 [INFO] (MainProcess) PID:2084454 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"8b86cfc5a7fa5be46d22b5cc009584d3b939ad7c99b51b73239d71884aebbfa6\"}",
+        "output_hash": "72ef82d171f9aff07dc8aeebcfec132e09c03bde04b69d8bf36c1d40e4e1641c"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-11T12:44:04.245981+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": false,
+            "cap": 0,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-11T12:44:04.246180+00:00",
+        "duration_ms": 0.08,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-11T12:44:04.246311+00:00",
+        "duration_ms": 0.1,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-11T12:44:04.252905+00:00",
+        "duration_ms": 6.56,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:44:04.248398+00:00",
+        "duration_ms": 1.46,
+        "result_summary": "ok",
+        "args_hash": "81a7b43334225dfb",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:44:04.249751+00:00",
+        "duration_ms": 1.16,
+        "result_summary": "ok",
+        "args_hash": "849685d59e1940b3",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:44:04.251044+00:00",
+        "duration_ms": 1.14,
+        "result_summary": "ok",
+        "args_hash": "af9000f2782b439a",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-11T12:44:04.252407+00:00",
+        "duration_ms": 1.21,
+        "result_summary": "ok",
+        "args_hash": "259b1d393247d4b4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      }
+    ],
+    "counters": {
+      "trace.timeline.counters": {
+        "jsonl_rows_read": 0,
+        "priority_hits_by_family": {
+          "4624": 0,
+          "winreg_run": 0,
+          "mft_timestomp": 0,
+          "lolbin": 0,
+          "appdata_staging": 0
+        },
+        "parser_deque_sizes": {},
+        "events_received_by_agent": 0,
+        "detectors_fired_by_id": {
+          "4624_detector": 0,
+          "winreg_run_detector": 0,
+          "prefetch_detector": 0,
+          "mft_timestomp_detector": 0,
+          "lolbin_detector": 0,
+          "appdata_staging_detector": 0
+        },
+        "verbose_evtx": {
+          "enabled": false,
+          "cap": 0,
+          "emitted": 0,
+          "dropped": 0
+        }
+      }
+    },
+    "start_time": "2026-06-11T12:42:51.819082+00:00",
+    "end_time": "2026-06-11T12:44:04.257359+00:00",
+    "total_duration_ms": 72438.28
+  },
+  "thymus_audit": [
+    {
+      "timestamp": "2026-06-11T12:42:51.819576+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp/Challenge.raw",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:06.442346+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp/Challenge.raw",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:06.571693+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:06.574705+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:06.576414+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:06.578088+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:08.806807+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp/Challenge.raw",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:22.902253+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:22.903753+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:22.905077+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:22.906409+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:22.911689+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp/Challenge.raw",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:36.240671+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:36.242248+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:36.243540+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:36.244835+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:36.250494+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp/Challenge.raw",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:49.671539+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:49.672994+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:49.674270+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:49.675590+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:49.680807+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp/Challenge.raw",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:44:04.247328+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:44:04.248935+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:44:04.250233+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:44:04.251517+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    }
+  ],
+  "critic_score": 1.0,
+  "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+  "iterations": [
+    {
+      "iteration": 1,
+      "plan": [
+        "memory",
+        "timeline",
+        "filesystem",
+        "artifact",
+        "discovery",
+        "null_session_baseline",
+        "mail",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 2,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 3,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 4,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 5,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    }
+  ],
+  "inference_constraint": "high",
+  "evidence_image_sha256": "80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23",
+  "report_seal": "f5e525a0d50451ec3ecf6e66c508dc02073f6dc1b1c10d468a48ac90d1bbb04c",
+  "completion_proofs": [
+    "CROSS_AGENT_CORRELATION_DONE",
+    "FILESYSTEM_WALKED",
+    "INJECTION_DETECTION_COMPLETE",
+    "NULL_SESSION_BASELINE_COMPLETE",
+    "T1059_001_IEX_LOOPBACK_SCAN_COMPLETE",
+    "T1071_001_SVCHOST_OUTBOUND_HTTP_COMPLETE",
+    "T1546_008_ACCESSIBILITY_IFEO_HIJACK_COMPLETE",
+    "YARA_HUNT_COMPLETE"
+  ],
+  "audit_log_seal": "e74a52347d0ec796d96b8cc64cccd2407c6781d7643191b2b5b580c7479c0db7"
+}

@@ -1,7 +1,7 @@
 # MCP Tool Reference
 
-> **The full 71-tool surface of the single FastMCP server.**
-> Agentropix-SIFT exposes **71** distinct MCP tools (`mcp_tool_count = 71`, see
+> **The full 72-tool surface of the single FastMCP server.**
+> Agentropix-SIFT exposes **72** distinct MCP tools (`mcp_tool_count = 72`, see
 > [`canonical-facts.md`](../08-reference/canonical-facts.md)). Of those, **16**
 > drive the underlying SIFT command-line forensic binaries (the "16 forensic wrappers"). This page is
 > the master reference: a categorized index of all 71, a deeper table for the 16 forensic wrappers, and
@@ -16,24 +16,24 @@ Related pages: [Response envelope](response-envelope.md) · [Tools by agent](too
 
 ## Contents — what's in this page (and what to expect)
 
-The master reference for the full 71-tool MCP surface. Jump to the section you need:
+The master reference for the full 72-tool MCP surface. Jump to the section you need:
 
 | Section | What you'll get |
 |---------|-----------------|
-| [How the 71 tools are registered](#how-the-71-tools-are-registered) | How every tool becomes a `@app.tool()` FastMCP route, how 74 decorators reconcile to 71 distinct functions, the live `health`/`tool_count` source of truth, and the wrapper / discovery / case-state taxonomy. |
+| [How the 72 tools are registered](#how-the-72-tools-are-registered) | How every tool becomes a `@app.tool()` FastMCP route, how 74 decorators reconcile to 72 distinct functions, the live `health`/`tool_count` source of truth, and the wrapper / discovery / case-state taxonomy. |
 | [Auth & mutation model (applies across the catalogue)](#auth--mutation-model-applies-across-the-catalogue) | The cross-cutting access controls — bearer token, `[MUT]` mutation tokens, `[APPR]` HMAC approval, `dry_run` guards, Thymus read-only — enforced at the MCP boundary. |
-| [Master categorized table (all 71 tools)](#master-categorized-table-all-71-tools) | Every tool, grouped by category, with purpose, backing module, and `[SIFT-16]`/`[MUT]`/`[APPR]` markers — plus the row-count reconciliation to 71 distinct functions. |
+| [Master categorized table (all 72 tools)](#master-categorized-table-all-72-tools) | Every tool, grouped by category, with purpose, backing module, and `[SIFT-16]`/`[MUT]`/`[APPR]` markers — plus the row-count reconciliation to 72 distinct functions. |
 | [The 16 SIFT forensic wrappers (deep table)](#the-16-sift-forensic-wrappers-deep-table) | A per-binary deep dive of the 16 forensic wrappers: inputs, parsed return types, caveats, and the W-135 degradation contract. |
 | [Discovery vs execution vs derived — worked examples](#discovery-vs-execution-vs-derived--worked-examples) | Concrete examples distinguishing execution, derived, and state-mutating tools, and which agent drives each. |
 
 ---
 
-## How the 71 tools are registered
+## How the 72 tools are registered
 
 Every tool is a `@app.tool()` route on a single FastMCP server. The server module
 (`src/agentropix_sift/mcp_server/fastmcp_app.py`) declares 67 in-module routes; the remaining tools are
 registered by the 5 Wazuh wrapper decorators — **74** `@app.tool()` decorator occurrences in total,
-reconciling to **71 distinct tool functions** because `wazuh_hunt_ioc` is registered in two modules
+reconciling to **72 distinct tool functions** because `wazuh_hunt_ioc` is registered in two modules
 (`docs/tools/_TOOL-CATALOGUE.md`). Each FastMCP route is a thin protocol surface over an inner
 `mcp_*` async function in `src/agentropix_sift/mcp_server/server.py`; the Pydantic typing, Thymus
 read-only policy, rate limiting, and `@traced` instrumentation already on the inner function flow
@@ -42,7 +42,7 @@ through unchanged (`fastmcp_app.py:1-35`).
 > **Authoritative count.** The `health` tool returns a live `tool_count` from `app.list_tools()`
 > (`fastmcp_app.py:369`, returned at `:375`) — the single source of truth that narrative docs should
 > cite rather than hard-coding a catalogue size that drifts as wrappers land. When an exact number is
-> load-bearing, re-query the running server's `tools/list` and cite `mcp_tool_count = 71` from
+> load-bearing, re-query the running server's `tools/list` and cite `mcp_tool_count = 72` from
 > [`canonical-facts.md`](../08-reference/canonical-facts.md).
 
 #### Verified sample I/O — `health`
@@ -58,11 +58,11 @@ probe instead of invoking a full forensic tool (`fastmcp_app.py:354-376`).
   "server": "agentropix-sift",
   "version": "<semver>",        // _SIFT_VERSION at startup
   "uptime_seconds": 12.481,     // monotonic since process start
-  "tool_count": 71              // live len(app.list_tools()) — matches mcp_tool_count = 71
+  "tool_count": 72              // live len(app.list_tools()) — matches mcp_tool_count = 72
 }
 ```
 
-The `tool_count` field is what the canonical `mcp_tool_count = 71` is reconciled against; if a live
+The `tool_count` field is what the canonical `mcp_tool_count = 72` is reconciled against; if a live
 probe ever returns a different number, the running server — not this page — is authoritative (re-derive
 the catalogue and update [`canonical-facts.md`](../08-reference/canonical-facts.md)). Every other tool wraps its payload in the standard response
 envelope (`tool_available`, `raw_stdout_sha256`, `skipped_reason`, …) documented on
@@ -71,7 +71,7 @@ chain-of-custody fields because it touches no evidence).
 
 ### Three kinds of tool
 
-The 71 tools fall into a useful taxonomy that explains why the swarm calls some directly and never
+The 72 tools fall into a useful taxonomy that explains why the swarm calls some directly and never
 others:
 
 | Class | What it does | Examples | Backing |
@@ -105,7 +105,7 @@ approval sidecar. Both exist so the LLM cannot self-approve or silently mutate c
 
 ---
 
-## Master categorized table (all 71 tools)
+## Master categorized table (all 72 tools)
 
 Legend: **[SIFT-16]** = drives one of the 16 SIFT forensic binaries · **[MUT]** = state-mutating
 (requires `mutation_token`) · **[APPR]** = HMAC approval-gated. Backing module shown is the wrapper or
@@ -241,7 +241,7 @@ package that implements the tool; the FastMCP route lives in `fastmcp_app.py` an
 
 **Row count:** 4 + 10 + 7 + 16 + 6 + 4 + 6 + 7 + 2 + 5 + 5 = **72 rows listed**. `wazuh_hunt_ioc` is the
 double-registered tool (two modules), so **distinct tool functions = 71** — the canonical count. (74
-`@app.tool()` decorator occurrences → 71 distinct functions; see `docs/tools/_TOOL-CATALOGUE.md`.)
+`@app.tool()` decorator occurrences → 72 distinct functions; see `docs/tools/_TOOL-CATALOGUE.md`.)
 
 ---
 
@@ -315,7 +315,7 @@ Sibling pages in this section (04-mcp-tools):
 
 - [Response envelope](response-envelope.md) — the common result shape (`tool_available`,
   `raw_stdout_sha256`, `skipped_reason`, mutation/approval gating) every tool returns.
-- [Tools by agent](tool-by-agent.md) — which swarm agent invokes which of these 71 tools.
+- [Tools by agent](tool-by-agent.md) — which swarm agent invokes which of these 72 tools.
 - [Tool list](tool-list.md) — the flat oracle-derived enumeration of the tool surface.
 - [Capability map](capability-map.md) — capabilities-to-tools view of the same surface.
 
@@ -327,7 +327,7 @@ Genuinely related pages elsewhere in the portal:
   backing modules cited per tool.
 - [Agents (index)](../10-agents/README.md) · [Agents list](../10-agents/agents-list.md) — the
   swarm agents that drive the execution, discovery, and state tools.
-- [Canonical facts](../08-reference/canonical-facts.md) — the authoritative `mcp_tool_count = 71`
+- [Canonical facts](../08-reference/canonical-facts.md) — the authoritative `mcp_tool_count = 72`
   and `16` forensic-wrapper counts this page reconciles against.
 - [Schema reference](../03-data/schema-er.md) · [Data dictionary](../03-data/data-dictionary.md) ·
   [Persisted artifacts](../03-data/persisted-artifacts.md) — the typed reports and case state the

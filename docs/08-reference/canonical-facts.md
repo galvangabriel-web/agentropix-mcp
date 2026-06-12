@@ -25,21 +25,26 @@ Source: `/home/admin2/agentropix-sift/CANONICAL_FACTS.md` (last verified upstrea
 | `rubric_score_self` | 83.83/100 | `docs/SANS-RUBRIC-RE-GRADE-2026-05-23.md` §8 | 2026-05-23 |
 | `bmad_synthesis_score` | 75.6/100 (mean), 80/100 (top: Winston+Victor) | bmad-eval-sweep `SYNTHESIS_TEMPLATE.md` §3 | 2026-05-23 |
 
-### MCP tool-count lineage (how 71 was reached)
+### MCP tool-count lineage (how 72 was reached)
 
 Per `CANONICAL_FACTS.md`, the count grew incrementally and each step is auditable:
 62→63 `get_partitions` (ISSUE-001), 63→64 `get_evt` (ISSUE-008), 64→65 `delete_finding` (ISSUE-014),
 65→66 `build_executable_registry` (EAR), 66→69 `promote_executable_registry` + `exec_registry_get` +
-`exec_registry_search` (EAR Phase 2), 69→70 `promote_iocs` (BUG-004), 70→71 `retract_approval`
-(phantom-approval reconciliation). The decorator count is **74** `@app.tool()` occurrences →
-**71 distinct tool functions** (67 in `fastmcp_app.py` + 5 wazuh wrappers; `wazuh_hunt_ioc` is
-registered in two modules). Source: `docs/tools/_TOOL-CATALOGUE.md`.
+`exec_registry_search` (EAR Phase 2), 69→70 `promote_iocs` (BUG-004), 70→71 `report_export`
+(ADR-024 Phase 5 — missed by the earlier catalogue chain), 71→72 `retract_approval`
+(phantom-approval reconciliation, oracle HEAD `88844e98`). The decorator count is **72**
+`@app.tool()` occurrences → **72 distinct tool functions** (67 in `fastmcp_app.py` + 5 in the
+wazuh wrappers: 4 in `wazuh_tools.py`, 1 in `wazuh_intel.py`). *Reconciliation note:* the earlier
+"71 distinct / 74 decorators / `wazuh_hunt_ioc` registered twice" figure was internally
+inconsistent (67+5=72) and the double-registration no longer exists at HEAD; **re-derived
+2026-06-11 against both the oracle source and the live `tools/list` (72 unique names,
+`health.tool_count = 72`)**. Source: `docs/tools/_TOOL-CATALOGUE.md`.
 
 ## Confirmed structural numbers (code-derived, this inventory)
 
 | Fact | Value | Where confirmed |
 |------|-------|-----------------|
-| MCP tool count | **71** distinct tool functions | `CANONICAL_FACTS.md`; `docs/tools/_TOOL-CATALOGUE.md` |
+| MCP tool count | **72** distinct tool functions | `CANONICAL_FACTS.md`; `docs/tools/_TOOL-CATALOGUE.md` |
 | SIFT forensic tools (the binaries the wrappers drive) | **16** | `README.md:151`; `CHANGELOG.md:449`; the `doctor` tool dict in `src/agentropix_sift/cli.py:176-196` |
 | Forensic wrapper modules under `mcp_server/wrappers/` | ~40 wrapper `.py` files driving the 16 SIFT tools + EZ-Tools/correlation/mail | `src/agentropix_sift/mcp_server/wrappers/` |
 | Test count | **4464** | `CANONICAL_FACTS.md` (`pytest --collect-only`) |
@@ -69,7 +74,7 @@ registered in two modules). Source: `docs/tools/_TOOL-CATALOGUE.md`.
 
 ## Related references
 
-- [Tool list](../04-mcp-tools/tool-list.md) — the per-tool breakdown behind the **71** MCP-tool count.
+- [Tool list](../04-mcp-tools/tool-list.md) — the per-tool breakdown behind the **72** MCP-tool count.
 - [Agents list](../10-agents/agents-list.md) — the 7 core swarm specialists + ATT&CK detectors behind the agent counts above.
 - [Design Decisions](design-decisions.md) — reconciliations of older draft figures (e.g. `2807` tests) against these canonical values.
 - [ADR Index](adr-index.md) — the deferred-detector decision that keeps the recall figures un-inflated.

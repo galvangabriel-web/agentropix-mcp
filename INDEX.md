@@ -1,5 +1,8 @@
 # Agentropix-SIFT — Documentation Index
 
+> 🧭 **Judges / evaluators:** start with the [Evaluation Map](EVALUATION-MAP.md) — it routes all
+> 8 submission requirements to their evidence in this repository.
+
 **The entry point.** This is the routed master table of contents for the entire
 Agentropix-SIFT documentation set. Every chapter is mapped to its primary **audience**
 (operator / examiner / developer / auditor) and the **question it answers**, so you can jump
@@ -7,7 +10,7 @@ straight to what you need. New readers should follow one of the
 [reading paths](#reading-paths-by-audience) below.
 
 Agentropix-SIFT is a local, CLI-driven, bio-agentic DFIR triage engine for the SANS SIFT
-Workstation — a Trinity Loop (Architect → 7-agent Swarm → Critic) driving **71 MCP tools**
+Workstation — a Trinity Loop (Architect → 7-agent Swarm → Critic) driving **72 MCP tools**
 (**16** of them SIFT forensic wrappers) over one FastMCP server, with a forensic safety spine.
 Canonical numbers throughout the docs are governed by [Canonical Facts](docs/08-reference/canonical-facts.md).
 
@@ -110,7 +113,7 @@ unchanged — the reading order is layered on top, non-destructively.
 
 ## 2. Architecture
 
-> **Read in this order** ([section README](docs/02-architecture/README.md)): 1. [main-architectural-agentropix-design](docs/02-architecture/main-architectural-agentropix-design.md) — the one-page validated diagram (pattern + guardrails) · 2. [system-diagram](docs/02-architecture/system-diagram.md) — diagram index + rubric/trust-boundary verification · 3. [system-context-c4](docs/02-architecture/system-context-c4.md) — containers/boundaries · 4. [architecture-layers](docs/02-architecture/architecture-layers.md) — determinism map + trust-boundary contract · 5. [component-architecture](docs/02-architecture/component-architecture.md) — layer map · 6. [trinity-loop](docs/02-architecture/trinity-loop.md) — the control loop · 7. [swarm-agents](docs/02-architecture/swarm-agents.md) — specialists + Blackboard · 8. [mcp-server](docs/02-architecture/mcp-server.md) — FastMCP + Thymus · 9. [sequence-diagrams](docs/02-architecture/sequence-diagrams.md) — operations step by step · 10. [ez-tools-integration](docs/02-architecture/ez-tools-integration.md) — EZ Tools wrapping · 11. [module-map](docs/02-architecture/module-map.md) *(shared reference)*.
+> **Read in this order** ([section README](docs/02-architecture/README.md)): 1. [main-architectural-agentropix-design](docs/02-architecture/main-architectural-agentropix-design.md) — the one-page validated diagram (pattern + guardrails) · 2. [system-diagram](docs/02-architecture/system-diagram.md) — diagram index + rubric/trust-boundary verification · 3. [system-context-c4](docs/02-architecture/system-context-c4.md) — containers/boundaries · 4. [architecture-layers](docs/02-architecture/architecture-layers.md) — determinism map + trust-boundary contract · 5. [component-architecture](docs/02-architecture/component-architecture.md) — layer map · 6. [trinity-loop](docs/02-architecture/trinity-loop.md) — the control loop · 7. [swarm-agents](docs/02-architecture/swarm-agents.md) — specialists + Blackboard · 8. [mcp-server](docs/02-architecture/mcp-server.md) — FastMCP + Thymus · 9. [sequence-diagrams](docs/02-architecture/sequence-diagrams.md) — operations step by step · 10. [ez-tools-integration](docs/02-architecture/ez-tools-integration.md) — EZ Tools wrapping · 11. [module-map](docs/02-architecture/module-map.md) *(shared reference)* · 12. 🗺️ [PROJECT-ROADMAP-2026-06-11](docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md) *(strategic — where it's all going)* · 13. 🔒 [SECURITY-INVARIANT-AUDIT-2026-06-11](docs/02-architecture/SECURITY-INVARIANT-AUDIT-2026-06-11.md) *(audit — invariants traced to source)* · 14. 🎛️ [AGENTROPIX-TUNABLE-FEATURES-CATALOG](docs/02-architecture/AGENTROPIX-TUNABLE-FEATURES-CATALOG.md) *(reference — all 252 tunables)*.
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
@@ -125,6 +128,9 @@ unchanged — the reading order is layered on top, non-destructively.
 | Sequence Diagrams | developer, examiner | What does each key operation look like step-by-step (full run, single tool call, seal, halt, approval, Wazuh)? | [docs/02-architecture/sequence-diagrams.md](docs/02-architecture/sequence-diagrams.md) |
 | EZ Tools / ZimmermanTools Integration | developer | How are Eric Zimmerman's EZ Tools wrapped as governed MCP tools — which invoke the genuine `.NET` binaries vs the three Linux substitutes (Amcache/ShimCache/SRUM)? | [docs/02-architecture/ez-tools-integration.md](docs/02-architecture/ez-tools-integration.md) |
 | Module Map | developer | Where does each package and component live in `src/`? (machine-extracted reference) | [docs/02-architecture/module-map.md](docs/02-architecture/module-map.md) |
+| 🗺️ Strategic Project Roadmap (2026-06-11) | evaluator, stakeholder, developer | Where is the project now and what is the path to GA — development Gantt & critical path, lifecycle state machine, phase milestones, technical specs, risk mitigation? | [docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md](docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md) |
+| 🔒 Security Invariant Audit (2026-06-11) | evaluator, examiner, security engineer | Are the six safety/anti-hallucination guarantees actually enforced in the source — where, at which file:line, and what is the one honest gap? | [docs/02-architecture/SECURITY-INVARIANT-AUDIT-2026-06-11.md](docs/02-architecture/SECURITY-INVARIANT-AUDIT-2026-06-11.md) |
+| 🎛️ Tunable Features Catalog | operator, developer | What are all 252 documented tunables (toggles, performance knobs, detection thresholds, security gates, tool paths) and what does each do? | [docs/02-architecture/AGENTROPIX-TUNABLE-FEATURES-CATALOG.md](docs/02-architecture/AGENTROPIX-TUNABLE-FEATURES-CATALOG.md) |
 
 ## 3. Data
 
@@ -146,11 +152,11 @@ unchanged — the reading order is layered on top, non-destructively.
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
-| MCP Tool Reference | developer, operator | What are all 71 MCP tools and the 16 forensic wrappers, in detail? | [04-mcp-tools/tool-reference.md](docs/04-mcp-tools/tool-reference.md) |
-| Tool Capability Map (by DFIR function) | operator, examiner, developer | Which tool do I reach for to *do* a thing — the 71-tool surface grouped by DFIR function, with the canonical happy-path ordering? | [04-mcp-tools/capability-map.md](docs/04-mcp-tools/capability-map.md) |
+| MCP Tool Reference | developer, operator | What are all 72 MCP tools and the 16 forensic wrappers, in detail? | [04-mcp-tools/tool-reference.md](docs/04-mcp-tools/tool-reference.md) |
+| Tool Capability Map (by DFIR function) | operator, examiner, developer | Which tool do I reach for to *do* a thing — the 72-tool surface grouped by DFIR function, with the canonical happy-path ordering? | [04-mcp-tools/capability-map.md](docs/04-mcp-tools/capability-map.md) |
 | Tool Response Envelope | developer, auditor | What does a tool call actually return, including the provenance fingerprint and error shape? | [04-mcp-tools/response-envelope.md](docs/04-mcp-tools/response-envelope.md) |
 | Tools by Agent | developer | Which Swarm agent invokes which tools? | [04-mcp-tools/tool-by-agent.md](docs/04-mcp-tools/tool-by-agent.md) |
-| Tool List | developer, operator | The machine-extracted inventory of all 71 MCP tools, with the 16 SIFT forensic wrappers flagged. | [04-mcp-tools/tool-list.md](docs/04-mcp-tools/tool-list.md) |
+| Tool List | developer, operator | The machine-extracted inventory of all 72 MCP tools, with the 16 SIFT forensic wrappers flagged. | [04-mcp-tools/tool-list.md](docs/04-mcp-tools/tool-list.md) |
 
 ## 5. Safety & Forensics
 
@@ -298,7 +304,7 @@ authority for every numeric claim — it wins over any prose anywhere in the doc
 | Artifact | What it holds | New home |
 |----------|---------------|----------|
 | Canonical Facts | The locked numeric table (tool count, tests, recall) — wins over prose | [docs/08-reference/canonical-facts.md](docs/08-reference/canonical-facts.md) |
-| Tool List | Inventory of all 71 MCP tools, with the 16 SIFT forensic wrappers flagged | [docs/04-mcp-tools/tool-list.md](docs/04-mcp-tools/tool-list.md) |
+| Tool List | Inventory of all 72 MCP tools, with the 16 SIFT forensic wrappers flagged | [docs/04-mcp-tools/tool-list.md](docs/04-mcp-tools/tool-list.md) |
 | Schema Dump | The extracted Pydantic model schema (field names, types, constraints) behind the data chapter | [docs/03-data/schema-dump.md](docs/03-data/schema-dump.md) |
 | Module Map | The code module map (where each package and component lives in `src/`) | [docs/02-architecture/module-map.md](docs/02-architecture/module-map.md) |
 | Env Vars | The full `AGENTROPIX_*` environment-variable surface and what each tunes | [docs/07-sdlc-ops/env-vars.md](docs/07-sdlc-ops/env-vars.md) |

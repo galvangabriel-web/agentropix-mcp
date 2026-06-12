@@ -472,7 +472,7 @@ agentropix-sift evidence-gate mint   # -> egt_<ULID> into AGENTROPIX_MUTATION_TO
 - [uc-memory-triage.md](uc-memory-triage.md) — the Volatility memory-triage counterpart.
 - [uc-approval-gate.md](uc-approval-gate.md) — promote DRAFT findings via examiner approval.
 - [uc-wazuh-push.md](uc-wazuh-push.md) — push the resulting IOCs into Wazuh (optional integration).
-- [`tool-list.md`](../04-mcp-tools/tool-list.md) — the full 71-tool catalogue and the 16 SIFT wrappers.
+- [`tool-list.md`](../04-mcp-tools/tool-list.md) — the full 72-tool catalogue and the 16 SIFT wrappers.
 - [`agents-list.md`](../10-agents/agents-list.md) — the SWARM run order and per-agent tools.
 - [agentic-architecture.md](../10-agents/agentic-architecture.md) — how the runtime swarm is wired (the Trinity Loop behind the autonomous path).
 

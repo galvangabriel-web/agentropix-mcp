@@ -388,7 +388,7 @@ chain-of-custody property at the heart of the engine.
 
 ## Where to go next
 
-- **[What You Get](what-you-get.md)** — the full capability matrix and the 71-tool
+- **[What You Get](what-you-get.md)** — the full capability matrix and the 72-tool
   catalogue.
 - **[What is Agentropix-SIFT?](what-is-agentropix.md)** — the DFIR problem, positioning,
   and pipeline diagram.

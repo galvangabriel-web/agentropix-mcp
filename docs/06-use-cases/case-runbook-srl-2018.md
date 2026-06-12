@@ -308,7 +308,7 @@ recorded-session video (`training-session-paged.mp4`).
   walkthroughs (with 💬 end-user prompts and validated outputs).
 - [case-hypotheses.md](case-hypotheses.md#case-2--srl-2018-network-wide-apt-c2-deployment) — the full
   Case 2 attack-chain bias-check.
-- [`tool-list.md`](../04-mcp-tools/tool-list.md) — the 71-tool catalogue and exact arg schemas.
+- [`tool-list.md`](../04-mcp-tools/tool-list.md) — the 72-tool catalogue and exact arg schemas.
 - [`capability-map.md`](../04-mcp-tools/capability-map.md) — pick tools by DFIR function.
 - [`canonical-facts.md`](../08-reference/canonical-facts.md) — canonical numbers and case inventory.
 

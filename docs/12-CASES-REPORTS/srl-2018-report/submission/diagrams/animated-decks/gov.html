@@ -1,0 +1,132 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+@keyframes animotion-fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animotion-fade-in { animation: animotion-fadeIn 0.6s ease-out both; }
+
+@keyframes animotion-fadeInLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+
+.animotion-fade-in-left { animation: animotion-fadeInLeft 0.6s ease-out both; }
+
+@keyframes animotion-fadeInLeftBig { from { opacity: 0; transform: translateX(-200px); } to { opacity: 1; transform: translateX(0); } }
+
+.animotion-fade-in-left-big { animation: animotion-fadeInLeftBig 0.8s ease-out both; }
+
+@keyframes animotion-zoomIn { from { opacity: 0; transform: scale(0.3); } to { opacity: 1; transform: scale(1); } }
+
+.animotion-zoom-in { animation: animotion-zoomIn 0.5s ease-out both; }
+
+@keyframes animotion-zoomInLeft { from { opacity: 0; transform: scale(0.1) translateX(-1000px); } 60% { opacity: 1; transform: scale(0.475) translateX(10px); } to { transform: scale(1) translateX(0); } }
+
+.animotion-zoom-in-left { animation: animotion-zoomInLeft 0.6s cubic-bezier(0.55, 0.055, 0.675, 0.19) both; }
+
+@keyframes animotion-bounceIn { 0% { opacity: 0; transform: scale(0.3); } 20% { transform: scale(1.1); } 40% { transform: scale(0.9); } 60% { opacity: 1; transform: scale(1.03); } 80% { transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+
+.animotion-bounce-in { animation: animotion-bounceIn 0.75s cubic-bezier(0.215, 0.61, 0.355, 1) both; }
+
+@keyframes animotion-jackInTheBox { 0% { opacity: 0; transform: scale(0.1) rotate(30deg); transform-origin: center bottom; } 50% { transform: rotate(-10deg); } 70% { transform: rotate(3deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+
+.animotion-jack-in-the-box { animation: animotion-jackInTheBox 0.8s ease both; }
+
+@keyframes animotion-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } to { transform: scale(1); } }
+
+.animotion-pulse { animation: animotion-pulse 1s ease-in-out infinite; }
+
+@keyframes animotion-shakeX { 0%, to { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); } 20%, 40%, 60%, 80% { transform: translateX(10px); } }
+
+.animotion-shake-x { animation: animotion-shakeX 0.8s ease-in-out both; }
+
+@keyframes animotion-typewriter { from { width: 0; } to { width: 100%; } }
+
+.animotion-typewriter { animation: animotion-typewriter 2s steps(30, end) both; overflow: hidden; white-space: nowrap; border-right: 2px solid; }
+@keyframes vt-tick { from { opacity:0.01 } to { opacity:0.02 } }
+.vt-ticker { position:fixed; bottom:0; right:0; width:2px; height:2px; background:#0d1117; animation:vt-tick 0.12s infinite alternate }
+* { box-sizing:border-box; margin:0; padding:0 }
+html,body { width:1400px; height:460px; overflow:hidden; background:#0d1117; color:#e6edf3; font-family:'DejaVu Sans',system-ui,sans-serif }
+.wrap { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; padding:30px 60px; text-align:center }
+h1 { font-size:40px } .sub { font-size:22px; color:#8b949e }
+.blue{color:#58a6ff}.green{color:#3fb950}.red{color:#f85149}.amber{color:#d29922}.purple{color:#bc8cff}
+.chips { display:flex; flex-wrap:wrap; gap:12px; justify-content:center }
+.chip { background:#161b22; border:2px solid #58a6ff; border-radius:22px; padding:8px 20px; font-size:20px }
+.chip.tok { border-color:#d29922; background:#2a2008; font-family:monospace }
+.chip.gap { border-color:#f85149; background:#2d1214 }
+.counter { font-size:72px; font-weight:bold; font-family:monospace }
+.bar { height:30px; border-radius:8px; transition:width 1.4s ease-out; width:0 }
+.row { display:flex; align-items:center; gap:14px; width:1000px }
+.lbl { width:160px; text-align:right; font-size:20px }
+.funny { font-size:19px; color:#d29922; font-style:italic }
+.waitbar { height:24px; background:linear-gradient(90deg,#f85149,#da3633); border-radius:12px; width:0; transition:width 5s linear }
+.fill-back { animation-fill-mode:backwards }
+.d1{animation-delay:.3s}.d2{animation-delay:.9s}.d3{animation-delay:1.5s}.d4{animation-delay:2.1s}.d5{animation-delay:2.7s}
+</style></head><body><div class="vt-ticker"></div><div class="wrap">
+<h1 class="animotion-fade-in fill-back" style="font-size:34px"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:34px;height:34px;color:#bc8cff" 
+  class="lucide lucide-lock"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+</svg> The bouncer &amp; the wax seal <span class="funny">(governance, but make it visual)</span></h1>
+<div style="display:flex;gap:80px;align-items:center">
+ <div class="animotion-fade-in-left fill-back d1" style="text-align:center"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:44px;height:44px;color:#3fb950" 
+  class="lucide lucide-shield-check"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+  <path d="m9 12 2 2 4-4" />
+</svg><div class="counter green" id="ok">0</div><div class="sub">ALLOW</div></div>
+ <div class="animotion-fade-in-left fill-back d2" style="text-align:center"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:44px;height:44px;color:#f85149" 
+  class="lucide lucide-shield-x"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+  <path d="m14.5 9.5-5 5" />
+  <path d="m9.5 9.5 5 5" />
+</svg><div class="counter red" id="no">0</div><div class="sub">REJECT — refused <b>before</b> the process spawned</div></div>
+ <div class="animotion-fade-in-left fill-back d3" style="text-align:center;max-width:380px"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:44px;height:44px;color:#bc8cff" 
+  class="lucide lucide-key-round"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
+  <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
+</svg><div class="sub" style="font-size:19px;margin-top:8px">one 32-byte key seals <b>both</b> files —<br/><b class="red">edit either one → busted</b></div></div>
+</div>
+<div class="funny animotion-fade-in fill-back" style="animation-delay:7s">the bouncer checked everyone. 61 didn’t get in. every refusal is on the sealed record.</div></div>
+<script>function ct(el,t,ms){const t0=performance.now();function s(x){const k=Math.min(1,(x-t0)/ms);el.textContent=Math.round(k*t);if(k<1)requestAnimationFrame(s);}requestAnimationFrame(s);}
+function start(){setTimeout(()=>{ct(document.getElementById('ok'),85,3200);ct(document.getElementById('no'),61,3200);},1200);
+setTimeout(()=>{document.title='DONE';},13000);}
+window.__start=start;</script></body></html>

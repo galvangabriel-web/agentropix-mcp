@@ -130,4 +130,4 @@ URL + integrity-anchor treatment as §1.
 - [`case-activation/INDEX.md`](../../case-activation/INDEX.md) — master index of all 14 activation guides + recorded runs
 - [case-hypotheses.md](case-hypotheses.md) — per-case attack-chain hypotheses (what to look for once you have the image)
 - [dataset-recall.md](../07-sdlc-ops/dataset-recall.md) — the recall methodology and sealed-run evidence for the non-redistributable corpora
-- [canonical-facts.md](../08-reference/canonical-facts.md) — governing numbers (71 tools / 16 wrappers / 4464 tests / 72-72 / 108-118)
+- [canonical-facts.md](../08-reference/canonical-facts.md) — governing numbers (72 tools / 16 wrappers / 4464 tests / 72-72 / 108-118)

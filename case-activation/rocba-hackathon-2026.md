@@ -9,7 +9,7 @@
 > procedure (`END-USER-CASE-GUIDE.md`) and the
 > portal house style / dual-audience (🖥️ command · 💬 prompt) of
 > [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md). Canonical numbers cite
-> [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (**71 MCP tools**, **16 SIFT wrappers**, **4464 tests**).
+> [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (**72 MCP tools**, **16 SIFT wrappers**, **4464 tests**).
 
 ---
 
@@ -105,7 +105,7 @@ right per-evidence sequence automatically):
 > healthy, and verify the integrity of the ROCBA C-drive E01."*
 >
 > **Expect:** `doctor` ends with `All tools available.`; `health` returns `status: "ok"` with a live
-> `tool_count` (canonical **71** — trust the live number, not the banner); `ewfverify` reports
+> `tool_count` (canonical **72** — trust the live number, not the banner); `ewfverify` reports
 > **SUCCESS** with MD5 `5efc207c85587683e5ca5fa2d5ef1aa4`.
 
 ### Step 1 — Pick evidence + choose the slug

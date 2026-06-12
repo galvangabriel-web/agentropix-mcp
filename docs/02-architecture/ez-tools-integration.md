@@ -3,7 +3,7 @@
 > **Section 02 · Architecture** — how Agentropix-SIFT wraps Eric Zimmerman's **EZ Tools**
 > (Windows-native `.NET 9` CLI forensic parsers) as governed MCP tools. These wrappers are
 > part of the **16 SIFT forensic tools** the engine drives ([canonical-facts.md](../08-reference/canonical-facts.md))
-> and surface as ten of the **71 MCP tools** ([tool-list.md](../04-mcp-tools/tool-list.md)); for
+> and surface as ten of the **72 MCP tools** ([tool-list.md](../04-mcp-tools/tool-list.md)); for
 > the protocol surface that registers them see [The FastMCP Server](mcp-server.md), and for
 > the per-tool catalogue see [04-mcp-tools](../04-mcp-tools/).
 >
@@ -17,7 +17,7 @@
 >   surface that registers them) · [FastMCP Execution](../10-agents/fastmcp-execution.md) (how one
 >   wrapper call runs).
 > - **MCP tools:** [MCP Tool Reference](../04-mcp-tools/tool-reference.md) ·
->   [Tool List](../04-mcp-tools/tool-list.md) (the 71-tool catalogue, EZ wrappers flagged).
+>   [Tool List](../04-mcp-tools/tool-list.md) (the 72-tool catalogue, EZ wrappers flagged).
 > - **Reference:** [Design Decisions](../08-reference/design-decisions.md) (the hybrid
 >   genuine-binary-vs-substitute rationale).
 > - **ADRs (decision rationale):** [ADR-013 · `mcp_get_evtx`

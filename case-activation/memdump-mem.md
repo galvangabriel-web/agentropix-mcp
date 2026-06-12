@@ -131,7 +131,7 @@ Evidence is already staged at `/cases/memdump/memdump.mem`. Slug = **`MEMDUMP-RA
 > **💬 End-user (prompt):** *"Analyse this memory image: show running processes, open network connections, any injected code, the services, and the process tree."*
 > **Expect:** the Volatility-backed tools return process / socket / malfind / service / PPID-tree data. The kernel profile is auto-detected on the first plugin (`get_pslist`) — a populated process list confirms the symbol-table match; if every plugin returns empty with `Unable to validate the plugin requirements: kernel.symbol_table_name`, no Windows profile resolved (honest negative). Counts are **discovered** (no ground-truth to match against).
 
-> **Tool surface:** these are 5 of the platform's **71** MCP tools (`{{ref:CANONICAL_FACTS#mcp_tool_count}}`), driving Volatility3 — one of the **16 forensic SIFT wrappers** (cite [`.crew/facts.md`](../docs/08-reference/canonical-facts.md)). `run_volatility` is the generic escape hatch for any other plugin — call it with either a short alias (`cmdline`, `dlllist`) or a full canonical id (`windows.cmdline.CmdLine`, `windows.dlllist.DllList`); the bare middle form (`windows.cmdline`/`windows.dlllist`) is rejected. (There is **no** `hashdump` alias and no `windows.hashdump.*` exposed by this MCP — such a call would be rejected as a disallowed plugin.)
+> **Tool surface:** these are 5 of the platform's **72** MCP tools (`{{ref:CANONICAL_FACTS#mcp_tool_count}}`), driving Volatility3 — one of the **16 forensic SIFT wrappers** (cite [`.crew/facts.md`](../docs/08-reference/canonical-facts.md)). `run_volatility` is the generic escape hatch for any other plugin — call it with either a short alias (`cmdline`, `dlllist`) or a full canonical id (`windows.cmdline.CmdLine`, `windows.dlllist.DllList`); the bare middle form (`windows.cmdline`/`windows.dlllist`) is rejected. (There is **no** `hashdump` alias and no `windows.hashdump.*` exposed by this MCP — such a call would be rejected as a disallowed plugin.)
 
 ### Step 6 — `record_finding` (DRAFT-gated)
 
@@ -172,7 +172,7 @@ Both lanes hit the **same deterministic MCP tools** — only who drives them dif
 
 2. 💬 *"How many Agentropix forensic tools are available right now?"*
    🖥️ call the `health` tool
-   **Expect:** `status: "ok"` with a live `tool_count` (canonical **71** — trust the live number, not the banner).
+   **Expect:** `status: "ok"` with a live `tool_count` (canonical **72** — trust the live number, not the banner).
 
 3. 💬 *"Open a medium-severity case `MEMDUMP-RAW-2014` for the raw memory dump at `/cases/memdump/memdump.mem`, examiner victor.galvan, and make it active."*
    🖥️ `case_init {…case_id:"MEMDUMP-RAW-2014"…}` then `case_activate {"case_id":"MEMDUMP-RAW-2014"}`

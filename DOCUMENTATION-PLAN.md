@@ -17,7 +17,7 @@ It wins over any prose anywhere in the docs.
 
 | Fact | Value | Source |
 |------|-------|--------|
-| MCP tool count | **71** | `docs/08-reference/canonical-facts.md` |
+| MCP tool count | **72** | `docs/08-reference/canonical-facts.md` |
 | Forensic wrappers | **16** SIFT tools | `docs/08-reference/canonical-facts.md`, `src/.../mcp_server/wrappers/` |
 | Test count | **4464** | `docs/08-reference/canonical-facts.md` |
 | Disk recall (regression) | **72/72 (100%)** | `docs/08-reference/canonical-facts.md` |
@@ -34,7 +34,7 @@ It wins over any prose anywhere in the docs.
 Agentropix-SIFT is a **local, CLI-driven bio-agentic DFIR triage engine** for the SANS SIFT
 Workstation. A **Trinity Loop** (Architect proposes agents → 7-agent Swarm runs deterministic
 forensic tools → Critic scores and halts on a deterministic convergence fingerprint, *no LLM
-self-rating*) drives **71 MCP tools** over a single **FastMCP** server. Safety spine: *Thymus*
+self-rating*) drives **72 MCP tools** over a single **FastMCP** server. Safety spine: *Thymus*
 read-only policy, pre/post SHA-256 evidence invariant, deterministic-tools-only findings,
 **Courtroom** HMAC-SHA256 audit seal, provenance-chain validation, optional human-in-the-loop
 approval sidecar.

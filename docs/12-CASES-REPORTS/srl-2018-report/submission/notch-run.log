@@ -1,0 +1,26 @@
+Agentropix-SIFT triage: /cases/Challenge_NotchItUp/Challenge.raw
+  max-iterations: 5
+  output: submission/notch-report.json
+  config keys: ['monitoring', 'thymus_policy', 'tools']
+agentropix_sift.detectors.t1087_002_null_session_baseline NullSessionBaselineAgent get_evtx failed for /cases/Challenge_NotchItUp/Challenge.raw: evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/Challenge_NotchItUp/Challenge.raw
+
+Caused by:
+    0: An error occurred while trying to deserialize evtx stream.
+    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[ 0,  0,  0,  0,  0,  0,  0,  0]`
+
+agentropix_sift.detectors.t1059_001_iex_loopback_c2 W-205 get_evtx (PS/Operational) failed: evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/Challenge_NotchItUp/Challenge.raw
+
+Caused by:
+    0: An error occurred while trying to deserialize evtx stream.
+    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[ 0,  0,  0,  0,  0,  0,  0,  0]`
+
+
+Findings: 10
+Tool calls: 60
+Status: budget_exhausted
+Report written to submission/notch-report.json
+Audit log (sealed) at submission/notch-report.audit-log.json (26 entries)
+Session key (mode 0600) at submission/notch-report.session-key
+Evidence SHA-256: 80366d7ec64a5529c95c2f523f4281a5f11efbad33ecb19f73525470c1407b23
+Inference constraint: high (LLM is orchestrator; facts from MCP tools)
+EXIT=0

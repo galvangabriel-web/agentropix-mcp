@@ -246,7 +246,7 @@ MCP server still answers and reports its tool count. That is exactly what the `h
 *Execution F:* call the `health` tool against the redeployed mirror.
 
 *Output F:* `{ "status": "ok", "server": "agentropix-...", "tool_count": <N>, "version": "...",
-"uptime_seconds": ... }`. The canonical platform figure is **71** tools
+"uptime_seconds": ... }`. The canonical platform figure is **72** tools
 (`{{ref:CANONICAL_FACTS#mcp_tool_count}}`); a live server may report 72 (the `wazuh_hunt_ioc`
 double-registration — see the live-drift note in the [User Guide §1.2](../01-overview/user-guide.md#12-sanity-check--call-health)).
 The sync carries the *same* tool surface to the mirror, so the public server reports the same count as

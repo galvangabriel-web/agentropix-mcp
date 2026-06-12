@@ -1,19 +1,55 @@
 # Agentropix-SIFT
 
+> **Dear Evaluator,**
+>
+> My name is **Gabriel Galvan**, and I am proud to introduce the **Agentropix MCP** solution.
+>
+> This innovative solution enables the initial triage phase of modern digital forensic
+> investigations. I created this repository to demonstrate how Agentropix was designed, the key
+> considerations that guided its development, and the features it provides. A detailed roadmap
+> outlining the project's vision, architecture, and capabilities is included at the end of this
+> document.
+>
+> The documentation section is fully completed and contains all the information required to
+> understand how the solution works. In addition, you will find case analyses, technical reports,
+> specifications, and supporting documentation that demonstrate the functionality and
+> effectiveness of Agentropix MCP.
+>
+> Thank you for taking the time to evaluate this project. I hope you find Agentropix MCP both
+> innovative and valuable for modern forensic analysis workflows.
+>
+> — *Gabriel Galvan*
+
+> 🧭 **Judges:** the **[Evaluation Map](EVALUATION-MAP.md)** routes each of the 8 submission
+> requirements (code · demo video · architecture diagram · project story · datasets · accuracy ·
+> try-it-out · execution logs) to its exact evidence in this repository — or watch the
+> 🎬 **[2 min 24 s Submission Evidence Tour](https://galvangabriel-web.github.io/agentropix-mcp/assets/submission-tour/watch-tour.html)**
+> (auto-plays): one animated scene per requirement, each with a live-captured proof panel. And for
+> the investigation flow itself, the 🎞️ **[six-stage workflow animation](#-recommended-investigation-workflow)**
+> plays inline right on this page — doctor → run → review → human gate → seal → escalate — and the
+> 🎞️ **[safety proof reel](#%EF%B8%8F-the-six-guarantees-proven-on-screen)** shows every anti-hallucination
+> guarantee backed by real cited evidence from the sealed execution logs.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#license)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
-[![MCP tools: 71](https://img.shields.io/badge/MCP%20tools-71-green.svg)](docs/04-mcp-tools/tool-reference.md)
+[![MCP tools: 72](https://img.shields.io/badge/MCP%20tools-72-green.svg)](docs/04-mcp-tools/tool-reference.md)
 [![SIFT wrappers: 16](https://img.shields.io/badge/SIFT%20wrappers-16-brightgreen.svg)](docs/04-mcp-tools/tool-reference.md)
 [![Tests: 4464](https://img.shields.io/badge/tests-4464-brightgreen.svg)](docs/07-sdlc-ops/testing.md)
 [![Disk recall: 72/72](https://img.shields.io/badge/disk%20recall-72%2F72-success.svg)](docs/07-sdlc-ops/dataset-recall.md)
 
 > ## Autonomous DFIR triage on the SANS SIFT Workstation — that never lets the LLM rate its own findings.
 > Point it at a Windows disk or memory image. It drives **16 real SIFT forensic tools** through **one
-> MCP server (71 tools)**, correlates across a **7-agent swarm** on a quorum blackboard, and emits a
+> MCP server (72 tools)**, correlates across a **7-agent swarm** on a quorum blackboard, and emits a
 > cryptographically sealed, schema-validated JSON triage report — in minutes, on the local host, with
 > **no LLM ever in the halt path**. *(Source: [`what-is-agentropix.md`](docs/01-overview/what-is-agentropix.md).)*
 
 **A local, CLI-driven, bio-agentic DFIR triage engine for the SANS SIFT Workstation.**
+
+> 🗺️ **Evaluators — the [Strategic Project Roadmap](docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md)
+> (2026-06-11)** is the "where this is, where it's going" document: the development Gantt with the
+> critical path to GA, the system-lifecycle state machine (orchestration, thread taxonomy, apoptosis),
+> phase milestones (Foundation → Orchestration → Scale & GA), technical specifications, and risk
+> mitigation — the strategic companion to the [Architecture chapter](docs/02-architecture/README.md).
 
 ---
 
@@ -187,7 +223,7 @@ Four audiences, four fast paths. Each row is an ordered reading trail; the full 
 Agentropix-SIFT turns a SIFT Workstation into an autonomous-but-accountable triage operator. A
 **Trinity Loop** — an Architect that proposes which agents to run, a **7-agent Swarm** that drives
 deterministic forensic tools, and a **Critic** that scores findings and halts on a *deterministic*
-convergence fingerprint (with **no LLM self-rating**) — orchestrates **71 MCP tools** over a single
+convergence fingerprint (with **no LLM self-rating**) — orchestrates **72 MCP tools** over a single
 [FastMCP](docs/02-architecture/mcp-server.md) server. The result is a fast first pass over disk images,
 memory dumps, and Windows artifacts that produces an evidence-grounded, cryptographically sealed triage
 report a human examiner can trust and defend.
@@ -242,7 +278,7 @@ flowchart TB
     end
 
     subgraph MCP["MCP boundary — the enforcement spine"]
-        TOOLS["71 MCP tools<br/>traced · rate-limited · Thymus-gated"]:::det
+        TOOLS["72 MCP tools<br/>traced · rate-limited · Thymus-gated"]:::det
         BIN["SIFT binaries<br/>vol3 / plaso / tsk / yara / EZ-Tools"]:::leak
     end
 
@@ -284,7 +320,7 @@ flowchart TB
 | Capability | The one-line value | Canonical figure | Source-code home |
 |---|---|---|---|
 | **Trinity Loop** | Deterministic Architect → Swarm → Critic control loop; halts on a convergence fingerprint, **never on an LLM self-rating** | Critic halt default **0.85** | `trinity/architect.py`, `trinity/critic.py`, `orchestrator.py` |
-| **71 MCP tools** | One FastMCP server exposes **71 distinct forensic tools** over stdio + HTTP | **71** tools | `mcp_server/fastmcp_app.py` |
+| **72 MCP tools** | One FastMCP server exposes **72 distinct forensic tools** over stdio + HTTP | **72** tools | `mcp_server/fastmcp_app.py` |
 | **16 SIFT wrappers** | Hardened drivers (timeout, memory ceiling, retry, stderr capture, tracing) around the 16 trusted SIFT binaries | **16** wrappers | `mcp_server/wrappers/` |
 | **7-agent Swarm + ATT&CK detectors** | Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt specialists + 6 deterministic MITRE ATT&CK detectors | **7** specialists (**13** `SWARM` classes) | `agents/`, `detectors/` |
 | **Quorum Blackboard** | An observation is promoted to a `Correlation` only when enough agents corroborate the same token | quorum default **2** | `agents/_blackboard.py` |
@@ -321,7 +357,7 @@ flowchart TB
     Examiner(["DFIR Examiner<br/>runs triage · reviews · approves findings"]):::actor
 
     subgraph Host["SANS SIFT Workstation — local host"]
-        Agentropix["Agentropix-SIFT<br/>Trinity Loop engine + FastMCP server (71 tools)"]:::core
+        Agentropix["Agentropix-SIFT<br/>Trinity Loop engine + FastMCP server (72 tools)"]:::core
         Toolchain["SIFT Forensic Toolchain<br/>Volatility3 · Plaso · Sleuth Kit · EVTX · YARA · … (16 tools)"]:::ext
         Evidence[("Evidence Store<br/>E01 / raw / memory — read-only")]:::ext
     end
@@ -343,7 +379,7 @@ flowchart TB
 Internally, the **Architect** proposes which agents to spawn (by default it returns the canonical
 `SWARM` tuple in priority order; a default-on Reflexion-lite step drops agents the Critic marked
 *stable*). The **7-agent Swarm** invokes the 16 wrapped SIFT forensic tools through the FastMCP server's
-71-tool surface, writing `Finding`s to a shared **Blackboard**; cross-agent agreement at a **quorum** of
+72-tool surface, writing `Finding`s to a shared **Blackboard**; cross-agent agreement at a **quorum** of
 2 becomes a `Correlation`. The **Critic** scores the accumulated findings with a *closed-form* rule —
 `score = min(1.0, max_confidence + 0.25 · len(correlations))` — and halts deterministically when the
 findings stop changing (a convergence fingerprint), bounded by a hard `max_iterations` budget, **never
@@ -408,9 +444,11 @@ rationale narratives in [Design Decisions](docs/08-reference/design-decisions.md
 ![Stage 5 seal](https://img.shields.io/badge/⑤_SEAL-courtroom-c0392b?style=for-the-badge)
 ![Stage 6 escalate](https://img.shields.io/badge/⑥_ESCALATE-SIEM-16a085?style=for-the-badge)
 
-![Six guarded stages of the Agentropix-SIFT investigation workflow — ① doctor (pre-flight) → ② run (triage) → ③ review (verify) → 🧑‍⚖️ human gate → ④ approve (HITL) → ⑤ seal (courtroom) → ⑥ escalate (SIEM), with a reject/re-run loop back to run](assets/readme-3.png)
+![Animated: the six guarded stages light up in sequence — doctor pre-flight, run triage, examiner review, the human HMAC approval gate, the courtroom seal, and the SIEM escalation — ending on “SEALED · HMAC-SHA256 · court-ready”](assets/workflow-animated.gif)
 
-> 🔍 Rendered as PNG so it shows inline on every browser — [**Open as SVG** (full size, zoomable)](assets/readme-3.svg).
+> 🎬 *The banner above is a live animation (Animotion MCP; [deck source](assets/workflow-animated-deck.html)) — watch the stages light up,
+> the* ***human gate*** *hold the line, and the seal close. Want the full detail graph instead?*
+> *[**Static diagram (PNG)**](assets/readme-3.png) · [**SVG** (full size, zoomable)](assets/readme-3.svg).
 
 The vivid lane below is the *load-bearing* part: each stage shows **both** ways to reach the same result —
 the **🖥️ expert command** and the **💬 plain-language prompt** a non-technical examiner types into a Claude
@@ -528,16 +566,49 @@ sealed runs). These commands run from a checkout of the **full `agentropix-sift`
 distribution** — *not* from this documentation portal:
 
 ```bash
-uv sync                                                        # 1. install the orchestration layer
-uv run agentropix-sift doctor                                  # 2. pre-flight the toolchain
-uv run agentropix-sift run samples/sample.dd -o report.json    # 3. first triage (synthetic fixture)
+uv sync                                                          # 1. install the orchestration layer
+uv run agentropix-sift doctor                                   # 2. pre-flight — all 16 SIFT tools OK
+uv run agentropix-sift run "/cases/study case/2020JimmyWilson.E01" -o report.json   # 3. triage
 ```
 
+This exact sequence was executed live and recorded against the **Jimmy Wilson** study case:
+
+| Step | Result |
+|---|---|
+| `uv sync` | dependencies resolved |
+| `doctor` | **All tools available** — the 16 SIFT binaries (vol, fls/mmls/icat, ewfinfo, evtx_dump, yara, bulk_extractor, rip.pl, EZ-Tools, …) resolve on PATH |
+| `run` | **129 findings · 86 tool calls · 5 iterations**, sealed `report.json` (HMAC) + audit-log, evidence SHA-256 `6c18f662…`, status `budget_exhausted`, critic_score 1.0 |
+
+The full proof — recorded video, sealed reports, raw logs of three reproducible runs, and the
+agent-execution trace — is published at
+[`case-activation/runs/jimmy-wilson-poc/`](case-activation/runs/jimmy-wilson-poc/). The
+evaluator-facing **Agent Execution Logs gold report** — two further engine runs (the SRL-2018
+domain controller + Challenge_NotchItUp) with timestamped agent-to-agent handoff chains, full tool
+sequences, and the raw sealed evidence incl. live `run.log` + Thymus audit trails — is at
+[`docs/12-CASES-REPORTS/srl-2018-report/submission/`](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md),
+with its 🎨 **[Visual Atlas](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-VISUAL-ATLAS.md)** —
+thirteen color diagrams (agent-communication graph, end-to-end timestamp chain with a
+217-microsecond correlation-burst zoom, self-correction funnels, Thymus ALLOW/REJECT pies, and the
+HMAC seal cross-binding chain) generated from and verified against the raw run data — and its
+🎬 **[108-second animated walkthrough](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/submission/watch.html)**
+(plays directly in your browser): the same topics in motion — the 91-minute wait drawn to scale,
+the 61-shield REJECT storm, the microsecond burst, and the self-correcting plan — animated with
+the Animotion MCP and rendered deterministically from the committed
+[deck source](docs/12-CASES-REPORTS/srl-2018-report/submission/execution-logs-animated-deck.html).
+The **multi-host edition** scales the same discipline to SRL-2015 — 4 hosts × disk+memory, **8 sealed
+runs, 2,233 findings, 15-iteration loops**, and the cross-host spinlock.exe → Domain-Controller
+correlation: 📄 [report](docs/12-CASES-REPORTS/srl-2015-report/AGENT-EXECUTION-LOGS-REPORT-SRL2015.md) ·
+🎬 **[2 min 24 s animated walkthrough](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2015-report/watch-execution-logs.html)** (auto-plays). The wider
+[`case-activation/`](case-activation/) folder holds a per-case Activation Guide for every evidence
+set on this host plus the captured executed runs ([`case-activation/runs/`](case-activation/runs/)).
+
 > **Honest scope note.** The engine repo ships the `pyproject.toml`, `uv.lock`,
-> `src/agentropix_sift/`, and the synthetic `samples/sample.dd` fixture those three commands need.
+> `src/agentropix_sift/`, and a synthetic `samples/sample.dd` fixture for a first smoke run
+> (that earliest sealed record is also published:
+> [`case-activation/runs/engine-smoke-sample-dd/`](case-activation/runs/engine-smoke-sample-dd/)).
 > It is a separate, **currently private** distribution — request access from the operator. This
 > docs portal intentionally vendors only the MCP-server package, so Path B does not run from this
-> checkout.
+> checkout; the case images under `/cases/` live on the operator's host.
 
 The engine installs two console scripts — `agentropix-sift` (the triage CLI) and `agentropix-sift-mcp`
 (the MCP server). The full step-by-step for both paths, including example `doctor` output, is in the
@@ -581,7 +652,7 @@ manual ↔ autonomous × expert ↔ non-expert — is the [User Guide](docs/01-o
 
 ## MCP surface
 
-Agentropix-SIFT exposes **71 distinct MCP tools** over a single FastMCP server (verified live via
+Agentropix-SIFT exposes **72 distinct MCP tools** over a single FastMCP server (verified live via
 `tools/list` and `health.tool_count`; see [Canonical Facts](docs/08-reference/canonical-facts.md)). Of
 these, **16 are SIFT forensic tools** — deterministic binaries wrapped under `mcp_server/wrappers/` so
 each call captures the binary's raw stdout and fingerprints it with SHA-256. The remainder cover case
@@ -635,14 +706,48 @@ Agentropix-SIFT is engineered so that the LLM **cannot** become the source of a 
   deterministic forensic binary; the LLM narrates and proposes but never authors evidence.
 - **No LLM self-rating** — the Critic halts on a deterministic *convergence fingerprint* (default
   threshold **0.85**, `trinity/critic.py`), not on a model's self-assessed confidence.
-- **Pre/post SHA-256 evidence invariant** — evidence is hashed before and after every run; any mutation
-  aborts the run. The engine reads but never alters the image.
+- **Pre/post SHA-256 evidence invariant** — evidence is hashed at session start and re-verified in
+  tests; immutability is enforced *structurally* (Thymus + no write tool exists), per the 2026-06-11
+  source audit below. The engine reads but never alters the image.
 - **Thymus read-only policy** — deny-by-default boundary (`mcp_server/thymus_policy.py`) blocking
   write/exec paths *before* a tool executes; no write tool exists in the surface.
 - **Courtroom HMAC-SHA256 seal** — the audit log (JSONL) is sealed and the provenance chain validated
   (`courtroom.py`, `provenance/`), giving a tamper-evident chain of custody.
 - **Human-in-the-loop** — the optional approval sidecar (`approval_sidecar/`) holds findings in DRAFT
   until an examiner APPROVES them.
+
+### 🎞️ The six guarantees, proven on screen
+
+![Animated: each of the six safety guarantees with real cited proof from the sealed Agent Execution Logs — the 204,884-entry fls walk, the critic pinned at 1.0 across 10 runs, 10 distinct evidence SHA-256, the 61 Thymus REJECTs, the byte-identical seal cross-bind, and the 17+12 examiner-approved findings](assets/safety-proof-animated.gif)
+
+> 🎬 *Auto-playing proof reel (73 s loop; [deck source](assets/safety-proof-deck.html)) — each scene shows the cited
+> evidence **plus a plain-language "💡 What you're seeing" explainer**. Every value is real, from the
+> [SRL-2015](docs/12-CASES-REPORTS/srl-2015-report/AGENT-EXECUTION-LOGS-REPORT-SRL2015.md) and
+> [SRL-2018](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md) Agent Execution Logs: the 204,884-entry `fls` walk,
+> critic pinned at 1.0 across all 10 runs, 10 distinct evidence SHA-256, the 61 live `REJECT_OUTSIDE_ALLOWLIST` denials, the byte-identical
+> seal cross-bind, and the 17 + 12 examiner-approved findings.*
+
+### 🔒 Source-traced invariant audit (2026-06-11)
+
+The six guarantees above were **audited against the source, file:line by file:line** — no prompt-only
+claims accepted. Headline: **5 of 6 invariants Enforced; #3 Partially Enforced** — the literal
+per-tool abort-on-delta mechanism does not exist, but the evidence-immutability goal is met by a
+stronger structural design (no write tool + deny-by-default Thymus). The audit's Unified Compliance
+Matrix, verbatim:
+
+| # | Invariant | Status | Primary enforcement site(s) | Key lines |
+|---|-----------|--------|------------------------------|-----------|
+| 1 | Deterministic-tools-only findings | ✅ Enforced | `agents/_base.py` (Finding model + sole publish path); `orchestrator.py` (report built from Blackboard) | `_base.py:40-92, 130-149`; `orchestrator.py:69, 277-284` |
+| 2 | No LLM self-rating (Critic) | ✅ Enforced | `trinity/critic.py` (arithmetic score, threshold halt) | `critic.py:120-122, 180-206`; threshold clamp `76-81` |
+| 3 | Pre/post SHA-256 evidence invariant | ⚠️ Partially Enforced | `courtroom.py` (session-start hash); immutability via Thymus + no-write-tools; tested pre/post | `courtroom.py:89-142`; `orchestrator.py:292, 311`; `thymus_policy.py:362-369` — **no runtime `sys.exit()` on delta** |
+| 4 | Thymus read-only policy | ✅ Enforced | `mcp_server/thymus_policy.py` (deny-by-default allowlist; writes always reject) | `thymus_policy.py:264-267, 289-308, 325-330, 362-369` |
+| 5 | Courtroom HMAC-SHA256 seal | ✅ Enforced | `courtroom.py` (seal + cross-bound audit seal); `hash_chain.py` (per-entry chain); `provenance/validate.py` (external validator, non-zero exit) | `courtroom.py:161-182, 341-397`; `hash_chain.py:73-101`; `validate.py:90, 278-363` |
+| 6 | Human-in-the-loop sidecar | ✅ Enforced | `approval_sidecar/` (DRAFT default, signed promotion, 409 precondition, APPROVED-only export) | `models.py:15`; `app.py:222, 225-259, 379`; `reports/transformers.py:157`, `markdown.py:82` |
+
+Each invariant in the full document carries its implementation verification, deterministic
+mechanics, an adversarial forensic test case, and the auditor's hardening recommendations (e.g. a
+session-end re-hash tripwire to close #3's literal gap). **Complete text:
+[SECURITY-INVARIANT-AUDIT-2026-06-11.md](docs/02-architecture/SECURITY-INVARIANT-AUDIT-2026-06-11.md).**
 
 Deep dives: [Anti-Hallucination](docs/05-safety-forensics/anti-hallucination.md) ·
 [Provenance & Grounding](docs/05-safety-forensics/provenance-grounding.md) ·
@@ -688,10 +793,54 @@ repository corpus (`docs/COMPETITIVE-DFIR.md` oracle, [Canonical Facts](docs/08-
 
 | | **Helpful** | **Harmful** |
 |---|---|---|
-| **Internal** | **Strengths** — *Structural* evidence safety, not a policy promise: agents have **no write tool**; the Thymus policy refuses every write call before the subprocess spawns. Real SANS DFIR tools driven **inside** the agent loop (**16/16 wrappers**, **71 MCP tools**) — rivals explain JSON *after* collection. Deterministic, auditable execution: a fingerprint no-progress detector halts the Trinity Loop with **no LLM in the halt path**, backed by a hash-chained decision ledger. | **Weaknesses** — A **triage engine, not a case-management product**: no HTML report generator, no commercial case-file UX (vs Magnet AXIOM, CADO); output is JSON + the audit ledger. **Read-only consumer**, no host-collection ecosystem (vs Velociraptor's agent fleet) — caps it at post-collection triage. Memory-forensics recall (**108/118**) trails disk (**72/72**) and is the active improvement front. |
+| **Internal** | **Strengths** — *Structural* evidence safety, not a policy promise: agents have **no write tool**; the Thymus policy refuses every write call before the subprocess spawns. Real SANS DFIR tools driven **inside** the agent loop (**16/16 wrappers**, **72 MCP tools**) — rivals explain JSON *after* collection. Deterministic, auditable execution: a fingerprint no-progress detector halts the Trinity Loop with **no LLM in the halt path**, backed by a hash-chained decision ledger. | **Weaknesses** — A **triage engine, not a case-management product**: no HTML report generator, no commercial case-file UX (vs Magnet AXIOM, CADO); output is JSON + the audit ledger. **Read-only consumer**, no host-collection ecosystem (vs Velociraptor's agent fleet) — caps it at post-collection triage. Memory-forensics recall (**108/118**) trails disk (**72/72**) and is the active improvement front. |
 | **External** | **Opportunities** — The MCP consumer model means *any* MCP-speaking LLM client becomes a forensic front-end with zero retraining. Default-local, no-API-key posture fits air-gapped / sovereign SOCs. The ATT&CK detector lane is extensible — deferred detectors (W051/W052/W054) are wired and unit-tested, ready to promote into live recall. | **Threats** — Forensic admissibility scrutiny of any AI-assisted pipeline raises the documentation bar (mitigated by the courtroom seal + provenance chain). Upstream SIFT tool drift (binary flags / output format) can silently shift wrapper parsing — covered by host-gated integration tests. Commercial incumbents move fast on AI features. |
 
 Full competitive analysis: [Competitive Positioning](docs/01-overview/competitive-positioning.md).
+
+---
+
+## 🗺️ Project Roadmap
+
+Where the project is and the concrete path to GA — the full document is
+**[PROJECT-ROADMAP-2026-06-11.md](docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md)**
+(development Gantt, system-lifecycle state machine, milestones, technical specifications, risk register).
+
+[![Development Gantt — release trajectory & critical path](docs/02-architecture/assets/roadmap-gantt.png)](docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md)
+
+| Phase | Status | What it delivered / delivers |
+|---|---|---|
+| **1 — Foundation** | ✅ Complete | The bio-agentic stack (RalphEngine substrate, StemCell lifecycle, Thymus immune gate, Metabolic Ledger, Oncologist monitor) + the 16 governed MCP forensic wrappers (timeout / memory ceiling / retry / stderr capture each). |
+| **2 — Orchestration** | ✅ Complete | The Trinity Loop (Architect → Swarm → Critic → Router), the 7 forensic bio-agents, the quorum Blackboard, the Hippocampus inheritance bridge, and the deterministic Critic halt gate (`score ≥ 0.85` or idempotence). |
+| **3 — Scale & GA** | 🔵 Current → Upcoming | GA hardening, not feature invention: land W-082 `raw_stdout_sha256` (tamper-evident raw tool output) and wire `gitleaks` into CI — the **critical path** — mitigate W-071 plaso ordering jitter, finish packaging (`pipx`/wheel, ADR-023/024 polish), then the GA-readiness doc + QA/Security/Product sign-offs → **v0.1.0 GA tag**. Future scale: credential lifecycle + two-person rule, SPIRE cloud identities, multi-tenant alerting, audit-log seal hardening. |
+
+The roadmap also carries the **system-lifecycle state machine** (orchestration, thread taxonomy,
+apoptosis — how a run is born, governed, and dies) and a 7-row **risk register** (R1–R7: loop
+non-convergence, ATP exhaustion, plaso non-determinism, evidence mutation, secret leakage, context
+bleed, doc/code drift — each with its concrete mitigation). Read it alongside the
+[SWOT above](#swot--strategic-assessment) and the [Architecture chapter](docs/02-architecture/README.md).
+
+### 🔮 The Future of Agentropix
+
+> *(operator addition, 2026-06-11 — forward-looking, not yet scheduled)*
+>
+> Beyond the Scale items already on the Gantt, **three directions define the next horizon**:
+>
+> 1. **🛰️ Threat-intelligence platform integration (CrowdStrike + Wazuh).** Integrate commercial
+>    TI platforms such as **CrowdStrike** to gather richer insight about IOCs surfaced by a triage
+>    run, and complement that response with the existing open-source **Wazuh** solution —
+>    *commercial enrichment and open-source response working the same indicator set*.
+> 2. **🧭 Agent scheduler with auditable agent-to-agent messaging.** Optimize the Agentropix
+>    engine with an **agent scheduler** that independently manages all agent-to-agent
+>    communication and tracks every inter-agent message — *making the swarm's internal traffic
+>    itself auditable and troubleshootable*, the same discipline the tool-call trace already
+>    applies at the wrapper boundary.
+> 3. **🧪 Binary-analysis pipeline with a dedicated sandbox.** Integrate a pipeline that lets
+>    Agentropix analyze recovered binaries using open-source solutions and a **dedicated sandbox**
+>    for detonation — *testing and analyzing behaviors safely*, then feeding the verdicts back
+>    into the case's findings and IOC exports.
+>
+> Full context: [PROJECT-ROADMAP-2026-06-11.md → The Future of Agentropix](docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md#the-future-of-agentropix-operator-addition-2026-06-11--forward-looking-not-yet-scheduled).
 
 ---
 
@@ -710,7 +859,7 @@ box. See [Configuration](docs/07-sdlc-ops/configuration.md) and the
 
 | Fact | Value |
 |------|-------|
-| MCP tools | **71** distinct tool functions |
+| MCP tools | **72** distinct tool functions |
 | SIFT forensic wrappers | **16** |
 | Tests collected | **4464** |
 | Disk recall (regression) | **72/72 (100%)** |
@@ -729,14 +878,15 @@ Full table with per-row sources and verification dates:
 ## Documentation map
 
 Start at the routed [master table of contents](INDEX.md), which maps every chapter to its audience and
-the question it answers. The portal is organized into eleven numbered sections under `docs/`:
+the question it answers. The portal is organized into twelve numbered sections under `docs/`, plus the
+`case-activation/` operational annex:
 
 | # | Section | What it contains |
 |---|---------|------------------|
 | 1 | [Overview](docs/01-overview/what-is-agentropix.md) | What Agentropix-SIFT is and why, the capability matrix, the 3-command Quickstart, the complete operator User Guide, and how it compares to alternatives. |
-| 2 | [Architecture](docs/02-architecture/main-architectural-agentropix-design.md) | How the engine is built — **the validated architecture diagram** (pattern + guardrails, HD PDF), system context, internal components, the Trinity Loop, the Swarm + Blackboard, the FastMCP server (and the Thymus boundary), and sequence diagrams. |
+| 2 | [Architecture](docs/02-architecture/main-architectural-agentropix-design.md) | How the engine is built — **the validated architecture diagram** (pattern + guardrails, HD PDF), system context, internal components, the Trinity Loop, the Swarm + Blackboard, the FastMCP server (and the Thymus boundary), sequence diagrams, the 🗺️ **[Strategic Project Roadmap](docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md)** (Gantt/critical path, lifecycle state machine, GA milestones, risks), the 🔒 **[Security Invariant Audit](docs/02-architecture/SECURITY-INVARIANT-AUDIT-2026-06-11.md)** (6 invariants source-traced), and the 🎛️ **[Tunable Features Catalog](docs/02-architecture/AGENTROPIX-TUNABLE-FEATURES-CATALOG.md)** (252 documented knobs). |
 | 3 | [Data](docs/03-data/data-models.md) | The data model — case/finding/report schemas, the data dictionary, the entity-relationship view, and what gets persisted to disk. |
-| 4 | [MCP Tools](docs/04-mcp-tools/tool-reference.md) | The 71-tool MCP surface — the full tool reference, the typed Response Envelope, which agent invokes which tool, and the capability map. |
+| 4 | [MCP Tools](docs/04-mcp-tools/tool-reference.md) | The 72-tool MCP surface — the full tool reference, the typed Response Envelope, which agent invokes which tool, and the capability map. |
 | 5 | [Safety & Forensics](docs/05-safety-forensics/anti-hallucination.md) | Why you can trust the output — anti-hallucination guarantees, provenance grounding, the Courtroom audit seal, the human-in-the-loop gate, the Approval Portal, and the AI disclosure. |
 | 6 | [Use Cases](docs/06-use-cases/uc-disk-triage.md) | End-to-end worked runs — disk triage, memory triage, the approval gate, the Wazuh push, a guided demo walkthrough, and per-case attack-chain hypotheses. |
 | 7 | [SDLC & Operations](docs/07-sdlc-ops/implementation.md) | How to build, run, and operate it — implementation, testing, configuration, deployment, the security model, recovery/resilience, recall methodology, and the evaluation scorecard. |
@@ -744,6 +894,8 @@ the question it answers. The portal is organized into eleven numbered sections u
 | 9 | [Integrations](docs/09-integrations/wazuh-portal.md) | Connecting to external systems — the Wazuh/SOC portal operator's guide and how to connect a remote client to a live internal MCP server. |
 | 10 | [Agents](docs/10-agents/agentic-architecture.md) | What "agent" means here — the agentic architecture, the build-time delegation model, the FastMCP tool-execution path, and the canonical runtime swarm roster. |
 | 11 | [ADRs](docs/11-ADR/README.md) | The **decision contract** — the immutable Architecture Decision Records mirrored from the oracle (001–024 + milestone/defer records). Read the status column literally. |
+| 12 | [Cases Reports](docs/12-CASES-REPORTS/README.md) | Sealed DFIR case reports — one folder per investigated case (forensic report, technical appendix, Wazuh IOC gallery, diagrams, recorded-session video). |
+| — | [case-activation/](case-activation/README.md) | The operational annex — a per-case **Activation Guide** for every evidence set (real paths, sizes, custody hashes) and [`runs/`](case-activation/runs/README.md): captured executed runs (raw MCP step outputs, sealed engine PoC reports, videos). |
 
 The portal's documentation-QA working notes (render audits, case-guide sweeps) live under
 [`docs/issues/`](docs/issues/) — maintainer-facing, not reader chapters.

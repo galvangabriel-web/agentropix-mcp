@@ -32,5 +32,6 @@ uv run agentropix-sift run "/cases/study case/2020JimmyWilson.E01" -o report.jso
 - **[`report.audit-log.json`](report.audit-log.json)** — the HMAC-sealed audit-log companion.
 
 **Token usage:** not collected, by design (LLM is the edge orchestrator; facts come from deterministic
-tools) — see `EXECUTION-LOG.md` §4. The per-run HMAC **session key is withheld** (the one secret), so the
-seals are inspectable but not independently re-verifiable here.
+tools) — see `EXECUTION-LOG.md` §4. The per-run HMAC **session key is published** ([`report.session-key`](report.session-key),
+by explicit operator decision — treat it as burned): anyone can now independently re-verify the seals
+with it, but the same key also re-seals, so the seal is a demo/verification artifact, not a tamper-proof.

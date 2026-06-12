@@ -23,6 +23,10 @@ memory payloads, 9 distinct malicious SHA-256) — samples withheld, custody pro
 2. [srl-2015-report/reports/SRL-2015-full-report.pdf](srl-2015-report/reports/SRL-2015-full-report.pdf) — the
    complete forensic report (17 approved findings, IOC table, MITRE mapping, Wazuh reconciliation);
    condensed: [executive summary](srl-2015-report/reports/SRL-2015-executive-summary.pdf).
+3½. [srl-2015-report/AGENT-EXECUTION-LOGS-REPORT-SRL2015.md](srl-2015-report/AGENT-EXECUTION-LOGS-REPORT-SRL2015.md)
+   — the **Agent Execution Logs** for the autonomous engine pipeline over all 4 hosts × disk+memory
+   (8 sealed runs, 2,233 findings): communication chain, timestamped A2A log, 15-iteration traces,
+   cross-host APT correlation, integrity ledger — 82 JSONPath-cited claims.
 3. [srl-2015-report/deep-analysis/SRL-2015-memory-deep-analysis.md](srl-2015-report/deep-analysis/SRL-2015-memory-deep-analysis.md)
    — static reverse-engineering of the 5 memory-injection payloads (one VB6/LZMA loader family, two
    compiler variants, shipped [YARA rule](srl-2015-report/deep-analysis/srl2015_meminject.yar)).
@@ -30,7 +34,7 @@ memory payloads, 9 distinct malicious SHA-256) — samples withheld, custody pro
 **Recorded investigation replay** (~53 s, faithful command reenactment of the real 2026-06-10 run —
 chapters in [video/README.md](srl-2015-report/video/README.md)):
 
-[![SRL-2015 investigation replay (animated GIF — click for the MP4)](srl-2015-report/video/SRL-2015-investigation.gif)](srl-2015-report/video/SRL-2015-investigation-web.mp4)
+[![SRL-2015 investigation replay (animated GIF — click for the MP4)](srl-2015-report/video/SRL-2015-investigation.gif)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2015-report/video/SRL-2015-investigation-web.mp4)
 
 > ▶ The animation above is the inline GIF replay (auto-plays on GitHub). For full quality:
 > **[download the MP4 (1.5 MB)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/srl-2015-report/video/SRL-2015-investigation-web.mp4)**
@@ -50,10 +54,11 @@ External RDP foothold → dual C2 (Metasploit/Meterpreter + PowerShell Empire) �
 1. [srl-2018-report/SRL-2018-FORENSIC-REPORT.md](srl-2018-report/SRL-2018-FORENSIC-REPORT.md) — the full technical forensic report: attack chain, recovered malware toolkit (9 SHA-256), network/behavioural IOCs, the 12 sealed findings, ATT&CK mapping, and methodology + caveats (renders inline with diagrams).
 2. [srl-2018-report/TECHNICAL-APPENDIX.md](srl-2018-report/TECHNICAL-APPENDIX.md) — machine-extracted depth: per-host network sockets (`get_netscan`), the rd-01 injected-code regions (`get_malfind`), and the evtx lateral-movement matrix.
 3. [srl-2018-report/WAZUH-IOC-GALLERY.md](srl-2018-report/WAZUH-IOC-GALLERY.md) — 13 Wazuh-dashboard captures of every pushed IOC (findings index in Discover + manager CDB lists).
+4. [srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md](srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md) — the **Agent Execution Logs gold report**: the autonomous engine run over the same DC image (22 findings · 176 tool calls) + a NotchItUp comparison run, with all 10 raw sealed evidence files (report / audit-log / session-key / live run.log / Thymus trail) committed beside it.
 
 **Recorded analysis session** (254 agentropix MCP actions, paged for readability):
 
-[![Recorded analysis session — poster frame (click for the MP4)](srl-2018-report/training-session-poster.png)](srl-2018-report/training-session-paged.mp4)
+[![Recorded analysis session — poster frame (click for the MP4)](srl-2018-report/training-session-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2018-report/training-session-paged.mp4)
 
 > ▶ The image above is a poster frame.
 > **[Download the full session video (MP4, 19 MB)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/srl-2018-report/training-session-paged.mp4)**
@@ -78,7 +83,7 @@ A trusted insider (Anthony Vanko, STARKSURFACE / `PC User`) copied classified ze
 
 **Forensic evidence presentation** (~9 min) — the 8 key facts, each shown with its cross-source correlated artifacts (proof red-boxed), the technical correlation, and what it means to the case; bookended by the architecture and timeline diagrams:
 
-[![VANKO forensic evidence presentation — poster frame (click for the MP4)](vanko-report/findings-presentation-poster.png)](vanko-report/findings-presentation.mp4)
+[![VANKO forensic evidence presentation — poster frame (click for the MP4)](vanko-report/findings-presentation-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/vanko-report/findings-presentation.mp4)
 
 > ▶ The image above is a poster frame.
 > **[Download the full presentation video (MP4, 14 MB)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/vanko-report/findings-presentation.mp4)**

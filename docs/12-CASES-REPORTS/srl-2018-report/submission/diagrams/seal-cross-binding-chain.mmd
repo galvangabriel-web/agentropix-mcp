@@ -1,0 +1,26 @@
+flowchart TD
+    REQ["Swarm agents<br/>file-access requests"] --> GATE{"Thymus policy gate<br/>base-dc: 146 decisions"}
+    GATE -->|"85 ALLOW<br/>within read-only zone"| EV["Evidence image<br/>base-dc-cdrive.E01"]
+    GATE -->|"61 REJECT<br/>REJECT_OUTSIDE_ALLOWLIST"| REJ["Blocked scratch paths<br/>59x tasks dir, 1x extract, 1x w204<br/>all under tmp claude-1001"]
+    GATE -. "every decision appended" .-> AUD["base-dc-report.audit-log.json<br/>146 entries = entry_count 146"]
+    EV --> SHA["sha256 anchor<br/>e2b9cf0c...965b31b1"]
+    SHA --> RPT["base-dc-report.json<br/>evidence_image_sha256 field"]
+    KEY["per-case session key<br/>32 bytes - HMAC<br/>bytes never printed"]
+    RPT --> RSEAL["report_seal<br/>151c9e88...e453b8c1"]
+    AUD --> ASEAL["audit_log_seal<br/>1085b493...6b5927"]
+    KEY --> RSEAL
+    KEY --> ASEAL
+    ASEAL --> BIND["SEALS-CROSS-BIND<br/>audit_log_seal identical in<br/>report.json and audit-log.json"]
+    RPT --> BIND
+    classDef gov fill:#e1bee7,stroke:#6a1b9a,color:#1a1a1a
+    classDef ok fill:#c8e6c9,stroke:#2e7d32,color:#1a1a1a
+    classDef bad fill:#ffcdd2,stroke:#b71c1c,color:#1a1a1a
+    classDef file fill:#bbdefb,stroke:#1565c0,color:#1a1a1a
+    classDef anchor fill:#ffe0b2,stroke:#e65100,color:#1a1a1a
+    class GATE,KEY,RSEAL,ASEAL,BIND gov
+    class EV ok
+    class REJ bad
+    class REQ,RPT,AUD file
+    class SHA anchor
+    linkStyle 2 stroke:#b71c1c,stroke-width:2px
+

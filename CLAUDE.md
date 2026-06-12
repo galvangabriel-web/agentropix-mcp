@@ -7,7 +7,7 @@ plus `docs/12-CASES-REPORTS` (sealed DFIR case reports) — 12 numbered categori
 reading order is layered on via a "Read in this order" list, non-destructively — filenames are not renamed.
 
 ## Source of truth & accuracy
-- **Canonical numbers come from [`docs/08-reference/canonical-facts.md`](docs/08-reference/canonical-facts.md)** — `71` MCP tools, `16` forensic
+- **Canonical numbers come from [`docs/08-reference/canonical-facts.md`](docs/08-reference/canonical-facts.md)** — `72` MCP tools, `16` forensic
   wrappers, `4464` tests, `72/72 (100%)` disk recall, `108/118 (91.5%)` memory recall, Python `3.12+`.
   **Never state a number that contradicts it.** Stale figures may only appear inside an explicit
   "earlier draft said X, canonical is Y" reconciliation note.
@@ -17,7 +17,7 @@ reading order is layered on via a "Read in this order" list, non-destructively �
 
 ## MCP-call accuracy (validate every tool/plugin against the live MCP)
 Docs are full of 🖥️ MCP calls and `run_volatility` plugins; a wrong name is a real, demo-breaking bug.
-- **Every documented MCP tool name must exist in the live tool list** (`71` tools — query `tools/list`
+- **Every documented MCP tool name must exist in the live tool list** (`72` tools — query `tools/list`
   via the MCP, or [`docs/04-mcp-tools/tool-list.md`](docs/04-mcp-tools/tool-list.md)). Non-tools that crept into drafts:
   `get_hashdump`/`hashdump` (no credential-dump capability is exposed — drop the step), `get_srum`
   (→ `srum_extract`), and `mmls` used as an MCP slot (→ `get_partitions`/`parse_gpt`; note `fls` *is* a
@@ -117,6 +117,37 @@ GitLab renders Mermaid client-side (strict security level); respect its limits:
   auto-approves (Playwright portal or `approve_finding`) it **must be labelled "SIMULATED examiner
   approval (demo only)"** so the showcase never misrepresents the human-in-the-loop control. Loop recipe:
   mint an `index_findings` evidence-gate token → `record_finding dry_run=false` → approve → `report_generate`.
+
+## Video annotation & animation pipeline (validated 2026-06-12)
+- **Annotated/highlight videos: NEVER drawbox over scrolling footage** — boxes drift off their
+  targets. Build from **stills**: extract one steady frame per key moment (`ffmpeg -ss`), draw the
+  boxes on the stills, concat at narration-friendly durations (`-f concat` with per-file
+  `duration`). Always **copy — never edit the original video**; commit sources beside the output.
+- **Red-box placement is pixel-precise, machine-verified — never eyeballed percentages**: detect
+  the block's text extents from frame pixels (grayscale brightness >90), pad into the blank
+  gutters, iteratively nudge any edge whose stroke would cross a glyph, and **audit that the 3 px
+  stroke ring crosses ZERO text pixels** before shipping (the AMF v3 recipe;
+  thin 3 px strokes, tight boxes — not screen-swallowing). If a gap is too small to fit a box
+  (e.g. 1 px), re-target the box to the semantically important neighbor line instead.
+- **Animation renders are DETERMINISTIC via CDP virtual time** — real-time
+  `recordVideo` is non-uniformly time-dilated on this host (a 108 s deck recorded as 832 s).
+  Recipe: deck exposes `window.__start` (don't autostart); `goto` → `document.fonts.ready` →
+  `Emulation.setVirtualTimePolicy {pause}` → `__start()` → loop `advance budget=1000/fps` +
+  `Page.captureScreenshot` with timeout fallbacks; include an invisible `vt-ticker` CSS animation
+  so the compositor never stalls. Assemble with `ffmpeg -framerate 12`. Expect ~25–45 min for
+  ~1700 frames; zero fallbacks = healthy run.
+- **Playback on GitHub:** github.com renders NO player for repo-committed MP4s (any size) and
+  `raw.githubusercontent` forces download (`octet-stream` + `nosniff`). Serve via **GitHub Pages**
+  (proper `video/mp4`; enabled, `.nojekyll` committed) and link **auto-start watch pages**
+  (`<video autoplay muted controls loop playsinline>`). The only inline-autoplay media in READMEs
+  is an **animated GIF** (`palettegen/paletteuse dither=none`; flat dark palettes compress to
+  ~100–900 KB).
+- **Animotion MCP** supplies keyframe CSS + Lucide SVG icons (stdio JSON-RPC; `get_icon`
+  takes `{"id":"lucide:name"}`, returns JSON with `svg`; `get_animation_css` by ID; classes are
+  `animotion-*` with `animation-fill-mode:backwards` for delayed entrances).
+- After every video/GIF change: **Playwright-verify the live artifact** (playback advancing,
+  GIF frames differing across scene boundaries — sample >10 s apart, scenes have static holds) and
+  audit served frames, not just local ones.
 
 ## Case reports (`docs/12-CASES-REPORTS/`)
 - **Per-case folders** (`12-CASES-REPORTS/<case>-report/`) under one house-style index `README.md`

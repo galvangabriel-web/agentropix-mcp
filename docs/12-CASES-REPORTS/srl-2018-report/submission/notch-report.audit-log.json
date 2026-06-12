@@ -1,0 +1,166 @@
+{
+  "metadata": {
+    "audit_log_enabled": true,
+    "entry_count": 26,
+    "audit_log_source_path": "/tmp/thymus-audit-notch.jsonl"
+  },
+  "audit_entries": [
+    {
+      "timestamp": "2026-06-11T12:42:51.819576+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp/Challenge.raw",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:06.442346+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp/Challenge.raw",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:06.571693+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:06.574705+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:06.576414+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:06.578088+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:08.806807+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp/Challenge.raw",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:22.902253+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:22.903753+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:22.905077+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:22.906409+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:22.911689+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp/Challenge.raw",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:36.240671+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:36.242248+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:36.243540+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:36.244835+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:36.250494+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp/Challenge.raw",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:49.671539+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:49.672994+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:49.674270+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:49.675590+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:43:49.680807+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp/Challenge.raw",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:44:04.247328+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:44:04.248935+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:44:04.250233+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-11T12:44:04.251517+00:00",
+      "action": "ALLOW",
+      "path": "/cases/Challenge_NotchItUp",
+      "reason": "within read-only zone"
+    }
+  ],
+  "audit_log_seal": "e74a52347d0ec796d96b8cc64cccd2407c6781d7643191b2b5b580c7479c0db7"
+}
