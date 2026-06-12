@@ -83,3 +83,13 @@ By design, no report materializes before an approval exists. The contrast with t
 
 > ▶ *GitHub's repo pages can't play committed MP4s — the poster links to the **GitHub Pages copy, which plays directly in your browser**; or*
 > ***[download the MP4 (29 MB, 68 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/case-activation/runs/amf-win-sample001/EXECUTED-RUN.mp4)*** *— the full activation sequence captured live and rendered to video.*
+
+## 🎙️ The narration kit (for the voiced demo cut)
+
+- [`EXECUTED-RUN-ANNOTATED.mp4`](https://galvangabriel-web.github.io/agentropix-mcp/case-activation/runs/amf-win-sample001/EXECUTED-RUN-ANNOTATED.mp4) — a copy of the run video
+  (original untouched) with **red highlight boxes** timed to the key moments: the 72-tool health
+  check, the evidence SHA-256, the honest 0-sockets negative, the 15-RWX malfind block, the
+  dry-run safeguard, the SIMULATED-approval disclosure, and the HMAC seal.
+- [`NARRATION-SCRIPT.md`](NARRATION-SCRIPT.md) — the timestamped script: what's boxed on screen at
+  each second and the line to speak over it, plus the one-command mux to add the recorded voice.
+  Together these are the working materials for the ⚠ pending narrated submission video.
