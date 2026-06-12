@@ -184,6 +184,11 @@ GitLab renders Mermaid client-side (strict security level); respect its limits:
   the same honest-negatives discipline (no `.DS_Store`/macOS-staging or other refuted claims as "proof").
 - Every report keeps an **honest-caveats** section and is grounded in the case's **sealed findings**.
   Recovered malware/artifacts stay **out of the repo** (`/home/admin2/<case>-case-artifacts/`, gitignored).
+  **Exception (operator-authorized 2026-06-12):** the VANKO raw working files ARE published —
+  `vanko-report/` `ost-investigation.{sh,log}`, `_stepC.sh`, `p3_analyze.py`, `args_*.json`,
+  `ost-results/*.carve.json` (fictional FOR500 persona mailbox carves), plus `FINDINGS.jsonl` /
+  `confirmed-findings.json`. This is a per-case operator decision, NOT a precedent — other cases'
+  working files still stay local unless explicitly authorized.
   Wazuh egress is operator-authorized (decision ledger seq); shared `agentropix_*` CDB lists are
   **replace-per-list** → push an **additive union** (existing live keys + new) to avoid wiping other cases' IOCs.
   The matching run transcript lives at `case-activation/runs/<case>/EXECUTED-RUN.md`.
@@ -204,14 +209,21 @@ GitLab renders Mermaid client-side (strict security level); respect its limits:
 - **Operator published the live secrets by explicit decision (treat as burned):** the demo approver
   password (`docs/05-safety-forensics/approval-portal.md`) and the live tailnet IP + bearer token
   (`docs/09-integrations/client-setup.md` + README "Connect in 60 seconds") are now public on GitHub *and*
-  in git history. Rotation is still advised but is the operator's call — do **not** silently re-scrub them.
+  in git history. The same burned token is also embedded verbatim in
+  `docs/12-CASES-REPORTS/vanko-report/ost-investigation.sh` (operator decision 2026-06-12; verified
+  identical to the published one before embedding — that check is mandatory for any future "restore the
+  original value" request). Rotation is still advised but is the operator's call — do **not** silently
+  re-scrub them.
 - **Do not add NEW secrets** beyond those the operator has already sanctioned — no other tokens, passwords,
   or bearer keys in any tracked file.
 - **No raw internal IPs/hostnames in NEW pages** unless operator-authorized for that file — use placeholders
   (`<TAILNET-IP>`) or the documented tailnet hostname. Screenshots that show live data carry a privacy note.
 - Gitignored (local-only, never publish): `gitlab.txt`, `compare/`, `end-user/`, `2026-*/`,
-  `complete_reports/`, `.claude/`, `docs/issues/*.png`. Confirm `git status` won't stage these. (`.claude/`
-  holds the session's `scheduled_tasks.lock` and must never be committed — add it to `.gitignore` if absent.)
+  `complete_reports/`, `.claude/`, `docs/issues/*.png`, `videoos/` (local video archive),
+  `evaluation/` + `evaluation1/` (judge-evaluation / Stage One self-review drafts — grading material,
+  removed from GitHub HEAD 2026-06-12 but still present in git history; never re-track). Confirm
+  `git status` won't stage these. (`.claude/` holds the session's `scheduled_tasks.lock` and must never
+  be committed — add it to `.gitignore` if absent.)
   - The **multi-tier reports** (ADR-024 engine output) are published under each case run as
     `case-activation/runs/<case>/reports/<tier>.{md,html,pdf}` — the *report artifacts* only. The
     *design/process* folder `2026-06-01-report-engine-design/` (ADR, plan, mockups, root-cause) stays
@@ -230,8 +242,15 @@ GitLab renders Mermaid client-side (strict security level); respect its limits:
 4. Mirror changed files into `/home/admin2/agentropix-sift/docs/portal/` (the in-repo copy).
 5. **Stage surgically — never `git add -A`.** Another session may be writing to this repo concurrently;
    `git add` only the explicit files you changed, and confirm the staged set excludes `.claude/`,
-   `__pycache__/`, `dist/`, `docs/06-use-cases/assets/srl-2018*` + the untracked `vanko-report/` working
-   files (parallel-session), and any gitignored dir. **Push to GitHub only: `git push github main`.**
+   `__pycache__/`, `dist/`, and any gitignored dir. (The 2026-06-11 parallel-session exclusions —
+   `srl-2018*` assets, `vanko-report/` working files — were resolved and published 2026-06-12.)
+   Before staging untracked files, classify each against `github/main` (identical → delete the stale
+   local copy; differs → check which is newer) so a merge doesn't collide. **Push to GitHub only:
+   `git push github main`.**
+6. **Known published gaps (Stage One review 2026-06-12, see `evaluation1/` local-only):** the committed
+   `case-activation/runs/jimmy-wilson-poc/POC-RUN.mp4` on `main` is a **9-second silent stub** (render
+   collision) — re-render + `ffprobe`-verify before referencing it; the narrated ≤5-min demo video
+   upload (EVALUATION-MAP.md §2) is still pending and is the one blocking hackathon requirement.
 
 ## Layout
 ```
