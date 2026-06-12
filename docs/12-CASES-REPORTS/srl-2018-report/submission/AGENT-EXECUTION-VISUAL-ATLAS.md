@@ -1,6 +1,10 @@
 # 🎨 Agent Execution Logs — Visual Atlas
 
-> **What this is.** The graphical companion to
+![Animated hero: 13 diagrams, 2 sealed runs, 236 tool calls, 32 findings, 0 invented numbers](diagrams/atlas-hero.gif)
+
+
+> **What this is** *(the fun version)*: forensic evidence, but you can actually look at it.
+> This page is the graphical companion to
 > [`AGENT-EXECUTION-LOGS-REPORT.md`](AGENT-EXECUTION-LOGS-REPORT.md): thirteen color diagrams, one
 > per major topic of the report, each **generated from and verified against the raw data files in
 > this folder** (`base-dc-report.json`, `notch-report.json`, the run logs, and the Thymus audit
@@ -17,9 +21,14 @@
 
 ---
 
-## 1. Agent-to-Agent Communication — who talked to whom
+## 1 · 🗣️ Who talked to whom *(spoiler: everyone reports to hunt)*
 
-Maps the report's §3 handoff log: producers → correlation tokens → the hunt hub.
+![Animated: producer agents light up, correlation tokens pop in with their confidence scores, and the hunt correlator collects all eight verified edges](diagrams/atlas-a2a.gif)
+
+Thirteen agents were hired; six actually said something useful; one (the hunt correlator) listened
+to everyone and wrote it all down. Below: the full gossip graph from the report's §3 handoff log —
+producers → correlation tokens → the hunt hub. Even the memory agent contributed *by skipping*
+(its skip notice became the `coverage` token — still counts!).
 
 > **Why this representation:** The hunt correlator's 8 base-dc edges are pairwise "cross-source agreement" links keyed on a token, so the most faithful and catchable representation is a tripartite flowchart LR: producer agents (left, colored by category) converge on token nodes (middle, amber, with the real confidence value), which feed the single hunt hub (right). Modeling tokens as nodes instead of edge labels makes the 2-agent vs 3-agent agreements (scan, yara) visually obvious as fan-ins, and keeps the graph under 900px wide. A second, deliberately tiny notch diagram shows the degenerate case — one lone 0.3 'found' edge correlated entirely from failure/negative-result messages — which is itself the story.
 
@@ -144,9 +153,14 @@ flowchart LR
 
 ---
 
-## 2. The End-to-End Timestamp Chain
+## 2 · ⏱️ One run, two speeds *(geology vs. lightning)*
 
-Maps §4: the run's clock from first agent call to sealed report — macro, budget, and a microsecond zoom.
+![Animated: the 91-minute log2timeline wait grows to scale, then the eight-token correlation burst machine-guns in over 217 microseconds](diagrams/atlas-clock.gif)
+
+This run spent **96.8% of its life waiting for one stubborn `log2timeline` call** — and then did its
+smartest work in **217 microseconds**. That's a 25-billion-fold speed difference inside a single
+clock. The three figures below map §4 end to end: the macro chain, where the wall-clock went, and
+the microsecond zoom.
 
 > **Why this representation:** The topic is a causal chain of timestamped events spanning seven orders of magnitude (a 5,452-second timeout down to a 217-microsecond burst), so a vertical flowchart with elapsed-time edge labels is the only form that keeps the sequence readable while making the wild duration asymmetry visible through edge annotations and outcome colors. A companion pie quantifies the headline fact (96.8% of the wall clock was one blocked tool call), and a micro-zoom flowchart resolves the 217-microsecond correlation burst that is invisible at run scale — together they tell the macro and micro story of the same clock.
 
@@ -263,9 +277,14 @@ flowchart TD
 
 ---
 
-## 3. Iteration-over-Iteration — how the approach changed
+## 3 · 🔁 How 13 agents became 2 *(self-correction, not layoffs)*
 
-Maps §5: the self-correction funnels and the plan-size cliff, both runs.
+![Animated: the 13-agent roster appears, 11 fade to banked-green, the two stubborn gaps pulse red through four futile retries, and the run honestly declares budget_exhausted](diagrams/atlas-iter.gif)
+
+After one iteration the engine had already figured out who was useful: 11 agents delivered, got
+their findings **banked**, and were never re-run. The two that produced nothing (`discovery`,
+`mail`) got four more chances each — and produced nothing, every time. The run then ends
+`budget_exhausted`: it doesn't pretend it finished, it just says it ran out. We respect that.
 
 > **Why this representation:** The self-correction story has two distinct shapes that need two distinct visuals: (1) a per-run vertical flowchart funnel that shows WHY the plan shrank — the critic banks the stable agents' findings, drops them from the plan, and re-plans only the zero-finding gap agents, then loops on those gaps until the iteration budget runs out; and (2) a single xychart-beta comparing both runs' plan-size trajectory (13→2 vs 13→4), which makes the funnel shape and its iter-2 cliff instantly catchable. The flowcharts carry the real agent names and critic verdicts so the reader sees self-correction (not random shrinkage); the bar/line chart carries the cross-run comparison the flowcharts cannot. Vertical TD layouts keep both funnels at ~586px intrinsic width; all three sources were rendered with mmdc and verified.
 
@@ -383,9 +402,14 @@ xychart-beta
 
 ---
 
-## 4. Governance & Sealing — the boundary and the tamper-evidence
+## 4 · 🚪 The bouncer & the wax seal *(governance, made visible)*
 
-Maps §6: the Thymus gate decisions and the HMAC cross-binding chain.
+![Animated: the ALLOW counter rolls to 85 and the REJECT counter to 61 — each refusal issued before the process spawned — while the one 32-byte key cross-binds both sealed files](diagrams/atlas-gov.gif)
+
+The Thymus is the bouncer: it checked **every** file access, let 85 in, and turned **61** away —
+each one refused *before the process even started*, and every refusal is on the sealed record. The
+wax seal is the cross-bind: one 32-byte key seals both the report and its audit log, so editing
+either file after the fact is instantly self-incriminating. Figures below map §6.
 
 > **Why this representation:** Governance has two distinct stories that need two distinct visual grammars: (1) the boundary's behavior is a simple categorical split, best told by ALLOW/REJECT pies — one per case, because the 42% REJECT rate on base-dc versus 0% on notch is itself a finding (the gate fires when workloads stray, stays silent when they don't); (2) the sealing is a dependency chain, so a vertical flowchart shows how one 32-byte key cross-binds report.json and audit-log.json while the evidence sha256 anchors everything, with the REJECT path in red to show denials are inside (not outside) the sealed record. A consistent palette (green=ALLOW, red=REJECT, purple=seals/governance, blue=files, amber=hash anchor) ties the three figures together. All three diagrams were rendered with mermaid-cli and visually verified; every number was extracted from the raw jsonl/json with jq.
 
@@ -472,9 +496,13 @@ flowchart TD
 
 ---
 
-## 5. The Numbers at a Glance
+## 5 · 📊 The numbers at a glance *(hunt carried the team 🏆)*
 
-Headline metrics of both runs, chartable and comparable in one look.
+![Animated: findings-per-agent bars race out — hunt 8, the mid-tier detectors 2 each — then the base-dc vs notch comparison lands the punchline: 94 minutes vs 72 seconds](diagrams/atlas-metrics.gif)
+
+Eight of base-dc's 22 findings came from one agent — the hunt correlator, which makes its living
+combining everyone else's work (a lesson in there somewhere). And the run comparison: 22 findings
+in 94 minutes vs 10 findings in 72 seconds. One of them had a timeout problem.
 
 > **Why this representation:** The topic is "run metrics at a glance," which is purely quantitative — bar charts (xychart-beta) are the only representation that makes magnitudes instantly comparable. Chart 1 ranks the 11 base-dc agents by findings so the hunt agent's dominance (8 of 22) pops immediately; Chart 2 puts the two runs side-by-side on all three headline metrics (calls, findings, runtime) using alternating blue/amber bars via a zero-placeholder two-series technique, so the 176-vs-60 and 94-min-vs-1.2-min contrasts are caught in one look. Every number was extracted from base-dc-report.json and notch-report.json with python3 (findings[] grouped by agent field; trace.tool_calls length; trace.total_duration_ms), and both Mermaid sources were render-verified with mermaid-cli to PNG.
 
@@ -525,6 +553,8 @@ xychart-beta
 
 ---
 
-*Built from the sealed records in this folder; cross-checked claims live in the
+*The section animations above are Animotion-built, deterministically rendered (virtual-time), and
+loop forever — their deck sources live in [`diagrams/animated-decks/`](diagrams/animated-decks/).
+Built from the sealed records in this folder; cross-checked claims live in the
 [gold report](AGENT-EXECUTION-LOGS-REPORT.md) (§3–§6) and are independently re-verifiable via its
 "verify in 60 seconds" block. Folder guide: [README.md](README.md).*
