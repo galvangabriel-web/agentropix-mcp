@@ -48,10 +48,11 @@ that satisfy it, with a reading path. Statuses are honest — ✅ means committe
     Submission Evidence Tour** (auto-plays): one animated scene per requirement 1–8 with a
     live-captured REAL-PROOF panel each, plus the Built-With tags — an end-to-end visual summary
     of this entire map ([deck source + proof captures](assets/submission-tour/)).
-  - 🎞️ [`safety-proof-animated.gif`](assets/safety-proof-animated.gif) — the **55-second
-    six-guarantee proof reel** (auto-plays inline in the README's Safety section): each
+  - 🎞️ [`safety-proof-animated.gif`](assets/safety-proof-animated.gif) — the **73-second
+    six-guarantee proof reel, v2** (auto-plays inline in the README's Safety section): each
     anti-hallucination guarantee shown with real cited evidence from the SRL-2015 + SRL-2018
-    Agent Execution Logs ([deck source](assets/safety-proof-deck.html)).
+    Agent Execution Logs, **plus a plain-language "💡 What you're seeing" explainer panel on
+    every scene** ([deck source](assets/safety-proof-deck.html)).
   - 🎞️ [`workflow-animated.gif`](assets/workflow-animated.gif) — the **17-second six-stage
     investigation-workflow animation** (doctor → run → review → human HMAC gate → seal → escalate,
     ending on the SEALED badge). The one asset that **auto-plays inline on github.com itself** —
