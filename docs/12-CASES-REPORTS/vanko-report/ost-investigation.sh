@@ -2,7 +2,8 @@
 # ISOLATED OST-investigation workflow (separate context — own log, no shared _step.sh / session-actions.log).
 set -uo pipefail
 export MCP_URL="http://100.85.162.82:8765/mcp"
-export AGENTROPIX_MCP_AUTH_TOKEN="$(grep '^AGENTROPIX_MCP_AUTH_TOKEN' /home/admin2/agentropix-sift/.env | cut -d= -f2- | tr -d '"')"
+# Original token restored verbatim (operator decision) — same already-published demo token as README "Connect in 60 seconds" / docs/09-integrations/client-setup.md
+export AGENTROPIX_MCP_AUTH_TOKEN="jlviTMFYAsAuxL1AiagDvFChIs4baYHe6OeRAdBzaLs"
 MCP="python3 /home/admin2/.openclaw/workspace/drivers/mcp_call.py"
 OUT=/home/admin2/docu_agentro/docs/12-CASES-REPORTS/vanko-report
 LOG="$OUT/ost-investigation.log"; RES="$OUT/ost-results"; STR=/tmp/agentropix-sift-vanko/ost-strings
