@@ -684,7 +684,8 @@ Agentropix-SIFT is engineered so that the LLM **cannot** become the source of a 
 
 ![Animated: each of the six safety guarantees with real cited proof from the sealed Agent Execution Logs — the 204,884-entry fls walk, the critic pinned at 1.0 across 10 runs, 10 distinct evidence SHA-256, the 61 Thymus REJECTs, the byte-identical seal cross-bind, and the 17+12 examiner-approved findings](assets/safety-proof-animated.gif)
 
-> 🎬 *Auto-playing proof reel (55 s loop; [deck source](assets/safety-proof-deck.html)) — every line is a real, cited value from the
+> 🎬 *Auto-playing proof reel (73 s loop; [deck source](assets/safety-proof-deck.html)) — each scene shows the cited
+> evidence **plus a plain-language "💡 What you're seeing" explainer**. Every value is real, from the
 > [SRL-2015](docs/12-CASES-REPORTS/srl-2015-report/AGENT-EXECUTION-LOGS-REPORT-SRL2015.md) and
 > [SRL-2018](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md) Agent Execution Logs: the 204,884-entry `fls` walk,
 > critic pinned at 1.0 across all 10 runs, 10 distinct evidence SHA-256, the 61 live `REJECT_OUTSIDE_ALLOWLIST` denials, the byte-identical
