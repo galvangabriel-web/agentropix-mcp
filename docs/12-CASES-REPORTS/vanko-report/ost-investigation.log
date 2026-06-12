@@ -1,0 +1,54 @@
+================ OST INVESTIGATION WORKFLOW · 2026-06-08T04:59:13Z ================
+Isolated context: own log (/home/admin2/docu_agentro/docs/12-CASES-REPORTS/vanko-report/ost-investigation.log), own results (/home/admin2/docu_agentro/docs/12-CASES-REPORTS/vanko-report/ost-results). Does not touch session-actions.log.
+[discover] extracting any additional OST from the image (OneDrive cache / variants)...
+[discover] OST files to investigate: 3
+
+===== [1] OST: anthony.vanko@gmail.com (1).ost (133570560 B) =====
+--- carve_pst_iocs (structured) ---
+   {'tool': 'carve_pst_iocs'}
+--- strings analysis ---
+  Chinese contacts (qq/163/126/sina/foxmail / .cn):
+         20 nina_kwai@qq.com
+          8 nina_kwa1@qq.com
+          7 NINA_KWAI@QQ.COM
+          2 NINA_KWA1@QQ.COM
+          1 deptyahooenq@qq.com
+  dropbox / cloud share links:
+  case keywords:
+  top external correspondents:
+        110 mmerr001@gmail.com
+         55 MMERR001@GMAIL.COM
+         22 kylie.normandy@gmail.com
+         20 nina_kwai@qq.com
+         20 luvtrice713@gmail.com
+         20 To@adobe.com
+         16 sa.ed2@outlook.com
+         12 OvieCarroll@gmail.com
+         11 gifpart1.02040700.03090400@readnotify.com
+         11 KYLIE.NORMANDY@GMAIL.COM
+          8 peaceon3@gmail.com
+          8 nina_kwa1@qq.com
+          8 info@gmail.org
+          8 ericl43@yahoo.com
+
+===== [2] OST: anthony.vanko@icloud.com.ost (16818176 B) =====
+--- carve_pst_iocs (structured) ---
+   {'tool': 'carve_pst_iocs'}
+--- strings analysis ---
+  Chinese contacts (qq/163/126/sina/foxmail / .cn):
+  dropbox / cloud share links:
+  case keywords:
+  top external correspondents:
+          2 vladimir.bulgakov@titan-biotech.com
+
+===== [3] OST: anthony.vanko@icloud.com.ost (16818176 B) =====
+--- carve_pst_iocs (structured) ---
+   {'tool': 'carve_pst_iocs'}
+--- strings analysis ---
+  Chinese contacts (qq/163/126/sina/foxmail / .cn):
+  dropbox / cloud share links:
+  case keywords:
+  top external correspondents:
+          2 vladimir.bulgakov@titan-biotech.com
+
+================ OST INVESTIGATION COMPLETE · 2026-06-08T04:59:44Z ================
