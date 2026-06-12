@@ -1,0 +1,198 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+@keyframes animotion-fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animotion-fade-in { animation: animotion-fadeIn 0.6s ease-out both; }
+
+@keyframes animotion-fadeInLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+
+.animotion-fade-in-left { animation: animotion-fadeInLeft 0.6s ease-out both; }
+
+@keyframes animotion-fadeInLeftBig { from { opacity: 0; transform: translateX(-200px); } to { opacity: 1; transform: translateX(0); } }
+
+.animotion-fade-in-left-big { animation: animotion-fadeInLeftBig 0.8s ease-out both; }
+
+@keyframes animotion-zoomIn { from { opacity: 0; transform: scale(0.3); } to { opacity: 1; transform: scale(1); } }
+
+.animotion-zoom-in { animation: animotion-zoomIn 0.5s ease-out both; }
+
+@keyframes animotion-zoomInLeft { from { opacity: 0; transform: scale(0.1) translateX(-1000px); } 60% { opacity: 1; transform: scale(0.475) translateX(10px); } to { transform: scale(1) translateX(0); } }
+
+.animotion-zoom-in-left { animation: animotion-zoomInLeft 0.6s cubic-bezier(0.55, 0.055, 0.675, 0.19) both; }
+
+@keyframes animotion-bounceIn { 0% { opacity: 0; transform: scale(0.3); } 20% { transform: scale(1.1); } 40% { transform: scale(0.9); } 60% { opacity: 1; transform: scale(1.03); } 80% { transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+
+.animotion-bounce-in { animation: animotion-bounceIn 0.75s cubic-bezier(0.215, 0.61, 0.355, 1) both; }
+
+@keyframes animotion-jackInTheBox { 0% { opacity: 0; transform: scale(0.1) rotate(30deg); transform-origin: center bottom; } 50% { transform: rotate(-10deg); } 70% { transform: rotate(3deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+
+.animotion-jack-in-the-box { animation: animotion-jackInTheBox 0.8s ease both; }
+
+@keyframes animotion-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } to { transform: scale(1); } }
+
+.animotion-pulse { animation: animotion-pulse 1s ease-in-out infinite; }
+
+@keyframes animotion-shakeX { 0%, to { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); } 20%, 40%, 60%, 80% { transform: translateX(10px); } }
+
+.animotion-shake-x { animation: animotion-shakeX 0.8s ease-in-out both; }
+
+@keyframes animotion-typewriter { from { width: 0; } to { width: 100%; } }
+
+.animotion-typewriter { animation: animotion-typewriter 2s steps(30, end) both; overflow: hidden; white-space: nowrap; border-right: 2px solid; }
+@keyframes vt-tick { from { opacity:0.01 } to { opacity:0.02 } }
+.vt-ticker { position:fixed; bottom:0; right:0; width:2px; height:2px; background:#0d1117; animation:vt-tick 0.12s infinite alternate }
+* { box-sizing:border-box; margin:0; padding:0 }
+html,body { width:1400px; height:480px; overflow:hidden; background:#0d1117; color:#e6edf3; font-family:'DejaVu Sans',system-ui,sans-serif }
+.scene { position:absolute; inset:0; display:none; flex-direction:column; padding:34px 60px; }
+.scene.on { display:flex }
+.head { display:flex; align-items:center; gap:14px; font-size:30px; font-weight:bold; color:var(--c); margin-bottom:20px }
+.proofs { display:flex; flex-direction:column; gap:16px }
+.proof { background:#161b22; border-left:5px solid #f85149; border-radius:8px; padding:16px 22px; font-size:21px; line-height:1.55; color:#e6edf3 }
+.cite { color:#8b949e; font-size:17px; font-family:monospace }
+.mono { font-family:monospace; color:#d29922 }
+.red { color:#f85149 }
+.tagline { position:absolute; bottom:16px; left:60px; font-size:15px; letter-spacing:2px; color:#f85149; font-weight:bold }
+.fill-back { animation-fill-mode:backwards }
+</style></head><body><div class="vt-ticker"></div>
+<div class="scene on" id="s1">
+  <div class="head animotion-fade-in fill-back" style="--c:#58a6ff"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:36px;height:36px;color:#58a6ff" 
+  class="lucide lucide-cpu"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 20v2" />
+  <path d="M12 2v2" />
+  <path d="M17 20v2" />
+  <path d="M17 2v2" />
+  <path d="M2 12h2" />
+  <path d="M2 17h2" />
+  <path d="M2 7h2" />
+  <path d="M20 12h2" />
+  <path d="M20 17h2" />
+  <path d="M20 7h2" />
+  <path d="M7 20v2" />
+  <path d="M7 2v2" />
+  <rect x="4" y="4" width="16" height="16" rx="2" />
+  <rect x="8" y="8" width="8" height="8" rx="1" />
+</svg><span>Deterministic-tools-only findings</span></div>
+  <div class="proofs"><div class="proof animotion-fade-in-left fill-back" style="animation-delay:0.8s"><b>mcp.fls → 204,884 filesystem entries</b> · exit 0 · args_hash + output_hash sealed <span class="cite">[SRL-2015 controller/disk $.trace.tool_calls]</span></div><div class="proof animotion-fade-in-left fill-back" style="animation-delay:2.3s">the evidence chain is read <b>from the image itself</b>: “case=20180905-001 examiner=Clint Barton” <span class="cite">[SRL-2018 base-dc $.findings — ewfinfo]</span></div></div>
+  <div class="tagline">REAL PROOF · from the sealed Agent Execution Logs (SRL-2015 · SRL-2018)</div>
+</div>
+<div class="scene" id="s2">
+  <div class="head animotion-fade-in fill-back" style="--c:#bc8cff"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:36px;height:36px;color:#bc8cff" 
+  class="lucide lucide-gauge"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m12 14 4-4" />
+  <path d="M3.34 19a10 10 0 1 1 17.32 0" />
+</svg><span>No LLM self-rating</span></div>
+  <div class="proofs"><div class="proof animotion-fade-in-left fill-back" style="animation-delay:0.8s"><b>critic_score = 1.0 on every iteration of all 10 runs</b> — a 484-finding run and a 10-finding run score identically <span class="cite">[both reports, $.iterations[*].critic_score]</span></div><div class="proof animotion-fade-in-left fill-back" style="animation-delay:2.3s">every run halts by <b>budget_exhausted</b> — should_halt never fired; no model ever graded itself <span class="cite">[$.status, ×10]</span></div></div>
+  <div class="tagline">REAL PROOF · from the sealed Agent Execution Logs (SRL-2015 · SRL-2018)</div>
+</div>
+<div class="scene" id="s3">
+  <div class="head animotion-fade-in fill-back" style="--c:#d29922"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:36px;height:36px;color:#d29922" 
+  class="lucide lucide-file-text"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg><span>Pre/post SHA-256 evidence invariant</span></div>
+  <div class="proofs"><div class="proof animotion-fade-in-left fill-back" style="animation-delay:0.8s"><b>10 runs → 10 distinct evidence_image_sha256</b> — no image double-counted, every report anchored to its bytes</div><div class="proof animotion-fade-in-left fill-back" style="animation-delay:2.3s"><span class="mono">e2b9cf0c… (SRL-2018 DC) · 80366d7e… (notch) · 389ea6b4… (SRL-2015 DC) …</span> <span class="cite">[$.evidence_image_sha256, ×10]</span></div></div>
+  <div class="tagline">REAL PROOF · from the sealed Agent Execution Logs (SRL-2015 · SRL-2018)</div>
+</div>
+<div class="scene" id="s4">
+  <div class="head animotion-fade-in fill-back" style="--c:#f85149"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:36px;height:36px;color:#f85149" 
+  class="lucide lucide-shield-x"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+  <path d="m14.5 9.5-5 5" />
+  <path d="m9.5 9.5 5 5" />
+</svg><span>Thymus read-only policy — caught in the act</span></div>
+  <div class="proofs"><div class="proof animotion-fade-in-left fill-back" style="animation-delay:0.8s">SRL-2018 base-dc: <b>146 decisions — 85 ALLOW · <span class="red">61 REJECT_OUTSIDE_ALLOWLIST</span></b>, each refused <b>before the subprocess spawned</b> <span class="cite">[base-dc-thymus-audit.jsonl]</span></div><div class="proof animotion-fade-in-left fill-back" style="animation-delay:2.3s">SRL-2015: <b>860 inline decisions across 8 runs — every one ALLOW</b>: armed on every run, tripped only when workloads strayed <span class="cite">[$.thymus_audit[*], ×8]</span></div></div>
+  <div class="tagline">REAL PROOF · from the sealed Agent Execution Logs (SRL-2015 · SRL-2018)</div>
+</div>
+<div class="scene" id="s5">
+  <div class="head animotion-fade-in fill-back" style="--c:#bc8cff"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:36px;height:36px;color:#bc8cff" 
+  class="lucide lucide-lock"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+</svg><span>Courtroom HMAC-SHA256 seal</span></div>
+  <div class="proofs"><div class="proof animotion-fade-in-left fill-back" style="animation-delay:0.8s"><b>audit_log_seal byte-identical in report.json ↔ audit-log.json</b> (<span class="mono">1085b493…</span>) — edit either file, the cross-bind breaks <span class="cite">[SRL-2018 base-dc]</span></div><div class="proof animotion-fade-in-left fill-back" style="animation-delay:2.3s">the same cross-bind verified on all 8 SRL-2015 seals (e.g. nfury/memory <span class="mono">3c3221be…</span>) <span class="cite">[SRL-2015 §5]</span></div></div>
+  <div class="tagline">REAL PROOF · from the sealed Agent Execution Logs (SRL-2015 · SRL-2018)</div>
+</div>
+<div class="scene" id="s6">
+  <div class="head animotion-fade-in fill-back" style="--c:#3fb950"><!-- @license lucide-static v1.17.0 - ISC -->
+<svg style="width:36px;height:36px;color:#3fb950" 
+  class="lucide lucide-shield-check"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+  <path d="m9 12 2 2 4-4" />
+</svg><span>Human-in-the-loop</span></div>
+  <div class="proofs"><div class="proof animotion-fade-in-left fill-back" style="animation-delay:0.8s">findings stay <b>DRAFT until a human signs</b>: the sealed case reports carry <b>17 examiner-APPROVED findings (SRL-2015)</b> and <b>12 (SRL-2018)</b> <span class="cite">[docs/12-CASES-REPORTS]</span></div><div class="proof animotion-fade-in-left fill-back" style="animation-delay:2.3s">approval is an <b>HMAC hard-stop</b> — the one stage no model can perform</div></div>
+  <div class="tagline">REAL PROOF · from the sealed Agent Execution Logs (SRL-2015 · SRL-2018)</div>
+</div>
+<script>
+const SCENES=[["s1", 9000], ["s2", 9000], ["s3", 9000], ["s4", 10000], ["s5", 9000], ["s6", 9000]];
+function show(id){document.querySelectorAll('.scene').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');}
+let idx=0;
+function next(){if(idx>=SCENES.length){document.title='DONE';return;}const[id,dur]=SCENES[idx++];show(id);setTimeout(next,dur);}
+window.__start=next;
+</script></body></html>
