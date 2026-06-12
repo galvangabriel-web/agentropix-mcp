@@ -1,9 +1,10 @@
 # 🎙️ Narration script — AMF sample001 annotated run video
 
 > **How to use this (v2 — still-based).** [`EXECUTED-RUN-ANNOTATED.mp4`](EXECUTED-RUN-ANNOTATED.mp4)
-> is built from **annotated stills**: one steady frame per key moment with a red box that never
-> moves (v1 drew boxes over the scrolling video and they drifted off their targets — this version
-> fixes that). The original [`EXECUTED-RUN.mp4`](EXECUTED-RUN.mp4) is untouched. Each scene holds
+> is built from **annotated stills**: one steady frame per key moment with a thin red box that never
+> moves. v3 places every box **pixel-precisely**: the text extents of each highlighted block were
+> measured programmatically and the 3 px stroke is machine-verified to cross **zero text pixels**
+> (every edge sits in the blank gutters between lines). The original [`EXECUTED-RUN.mp4`](EXECUTED-RUN.mp4) is untouched. Each scene holds
 > long enough to speak its line. Record your voice per row, then mux:
 > `ffmpeg -i EXECUTED-RUN-ANNOTATED.mp4 -i voice.m4a -c:v copy -c:a aac -shortest EXECUTED-RUN-NARRATED.mp4`.
 > Video length 1:19; total speech ≈ 70 s — comfortable pace. This narrated cut satisfies the
