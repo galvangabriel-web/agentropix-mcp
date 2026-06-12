@@ -1,0 +1,46 @@
+# .gitignore — SRL-2018 training-session asset folder
+# ---------------------------------------------------------------------------
+# This folder is the COMPLETE forensic analysis (~322 MB). Most of it is raw
+# evidence output and large binaries that must NOT enter git history:
+#   - huge tool-output JSON (mftecmd 50 MB, evtx 34 MB, sys hives 23 MB, ...)
+#   - screencast videos / asciinema casts (~99 MB)
+#   - the raw action log + transcript (contain real case data / PII:
+#     hostnames, accounts nfury/tdungan, internal IPs, browser history)
+#
+# Only the curated, human-readable docs are committed (see the !negations).
+# If you want the videos in GitLab, track them via Git LFS instead of here
+# (see .gitattributes), or attach them to a GitLab Release.
+# ---------------------------------------------------------------------------
+
+# --- Raw MCP tool-output JSON (all of it; none is curated) ---
+*.json
+
+# --- Screencast videos + asciinema casts ---
+*.mp4
+*.gif
+*.cast
+
+# --- Raw action log + rendered transcripts (case data / PII) ---
+session-actions.log
+*.transcript.txt
+
+# --- Operational run-scripts + step scaffolding (reproducible, not docs) ---
+*.sh
+_step.sh
+*.py
+
+# --- Accidental nested DUPLICATE of /home/admin2/srl-2018-report (3.8 MB).
+#     Canonical reports live in /home/admin2/srl-2018-report — do not commit
+#     this copy. Recommend deleting the nested dir on disk too (it is clutter).
+srl-2018-report/
+
+# --- Workflow completion markers / scratch dotfiles ---
+.*_done
+.*.swp
+
+# ---------------------------------------------------------------------------
+# KEEP these (curated documentation) — negations must come last
+# ---------------------------------------------------------------------------
+!.gitignore
+!README.md
+!ATTACK-CHAIN-WORKFLOW.md

@@ -1,0 +1,146 @@
+{"timestamp": "2026-06-11T12:48:26.360870+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T14:22:29.657992+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:53:31.504666+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:31.621476+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:31.702195+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:31.702524+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-extract-yazy9cbj", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-extract-yazy9cbj' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.581861+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.582205+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.582718+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.582956+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.583376+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.583606+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.583994+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.584273+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.584687+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.584912+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.585343+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.585572+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.585974+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.586218+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.586630+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.587017+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.587459+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.587684+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.588066+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.588301+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.588695+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.588914+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.589329+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.589551+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.589926+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.590169+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.590580+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.590796+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.591226+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.591493+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.591873+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.592088+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.592494+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.592728+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.593120+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.593385+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.593763+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.593995+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.594473+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.594713+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.595090+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.595330+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.595725+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.595950+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.596339+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.596572+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.596957+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.597173+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.597576+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.597819+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.598195+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.598433+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.598818+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.599037+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.599424+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.599661+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.600069+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.600301+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.600708+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.600938+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.601330+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.601567+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.602041+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.602317+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.602721+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.602938+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.603332+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.603554+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.603927+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.604141+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.604532+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.604761+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.605147+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.605380+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.605753+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.605968+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.606367+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.606604+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.606988+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.607203+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.607609+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.607826+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.608206+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.608454+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.608839+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.609114+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.609592+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.609809+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.610204+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.610442+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.610815+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.611031+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.611417+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.611639+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.612013+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.612251+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.612658+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.612877+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.613262+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.613493+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.613866+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.614081+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.614468+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.614698+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.615082+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.615325+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.615722+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.615937+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.616327+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.616581+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.617062+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.617297+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.617688+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.617915+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.618315+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.618540+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:54:35.618917+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:54:35.619133+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-tasks-ip4sxvwt' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:55:32.320898+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:55:32.339124+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:55:32.340227+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:55:32.341241+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:55:33.828456+00:00", "action": "ALLOW", "path": "/cases/SRL-2018/base-dc-cdrive.E01", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:55:33.828847+00:00", "action": "REJECT", "path": "/tmp/claude-1001/agentropix-sift-w204-zhah_o00", "reason": "REJECT_OUTSIDE_ALLOWLIST: '/tmp/claude-1001/agentropix-sift-w204-zhah_o00' not under any allowed prefix"}
+{"timestamp": "2026-06-11T15:56:32.097951+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:56:32.099056+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:56:32.099924+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:56:32.100800+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:56:32.105106+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:56:32.105992+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:56:32.106874+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:56:32.107749+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:56:32.110648+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:56:32.111552+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:56:32.112435+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:56:32.113362+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:56:32.116312+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:56:32.117240+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:56:32.118174+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}
+{"timestamp": "2026-06-11T15:56:32.119034+00:00", "action": "ALLOW", "path": "/cases/SRL-2018", "reason": "within read-only zone"}

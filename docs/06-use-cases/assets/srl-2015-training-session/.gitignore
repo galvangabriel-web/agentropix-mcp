@@ -1,0 +1,40 @@
+# .gitignore — SRL-2015 training-session asset folder
+# ---------------------------------------------------------------------------
+# This folder is the COMPLETE forensic recording. Most of it is raw tool
+# output and large binaries that must NOT enter git history:
+#   - tool-output JSON (volatility pslist/netscan/svcscan/malfind, evtx, ...)
+#   - screencast videos / asciinema casts
+#   - the raw action log + transcript (real case data / PII:
+#     hostnames nfury/tdungan/nromanoff, internal 10.3.58.x IPs, C2 IPs)
+#
+# Only the curated, human-readable docs are committed (see the !negations).
+# For the video in GitLab, use Git LFS or attach to a GitLab Release.
+# ---------------------------------------------------------------------------
+
+# --- Raw MCP tool-output JSON (all of it; none is curated) ---
+*.json
+
+# --- Screencast videos + asciinema casts ---
+*.mp4
+*.gif
+*.cast
+
+# --- Raw action log + rendered transcripts (case data / PII) ---
+session-actions.log
+*.transcript.txt
+
+# --- Operational run-scripts + step scaffolding (reproducible, not docs) ---
+*.sh
+_step.sh
+*.py
+
+# --- Workflow completion markers / scratch dotfiles ---
+.*_done
+.*.swp
+
+# ---------------------------------------------------------------------------
+# KEEP these (curated documentation) — negations must come last
+# ---------------------------------------------------------------------------
+!.gitignore
+!README.md
+!ATTACK-CHAIN-WORKFLOW.md

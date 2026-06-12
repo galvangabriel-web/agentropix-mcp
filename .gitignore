@@ -13,3 +13,6 @@ __pycache__/
 *.pyc
 *.egg-info/
 dist/
+
+# local-only video archive (never publish)
+videoos/

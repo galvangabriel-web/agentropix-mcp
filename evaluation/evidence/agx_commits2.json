@@ -1,0 +1,3106 @@
+[
+  {
+    "sha": "494e2f162bc78115d91257be7ba405308e7bf8f9",
+    "node_id": "C_kwDOS2mgjtoAKDQ5NGUyZjE2MmJjNzgxMTVkOTEyNTdiZTdiYTQwNTMwOGU3YmY4Zjk",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T04:00:13Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T04:00:13Z"
+      },
+      "message": "docs(srl-2018): remove forensic report PDF + update index/run references\n\nDrops SRL-2018-FORENSIC-REPORT.pdf; README read-in-order renumbered (1 report,\n2 appendix, 3 gallery) and EXECUTED-RUN.md report links updated.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "822978135fd8eec4532809c9df727863b5cde3a0",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/822978135fd8eec4532809c9df727863b5cde3a0"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/494e2f162bc78115d91257be7ba405308e7bf8f9",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/494e2f162bc78115d91257be7ba405308e7bf8f9",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/494e2f162bc78115d91257be7ba405308e7bf8f9",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/494e2f162bc78115d91257be7ba405308e7bf8f9/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "50c33822e35df5719401009a9d4acb3b23220d91",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/50c33822e35df5719401009a9d4acb3b23220d91",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/50c33822e35df5719401009a9d4acb3b23220d91"
+      }
+    ]
+  },
+  {
+    "sha": "50c33822e35df5719401009a9d4acb3b23220d91",
+    "node_id": "C_kwDOS2mgjtoAKDUwYzMzODIyZTM1ZGY1NzE5NDAxMDA5YTlkNGFjYjNiMjMyMjBkOTE",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:56:58Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:56:58Z"
+      },
+      "message": "docs(srl-2018): add TECHNICAL-APPENDIX (netscan/malfind/evtx) + link from report & index\n\nMachine-extracted depth from the recorded run: per-host foreign-socket tables\n(external IPs flagged), rd-01 RWX/malfind regions (p.exe + powershell implant\nsignal), and the per-host lateral-movement event histogram. Honest framing:\nmalfind = adjudication list; DC-side Kerberos + unparsed wkstn-01 noted.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "80d3888f45075c15237a5dc839475f443bb2af2a",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/80d3888f45075c15237a5dc839475f443bb2af2a"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/50c33822e35df5719401009a9d4acb3b23220d91",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/50c33822e35df5719401009a9d4acb3b23220d91",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/50c33822e35df5719401009a9d4acb3b23220d91",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/50c33822e35df5719401009a9d4acb3b23220d91/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "e668b888ae5c1bd5ced7eb936edf665ade14fe59",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/e668b888ae5c1bd5ced7eb936edf665ade14fe59",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/e668b888ae5c1bd5ced7eb936edf665ade14fe59"
+      }
+    ]
+  },
+  {
+    "sha": "e668b888ae5c1bd5ced7eb936edf665ade14fe59",
+    "node_id": "C_kwDOS2mgjtoAKGU2NjhiODg4YWU1YzFiZDVjZWQ3ZWI5MzZlZGY2NjVhZGUxNGZlNTk",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:53:16Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:53:16Z"
+      },
+      "message": "case-activation: track SRL-2018 run (activation + full-investigation record)\n\nEXECUTED-RUN.md updated to cover the full 254-action investigation (12 sealed\nfindings, attack chain, Wazuh egress, report link); fixes the stale link to the\nremoved dc-execution folder. Step JSONs = live activation custody record.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "cdf813ccab4c14d4465227adec3669616a179e3c",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/cdf813ccab4c14d4465227adec3669616a179e3c"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/e668b888ae5c1bd5ced7eb936edf665ade14fe59",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/e668b888ae5c1bd5ced7eb936edf665ade14fe59",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/e668b888ae5c1bd5ced7eb936edf665ade14fe59",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/e668b888ae5c1bd5ced7eb936edf665ade14fe59/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "24656474c02b9052fa1d31928e5e348a67e2c74f",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/24656474c02b9052fa1d31928e5e348a67e2c74f",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/24656474c02b9052fa1d31928e5e348a67e2c74f"
+      }
+    ]
+  },
+  {
+    "sha": "24656474c02b9052fa1d31928e5e348a67e2c74f",
+    "node_id": "C_kwDOS2mgjtoAKDI0NjU2NDc0YzAyYjkwNTJmYTFkMzE5MjhlNWUzNDhhNjdlMmM3NGY",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:47:26Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:47:26Z"
+      },
+      "message": "docs(12-cases-reports): embed session video via GitLab-native syntax (loop note)\n\nGitLab sanitizes <video loop>; use ![](mp4) so the player renders, with a\nnote on the loop limitation + raw-file/Pages alternatives.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "afd39fd632e44a2302a72a68ed737af702422274",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/afd39fd632e44a2302a72a68ed737af702422274"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/24656474c02b9052fa1d31928e5e348a67e2c74f",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/24656474c02b9052fa1d31928e5e348a67e2c74f",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/24656474c02b9052fa1d31928e5e348a67e2c74f",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/24656474c02b9052fa1d31928e5e348a67e2c74f/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "76b101a4eb972d3311ddc631e28f8a44006b3780",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/76b101a4eb972d3311ddc631e28f8a44006b3780",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/76b101a4eb972d3311ddc631e28f8a44006b3780"
+      }
+    ]
+  },
+  {
+    "sha": "76b101a4eb972d3311ddc631e28f8a44006b3780",
+    "node_id": "C_kwDOS2mgjtoAKDc2YjEwMWE0ZWI5NzJkMzMxMWRkYzYzMWUyOGY4YTQ0MDA2YjM3ODA",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:45:58Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:45:58Z"
+      },
+      "message": "docs(12-cases-reports): add section README index + looping session video\n\n- README.md: house-style index (read-in-order references to the SRL-2018 report set)\n- training-session-paged.mp4: recorded analysis session, embedded as a looping <video>\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "16881c3d2ed2b2deb891b3b5e428b7328edfdae8",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/16881c3d2ed2b2deb891b3b5e428b7328edfdae8"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/76b101a4eb972d3311ddc631e28f8a44006b3780",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/76b101a4eb972d3311ddc631e28f8a44006b3780",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/76b101a4eb972d3311ddc631e28f8a44006b3780",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/76b101a4eb972d3311ddc631e28f8a44006b3780/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "37798faad7eb541f10574726c5ca0adcda9a879e",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/37798faad7eb541f10574726c5ca0adcda9a879e",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/37798faad7eb541f10574726c5ca0adcda9a879e"
+      }
+    ]
+  },
+  {
+    "sha": "37798faad7eb541f10574726c5ca0adcda9a879e",
+    "node_id": "C_kwDOS2mgjtoAKDM3Nzk4ZmFhZDdlYjU0MWYxMDU3NDcyNmM1Y2EwYWRjZGE5YTg3OWU",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:35:29Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:35:29Z"
+      },
+      "message": "docs: move SRL-2018 case report to new top-level docs/12-CASES-REPORTS/\n\nRelocates the case report out of 06-use-cases/assets/ (which holds use-case\ndiagram SVGs) into a dedicated cases-reports section. Relative image links\n(diagrams/, wazuh/) preserved; uc-*.svg use-case assets left in place.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "7b0a41b419acb1f936f2b1d1ede78689fd35c2e2",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/7b0a41b419acb1f936f2b1d1ede78689fd35c2e2"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/37798faad7eb541f10574726c5ca0adcda9a879e",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/37798faad7eb541f10574726c5ca0adcda9a879e",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/37798faad7eb541f10574726c5ca0adcda9a879e",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/37798faad7eb541f10574726c5ca0adcda9a879e/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "3663cd6910836a7c7fbcbaf4374b7a248817d588",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/3663cd6910836a7c7fbcbaf4374b7a248817d588",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/3663cd6910836a7c7fbcbaf4374b7a248817d588"
+      }
+    ]
+  },
+  {
+    "sha": "3663cd6910836a7c7fbcbaf4374b7a248817d588",
+    "node_id": "C_kwDOS2mgjtoAKDM2NjNjZDY5MTA4MzZhN2M3ZmJjYmFmNDM3NGI3YTI0ODgxN2Q1ODg",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:42:51Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:42:51Z"
+      },
+      "message": "docs(srl-2018): add forensic report PDF (self-contained, diagrams embedded)\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "0d59f5052ec8a021ee3d3cc813e4457c0850f1bd",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/0d59f5052ec8a021ee3d3cc813e4457c0850f1bd"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/3663cd6910836a7c7fbcbaf4374b7a248817d588",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/3663cd6910836a7c7fbcbaf4374b7a248817d588",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/3663cd6910836a7c7fbcbaf4374b7a248817d588",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/3663cd6910836a7c7fbcbaf4374b7a248817d588/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "6dcc221e51c959d50712bb7018ef618b9645e8d7",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/6dcc221e51c959d50712bb7018ef618b9645e8d7",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/6dcc221e51c959d50712bb7018ef618b9645e8d7"
+      }
+    ]
+  },
+  {
+    "sha": "6dcc221e51c959d50712bb7018ef618b9645e8d7",
+    "node_id": "C_kwDOS2mgjtoAKDZkY2MyMjFlNTFjOTU5ZDUwNzEyYmI3MDE4ZWY2MThiOTY0NWU4ZDc",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:26:25Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:26:25Z"
+      },
+      "message": "docs(srl-2018): remove non-rendering HTML (MD equivalents render in GitLab)\n\nGitLab serves .html as raw source, so index.html and the standalone report\nHTML never displayed. Replaced by GitLab-rendering Markdown:\n- SRL-2018-FORENSIC-REPORT.md (image diagrams)\n- WAZUH-IOC-GALLERY.md (all Wazuh captures)\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "c1a5de9366e4d9b37bd5b39d534d55202f97416d",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/c1a5de9366e4d9b37bd5b39d534d55202f97416d"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/6dcc221e51c959d50712bb7018ef618b9645e8d7",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/6dcc221e51c959d50712bb7018ef618b9645e8d7",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/6dcc221e51c959d50712bb7018ef618b9645e8d7",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/6dcc221e51c959d50712bb7018ef618b9645e8d7/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "8023785ebf38a1a74eed14a62a0831065b207d0a",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/8023785ebf38a1a74eed14a62a0831065b207d0a",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/8023785ebf38a1a74eed14a62a0831065b207d0a"
+      }
+    ]
+  },
+  {
+    "sha": "8023785ebf38a1a74eed14a62a0831065b207d0a",
+    "node_id": "C_kwDOS2mgjtoAKDgwMjM3ODVlYmYzOGExYTc0ZWVkMTRhNjJhMDgzMTA2NWIyMDdkMGE",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:11:04Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:11:04Z"
+      },
+      "message": "docs(srl-2018): GitLab-renderable MD (image diagrams + Wazuh gallery)\n\nGitLab serves .html as raw source and its client-side mermaid render is\nblocked by the instance external_url=localhost. Fix: render via embedded\nPNGs in Markdown (no JS, served same-origin):\n- SRL-2018-FORENSIC-REPORT.md: 5 mermaid blocks -> diagrams/d{1..5}.png\n- WAZUH-IOC-GALLERY.md: all 13 Wazuh captures embedded\n- diagrams/: the 5 rendered diagram PNGs\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "d5694e2f290944954bead39093ab8f5c49a4a0f9",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/d5694e2f290944954bead39093ab8f5c49a4a0f9"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/8023785ebf38a1a74eed14a62a0831065b207d0a",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/8023785ebf38a1a74eed14a62a0831065b207d0a",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/8023785ebf38a1a74eed14a62a0831065b207d0a",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/8023785ebf38a1a74eed14a62a0831065b207d0a/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "32173fe8fa198fb9840a79a6430bbcf16c034d87",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/32173fe8fa198fb9840a79a6430bbcf16c034d87",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/32173fe8fa198fb9840a79a6430bbcf16c034d87"
+      }
+    ]
+  },
+  {
+    "sha": "32173fe8fa198fb9840a79a6430bbcf16c034d87",
+    "node_id": "C_kwDOS2mgjtoAKDMyMTczZmU4ZmExOThmYjk4NDBhNzlhNjQzMGJiY2YxNmMwMzRkODc",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:05:51Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T03:05:51Z"
+      },
+      "message": "docs(srl-2018): remove superseded demo/execution asset folders\n\nRemoves srl-2018-capture, srl-2018-dc-execution, srl-2018-execution\n(early CLI-capture + single-run execution demos). Reference-checked:\n0 inbound links, no mkdocs/nav entries. Superseded by the full analysis\n(srl-2018-training-session) and the published forensic report. History\nretains them if needed.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "eaf1a75cbbeb3aae17293aaa75177773188ce20d",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/eaf1a75cbbeb3aae17293aaa75177773188ce20d"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/32173fe8fa198fb9840a79a6430bbcf16c034d87",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/32173fe8fa198fb9840a79a6430bbcf16c034d87",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/32173fe8fa198fb9840a79a6430bbcf16c034d87",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/32173fe8fa198fb9840a79a6430bbcf16c034d87/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "60b76fff37088f5065f385533aae628544ca8ca1",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/60b76fff37088f5065f385533aae628544ca8ca1",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/60b76fff37088f5065f385533aae628544ca8ca1"
+      }
+    ]
+  },
+  {
+    "sha": "60b76fff37088f5065f385533aae628544ca8ca1",
+    "node_id": "C_kwDOS2mgjtoAKDYwYjc2ZmZmMzcwODhmNTA2NWYzODU1MzNhYWU2Mjg1NDRjYThjYTE",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T02:56:04Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T02:56:04Z"
+      },
+      "message": "CLAUDE.md: 11-ADR section, wide-diagram width-measure method + GitLab strict-mermaid <token> rule, GitLab render/verify facts, surgical-push practice + .claude/ gitignore\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "666b84c1f78edae9dc806fde1c3d7c7db971bf25",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/666b84c1f78edae9dc806fde1c3d7c7db971bf25"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/60b76fff37088f5065f385533aae628544ca8ca1",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/60b76fff37088f5065f385533aae628544ca8ca1",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/60b76fff37088f5065f385533aae628544ca8ca1",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/60b76fff37088f5065f385533aae628544ca8ca1/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "19195b638248d28af5633c4862e1ea2b6f7e8609",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/19195b638248d28af5633c4862e1ea2b6f7e8609",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/19195b638248d28af5633c4862e1ea2b6f7e8609"
+      }
+    ]
+  },
+  {
+    "sha": "19195b638248d28af5633c4862e1ea2b6f7e8609",
+    "node_id": "C_kwDOS2mgjtoAKDE5MTk1YjYzODI0OGQyOGFmNTYzM2M0ODYyZTFlYTJiNmY3ZTg2MDk",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T02:53:27Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-08T02:53:27Z"
+      },
+      "message": "docs(srl-2018): publish forensic report + Wazuh IOC gallery\n\n- SRL-2018-FORENSIC-REPORT.md (native mermaid: lifecycle, lateral/C2, timeline, IOC mindmap, findings)\n- SRL-2018-FORENSIC-REPORT.standalone.html (self-contained, diagrams embedded)\n- index.html: gallery of 13 Wazuh dashboard captures (findings Discover + manager CDB lists)\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "1df492a847608fb86c7e0e6a71be91282bd3a67e",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/1df492a847608fb86c7e0e6a71be91282bd3a67e"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/19195b638248d28af5633c4862e1ea2b6f7e8609",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/19195b638248d28af5633c4862e1ea2b6f7e8609",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/19195b638248d28af5633c4862e1ea2b6f7e8609",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/19195b638248d28af5633c4862e1ea2b6f7e8609/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "d48b7ff539beaccbb9f52fd9dcc2b6144169b558",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/d48b7ff539beaccbb9f52fd9dcc2b6144169b558",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/d48b7ff539beaccbb9f52fd9dcc2b6144169b558"
+      }
+    ]
+  },
+  {
+    "sha": "d48b7ff539beaccbb9f52fd9dcc2b6144169b558",
+    "node_id": "C_kwDOS2mgjtoAKGQ0OGI3ZmY1MzliZWFjY2JiOWY1MmZkOWRjYzJiNjE0NDE2OWI1NTg",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T18:03:29Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T18:03:29Z"
+      },
+      "message": "docs(use-cases): full DC E01 live execution report (252 findings, sealed) + regenerated video\n\nRuns the runbook's autonomous path against base-dc-cdrive.E01 (33 GiB) to\ncompletion (~100 min): 12->252 findings, 5/5 iters, critic_score 1.0, 317\ntool calls, 10 disk-path completion proofs, HMAC seal be21e123... verified\nclean + tamper-MISMATCH proven.\n\nSurfaces a real operational finding: Plaso log2timeline TIMED OUT at 5452s\n(91% of the run, 0 parsed events) -> raise AGENTROPIX_PLASO_TIMEOUT_CAP for\nDC-disk runs. 252 findings came from the filesystem/artifact/detector agents.\n\nDemonstrates MD/trace -> video: dc-execution.mp4 is regenerated from the\nsealed dc-cdrive.report.json via regen-execution-video.py (not screen-grabbed).\nCritic-reviewed; fixed the agent breakdown + Plaso-timeout framing it caught.\nSession key (0600), .claude sentinel, and Reports_results are gitignored.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "1e8600dc74eb1dda973f143ea4c3180472e69c9c",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/1e8600dc74eb1dda973f143ea4c3180472e69c9c"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/d48b7ff539beaccbb9f52fd9dcc2b6144169b558",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/d48b7ff539beaccbb9f52fd9dcc2b6144169b558",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/d48b7ff539beaccbb9f52fd9dcc2b6144169b558",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/d48b7ff539beaccbb9f52fd9dcc2b6144169b558/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "e535b514df4fae8dc953b198fdb68f686281e959",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/e535b514df4fae8dc953b198fdb68f686281e959",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/e535b514df4fae8dc953b198fdb68f686281e959"
+      }
+    ]
+  },
+  {
+    "sha": "e535b514df4fae8dc953b198fdb68f686281e959",
+    "node_id": "C_kwDOS2mgjtoAKGU1MzViNTE0ZGY0ZmFlOGRjOTUzYjE5OGZkYjY4ZjY4NjI4MWU5NTk",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T17:34:47Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T17:34:47Z"
+      },
+      "message": "docs: redesign README — deeper multi-audience detail, architecture diagrams, SWOT\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "1e3ae960d1d8e5e0e52d438ba7695345684c0a3e",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/1e3ae960d1d8e5e0e52d438ba7695345684c0a3e"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/e535b514df4fae8dc953b198fdb68f686281e959",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/e535b514df4fae8dc953b198fdb68f686281e959",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/e535b514df4fae8dc953b198fdb68f686281e959",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/e535b514df4fae8dc953b198fdb68f686281e959/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "86bc4814ac359a574fdf7262d73efeb788af8aaf",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/86bc4814ac359a574fdf7262d73efeb788af8aaf",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/86bc4814ac359a574fdf7262d73efeb788af8aaf"
+      }
+    ]
+  },
+  {
+    "sha": "86bc4814ac359a574fdf7262d73efeb788af8aaf",
+    "node_id": "C_kwDOS2mgjtoAKDg2YmM0ODE0YWMzNTlhNTc0ZmRmNzI2MmQ3M2VmZWI3ODhhZjhhYWY",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T17:13:08Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T17:13:08Z"
+      },
+      "message": "docs: remove 'Valhuntir' template references (README attribution, provenance parenthetical, deployment runbook row)\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "36eb2b8052d76eacccfe863007ec02c201c7202f",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/36eb2b8052d76eacccfe863007ec02c201c7202f"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/86bc4814ac359a574fdf7262d73efeb788af8aaf",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/86bc4814ac359a574fdf7262d73efeb788af8aaf",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/86bc4814ac359a574fdf7262d73efeb788af8aaf",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/86bc4814ac359a574fdf7262d73efeb788af8aaf/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "7ff1d1a6c21841832b734b7da19d7cf2d3729c03",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/7ff1d1a6c21841832b734b7da19d7cf2d3729c03",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/7ff1d1a6c21841832b734b7da19d7cf2d3729c03"
+      }
+    ]
+  },
+  {
+    "sha": "7ff1d1a6c21841832b734b7da19d7cf2d3729c03",
+    "node_id": "C_kwDOS2mgjtoAKDdmZjFkMWE2YzIxODQxODMyYjczNGI3ZGExOWQ3Y2YyZDM3MjljMDM",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T17:07:58Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T17:07:58Z"
+      },
+      "message": "docs: Open-as-SVG zoom links + committed SVGs for 18 wide diagrams across 7 sections\n\nWidth-swept all 57 diagrams (excl 06-use-cases, done): 26 render >900px on GitLab's column; 8 already had SVG links, added 18 (sequence diagrams up to 3005px in schema-er). Inline mermaid kept; SVG link gives lossless zoom.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "4d1ed65be3c5f9425317c417f305c5cf2af4751e",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/4d1ed65be3c5f9425317c417f305c5cf2af4751e"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/7ff1d1a6c21841832b734b7da19d7cf2d3729c03",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/7ff1d1a6c21841832b734b7da19d7cf2d3729c03",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/7ff1d1a6c21841832b734b7da19d7cf2d3729c03",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/7ff1d1a6c21841832b734b7da19d7cf2d3729c03/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "a2de082e1257e5125094344d451ea684e56e808d",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/a2de082e1257e5125094344d451ea684e56e808d",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/a2de082e1257e5125094344d451ea684e56e808d"
+      }
+    ]
+  },
+  {
+    "sha": "a2de082e1257e5125094344d451ea684e56e808d",
+    "node_id": "C_kwDOS2mgjtoAKGEyZGUwODJlMTI1N2U1MTI1MDk0MzQ0ZDQ1MWVhNjg0ZTU2ZTgwOGQ",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T16:44:42Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T16:44:42Z"
+      },
+      "message": "docs(use-cases): add Open-as-SVG zoom links + committed SVGs for 8 wide diagrams (squished on GitLab column)\n\nExhaustive sweep: 10/11 use-case diagrams render >900px (sequence diagrams up to 2536px); the 2 worst already had SVG links. Added full-size SVGs under assets/ + 'Open as SVG' links so wide diagrams are readable.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "817bb66e0a1884dd278b9e16f45bdd9e635a226a",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/817bb66e0a1884dd278b9e16f45bdd9e635a226a"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/a2de082e1257e5125094344d451ea684e56e808d",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/a2de082e1257e5125094344d451ea684e56e808d",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/a2de082e1257e5125094344d451ea684e56e808d",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/a2de082e1257e5125094344d451ea684e56e808d/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "89a2d8243c7e96355ac2fb89d7d573755345e8ed",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/89a2d8243c7e96355ac2fb89d7d573755345e8ed",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/89a2d8243c7e96355ac2fb89d7d573755345e8ed"
+      }
+    ]
+  },
+  {
+    "sha": "89a2d8243c7e96355ac2fb89d7d573755345e8ed",
+    "node_id": "C_kwDOS2mgjtoAKDg5YTJkODI0M2M3ZTk2MzU1YWMyZmI4OWQ3ZDU3Mzc1NTM0NWU4ZWQ",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T16:06:42Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T16:06:42Z"
+      },
+      "message": "docs(use-cases): SRL-2018 live execution report (MP4 + sealed autonomous run)\n\nExecutes the runbook against /cases/SRL-2018/ and captures both surfaces:\n- Shell layer recorded live -> srl-2018-execution.mp4 (660KB) + gif + cast + transcript\n- MCP/SWARM layer via a real 'agentropix-sift run' on base-hunt-memory.img:\n  12 findings, 5/5 iters, critic_score 1.0, 9 completion proofs, HMAC seal\n  341c0388..., verified clean + tamper-MISMATCH proven live.\n- Technical MD with coverage matrix + 4 Mermaid diagrams (two-surface flow,\n  run sequence, coverage pie, C2 cascade). Critic-reviewed (no blockers).\n\nAlso removes a stray runtime sentinel (.claude/active-triage.json) that a\nconcurrent commit swept in; session key (0600) is gitignored, never tracked.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "01b77207e1b2ee0ca5b7e5930a351e4a2bcd8f55",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/01b77207e1b2ee0ca5b7e5930a351e4a2bcd8f55"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/89a2d8243c7e96355ac2fb89d7d573755345e8ed",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/89a2d8243c7e96355ac2fb89d7d573755345e8ed",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/89a2d8243c7e96355ac2fb89d7d573755345e8ed",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/89a2d8243c7e96355ac2fb89d7d573755345e8ed/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "4229cf1f8cb19ae27bfe75d22d20d8427cd33fab",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/4229cf1f8cb19ae27bfe75d22d20d8427cd33fab",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/4229cf1f8cb19ae27bfe75d22d20d8427cd33fab"
+      }
+    ]
+  },
+  {
+    "sha": "4229cf1f8cb19ae27bfe75d22d20d8427cd33fab",
+    "node_id": "C_kwDOS2mgjtoAKDQyMjljZjFmOGNiMTlhZTI3YmZlNzVkMjJkMjBkODQyN2NkMzNmYWI",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T15:55:16Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T15:55:16Z"
+      },
+      "message": "docs: import ADRs (11-ADR) + move issues into docs + use-case source proofs + mcp Related + ADR cross-refs + render fixes\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "82c3381f48ba14bc958b5b0b5afe6f955534454e",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/82c3381f48ba14bc958b5b0b5afe6f955534454e"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/4229cf1f8cb19ae27bfe75d22d20d8427cd33fab",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/4229cf1f8cb19ae27bfe75d22d20d8427cd33fab",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/4229cf1f8cb19ae27bfe75d22d20d8427cd33fab",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/4229cf1f8cb19ae27bfe75d22d20d8427cd33fab/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "213d223bbb153b65e2ee127b695988000889c3e8",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/213d223bbb153b65e2ee127b695988000889c3e8",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/213d223bbb153b65e2ee127b695988000889c3e8"
+      }
+    ]
+  },
+  {
+    "sha": "213d223bbb153b65e2ee127b695988000889c3e8",
+    "node_id": "C_kwDOS2mgjtoAKDIxM2QyMjNiYmIxNTNiNjVlMmVlMTI3YjY5NTk4ODAwMDg4OWMzZTg",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T15:38:04Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T15:38:04Z"
+      },
+      "message": "docs(use-cases): add MP4 of SRL-2018 CLI capture (on request)\n\nAdds srl-2018-cli.mp4 (746KB, H.264 yuv420p, hi-res for legible text)\ntranscoded from the same recording as the cast/gif. Manifest updated\nwith the MP4 row, the 'full execution' scope caveat (MCP calls and the\nlong autonomous run are not filmable as one terminal video), and the\nregenerate command.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "7b631130eab32ce1f5753bb062df71da3ff59dec",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/7b631130eab32ce1f5753bb062df71da3ff59dec"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/213d223bbb153b65e2ee127b695988000889c3e8",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/213d223bbb153b65e2ee127b695988000889c3e8",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/213d223bbb153b65e2ee127b695988000889c3e8",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/213d223bbb153b65e2ee127b695988000889c3e8/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "6d03b9c0ddd5e9b20e1717b01f8367a1f7d33489",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/6d03b9c0ddd5e9b20e1717b01f8367a1f7d33489",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/6d03b9c0ddd5e9b20e1717b01f8367a1f7d33489"
+      }
+    ]
+  },
+  {
+    "sha": "6d03b9c0ddd5e9b20e1717b01f8367a1f7d33489",
+    "node_id": "C_kwDOS2mgjtoAKDZkMDNiOWMwZGRkNWU5YjIwZTE3MTdiMDFmODM2N2ExZjdkMzM0ODk",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T15:25:23Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T15:25:23Z"
+      },
+      "message": "docs(use-cases): add live CLI capture for SRL-2018 runbook (hybrid)\n\nRecords the runnable shell subset of the SRL-2018 runbook live against\n/cases/SRL-2018/ with asciinema (4.4KB cast) + agg GIF (248KB inline\npreview) + plain transcript. Includes a format evaluation with measured\nsizes answering the asciinema-vs-GIF-vs-MP4 question: the text-legible\nMP4 (yuv444p, 608KB) is the largest artifact, so the hybrid text/GIF\napproach wins on space + readability. MP4s measured then discarded.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "70a3f36f7092042d557e1b1a4d07172ff6fbfe75",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/70a3f36f7092042d557e1b1a4d07172ff6fbfe75"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/6d03b9c0ddd5e9b20e1717b01f8367a1f7d33489",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/6d03b9c0ddd5e9b20e1717b01f8367a1f7d33489",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/6d03b9c0ddd5e9b20e1717b01f8367a1f7d33489",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/6d03b9c0ddd5e9b20e1717b01f8367a1f7d33489/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "a83573aa70c363e21f7c1453108f3c77c299991a",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/a83573aa70c363e21f7c1453108f3c77c299991a",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/a83573aa70c363e21f7c1453108f3c77c299991a"
+      }
+    ]
+  },
+  {
+    "sha": "a83573aa70c363e21f7c1453108f3c77c299991a",
+    "node_id": "C_kwDOS2mgjtoAKGE4MzU3M2FhNzBjMzYzZTIxZjdjMTQ1MzEwOGYzYzc3YzI5OTk5MWE",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T15:14:46Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T15:14:46Z"
+      },
+      "message": "docs(use-cases): correct SRL-2018 .md5 claim (22 .img / 21 .md5)\n\nbase-wkstn-01-mem.img (the wkstn-01 duplicate capture) has no .md5\nsibling, so '22 images each with a sibling .md5' was inaccurate.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "c906869d22bb49bf218b6f0f862686558a6728c3",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/c906869d22bb49bf218b6f0f862686558a6728c3"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/a83573aa70c363e21f7c1453108f3c77c299991a",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/a83573aa70c363e21f7c1453108f3c77c299991a",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/a83573aa70c363e21f7c1453108f3c77c299991a",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/a83573aa70c363e21f7c1453108f3c77c299991a/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "7ca8c9affc8c225ccc69fd822981fab894ae9c42",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/7ca8c9affc8c225ccc69fd822981fab894ae9c42",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/7ca8c9affc8c225ccc69fd822981fab894ae9c42"
+      }
+    ]
+  },
+  {
+    "sha": "7ca8c9affc8c225ccc69fd822981fab894ae9c42",
+    "node_id": "C_kwDOS2mgjtoAKDdjYThjOWFmZmM4YzIyNWNjYzY5ZmQ4MjI5ODFmYWI4OTRhZTljNDI",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T15:13:09Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T15:13:09Z"
+      },
+      "message": "docs(use-cases): add SRL-2018 case runbook from cheatsheet template\n\nApplies command-cheatsheet.md to the real /cases/SRL-2018/ evidence set\nwith live-verified values: 7 E01 volume images (NTFS at offset 0, not 63),\n22 memory .img, real base-dc MD5/SHA1 + acquisition metadata, and the\nCase-2 C2-cascade hypothesis (42.112.153.164, svcsvc32, stark-research-labs.co).\n\nFlags real command drift caught during authoring: evidence-gate mint is\nabsent from the installed CLI (v0.1.0.dev0 = run+doctor only); verify_seal.py\nis off-PATH; E01s have no .md5 siblings. Reviewed by a critic agent; minor\nnaming-quirk and ordering nits fixed. Wired into the section README.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "9443ad551c29204ee57cde6f538c126ea17395fe",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/9443ad551c29204ee57cde6f538c126ea17395fe"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/7ca8c9affc8c225ccc69fd822981fab894ae9c42",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/7ca8c9affc8c225ccc69fd822981fab894ae9c42",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/7ca8c9affc8c225ccc69fd822981fab894ae9c42",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/7ca8c9affc8c225ccc69fd822981fab894ae9c42/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "3077d9d86f28d99e98c1258bef9e725d01244bfd",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/3077d9d86f28d99e98c1258bef9e725d01244bfd",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/3077d9d86f28d99e98c1258bef9e725d01244bfd"
+      }
+    ]
+  },
+  {
+    "sha": "3077d9d86f28d99e98c1258bef9e725d01244bfd",
+    "node_id": "C_kwDOS2mgjtoAKDMwNzdkOWQ4NmYyOGQ5OWU5OGMxMjU4YmVmOWU3MjVkMDEyNDRiZmQ",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T15:02:47Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T15:02:47Z"
+      },
+      "message": "docs(use-cases): reconcile cheatsheet tool names against tool-list.md\n\nVerified all tool names present in the 71-tool catalogue and aligned\nthe [MUT]/[APPR]/[SIFT-16] markers with the catalogue auth model. Added\na schema-reconciliation note (arg names are doc-derived, deferred to\nlive tools/list) and flagged build_executable_registry as a non-[MUT]\nwriter to prevent a spurious mutation_token.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "df360bc18f49a7e65cf7c8e9f1d61509bb2220cb",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/df360bc18f49a7e65cf7c8e9f1d61509bb2220cb"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/3077d9d86f28d99e98c1258bef9e725d01244bfd",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/3077d9d86f28d99e98c1258bef9e725d01244bfd",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/3077d9d86f28d99e98c1258bef9e725d01244bfd",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/3077d9d86f28d99e98c1258bef9e725d01244bfd/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "7998bf94cd89e76b09728bf58e3a34a6b35768d6",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/7998bf94cd89e76b09728bf58e3a34a6b35768d6",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/7998bf94cd89e76b09728bf58e3a34a6b35768d6"
+      }
+    ]
+  },
+  {
+    "sha": "7998bf94cd89e76b09728bf58e3a34a6b35768d6",
+    "node_id": "C_kwDOS2mgjtoAKDc5OThiZjk0Y2Q4OWU3NmIwOTcyOGJmNThlM2EzNGE2YjM1NzY4ZDY",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T14:53:38Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T14:53:38Z"
+      },
+      "message": "docs(use-cases): add one-page command cheatsheet\n\nConsolidates every command exercised across the six use-case pages\n(disk/memory triage, approval gate, Wazuh push, judge demo, per-case\ntool selection) into one execution-ordered reference, splitting CLI\nsubcommands from MCP tool calls. Wired into the section README.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "c5b3d00b9b8424a8edf726811099beb585ffe30c",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/c5b3d00b9b8424a8edf726811099beb585ffe30c"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/7998bf94cd89e76b09728bf58e3a34a6b35768d6",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/7998bf94cd89e76b09728bf58e3a34a6b35768d6",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/7998bf94cd89e76b09728bf58e3a34a6b35768d6",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/7998bf94cd89e76b09728bf58e3a34a6b35768d6/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "46da909789d28293f7f92af2202743ec84dcb647",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/46da909789d28293f7f92af2202743ec84dcb647",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/46da909789d28293f7f92af2202743ec84dcb647"
+      }
+    ]
+  },
+  {
+    "sha": "46da909789d28293f7f92af2202743ec84dcb647",
+    "node_id": "C_kwDOS2mgjtoAKDQ2ZGE5MDk3ODlkMjgyOTNmN2Y5MmFmMjIwMjc0M2VjODRkY2I2NDc",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T13:44:12Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T13:44:12Z"
+      },
+      "message": "docs: reorg + consolidate (.crew->docs, new 10-agents, reading order, refs rebuilt, README enriched)\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "9b010dc2fb5871b9d0af8bed26fff7f20d9307c8",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/9b010dc2fb5871b9d0af8bed26fff7f20d9307c8"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/46da909789d28293f7f92af2202743ec84dcb647",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/46da909789d28293f7f92af2202743ec84dcb647",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/46da909789d28293f7f92af2202743ec84dcb647",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/46da909789d28293f7f92af2202743ec84dcb647/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "125cee651d9c23904498908451b89f34b8dbd0f3",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/125cee651d9c23904498908451b89f34b8dbd0f3",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/125cee651d9c23904498908451b89f34b8dbd0f3"
+      }
+    ]
+  },
+  {
+    "sha": "125cee651d9c23904498908451b89f34b8dbd0f3",
+    "node_id": "C_kwDOS2mgjtoAKDEyNWNlZTY1MWQ5YzIzOTA0NDk4OTA4NDUxYjg5ZjM0YjhkYmQwZjM",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T13:02:04Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T13:02:04Z"
+      },
+      "message": "docs(architecture): add EZ Tools / ZimmermanTools integration reference\n\nSource-cited (file:line) overview of how Agentropix-SIFT wraps Eric\nZimmerman's EZ Tools as governed MCP tools, incl. the hybrid Linux\nsubstitutes for Amcache/ShimCache/SRUM.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "3cff6f4a774d1211ba363d0345730967b613b96d",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/3cff6f4a774d1211ba363d0345730967b613b96d"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/125cee651d9c23904498908451b89f34b8dbd0f3",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/125cee651d9c23904498908451b89f34b8dbd0f3",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/125cee651d9c23904498908451b89f34b8dbd0f3",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/125cee651d9c23904498908451b89f34b8dbd0f3/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "674eb749edf21a2b1358f74207c3f47f64abddc4",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/674eb749edf21a2b1358f74207c3f47f64abddc4",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/674eb749edf21a2b1358f74207c3f47f64abddc4"
+      }
+    ]
+  },
+  {
+    "sha": "674eb749edf21a2b1358f74207c3f47f64abddc4",
+    "node_id": "C_kwDOS2mgjtoAKDY3NGViNzQ5ZWRmMjFhMmIxMzU4Zjc0MjA3YzNmNDdmNjRhYmRkYzQ",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T13:01:32Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T13:01:32Z"
+      },
+      "message": "reports: GitLab-native Markdown reports + clean light PDF (replace dark HTML/PDF)\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "2709ab8d80708463f3f09feb3e26979c5548e39f",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/2709ab8d80708463f3f09feb3e26979c5548e39f"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/674eb749edf21a2b1358f74207c3f47f64abddc4",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/674eb749edf21a2b1358f74207c3f47f64abddc4",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/674eb749edf21a2b1358f74207c3f47f64abddc4",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/674eb749edf21a2b1358f74207c3f47f64abddc4/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "e8b263a8cbb79e456abf7de37ef19868aa66efe7",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/e8b263a8cbb79e456abf7de37ef19868aa66efe7",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/e8b263a8cbb79e456abf7de37ef19868aa66efe7"
+      }
+    ]
+  },
+  {
+    "sha": "e8b263a8cbb79e456abf7de37ef19868aa66efe7",
+    "node_id": "C_kwDOS2mgjtoAKGU4YjI2M2E4Y2JiNzllNDU2YWJmN2RlMzdlZjE5ODY4YWE2NmVmZTc",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T12:17:41Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T12:17:41Z"
+      },
+      "message": "reports: prune redundant tier reports (comprehensive supersedes them) + switch comprehensive HTML to a shared mermaid.min.js\n\nEach case run keeps comprehensive.{html,pdf} + executive-onepager.{html,pdf}. Removed analyst/\nexecutive/business tiers (36 files). Comprehensive HTML now references ../../_assets/mermaid.min.js\n(one shared 3.2MB lib) instead of inlining it -> 3.3MB -> ~50-76KB each. INDEX tables updated.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "34d168f56b55c980b23337d7d8ff0023d84a41d9",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/34d168f56b55c980b23337d7d8ff0023d84a41d9"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/e8b263a8cbb79e456abf7de37ef19868aa66efe7",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/e8b263a8cbb79e456abf7de37ef19868aa66efe7",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/e8b263a8cbb79e456abf7de37ef19868aa66efe7",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/e8b263a8cbb79e456abf7de37ef19868aa66efe7/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "b842a3936a99f38ea6de668216d8f1a1b96b3334",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/b842a3936a99f38ea6de668216d8f1a1b96b3334",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/b842a3936a99f38ea6de668216d8f1a1b96b3334"
+      }
+    ]
+  },
+  {
+    "sha": "b842a3936a99f38ea6de668216d8f1a1b96b3334",
+    "node_id": "C_kwDOS2mgjtoAKGI4NDJhMzkzNmE5OWYzOGVhNmRlNjY4MjE2ZDhmMWExYjk2YjMzMzQ",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T12:07:02Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T12:07:02Z"
+      },
+      "message": "reports: add comprehensive super-report + exec one-pager (html+pdf) per case run\n\nOutstanding multi-audience report (exec dashboard + risk matrix + IOC catalogue + host/network\nartefacts + MITRE attack chain + process tree + timeline + coverage attestation) fused from the\ncomplete_reports gold standards, plus a 1-page exec summary. Grounded in real case data, diagrams\nrendered (Playwright), table-overflow + contrast corrected. complete_reports/ (refs+templates+gen)\nkept local. INDEX updated.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "ea8a1c427312b560c57bbfe5c860d0e0eaeab098",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/ea8a1c427312b560c57bbfe5c860d0e0eaeab098"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/b842a3936a99f38ea6de668216d8f1a1b96b3334",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/b842a3936a99f38ea6de668216d8f1a1b96b3334",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/b842a3936a99f38ea6de668216d8f1a1b96b3334",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/b842a3936a99f38ea6de668216d8f1a1b96b3334/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "163d4d037481a9357e0ab9cc603f36cfb31fb32d",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/163d4d037481a9357e0ab9cc603f36cfb31fb32d",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/163d4d037481a9357e0ab9cc603f36cfb31fb32d"
+      }
+    ]
+  },
+  {
+    "sha": "163d4d037481a9357e0ab9cc603f36cfb31fb32d",
+    "node_id": "C_kwDOS2mgjtoAKDE2M2Q0ZDAzNzQ4MWE5MzU3ZTBhYjljYzYwM2YzNmNmYjMxZmIzMmQ",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T03:05:56Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T03:05:56Z"
+      },
+      "message": "reports: move multi-tier reports under case-activation/runs/<case>/reports/; remove the design/process folder from the repo (keep local)\n\nKeep the report artifacts (analyst/exec/business x md/html/pdf) attached to each case run; the\n2026-06-01-report-engine-design/ design+process folder (ADR, plan, mockups, root-cause, contrast)\nis re-gitignored and dropped from GitLab — 'keep the report, not how it was made'. INDEX + case\nINDEX repointed; CLAUDE.md updated.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "699298ad2d66639d2c2bf688bdaf56aa08c09b03",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/699298ad2d66639d2c2bf688bdaf56aa08c09b03"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/163d4d037481a9357e0ab9cc603f36cfb31fb32d",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/163d4d037481a9357e0ab9cc603f36cfb31fb32d",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/163d4d037481a9357e0ab9cc603f36cfb31fb32d",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/163d4d037481a9357e0ab9cc603f36cfb31fb32d/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "bcafc50663c2df015c77a460c0791ee1d57ef101",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/bcafc50663c2df015c77a460c0791ee1d57ef101",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/bcafc50663c2df015c77a460c0791ee1d57ef101"
+      }
+    ]
+  },
+  {
+    "sha": "bcafc50663c2df015c77a460c0791ee1d57ef101",
+    "node_id": "C_kwDOS2mgjtoAKGJjYWZjNTA2NjNjMmRmMDE1Yzc3YTQ2MGMwNzkxZWUxZDU3ZWYxMDE",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T02:56:18Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T02:56:18Z"
+      },
+      "message": "report-engine: fix report formatting — broken mermaid timeline -> GitLab-safe flowchart (classDef colors), pro self-contained HTML (bundled mermaid.js), Playwright-rendered PDFs (diagrams as SVG), tidied risk-register columns\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "822de2bbce6ee765475e5296b5f1d8f27fe76923",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/822de2bbce6ee765475e5296b5f1d8f27fe76923"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/bcafc50663c2df015c77a460c0791ee1d57ef101",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/bcafc50663c2df015c77a460c0791ee1d57ef101",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/bcafc50663c2df015c77a460c0791ee1d57ef101",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/bcafc50663c2df015c77a460c0791ee1d57ef101/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "3bf8725718eaf38619309a91bc9b2d7cda5d2937",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/3bf8725718eaf38619309a91bc9b2d7cda5d2937",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/3bf8725718eaf38619309a91bc9b2d7cda5d2937"
+      }
+    ]
+  },
+  {
+    "sha": "3bf8725718eaf38619309a91bc9b2d7cda5d2937",
+    "node_id": "C_kwDOS2mgjtoAKDNiZjg3MjU3MThlYWYzODYxOTMwOWE5MWJjOWIyZDdjZGE1ZDI5Mzc",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T01:55:54Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T01:55:54Z"
+      },
+      "message": "INDEX: link the multi-tier report engine example reports; CLAUDE.md: note the un-ignored 2026-06-01 folder exception\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "1ed91af02aa514153debac79005db7c628cbc9f7",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/1ed91af02aa514153debac79005db7c628cbc9f7"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/3bf8725718eaf38619309a91bc9b2d7cda5d2937",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/3bf8725718eaf38619309a91bc9b2d7cda5d2937",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/3bf8725718eaf38619309a91bc9b2d7cda5d2937",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/3bf8725718eaf38619309a91bc9b2d7cda5d2937/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "196e214365e1be909a869f6c696b09515ded5ac3",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/196e214365e1be909a869f6c696b09515ded5ac3",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/196e214365e1be909a869f6c696b09515ded5ac3"
+      }
+    ]
+  },
+  {
+    "sha": "196e214365e1be909a869f6c696b09515ded5ac3",
+    "node_id": "C_kwDOS2mgjtoAKDE5NmUyMTQzNjVlMWJlOTA5YTg2OWY2YzY5NmIwOTUxNWRlZDVhYzM",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T01:47:58Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-07T01:47:58Z"
+      },
+      "message": "Publish multi-tier report engine: grounded reports (4 cases x 3 tiers x md/html/pdf) + design docs\n\nUn-ignore 2026-06-01-report-engine-design/. Generated reports are grounded in real case\ndata (findings/IOCs/timeline w/ evidence_refs), AMF accuracy critic-corrected, PDFs clean\n(mermaid stripped). Includes ADR-024 (Accepted), plan, readiness, root-cause, native-vs-multitier\ncontrast, improved mockups. CTF/training case data + <TAILNET-HOST> placeholders; no secrets.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "c8c5494f0dd036583642bf6bf0ab4dfab075de35",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/c8c5494f0dd036583642bf6bf0ab4dfab075de35"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/196e214365e1be909a869f6c696b09515ded5ac3",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/196e214365e1be909a869f6c696b09515ded5ac3",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/196e214365e1be909a869f6c696b09515ded5ac3",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/196e214365e1be909a869f6c696b09515ded5ac3/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "9b84fe618640601259589675489e6d9640209ffa",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/9b84fe618640601259589675489e6d9640209ffa",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/9b84fe618640601259589675489e6d9640209ffa"
+      }
+    ]
+  },
+  {
+    "sha": "9b84fe618640601259589675489e6d9640209ffa",
+    "node_id": "C_kwDOS2mgjtoAKDliODRmZTYxODY0MDYwMTI1OTU4OTY3NTQ4OWU2ZDk2NDAyMDlmZmE",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T23:53:44Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T23:53:44Z"
+      },
+      "message": "CLAUDE.md: add MCP-call accuracy rules, case-activation/recorded-runs conventions, demo-credential exception + pre-public scrub note\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "1476e67680caad31681a877b5f9e572300a66eea",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/1476e67680caad31681a877b5f9e572300a66eea"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/9b84fe618640601259589675489e6d9640209ffa",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/9b84fe618640601259589675489e6d9640209ffa",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/9b84fe618640601259589675489e6d9640209ffa",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/9b84fe618640601259589675489e6d9640209ffa/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "7cb40b9b4892d8c0a3805286ee01f14b15116747",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/7cb40b9b4892d8c0a3805286ee01f14b15116747",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/7cb40b9b4892d8c0a3805286ee01f14b15116747"
+      }
+    ]
+  },
+  {
+    "sha": "7cb40b9b4892d8c0a3805286ee01f14b15116747",
+    "node_id": "C_kwDOS2mgjtoAKDdjYjQwYjliNDg5MmQ4YzBhMzgwNTI4NmVlMDFmMTRiMTUxMTY3NDc",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T23:41:20Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T23:41:20Z"
+      },
+      "message": "case-activation: fix 3 approval-loop videos (concurrent render collision -> re-rendered sequentially, full-length 1080p)\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "c04264c714908f9b72da7f09ce6f9a9ae07be537",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/c04264c714908f9b72da7f09ce6f9a9ae07be537"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/7cb40b9b4892d8c0a3805286ee01f14b15116747",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/7cb40b9b4892d8c0a3805286ee01f14b15116747",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/7cb40b9b4892d8c0a3805286ee01f14b15116747",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/7cb40b9b4892d8c0a3805286ee01f14b15116747/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "5d30a1e1133e40c3138351bc62ca4469f13218af",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/5d30a1e1133e40c3138351bc62ca4469f13218af",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/5d30a1e1133e40c3138351bc62ca4469f13218af"
+      }
+    ]
+  },
+  {
+    "sha": "5d30a1e1133e40c3138351bc62ca4469f13218af",
+    "node_id": "C_kwDOS2mgjtoAKDVkMzBhMWUxMTMzZTQwYzMxMzgzNTFiYzYyY2E0NDY5ZjEzMjE4YWY",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T23:26:26Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T23:26:26Z"
+      },
+      "message": "case-activation: complete approval->sealed-report loop (SIMULATED demo approvals via Playwright) + demo approval creds in approval-portal.md\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "cc4b2315393d2e86a3e7aab15b23ac1c4c19f800",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/cc4b2315393d2e86a3e7aab15b23ac1c4c19f800"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/5d30a1e1133e40c3138351bc62ca4469f13218af",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/5d30a1e1133e40c3138351bc62ca4469f13218af",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/5d30a1e1133e40c3138351bc62ca4469f13218af",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/5d30a1e1133e40c3138351bc62ca4469f13218af/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "6ae4f8a7ea1fda6cfb78e140092d4bdd42035e76",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/6ae4f8a7ea1fda6cfb78e140092d4bdd42035e76",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/6ae4f8a7ea1fda6cfb78e140092d4bdd42035e76"
+      }
+    ]
+  },
+  {
+    "sha": "6ae4f8a7ea1fda6cfb78e140092d4bdd42035e76",
+    "node_id": "C_kwDOS2mgjtoAKDZhZTRmOGE3ZWExZmRhNmNmYjc4ZTE0MDA5MmQ0YmRkNDIwMzVlNzY",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T22:36:22Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T22:36:22Z"
+      },
+      "message": "case-activation: executed CHALLENGE-NOTCHITUP MANUAL run + educational MP4 (real MCP run)\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "fa98394c7208315dff52a59623ddbf655305e9c5",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/fa98394c7208315dff52a59623ddbf655305e9c5"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/6ae4f8a7ea1fda6cfb78e140092d4bdd42035e76",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/6ae4f8a7ea1fda6cfb78e140092d4bdd42035e76",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/6ae4f8a7ea1fda6cfb78e140092d4bdd42035e76",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/6ae4f8a7ea1fda6cfb78e140092d4bdd42035e76/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "60ec7c2beaea6485ed63c2187a82eb76a944ebfc",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/60ec7c2beaea6485ed63c2187a82eb76a944ebfc",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/60ec7c2beaea6485ed63c2187a82eb76a944ebfc"
+      }
+    ]
+  },
+  {
+    "sha": "60ec7c2beaea6485ed63c2187a82eb76a944ebfc",
+    "node_id": "C_kwDOS2mgjtoAKDYwZWM3YzJiZWFlYTY0ODVlZDYzYzIxODdhODJlYjc2YTk0NGViZmM",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T22:25:31Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T22:25:31Z"
+      },
+      "message": "case-activation: audit sweep — fix MCP-call accuracy across 11 guides\n\nValidated every documented MCP/Volatility call against the live 71-tool MCP + vol3 allowlist.\n37 issues fixed: get_image_info-as-OS-id on raw memory (EWF-only), windows.info/banners OS steps,\nbare windows.X plugin forms, non-tools get_hashdump/get_srum/mmls -> srum_extract/get_partitions,\nwindows.registry.* wildcards. OS/kernel is auto-detected by the first windows.* plugin (get_pslist).\nAdds issues/CASE-GUIDE-AUDIT.md. 2 guides clean (dfrws, jimmy-wilson).\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "547ef7269c6ceb6c6ae10ea1b569d1622ee664a9",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/547ef7269c6ceb6c6ae10ea1b569d1622ee664a9"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/60ec7c2beaea6485ed63c2187a82eb76a944ebfc",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/60ec7c2beaea6485ed63c2187a82eb76a944ebfc",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/60ec7c2beaea6485ed63c2187a82eb76a944ebfc",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/60ec7c2beaea6485ed63c2187a82eb76a944ebfc/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "88b5fbf52bbfe5f9f517e09962f383a8a0a9e9f8",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/88b5fbf52bbfe5f9f517e09962f383a8a0a9e9f8",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/88b5fbf52bbfe5f9f517e09962f383a8a0a9e9f8"
+      }
+    ]
+  },
+  {
+    "sha": "88b5fbf52bbfe5f9f517e09962f383a8a0a9e9f8",
+    "node_id": "C_kwDOS2mgjtoAKDg4YjVmYmY1MmJiZmU1ZjlmNTE3ZTA5OTYyZjM4M2E4YTBhOWU5Zjg",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T22:13:59Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T22:13:59Z"
+      },
+      "message": "case-activation: executed CTF-CONTACT-ME-MEM §3A manual run + educational MP4 (real MCP run)\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "cf4126b25c61815a8a2d378e1e64fef553e700d2",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/cf4126b25c61815a8a2d378e1e64fef553e700d2"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/88b5fbf52bbfe5f9f517e09962f383a8a0a9e9f8",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/88b5fbf52bbfe5f9f517e09962f383a8a0a9e9f8",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/88b5fbf52bbfe5f9f517e09962f383a8a0a9e9f8",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/88b5fbf52bbfe5f9f517e09962f383a8a0a9e9f8/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "94f4242bc90069b310150d75b2a2cd8bbe094df7",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/94f4242bc90069b310150d75b2a2cd8bbe094df7",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/94f4242bc90069b310150d75b2a2cd8bbe094df7"
+      }
+    ]
+  },
+  {
+    "sha": "94f4242bc90069b310150d75b2a2cd8bbe094df7",
+    "node_id": "C_kwDOS2mgjtoAKDk0ZjQyNDJiYzkwMDY5YjMxMDE1MGQ3NWIyYTJjZDhiYmUwOTRkZjc",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T22:09:07Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T22:09:07Z"
+      },
+      "message": "case-activation/challenge: fix get_image_info-as-OS-id (EWF-only, empty on raw mem) + windows.cmdline plugin form; OS auto-detected by first windows.* plugin; renumber MANUAL to 8 steps\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "53f7843bdc378c806af62c2db185d061da4ff4c8",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/53f7843bdc378c806af62c2db185d061da4ff4c8"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/94f4242bc90069b310150d75b2a2cd8bbe094df7",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/94f4242bc90069b310150d75b2a2cd8bbe094df7",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/94f4242bc90069b310150d75b2a2cd8bbe094df7",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/94f4242bc90069b310150d75b2a2cd8bbe094df7/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "3757e34aa8725c4b322ff01f854d986f3a0bca20",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/3757e34aa8725c4b322ff01f854d986f3a0bca20",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/3757e34aa8725c4b322ff01f854d986f3a0bca20"
+      }
+    ]
+  },
+  {
+    "sha": "3757e34aa8725c4b322ff01f854d986f3a0bca20",
+    "node_id": "C_kwDOS2mgjtoAKDM3NTdlMzRhYTg3MjVjNGIzMjJmZjAxZjg1NGQ5ODZmM2EwYmNhMjA",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T22:03:44Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T22:03:44Z"
+      },
+      "message": "case-activation/contact-me: fix windows.info bug — kernel profile auto-detected by first windows.* plugin; renumber 3A to 13 steps\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "b5a0d0c767b5526125ca30fa636e500797020cf6",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/b5a0d0c767b5526125ca30fa636e500797020cf6"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/3757e34aa8725c4b322ff01f854d986f3a0bca20",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/3757e34aa8725c4b322ff01f854d986f3a0bca20",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/3757e34aa8725c4b322ff01f854d986f3a0bca20",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/3757e34aa8725c4b322ff01f854d986f3a0bca20/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "868db0e8815fb2d81c37557f47e044ed0c4a87fe",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/868db0e8815fb2d81c37557f47e044ed0c4a87fe",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/868db0e8815fb2d81c37557f47e044ed0c4a87fe"
+      }
+    ]
+  },
+  {
+    "sha": "868db0e8815fb2d81c37557f47e044ed0c4a87fe",
+    "node_id": "C_kwDOS2mgjtoAKDg2OGRiMGU4ODE1ZmIyZDgxYzM3NTU3ZjQ3ZTA0NGVkMGM0YTg3ZmU",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T22:09:49Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T22:09:49Z"
+      },
+      "message": "case-activation/memdump: fix windows.info bug — OS/kernel is auto-detected by first windows.* plugin (no info/banners plugin exposed); renumber MANUAL to 12 steps\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "99a5f952aca58d4900e1897a236044e6f721f65d",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/99a5f952aca58d4900e1897a236044e6f721f65d"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/868db0e8815fb2d81c37557f47e044ed0c4a87fe",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/868db0e8815fb2d81c37557f47e044ed0c4a87fe",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/868db0e8815fb2d81c37557f47e044ed0c4a87fe",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/868db0e8815fb2d81c37557f47e044ed0c4a87fe/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "2b5c25f9915a8e7df62ca5f6649b042f8b90b505",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/2b5c25f9915a8e7df62ca5f6649b042f8b90b505",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/2b5c25f9915a8e7df62ca5f6649b042f8b90b505"
+      }
+    ]
+  },
+  {
+    "sha": "2b5c25f9915a8e7df62ca5f6649b042f8b90b505",
+    "node_id": "C_kwDOS2mgjtoAKDJiNWMyNWY5OTE1YThlN2RmNjJjYTVmNjY0OWIwNDJmOGI5MGI1MDU",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T21:42:16Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T21:42:16Z"
+      },
+      "message": "case-activation: executed MEMDUMP-RAW-2014 MANUAL run + educational MP4 (real MCP run)\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "c3e8227d9f337d02c3ebae16d70f07a361bd629e",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/c3e8227d9f337d02c3ebae16d70f07a361bd629e"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/2b5c25f9915a8e7df62ca5f6649b042f8b90b505",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/2b5c25f9915a8e7df62ca5f6649b042f8b90b505",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/2b5c25f9915a8e7df62ca5f6649b042f8b90b505",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/2b5c25f9915a8e7df62ca5f6649b042f8b90b505/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "846c168f12089d9d5332a2b0ff3141113b133c59",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/846c168f12089d9d5332a2b0ff3141113b133c59",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/846c168f12089d9d5332a2b0ff3141113b133c59"
+      }
+    ]
+  },
+  {
+    "sha": "846c168f12089d9d5332a2b0ff3141113b133c59",
+    "node_id": "C_kwDOS2mgjtoAKDg0NmMxNjhmMTIwODlkOWQ1MzMyYTJiMGZmMzE0MTExM2IxMzNjNTk",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T21:10:28Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T21:10:28Z"
+      },
+      "message": "case-activation: AMF-WIN-SAMPLE001 §3.A clean 10/10 — malfind re-run at 300s (15 RWX hits), video re-rendered\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "9245597e622eb9bfb550c250e2e07a3155a96cdf",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/9245597e622eb9bfb550c250e2e07a3155a96cdf"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/846c168f12089d9d5332a2b0ff3141113b133c59",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/846c168f12089d9d5332a2b0ff3141113b133c59",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/846c168f12089d9d5332a2b0ff3141113b133c59",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/846c168f12089d9d5332a2b0ff3141113b133c59/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "909030e28f459e715a90ac1eee591d32c61887e9",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/909030e28f459e715a90ac1eee591d32c61887e9",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/909030e28f459e715a90ac1eee591d32c61887e9"
+      }
+    ]
+  },
+  {
+    "sha": "909030e28f459e715a90ac1eee591d32c61887e9",
+    "node_id": "C_kwDOS2mgjtoAKDkwOTAzMGUyOGY0NTllNzE1YTkwYWMxZWVlNTkxZDMyYzYxODg3ZTk",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T20:45:16Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T20:45:16Z"
+      },
+      "message": "case-activation: executed AMF-WIN-SAMPLE001 §3.A run + educational MP4 (real MCP run)\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "d56ed4f70550c374c8f39fa40b36ba4a440210fd",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/d56ed4f70550c374c8f39fa40b36ba4a440210fd"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/909030e28f459e715a90ac1eee591d32c61887e9",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/909030e28f459e715a90ac1eee591d32c61887e9",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/909030e28f459e715a90ac1eee591d32c61887e9",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/909030e28f459e715a90ac1eee591d32c61887e9/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "261c16c0c6aa0f93e7ccd4581b01dd508b60e8a4",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/261c16c0c6aa0f93e7ccd4581b01dd508b60e8a4",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/261c16c0c6aa0f93e7ccd4581b01dd508b60e8a4"
+      }
+    ]
+  },
+  {
+    "sha": "261c16c0c6aa0f93e7ccd4581b01dd508b60e8a4",
+    "node_id": "C_kwDOS2mgjtoAKDI2MWMxNmMwYzZhYTBmOTNlN2NjZDQ1ODFiMDFkZDUwOGI2MGU4YTQ",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T20:18:30Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T20:18:30Z"
+      },
+      "message": "case-activation: executed contact_me §3A run + educational MP4 (real MCP run)\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "d75abbd4bf86bc46e324685d5547256c61c342bf",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/d75abbd4bf86bc46e324685d5547256c61c342bf"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/261c16c0c6aa0f93e7ccd4581b01dd508b60e8a4",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/261c16c0c6aa0f93e7ccd4581b01dd508b60e8a4",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/261c16c0c6aa0f93e7ccd4581b01dd508b60e8a4",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/261c16c0c6aa0f93e7ccd4581b01dd508b60e8a4/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "56d75f2922026ae524431d367b35a9e9ae2b4320",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/56d75f2922026ae524431d367b35a9e9ae2b4320",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/56d75f2922026ae524431d367b35a9e9ae2b4320"
+      }
+    ]
+  },
+  {
+    "sha": "56d75f2922026ae524431d367b35a9e9ae2b4320",
+    "node_id": "C_kwDOS2mgjtoAKDU2ZDc1ZjI5MjIwMjZhZTUyNDQzMWQzNjdiMzVhOWU5YWUyYjQzMjA",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T19:32:09Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T19:32:09Z"
+      },
+      "message": "docs(INDEX): link the Per-Case Activation Guides (case-activation/) from the Operator reading path",
+      "tree": {
+        "sha": "b9b3e66abf5426841d24ce1b0f2b943523d99979",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/b9b3e66abf5426841d24ce1b0f2b943523d99979"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/56d75f2922026ae524431d367b35a9e9ae2b4320",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/56d75f2922026ae524431d367b35a9e9ae2b4320",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/56d75f2922026ae524431d367b35a9e9ae2b4320",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/56d75f2922026ae524431d367b35a9e9ae2b4320/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "b64a40d71a6b458cd1b520bbfdd477cc2ebbca1b",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/b64a40d71a6b458cd1b520bbfdd477cc2ebbca1b",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/b64a40d71a6b458cd1b520bbfdd477cc2ebbca1b"
+      }
+    ]
+  },
+  {
+    "sha": "b64a40d71a6b458cd1b520bbfdd477cc2ebbca1b",
+    "node_id": "C_kwDOS2mgjtoAKGI2NGE0MGQ3MWE2YjQ1OGNkMWI1MjBiYmZkZDQ3N2NjMmViYmNhMWI",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T19:09:54Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T19:09:54Z"
+      },
+      "message": "docs: add per-case Activation Guides (case-activation/) for review on GitLab\n\n13 operator activation guides (4 disk, 6 memory, 3 mixed) instantiating the\nEND-USER-CASE-GUIDE procedure per case, with identification headers + manual &\nautonomous prompt sequences. No secrets (placeholders only). Contains real case\ninventory/paths — see privacy note before making the repo public.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "5b5db1266cbdf30d5a6c409cb18ef7f1fbbed3e2",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/5b5db1266cbdf30d5a6c409cb18ef7f1fbbed3e2"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/b64a40d71a6b458cd1b520bbfdd477cc2ebbca1b",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/b64a40d71a6b458cd1b520bbfdd477cc2ebbca1b",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/b64a40d71a6b458cd1b520bbfdd477cc2ebbca1b",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/b64a40d71a6b458cd1b520bbfdd477cc2ebbca1b/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "bdb9c072f6522aac579848ef9f2e09b91d620461",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/bdb9c072f6522aac579848ef9f2e09b91d620461",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/bdb9c072f6522aac579848ef9f2e09b91d620461"
+      }
+    ]
+  },
+  {
+    "sha": "bdb9c072f6522aac579848ef9f2e09b91d620461",
+    "node_id": "C_kwDOS2mgjtoAKGJkYjljMDcyZjY1MjJhYWM1Nzk4NDhlZjlmMmUwOWI5MWQ2MjA0NjE",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T18:21:55Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T18:21:55Z"
+      },
+      "message": "docs: add top-of-page Contents index (section + what-to-expect) to all substantial pages\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "38b50791365ca647c011eba8a39ef0fee7c1808d",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/38b50791365ca647c011eba8a39ef0fee7c1808d"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/bdb9c072f6522aac579848ef9f2e09b91d620461",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/bdb9c072f6522aac579848ef9f2e09b91d620461",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/bdb9c072f6522aac579848ef9f2e09b91d620461",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/bdb9c072f6522aac579848ef9f2e09b91d620461/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "3b19d1de769c27390d7535a7ac3e0cc811b18eca",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/3b19d1de769c27390d7535a7ac3e0cc811b18eca",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/3b19d1de769c27390d7535a7ac3e0cc811b18eca"
+      }
+    ]
+  },
+  {
+    "sha": "3b19d1de769c27390d7535a7ac3e0cc811b18eca",
+    "node_id": "C_kwDOS2mgjtoAKDNiMTlkMWRlNzY5YzI3MzkwZDc1MzVhN2FjM2UwY2M4MTFiMThlY2E",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T18:11:23Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T18:11:23Z"
+      },
+      "message": "docs: add in-document Contents index (section + what-to-expect) to User Guide",
+      "tree": {
+        "sha": "a272a1137ec68a324af83c17755ca64d001f776b",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/a272a1137ec68a324af83c17755ca64d001f776b"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/3b19d1de769c27390d7535a7ac3e0cc811b18eca",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/3b19d1de769c27390d7535a7ac3e0cc811b18eca",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/3b19d1de769c27390d7535a7ac3e0cc811b18eca",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/3b19d1de769c27390d7535a7ac3e0cc811b18eca/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "305e0e362e8ec75cf0a5a80a7cf4a456c1c4582d",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/305e0e362e8ec75cf0a5a80a7cf4a456c1c4582d",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/305e0e362e8ec75cf0a5a80a7cf4a456c1c4582d"
+      }
+    ]
+  },
+  {
+    "sha": "305e0e362e8ec75cf0a5a80a7cf4a456c1c4582d",
+    "node_id": "C_kwDOS2mgjtoAKDMwNWUwZTM2MmU4ZWM3NWNmMGE1YTgwYTdjZjRhNDU2YzFjNDU4MmQ",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T17:41:03Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T17:41:03Z"
+      },
+      "message": "docs: add Prompt Playbook appendix (numbered manual + autonomous run-by-prompt) to User Guide",
+      "tree": {
+        "sha": "564fc750e243090f1da1712a0abb9f9925be3e96",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/564fc750e243090f1da1712a0abb9f9925be3e96"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/305e0e362e8ec75cf0a5a80a7cf4a456c1c4582d",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/305e0e362e8ec75cf0a5a80a7cf4a456c1c4582d",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/305e0e362e8ec75cf0a5a80a7cf4a456c1c4582d",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/305e0e362e8ec75cf0a5a80a7cf4a456c1c4582d/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "68e76aa6c77229923855b49c443dbe3fb9a6b66b",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/68e76aa6c77229923855b49c443dbe3fb9a6b66b",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/68e76aa6c77229923855b49c443dbe3fb9a6b66b"
+      }
+    ]
+  },
+  {
+    "sha": "68e76aa6c77229923855b49c443dbe3fb9a6b66b",
+    "node_id": "C_kwDOS2mgjtoAKDY4ZTc2YWE2Yzc3MjI5OTIzODU1YjQ5YzQ0M2RiZTNmYjlhNmI2NmI",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T17:31:06Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T17:31:06Z"
+      },
+      "message": "docs: roll dual-audience/Execution->Output template across the portal + add CLAUDE.md standard\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "f7b6ced1be29544af7ce71f2a18a07fb19d05711",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/f7b6ced1be29544af7ce71f2a18a07fb19d05711"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/68e76aa6c77229923855b49c443dbe3fb9a6b66b",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/68e76aa6c77229923855b49c443dbe3fb9a6b66b",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/68e76aa6c77229923855b49c443dbe3fb9a6b66b",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/68e76aa6c77229923855b49c443dbe3fb9a6b66b/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "0de6f2fd25fbaa1e33107a618837ffe37978ca44",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/0de6f2fd25fbaa1e33107a618837ffe37978ca44",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/0de6f2fd25fbaa1e33107a618837ffe37978ca44"
+      }
+    ]
+  },
+  {
+    "sha": "0de6f2fd25fbaa1e33107a618837ffe37978ca44",
+    "node_id": "C_kwDOS2mgjtoAKDBkZTZmMmZkMjVmYmFhMWUzMzEwN2E2MTg4MzdmZmUzNzk3OGNhNDQ",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T17:01:11Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T17:01:11Z"
+      },
+      "message": "docs: reconcile User Guide with live manual+autonomous validation runs\n\nRe-executed the guide end-to-end against the validated CFReDS case two ways\n(operator shell + MCP happy-path) plus a bounded autonomous Path B smoke run.\n14/16 single-command steps reproduced exactly. Fixes for verified deltas:\n- health output shape: uptime -> uptime_seconds; note server build version\n  (0.1.0-dev) is distinct from MCP serverInfo.version (3.2.4)\n- live drift note: health.tool_count/tools-list return 72 (reproducible +1\n  over canonical 71); canonical 71 retained pending operator CANONICAL_FACTS\n  refresh, per oracle-wins\n- Path B driver: token is read from ENV (AGENTROPIX_MCP_AUTH_TOKEN), never an\n  argv positional; first positional is <case_key>; real driver path documented;\n  monitor path corrected to absolute; --preflight/--strict-count noted\n- report_generate on a fresh DRAFT-only case can return case_not_found (needs\n  indexed case docs) — added GOTCHA\n- doctor: clarified 18 [OK] binary lines vs the 16-wrapper prose figure\n- added dated validation-status note to the preface\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "a2dc71fe9469f16a2f2ea09513c1d0729ab0cddc",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/a2dc71fe9469f16a2f2ea09513c1d0729ab0cddc"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/0de6f2fd25fbaa1e33107a618837ffe37978ca44",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/0de6f2fd25fbaa1e33107a618837ffe37978ca44",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/0de6f2fd25fbaa1e33107a618837ffe37978ca44",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/0de6f2fd25fbaa1e33107a618837ffe37978ca44/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "8e6675d64056359150cd305eadc347c5e4960817",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/8e6675d64056359150cd305eadc347c5e4960817",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/8e6675d64056359150cd305eadc347c5e4960817"
+      }
+    ]
+  },
+  {
+    "sha": "8e6675d64056359150cd305eadc347c5e4960817",
+    "node_id": "C_kwDOS2mgjtoAKDhlNjY3NWQ2NDA1NjM1OTE1MGNkMzA1ZWFkYzM0N2M1ZTQ5NjA4MTc",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T16:37:34Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T16:37:34Z"
+      },
+      "message": "docs: dual-audience User Guide (expert CLI + end-user prompt) + split capability-map & case-hypotheses reference pages",
+      "tree": {
+        "sha": "01bf332f442c675baf68d30d0b10c711668bc7b8",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/01bf332f442c675baf68d30d0b10c711668bc7b8"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/8e6675d64056359150cd305eadc347c5e4960817",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/8e6675d64056359150cd305eadc347c5e4960817",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/8e6675d64056359150cd305eadc347c5e4960817",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/8e6675d64056359150cd305eadc347c5e4960817/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "f071ffa33c9aacb728ff9cf221a7999a54214ac7",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/f071ffa33c9aacb728ff9cf221a7999a54214ac7",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/f071ffa33c9aacb728ff9cf221a7999a54214ac7"
+      }
+    ]
+  },
+  {
+    "sha": "f071ffa33c9aacb728ff9cf221a7999a54214ac7",
+    "node_id": "C_kwDOS2mgjtoAKGYwNzFmZmEzM2M5YWFjYjcyOGZmOWNmMjIxYTc5OTlhNTQyMTRhYzc",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T15:26:57Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T15:26:57Z"
+      },
+      "message": "docs: rebuild User Guide as a detailed end-to-end operator runbook (from prodtest deliverable, verified vs main repo)\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "52344535be6030d4973ce18b83abc3bc259ef9ff",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/52344535be6030d4973ce18b83abc3bc259ef9ff"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/f071ffa33c9aacb728ff9cf221a7999a54214ac7",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/f071ffa33c9aacb728ff9cf221a7999a54214ac7",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/f071ffa33c9aacb728ff9cf221a7999a54214ac7",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/f071ffa33c9aacb728ff9cf221a7999a54214ac7/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "0a7017a558fa7d3aa69b65faddb75425c37c98d8",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/0a7017a558fa7d3aa69b65faddb75425c37c98d8",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/0a7017a558fa7d3aa69b65faddb75425c37c98d8"
+      }
+    ]
+  },
+  {
+    "sha": "0a7017a558fa7d3aa69b65faddb75425c37c98d8",
+    "node_id": "C_kwDOS2mgjtoAKDBhNzAxN2E1NThmYTdkM2FhNjliNjVmYWRkYjc1NDI1YzM3Yzk4ZDg",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T14:57:55Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T14:57:55Z"
+      },
+      "message": "gitignore stray dated working dirs at repo root (internal; never publish)",
+      "tree": {
+        "sha": "99faffa257ff9baacf1dc122ee66bce479e02afa",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/99faffa257ff9baacf1dc122ee66bce479e02afa"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/0a7017a558fa7d3aa69b65faddb75425c37c98d8",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/0a7017a558fa7d3aa69b65faddb75425c37c98d8",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/0a7017a558fa7d3aa69b65faddb75425c37c98d8",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/0a7017a558fa7d3aa69b65faddb75425c37c98d8/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "b7d84e9f2cd55503e9f517784f55d88d2c19a61c",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/b7d84e9f2cd55503e9f517784f55d88d2c19a61c",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/b7d84e9f2cd55503e9f517784f55d88d2c19a61c"
+      }
+    ]
+  },
+  {
+    "sha": "b7d84e9f2cd55503e9f517784f55d88d2c19a61c",
+    "node_id": "C_kwDOS2mgjtoAKGI3ZDg0ZTlmMmNkNTU1MDNlOWY1MTc3ODRmNTVkODhkMmMxOWE2MWM",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T14:54:12Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T14:54:12Z"
+      },
+      "message": "docs: add end-to-end User Guide (synthesized from end-user/, verified vs main repo)\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "1bf2fbcb6a345e5020cf308ae63e0b9416486f20",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/1bf2fbcb6a345e5020cf308ae63e0b9416486f20"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/b7d84e9f2cd55503e9f517784f55d88d2c19a61c",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/b7d84e9f2cd55503e9f517784f55d88d2c19a61c",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/b7d84e9f2cd55503e9f517784f55d88d2c19a61c",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/b7d84e9f2cd55503e9f517784f55d88d2c19a61c/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "8917d335af993b5ebe2f77bc70e78606327e95ce",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/8917d335af993b5ebe2f77bc70e78606327e95ce",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/8917d335af993b5ebe2f77bc70e78606327e95ce"
+      }
+    ]
+  },
+  {
+    "sha": "8917d335af993b5ebe2f77bc70e78606327e95ce",
+    "node_id": "C_kwDOS2mgjtoAKDg5MTdkMzM1YWY5OTNiNWViZTJmNzdiYzcwZTc4NjA2MzI3ZTk1Y2U",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T02:53:44Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T02:53:44Z"
+      },
+      "message": "Wazuh screenshots: crop to content per step for inline legibility\n\nEach step now cropped to its focus region (tiles+list, expanded document,\ntoggles, toolbar) at 2x — so the content fills the doc column and reads clearly\ninline, instead of a full wide dashboard shrunk to fit.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "5c30f8d9659e16c75d2086fd4e89b5124684573c",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/5c30f8d9659e16c75d2086fd4e89b5124684573c"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/8917d335af993b5ebe2f77bc70e78606327e95ce",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/8917d335af993b5ebe2f77bc70e78606327e95ce",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/8917d335af993b5ebe2f77bc70e78606327e95ce",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/8917d335af993b5ebe2f77bc70e78606327e95ce/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "989073758ceb3156f887bdb9bc4e773f2d827d58",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/989073758ceb3156f887bdb9bc4e773f2d827d58",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/989073758ceb3156f887bdb9bc4e773f2d827d58"
+      }
+    ]
+  },
+  {
+    "sha": "989073758ceb3156f887bdb9bc4e773f2d827d58",
+    "node_id": "C_kwDOS2mgjtoAKDk4OTA3Mzc1OGNlYjMxNTZmODg3YmRiOWJjNGU3NzNmMmQ4MjdkNTg",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T02:46:13Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T02:46:13Z"
+      },
+      "message": "gitignore compare/ (local source with secrets; never publish)",
+      "tree": {
+        "sha": "3fb23f0893922de0152d342ef89346a67d54293b",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/3fb23f0893922de0152d342ef89346a67d54293b"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/989073758ceb3156f887bdb9bc4e773f2d827d58",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/989073758ceb3156f887bdb9bc4e773f2d827d58",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/989073758ceb3156f887bdb9bc4e773f2d827d58",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/989073758ceb3156f887bdb9bc4e773f2d827d58/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "ae2a6b9086dfdedf5ecdc55bfe85ff9a5f92a9ce",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/ae2a6b9086dfdedf5ecdc55bfe85ff9a5f92a9ce",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/ae2a6b9086dfdedf5ecdc55bfe85ff9a5f92a9ce"
+      }
+    ]
+  },
+  {
+    "sha": "ae2a6b9086dfdedf5ecdc55bfe85ff9a5f92a9ce",
+    "node_id": "C_kwDOS2mgjtoAKGFlMmE2YjkwODZkZmRlZGY1ZWNkYzU1YmZlODVmZjlhNWY5MmE5Y2U",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T02:44:27Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T02:44:27Z"
+      },
+      "message": "docs: upgrade portal from compare/docs (verified vs main repo)",
+      "tree": {
+        "sha": "fe4237c34e78c0a0fe1b3d7cd40a0cdb44cbe8c2",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/fe4237c34e78c0a0fe1b3d7cd40a0cdb44cbe8c2"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/ae2a6b9086dfdedf5ecdc55bfe85ff9a5f92a9ce",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/ae2a6b9086dfdedf5ecdc55bfe85ff9a5f92a9ce",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/ae2a6b9086dfdedf5ecdc55bfe85ff9a5f92a9ce",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/ae2a6b9086dfdedf5ecdc55bfe85ff9a5f92a9ce/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "1b4117e21b12a8351a5670a64c4950b140a3460b",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/1b4117e21b12a8351a5670a64c4950b140a3460b",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/1b4117e21b12a8351a5670a64c4950b140a3460b"
+      }
+    ]
+  },
+  {
+    "sha": "1b4117e21b12a8351a5670a64c4950b140a3460b",
+    "node_id": "C_kwDOS2mgjtoAKDFiNDExN2UyMWIxMmE4MzUxYTU2NzBhNjRjNDk1MGIxNDBhMzQ2MGI",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T02:18:49Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T02:18:49Z"
+      },
+      "message": "Recapture Wazuh screenshots at 2x (3200x2000) — fix low resolution\n\nReplaced the 1464x823 MCP-downscaled inline screenshots with full-res 2x\ncaptures (deviceScaleFactor:2) driven via Playwright directly in the container.\nSame 8 views + red annotations, now crisp/legible.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "18f8cb10bc1314232d9126ce6086d9742d6aa7dd",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/18f8cb10bc1314232d9126ce6086d9742d6aa7dd"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/1b4117e21b12a8351a5670a64c4950b140a3460b",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/1b4117e21b12a8351a5670a64c4950b140a3460b",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/1b4117e21b12a8351a5670a64c4950b140a3460b",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/1b4117e21b12a8351a5670a64c4950b140a3460b/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "1817636c28de1af790c28d15cc22ed4d4155a7a5",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/1817636c28de1af790c28d15cc22ed4d4155a7a5",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/1817636c28de1af790c28d15cc22ed4d4155a7a5"
+      }
+    ]
+  },
+  {
+    "sha": "1817636c28de1af790c28d15cc22ed4d4155a7a5",
+    "node_id": "C_kwDOS2mgjtoAKDE4MTc2MzZjMjhkZTFhZjc5MGMyOGQxNWNjMjJlZDRkNDE1NWE3YTU",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T00:31:04Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-06T00:31:04Z"
+      },
+      "message": "Add Wazuh integration operator guide (annotated step-by-step + screenshots)",
+      "tree": {
+        "sha": "7d4035943679fae96f59a01a5bc65d01521f37b0",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/7d4035943679fae96f59a01a5bc65d01521f37b0"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/1817636c28de1af790c28d15cc22ed4d4155a7a5",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/1817636c28de1af790c28d15cc22ed4d4155a7a5",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/1817636c28de1af790c28d15cc22ed4d4155a7a5",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/1817636c28de1af790c28d15cc22ed4d4155a7a5/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "7071c900043941cfd127162cfb8900fb0d7c8213",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/7071c900043941cfd127162cfb8900fb0d7c8213",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/7071c900043941cfd127162cfb8900fb0d7c8213"
+      }
+    ]
+  },
+  {
+    "sha": "7071c900043941cfd127162cfb8900fb0d7c8213",
+    "node_id": "C_kwDOS2mgjtoAKDcwNzFjOTAwMDQzOTQxY2ZkMTI3MTYyY2ZiODkwMGZiMGQ3YzgyMTM",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T23:34:26Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T23:34:26Z"
+      },
+      "message": "Split Approval Portal walkthrough into its own page (docs/05-safety-forensics/approval-portal.md)\n\nDedicated operator page: screenshot, URL, prerequisites/env, field-by-field\nguide, submit steps, retract/void, verification, and error/troubleshooting\nmatrix. human-in-the-loop.md now keeps a short pointer + the under-the-hood\nguarantees. Repointed README/INDEX/use-case cross-links to the new page.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "eccab4b33c086bd992358b541dcb007509559138",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/eccab4b33c086bd992358b541dcb007509559138"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/7071c900043941cfd127162cfb8900fb0d7c8213",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/7071c900043941cfd127162cfb8900fb0d7c8213",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/7071c900043941cfd127162cfb8900fb0d7c8213",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/7071c900043941cfd127162cfb8900fb0d7c8213/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "80152dc8347f9c07ac143c104fd13df6e35d590a",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/80152dc8347f9c07ac143c104fd13df6e35d590a",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/80152dc8347f9c07ac143c104fd13df6e35d590a"
+      }
+    ]
+  },
+  {
+    "sha": "80152dc8347f9c07ac143c104fd13df6e35d590a",
+    "node_id": "C_kwDOS2mgjtoAKDgwMTUyZGM4MzQ3ZjljMDdhYzE0M2MxMDRmZDEzZGY2ZTM1ZDU5MGE",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T22:55:14Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T22:55:14Z"
+      },
+      "message": "Document the Approval Portal: screenshot + field-by-field operator walkthrough\n\nAdds a prominent 'Using the Approval Portal' section to human-in-the-loop.md:\nlive UI screenshot (captured via Playwright MCP container), the tailnet URL\n(https://siftworkstation.taile7c9ca.ts.net:8443/ -> tailscale serve -> :8800),\na field-by-field guide, step-by-step submit procedure, and success/error\noutcomes. Cross-linked from README, the approval use-case, and the INDEX.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "114a5ce682c50c1956c89ed0fe07c1f847a83830",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/114a5ce682c50c1956c89ed0fe07c1f847a83830"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/80152dc8347f9c07ac143c104fd13df6e35d590a",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/80152dc8347f9c07ac143c104fd13df6e35d590a",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/80152dc8347f9c07ac143c104fd13df6e35d590a",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/80152dc8347f9c07ac143c104fd13df6e35d590a/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "46cf84a30cbbef54a530186bb70e14882ba7a4c0",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/46cf84a30cbbef54a530186bb70e14882ba7a4c0",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/46cf84a30cbbef54a530186bb70e14882ba7a4c0"
+      }
+    ]
+  },
+  {
+    "sha": "46cf84a30cbbef54a530186bb70e14882ba7a4c0",
+    "node_id": "C_kwDOS2mgjtoAKDQ2Y2Y4NGEzMGNiYmVmNTRhNTMwMTg2YmI3MGUxNDg4MmJhN2E0YzA",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T22:11:44Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T22:11:44Z"
+      },
+      "message": "Add 'Open as SVG' zoom links for wide diagrams (audit option b)\n\nRender the 9 diagrams wider than ~1150px to committed vector SVGs under each\nsection's assets/ dir, with an 'Open as SVG (full size, zoomable)' link beneath\neach — infinite lossless zoom within GitLab's no-custom-JS constraint. Covers\nthe ER diagrams, use-case graphs, container/context views, etc. 505 links OK.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "740080d295366e9348c68aa752ce2a0fd6db0bb8",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/740080d295366e9348c68aa752ce2a0fd6db0bb8"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/46cf84a30cbbef54a530186bb70e14882ba7a4c0",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/46cf84a30cbbef54a530186bb70e14882ba7a4c0",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/46cf84a30cbbef54a530186bb70e14882ba7a4c0",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/46cf84a30cbbef54a530186bb70e14882ba7a4c0/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "4e7d9a5520bc714e29729e616ba681bb8456cf4f",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/4e7d9a5520bc714e29729e616ba681bb8456cf4f",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/4e7d9a5520bc714e29729e616ba681bb8456cf4f"
+      }
+    ]
+  },
+  {
+    "sha": "4e7d9a5520bc714e29729e616ba681bb8456cf4f",
+    "node_id": "C_kwDOS2mgjtoAKDRlN2Q5YTU1MjBiYzcxNGUyOTcyOWU2MTZiYTY4MWJiODQ1NmNmNGY",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T21:08:17Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T21:08:17Z"
+      },
+      "message": "Update DIAGRAM-AUDIT.md with GitLab squish width-remediation results\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "4fe2c0f81e0f0e251192dbda8da94685d49c3630",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/4fe2c0f81e0f0e251192dbda8da94685d49c3630"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/4e7d9a5520bc714e29729e616ba681bb8456cf4f",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/4e7d9a5520bc714e29729e616ba681bb8456cf4f",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/4e7d9a5520bc714e29729e616ba681bb8456cf4f",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/4e7d9a5520bc714e29729e616ba681bb8456cf4f/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "bb791750c74af267ee8fbf247ac358ab62721c25",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/bb791750c74af267ee8fbf247ac358ab62721c25",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/bb791750c74af267ee8fbf247ac358ab62721c25"
+      }
+    ]
+  },
+  {
+    "sha": "bb791750c74af267ee8fbf247ac358ab62721c25",
+    "node_id": "C_kwDOS2mgjtoAKGJiNzkxNzUwYzc0YWYyNjdlZThmYmYyNDdhYzM1OGFiNjI3MjFjMjU",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T21:05:12Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T21:05:12Z"
+      },
+      "message": "Narrow wide diagrams so GitLab stops squishing them (readability)\n\nRoot cause: GitLab scales any diagram wider than the ~900px column down to\nfit, shrinking text. Fixed the worst offenders by reducing rendered width:\n- component map 3537px -> split into two views (1203 + 754)\n- system-context container view 3308 -> 1534 (LR, concise labels)\n- deployment 2009 -> 850 (LR). swarm-agents base styling via style directives.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "5dac035cd5c72b9a8a22184ee85a82975fa19826",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/5dac035cd5c72b9a8a22184ee85a82975fa19826"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/bb791750c74af267ee8fbf247ac358ab62721c25",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/bb791750c74af267ee8fbf247ac358ab62721c25",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/bb791750c74af267ee8fbf247ac358ab62721c25",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/bb791750c74af267ee8fbf247ac358ab62721c25/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "b7e31ffb19f4e43f156aa5fdb30e766079aaf485",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/b7e31ffb19f4e43f156aa5fdb30e766079aaf485",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/b7e31ffb19f4e43f156aa5fdb30e766079aaf485"
+      }
+    ]
+  },
+  {
+    "sha": "b7e31ffb19f4e43f156aa5fdb30e766079aaf485",
+    "node_id": "C_kwDOS2mgjtoAKGI3ZTMxZmZiMTlmNGU0M2YxNTZhYTVmZGIzMGU3NjYwNzlhYWY0ODU",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T20:49:35Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T20:49:35Z"
+      },
+      "message": "Diagram readability pass (workflow): redesign diagrams for size/clarity + audit log\n\nMulti-agent audit/fix/verify over all 25 diagram-bearing files. Uniform node\nsizes, wrapped labels, grouped subgraphs (system-context container view),\nsplit swarm-agents hierarchy. Fixed invalid cssClass styling. Adds\nissues/DIAGRAM-AUDIT.md tracking log. 51/51 render, 496 links OK.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "3814b5dc9afc4f853b99f75aebf59d0384a2f697",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/3814b5dc9afc4f853b99f75aebf59d0384a2f697"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/b7e31ffb19f4e43f156aa5fdb30e766079aaf485",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/b7e31ffb19f4e43f156aa5fdb30e766079aaf485",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/b7e31ffb19f4e43f156aa5fdb30e766079aaf485",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/b7e31ffb19f4e43f156aa5fdb30e766079aaf485/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "771848d6cb58c4bd9cdb1645d50b9dc89e6da86f",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/771848d6cb58c4bd9cdb1645d50b9dc89e6da86f",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/771848d6cb58c4bd9cdb1645d50b9dc89e6da86f"
+      }
+    ]
+  },
+  {
+    "sha": "771848d6cb58c4bd9cdb1645d50b9dc89e6da86f",
+    "node_id": "C_kwDOS2mgjtoAKDc3MTg0OGQ2Y2I1OGM0YmQ5Y2RiMTY0NWQ1MGI5ZGM4OWU2ZGE4NmY",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T20:23:50Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T20:23:50Z"
+      },
+      "message": "Convert C4 diagrams to flowcharts (GitLab can't render C4) + apply palette\n\nGitLab Mermaid does not support C4Context/Container/Deployment — they were\nshowing as raw source text. Converted all 4 (README + 3 in system-context-c4)\nto palette-styled flowcharts. Also colored swarm-agents classDiagram + graph,\nand fixed the last pale classDef in tool-by-agent. All 50 diagrams render\n(mermaid-cli), 496 links OK, canonical numbers consistent.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "564e6706c6e35db66d07ff6715d94df2418bc0b3",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/564e6706c6e35db66d07ff6715d94df2418bc0b3"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/771848d6cb58c4bd9cdb1645d50b9dc89e6da86f",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/771848d6cb58c4bd9cdb1645d50b9dc89e6da86f",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/771848d6cb58c4bd9cdb1645d50b9dc89e6da86f",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/771848d6cb58c4bd9cdb1645d50b9dc89e6da86f/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "99fc7cb71168cc63277ac34821b0dc4acbb980d7",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/99fc7cb71168cc63277ac34821b0dc4acbb980d7",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/99fc7cb71168cc63277ac34821b0dc4acbb980d7"
+      }
+    ]
+  },
+  {
+    "sha": "99fc7cb71168cc63277ac34821b0dc4acbb980d7",
+    "node_id": "C_kwDOS2mgjtoAKDk5ZmM3Y2I3MTE2OGNjNjMyNzdhYzM0ODIxYjBkYzRhY2JiOTgwZDc",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T19:48:34Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T19:48:34Z"
+      },
+      "message": "Recolor component-architecture diagrams for readability\n\nReplace pale pastels (no explicit text color) with a higher-contrast\nconventional palette + explicit dark text (readable in GitLab light AND\ndark mode) and neutral subgraph bands. Validated with mermaid-cli.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "4d43fa011d2eee8dc821641fc016ec4cb6f0a15a",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/4d43fa011d2eee8dc821641fc016ec4cb6f0a15a"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/99fc7cb71168cc63277ac34821b0dc4acbb980d7",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/99fc7cb71168cc63277ac34821b0dc4acbb980d7",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/99fc7cb71168cc63277ac34821b0dc4acbb980d7",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/99fc7cb71168cc63277ac34821b0dc4acbb980d7/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "c60013948702a61235a84410585e02f9f07276a7",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/c60013948702a61235a84410585e02f9f07276a7",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/c60013948702a61235a84410585e02f9f07276a7"
+      }
+    ]
+  },
+  {
+    "sha": "c60013948702a61235a84410585e02f9f07276a7",
+    "node_id": "C_kwDOS2mgjtoAKGM2MDAxMzk0ODcwMmE2MTIzNWE4NDQxMDU4NWUwMmY5ZjA3Mjc2YTc",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T03:46:53Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T03:46:53Z"
+      },
+      "message": "Fix all 5 Mermaid render errors (semicolons in messages/notes, {} in classDiagram)\n\nValidated all 50 diagrams with mermaid-cli 11.15 -> 50/50 render OK.\n';' is a statement separator in sequence messages; '{' opens a struct in\nclassDiagram members. Replaced with commas / removed the empty-dict default.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "a08c548abae269a33c4f98e355f266cb8fb8135c",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/a08c548abae269a33c4f98e355f266cb8fb8135c"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/c60013948702a61235a84410585e02f9f07276a7",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/c60013948702a61235a84410585e02f9f07276a7",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/c60013948702a61235a84410585e02f9f07276a7",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/c60013948702a61235a84410585e02f9f07276a7/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "c143ac2b7eb2262446d47dbedef11d28ededcef2",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/c143ac2b7eb2262446d47dbedef11d28ededcef2",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/c143ac2b7eb2262446d47dbedef11d28ededcef2"
+      }
+    ]
+  },
+  {
+    "sha": "c143ac2b7eb2262446d47dbedef11d28ededcef2",
+    "node_id": "C_kwDOS2mgjtoAKGMxNDNhYzJiN2ViMjI2MjQ0NmQ0N2RiZWRlZjExZDI4ZWRlZGNlZjI",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T03:35:12Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T03:35:12Z"
+      },
+      "message": "Fix Mermaid syntax error in sequence diagram #4: '#corr' -> 'n_corr'\n\nBare '#' was parsed as an HTML-entity escape by Mermaid 11.x, breaking\nthe 'Architect <-> Swarm <-> Critic' diagram render in GitLab.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "81919352f5aa83e115aa9d4797db42a7fb3c7054",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/81919352f5aa83e115aa9d4797db42a7fb3c7054"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/c143ac2b7eb2262446d47dbedef11d28ededcef2",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/c143ac2b7eb2262446d47dbedef11d28ededcef2",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/c143ac2b7eb2262446d47dbedef11d28ededcef2",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/c143ac2b7eb2262446d47dbedef11d28ededcef2/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "4e7a80a561aff45955780f33d2e8601f359122b8",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/4e7a80a561aff45955780f33d2e8601f359122b8",
+        "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/4e7a80a561aff45955780f33d2e8601f359122b8"
+      }
+    ]
+  },
+  {
+    "sha": "4e7a80a561aff45955780f33d2e8601f359122b8",
+    "node_id": "C_kwDOS2mgjtoAKDRlN2E4MGE1NjFhZmY0NTk1NTc4MGYzM2QyZTg2MDFmMzU5MTIyYjg",
+    "commit": {
+      "author": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T03:22:19Z"
+      },
+      "committer": {
+        "name": "Victor Galvan",
+        "email": "victor.galvan@idemia.com",
+        "date": "2026-06-05T03:22:19Z"
+      },
+      "message": "Agentropix-SIFT documentation portal (Mermaid render test)\n\n35 chapters + README + INDEX across 8 sections, 50 Mermaid diagrams,\n496 internal links validated. Generated into docu_agentro workspace.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+      "tree": {
+        "sha": "fd5ec9468be0bc3eeea0d33f0c790ff2e4df4000",
+        "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/trees/fd5ec9468be0bc3eeea0d33f0c790ff2e4df4000"
+      },
+      "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/git/commits/4e7a80a561aff45955780f33d2e8601f359122b8",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/4e7a80a561aff45955780f33d2e8601f359122b8",
+    "html_url": "https://github.com/galvangabriel-web/agentropix-mcp/commit/4e7a80a561aff45955780f33d2e8601f359122b8",
+    "comments_url": "https://api.github.com/repos/galvangabriel-web/agentropix-mcp/commits/4e7a80a561aff45955780f33d2e8601f359122b8/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+
+    ]
+  }
+]
