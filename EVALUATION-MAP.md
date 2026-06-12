@@ -48,6 +48,11 @@ that satisfy it, with a reading path. Statuses are honest — ✅ means committe
     Submission Evidence Tour** (auto-plays): one animated scene per requirement 1–8 with a
     live-captured REAL-PROOF panel each, plus the Built-With tags — an end-to-end visual summary
     of this entire map ([deck source + proof captures](assets/submission-tour/)).
+  - 🎞️ [`workflow-animated.gif`](assets/workflow-animated.gif) — the **17-second six-stage
+    investigation-workflow animation** (doctor → run → review → human HMAC gate → seal → escalate,
+    ending on the SEALED badge). The one asset that **auto-plays inline on github.com itself** —
+    embedded in the README's [Recommended investigation workflow](README.md#-recommended-investigation-workflow)
+    section ([deck source](assets/workflow-animated-deck.html)).
   - 🎬 [`EXECUTION-LOGS-SRL2015-ANIMATED.mp4`](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2015-report/watch-execution-logs.html) — the
     **144-second SRL-2015 multi-host animation** (auto-plays): 4 hosts × disk+memory, 8 sealed
     runs, the 106-minute long-pole to scale, 15-iteration honest traces, and the cross-host
