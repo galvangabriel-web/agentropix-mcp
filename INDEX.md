@@ -110,11 +110,13 @@ unchanged — the reading order is layered on top, non-destructively.
 
 ## 2. Architecture
 
-> **Read in this order** ([section README](docs/02-architecture/README.md)): 1. [main-architectural-agentropix-design](docs/02-architecture/main-architectural-agentropix-design.md) — the one-page validated diagram (pattern + guardrails) · 2. [system-context-c4](docs/02-architecture/system-context-c4.md) — containers/boundaries · 3. [component-architecture](docs/02-architecture/component-architecture.md) — layer map · 4. [trinity-loop](docs/02-architecture/trinity-loop.md) — the control loop · 5. [swarm-agents](docs/02-architecture/swarm-agents.md) — specialists + Blackboard · 6. [mcp-server](docs/02-architecture/mcp-server.md) — FastMCP + Thymus · 7. [sequence-diagrams](docs/02-architecture/sequence-diagrams.md) — operations step by step · 8. [ez-tools-integration](docs/02-architecture/ez-tools-integration.md) — EZ Tools wrapping · 9. [module-map](docs/02-architecture/module-map.md) *(shared reference)*.
+> **Read in this order** ([section README](docs/02-architecture/README.md)): 1. [main-architectural-agentropix-design](docs/02-architecture/main-architectural-agentropix-design.md) — the one-page validated diagram (pattern + guardrails) · 2. [system-diagram](docs/02-architecture/system-diagram.md) — diagram index + rubric/trust-boundary verification · 3. [system-context-c4](docs/02-architecture/system-context-c4.md) — containers/boundaries · 4. [architecture-layers](docs/02-architecture/architecture-layers.md) — determinism map + trust-boundary contract · 5. [component-architecture](docs/02-architecture/component-architecture.md) — layer map · 6. [trinity-loop](docs/02-architecture/trinity-loop.md) — the control loop · 7. [swarm-agents](docs/02-architecture/swarm-agents.md) — specialists + Blackboard · 8. [mcp-server](docs/02-architecture/mcp-server.md) — FastMCP + Thymus · 9. [sequence-diagrams](docs/02-architecture/sequence-diagrams.md) — operations step by step · 10. [ez-tools-integration](docs/02-architecture/ez-tools-integration.md) — EZ Tools wrapping · 11. [module-map](docs/02-architecture/module-map.md) *(shared reference)*.
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
 | Architecture Diagram (validated, PNG/PDF) | developer, examiner, reviewer | What are the moving parts, which architectural pattern is this (Custom MCP Server), and which guardrails are architectural vs prompt-based? | [docs/02-architecture/main-architectural-agentropix-design.md](docs/02-architecture/main-architectural-agentropix-design.md) |
+| System Diagram (index + rubric verification) | developer, examiner, reviewer | Where does every rendered system diagram live, are all five rubric elements (agents · SIFT tools · MCP server · evidence · output pipeline) covered, and where is the trust boundary marked? | [docs/02-architecture/system-diagram.md](docs/02-architecture/system-diagram.md) |
+| Architecture Layers & Determinism Map | developer, examiner, auditor | Where does stochasticity live (Layer 1 only), where is determinism enforced (Layers 2–4), and what does the L1↔L3 trust-boundary contract prove in court? | [docs/02-architecture/architecture-layers.md](docs/02-architecture/architecture-layers.md) |
 | System Context & Containers | developer, examiner | How does the engine sit on the SIFT host and what are its containers/boundaries? | [docs/02-architecture/system-context-c4.md](docs/02-architecture/system-context-c4.md) |
 | Component Architecture & Layer Map | developer | What are the internal components and how are the code layers organized? | [docs/02-architecture/component-architecture.md](docs/02-architecture/component-architecture.md) |
 | The Trinity Loop | developer, examiner | How do Architect, Swarm, and Critic interact, and how does the deterministic halt work? | [docs/02-architecture/trinity-loop.md](docs/02-architecture/trinity-loop.md) |
@@ -135,6 +137,7 @@ unchanged — the reading order is layered on top, non-destructively.
 | Schema ER Model | developer, auditor | How do the persisted artifacts relate as entities (ER diagram)? | [03-data/schema-er.md](docs/03-data/schema-er.md) |
 | Persisted Artifacts | auditor, developer | What gets written to disk — JSON report, JSONL audit log, session keys, Hippocampus — and where? | [03-data/persisted-artifacts.md](docs/03-data/persisted-artifacts.md) |
 | Recall Ground-Truth Fixtures | examiner, auditor | What labelled expected-findings are the recall numbers scored against? 4-of-29 committed fixtures + a sealed-run recall summary. | [docs/03-data/recall-ground-truth/README.md](docs/03-data/recall-ground-truth/README.md) |
+| Evidence Datasets | examiner, auditor, judge | What is the evidence corpus — per-case provenance (SANS SRL, NIST CFReDS, MemLabs, DFRWS), evidence types, the network-capture story, and which claims the inventory does/does not substantiate? | [docs/03-data/evidence-datasets.md](docs/03-data/evidence-datasets.md) |
 | Schema Dump | developer, auditor | The machine-extracted Pydantic model schema (field names, types, constraints) behind the data chapter. | [03-data/schema-dump.md](docs/03-data/schema-dump.md) |
 
 ## 4. MCP Tools
@@ -158,7 +161,7 @@ unchanged — the reading order is layered on top, non-destructively.
 | Anti-Hallucination | examiner, auditor | How are fabricated findings prevented — determinism, evidence sovereignty, no LLM self-rating? | [docs/05-safety-forensics/anti-hallucination.md](docs/05-safety-forensics/anti-hallucination.md) |
 | Provenance & Grounding | examiner, auditor | How are findings grounded in evidence, and what are the provenance tiers / grounding levels? | [docs/05-safety-forensics/provenance-grounding.md](docs/05-safety-forensics/provenance-grounding.md) |
 | Audit & Courtroom Seal | auditor, examiner | How is the audit log HMAC-SHA256 sealed and the chain of custody validated? | [docs/05-safety-forensics/audit-courtroom.md](docs/05-safety-forensics/audit-courtroom.md) |
-| **Approval Portal walkthrough** | operator, examiner | **How do I use the browser sign-off form** (`https://siftworkstation.taile7c9ca.ts.net:8443/`) — screenshot, every field, how to submit, how to retract/void, and the error matrix? | [docs/05-safety-forensics/approval-portal.md](docs/05-safety-forensics/approval-portal.md) |
+| **Approval Portal walkthrough** | operator, examiner | **How do I use the browser sign-off form** (`https://<siftworkstation-host>:8443/`) — screenshot, every field, how to submit, how to retract/void, and the error matrix? | [docs/05-safety-forensics/approval-portal.md](docs/05-safety-forensics/approval-portal.md) |
 | AI Disclosure & Reproducibility | examiner, auditor | What AI models are used (and what is pinned), what data crosses the Anthropic boundary, and how is a run replayed deterministically? | [docs/05-safety-forensics/ai-disclosure.md](docs/05-safety-forensics/ai-disclosure.md) |
 | Human-in-the-Loop | examiner, auditor | How does the approval sidecar gate hold findings in DRAFT until an examiner approves — the invariant, state machine, HMAC challenge-response, and hash chain? | [docs/05-safety-forensics/human-in-the-loop.md](docs/05-safety-forensics/human-in-the-loop.md) |
 
@@ -190,9 +193,12 @@ unchanged — the reading order is layered on top, non-destructively.
 | Deployment | operator (expert + end-user) | How do I install on SIFT, expose over a tailnet, and find the runbooks? Dual-audience — install/expose steps pair the **expert CLI command** with the **plain-language end-user prompt**, Execution → Output. | [docs/07-sdlc-ops/deployment.md](docs/07-sdlc-ops/deployment.md) |
 | Evaluation Scorecard — BMAD & Rubric | examiner, auditor | What did the independent 10-persona BMAD evaluation and the Devpost rubric self-grade conclude? | [docs/07-sdlc-ops/evaluation-scorecard.md](docs/07-sdlc-ops/evaluation-scorecard.md) |
 | Evaluation Corpus & Recall Methodology | examiner, auditor | What evidence corpus are the recall numbers measured against, and how is ground truth defined? | [docs/07-sdlc-ops/dataset-recall.md](docs/07-sdlc-ops/dataset-recall.md) |
+| Full-Run Execution Evidence (sanitized sealed reports + transcripts) | judge, auditor | Where is the raw machine-readable proof — the 212-call/275-finding sealed DC run (`report-dc.json`, with `args_hash`/`exit_code`/`thymus_audit` and a worked finding→tool-call trace), the honest `budget_exhausted` sample run, the unedited rate-limit failure cluster, and the seal-verification transcript? | [docs/07-sdlc-ops/assets/full-run-evidence/README.md](docs/07-sdlc-ops/assets/full-run-evidence/README.md) |
 | Observability & Integrity Notes (+ sealed-run sample) | judge, auditor | Honest limits: post-run re-hash (not implemented) and token-usage metrics (uncollected by design), plus a committed real sealed-run artifact (245 tool_calls, HMAC seals). | [docs/07-sdlc-ops/observability-and-integrity-notes.md](docs/07-sdlc-ops/observability-and-integrity-notes.md) |
 | Maintenance — The Dual-Repo Sync | developer (expert + end-user) | Why are there two repos/package names, and how does the one-way `sift` → `mcp` sync stay faithful? Dual-audience for the sync/verify steps — the **expert command** alongside the **plain-language end-user prompt**, Execution → Output. | [docs/07-sdlc-ops/maintenance-dual-repo.md](docs/07-sdlc-ops/maintenance-dual-repo.md) |
 | Env Vars | operator, developer | The full machine-extracted `AGENTROPIX_*` environment-variable surface and what each tunes. | [docs/07-sdlc-ops/env-vars.md](docs/07-sdlc-ops/env-vars.md) |
+| Accuracy Report — Curve-Fit Disclosure, FPs & Misses | judge, auditor | What do the recall numbers honestly mean — the verbatim "partially curve-fit" admission, 108/118 (91.5%) with T1003.002=30/40, the April 1/7→7/7 failure history, and W-numbered false positives/hallucinations the project caught in itself? | [docs/07-sdlc-ops/ACCURACY-REPORT.md](docs/07-sdlc-ops/ACCURACY-REPORT.md) |
+| Cross-Modal Recall Summary (2026-05-06 snapshot) | judge, examiner | The mirrored primary-source snapshot behind dataset-recall §4: 156/156 per-IOC measurements, per-host coherence ranking, and the base-rd-01 0% coherence-by-design finding. | [docs/07-sdlc-ops/cross-modal-recall-summary.md](docs/07-sdlc-ops/cross-modal-recall-summary.md) |
 
 ## 8. Reference
 
@@ -244,7 +250,7 @@ unchanged — the reading order is layered on top, non-destructively.
 > status column literally** — *Proposed* ⇒ NOT shipped (ADR-009, ADR-024 header); *Deferred* ⇒
 > documented, deliberately not implemented (ADR-021, the W-defers).
 
-This section mirrors the **canonical ADRs from the oracle** (`/home/admin2/agentropix-sift/docs/adr/`):
+This section mirrors the **canonical ADRs from the oracle** (the upstream source repository's `docs/adr/`):
 the **immutable decision contract** behind every architectural choice. The
 [ADR Index](docs/08-reference/adr-index.md) in Section 8 is the *routed catalogue* (one-line
 summaries + live status, with anchors); Section 11 carries the **full text of each record**. The
@@ -257,6 +263,12 @@ oracle wins any conflict.
 | Capability & forensic ADRs 009–024 | developer, auditor, examiner | How were the forensic/safety capabilities decided — evidence gates, EVTX/extract-files wrappers, the Courtroom audit + HMAC seal, tailnet exposure, Wazuh IOC push, the AR confirmation gate, credential lifecycle, the multi-tier report engine? | [docs/11-ADR/README.md](docs/11-ADR/README.md#capability--forensic-adrs-009024) |
 | Milestone & defer ADRs | developer, auditor | Which decisions are milestone-scoped or deliberately deferred (Plaso event-window, the live-recall defers W051/W052/W054, the M6.3 residual gap)? | [docs/11-ADR/README.md](docs/11-ADR/README.md#milestone--defer-adrs-non-numbered) |
 | ADR Template | developer | What is the standard MADR-style format a new ADR must follow? | [docs/11-ADR/ADR-TEMPLATE.md](docs/11-ADR/ADR-TEMPLATE.md) |
+
+---
+
+## 12. Cases Reports
+
+Sealed DFIR case reports — the investigative narratives behind the runs ([section README](docs/12-CASES-REPORTS/README.md)): [SRL-2018 forensic report](docs/12-CASES-REPORTS/srl-2018-report/SRL-2018-FORENSIC-REPORT.md) (exec summary · ATT&CK lifecycle · timeline · IOCs · 10 sealed findings, with [technical appendix](docs/12-CASES-REPORTS/srl-2018-report/TECHNICAL-APPENDIX.md) and [Wazuh IOC gallery](docs/12-CASES-REPORTS/srl-2018-report/WAZUH-IOC-GALLERY.md)) · [SRL-2015 report](docs/12-CASES-REPORTS/srl-2015-report/README.md) · [Vanko report](docs/12-CASES-REPORTS/vanko-report/README.md) · [SRL-2018 artifact inventory](docs/12-CASES-REPORTS/srl-2018-artifact-inventory.md) (9,578 findings across 29 hosts — IPs, hashes, YARA hits, technique matrix).
 
 ---
 

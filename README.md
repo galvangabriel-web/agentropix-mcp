@@ -17,7 +17,43 @@
 
 ---
 
-## ⚡ Connect in 60 seconds
+## 🧪 Judge / Try-it-out — run locally in 5 minutes
+
+> **Free of charge, no signup, no account, no VPN/tailnet required.** Everything below runs on
+> `127.0.0.1` using the open-source wheel vendored in this repo.
+
+```bash
+# 1. Install the MCP server (pick one)
+pip install ./agentropix_mcp        # from this checkout — vendored at agentropix_mcp/
+# …or the released wheel:
+pip install https://github.com/galvangabriel-web/agentropix-mcp/releases/download/v0.2.2/agentropix_mcp-0.2.2-py3-none-any.whl
+
+# 2. Generate a local auth token and start the server (boot is fail-closed without one)
+export AGENTROPIX_MCP_AUTH_TOKEN="$(openssl rand -base64 32)"
+agentropix-mcp --transport http --port 8765
+
+# 3. In another terminal, point Claude Code at your local server (same token)
+claude mcp add --transport http agentropix-sift "http://127.0.0.1:8765/mcp" \
+  --header "Authorization: Bearer $AGENTROPIX_MCP_AUTH_TOKEN"
+```
+
+**4. Smoke-test it** — ask the model:
+
+> *"Use the agentropix-sift MCP server. Run the `health` tool and tell me the tool_count."*
+
+Expected: `tool_count: 72` (the live count is authoritative — this number may lag).
+
+More detail (self-hosting the full engine, requirements table): see
+[Installation / Quickstart](#installation--quickstart) below and the
+[Quickstart guide](docs/01-overview/quickstart.md).
+
+---
+
+## ⚡ Connect to a hosted instance (author's tailnet — optional)
+
+> **Judges / evaluators:** you do **not** need this — use the local path above
+> ([Judge / Try-it-out](#-judge--try-it-out--run-locally-in-5-minutes)); this section is only for
+> users invited to the author's private tailnet.
 
 > **🚀 Already have a SIFT host running on our tailnet? Point Claude at it right now — no install, no build.**
 > One command and you're driving **71 forensic tools** from Claude. **Full guide → [docs/09-integrations/client-setup.md](docs/09-integrations/client-setup.md).**
