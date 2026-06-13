@@ -1,0 +1,15 @@
+flowchart TD
+    A["DISCOVERY<br/>case_status finds SRL-2015 active<br/>glob_paths + idx_search + list_files"] --> B["WRONG TARGET<br/>windows.info rejected (allowlist)<br/>get_pslist on tdungan - user interrupts"]
+    B --> C["REORIENT<br/>locate win-xp-laptop-2005-06-25.img<br/>no case exists - AskUserQuestion"]
+    C --> D["ACTIVATE<br/>case_init + evidence_register<br/>SHA c4aeeb1b - get_pslist 47 procs"]
+    D --> E["RECONSTRUCT<br/>build_process_tree + cmdline<br/>get_netscan traceback - PowerShell parse"]
+    E --> F["TIMELINE<br/>record_timeline_event x9 fail<br/>re-issued exec-chain-01..09 OK"]
+    F --> G["REPORT<br/>report_generate + report_export<br/>EMPTY - approved-only gate"]
+    G --> H["FINDING<br/>record_finding dry_run then DRAFT<br/>approve_finding NOT run"]
+    H --> I["SELF-CAPTURE<br/>extract own execution log<br/>then fix error undercount 3 to 14"]
+    classDef err fill:#b30000,stroke:#660000,color:#fff;
+    classDef ok fill:#0b6,stroke:#063,color:#fff;
+    classDef gate fill:#225588,stroke:#002244,color:#fff;
+    class B err;
+    class D,F ok;
+    class G,H gate;

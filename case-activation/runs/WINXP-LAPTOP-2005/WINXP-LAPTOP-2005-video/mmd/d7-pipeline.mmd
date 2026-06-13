@@ -1,0 +1,11 @@
+flowchart LR
+    S1["1 Docket<br/>case_init + evidence"] --> S2["2 Run<br/>pslist pstree cmdline"]
+    S2 --> S3["3 Record<br/>9 timeline + 1 finding<br/>DRAFT"]
+    S3 --> S4["4 Approve<br/>approve_finding<br/>NOT RUN - human gate"]
+    S4 --> S5["5 Seal<br/>report_export<br/>EMPTY until approved"]
+    classDef done fill:#0b6,stroke:#063,color:#fff;
+    classDef draft fill:#cc7a00,stroke:#7a4900,color:#fff;
+    classDef stop fill:#777,stroke:#444,color:#fff;
+    class S1,S2 done;
+    class S3 draft;
+    class S4,S5 stop;

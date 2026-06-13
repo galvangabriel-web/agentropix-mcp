@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>WINXP-LAPTOP-2005 — Agent Execution Run</title>
+<style>
+  :root{
+    --bg:#0a0e14; --bg2:#0f1622; --ink:#e8eef7; --dim:#9fb0c7; --line:#1e2a3c;
+    --acc:#36c2ff; --good:#19c37d; --warn:#f0a020; --bad:#ff4d4d; --gate:#5aa9ff;
+    --mono:'DejaVu Sans Mono','Liberation Mono',monospace;
+    --sans:'DejaVu Sans','Liberation Sans',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1920px;height:1080px;overflow:hidden;background:#000}
+  #stage{position:relative;width:1920px;height:1080px;
+    background:radial-gradient(1400px 900px at 70% -10%,#13203a 0%,var(--bg) 55%);
+    color:var(--ink);font-family:var(--sans);}
+  /* keep compositor alive under virtual time */
+  #vt{position:absolute;left:-50px;top:-50px;width:8px;height:8px;opacity:0.01;
+    background:#fff;animation:vtspin 1s linear infinite}
+  @keyframes vtspin{to{transform:rotate(360deg)}}
+
+  .scene{position:absolute;inset:0;opacity:0;transition:opacity .5s ease;
+    padding:70px 96px;display:flex;flex-direction:column}
+  .scene.active{opacity:1}
+
+  .chip{position:absolute;top:34px;left:96px;font-family:var(--mono);font-size:20px;
+    letter-spacing:2px;color:var(--acc);text-transform:uppercase}
+  .chip b{color:var(--dim);font-weight:400}
+  .lt{position:absolute;bottom:46px;left:96px;right:96px;font-family:var(--mono);
+    font-size:21px;color:var(--dim);border-top:1px solid var(--line);padding-top:14px}
+  .lt .k{color:var(--acc)}
+  #pbar{position:absolute;bottom:0;left:0;height:6px;background:var(--acc);width:0;
+    box-shadow:0 0 14px var(--acc)}
+
+  h1{font-size:96px;font-weight:800;letter-spacing:-1px;line-height:1.02}
+  h1 .sub{display:block;font-size:30px;font-weight:500;color:var(--acc);
+    font-family:var(--mono);letter-spacing:3px;margin-top:18px}
+  h2{font-size:50px;font-weight:750;margin-bottom:8px}
+  h2 .tag{font-family:var(--mono);font-size:22px;color:var(--acc);display:block;
+    letter-spacing:3px;margin-bottom:10px;text-transform:uppercase}
+  .lead{font-size:27px;color:var(--dim);max-width:1500px;line-height:1.45}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+  .pop{opacity:0;transform:scale(.92);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.9,.3,1.2)}
+  .pop.in{opacity:1;transform:none}
+
+  /* stat grid */
+  .grid{display:grid;gap:26px;margin-top:30px}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:1.1fr .9fr}
+  .card{background:linear-gradient(180deg,var(--bg2),#0b121d);border:1px solid var(--line);
+    border-radius:16px;padding:26px 28px}
+  .card .num{font-family:var(--mono);font-size:62px;font-weight:800;color:var(--acc);line-height:1}
+  .card .lab{font-size:21px;color:var(--dim);margin-top:12px}
+  .card.good .num{color:var(--good)} .card.warn .num{color:var(--warn)}
+  .card.bad .num{color:var(--bad)}
+
+  /* token bars */
+  .bars{margin-top:26px;display:flex;flex-direction:column;gap:18px}
+  .bar{display:flex;align-items:center;gap:20px}
+  .bar .nm{font-family:var(--mono);font-size:22px;width:230px;color:var(--dim)}
+  .bar .track{flex:1;height:34px;background:#0b121d;border:1px solid var(--line);
+    border-radius:8px;overflow:hidden}
+  .bar .fill{height:100%;width:0;border-radius:7px;
+    background:linear-gradient(90deg,#1b6,#19c37d)}
+  .bar.acc .fill{background:linear-gradient(90deg,#1583b3,#36c2ff)}
+  .bar .vv{font-family:var(--mono);font-size:23px;width:230px;text-align:right;color:var(--ink)}
+
+  /* steps / cards rows */
+  .row{display:flex;gap:22px;margin-top:26px;flex-wrap:wrap}
+  .step{flex:1;min-width:0;background:var(--bg2);border:1px solid var(--line);
+    border-left:5px solid var(--acc);border-radius:12px;padding:22px 24px}
+  .step .h{font-family:var(--mono);font-size:22px;color:var(--acc);margin-bottom:10px}
+  .step .b{font-size:22px;color:var(--ink);line-height:1.4}
+  .step .s{font-size:18px;color:var(--dim);margin-top:8px;font-family:var(--mono)}
+  .step.bad{border-left-color:var(--bad)} .step.bad .h{color:var(--bad)}
+  .step.good{border-left-color:var(--good)} .step.good .h{color:var(--good)}
+  .step.gate{border-left-color:var(--gate)} .step.gate .h{color:var(--gate)}
+
+  /* error -> recovery pairs */
+  .er{display:grid;grid-template-columns:1fr 56px 1fr;gap:14px;align-items:center;margin-top:16px}
+  .er .e{background:#1a0f12;border:1px solid #45222a;border-radius:10px;padding:14px 18px}
+  .er .r{background:#0e1a14;border:1px solid #1d4534;border-radius:10px;padding:14px 18px}
+  .er .e .t{color:var(--bad);font-family:var(--mono);font-size:20px}
+  .er .r .t{color:var(--good);font-family:var(--mono);font-size:20px}
+  .er .e .d,.er .r .d{font-size:18px;color:var(--dim);margin-top:5px}
+  .er .ar{text-align:center;color:var(--acc);font-size:34px;font-family:var(--mono)}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:40px;flex:1;align-items:center;margin-top:10px}
+  .diawrap{height:100%;display:flex;align-items:center;justify-content:center}
+  .diawrap img{max-width:100%;max-height:760px;object-fit:contain;
+    filter:drop-shadow(0 10px 30px rgba(0,0,0,.5))}
+  .tall img{max-height:820px}
+
+  .codebox{font-family:var(--mono);font-size:26px;background:#06223a;border:1px solid #16466e;
+    border-radius:12px;padding:20px 26px;color:#bfe6ff;margin-top:20px;display:inline-block}
+  .codebox .hl{color:var(--bad);font-weight:700}
+  .codebox .ok{color:var(--good)}
+
+  .badge{display:inline-block;font-family:var(--mono);font-size:20px;padding:8px 16px;
+    border-radius:999px;border:1px solid var(--line);color:var(--dim);margin-right:12px;margin-top:14px}
+  .badge.good{border-color:#1d4534;color:var(--good);background:#0e1a14}
+  .badge.bad{border-color:#45222a;color:var(--bad);background:#1a0f12}
+  .badge.gate{border-color:#234a78;color:var(--gate);background:#0a1626}
+
+  .histo{display:flex;flex-direction:column;gap:11px;margin-top:14px}
+  .hrow{display:flex;align-items:center;gap:16px}
+  .hrow .hn{font-family:var(--mono);font-size:19px;width:300px;color:var(--dim);text-align:right}
+  .hrow .ht{flex:1;height:26px;background:#0b121d;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  .hrow .hf{height:100%;width:0;background:linear-gradient(90deg,#1583b3,#36c2ff);border-radius:5px}
+  .hrow .hc{font-family:var(--mono);font-size:19px;width:44px;color:var(--ink)}
+
+  .note{margin-top:auto;font-size:21px;color:var(--warn);font-family:var(--mono);
+    border-left:4px solid var(--warn);padding:6px 0 6px 16px;background:rgba(240,160,32,.06)}
+  .verdict{font-family:var(--mono);font-size:40px;color:var(--good);font-weight:800;
+    border:2px solid #1d4534;background:#0e1a14;border-radius:14px;padding:20px 30px;display:inline-block;margin-top:18px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="vt"></div>
+  <div class="chip" id="chip"></div>
+
+  <!-- 0 TITLE -->
+  <section class="scene" data-dur="6">
+    <div style="margin:auto 0">
+      <div class="reveal" data-at="0.2" style="font-family:var(--mono);color:var(--acc);font-size:26px;letter-spacing:5px">CASE · WINXP-LAPTOP-2005</div>
+      <h1 class="reveal" data-at="0.5" style="margin-top:18px">Agent Execution<br/>Run, Correlated
+        <span class="sub">WHAT ONE CLAUDE AGENT ACTUALLY DID — FROM THE LOGS</span></h1>
+      <div class="reveal" data-at="1.6" style="margin-top:30px">
+        <span class="badge bad">64 tool calls · 14 errors</span>
+        <span class="badge good">every error recovered</span>
+        <span class="badge gate">human approval gate held</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1 VITALS -->
+  <section class="scene" data-dur="15">
+    <h2 class="reveal" data-at="0"><span class="tag">Run vitals</span>One agent, one session, fully logged</h2>
+    <div class="grid g4">
+      <div class="card pop" data-at="0.5"><div class="num" data-count="297" data-at="0.6">0</div><div class="lab">session records</div></div>
+      <div class="card pop" data-at="0.8"><div class="num" data-count="109" data-at="0.9">0</div><div class="lab">assistant turns</div></div>
+      <div class="card pop good" data-at="1.1"><div class="num" data-count="64" data-at="1.2">0</div><div class="lab">tool calls</div></div>
+      <div class="card pop bad" data-at="1.4"><div class="num" data-count="14" data-at="1.5">0</div><div class="lab">failures (all recovered)</div></div>
+    </div>
+    <div class="bars">
+      <div class="bar acc reveal" data-at="3.0"><div class="nm">output</div><div class="track"><div class="fill" data-w="2.1" data-at="3.2"></div></div><div class="vv" data-count="210916" data-at="3.2">0</div></div>
+      <div class="bar acc reveal" data-at="3.4"><div class="nm">cache_creation</div><div class="track"><div class="fill" data-w="4.8" data-at="3.6"></div></div><div class="vv" data-count="480936" data-at="3.6">0</div></div>
+      <div class="bar reveal" data-at="3.8"><div class="nm">cache_read</div><div class="track"><div class="fill" data-w="99" data-at="4.0"></div></div><div class="vv" data-count="9935793" data-at="4.0">0</div></div>
+    </div>
+    <div class="note reveal" data-at="6.0">Single-agent submission · model fell back claude-fable-5[1m] → Opus 4.8 (1M) · cache_read ≈ 9.94M dominates (long-session re-reads)</div>
+  </section>
+
+  <!-- 2 COLD START + REORIENT -->
+  <section class="scene" data-dur="20">
+    <h2 class="reveal" data-at="0"><span class="tag">Phases A–C · cold start</span>Two course-corrections before any analysis</h2>
+    <div class="row">
+      <div class="step bad reveal" data-at="0.6"><div class="h">✗ model unavailable</div><div class="b">First turn errored: <b>claude-fable-5[1m]</b> not accessible.</div><div class="s">recover → /model → Opus 4.8 (1M)</div></div>
+      <div class="step bad reveal" data-at="2.4"><div class="h">✗ wrong target</div><div class="b">Assumed SRL-2015 <b>tdungan</b> XP image. <b>windows.info</b> rejected (not allowlisted); <b>get_pslist</b> interrupted by the user.</div><div class="s">seq 11–12 · LOGICAL_ERROR + ERROR</div></div>
+      <div class="step good reveal" data-at="4.6"><div class="h">✓ reorient</div><div class="b">User clarifies the real image. Agent re-locates <b>win-xp-laptop-2005-06-25.img</b>, finds no case exists, asks how to create it.</div><div class="s">seq 13–16 · turns 28–35</div></div>
+    </div>
+    <div class="codebox reveal" data-at="8.0">run_volatility <span class="hl">windows.info</span> → "Unknown or disallowed plugin"  <span class="ok">→ get_pslist</span></div>
+    <div class="note reveal" data-at="11.0">The allowlist forbids <b>windows.info</b> on raw memory — the kernel profile auto-detects on the first <b>windows.*</b> plugin instead.</div>
+  </section>
+
+  <!-- 3 ACTIVATION -->
+  <section class="scene" data-dur="13">
+    <h2 class="reveal" data-at="0"><span class="tag">Phase D · activation</span>Case opened, evidence hashed, image confirmed live</h2>
+    <div class="row">
+      <div class="step reveal" data-at="0.6"><div class="h">case_init</div><div class="b">WINXP-LAPTOP-2005</div><div class="s">active pointer switched · seq 17</div></div>
+      <div class="step reveal" data-at="1.6"><div class="h">evidence_register</div><div class="b">chain of custody + SHA-256</div><div class="s">c4aeeb1b… · ~512 MB · seq 18</div></div>
+      <div class="step reveal" data-at="2.6"><div class="h">case_status</div><div class="b">confirmed active</div><div class="s">seq 19</div></div>
+      <div class="step good reveal" data-at="3.6"><div class="h">get_pslist</div><div class="b">47 processes</div><div class="s">image parses → profile matched · seq 20</div></div>
+    </div>
+    <div class="codebox reveal" data-at="6.0">image: <span class="ok">win-xp-laptop-2005-06-25.img</span>  ·  XP SP2 x86  ·  vol3 2.28.0  ·  <span class="ok">47 procs</span></div>
+    <div class="note reveal" data-at="9.0">No "identify the OS" step needed — a populated pslist <b>is</b> the symbol-table confirmation.</div>
+  </section>
+
+  <!-- 4 EXECUTION CHAIN -->
+  <section class="scene" data-dur="22">
+    <h2 class="reveal" data-at="0"><span class="tag">Phase F · reconstruction</span>The execution chain → the acquisition itself</h2>
+    <div class="split">
+      <div class="diawrap reveal" data-at="0.6"><img src="../diagrams/d1-execution-chain.png" alt="execution chain"/></div>
+      <div>
+        <div class="lead reveal" data-at="2.5">Linking processes by parent-PID and create-time rebuilds the chain. <b>explorer</b> launches <b>cmd</b> at 16:57:36; seventy seconds later <b>cmd</b> launches <b>dd</b>.</div>
+        <div class="codebox reveal" data-at="6.0" style="font-size:22px">dd if=<span class="hl">\\.\PhysicalMemory</span><br/>&nbsp;&nbsp;&nbsp;of=c:\xp-laptop-2005-06-25.img conv=noerror</div>
+        <div class="lead reveal" data-at="10.0" style="margin-top:22px">The acquisition tool is captured <b>inside its own dump</b> — the teaching centerpiece. The 3 orphans (explorer, Logitech, Citrix) are benign: their parents exited.</div>
+        <div class="reveal" data-at="14.0"><span class="badge good">suspicious_count = 0</span><span class="badge">mitre T1003</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 TIMELINE -->
+  <section class="scene" data-dur="14">
+    <h2 class="reveal" data-at="0"><span class="tag">Phase G · timeline</span>Nine events recorded — after nine were rejected</h2>
+    <div class="split">
+      <div class="diawrap tall reveal" data-at="0.6"><img src="../diagrams/d3-timeline.png" alt="timeline"/></div>
+      <div>
+        <div class="lead reveal" data-at="2.5">The boot→services→shell→user→acquisition sequence is staged as <b>exec-chain-01..09</b> in the case timeline index.</div>
+        <div class="er reveal" data-at="5.5">
+          <div class="e"><div class="t">✗ ×9</div><div class="d">record_timeline_event: "event must contain a non-empty event_id"</div></div>
+          <div class="ar">→</div>
+          <div class="r"><div class="t">✓ ×9</div><div class="d">re-issued with stable IDs exec-chain-01..09 — all indexed</div></div>
+        </div>
+        <div class="note reveal" data-at="9.0">Half of the 18 timeline calls failed first. The fix is on the record — that is the self-correction signal.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 TOOL FLOW + HISTOGRAM -->
+  <section class="scene" data-dur="18">
+    <h2 class="reveal" data-at="0"><span class="tag">Tool-call graph</span>What the agent invoked, and how often</h2>
+    <div class="g2 grid" style="margin-top:24px">
+      <div>
+        <div class="histo">
+          <div class="hrow reveal" data-at="0.6"><div class="hn">record_timeline_event</div><div class="ht"><div class="hf" data-w="100" data-at="0.7"></div></div><div class="hc">18</div></div>
+          <div class="hrow reveal" data-at="0.9"><div class="hn">ToolSearch</div><div class="ht"><div class="hf" data-w="33" data-at="1.0"></div></div><div class="hc">6</div></div>
+          <div class="hrow reveal" data-at="1.1"><div class="hn">Edit</div><div class="ht"><div class="hf" data-w="33" data-at="1.2"></div></div><div class="hc">6</div></div>
+          <div class="hrow reveal" data-at="1.3"><div class="hn">PowerShell</div><div class="ht"><div class="hf" data-w="22" data-at="1.4"></div></div><div class="hc">4</div></div>
+          <div class="hrow reveal" data-at="1.5"><div class="hn">idx_search</div><div class="ht"><div class="hf" data-w="17" data-at="1.6"></div></div><div class="hc">3</div></div>
+          <div class="hrow reveal" data-at="1.7"><div class="hn">AskUserQuestion</div><div class="ht"><div class="hf" data-w="17" data-at="1.8"></div></div><div class="hc">3</div></div>
+          <div class="hrow reveal" data-at="1.9"><div class="hn">run_volatility · get_pslist · record_finding</div><div class="ht"><div class="hf" data-w="11" data-at="2.0"></div></div><div class="hc">2×</div></div>
+          <div class="hrow reveal" data-at="2.1"><div class="hn">case_init · evidence_register · build_process_tree · get_netscan · report_*</div><div class="ht"><div class="hf" data-w="6" data-at="2.2"></div></div><div class="hc">1×</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="step reveal" data-at="3.0"><div class="h">the spine</div><div class="b" style="font-family:var(--mono);font-size:19px;line-height:1.7">
+          discover → activate → reconstruct →<br/>timeline → report → finding →<br/>self-capture log → fix own error count</div></div>
+        <div class="lead reveal" data-at="6.0" style="font-size:23px;margin-top:22px">A clean DFIR loop, wrapped by two meta-loops the agent <b>added itself</b>: logging its own run, then patching a missing lifecycle tool.</div>
+        <div class="reveal" data-at="9.0"><span class="badge">~14 of 72 MCP tools exercised</span><span class="badge good">no agent-to-agent fan-out</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 ERRORS & RECOVERIES -->
+  <section class="scene" data-dur="26">
+    <h2 class="reveal" data-at="0"><span class="tag">The self-correction core</span>14 failures · 14 recoveries</h2>
+    <div class="er reveal" data-at="0.8">
+      <div class="e"><div class="t">windows.info</div><div class="d">not allowlisted (LOGICAL_ERROR)</div></div><div class="ar">→</div>
+      <div class="r"><div class="t">get_pslist</div><div class="d">dedicated wrapper instead</div></div>
+    </div>
+    <div class="er reveal" data-at="2.0">
+      <div class="e"><div class="t">get_netscan</div><div class="d">python traceback — vol3 netscan is Vista+</div></div><div class="ar">→</div>
+      <div class="r"><div class="t">bulk_extractor carve</div><div class="d">url/domain/email for XP SP2</div></div>
+    </div>
+    <div class="er reveal" data-at="3.2">
+      <div class="e"><div class="t">jq via Bash</div><div class="d">command not found (Windows host)</div></div><div class="ar">→</div>
+      <div class="r"><div class="t">PowerShell</div><div class="d">ConvertFrom-Json → suspicious_count 0</div></div>
+    </div>
+    <div class="er reveal" data-at="4.4">
+      <div class="e"><div class="t">build_process_tree</div><div class="d">108 KB result over token cap</div></div><div class="ar">→</div>
+      <div class="r"><div class="t">saved to disk</div><div class="d">parsed just the summary scalars</div></div>
+    </div>
+    <div class="er reveal" data-at="5.6">
+      <div class="e"><div class="t">timeline ×9</div><div class="d">missing event_id</div></div><div class="ar">→</div>
+      <div class="r"><div class="t">exec-chain-01..09</div><div class="d">re-issued, all indexed</div></div>
+    </div>
+    <div class="row" style="margin-top:30px">
+      <div class="card pop bad" data-at="9.0"><div class="num">3</div><div class="lab">ERROR (protocol / rejection)</div></div>
+      <div class="card pop warn" data-at="9.4"><div class="num">10</div><div class="lab">LOGICAL_ERROR (in result body)</div></div>
+      <div class="card pop bad" data-at="9.8"><div class="num">1</div><div class="lab">TRACEBACK (tool stderr)</div></div>
+      <div class="card pop good" data-at="10.2"><div class="num">14</div><div class="lab">recovered in-run</div></div>
+    </div>
+  </section>
+
+  <!-- 8 HUMAN GATE -->
+  <section class="scene" data-dur="15">
+    <h2 class="reveal" data-at="0"><span class="tag">Phases H–I · the human gate</span>The report stayed empty — on purpose</h2>
+    <div class="split">
+      <div class="diawrap reveal" data-at="0.6"><img src="../diagrams/d7-pipeline.png" alt="pipeline" style="max-height:300px"/></div>
+      <div>
+        <div class="lead reveal" data-at="2.0"><b>report_export</b> returned empty: the canonical report renders <b>approved-only</b> content, and the finding + timeline are <b>DRAFT</b>.</div>
+        <div class="lead reveal" data-at="5.0" style="margin-top:20px">The agent staged <b>winxp-laptop-exec-chain-acquisition</b> as DRAFT (dry-run → commit) and <b>refused to run approve_finding</b> — that needs the operator's password (PBKDF2 + HMAC), never the model's.</div>
+        <div class="verdict reveal" data-at="9.0" style="font-size:30px;color:var(--gate);border-color:#234a78;background:#0a1626">The agent investigates · a human authorizes</div>
+      </div>
+    </div>
+    <div class="note reveal" data-at="12.0">Honest negative: an empty canonical report, not a faked "sealed" one. The draft-gate (W-286) was not bypassed.</div>
+  </section>
+
+  <!-- 9 LOG SELF-AUDIT -->
+  <section class="scene" data-dur="16">
+    <h2 class="reveal" data-at="0"><span class="tag">Phases J–K · self-audit</span>The agent audited its own audit</h2>
+    <div class="lead reveal" data-at="0.6" style="margin-top:10px">Asked to collect the execution logs, the agent located its session transcript, wrote a reusable extractor, and produced a 3+1 bundle — then caught a bug in <b>its own</b> output.</div>
+    <div class="er reveal" data-at="4.0">
+      <div class="e"><div class="t">first manifest: 3 errors</div><div class="d">protocol is_error=false hid the 9 timeline + other logical failures</div></div>
+      <div class="ar">→</div>
+      <div class="r"><div class="t">fixed classifier: 14 errors</div><div class="d">parse result bodies for "error" + tracebacks → ERROR / LOGICAL_ERROR / TRACEBACK</div></div>
+    </div>
+    <div class="codebox reveal" data-at="8.0" style="font-size:22px">extract-agent-execution-log.ps1 · <span class="ok">Get-ErrKind()</span> / <span class="ok">Get-ErrMsg()</span> · 6 edits (seq 59–64)</div>
+    <div class="note reveal" data-at="11.5">The error count in the manifest is trustworthy <b>because</b> it was derived, found wanting, and corrected — on the record.</div>
+  </section>
+
+  <!-- 10 CASE_CLOSE PATCH -->
+  <section class="scene" data-dur="14">
+    <h2 class="reveal" data-at="0"><span class="tag">Phase L · follow-on</span>When a tool was missing, it built one</h2>
+    <div class="row">
+      <div class="step bad reveal" data-at="0.6"><div class="h">✗ no case_close</div><div class="b">Closing the case revealed there is no <b>case_close</b> MCP tool.</div></div>
+      <div class="step reveal" data-at="2.0"><div class="h">confirmed the model fits</div><div class="b">CaseRecord.status ∈ {active, closed, archived} and <b>ended_at</b> already exist.</div></div>
+      <div class="step good reveal" data-at="3.4"><div class="h">✓ verified patch</div><div class="b">4 files: wrapper + server + fastmcp_app + unit tests; read-modify-upsert, chain-of-custody closure.</div></div>
+    </div>
+    <div class="codebox reveal" data-at="6.5">git apply <span class="ok">add-case-close-tool.patch</span>  ·  target galvangabriel-web/agentropix-mcp @ HEAD</div>
+    <div class="note reveal" data-at="9.5">Honest scope: this is a <b>follow-on artifact</b> (post-session, ~19:21) — <b>not</b> a call in the 64-tool transcript. A real gap, closed with code, not pretense.</div>
+  </section>
+
+  <!-- 11 VERDICT / COVERAGE -->
+  <section class="scene" data-dur="14">
+    <h2 class="reveal" data-at="0"><span class="tag">What the run proves</span>Clean baseline — and an honest trace</h2>
+    <div class="split">
+      <div class="diawrap reveal" data-at="0.6"><img src="../diagrams/d9-coverage.png" alt="coverage" style="max-height:640px"/></div>
+      <div>
+        <div class="verdict reveal" data-at="2.0">VERDICT · CLEAN BASELINE</div>
+        <div class="lead reveal" data-at="4.0" style="margin-top:18px;font-size:24px">
+          ✓ grounded tool use on a hashed image<br/>
+          ✓ 14/14 errors surfaced, then recovered<br/>
+          ✓ human approval gate held (report not faked)<br/>
+          ✓ agent auditable about itself<br/>
+          ✓ closed a real tool gap with a tested patch</div>
+        <div class="reveal" data-at="8.0"><span class="badge">no contradiction of canonical facts (72 tools · 16 wrappers · 4464 tests)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 OUTRO -->
+  <section class="scene" data-dur="6">
+    <div style="margin:auto 0">
+      <h1 class="reveal" data-at="0.2" style="font-size:78px">WINXP-LAPTOP-2005
+        <span class="sub">EVIDENCE IN · HONEST TRACE OUT · HUMAN IN THE LOOP</span></h1>
+      <div class="reveal" data-at="2.0" style="font-family:var(--mono);color:var(--dim);font-size:22px;margin-top:26px">
+        SHA-256 c4aeeb1b461378eef796944884d1d60adaa99cbae4d035923c144b08deee1e6e</div>
+      <div class="reveal" data-at="3.0" style="font-family:var(--mono);color:var(--acc);font-size:22px;margin-top:10px">
+        grounded in 297 records · 109 turns · 64 tool calls · 14 recoveries</div>
+    </div>
+  </section>
+
+  <div class="lt" id="lt"></div>
+  <div id="pbar"></div>
+</div>
+
+<script>
+(function(){
+  var scenes = Array.prototype.slice.call(document.querySelectorAll('.scene'));
+  var durs = scenes.map(function(s){return parseFloat(s.dataset.dur)*1000;});
+  var starts=[], acc=0;
+  for(var i=0;i<durs.length;i++){starts.push(acc);acc+=durs[i];}
+  var TOTAL = acc;
+  var chip = document.getElementById('chip');
+  var lt = document.getElementById('lt');
+  var pbar = document.getElementById('pbar');
+  var chips = ["WINXP-LAPTOP-2005","RUN VITALS","COLD START","ACTIVATION","EXECUTION CHAIN",
+    "TIMELINE","TOOL-CALL GRAPH","ERRORS & RECOVERY","HUMAN GATE","SELF-AUDIT","CASE_CLOSE PATCH",
+    "VERDICT","WINXP-LAPTOP-2005"];
+  var lts = [
+    "Correlated from the run logs — every figure traces to a seq / turn",
+    "<span class='k'>source:</span> manifest.json · execution-log.summary.md",
+    "<span class='k'>turns 1–35:</span> model fallback + wrong-target interrupt + reorient",
+    "<span class='k'>seq 17–20:</span> case_init · evidence_register · case_status · get_pslist",
+    "<span class='k'>seq 23–24:</span> build_process_tree + cmdline — the dd acquisition footprint",
+    "<span class='k'>seq 28–45:</span> 9 rejected → 9 re-issued timeline events",
+    "<span class='k'>histogram:</span> 64 tool calls across ~14 MCP tools (single-agent)",
+    "<span class='k'>manifest:</span> 3 ERROR · 10 LOGICAL_ERROR · 1 TRACEBACK — all recovered",
+    "<span class='k'>seq 46–50:</span> empty report · DRAFT finding · approve_finding NOT run",
+    "<span class='k'>seq 57–64:</span> extractor authored, then corrected (3 → 14 errors)",
+    "<span class='k'>follow-on:</span> add-case-close-tool.patch — post-session artifact",
+    "<span class='k'>verdict:</span> suspicious_count 0 · 3 benign orphans · honest negatives kept",
+    "Agentropix-SIFT · WINXP-LAPTOP-2005 execution run"
+  ];
+
+  function easeOut(t){return 1-Math.pow(1-t,3);}
+  function fmt(n){return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');}
+
+  function applyScene(s, localMs){
+    var sec = localMs/1000;
+    // reveals
+    s.querySelectorAll('.reveal,.pop').forEach(function(el){
+      var at = parseFloat(el.dataset.at||"0");
+      if(sec>=at) el.classList.add('in'); else el.classList.remove('in');
+    });
+    // counters
+    s.querySelectorAll('[data-count]').forEach(function(el){
+      var at = parseFloat(el.dataset.at||"0");
+      var target = parseFloat(el.dataset.count);
+      var d = 1.1; // animate over 1.1s
+      var p = Math.max(0,Math.min(1,(sec-at)/d));
+      el.textContent = fmt(target*easeOut(p));
+    });
+    // bar fills (width%) and histogram fills
+    s.querySelectorAll('[data-w]').forEach(function(el){
+      var at = parseFloat(el.dataset.at||"0");
+      var w = parseFloat(el.dataset.w);
+      var d = 0.9;
+      var p = Math.max(0,Math.min(1,(sec-at)/d));
+      el.style.width = (w*easeOut(p))+'%';
+    });
+  }
+
+  function render(elapsed){
+    var t = elapsed % TOTAL; // loop-safe, but we render once through
+    var idx = 0;
+    for(var i=0;i<scenes.length;i++){ if(elapsed>=starts[i]) idx=i; }
+    if(elapsed>=TOTAL) idx=scenes.length-1;
+    for(var j=0;j<scenes.length;j++){
+      if(j===idx){ scenes[j].classList.add('active'); }
+      else { scenes[j].classList.remove('active'); }
+    }
+    var localMs = elapsed - starts[idx];
+    applyScene(scenes[idx], localMs);
+    chip.innerHTML = chips[idx]||"";
+    lt.innerHTML = lts[idx]||"";
+    pbar.style.width = (100*Math.min(elapsed,TOTAL)/TOTAL)+'%';
+  }
+
+  var startVT=null, raf=null;
+  function loop(){
+    var now = performance.now();
+    if(startVT===null) startVT=now;
+    render(now-startVT);
+    raf=requestAnimationFrame(loop);
+  }
+  window.__totalMs = TOTAL;
+  window.__start = function(){ startVT=null; if(!raf) raf=requestAnimationFrame(loop); };
+  // render first frame static (paused) so a pre-start screenshot isn't blank-but-broken
+  render(0);
+})();
+</script>
+</body>
+</html>

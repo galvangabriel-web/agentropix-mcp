@@ -1,0 +1,11 @@
+flowchart LR
+    E1["windows.info<br/>not allowlisted"] --> R1["use get_pslist"]
+    E2["get_netscan<br/>traceback (XP SP2)"] --> R2["bulk_extractor carve"]
+    E3["jq via Bash<br/>not installed"] --> R3["PowerShell ConvertFrom-Json"]
+    E4["record_timeline_event x9<br/>missing event_id"] --> R4["re-issue exec-chain-01..09"]
+    E5["report_export<br/>empty (DRAFT only)"] --> R5["stage DRAFT - keep human gate"]
+    E6["own log undercount<br/>3 errors not 14"] --> R6["fix classifier - 14 errors"]
+    classDef err fill:#b30000,stroke:#660000,color:#fff;
+    classDef ok fill:#0b6,stroke:#063,color:#fff;
+    class E1,E2,E3,E4,E5,E6 err;
+    class R1,R2,R3,R4,R5,R6 ok;
