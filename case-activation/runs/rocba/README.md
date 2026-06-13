@@ -19,6 +19,8 @@
 | `logs/mcp-http-audit.jsonl` | Server-side per-request audit | Every MCP call: `timestamp`, `duration_ms`, `request_id`, `session_id`, `req/resp bytes` |
 | `logs/thymus-access.log` | Read-only-gate decisions | `Thymus ALLOW/REJECT` — every evidence read policy-checked before any byte is opened |
 | `logs/memory/` | Memory-sequence checkpoints + log | Volatility chain attempt, incl. the honest-negative `initialize()` timeout |
+| `engine-run/AGENT-BLACKBOARD.md` | **Trinity-engine run — agent ↔ blackboard comms** | The full 13-agent swarm publishing to the shared blackboard (21 publishes), the 5-iteration plan-shrink (13 → 2 agents), 351 findings / 509 tool calls — how the agents communicate in the backend |
+| `engine-run/blackboard-events.jsonl` · `report.json` · `report.audit-log.json` | Engine artifacts | Derived agent-publish log, the (trimmed) sealed report with `iterations[]`, and the audit log |
 
 ## Headline results (real, grounded)
 
