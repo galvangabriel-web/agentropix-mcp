@@ -25,9 +25,9 @@ store (2026-06-12). Total corpus: **~545 GB across 22 directories** (20 case dir
 | `nist2` | CSV network-attack log dataset (Kaggle-style `cybersecurity_attacks_data.csv`) — **provenance: unverified**. Tabular telemetry, not an image. | 17M | 17 MB CSV traffic-log data + saved HTML page | No (CSV logs only, **not** a pcap) | — (skipped: not a forensic image) |
 | `nist3` | **NIST CFReDS "The TechHive Scenario"** — verified via TX1 acquisition logs + BitLocker recovery key. Obtain from NIST CFReDS portal. | 86G | `Chad_LT.E01` (Windows-on-ARM laptop, 465 GiB media), TX1 acquisition logs | No | [Activation guide](../../case-activation/techhive-chad-lt-laptop.md) |
 | `nist4` | **MemLabs CTF Labs 1–6** (stuxnet999/MemLabs, GitHub) — verified via lab archives. | 8.8G | 6× Windows memory dumps `MemoryDump_Lab1..6.raw` + source `.7z`, `procee` memory sample | No | [Activation guide](../../case-activation/memlabs-dumps.md) |
-| `nist5` | **DFRWS 2005 Memory Analysis Challenge / Forensics Rodeo ("RODEO")** — verified via challenge files + published answers PDF. Obtain from DFRWS archives. | 253M | `RHINOUSB.dd` FAT16 USB image + challenge files | No | [Activation guide](../../case-activation/dfrws-2005-rodeo-usb.md) |
+| `nist5` | **DFRWS 2005 Memory Analysis Challenge / Forensics Rodeo ("RODEO")** — verified via challenge files + published answers PDF. Obtain from DFRWS archives. | 253M | `RHINOUSB.dd` FAT16 USB image + challenge files + three acquired scenario pcaps (`rhino*.log`) | **Yes — 3 acquired pcaps** (`rhino.log` / `rhino2.log` / `rhino3.log`, pcap v2.4 Ethernet, mislabeled `.log`; see §2a). SIFT chain does **not** parse pcap. | [Activation guide](../../case-activation/dfrws-2005-rodeo-usb.md) |
 | `rocba` | **ROCBA Hackathon 2026 scenario** (private hackathon; background PPTX + questions ship with it) — not a public dataset. | 92G | `rocba-cdrive.e01` (23.7 GB E01) + `Rocba-Memory.raw` (18 GB) + archives | No | [Activation guide](../../case-activation/rocba-hackathon-2026.md) |
-| `vanko` | **SANS FOR500 "The Case of the Abducted Zebrafish"** (VANKO insider IP-theft scenario) — verified via scenario `.docx` + AccessData acquisition artifacts. Obtain from SANS course media. | 82G | `surface_physical.E01–.E17` multi-segment E01 (~36 GB), master archive, acquisition logs | No | [Sealed report — 10 confirmed findings](../12-CASES-REPORTS/vanko-report/README.md) · [recorded activation run](../../case-activation/runs/vanko-abducted-zebrafish/EXECUTED-RUN.md) |
+| `vanko` | **SANS FOR500 "The Case of the Abducted Zebrafish"** (VANKO insider IP-theft scenario) — verified via scenario `.docx` + AccessData acquisition artifacts. Obtain from SANS course media. | 82G | `surface_physical.E01–.E17` multi-segment E01 (~36 GB), master archive, acquisition logs | **Yes — 2 pcaps on the suspect disk** (`testpcap.pcap`, `starbucks pcap.pcap`; 802.11 + radiotap Wi-Fi captures residing in the image, surface on extraction; see §2a). SIFT chain does **not** parse pcap. | [Sealed report — 10 confirmed findings](../12-CASES-REPORTS/vanko-report/README.md) · [recorded activation run](../../case-activation/runs/vanko-abducted-zebrafish/EXECUTED-RUN.md) |
 | `memdump` | Unattributed 512 MB raw memory dump (file dated 2014) — **provenance: unverified**. | 513M | `memdump.mem` raw memory | No | [Recorded run + reports](../../case-activation/runs/memdump-raw-2014/EXECUTED-RUN.md) |
 | `cfreds-fresh` | **NIST CFReDS "Hacking Case"** (fresh re-download, chain-of-custody `CHAIN.md` present). Obtain from NIST CFReDS portal. | 1.1G | `4Dell-Latitude-CPi.E01/.E02` + corrupt-set backup | No | [Activation guide](../../case-activation/cfreds-hacking-case-4dell.md) |
 | `cfreds-fresh1` | NIST CFReDS Hacking Case — incomplete duplicate (E01 only, missing `.E02`). | 641M | Single E01 segment | No | — (duplicate of `cfreds-fresh`) |
@@ -47,32 +47,61 @@ sector with XP partition table (raw dd); `Challenge.raw` → Windows ETL magic (
 
 ## 2. Network captures — the honest story
 
-**The corpus contains no acquired network captures.** A recursive search of the evidence store
-(`find … -iname "*.pcap*" -o -iname "*.cap" -o -iname "*netflow*"`) returns nothing under any case
-directory. The closest item is the `nist2` CSV — tabular network-attack log data, not packets.
+**The corpus does contain acquired network captures — five of them — plus six carved-from-disk
+pcaps.** A magic-byte sweep (matching the pcap signature `d4 c3 b2 a1`, not just file extensions) of
+every `/cases` path and the extraction working dirs found **11 pcap-magic files** total. An earlier
+extension-only `find … -iname "*.pcap*"` missed the acquired captures because three of them are
+named `*.log` and the other two surface only inside an extracted disk tree.
 
-What **does** exist: six small `packets.pcap` files **carved by `bulk_extractor` from disk and
-memory evidence** during analysis runs. These are *derived artifacts* (network fragments recovered
-from disk/RAM residue), **not** wire captures, and they live in ephemeral analysis working
-directories — they should be regenerated deterministically (re-run `bulk_extractor` over the same
-image) rather than treated as primary evidence:
+### 2a. Acquired captures (5)
+
+These are **real wire captures** — primary evidence, not derived artifacts. All confirmed via
+`file(1)` and `xxd` (pcap magic `d4 c3 b2 a1`).
+
+| Acquired pcap | Size | `file(1)` magic | Provenance |
+|---|---|---|---|
+| `/cases/nist5/DFRWS2005-RODEO/rhino.log` | ~3.0 MB (3,187,907 B) | pcap v2.4, Ethernet, μs ts, snaplen 65000 | DFRWS 2005 Rodeo scenario capture, mislabeled `.log` |
+| `/cases/nist5/DFRWS2005-RODEO/rhino2.log` | ~286 KB (292,604 B) | pcap v2.4, Ethernet, μs ts, snaplen 65000 | DFRWS 2005 Rodeo scenario capture, `.log` name |
+| `/cases/nist5/DFRWS2005-RODEO/rhino3.log` | ~221 KB (226,094 B) | pcap v2.4, Ethernet, μs ts, snaplen 65000 | DFRWS 2005 Rodeo scenario capture, `.log` name |
+| `testpcap.pcap` (Vanko disk) | ~144 KB (147,899 B) | pcap v2.4, 802.11 + radiotap, μs ts, snaplen 65535 | Wi-Fi capture residing **on** the Vanko suspect disk image (`/cases/vanko` `surface_physical.E01`); surfaces under the extraction working dir, no loose copy under `/cases` |
+| `starbucks pcap.pcap` (Vanko disk) | ~191 KB (195,688 B) | pcap v2.4, 802.11 + radiotap, μs ts, snaplen 65535 | Wi-Fi capture from the Vanko suspect disk image; same extraction provenance |
+
+So the three DFRWS `rhino*.log` files are scenario network traffic, and the two Vanko Wi-Fi captures
+are evidence that *resided on* a suspect disk — not captured by the lab. None of the **primary
+SRL-2015 / SRL-2018 / NIST disk-image cases** ship acquired captures of their own.
+
+### 2b. Carved-from-disk pcaps (6)
+
+Six small `packets.pcap` files were **carved by `bulk_extractor` from disk and memory evidence**
+during analysis runs. These are *derived artifacts* (network fragments recovered from disk/RAM
+residue), **not** wire captures, and they live in ephemeral analysis working directories — they
+should be regenerated deterministically (re-run `bulk_extractor` over the same image) rather than
+treated as primary evidence:
 
 | Carved pcap | Size | Derived from (bulk_extractor input) |
 |---|---|---|
 | SRL-2015 controller run | 34 KB | SRL-2015 win2008R2 controller C-drive E01 |
-| SRL-2018 run | 64 KB | SRL-2018 evidence |
-| Hacking Case run 1 (`case-A`) | 302 KB | NIST CFReDS Hacking Case disk |
-| Hacking Case run 3 | 302 KB | Same disk — identical size to run 1 (deterministic) |
-| Validation re-run | 302 KB | Same disk — matches runs 1/3 |
-| Ad-hoc bulk run (2026-06-08) | 966 KB | Ad-hoc `bulk_extractor` run |
+| SRL-2018 run | 62 KB | SRL-2018 evidence |
+| Hacking Case run 1 (`case-A`) | 295 KB | NIST CFReDS Hacking Case disk |
+| Hacking Case run 3 | 295 KB | Same disk — identical size to run 1 (deterministic) |
+| Validation re-run | 295 KB | Same disk — matches runs 1/3 |
+| Ad-hoc bulk run (2026-06-08) | 943 KB | Ad-hoc `bulk_extractor` run |
 
 All six verified via `file(1)`: *pcap capture file v2.4, Ethernet, microsecond timestamps*. The
-three identical-size Hacking Case carves are themselves a small reproducibility data point: the same
-image yields the same carved capture across independent runs.
+three identical-size (301,634 B) Hacking Case carves are themselves a small reproducibility data
+point: the same image yields the same carved capture across independent runs.
 
-**Implication for claims:** any statement about "network analysis" in this corpus refers to (a)
-carved network residue from disk/memory, (b) memory-resident socket data (Volatility `netscan`), or
-(c) the `nist2` CSV telemetry — never to acquired pcaps.
+### 2c. Capability boundary — the SIFT tool chain does not parse pcap
+
+The acquired captures exist in the corpus, but **the Agentropix SIFT tool chain does not parse
+pcap.** No finding in any case report is derived from packet analysis. Network visibility in
+Agentropix findings comes entirely from **disk and memory artifacts**: EVTX network events
+(logon `4624` / explicit-credential `4648`, firewall, share events), SRUM network-usage tables
+(per-app byte counters), the registry, and memory `netscan` (Volatility) for memory-resident socket
+data — plus the `nist2` CSV telemetry. So any statement about "network analysis" refers to those
+disk/memory-derived sources, **not** to packet-capture analysis of the acquired `rhino*.log` or
+Vanko `.pcap` files (those remain out of scope for the SIFT disk/memory chain; register for custody
+if needed, analyze with a separate pcap workflow).
 
 ## 3. What this inventory does and does not substantiate
 
@@ -83,7 +112,10 @@ Backed **by this page** (verifiable corpus composition):
   ⚠ Note: [dataset-recall.md](../07-sdlc-ops/dataset-recall.md) says "25 memory dumps"; the live
   inventory counts **26**. The discrepancy (likely the `base-wkstn-01-mem.img` second capture or a
   snapshot image counted differently) should be reconciled in that page.
-- **No acquired network captures exist** (§2) — constrains how "cross-modal" claims may be read.
+- **Acquired network captures: 5** (§2a) — three DFRWS `rhino*.log` scenario pcaps + two Vanko
+  Wi-Fi `.pcap` files that resided on a suspect disk. The SIFT tool chain does **not** parse pcap,
+  so no finding derives from them; this constrains how "cross-modal" / "network analysis" claims may
+  be read (network visibility comes from EVTX/SRUM/registry/memory `netscan`, not packets).
 
 **Not** substantiated here (still requires committed run artifacts — see the recall pages' own caveats):
 
