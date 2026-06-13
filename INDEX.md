@@ -144,6 +144,7 @@ unchanged — the reading order is layered on top, non-destructively.
 | Persisted Artifacts | auditor, developer | What gets written to disk — JSON report, JSONL audit log, session keys, Hippocampus — and where? | [03-data/persisted-artifacts.md](docs/03-data/persisted-artifacts.md) |
 | Recall Ground-Truth Fixtures | examiner, auditor | What labelled expected-findings are the recall numbers scored against? 4-of-29 committed fixtures + a sealed-run recall summary. | [docs/03-data/recall-ground-truth/README.md](docs/03-data/recall-ground-truth/README.md) |
 | Evidence Datasets | examiner, auditor, judge | What is the evidence corpus — per-case provenance (SANS SRL, NIST CFReDS, MemLabs, DFRWS), evidence types, the network-capture story, and which claims the inventory does/does not substantiate? | [docs/03-data/evidence-datasets.md](docs/03-data/evidence-datasets.md) |
+| **Network-Capture Verification (proof package)** | examiner, auditor, judge | How was the network-capture inventory **proven** — magic-byte sweep, raw `file(1)`/`xxd`/SHA-256 transcript for all 11 pcaps, claim reconciliation, and the self-caught extension-search error post-mortem? | [docs/03-data/network-evidence-verification/](docs/03-data/network-evidence-verification/README.md) |
 | Schema Dump | developer, auditor | The machine-extracted Pydantic model schema (field names, types, constraints) behind the data chapter. | [03-data/schema-dump.md](docs/03-data/schema-dump.md) |
 
 ## 4. MCP Tools

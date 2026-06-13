@@ -47,6 +47,11 @@ sector with XP partition table (raw dd); `Challenge.raw` → Windows ETL magic (
 
 ## 2. Network captures — the honest story
 
+> **Full proof package:** [`network-evidence-verification/`](network-evidence-verification/) —
+> verified inventory, raw `file(1)`/`xxd`/SHA-256 capture for all 11 pcaps, and the claim-by-claim
+> reconciliation table. Includes the methodology post-mortem on why an extension-only search
+> initially (and wrongly) reported zero acquired captures — a self-caught, documented correction.
+
 **The corpus does contain acquired network captures — five of them — plus six carved-from-disk
 pcaps.** A magic-byte sweep (matching the pcap signature `d4 c3 b2 a1`, not just file extensions) of
 every `/cases` path and the extraction working dirs found **11 pcap-magic files** total. An earlier
