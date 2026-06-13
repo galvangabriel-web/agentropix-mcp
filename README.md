@@ -620,7 +620,12 @@ timestamped tool sequence, server HTTP audit, Thymus decisions, a grounded DRAFT
 honest negatives kept on record:
 [`case-activation/runs/rocba/EXECUTION-LOG.md`](case-activation/runs/rocba/EXECUTION-LOG.md); a sibling
 agent-execution-log run covers the Windows XP laptop (2005) case at
-[`WINXP-LAPTOP-2005`](case-activation/runs/WINXP-LAPTOP-2005/). The wider
+[`WINXP-LAPTOP-2005`](case-activation/runs/WINXP-LAPTOP-2005/) —
+🎬 **[3 min 19 s animated walkthrough](https://galvangabriel-web.github.io/agentropix-mcp/case-activation/runs/WINXP-LAPTOP-2005/WINXP-LAPTOP-2005-video/watch.html)**
+(auto-plays): a 13-scene deterministic deck correlated from its logs (297 records · 64 tool calls · 14
+errors, all recovered), grounded in the
+[correlation report](case-activation/runs/WINXP-LAPTOP-2005/WINXP-LAPTOP-2005-video/CORRELATION-REPORT.md).
+The wider
 [`case-activation/`](case-activation/) folder holds a per-case Activation Guide for every evidence
 set on this host plus the captured executed runs ([`case-activation/runs/`](case-activation/runs/)).
 
