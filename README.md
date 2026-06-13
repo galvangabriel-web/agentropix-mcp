@@ -36,6 +36,12 @@
 > hash-verified samples · YARA 5/5 · 17 examiner-approved findings. Local copy in-repo:
 > [`Final_Video/SRL-2015-EVIDENCE-presentation.mp4`](Final_Video/SRL-2015-EVIDENCE-presentation.mp4).
 
+> 🔎 **Audit reports** (auto-generated, repo-grounded — every figure cites its source):
+> **[Evidence Dataset Documentation](EVIDENCE_DATASET_DOCS.md)** — full inventory of the case
+> datasets with provenance, SHA-256 integrity, schemas, and the ingestion pipeline; and the
+> **[System Accuracy & Validation Report](ACCURACY_REPORT.md)** — component benchmark matrix,
+> recall metrics (72/72 disk · 108/118 memory), and algorithmic-drift findings with file:line refs.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#license)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
 [![MCP tools: 72](https://img.shields.io/badge/MCP%20tools-72-green.svg)](docs/04-mcp-tools/tool-reference.md)
