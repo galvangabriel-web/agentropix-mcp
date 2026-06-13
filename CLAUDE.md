@@ -205,6 +205,35 @@ GitLab renders Mermaid client-side (strict security level); respect its limits:
   `agentropix-mcp`; extras `[engine]`/`[forensics]`/`[reports]`); built wheels go to `agentropix_mcp/dist/`
   (gitignored) and are attached to GitHub releases.
 
+## Repo-wide audit & LLM-index artifacts (root, published 2026-06-13)
+Auto-generated (Opus 4.8 multi-agent workflows), repo-grounded, every figure source-cited; all live on
+`github/main`, linked from `README.md` + `INDEX.md`, and **mirrored into `agentropix-sift/docs/portal/`**:
+- `AUDIT-COVERAGE.md` — per-section README/file index-coverage audit (701 tracked files; 0 broken links,
+  0 orphans after the build-sources pass). The audit drove a README/INDEX coverage pass + a
+  `agentropix_mcp/README.md` "Complete file index" (every package module, docstring-derived, verified).
+- `EVIDENCE_DATASET_DOCS.md` — evidence-dataset inventory: provenance, SHA-256 (computed live + manifest
+  hashes), schemas, acquire→…→SIEM ingestion pipeline.
+- `ACCURACY_REPORT.md` — system accuracy/validation audit (benchmark matrix, recall, drift/threshold
+  findings w/ file:line). **GOTCHA: `ACCURACY_REPORT.md` (underscore, root) is a DIFFERENT file from
+  `docs/07-sdlc-ops/ACCURACY-REPORT.md` (hyphen) — never confuse or overwrite one with the other.**
+- `llms.txt` (curated index) + `llms-full.txt` (expanded: inlines 19 core docs for single-pass LLM
+  ingestion). **`llms-full.txt` inlines the README/client-setup content, so it contains the
+  operator-sanctioned BURNED bearer token verbatim (same one already public in README ×3 + client-setup
+  + vanko `ost-investigation.sh`); if that token is ever rotated, update `llms-full.txt` too.**
+- **The featured Case Evaluation video** (`Final_Video/SRL-2015-EVIDENCE-presentation.mp4`, 8:27,
+  committed) is on Vimeo (`https://vimeo.com/1201031111`, public+embeddable, oEmbed-verified) and
+  README-featured. A ≤5-min cut exists locally (`Final_Video/…-5min.mp4`, 4:58) but is NOT the published
+  one — the 8:27 Vimeo exceeds the hackathon ≤5-min demo cap, so a 5-min upload is still the open item.
+- **Render/link verification is mandatory after any README/report push** (the established pattern):
+  Playwright the GitHub blob (tables render, `rawPipeLines=0`), HTTP-check link targets (raw 200 for
+  files; **github.com `tree/` 200 for directory links** — raw 404s on dirs are false positives).
+  `.txt` files render as plain text (correct); large `llms-full.txt` ~320 KB still renders (no "too big").
+- **Video working area** is the gitignored `video_pre/` (narrated SRL-2015 walkthrough, the BOXED
+  terminal-with-command-squares/result-circles deck, the evidence walkthrough + its
+  `SRL-2015-EVIDENCE-presentation/` slide set). Sync method that worked: split the asciinema cast into
+  per-section sub-casts, render each, stretch each to its narration length (per-segment audio↔video sync);
+  Playwright-OCR each section to verify. See auto-memory `video-annotation-pipeline`.
+
 ## Security / hygiene
 - **Operator published the live secrets by explicit decision (treat as burned):** the demo approver
   password (`docs/05-safety-forensics/approval-portal.md`) and the live tailnet IP + bearer token
@@ -220,8 +249,9 @@ GitLab renders Mermaid client-side (strict security level); respect its limits:
   (`<TAILNET-IP>`) or the documented tailnet hostname. Screenshots that show live data carry a privacy note.
 - Gitignored (local-only, never publish): `gitlab.txt`, `compare/`, `end-user/`, `2026-*/`,
   `complete_reports/`, `.claude/`, `docs/issues/*.png`, `videoos/` (local video archive),
-  `evaluation/` + `evaluation1/` (judge-evaluation / Stage One self-review drafts — grading material,
-  removed from GitHub HEAD 2026-06-12 but still present in git history; never re-track). Confirm
+  `evaluation/` + `evaluation1/` + `evaluation2/` (judge-evaluation / Stage One self-review drafts —
+  grading material; `evaluation/`+`evaluation1/` removed from GitHub HEAD 2026-06-12 but still present
+  in git history, `evaluation2/` never tracked; never (re-)track any of them). Confirm
   `git status` won't stage these. (`.claude/` holds the session's `scheduled_tasks.lock` and must never
   be committed — add it to `.gitignore` if absent.)
   - The **multi-tier reports** (ADR-024 engine output) are published under each case run as
@@ -247,10 +277,20 @@ GitLab renders Mermaid client-side (strict security level); respect its limits:
    Before staging untracked files, classify each against `github/main` (identical → delete the stale
    local copy; differs → check which is newer) so a merge doesn't collide. **Push to GitHub only:
    `git push github main`.**
-6. **Known published gaps (Stage One review 2026-06-12, see `evaluation1/` local-only):** the committed
-   `case-activation/runs/jimmy-wilson-poc/POC-RUN.mp4` on `main` is a **9-second silent stub** (render
-   collision) — re-render + `ffprobe`-verify before referencing it; the narrated ≤5-min demo video
-   upload (EVALUATION-MAP.md §2) is still pending and is the one blocking hackathon requirement.
+6. **Known published gaps (Stage One reviews 2026-06-12, see `evaluation1/` + `evaluation2/`
+   local-only):** the committed `case-activation/runs/jimmy-wilson-poc/POC-RUN.mp4` on `main` is a
+   **9-second silent stub** (render collision) — re-render + `ffprobe`-verify before referencing it;
+   the narrated ≤5-min demo video upload (EVALUATION-MAP.md §2) is still pending and is the one
+   blocking hackathon requirement. The `evaluation2/` review (22-agent Opus workflow, every verdict
+   adversarially re-verified against public `github/main` only; report at
+   `evaluation2/STAGE-ONE-REVIEW.md`) confirmed it as the **single eliminating FAIL**: all **14**
+   committed MP4s have zero audio streams, the only over-3-min walkthrough
+   (`vanko-report/findings-presentation.mp4`, 8:47) exceeds the 5-min cap, and no external
+   YouTube/Vimeo/Devpost link exists. Checks 1–3, 5, 7–11 all PASS as published; the Devpost story
+   (check 6) is NEEDS MANUAL REVIEW — no Devpost project URL exists yet and the Find Evil! gallery
+   is unpublished. Fix list (report §FIX LIST): record a ≤300 s narrated screencast showing one
+   self-correction → upload to YouTube/Vimeo → link in README + Devpost → flip the
+   EVALUATION-MAP.md ⚠️ row.
 
 ## Layout
 ```
