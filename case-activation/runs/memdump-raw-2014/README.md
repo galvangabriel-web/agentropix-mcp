@@ -17,6 +17,7 @@
 | `*.err` (8 files) | Captured stderr for each step — **all empty** | Clean runs: no errors on the capture harness side |
 | [reports/comprehensive.md](reports/comprehensive.md) / [reports/comprehensive.pdf](reports/comprehensive.pdf) | Multi-tier report engine output (full tier) | Sealed report `778d18c3…`, 1 approved finding, the inconclusive result documented |
 | [reports/executive-onepager.md](reports/executive-onepager.md) / [reports/executive-onepager.pdf](reports/executive-onepager.pdf) | Executive one-pager tier | "Inconclusive by data quality, not a clean-host finding" |
+| [reports/README.md](reports/README.md) | Index of the report artifacts | File-by-file guide to the multi-tier reports above |
 
 ## Inside the files (excerpts)
 

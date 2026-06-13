@@ -23,6 +23,7 @@
 | [step7-10.json](step7-10.json) | Raw captures — `run_volatility cmdline`, `record_finding` (dry-run), `report_generate` (pre-approval) | 21 command lines, the validated-but-not-persisted finding, and the honest `case_not_found` report at the DRAFT-only stage |
 | [reports/comprehensive.md](reports/comprehensive.md) / [.pdf](reports/comprehensive.pdf) | Multi-tier report artifact (full) | The comprehensive forensic report grounded in the sealed `report_generate` output + these captures |
 | [reports/executive-onepager.md](reports/executive-onepager.md) / [.pdf](reports/executive-onepager.pdf) | Multi-tier report artifact (executive) | The one-page executive summary of the same sealed data |
+| [reports/README.md](reports/README.md) | Index of the report artifacts | File-by-file guide to the multi-tier reports above |
 
 The raw captures for Steps 9–11 (persisted finding `F-AMF-S001-001`, the approval record, the sealed
 report `3c5261e7…`) are reproduced verbatim inside [EXECUTED-RUN.md](EXECUTED-RUN.md).

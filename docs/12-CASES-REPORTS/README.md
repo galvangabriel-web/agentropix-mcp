@@ -43,6 +43,19 @@ chapters in [video/README.md](srl-2015-report/video/README.md)):
 > *Why no inline player: GitHub's Markdown sanitizer strips `<video>` tags entirely and renders
 > `![ ](*.mp4)` as a broken image — repo-committed MP4s cannot play inline on github.com.*
 
+**More in this case folder:**
+
+- [srl-2015-report/INDEX.md](srl-2015-report/INDEX.md) — deliverable index for the case folder (headline-numbers table, evidence cluster, source artifacts from the real 2026-06-10 pipeline run).
+- [srl-2015-report/reports/README.md](srl-2015-report/reports/README.md) — the narrative case reports (full technical + executive, each as HTML and PDF).
+- [srl-2015-report/deep-analysis/README.md](srl-2015-report/deep-analysis/README.md) — static reverse-engineering of the five memory-injected payloads; includes [INJECTION-ANALYSIS.md](srl-2015-report/deep-analysis/INJECTION-ANALYSIS.md) (disassembly & injection-mechanism walkthrough) and [screenshots/README.md](srl-2015-report/deep-analysis/screenshots/README.md) (three Wazuh Discover proof captures).
+- [srl-2015-report/enrichment/README.md](srl-2015-report/enrichment/README.md) — the raw VirusTotal + OTX threat-intel report, the upstream source of the published IOC exports.
+- [srl-2015-report/exports/README.md](srl-2015-report/exports/README.md) — machine-readable IOC & executable inventory (`iocs.csv`/`.json`/STIX, `ear.csv`/`.json`) for SIEM/TIP ingestion.
+- [srl-2015-report/pipeline-findings/README.md](srl-2015-report/pipeline-findings/README.md) — the eight raw per-host/per-modality findings JSONs whose counts sum to the 2,233 headline.
+- [srl-2015-report/quarantine/README.md](srl-2015-report/quarantine/README.md) — carved-malware sample catalogue/manifest (samples withheld; custody proven).
+- [srl-2015-report/wazuh-push-receipts/README.md](srl-2015-report/wazuh-push-receipts/README.md) — raw Wazuh push receipts & pipeline summaries making the headline numbers independently verifiable.
+- [srl-2015-report/video/diagnosis/README.md](srl-2015-report/video/diagnosis/README.md) — Playwright render-verification captures (publication-QA proof against the live blobs).
+- [watch-execution-logs.html](srl-2015-report/watch-execution-logs.html) — local watch page for the animated Agent Execution Logs deck (2 min 24 s, `EXECUTION-LOGS-SRL2015-ANIMATED.mp4`).
+
 ---
 
 ### SRL-2018 — Stark Research Labs "Compromised Enterprise"
@@ -69,6 +82,13 @@ External RDP foothold → dual C2 (Metasploit/Meterpreter + PowerShell Empire) �
 
 **Correlate:** same Stark Research Labs org as [SRL-2015](srl-2015-report/README.md) (user `nfury` appears in both) — commodity C2 frameworks here vs SRL-2015's custom in-memory loader; contrast with the malware-free insider case [VANKO](vanko-report/VANKO-FORENSIC-REPORT.md).
 
+**More in this case folder:**
+
+- [srl-2018-report/README.md](srl-2018-report/README.md) — per-case reader's guide for the SRL-2018 deliverable.
+- [srl-2018-report/diagrams/README.md](srl-2018-report/diagrams/README.md) — the five pre-rendered Mermaid PNGs embedded by the forensic report.
+- [srl-2018-report/wazuh/README.md](srl-2018-report/wazuh/README.md) — the Wazuh dashboard evidence gallery (one capture per detection + the CDB IOC lists).
+- [srl-2018-report/submission/README.md](srl-2018-report/submission/README.md) — the Agent Execution Logs gold package: two real engine runs with the full evidence quintet (report / audit-log / session-key / live `run.log` / Thymus trail) per run; includes the [Visual Atlas](srl-2018-report/submission/AGENT-EXECUTION-VISUAL-ATLAS.md) (13 diagrams + animated decks) and the `EXECUTION-LOGS-ANIMATED.mp4` walkthrough.
+
 ---
 
 ### VANKO — "The Case of the Abducted Zebrafish" (insider IP theft)
@@ -94,3 +114,20 @@ A trusted insider (Anthony Vanko, STARKSURFACE / `PC User`) copied classified ze
 > `![ ](*.mp4)` as a broken image — repo-committed MP4s cannot play inline on github.com.*
 
 **Correlate:** the no-malware counterpoint to the two intrusion cases — staged-archive exfiltration parallels [SRL-2015](srl-2015-report/README.md) (T1560.001), and anti-forensics defeat (VSS here, timestomp detection there) parallels [SRL-2018](srl-2018-report/SRL-2018-FORENSIC-REPORT.md).
+
+**More in this case folder:**
+
+- [vanko-report/README.md](vanko-report/README.md) — per-case folder guide for VANKO-ABDUCTED-ZEBRAFISH.
+- [vanko-report/report.md](vanko-report/report.md) — the forensic synthesis report (evidence provenance, MD5/SHA1, full toolchain).
+- [vanko-report/VANKO-EXFIL-CHAIN-WORKFLOW.md](vanko-report/VANKO-EXFIL-CHAIN-WORKFLOW.md) — end-to-end exfil-chain reconstruction workflow (file server → C: → USB → `vacation photos.7z` → cloud / university share) with exact timestamps.
+- [vanko-report/diagrams/README.md](vanko-report/diagrams/README.md) — the five case diagrams (Mermaid sources + committed PNG renders).
+- [vanko-report/wazuh/README.md](vanko-report/wazuh/README.md) — the 8 Wazuh egress evidence captures (narrated in WAZUH-VANKO-GALLERY.md).
+- [vanko-report/toptier-results/README.md](vanko-report/toptier-results/README.md) — five parallel deep-recovery streams (VSS, pagefile/hiberfil, Windows.old, chat clients, carving) plus their [SYNTHESIS.md](vanko-report/toptier-results/SYNTHESIS.md).
+- [vanko-report/ost-results/README.md](vanko-report/ost-results/README.md) — Outlook OST mailbox carve output (`carve_pst_iocs`) behind finding VANKO-P3-003.
+- [vanko-report/extracted/README.md](vanko-report/extracted/README.md) — the intentionally-empty extraction destination Thymus rejected (policy-enforcement provenance note).
+
+---
+
+### Cross-case artifact inventory
+
+- [srl-2018-artifact-inventory.md](srl-2018-artifact-inventory.md) — SRL-2018 forensic artifact inventory (paths sanitized) mirrored from the engine repo, summarizing the per-host disk IOC extraction across the SRL-2018 dataset.

@@ -13,3 +13,8 @@ Start-here orientation: what Agentropix-SIFT is, what you get, how to run it, an
 7. [roadmap.md](roadmap.md) — next steps, consolidated from the deferred ADRs and the SWOT (commitments on record, not a wish-list).
 
 > New here? Read 1→3 for a fast orientation, then 4 (user-guide) when you are ready to actually run a case.
+
+## Assets
+
+- [assets/competitive-positioning-1.svg](assets/competitive-positioning-1.svg) — full-size, zoomable Mermaid flowchart SVG (1274×706) linked from [competitive-positioning.md](competitive-positioning.md) as its "Open as SVG" wide-diagram artifact.
+- [assets/user-guide-1.svg](assets/user-guide-1.svg) — full-size, zoomable Mermaid flowchart SVG (259×968) linked from [user-guide.md](user-guide.md) as its "Open as SVG" wide-diagram artifact.

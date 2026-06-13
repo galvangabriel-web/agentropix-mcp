@@ -8,3 +8,8 @@ Disambiguates the **runtime DFIR swarm** from the **build-time BMAD personas**, 
 2. [delegation-model.md](delegation-model.md) — the build-time BMAD review personas (Winston/Murat/…) and the Α–Ζ delivery crews, and the sub-agent delegation protocol that produced the codebase.
 3. [agents-list.md](agents-list.md) — *(shared reference)* the canonical machine-extracted table of the runtime swarm: the 7 core specialists plus the ATT&CK detectors, each agent's tools and findings.
 4. [fastmcp-execution.md](fastmcp-execution.md) — what happens, station by station, when an agent calls a tool: the 11-station traversal, the stdio↔HTTP transport contrast, and the open Ralph PreToolUse seam (W-081).
+
+## Assets
+
+- [assets/agentic-architecture-1.svg](assets/agentic-architecture-1.svg) — full-size, zoomable SVG of the agentic-architecture diagram (linked from `agentic-architecture.md` as the "Open as SVG" full-size view).
+- [assets/fastmcp-execution-1.svg](assets/fastmcp-execution-1.svg) — full-size, zoomable SVG of the fastmcp-execution station-traversal diagram (linked from `fastmcp-execution.md` as the "Open as SVG" full-size view).

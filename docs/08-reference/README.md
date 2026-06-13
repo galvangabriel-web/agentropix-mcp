@@ -4,7 +4,7 @@ Lookup-oriented material: the CLI, the glossary, the ADRs and the design rationa
 
 ## Read in this order
 
-1. [cli-reference.md](cli-reference.md) — every `agentropix-sift` command and flag (dual-audience).
+1. [cli-reference.md](cli-reference.md) — every `agentropix-sift` command and flag (dual-audience). Its wide CLI sequence diagram is also committed as a full-size zoomable SVG: [assets/cli-reference-2.svg](assets/cli-reference-2.svg).
 2. [glossary.md](glossary.md) — what each term, persona, and weakness ID means.
 3. [adr-index.md](adr-index.md) — the routed list of architecture decisions (what was decided).
 4. [design-decisions.md](design-decisions.md) — the recurring principles, hard trade-offs, and discarded approaches behind the ADRs (why).

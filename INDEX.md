@@ -183,6 +183,7 @@ unchanged — the reading order is layered on top, non-destructively.
 | Examiner Reviews & Approves Before the Seal | examiner (expert + end-user) | How do I review findings and approve them before anything is sealed? Dual-audience — the review/approve actions are shown both as the **expert CLI/MCP command** and as the **plain-language end-user prompt**. | [docs/06-use-cases/uc-approval-gate.md](docs/06-use-cases/uc-approval-gate.md) |
 | Push a Finding to Wazuh as an Alert | operator, auditor (expert + end-user) | How do I escalate an APPROVED finding to Wazuh (experimental integration)? Dual-audience — each push step pairs the **expert MCP call** with the **end-user prompt** (which defaults to a dry-run preview). | [docs/06-use-cases/uc-wazuh-push.md](docs/06-use-cases/uc-wazuh-push.md) |
 | Guided Demo Walkthrough (Judge-Facing) | examiner, all (expert + end-user) | What does a single end-to-end run look like, beat by beat, mapped to the Devpost rubric with verifiable runtime evidence? Dual-audience — each beat carries both the **expert command** and the **end-user prompt**. | [docs/06-use-cases/demo-walkthrough.md](docs/06-use-cases/demo-walkthrough.md) |
+| 3-Minute Hackathon Demo Script (BMAD-M8) | examiner, judge | What is the exact 5-beat, ~3-minute judging-panel demo script — the three cast variants (30-second teaser · real-data walkthrough · 9-beat SHIELDBASE narration), each with its source command, what it shows, and when to play it? | [docs/06-use-cases/demo-script.md](docs/06-use-cases/demo-script.md) |
 | Per-Case Attack-Chain Hypotheses | operator, examiner | For each in-scope test case, which attack chain is likely and which tools confirm/refute each link (bias-checks, not findings)? | [docs/06-use-cases/case-hypotheses.md](docs/06-use-cases/case-hypotheses.md) |
 | Reproduce the Datasets | judge, developer | Where do I download the evidence to re-run it myself? Real upstream URLs + provenance for the public datasets; honest note on the non-redistributable cases. | [docs/06-use-cases/reproduce-datasets.md](docs/06-use-cases/reproduce-datasets.md) |
 
@@ -290,6 +291,7 @@ traceability of the render/accuracy validation behind the published pages.
 |-----|---------------|------|
 | Diagram render audit | The Mermaid/diagram GitLab-render audit (every diagram-bearing page, raw-vs-rendered verdicts). | [docs/issues/DIAGRAM-AUDIT.md](docs/issues/DIAGRAM-AUDIT.md) |
 | Case-guide audit | The per-case activation-guide accuracy sweep (recurring fixes + the full pass). | [docs/issues/CASE-GUIDE-AUDIT.md](docs/issues/CASE-GUIDE-AUDIT.md) |
+| Video playback troubleshooting | Why GitHub shows no in-tab player for repo-committed MP4s (Playwright + ffprobe diagnosis) and the GitHub Pages fix. | [docs/issues/VIDEO-PLAYBACK-TROUBLESHOOTING.md](docs/issues/VIDEO-PLAYBACK-TROUBLESHOOTING.md) |
 
 ---
 

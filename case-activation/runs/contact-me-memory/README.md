@@ -15,6 +15,7 @@
 | `batch_a.err`, `batch_b.err`, `batch_c.err` | Captured stderr for each batch — **all empty** | Clean runs: the capture harness recorded no errors on its side |
 | [reports/comprehensive.md](reports/comprehensive.md) / [reports/comprehensive.pdf](reports/comprehensive.pdf) | Multi-tier report engine output (full tier) | Sealed report `e9763e7e…`, 1 approved finding, the unprofileable outcome documented |
 | [reports/executive-onepager.md](reports/executive-onepager.md) / [reports/executive-onepager.pdf](reports/executive-onepager.pdf) | Executive one-pager tier | The "bottom line" for stakeholders: inconclusive by data quality, not clean |
+| [reports/README.md](reports/README.md) | Index of the report artifacts | File-by-file guide to the multi-tier reports above, with Report ID / HMAC seal and honest-negative excerpts |
 
 ## Inside the files (excerpts)
 
