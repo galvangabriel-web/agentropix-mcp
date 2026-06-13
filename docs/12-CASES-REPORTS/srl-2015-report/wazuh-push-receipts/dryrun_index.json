@@ -1,0 +1,24 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"indexed_count\":0,\"indexed_failed_count\":0,\"batch_count\":0,\"index_template_installed_this_run\":false,\"ism_policy_installed_this_run\":false,\"index\":\"agentropix-findings-2026.06.10\",\"dry_run\":true,\"run_id\":\"e80e1fbe\",\"outcome\":\"dry_run\"}"
+      }
+    ],
+    "structuredContent": {
+      "indexed_count": 0,
+      "indexed_failed_count": 0,
+      "batch_count": 0,
+      "index_template_installed_this_run": false,
+      "ism_policy_installed_this_run": false,
+      "index": "agentropix-findings-2026.06.10",
+      "dry_run": true,
+      "run_id": "e80e1fbe",
+      "outcome": "dry_run"
+    },
+    "isError": false
+  }
+}

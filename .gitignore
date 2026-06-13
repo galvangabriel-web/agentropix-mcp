@@ -16,7 +16,11 @@ dist/
 
 # local-only video archive (never publish)
 videoos/
+# video-edition working folder (narration drafts; outputs get published from docs/, not here)
+video_pre/
 
 # local-only grading/self-review material (never publish)
 evaluation/
 evaluation1/
+evaluation2/
+evaluation3/

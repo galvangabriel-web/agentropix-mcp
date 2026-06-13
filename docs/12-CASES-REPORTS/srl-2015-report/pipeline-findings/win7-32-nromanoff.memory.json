@@ -1,0 +1,2884 @@
+{
+  "version": "0.2.0-dev",
+  "image": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+  "max_iterations": 15,
+  "iterations_completed": 15,
+  "status": "budget_exhausted",
+  "findings": [
+    {
+      "_source": "memory.skip",
+      "confidence": 0.0,
+      "description": "MemoryAgent skipped: image is not a memory dump (disk-only). Volatility plugins require RAM capture; T1055 disk-side coverage is provided by the AppData-staging detector in TimelineAgent (W-067).",
+      "evidence": "image=/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img suffix=.img",
+      "timestamp": "2026-06-10T13:32:24.399277+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "memory"
+    },
+    {
+      "_source": "filesystem.fls",
+      "confidence": 0.0,
+      "description": "fls failed: fls failed (rc=1): Cannot determine file system type\n",
+      "evidence": "image=/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img recursive=True max_depth=5",
+      "timestamp": "",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "filesystem"
+    },
+    {
+      "_source": "discovery.null_session_baseline.error",
+      "confidence": 0.0,
+      "description": "NullSessionBaselineAgent failed to read Security.evtx: evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[53, FF,  0, F0, 53, FF,  0, F0]`\n",
+      "evidence": "image=/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img error=evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[53, FF,  0, F0, 53, FF,  0, F0]`\n",
+      "timestamp": "2026-06-10T13:32:43.520288+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "null_session_baseline"
+    },
+    {
+      "_source": "yara_forge.bundle_active",
+      "confidence": 0.0,
+      "description": "YARA Forge bundle active: tag=20260505 sha256=87ee463c13d49084...",
+      "evidence": "tag=20260505 sha256=87ee463c13d490842f36eba5ca03a2ed090b78f3fed0eef78ff7e74065191494 path=yara/forge/CURRENT/yara-forge-rules-core.yar fp_threshold=75",
+      "evidence_dict": {
+        "tag": "20260505",
+        "sha256": "87ee463c13d490842f36eba5ca03a2ed090b78f3fed0eef78ff7e74065191494",
+        "source_url": "https://github.com/YARAHQ/yara-forge",
+        "fp_threshold": 75,
+        "license_allowlist": null
+      },
+      "timestamp": "2026-06-10T13:32:45.176564+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "yara_hunt"
+    },
+    {
+      "_source": "yara_hunt.empty",
+      "confidence": 0.2,
+      "description": "YARAHuntAgent found no scannable files under /cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "evidence": "scan_root=/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "timestamp": "2026-06-10T13:32:45.176869+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "yara_hunt"
+    },
+    {
+      "_source": "memory.injection.skipped",
+      "confidence": 0.0,
+      "description": "InjectionDetector skipped: Win7SP1x86-baseline.img is not a memory image",
+      "evidence": "image=/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img reason=non_memory_image",
+      "timestamp": "2026-06-10T13:32:45.200668+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "injection_detector"
+    },
+    {
+      "_source": "t1546_008_accessibility_ifeo_hijack.skipped",
+      "confidence": 0.0,
+      "description": "AccessibilityIfeoHijackDetector skipped: Win7SP1x86-baseline.img is not an E01 disk image",
+      "evidence": "image=/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img reason=non_e01_image",
+      "timestamp": "2026-06-10T13:32:45.206343+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "t1546_008_accessibility_ifeo_hijack"
+    },
+    {
+      "_source": "detectors.t1059_001.error",
+      "confidence": 0.0,
+      "description": "T1059.001 detector failed to obtain PowerShell/Operational records: evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[53, FF,  0, F0, 53, FF,  0, F0]`\n",
+      "evidence": "image=/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img error=RuntimeError: evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[53, FF,  0, F0, 53, FF,  0, F0]`\n",
+      "timestamp": "2026-06-10T13:32:45.210817+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "t1059_001_iex_loopback_c2"
+    },
+    {
+      "_source": "memory.t1071_001.skipped",
+      "confidence": 0.0,
+      "description": "T1071SvchostOutboundHttpDetector skipped: Win7SP1x86-baseline.img is not a memory image",
+      "evidence": "image=/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img reason=non_memory_image",
+      "timestamp": "2026-06-10T13:32:45.211029+00:00",
+      "mitre_attack": "T1071.001",
+      "related_findings": [],
+      "agent": "t1071_001_svchost_outbound_http"
+    },
+    {
+      "_source": "hunt.correlate",
+      "confidence": 0.30000000000000004,
+      "description": "Cross-source agreement: 'found' flagged by 3 agents (null_session_baseline, t1059_001_iex_loopback_c2, yara_hunt)",
+      "evidence": "token=found agents=['null_session_baseline', 't1059_001_iex_loopback_c2', 'yara_hunt'] findings=3",
+      "timestamp": "2026-06-10T13:32:45.213511+00:00",
+      "mitre_attack": "",
+      "related_findings": [
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "yara_hunt"
+      ],
+      "agent": "hunt"
+    }
+  ],
+  "trace": {
+    "tool_calls": [
+      {
+        "tool": "agent.memory",
+        "timestamp": "2026-06-10T13:32:24.399371+00:00",
+        "duration_ms": 0.13,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:32:43.460719+00:00",
+        "duration_ms": 19061.32,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:32:43.460596+00:00",
+        "duration_ms": 19061.01,
+        "result_summary": "ok",
+        "args_hash": "1386449d92f65ee7",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-y27bdjj_/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:32:25,481 [INFO] (MainProcess) PID:1467898 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"d44c2126c6d80fea54a90d531535e7530ac0ef34b0eace7755701f26727afd98\"}",
+        "output_hash": "c1ed3037af78ad5c4161ae05fd5ec55b190a34bd682831930b8107c0d7d2bee2"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:32:43.460658+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-06-10T13:32:43.516566+00:00",
+        "duration_ms": 55.82,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-06-10T13:32:43.516475+00:00",
+        "duration_ms": 55.61,
+        "result_summary": "ERROR: fls failed (rc=1): Cannot determine file system type\n",
+        "args_hash": "56a425f011977501",
+        "exit_code": 1,
+        "raw_output": "{\"tool\":\"fls\",\"error\":\"fls failed (rc=1): Cannot determine file system type\\n\",\"suggestion\":\"\"}",
+        "output_hash": "8ae3d481a95fbd90d99a9b923c5179092a165b31cbc2001fb917aaced890a06b"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:32:43.516616+00:00",
+        "duration_ms": 0.03,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:32:43.516731+00:00",
+        "duration_ms": 0.1,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.null_session_baseline",
+        "timestamp": "2026-06-10T13:32:43.520382+00:00",
+        "duration_ms": 3.63,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:32:43.523309+00:00",
+        "duration_ms": 2.91,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:32:43.521352+00:00",
+        "duration_ms": 0.63,
+        "result_summary": "ok",
+        "args_hash": "e078f2aeeee09306",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:32:43.521898+00:00",
+        "duration_ms": 0.48,
+        "result_summary": "ok",
+        "args_hash": "31684c2cf3bb2e4f",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:32:43.522380+00:00",
+        "duration_ms": 0.42,
+        "result_summary": "ok",
+        "args_hash": "ec342649946b4740",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:32:43.522881+00:00",
+        "duration_ms": 0.44,
+        "result_summary": "ok",
+        "args_hash": "827c32d2186c5b42",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.yara_hunt",
+        "timestamp": "2026-06-10T13:32:45.200460+00:00",
+        "duration_ms": 1677.12,
+        "result_summary": "2 finding(s)"
+      },
+      {
+        "tool": "agent.injection_detector",
+        "timestamp": "2026-06-10T13:32:45.206237+00:00",
+        "duration_ms": 5.68,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.t1546_008_accessibility_ifeo_hijack",
+        "timestamp": "2026-06-10T13:32:45.206377+00:00",
+        "duration_ms": 0.1,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.t1059_001_iex_loopback_c2",
+        "timestamp": "2026-06-10T13:32:45.210932+00:00",
+        "duration_ms": 4.52,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.t1071_001_svchost_outbound_http",
+        "timestamp": "2026-06-10T13:32:45.211078+00:00",
+        "duration_ms": 0.11,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.hunt",
+        "timestamp": "2026-06-10T13:32:45.213622+00:00",
+        "duration_ms": 2.52,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:33:01.960980+00:00",
+        "duration_ms": 16747.26,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:33:01.960811+00:00",
+        "duration_ms": 16746.8,
+        "result_summary": "ok",
+        "args_hash": "1386449d92f65ee7",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-03hc_lzc/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:32:46,304 [INFO] (MainProcess) PID:1468046 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"7797c76a7756827288f7a3e529d6225c2d56fb5f6e6cd85099ba48d0bf59668c\"}",
+        "output_hash": "4216a2f73a489618150ee2c78ae920164711336ab8c283224d9b7dbd46d6c3da"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:33:01.960917+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:33:01.961094+00:00",
+        "duration_ms": 0.07,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:33:01.961250+00:00",
+        "duration_ms": 0.13,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:33:01.964968+00:00",
+        "duration_ms": 3.67,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:01.962598+00:00",
+        "duration_ms": 0.79,
+        "result_summary": "ok",
+        "args_hash": "e078f2aeeee09306",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:01.963243+00:00",
+        "duration_ms": 0.55,
+        "result_summary": "ok",
+        "args_hash": "31684c2cf3bb2e4f",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:01.963948+00:00",
+        "duration_ms": 0.6,
+        "result_summary": "ok",
+        "args_hash": "ec342649946b4740",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:01.964639+00:00",
+        "duration_ms": 0.59,
+        "result_summary": "ok",
+        "args_hash": "827c32d2186c5b42",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:33:19.740853+00:00",
+        "duration_ms": 17773.18,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:33:19.740770+00:00",
+        "duration_ms": 17772.9,
+        "result_summary": "ok",
+        "args_hash": "1386449d92f65ee7",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-4psmgcca/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:33:03,210 [INFO] (MainProcess) PID:1468258 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"fe06ebb6770f821c4dd792c86e258dd51df46ca4fd21fe43657f6fa5bb308965\"}",
+        "output_hash": "ba7360e3b66765e6d1df779c2119e79ebd04acfa0de903252b78ee27128733f7"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:33:19.740821+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:33:19.740902+00:00",
+        "duration_ms": 0.03,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:33:19.740955+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:33:19.743017+00:00",
+        "duration_ms": 2.05,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:19.741663+00:00",
+        "duration_ms": 0.41,
+        "result_summary": "ok",
+        "args_hash": "e078f2aeeee09306",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:19.742038+00:00",
+        "duration_ms": 0.32,
+        "result_summary": "ok",
+        "args_hash": "31684c2cf3bb2e4f",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:19.742405+00:00",
+        "duration_ms": 0.31,
+        "result_summary": "ok",
+        "args_hash": "ec342649946b4740",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:19.742812+00:00",
+        "duration_ms": 0.35,
+        "result_summary": "ok",
+        "args_hash": "827c32d2186c5b42",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:33:37.368381+00:00",
+        "duration_ms": 17624.09,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:33:37.368260+00:00",
+        "duration_ms": 17623.78,
+        "result_summary": "ok",
+        "args_hash": "1386449d92f65ee7",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-qa5a097h/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:33:20,973 [INFO] (MainProcess) PID:1468466 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"1699df98fbee3c408d442825fc00d98a5797b915c49dbed5e93b2b04c0192940\"}",
+        "output_hash": "911a984543a4f60557c9510f5f8d5d298dc089540a0d51a491ba1c29c245aa56"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:33:37.368335+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:33:37.368448+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:33:37.368545+00:00",
+        "duration_ms": 0.08,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:33:37.371334+00:00",
+        "duration_ms": 2.77,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:37.369448+00:00",
+        "duration_ms": 0.52,
+        "result_summary": "ok",
+        "args_hash": "e078f2aeeee09306",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:37.369989+00:00",
+        "duration_ms": 0.46,
+        "result_summary": "ok",
+        "args_hash": "31684c2cf3bb2e4f",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:37.370500+00:00",
+        "duration_ms": 0.43,
+        "result_summary": "ok",
+        "args_hash": "ec342649946b4740",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:37.371065+00:00",
+        "duration_ms": 0.46,
+        "result_summary": "ok",
+        "args_hash": "827c32d2186c5b42",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:33:56.619604+00:00",
+        "duration_ms": 19242.95,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:33:56.619495+00:00",
+        "duration_ms": 19242.64,
+        "result_summary": "ok",
+        "args_hash": "1386449d92f65ee7",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-eho3gy04/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:33:38,932 [INFO] (MainProcess) PID:1468613 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"ba837eb07a26a6d4553c886b3b60ed9489ecb7a058836ac9aa5c2dfd979012d9\"}",
+        "output_hash": "2eef13fb2ca105928f36edb4d692d8fe0bbf045d9b1630504bc6f5191d9a3ff7"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:33:56.619557+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:33:56.619677+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:33:56.619780+00:00",
+        "duration_ms": 0.08,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:33:56.622965+00:00",
+        "duration_ms": 3.16,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:56.620725+00:00",
+        "duration_ms": 0.56,
+        "result_summary": "ok",
+        "args_hash": "e078f2aeeee09306",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:56.621287+00:00",
+        "duration_ms": 0.48,
+        "result_summary": "ok",
+        "args_hash": "31684c2cf3bb2e4f",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:56.621956+00:00",
+        "duration_ms": 0.58,
+        "result_summary": "ok",
+        "args_hash": "ec342649946b4740",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:56.622589+00:00",
+        "duration_ms": 0.54,
+        "result_summary": "ok",
+        "args_hash": "827c32d2186c5b42",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:34:14.511561+00:00",
+        "duration_ms": 17886.1,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:34:14.511477+00:00",
+        "duration_ms": 17885.81,
+        "result_summary": "ok",
+        "args_hash": "1386449d92f65ee7",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-4w74cq4y/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:33:57,856 [INFO] (MainProcess) PID:1468707 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"b5da934f8728b9894a7d15d00ec44f6a7b63d1e72234182c8712ae8e4787375f\"}",
+        "output_hash": "11a55b04f4642a4daffe5b1a0951c14381eb0b1c46cfb11f1b21b95b07970646"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:34:14.511528+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:34:14.511609+00:00",
+        "duration_ms": 0.03,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:34:14.511664+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:34:14.513837+00:00",
+        "duration_ms": 2.15,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:14.512391+00:00",
+        "duration_ms": 0.38,
+        "result_summary": "ok",
+        "args_hash": "e078f2aeeee09306",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:14.512864+00:00",
+        "duration_ms": 0.41,
+        "result_summary": "ok",
+        "args_hash": "31684c2cf3bb2e4f",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:14.513235+00:00",
+        "duration_ms": 0.31,
+        "result_summary": "ok",
+        "args_hash": "ec342649946b4740",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:14.513599+00:00",
+        "duration_ms": 0.31,
+        "result_summary": "ok",
+        "args_hash": "827c32d2186c5b42",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:34:33.858678+00:00",
+        "duration_ms": 19343.59,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:34:33.858542+00:00",
+        "duration_ms": 19343.26,
+        "result_summary": "ok",
+        "args_hash": "1386449d92f65ee7",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-dvgr11hs/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:34:16,224 [INFO] (MainProcess) PID:1468779 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"ade0e23dfb0042afd65a6d664db761ef63a46799f8e548eeb481b6947924630f\"}",
+        "output_hash": "c06e88d13ef312e0625ae1740c59290b37c25246de9398cf0650bf8a86b21b5a"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:34:33.858619+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:34:33.858809+00:00",
+        "duration_ms": 0.1,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:34:33.858929+00:00",
+        "duration_ms": 0.09,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:34:33.862725+00:00",
+        "duration_ms": 3.77,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:33.860133+00:00",
+        "duration_ms": 0.75,
+        "result_summary": "ok",
+        "args_hash": "e078f2aeeee09306",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:33.860887+00:00",
+        "duration_ms": 0.65,
+        "result_summary": "ok",
+        "args_hash": "31684c2cf3bb2e4f",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:33.861644+00:00",
+        "duration_ms": 0.65,
+        "result_summary": "ok",
+        "args_hash": "ec342649946b4740",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:33.862402+00:00",
+        "duration_ms": 0.65,
+        "result_summary": "ok",
+        "args_hash": "827c32d2186c5b42",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:34:52.012158+00:00",
+        "duration_ms": 18146.39,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:34:52.012062+00:00",
+        "duration_ms": 18146.03,
+        "result_summary": "ok",
+        "args_hash": "1386449d92f65ee7",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-f9epv7nj/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:34:35,121 [INFO] (MainProcess) PID:1468853 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"6300ee3b1b08a31face46999e599af914ae5d934e43390e1cbd3783bc413fa27\"}",
+        "output_hash": "28b46339e9d20eb2afd8e151edeacb0d587287eb2564fd2029c6d9fee61cb8cc"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:34:52.012125+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:34:52.012207+00:00",
+        "duration_ms": 0.03,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:34:52.012261+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:34:52.014447+00:00",
+        "duration_ms": 2.17,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:52.012981+00:00",
+        "duration_ms": 0.41,
+        "result_summary": "ok",
+        "args_hash": "e078f2aeeee09306",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:52.013440+00:00",
+        "duration_ms": 0.37,
+        "result_summary": "ok",
+        "args_hash": "31684c2cf3bb2e4f",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:52.013814+00:00",
+        "duration_ms": 0.32,
+        "result_summary": "ok",
+        "args_hash": "ec342649946b4740",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:52.014191+00:00",
+        "duration_ms": 0.31,
+        "result_summary": "ok",
+        "args_hash": "827c32d2186c5b42",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:35:11.006326+00:00",
+        "duration_ms": 18990.37,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:35:11.006188+00:00",
+        "duration_ms": 18989.97,
+        "result_summary": "ok",
+        "args_hash": "1386449d92f65ee7",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-210eke3a/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:34:53,348 [INFO] (MainProcess) PID:1468948 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"53c7895d84c14b55c4993112a63162ce6ab7650bbeb7bc2f43ac81c6827b6260\"}",
+        "output_hash": "71c399f38108b129a87b312239716059d7564a39518dbe1b99cee2b6704787dc"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:35:11.006260+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:35:11.006445+00:00",
+        "duration_ms": 0.08,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:35:11.006593+00:00",
+        "duration_ms": 0.12,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:35:11.010311+00:00",
+        "duration_ms": 3.69,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:11.007817+00:00",
+        "duration_ms": 0.77,
+        "result_summary": "ok",
+        "args_hash": "e078f2aeeee09306",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:11.008567+00:00",
+        "duration_ms": 0.64,
+        "result_summary": "ok",
+        "args_hash": "31684c2cf3bb2e4f",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:11.009283+00:00",
+        "duration_ms": 0.61,
+        "result_summary": "ok",
+        "args_hash": "ec342649946b4740",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:11.010004+00:00",
+        "duration_ms": 0.62,
+        "result_summary": "ok",
+        "args_hash": "827c32d2186c5b42",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:35:29.592477+00:00",
+        "duration_ms": 18579.18,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:35:29.592335+00:00",
+        "duration_ms": 18578.77,
+        "result_summary": "ok",
+        "args_hash": "1386449d92f65ee7",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-dwl4bj8x/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:35:12,361 [INFO] (MainProcess) PID:1469015 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"4760efd95d7f3275b6dda9e5da94bd9a74466cfc7cbdafa804632f34ba9ec24d\"}",
+        "output_hash": "453bb40cd62e0f6c02d8748145708f9a91c81b74e1275124df07af04b4cca922"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:35:29.592405+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:35:29.592557+00:00",
+        "duration_ms": 0.05,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:35:29.592650+00:00",
+        "duration_ms": 0.07,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:35:29.596081+00:00",
+        "duration_ms": 3.41,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:29.593732+00:00",
+        "duration_ms": 0.68,
+        "result_summary": "ok",
+        "args_hash": "e078f2aeeee09306",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:29.594364+00:00",
+        "duration_ms": 0.54,
+        "result_summary": "ok",
+        "args_hash": "31684c2cf3bb2e4f",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:29.595107+00:00",
+        "duration_ms": 0.65,
+        "result_summary": "ok",
+        "args_hash": "ec342649946b4740",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:29.595767+00:00",
+        "duration_ms": 0.56,
+        "result_summary": "ok",
+        "args_hash": "827c32d2186c5b42",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:35:47.592101+00:00",
+        "duration_ms": 17993.65,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:35:47.591972+00:00",
+        "duration_ms": 17993.32,
+        "result_summary": "ok",
+        "args_hash": "1386449d92f65ee7",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-ninx1gn3/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:35:30,811 [INFO] (MainProcess) PID:1469114 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"3a1b7c97dba379a332ffec729244f6714f714f7f0f967b1b5a6bb59799ef17f7\"}",
+        "output_hash": "06f8e9f215082ab4e23293361449b5793683a098a303414e396316ad49065a85"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:35:47.592043+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:35:47.592190+00:00",
+        "duration_ms": 0.06,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:35:47.592294+00:00",
+        "duration_ms": 0.08,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:35:47.595731+00:00",
+        "duration_ms": 3.41,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:47.593402+00:00",
+        "duration_ms": 0.66,
+        "result_summary": "ok",
+        "args_hash": "e078f2aeeee09306",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:47.594083+00:00",
+        "duration_ms": 0.57,
+        "result_summary": "ok",
+        "args_hash": "31684c2cf3bb2e4f",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:47.594751+00:00",
+        "duration_ms": 0.58,
+        "result_summary": "ok",
+        "args_hash": "ec342649946b4740",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:47.595391+00:00",
+        "duration_ms": 0.54,
+        "result_summary": "ok",
+        "args_hash": "827c32d2186c5b42",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:36:06.033140+00:00",
+        "duration_ms": 18432.95,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:36:06.033016+00:00",
+        "duration_ms": 18432.58,
+        "result_summary": "ok",
+        "args_hash": "1386449d92f65ee7",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-2j33gsy0/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:35:49,347 [INFO] (MainProcess) PID:1469182 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"ca70d428fc52271f77d4abe88926e9ef654cff5003c66b74fb2fa28a87049794\"}",
+        "output_hash": "e8bbd91507ff7ee634667c21a7c56cf70367fd862820182aa04008f62831aa37"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:36:06.033082+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:36:06.033240+00:00",
+        "duration_ms": 0.05,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:36:06.033351+00:00",
+        "duration_ms": 0.08,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:36:06.036632+00:00",
+        "duration_ms": 3.23,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:06.034227+00:00",
+        "duration_ms": 0.43,
+        "result_summary": "ok",
+        "args_hash": "e078f2aeeee09306",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:06.034770+00:00",
+        "duration_ms": 0.45,
+        "result_summary": "ok",
+        "args_hash": "31684c2cf3bb2e4f",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:06.035512+00:00",
+        "duration_ms": 0.64,
+        "result_summary": "ok",
+        "args_hash": "ec342649946b4740",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:06.036219+00:00",
+        "duration_ms": 0.6,
+        "result_summary": "ok",
+        "args_hash": "827c32d2186c5b42",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:36:24.132018+00:00",
+        "duration_ms": 18092.37,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:36:24.131911+00:00",
+        "duration_ms": 18092.04,
+        "result_summary": "ok",
+        "args_hash": "1386449d92f65ee7",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-8x5nffld/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:36:07,441 [INFO] (MainProcess) PID:1469273 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"042785cfa7ea256901f9d5e4504211b20a9ee16ae614ff562d42fda673c36174\"}",
+        "output_hash": "3b342ad681c8ce5e66b59658a5d7563b66da1d069a1d993596590a25ea4db49a"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:36:24.131976+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:36:24.132082+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:36:24.132154+00:00",
+        "duration_ms": 0.06,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:36:24.134957+00:00",
+        "duration_ms": 2.78,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:24.133078+00:00",
+        "duration_ms": 0.53,
+        "result_summary": "ok",
+        "args_hash": "e078f2aeeee09306",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:24.133622+00:00",
+        "duration_ms": 0.47,
+        "result_summary": "ok",
+        "args_hash": "31684c2cf3bb2e4f",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:24.134137+00:00",
+        "duration_ms": 0.44,
+        "result_summary": "ok",
+        "args_hash": "ec342649946b4740",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:24.134696+00:00",
+        "duration_ms": 0.48,
+        "result_summary": "ok",
+        "args_hash": "827c32d2186c5b42",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:36:41.943319+00:00",
+        "duration_ms": 17806.28,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:36:41.943237+00:00",
+        "duration_ms": 17806.02,
+        "result_summary": "ok",
+        "args_hash": "1386449d92f65ee7",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-iu60q8m3/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:36:25,559 [INFO] (MainProcess) PID:1469365 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"c786ef077f1a9de13fab8d5c9277a28eefdc89955fa87202caa81ff26356e839\"}",
+        "output_hash": "280ffc9af90518fc1b1ed8f2f5485eb5af061ee7a4770148f7ce3241bf8c606c"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:36:41.943286+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:36:41.943401+00:00",
+        "duration_ms": 0.06,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:36:41.943461+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:36:41.945551+00:00",
+        "duration_ms": 2.08,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:41.944157+00:00",
+        "duration_ms": 0.39,
+        "result_summary": "ok",
+        "args_hash": "e078f2aeeee09306",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:41.944569+00:00",
+        "duration_ms": 0.35,
+        "result_summary": "ok",
+        "args_hash": "31684c2cf3bb2e4f",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:41.944934+00:00",
+        "duration_ms": 0.31,
+        "result_summary": "ok",
+        "args_hash": "ec342649946b4740",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:41.945297+00:00",
+        "duration_ms": 0.31,
+        "result_summary": "ok",
+        "args_hash": "827c32d2186c5b42",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:36:59.893187+00:00",
+        "duration_ms": 17948.29,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:36:59.893065+00:00",
+        "duration_ms": 17947.99,
+        "result_summary": "ok",
+        "args_hash": "1386449d92f65ee7",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-pxdanhe2/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:36:43,253 [INFO] (MainProcess) PID:1469450 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"887928b7253b7132bd33397c915e412b1529435a2de5a0fff5f503d14218c6df\"}",
+        "output_hash": "d27f72ee0ff195472b6d35091f1926eaab9c5b37b219348791a817c0be2b3d4e"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:36:59.893134+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:36:59.893298+00:00",
+        "duration_ms": 0.08,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:36:59.893420+00:00",
+        "duration_ms": 0.09,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:36:59.896666+00:00",
+        "duration_ms": 3.22,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:59.894460+00:00",
+        "duration_ms": 0.66,
+        "result_summary": "ok",
+        "args_hash": "e078f2aeeee09306",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:59.895096+00:00",
+        "duration_ms": 0.54,
+        "result_summary": "ok",
+        "args_hash": "31684c2cf3bb2e4f",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:59.895745+00:00",
+        "duration_ms": 0.56,
+        "result_summary": "ok",
+        "args_hash": "ec342649946b4740",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:59.896449+00:00",
+        "duration_ms": 0.61,
+        "result_summary": "ok",
+        "args_hash": "827c32d2186c5b42",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      }
+    ],
+    "counters": {
+      "trace.timeline.counters": {
+        "jsonl_rows_read": 0,
+        "priority_hits_by_family": {
+          "4624": 0,
+          "winreg_run": 0,
+          "mft_timestomp": 0,
+          "lolbin": 0,
+          "appdata_staging": 0
+        },
+        "parser_deque_sizes": {},
+        "events_received_by_agent": 0,
+        "detectors_fired_by_id": {
+          "4624_detector": 0,
+          "winreg_run_detector": 0,
+          "prefetch_detector": 0,
+          "mft_timestomp_detector": 0,
+          "lolbin_detector": 0,
+          "appdata_staging_detector": 0
+        },
+        "verbose_evtx": {
+          "enabled": true,
+          "cap": 5000,
+          "emitted": 0,
+          "dropped": 0
+        }
+      }
+    },
+    "start_time": "2026-06-10T13:32:24.399195+00:00",
+    "end_time": "2026-06-10T13:36:59.897937+00:00",
+    "total_duration_ms": 275498.74
+  },
+  "thymus_audit": [
+    {
+      "timestamp": "2026-06-10T13:32:24.399781+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:32:43.461139+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:32:43.520949+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:32:43.521577+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:32:43.522112+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:32:43.522598+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:32:45.215331+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:01.962197+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:01.962972+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:01.963673+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:01.964340+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:01.968270+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:19.741439+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:19.741874+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:19.742246+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:19.742649+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:19.744633+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:37.369202+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:37.369774+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:37.370288+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:37.370834+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:37.373906+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:56.620441+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:56.621049+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:56.621651+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:56.622321+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:56.626060+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:14.512200+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:14.512679+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:14.513075+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:14.513442+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:14.515557+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:33.859807+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:33.860577+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:33.861351+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:33.862109+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:33.866794+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:52.012750+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:52.013255+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:52.013653+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:52.014032+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:52.016588+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:11.007478+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:11.008251+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:11.008998+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:11.009732+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:11.013981+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:29.593407+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:29.594101+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:29.594850+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:29.595509+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:29.598872+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:47.593092+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:47.593811+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:47.594479+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:47.595128+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:47.598899+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:06.034030+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:06.034546+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:06.035206+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:06.035931+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:06.040228+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:24.132829+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:24.133406+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:24.133924+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:24.134460+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:24.137556+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:41.943962+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:41.944404+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:41.944776+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:41.945140+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:41.947323+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory/Win7SP1x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:59.894148+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:59.894838+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:59.895477+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:59.896153+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/win7-32-nromanoff-memory/baseline-memory",
+      "reason": "within read-only zone"
+    }
+  ],
+  "critic_score": 1.0,
+  "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+  "iterations": [
+    {
+      "iteration": 1,
+      "plan": [
+        "memory",
+        "timeline",
+        "filesystem",
+        "artifact",
+        "discovery",
+        "null_session_baseline",
+        "mail",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 2,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 3,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 4,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 5,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 6,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 7,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 8,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 9,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 10,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 11,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 12,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 13,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 14,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 15,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    }
+  ],
+  "inference_constraint": "high",
+  "evidence_image_sha256": "9e3b1e49cee1b67b0fd2a13223ea3825f06317a1677a6c5471202e38ccfd4f8e",
+  "report_seal": "166c15a4bee469ec6ad03c395444d612ee679761a50ba635e2642e46704c2715",
+  "completion_proofs": [
+    "CROSS_AGENT_CORRELATION_DONE",
+    "FILESYSTEM_WALKED",
+    "INJECTION_DETECTION_COMPLETE",
+    "NULL_SESSION_BASELINE_COMPLETE",
+    "T1059_001_IEX_LOOPBACK_SCAN_COMPLETE",
+    "T1071_001_SVCHOST_OUTBOUND_HTTP_COMPLETE",
+    "T1546_008_ACCESSIBILITY_IFEO_HIJACK_COMPLETE",
+    "YARA_HUNT_COMPLETE"
+  ],
+  "audit_log_seal": "4b50cda3a58a9fe437d12a7364659e1dd5faa73768755ce083818f58fd6903ac"
+}

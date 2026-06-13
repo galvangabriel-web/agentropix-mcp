@@ -1,0 +1,23 @@
+{
+  "case_id": "SRL-2015-APT-ENTERPRISE",
+  "findings": {
+    "aggregated": 1553,
+    "dry_run_outcome": "dry_run",
+    "live_outcome": "indexed",
+    "indexed_count": 1553,
+    "indexed_failed_count": 0,
+    "index": "agentropix-findings-2026.06.10",
+    "index_total_before": 1472,
+    "index_total_after": 3025,
+    "srl2015_docs_before": 641,
+    "srl2015_docs_after": 2194,
+    "collisions_prehandled": ["_source->detector_source", "timestamp->event_time(text)"]
+  },
+  "iocs": {
+    "mode": "append/merge union, no confirm_remove, no clear",
+    "lists_touched": ["agentropix_malware_sha256"],
+    "agentropix_malware_sha256": {"before": 22, "after": 47, "added_srl2015": 25},
+    "removed_other_case": false,
+    "vanko_preserved": true
+  }
+}

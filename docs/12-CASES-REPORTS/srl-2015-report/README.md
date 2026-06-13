@@ -144,8 +144,18 @@ the controller and nfury dumps only.
 |---|---|---|
 | `quarantine/srl2015-samples.zip` (21 live malware samples) | Live malware — never published | zip: `7c4e6dd1a01e713adc6768eadcb73c9976057ebc1514c007bb3be815e9e371d0`; **every sample's individual SHA-256 is in [`quarantine/MANIFEST.csv`](quarantine/MANIFEST.csv)** |
 | 8 raw evidence images (E01 / RAM / baseline) | Raw evidence, multi-GB | per-image SHA-256 table in §3.1 |
-| Pipeline working set `SRL2015-PIPELINE-V2/` (per-host `disk.json`/`memory.json`, `enrichment/ti-report.json`, ES dump) | Contains unsanitized internal endpoints | referenced by exact path in [`exports/_build_exports.py`](exports/_build_exports.py) and [`INDEX.md`](INDEX.md); its derived aggregates (`iocs.*`, `ear.*`) are published here |
+| Pipeline working set `SRL2015-PIPELINE-V2/` (full ES dump + scripts) | Contains unsanitized internal endpoints | referenced by exact path in [`exports/_build_exports.py`](exports/_build_exports.py) and [`INDEX.md`](INDEX.md); its derived aggregates (`iocs.*`, `ear.*`) are published here. **Update 2026-06-13:** the working set's evidentiary cores are now **published** (sanitized) — see "Now published" below |
 | Wazuh cluster endpoint + credentials | Secrets / internal infrastructure | scrubbed to `<WAZUH-INDEXER>` / `<INTERNAL-IP>` placeholders — no hash published for secrets, by design |
+
+**Now published (operator decision 2026-06-13)** — the raw artifacts that back the report's
+headline numbers, copied from the working set with only infrastructure identifiers scrubbed:
+
+| Published item | Proves | Folder |
+|---|---|---|
+| 8 per-host `disk.json`/`memory.json` (unmodified) | the **2,233** finding aggregation (per-host breakdown sums to 2,233) | [`pipeline-findings/`](pipeline-findings/) |
+| `ti-report.json` (Wazuh endpoint + local path scrubbed) | the **12 malicious** IOC verdicts (upstream of `exports/iocs.*`) | [`enrichment/`](enrichment/) |
+| Wazuh push receipts + pipeline summaries (already clean) | the dry-run → live push, the blocked second push, **VANKO preserved** | [`wazuh-push-receipts/`](wazuh-push-receipts/) |
+| Discover capture | the **2,874** live evidence-document count | [`wazuh-push-receipts/discover-findings-count-2874.png`](wazuh-push-receipts/discover-findings-count-2874.png) |
 
 **Published-but-sanitized** files: the copies in this folder had internal IPs/hostnames replaced
 with placeholders (`<WAZUH-INDEXER>`, `<INTERNAL-IP>`) **after** the source deliverable was sealed.

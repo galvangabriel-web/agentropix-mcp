@@ -1,0 +1,48 @@
+{
+  "case_id": "SRL-2015-APT-ENTERPRISE",
+  "aggregation": {
+    "total_findings": 2233,
+    "per_report": {
+      "win7-32-nromanoff/disk": 250,
+      "win7-32-nromanoff/memory": 10,
+      "xp-tdungan/disk": 339,
+      "xp-tdungan/memory": 10,
+      "win7-64-nfury/disk": 484,
+      "win7-64-nfury/memory": 432,
+      "win2008R2-controller/disk": 196,
+      "win2008R2-controller/memory": 512
+    },
+    "collisions_prehandled": [
+      "_source->detector_source",
+      "timestamp->event_time(text)"
+    ]
+  },
+  "findings_index": {
+    "dry_run_ok": true,
+    "dry_run_outcome": "dry_run",
+    "dry_run_findings": 2233,
+    "live_indexed": 0,
+    "live_blocked": true,
+    "block_reason": "wazuh_index_findings/bulk_index auto-generates _id (no ingest pipeline; finding_id not keyword-mapped) -> re-push DUPLICATES not replaces. Index already holds 2194 SRL-2015 docs (1590 distinct finding_id, 604 dups). Live push would add 2233 duplicate evidence docs (irreversible pollution). Non-destructive fix (deterministic _id=finding_id) not exposed by the sanctioned tool; editing sealed orchestrator/ADR-016 = Hard-Stop.",
+    "existing_srl_docs": 2194,
+    "existing_distinct_finding_id": 1590,
+    "existing_dup_finding_id": 604
+  },
+  "iocs": {
+    "mode": "append/merge union; no confirm_remove; no clear; no deletion",
+    "distinct_file_sha256_in_complete_dataset": 25,
+    "union_plan_vs_live": "0 added / 0 removed across all 7 lists (already merged by prior run)",
+    "iocs_merged_this_run": 0,
+    "lists_touched": [],
+    "vanko_total_before": 25,
+    "vanko_total_after": 25,
+    "vanko_preserved": true,
+    "removed_other_case": false
+  },
+  "ledger": {
+    "seq": 163,
+    "run_id": "srl2015-pipeline",
+    "status": "blocked",
+    "chain": "intact"
+  }
+}

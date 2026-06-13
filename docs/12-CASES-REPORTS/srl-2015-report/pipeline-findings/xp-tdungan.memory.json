@@ -1,0 +1,2884 @@
+{
+  "version": "0.2.0-dev",
+  "image": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+  "max_iterations": 15,
+  "iterations_completed": 15,
+  "status": "budget_exhausted",
+  "findings": [
+    {
+      "_source": "memory.skip",
+      "confidence": 0.0,
+      "description": "MemoryAgent skipped: image is not a memory dump (disk-only). Volatility plugins require RAM capture; T1055 disk-side coverage is provided by the AppData-staging detector in TimelineAgent (W-067).",
+      "evidence": "image=/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img suffix=.img",
+      "timestamp": "2026-06-10T13:32:55.747149+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "memory"
+    },
+    {
+      "_source": "filesystem.fls",
+      "confidence": 0.0,
+      "description": "fls failed: fls failed (rc=1): Cannot determine file system type\n",
+      "evidence": "image=/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img recursive=True max_depth=5",
+      "timestamp": "",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "filesystem"
+    },
+    {
+      "_source": "discovery.null_session_baseline.error",
+      "confidence": 0.0,
+      "description": "NullSessionBaselineAgent failed to read Security.evtx: evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[ 0,  0,  0,  0,  0,  0,  0,  0]`\n",
+      "evidence": "image=/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img error=evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[ 0,  0,  0,  0,  0,  0,  0,  0]`\n",
+      "timestamp": "2026-06-10T13:33:20.499723+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "null_session_baseline"
+    },
+    {
+      "_source": "yara_forge.bundle_active",
+      "confidence": 0.0,
+      "description": "YARA Forge bundle active: tag=20260505 sha256=87ee463c13d49084...",
+      "evidence": "tag=20260505 sha256=87ee463c13d490842f36eba5ca03a2ed090b78f3fed0eef78ff7e74065191494 path=yara/forge/CURRENT/yara-forge-rules-core.yar fp_threshold=75",
+      "evidence_dict": {
+        "tag": "20260505",
+        "sha256": "87ee463c13d490842f36eba5ca03a2ed090b78f3fed0eef78ff7e74065191494",
+        "source_url": "https://github.com/YARAHQ/yara-forge",
+        "fp_threshold": 75,
+        "license_allowlist": null
+      },
+      "timestamp": "2026-06-10T13:33:22.251210+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "yara_hunt"
+    },
+    {
+      "_source": "yara_hunt.empty",
+      "confidence": 0.2,
+      "description": "YARAHuntAgent found no scannable files under /cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "evidence": "scan_root=/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "timestamp": "2026-06-10T13:33:22.251385+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "yara_hunt"
+    },
+    {
+      "_source": "memory.injection.skipped",
+      "confidence": 0.0,
+      "description": "InjectionDetector skipped: XPSP3x86-baseline.img is not a memory image",
+      "evidence": "image=/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img reason=non_memory_image",
+      "timestamp": "2026-06-10T13:33:22.263021+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "injection_detector"
+    },
+    {
+      "_source": "t1546_008_accessibility_ifeo_hijack.skipped",
+      "confidence": 0.0,
+      "description": "AccessibilityIfeoHijackDetector skipped: XPSP3x86-baseline.img is not an E01 disk image",
+      "evidence": "image=/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img reason=non_e01_image",
+      "timestamp": "2026-06-10T13:33:22.269487+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "t1546_008_accessibility_ifeo_hijack"
+    },
+    {
+      "_source": "detectors.t1059_001.error",
+      "confidence": 0.0,
+      "description": "T1059.001 detector failed to obtain PowerShell/Operational records: evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[ 0,  0,  0,  0,  0,  0,  0,  0]`\n",
+      "evidence": "image=/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img error=RuntimeError: evtx_dump failed (rc=1): Error: Failed to open evtx file at: /cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\n\nCaused by:\n    0: An error occurred while trying to deserialize evtx stream.\n    1: Invalid EVTX file header magic, expected `ElfFile0`, found `[ 0,  0,  0,  0,  0,  0,  0,  0]`\n",
+      "timestamp": "2026-06-10T13:33:22.274869+00:00",
+      "mitre_attack": "",
+      "related_findings": [],
+      "agent": "t1059_001_iex_loopback_c2"
+    },
+    {
+      "_source": "memory.t1071_001.skipped",
+      "confidence": 0.0,
+      "description": "T1071SvchostOutboundHttpDetector skipped: XPSP3x86-baseline.img is not a memory image",
+      "evidence": "image=/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img reason=non_memory_image",
+      "timestamp": "2026-06-10T13:33:22.275130+00:00",
+      "mitre_attack": "T1071.001",
+      "related_findings": [],
+      "agent": "t1071_001_svchost_outbound_http"
+    },
+    {
+      "_source": "hunt.correlate",
+      "confidence": 0.30000000000000004,
+      "description": "Cross-source agreement: 'found' flagged by 3 agents (null_session_baseline, t1059_001_iex_loopback_c2, yara_hunt)",
+      "evidence": "token=found agents=['null_session_baseline', 't1059_001_iex_loopback_c2', 'yara_hunt'] findings=3",
+      "timestamp": "2026-06-10T13:33:22.277948+00:00",
+      "mitre_attack": "",
+      "related_findings": [
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "yara_hunt"
+      ],
+      "agent": "hunt"
+    }
+  ],
+  "trace": {
+    "tool_calls": [
+      {
+        "tool": "agent.memory",
+        "timestamp": "2026-06-10T13:32:55.747239+00:00",
+        "duration_ms": 0.13,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:33:20.444619+00:00",
+        "duration_ms": 24697.34,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:33:20.443733+00:00",
+        "duration_ms": 24695.12,
+        "result_summary": "ok",
+        "args_hash": "a9569a81a9ea6657",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-1trjisde/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:32:57,126 [INFO] (MainProcess) PID:1468237 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"5424c801545f0476dab2920beff4ff2cf36e8209f4c8d1f544e81cd2b97f48c9\"}",
+        "output_hash": "a01953a2a783b5edcc8f3e600bd4acbb86f491524e339df5a891cb4e9bbb8bb6"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:33:20.444222+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.filesystem",
+        "timestamp": "2026-06-10T13:33:20.492357+00:00",
+        "duration_ms": 47.51,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "mcp.fls",
+        "timestamp": "2026-06-10T13:33:20.491224+00:00",
+        "duration_ms": 45.62,
+        "result_summary": "ERROR: fls failed (rc=1): Cannot determine file system type\n",
+        "args_hash": "5ff3dcda493c95ee",
+        "exit_code": 1,
+        "raw_output": "{\"tool\":\"fls\",\"error\":\"fls failed (rc=1): Cannot determine file system type\\n\",\"suggestion\":\"\"}",
+        "output_hash": "8ae3d481a95fbd90d99a9b923c5179092a165b31cbc2001fb917aaced890a06b"
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:33:20.492610+00:00",
+        "duration_ms": 0.14,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:33:20.492963+00:00",
+        "duration_ms": 0.24,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.null_session_baseline",
+        "timestamp": "2026-06-10T13:33:20.499842+00:00",
+        "duration_ms": 6.79,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:33:20.508501+00:00",
+        "duration_ms": 8.54,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:20.504714+00:00",
+        "duration_ms": 3.44,
+        "result_summary": "ok",
+        "args_hash": "38cd49ed8087d3d4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:20.505685+00:00",
+        "duration_ms": 0.84,
+        "result_summary": "ok",
+        "args_hash": "fcd76e6b069fb6df",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:20.506557+00:00",
+        "duration_ms": 0.74,
+        "result_summary": "ok",
+        "args_hash": "b873df01abd71ac8",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:20.507428+00:00",
+        "duration_ms": 0.74,
+        "result_summary": "ok",
+        "args_hash": "a3074b26d335b5ad",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.yara_hunt",
+        "timestamp": "2026-06-10T13:33:22.262856+00:00",
+        "duration_ms": 1754.18,
+        "result_summary": "2 finding(s)"
+      },
+      {
+        "tool": "agent.injection_detector",
+        "timestamp": "2026-06-10T13:33:22.269286+00:00",
+        "duration_ms": 6.34,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.t1546_008_accessibility_ifeo_hijack",
+        "timestamp": "2026-06-10T13:33:22.269547+00:00",
+        "duration_ms": 0.18,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.t1059_001_iex_loopback_c2",
+        "timestamp": "2026-06-10T13:33:22.274959+00:00",
+        "duration_ms": 5.34,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.t1071_001_svchost_outbound_http",
+        "timestamp": "2026-06-10T13:33:22.275170+00:00",
+        "duration_ms": 0.14,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.hunt",
+        "timestamp": "2026-06-10T13:33:22.278153+00:00",
+        "duration_ms": 2.95,
+        "result_summary": "1 finding(s)"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:33:40.187953+00:00",
+        "duration_ms": 17908.11,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:33:40.187795+00:00",
+        "duration_ms": 17907.72,
+        "result_summary": "ok",
+        "args_hash": "a9569a81a9ea6657",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-i5i0mi63/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:33:23,541 [INFO] (MainProcess) PID:1468472 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"e8d226d5f6c1db997c9d5baeea91c3dd4fb6fb58a47a5f2f3bce0ed4164291db\"}",
+        "output_hash": "a268025ce545abcc4992993b60188049c1cb2ea5476bb5aa8cd8b00e3d54e6b2"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:33:40.187864+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:33:40.188059+00:00",
+        "duration_ms": 0.05,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:33:40.188206+00:00",
+        "duration_ms": 0.13,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:33:40.191370+00:00",
+        "duration_ms": 3.14,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:40.189206+00:00",
+        "duration_ms": 0.64,
+        "result_summary": "ok",
+        "args_hash": "38cd49ed8087d3d4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:40.189816+00:00",
+        "duration_ms": 0.52,
+        "result_summary": "ok",
+        "args_hash": "fcd76e6b069fb6df",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:40.190416+00:00",
+        "duration_ms": 0.51,
+        "result_summary": "ok",
+        "args_hash": "b873df01abd71ac8",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:40.191051+00:00",
+        "duration_ms": 0.55,
+        "result_summary": "ok",
+        "args_hash": "a3074b26d335b5ad",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:33:58.762712+00:00",
+        "duration_ms": 18565.48,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:33:58.762599+00:00",
+        "duration_ms": 18565.12,
+        "result_summary": "ok",
+        "args_hash": "a9569a81a9ea6657",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-b4eijqte/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:33:41,391 [INFO] (MainProcess) PID:1468616 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"f1b3ee95175629fb02b41cf3561c100c854661d88021ee1096d6dbd369012f86\"}",
+        "output_hash": "4b92eda66cbb942fe16a7d00fd017ac93ad8a5f435d9d9b16c79feafe08678ef"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:33:58.762661+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:33:58.762813+00:00",
+        "duration_ms": 0.07,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:33:58.762896+00:00",
+        "duration_ms": 0.06,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:33:58.766286+00:00",
+        "duration_ms": 3.37,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:58.763918+00:00",
+        "duration_ms": 0.64,
+        "result_summary": "ok",
+        "args_hash": "38cd49ed8087d3d4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:58.764567+00:00",
+        "duration_ms": 0.55,
+        "result_summary": "ok",
+        "args_hash": "fcd76e6b069fb6df",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:58.765247+00:00",
+        "duration_ms": 0.58,
+        "result_summary": "ok",
+        "args_hash": "b873df01abd71ac8",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:33:58.765941+00:00",
+        "duration_ms": 0.59,
+        "result_summary": "ok",
+        "args_hash": "a3074b26d335b5ad",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:34:16.485187+00:00",
+        "duration_ms": 17716.12,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:34:16.485056+00:00",
+        "duration_ms": 17715.69,
+        "result_summary": "ok",
+        "args_hash": "a9569a81a9ea6657",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-tnbya4io/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:34:00,205 [INFO] (MainProcess) PID:1468744 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"2ae7b6de0f88baa0955de604b0d6898e378fe4b9dc18b2606109da3221e586f1\"}",
+        "output_hash": "f14231a621d6640b689d52fc0ffea89ffed4c218146c3d02bedca32f1d586a1c"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:34:16.485131+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:34:16.485284+00:00",
+        "duration_ms": 0.05,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:34:16.485398+00:00",
+        "duration_ms": 0.08,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:34:16.489111+00:00",
+        "duration_ms": 3.68,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:16.486570+00:00",
+        "duration_ms": 0.7,
+        "result_summary": "ok",
+        "args_hash": "38cd49ed8087d3d4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:16.487322+00:00",
+        "duration_ms": 0.63,
+        "result_summary": "ok",
+        "args_hash": "fcd76e6b069fb6df",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:16.488050+00:00",
+        "duration_ms": 0.63,
+        "result_summary": "ok",
+        "args_hash": "b873df01abd71ac8",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:16.488739+00:00",
+        "duration_ms": 0.58,
+        "result_summary": "ok",
+        "args_hash": "a3074b26d335b5ad",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:34:36.241001+00:00",
+        "duration_ms": 19749.42,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:34:36.240914+00:00",
+        "duration_ms": 19749.2,
+        "result_summary": "ok",
+        "args_hash": "a9569a81a9ea6657",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-pa5vhwgl/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:34:18,229 [INFO] (MainProcess) PID:1468782 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"be311e7c11e46b19f31124901fa72829b7927080799d8fc485b15581889caa45\"}",
+        "output_hash": "b0f3e4f6b65ad2655e942913ffca026cadfe6620629696458e811de75638393b"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:34:36.240963+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:34:36.241051+00:00",
+        "duration_ms": 0.03,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:34:36.241110+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:34:36.243159+00:00",
+        "duration_ms": 2.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:36.241820+00:00",
+        "duration_ms": 0.43,
+        "result_summary": "ok",
+        "args_hash": "38cd49ed8087d3d4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:36.242205+00:00",
+        "duration_ms": 0.33,
+        "result_summary": "ok",
+        "args_hash": "fcd76e6b069fb6df",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:36.242572+00:00",
+        "duration_ms": 0.31,
+        "result_summary": "ok",
+        "args_hash": "b873df01abd71ac8",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:36.242959+00:00",
+        "duration_ms": 0.33,
+        "result_summary": "ok",
+        "args_hash": "a3074b26d335b5ad",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:34:54.621870+00:00",
+        "duration_ms": 18377.69,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:34:54.621771+00:00",
+        "duration_ms": 18377.42,
+        "result_summary": "ok",
+        "args_hash": "a9569a81a9ea6657",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-s4guly_7/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:34:37,442 [INFO] (MainProcess) PID:1468858 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"b8f7269820f658127b36a0dbd42f41d62c60bab831d8fe67540e338608d1d7c8\"}",
+        "output_hash": "d8f59a99e695cf1b8411763fdf8df3b40ec16769590f86a292758ae96aca41ea"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:34:54.621828+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:34:54.621934+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:34:54.622010+00:00",
+        "duration_ms": 0.06,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:34:54.625325+00:00",
+        "duration_ms": 3.3,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:54.622982+00:00",
+        "duration_ms": 0.63,
+        "result_summary": "ok",
+        "args_hash": "38cd49ed8087d3d4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:54.623671+00:00",
+        "duration_ms": 0.59,
+        "result_summary": "ok",
+        "args_hash": "fcd76e6b069fb6df",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:54.624292+00:00",
+        "duration_ms": 0.53,
+        "result_summary": "ok",
+        "args_hash": "b873df01abd71ac8",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:34:54.625014+00:00",
+        "duration_ms": 0.62,
+        "result_summary": "ok",
+        "args_hash": "a3074b26d335b5ad",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:35:12.197321+00:00",
+        "duration_ms": 17569.48,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:35:12.197026+00:00",
+        "duration_ms": 17568.77,
+        "result_summary": "ok",
+        "args_hash": "a9569a81a9ea6657",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-z_hzi4y2/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:34:56,198 [INFO] (MainProcess) PID:1468951 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"8aa11af8738bf1ba8f812dd3964bddd136a4bdcbda4497408f4fa03a9c6b9a62\"}",
+        "output_hash": "7f194e98ae74a478c125e8996a64ea3cf781f3391cd8878a8d6fd17c62f2bf5b"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:35:12.197165+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:35:12.197535+00:00",
+        "duration_ms": 0.14,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:35:12.197819+00:00",
+        "duration_ms": 0.24,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:35:12.202069+00:00",
+        "duration_ms": 4.21,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:12.199606+00:00",
+        "duration_ms": 1.13,
+        "result_summary": "ok",
+        "args_hash": "38cd49ed8087d3d4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:12.200320+00:00",
+        "duration_ms": 0.61,
+        "result_summary": "ok",
+        "args_hash": "fcd76e6b069fb6df",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:12.201031+00:00",
+        "duration_ms": 0.61,
+        "result_summary": "ok",
+        "args_hash": "b873df01abd71ac8",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:12.201717+00:00",
+        "duration_ms": 0.6,
+        "result_summary": "ok",
+        "args_hash": "a3074b26d335b5ad",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:35:31.644664+00:00",
+        "duration_ms": 19439.16,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:35:31.644446+00:00",
+        "duration_ms": 19438.53,
+        "result_summary": "ok",
+        "args_hash": "a9569a81a9ea6657",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-u523p52m/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:35:13,477 [INFO] (MainProcess) PID:1469017 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"a1c05029364b06b39b4609ee68ab0a6b6f2581ae02095d035f1a16630ada6cfa\"}",
+        "output_hash": "be9f118615ade2c369b75138e17f64cf65d1d69e5b979771ab93de311581d665"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:35:31.644545+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:35:31.644842+00:00",
+        "duration_ms": 0.1,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:35:31.645072+00:00",
+        "duration_ms": 0.19,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:35:31.647770+00:00",
+        "duration_ms": 2.67,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:31.646350+00:00",
+        "duration_ms": 0.75,
+        "result_summary": "ok",
+        "args_hash": "38cd49ed8087d3d4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:31.646763+00:00",
+        "duration_ms": 0.35,
+        "result_summary": "ok",
+        "args_hash": "fcd76e6b069fb6df",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:31.647135+00:00",
+        "duration_ms": 0.32,
+        "result_summary": "ok",
+        "args_hash": "b873df01abd71ac8",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:31.647531+00:00",
+        "duration_ms": 0.34,
+        "result_summary": "ok",
+        "args_hash": "a3074b26d335b5ad",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:35:49.084313+00:00",
+        "duration_ms": 17434.78,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:35:49.084188+00:00",
+        "duration_ms": 17434.42,
+        "result_summary": "ok",
+        "args_hash": "a9569a81a9ea6657",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-_4hr7qzm/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:35:33,112 [INFO] (MainProcess) PID:1469117 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"085a0a05287f2bdd9f2e3964d4aa4f0ba71beb2cfe517a2f801cdad0e676ca4b\"}",
+        "output_hash": "9e26c6d47b9eb1d6051fe8d5a6cdc46661762edc508ab650c04fa21bc14bcd11"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:35:49.084258+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:35:49.084401+00:00",
+        "duration_ms": 0.05,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:35:49.084555+00:00",
+        "duration_ms": 0.1,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:35:49.087394+00:00",
+        "duration_ms": 2.81,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:49.085666+00:00",
+        "duration_ms": 0.71,
+        "result_summary": "ok",
+        "args_hash": "38cd49ed8087d3d4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:49.086349+00:00",
+        "duration_ms": 0.58,
+        "result_summary": "ok",
+        "args_hash": "fcd76e6b069fb6df",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:49.086790+00:00",
+        "duration_ms": 0.38,
+        "result_summary": "ok",
+        "args_hash": "b873df01abd71ac8",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:35:49.087162+00:00",
+        "duration_ms": 0.31,
+        "result_summary": "ok",
+        "args_hash": "a3074b26d335b5ad",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:36:06.719901+00:00",
+        "duration_ms": 17629.26,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:36:06.719710+00:00",
+        "duration_ms": 17628.8,
+        "result_summary": "ok",
+        "args_hash": "a9569a81a9ea6657",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-6gak3dlo/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:35:50,453 [INFO] (MainProcess) PID:1469185 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"72a82b399dbc7445ffd3ea5ea3d1f35ef0616b2f51b0a2b8288397eb25be1a62\"}",
+        "output_hash": "99a41b8fa7ef6d4246d1423a9f8624351bb55a520015cb35ccb8d10a3a2b3122"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:36:06.719807+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:36:06.720028+00:00",
+        "duration_ms": 0.07,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:36:06.720206+00:00",
+        "duration_ms": 0.15,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:36:06.722818+00:00",
+        "duration_ms": 2.59,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:06.721401+00:00",
+        "duration_ms": 0.68,
+        "result_summary": "ok",
+        "args_hash": "38cd49ed8087d3d4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:06.721784+00:00",
+        "duration_ms": 0.33,
+        "result_summary": "ok",
+        "args_hash": "fcd76e6b069fb6df",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:06.722152+00:00",
+        "duration_ms": 0.31,
+        "result_summary": "ok",
+        "args_hash": "b873df01abd71ac8",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:06.722552+00:00",
+        "duration_ms": 0.33,
+        "result_summary": "ok",
+        "args_hash": "a3074b26d335b5ad",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:36:25.020549+00:00",
+        "duration_ms": 18295.87,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:36:25.020229+00:00",
+        "duration_ms": 18295.13,
+        "result_summary": "ok",
+        "args_hash": "a9569a81a9ea6657",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-kkkxc9m2/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:36:08,103 [INFO] (MainProcess) PID:1469277 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"17d78e3a396188948c691d5c1bfe0da8411e7c2316b4abebeca840b108679277\"}",
+        "output_hash": "a5b1062c35d7ed059327b7abb96e7b14f57fb053eaf29cb29acc90c4c63ee85f"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:36:25.020393+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:36:25.020773+00:00",
+        "duration_ms": 0.15,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:36:25.021064+00:00",
+        "duration_ms": 0.25,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:36:25.025264+00:00",
+        "duration_ms": 4.16,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:25.022816+00:00",
+        "duration_ms": 1.07,
+        "result_summary": "ok",
+        "args_hash": "38cd49ed8087d3d4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:25.023550+00:00",
+        "duration_ms": 0.61,
+        "result_summary": "ok",
+        "args_hash": "fcd76e6b069fb6df",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:25.024227+00:00",
+        "duration_ms": 0.58,
+        "result_summary": "ok",
+        "args_hash": "b873df01abd71ac8",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:25.024896+00:00",
+        "duration_ms": 0.57,
+        "result_summary": "ok",
+        "args_hash": "a3074b26d335b5ad",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:36:42.226855+00:00",
+        "duration_ms": 17198.56,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:36:42.226767+00:00",
+        "duration_ms": 17198.2,
+        "result_summary": "ok",
+        "args_hash": "a9569a81a9ea6657",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-qjplypvx/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:36:26,243 [INFO] (MainProcess) PID:1469367 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"eb2b09993fb220dbaa76236a5cdcefacf504d4fda4df7f13ed7d0f4adad4b5d0\"}",
+        "output_hash": "ec575728b6a68502a1b2670dbcebe88b21376b3df928af0b7c36a2d175cb741b"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:36:42.226823+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:36:42.226910+00:00",
+        "duration_ms": 0.03,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:36:42.226965+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:36:42.229069+00:00",
+        "duration_ms": 2.09,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:42.227677+00:00",
+        "duration_ms": 0.42,
+        "result_summary": "ok",
+        "args_hash": "38cd49ed8087d3d4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:42.228049+00:00",
+        "duration_ms": 0.32,
+        "result_summary": "ok",
+        "args_hash": "fcd76e6b069fb6df",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:42.228448+00:00",
+        "duration_ms": 0.34,
+        "result_summary": "ok",
+        "args_hash": "b873df01abd71ac8",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:42.228827+00:00",
+        "duration_ms": 0.32,
+        "result_summary": "ok",
+        "args_hash": "a3074b26d335b5ad",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:36:59.296393+00:00",
+        "duration_ms": 17067.92,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:36:59.296313+00:00",
+        "duration_ms": 17067.69,
+        "result_summary": "ok",
+        "args_hash": "a9569a81a9ea6657",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-w8n80f4v/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:36:43,390 [INFO] (MainProcess) PID:1469451 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"01075629151fa14a09d4b9d0365af838718100f4661eb658eff6fc9d84a88fc1\"}",
+        "output_hash": "5d47d6631bf8155416ad10575148e2f4e5a0bd34e33b5b463a1c035c8c803c88"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:36:59.296361+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:36:59.296441+00:00",
+        "duration_ms": 0.03,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:36:59.296502+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:36:59.298565+00:00",
+        "duration_ms": 2.05,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:59.297198+00:00",
+        "duration_ms": 0.43,
+        "result_summary": "ok",
+        "args_hash": "38cd49ed8087d3d4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:59.297589+00:00",
+        "duration_ms": 0.34,
+        "result_summary": "ok",
+        "args_hash": "fcd76e6b069fb6df",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:59.297957+00:00",
+        "duration_ms": 0.31,
+        "result_summary": "ok",
+        "args_hash": "b873df01abd71ac8",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:36:59.298340+00:00",
+        "duration_ms": 0.33,
+        "result_summary": "ok",
+        "args_hash": "a3074b26d335b5ad",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:37:16.478613+00:00",
+        "duration_ms": 17178.82,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:37:16.478529+00:00",
+        "duration_ms": 17178.59,
+        "result_summary": "ok",
+        "args_hash": "a9569a81a9ea6657",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-hc5pn8oy/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:37:00,607 [INFO] (MainProcess) PID:1469537 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"f477ddd889f32b19ae29c8ea2dc19d87c9e82ec802408493a8f3ff02e8265c02\"}",
+        "output_hash": "4648567df24cde341c37bc515760130771e62b94101b83cd3631258abda102bb"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:37:16.478581+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:37:16.478662+00:00",
+        "duration_ms": 0.03,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:37:16.478716+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:37:16.480654+00:00",
+        "duration_ms": 1.93,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:37:16.479366+00:00",
+        "duration_ms": 0.38,
+        "result_summary": "ok",
+        "args_hash": "38cd49ed8087d3d4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:37:16.479730+00:00",
+        "duration_ms": 0.31,
+        "result_summary": "ok",
+        "args_hash": "fcd76e6b069fb6df",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:37:16.480084+00:00",
+        "duration_ms": 0.3,
+        "result_summary": "ok",
+        "args_hash": "b873df01abd71ac8",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:37:16.480456+00:00",
+        "duration_ms": 0.32,
+        "result_summary": "ok",
+        "args_hash": "a3074b26d335b5ad",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "agent.timeline",
+        "timestamp": "2026-06-10T13:37:33.240732+00:00",
+        "duration_ms": 16758.87,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.get_timeline",
+        "timestamp": "2026-06-10T13:37:33.240644+00:00",
+        "duration_ms": 16758.64,
+        "result_summary": "ok",
+        "args_hash": "a9569a81a9ea6657",
+        "exit_code": 0,
+        "raw_output": "{\"image_path\":\"/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img\",\"event_count\":0,\"events\":[],\"tool\":\"plaso.log2timeline\",\"storage_file\":\"/tmp/agentropix-sift-onteb74b/timeline.plaso\",\"raw_stderr\":\"2026-06-10 13:37:17,634 [INFO] (MainProcess) PID:1469585 <artifact_definitions> Determined artifact definitions path: /usr/share/artifacts\\n\",\"jsonl_rows_read\":0,\"priority_hits_by_family\":{\"4624\":0,\"winreg_run\":0,\"mft_timestomp\":0,\"lolbin\":0,\"appdata_staging\":0},\"parser_deque_sizes\":{},\"wrapper_error\":\"\",\"raw_stdout_sha256\":\"4e8866290e96dd2b9c195c5517da2a1d8fb82b5bc0c6a319051ceb640f8d6308\"}",
+        "output_hash": "979f4f29eb035640b03170719a69bafc7ad96f8419255f4ecb3b005fbabc5d9a"
+      },
+      {
+        "tool": "trace.timeline.counters",
+        "timestamp": "2026-06-10T13:37:33.240699+00:00",
+        "duration_ms": 0.0,
+        "result_summary": "jsonl_rows=0 priority_hits=0 events_recv=0 detectors_fired=0",
+        "counters": {
+          "jsonl_rows_read": 0,
+          "priority_hits_by_family": {
+            "4624": 0,
+            "winreg_run": 0,
+            "mft_timestomp": 0,
+            "lolbin": 0,
+            "appdata_staging": 0
+          },
+          "parser_deque_sizes": {},
+          "events_received_by_agent": 0,
+          "detectors_fired_by_id": {
+            "4624_detector": 0,
+            "winreg_run_detector": 0,
+            "prefetch_detector": 0,
+            "mft_timestomp_detector": 0,
+            "lolbin_detector": 0,
+            "appdata_staging_detector": 0
+          },
+          "verbose_evtx": {
+            "enabled": true,
+            "cap": 5000,
+            "emitted": 0,
+            "dropped": 0
+          }
+        }
+      },
+      {
+        "tool": "agent.artifact",
+        "timestamp": "2026-06-10T13:37:33.240785+00:00",
+        "duration_ms": 0.03,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.discovery",
+        "timestamp": "2026-06-10T13:37:33.240842+00:00",
+        "duration_ms": 0.04,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "agent.mail",
+        "timestamp": "2026-06-10T13:37:33.242955+00:00",
+        "duration_ms": 2.1,
+        "result_summary": "0 finding(s)"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:37:33.241565+00:00",
+        "duration_ms": 0.44,
+        "result_summary": "ok",
+        "args_hash": "38cd49ed8087d3d4",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:37:33.242005+00:00",
+        "duration_ms": 0.38,
+        "result_summary": "ok",
+        "args_hash": "fcd76e6b069fb6df",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:37:33.242404+00:00",
+        "duration_ms": 0.34,
+        "result_summary": "ok",
+        "args_hash": "b873df01abd71ac8",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      },
+      {
+        "tool": "mcp.list_files",
+        "timestamp": "2026-06-10T13:37:33.242752+00:00",
+        "duration_ms": 0.3,
+        "result_summary": "ok",
+        "args_hash": "a3074b26d335b5ad",
+        "exit_code": 0,
+        "raw_output": "{\"paths\":[],\"truncated\":false,\"rejected_count\":0,\"tool_available\":true,\"error\":null}",
+        "output_hash": "4da069f4811b183e2dd68619b5108fbbfae459900a8266da8d866e0286571c62"
+      }
+    ],
+    "counters": {
+      "trace.timeline.counters": {
+        "jsonl_rows_read": 0,
+        "priority_hits_by_family": {
+          "4624": 0,
+          "winreg_run": 0,
+          "mft_timestomp": 0,
+          "lolbin": 0,
+          "appdata_staging": 0
+        },
+        "parser_deque_sizes": {},
+        "events_received_by_agent": 0,
+        "detectors_fired_by_id": {
+          "4624_detector": 0,
+          "winreg_run_detector": 0,
+          "prefetch_detector": 0,
+          "mft_timestomp_detector": 0,
+          "lolbin_detector": 0,
+          "appdata_staging_detector": 0
+        },
+        "verbose_evtx": {
+          "enabled": true,
+          "cap": 5000,
+          "emitted": 0,
+          "dropped": 0
+        }
+      }
+    },
+    "start_time": "2026-06-10T13:32:55.747044+00:00",
+    "end_time": "2026-06-10T13:37:33.244403+00:00",
+    "total_duration_ms": 277497.36
+  },
+  "thymus_audit": [
+    {
+      "timestamp": "2026-06-10T13:32:55.747668+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:20.447078+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:20.501923+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:20.505185+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:20.506105+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:20.507010+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:22.280277+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:40.188924+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:40.189571+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:40.190168+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:40.190793+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:40.194539+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:58.763600+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:58.764292+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:58.764973+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:58.765641+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:33:58.769665+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:16.486249+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:16.487016+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:16.487744+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:16.488463+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:16.491937+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:36.241595+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:36.242036+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:36.242414+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:36.242800+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:36.244885+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:54.622631+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:54.623376+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:54.624039+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:54.624753+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:34:54.628360+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:12.199129+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:12.200006+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:12.200759+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:12.201449+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:12.206121+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:31.646035+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:31.646594+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:31.646977+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:31.647355+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:31.649889+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:49.085330+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:49.086069+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:49.086625+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:49.087001+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:35:49.088989+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:06.721088+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:06.721618+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:06.721998+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:06.722385+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:06.725021+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:25.022394+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:25.023215+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:25.023969+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:25.024633+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:25.028999+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:42.227486+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:42.227888+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:42.228255+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:42.228663+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:42.230880+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:59.297002+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:59.297427+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:59.297795+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:59.298162+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:36:59.300100+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:37:16.479164+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:37:16.479571+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:37:16.479929+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:37:16.480301+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:37:16.482154+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory/XPSP3x86-baseline.img",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:37:33.241374+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:37:33.241808+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:37:33.242219+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    },
+    {
+      "timestamp": "2026-06-10T13:37:33.242601+00:00",
+      "action": "ALLOW",
+      "path": "/cases/SRL-2015/xp-tdungan-memory/baseline-memory",
+      "reason": "within read-only zone"
+    }
+  ],
+  "critic_score": 1.0,
+  "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+  "iterations": [
+    {
+      "iteration": 1,
+      "plan": [
+        "memory",
+        "timeline",
+        "filesystem",
+        "artifact",
+        "discovery",
+        "null_session_baseline",
+        "mail",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 2,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 3,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 4,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 5,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 6,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 7,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 8,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 9,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 10,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 11,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 12,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 13,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 14,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    },
+    {
+      "iteration": 15,
+      "plan": [
+        "timeline",
+        "artifact",
+        "discovery",
+        "mail"
+      ],
+      "stable_agents": [
+        "filesystem",
+        "hunt",
+        "injection_detector",
+        "memory",
+        "null_session_baseline",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "t1546_008_accessibility_ifeo_hijack",
+        "yara_hunt"
+      ],
+      "dropped_agents": [
+        "memory",
+        "filesystem",
+        "null_session_baseline",
+        "yara_hunt",
+        "injection_detector",
+        "t1546_008_accessibility_ifeo_hijack",
+        "t1059_001_iex_loopback_c2",
+        "t1071_001_svchost_outbound_http",
+        "hunt"
+      ],
+      "gaps": [
+        "artifact",
+        "discovery",
+        "mail",
+        "timeline"
+      ],
+      "critic_score": 1.0,
+      "critic_feedback": "continue: plan gap \u2014 4 planned agent(s) produced 0 findings (['artifact', 'discovery', 'mail', 'timeline']); score 1.00",
+      "should_halt": false
+    }
+  ],
+  "inference_constraint": "high",
+  "evidence_image_sha256": "2d721439861fc433143bebdd2e4a7285b571dc1517dfafef6874f0fd32005c24",
+  "report_seal": "69e9a953ca25c79857f85021b1504f0edf0ad7dc98cd02179b07cf31721027b4",
+  "completion_proofs": [
+    "CROSS_AGENT_CORRELATION_DONE",
+    "FILESYSTEM_WALKED",
+    "INJECTION_DETECTION_COMPLETE",
+    "NULL_SESSION_BASELINE_COMPLETE",
+    "T1059_001_IEX_LOOPBACK_SCAN_COMPLETE",
+    "T1071_001_SVCHOST_OUTBOUND_HTTP_COMPLETE",
+    "T1546_008_ACCESSIBILITY_IFEO_HIJACK_COMPLETE",
+    "YARA_HUNT_COMPLETE"
+  ],
+  "audit_log_seal": "17d1273981c432693e504374c3bd96d23e5e2bd01042789749cc768c684ccaf3"
+}
