@@ -23,7 +23,7 @@
 > 🧭 **Judges:** the **[Evaluation Map](EVALUATION-MAP.md)** routes each of the 8 submission
 > requirements (code · demo video · architecture diagram · project story · datasets · accuracy ·
 > try-it-out · execution logs) to its exact evidence in this repository — or watch the
-> 🎬 **[2 min 24 s Submission Evidence Tour](https://galvangabriel-web.github.io/agentropix-mcp/assets/submission-tour/watch-tour.html)**
+> 🎬 **[2 min 24 s Submission Evidence Tour](https://galvangabriel-web.github.io/agentropix-mcp/assets/submission-tour/watch-tour.html)** ([build sources](assets/submission-tour/README.md))
 > (auto-plays): one animated scene per requirement, each with a live-captured proof panel. And for
 > the investigation flow itself, the 🎞️ **[six-stage workflow animation](#-recommended-investigation-workflow)**
 > plays inline right on this page — doctor → run → review → human gate → seal → escalate — and the

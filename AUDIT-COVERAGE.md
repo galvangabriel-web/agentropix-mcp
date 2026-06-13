@@ -171,3 +171,21 @@ deck/proof asset (HTML/PNG embedded or Pages-served), or a repo-control file
 (`.gitignore`). None is an un-indexed reader page; all reader-facing content pages
 are now indexed. The orphans are left for an operator decision on whether the
 submission decks and proof screenshots warrant explicit index entries.
+
+---
+
+## Build-sources pass (2026-06-13) — orphans driven to 0
+
+The 29 residual orphans were render-sources / build inputs (not reader pages). They are now
+explicitly indexed so every tracked file is named in a README:
+
+- **`docs/12-CASES-REPORTS/srl-2018-report/submission/diagrams/README.md`** (new) — indexes every
+  Mermaid `.mmd` source → its rendered `.png`, and every `animated-decks/*.html` deck → its
+  `atlas-*.gif`. Reachable via the existing `diagrams/` folder link in the submission README.
+- **`assets/submission-tour/README.md`** (new) — indexes the tour output (`SUBMISSION-TOUR.mp4`,
+  `watch-tour.html`, poster) and its build inputs (`submission-tour-deck.html` + the 9
+  `proof/*.png` panels). Linked from the main README's "Submission Evidence Tour" line.
+- **`docs/12-CASES-REPORTS/vanko-report/.gitignore`** — noted in the VANKO report README as a
+  git-control file (not a reader document).
+
+**Result: 0 orphans, 0 broken links — every tracked file is now named in a README.**

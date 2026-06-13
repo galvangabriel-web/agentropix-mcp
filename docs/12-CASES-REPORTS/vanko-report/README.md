@@ -62,3 +62,6 @@ red-boxed artifact proof and a cross-source correlation panel.
 
 > ▶ *GitHub's repo pages can't play committed MP4s — each poster links to the **GitHub Pages copy, which plays directly in your browser**; or*
 > ***[download the MP4 (8.1 MB, 2 min 24 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/vanko-report/training-session-paged.mp4)***.
+
+> **Repo housekeeping:** [`.gitignore`](.gitignore) is a git-control file (keeps local-only VANKO
+> working artifacts untracked) — not a reader document.
