@@ -618,8 +618,14 @@ correlation: 📄 [report](docs/12-CASES-REPORTS/srl-2015-report/AGENT-EXECUTION
 requirement-8 bundle for the **ROCBA** Windows-10 insider-IP-theft case is a real live-MCP triage —
 timestamped tool sequence, server HTTP audit, Thymus decisions, a grounded DRAFT finding, and the
 honest negatives kept on record:
-[`case-activation/runs/rocba/EXECUTION-LOG.md`](case-activation/runs/rocba/EXECUTION-LOG.md); a sibling
-agent-execution-log run covers the Windows XP laptop (2005) case at
+[`case-activation/runs/rocba/EXECUTION-LOG.md`](case-activation/runs/rocba/EXECUTION-LOG.md). The same
+case's **Trinity-engine run** captures the backend **agent ↔ blackboard communication** —
+**21 blackboard publishes across 13 agents** (the `hunt` agent fusing **14 cross-source correlations**),
+**351 findings / 509 tool calls**, and the iteration-over-iteration **plan shrink** (13 agents → just
+`[discovery, mail]` once the Critic marks 11 *stable*):
+[`case-activation/runs/rocba/engine-run/AGENT-BLACKBOARD.md`](case-activation/runs/rocba/engine-run/AGENT-BLACKBOARD.md)
+(+ the derived [`blackboard-events.jsonl`](case-activation/runs/rocba/engine-run/blackboard-events.jsonl)).
+A sibling agent-execution-log run covers the Windows XP laptop (2005) case at
 [`WINXP-LAPTOP-2005`](case-activation/runs/WINXP-LAPTOP-2005/) —
 🎬 **[3 min 19 s animated walkthrough](https://galvangabriel-web.github.io/agentropix-mcp/case-activation/runs/WINXP-LAPTOP-2005/WINXP-LAPTOP-2005-video/watch.html)**
 (auto-plays): a 13-scene deterministic deck correlated from its logs (297 records · 64 tool calls · 14
