@@ -18,7 +18,7 @@ that satisfy it, with a reading path. Statuses are honest — ✅ means committe
 | 5 | Dataset documentation | ✅ | [`docs/06-use-cases/reproduce-datasets.md`](docs/06-use-cases/reproduce-datasets.md) |
 | 6 | Accuracy report + evidence-integrity approach | ✅ | [`docs/07-sdlc-ops/ACCURACY-REPORT.md`](docs/07-sdlc-ops/ACCURACY-REPORT.md) (§6 evidence integrity) · [visual companion](docs/07-sdlc-ops/evidence-integrity-visual.md) · [recall methodology](docs/07-sdlc-ops/dataset-recall.md) |
 | 7 | Try-it-out instructions | ✅ | [`README.md` → Connect in 60 seconds](README.md#-connect-in-60-seconds) |
-| 8 | Agent execution logs | ✅ | [`AGENT-EXECUTION-LOGS-REPORT.md`](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md) (gold report) · [`EXECUTION-LOG.md`](case-activation/runs/jimmy-wilson-poc/EXECUTION-LOG.md) |
+| 8 | Agent execution logs | ✅ | [`AGENT-EXECUTION-LOGS-REPORT.md`](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md) (gold report) · [`EXECUTION-LOG.md`](case-activation/runs/jimmy-wilson-poc/EXECUTION-LOG.md) · [`rocba/EXECUTION-LOG.md`](case-activation/runs/rocba/EXECUTION-LOG.md) · [`WINXP-LAPTOP-2005/`](case-activation/runs/WINXP-LAPTOP-2005/) |
 
 ---
 
@@ -192,6 +192,25 @@ The story sections map onto committed pages — assemble the Devpost text from t
   with timestamps + durations, the Trinity trace (13 agents → 2 after the Critic marks 11 stable),
   and Blackboard activity. Token usage is an **honest negative** (LLM at the edge, uninstrumented —
   documented, not faked).
+- **Live-MCP triage audit (Requirement-8 execution-logs doc):**
+  [`rocba/EXECUTION-LOG.md`](case-activation/runs/rocba/EXECUTION-LOG.md) — the ROCBA Hackathon
+  2026 Windows-10 insider-IP-theft case (`INC-2026-0613202023`): 31 MCP requests, 2,078 s tool
+  runtime, `evidence_register` SHA-256 `f2eb856d` matching ground truth, an `fls` walk of 602,765
+  entries, `get_evtx` surfacing ≥5,000 EventID-4625 RDP brute-force hits → the grounded DRAFT
+  finding `rocba-rdp-bruteforce-001` (MITRE T1110.003, `indexed:false` = cannot self-approve),
+  `bulk_extractor` 5,113,600 features. Backed by the server HTTP audit
+  ([`logs/mcp-http-audit.jsonl`](case-activation/runs/rocba/logs)) and the Thymus access log. Keeps
+  its **honest negatives** on record (not hidden): a carve driver param-bug (image vs target,
+  re-run corrected), the `report_generate` `case_not_found` DRAFT-only gotcha, and a memory-init
+  timeout under load. Token usage is uncollected **by design** (client-side).
+- **Single-agent / per-tool execution chain:**
+  [`WINXP-LAPTOP-2005/`](case-activation/runs/WINXP-LAPTOP-2005/) — a sibling agent-execution-log
+  run for the Windows XP laptop (2005) case: a timestamped
+  [execution chain](case-activation/runs/WINXP-LAPTOP-2005/WINXP-LAPTOP-2005-execution-chain.md),
+  the machine-readable
+  [`WINXP-LAPTOP-2005-agent-execution-log.jsonl`](case-activation/runs/WINXP-LAPTOP-2005/WINXP-LAPTOP-2005-agent-execution-log.jsonl)
+  + [summary](case-activation/runs/WINXP-LAPTOP-2005/WINXP-LAPTOP-2005.execution-log.summary.md),
+  and the extraction tooling that produced them.
 - **Agent-to-agent messages with timestamps:**
   [`blackboard-events.jsonl`](case-activation/runs/jimmy-wilson-poc/blackboard-events.jsonl) —
   timestamped agent publish/correlation events.

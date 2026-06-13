@@ -137,7 +137,12 @@ recordings with video (Contact Me, AMF sample001, memdump, Notch It Up — each 
 approval**, labelled as demo-only), two activation-only captures (SRL-2018, VANKO — their full investigations live in
 the sealed case reports), and three `agentropix-sift` **engine** triage PoCs with sealed `report.json` records (Jimmy
 Wilson: 129 findings / 86 tool calls; DFRWS Rodeo: 9 findings / 68 tool calls, an honest-negatives case; plus the
-first engine smoke run). Raw `step*.json` tool outputs are committed unedited.
+first engine smoke run). Two newer runs add the **Find Evil! requirement-8 agent-execution-log** evidence:
+[rocba/](runs/rocba/) is a real live-MCP triage of the ROCBA Hackathon 2026 Windows-10 insider-IP-theft case (31 MCP
+requests, an RDP brute-force DRAFT finding, and the honest negatives kept on record — a carve param-bug, a DRAFT-only
+`report_generate case_not_found` gotcha, and a memory-init timeout), bundled with its server HTTP/thymus audit logs;
+[WINXP-LAPTOP-2005/](runs/WINXP-LAPTOP-2005/) is a sibling agent-execution-log run for the 2005 Windows XP laptop case.
+Raw `step*.json` tool outputs are committed unedited.
 
 ## How to use
 

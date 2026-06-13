@@ -34,6 +34,7 @@ Repository: https://github.com/galvangabriel-web/agentropix-mcp  ·  License: MI
 - [Evidence Dataset Documentation](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/EVIDENCE_DATASET_DOCS.md): Inventory of all evidence datasets — provenance, SHA-256, schemas, ingestion pipeline.
 - [System Accuracy & Validation Report](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/ACCURACY_REPORT.md): Component benchmark matrix, recall metrics, algorithmic-drift findings (file:line).
 - [Index Coverage Audit](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/AUDIT-COVERAGE.md): Per-section README/file coverage audit — 0 broken links, 0 orphans.
+- [Agent-Execution-Log runs](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/case-activation/runs/rocba/EXECUTION-LOG.md): The Find Evil! requirement-8 agent-execution-log audit — ROCBA live-MCP triage (31 requests, RDP brute-force DRAFT finding, honest negatives kept on record); sibling WINXP-LAPTOP-2005 run under case-activation/runs/.
 
 ## Optional
 

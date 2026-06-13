@@ -28,6 +28,8 @@ This file inlines the full content of the core documents below for single-pass L
 - Evidence Dataset Documentation — `EVIDENCE_DATASET_DOCS.md`
 - System Accuracy & Validation Report — `ACCURACY_REPORT.md`
 - Index Coverage Audit — `AUDIT-COVERAGE.md`
+- ROCBA Agent-Execution-Logs (Find Evil! requirement 8) — `case-activation/runs/rocba/EXECUTION-LOG.md`
+- WINXP-LAPTOP-2005 agent-execution-log run — `case-activation/runs/WINXP-LAPTOP-2005/`
 
 
 ====================================================================================================

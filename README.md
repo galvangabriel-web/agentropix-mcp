@@ -614,7 +614,13 @@ the Animotion MCP and rendered deterministically from the committed
 The **multi-host edition** scales the same discipline to SRL-2015 — 4 hosts × disk+memory, **8 sealed
 runs, 2,233 findings, 15-iteration loops**, and the cross-host spinlock.exe → Domain-Controller
 correlation: 📄 [report](docs/12-CASES-REPORTS/srl-2015-report/AGENT-EXECUTION-LOGS-REPORT-SRL2015.md) ·
-🎬 **[2 min 24 s animated walkthrough](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2015-report/watch-execution-logs.html)** (auto-plays). The wider
+🎬 **[2 min 24 s animated walkthrough](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/srl-2015-report/watch-execution-logs.html)** (auto-plays). The
+requirement-8 bundle for the **ROCBA** Windows-10 insider-IP-theft case is a real live-MCP triage —
+timestamped tool sequence, server HTTP audit, Thymus decisions, a grounded DRAFT finding, and the
+honest negatives kept on record:
+[`case-activation/runs/rocba/EXECUTION-LOG.md`](case-activation/runs/rocba/EXECUTION-LOG.md); a sibling
+agent-execution-log run covers the Windows XP laptop (2005) case at
+[`WINXP-LAPTOP-2005`](case-activation/runs/WINXP-LAPTOP-2005/). The wider
 [`case-activation/`](case-activation/) folder holds a per-case Activation Guide for every evidence
 set on this host plus the captured executed runs ([`case-activation/runs/`](case-activation/runs/)).
 

@@ -17,6 +17,8 @@ outputs. Master tables (with guide cross-links): [`../INDEX.md`](../INDEX.md).
 | [`jimmy-wilson-poc/`](jimmy-wilson-poc/) | **Engine** triage PoC, video + raw logs | Jimmy Wilson E01 (NTFS disk) | 129 findings · 86 tool calls × 3 reproducible runs (2 raw + 1 recorded) |
 | [`dfrws-rodeo-poc/`](dfrws-rodeo-poc/) | **Engine** triage PoC + raw log | DFRWS 2005 Rodeo USB (FAT16 dd) | 9 findings · 68 tool calls, honest-negatives case, ×2 runs |
 | [`engine-smoke-sample-dd/`](engine-smoke-sample-dd/) | **Engine** smoke run | synthetic `samples/sample.dd` | the first sealed record (2026-06-09), 7 honest-negative findings |
+| [`rocba/`](rocba/) | live-MCP triage + Agent-Execution Logs (req. 8) | ROCBA Win10 disk+memory (insider IP-theft) | `fls` 602,765 entries @offset 0; `get_evtx` ≥5000 EventID 4625 RDP brute-force on SRL-FORGE → DRAFT finding (MITRE T1110.003, `indexed:false` = cannot self-approve); `bulk_extractor` 5,113,600 features; honest negatives kept (carve param-bug, `report_generate case_not_found`, memory-init timeout) — see [`rocba/EXECUTION-LOG.md`](rocba/EXECUTION-LOG.md) |
+| [`WINXP-LAPTOP-2005/`](WINXP-LAPTOP-2005/) | agent-execution-log run + video | Windows XP laptop (2005) | [execution-chain log](WINXP-LAPTOP-2005/WINXP-LAPTOP-2005-execution-chain.md) + [session transcript](WINXP-LAPTOP-2005/WINXP-LAPTOP-2005.session-transcript.raw.jsonl) + [video storyboard](WINXP-LAPTOP-2005/WINXP-LAPTOP-2005-video/STORYBOARD.md) + [case-close-tool patch](WINXP-LAPTOP-2005/case-close-tool.patch) |
 
 **Conventions across all folders:**
 - `step*.json` / `batch_*.json` = raw captured MCP tool outputs, unedited; empty `.err` files mean
