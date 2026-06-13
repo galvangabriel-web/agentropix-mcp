@@ -312,3 +312,13 @@ authority for every numeric claim — it wins over any prose anywhere in the doc
 | Module Map | The code module map (where each package and component lives in `src/`) | [docs/02-architecture/module-map.md](docs/02-architecture/module-map.md) |
 | Env Vars | The full `AGENTROPIX_*` environment-variable surface and what each tunes | [docs/07-sdlc-ops/env-vars.md](docs/07-sdlc-ops/env-vars.md) |
 | Agents List | The Swarm agent inventory — the 7 core specialists plus the ATT&CK detectors | [docs/10-agents/agents-list.md](docs/10-agents/agents-list.md) |
+
+### Audit Reports (repo-wide, auto-generated)
+
+Two repo-grounded audit artifacts — every figure cites its in-repo source; unmeasured items are
+marked as such (no fabrication). Governed, like all docs, by [Canonical Facts](docs/08-reference/canonical-facts.md).
+
+| Report | What it answers | Audience | Location |
+|--------|-----------------|----------|----------|
+| Evidence Dataset Documentation | What evidence datasets exist — provenance, SHA-256 integrity, schemas, and the acquire→…→SIEM ingestion pipeline | auditor / examiner | [EVIDENCE_DATASET_DOCS.md](EVIDENCE_DATASET_DOCS.md) |
+| System Accuracy & Validation Report | How accurate the engine is — component benchmark matrix, recall (72/72 disk · 108/118 memory), and algorithmic-drift findings with file:line refs | auditor / developer | [ACCURACY_REPORT.md](ACCURACY_REPORT.md) |
