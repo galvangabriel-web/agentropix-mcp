@@ -1,0 +1,24 @@
+flowchart TD
+    REQ["Path request enters Thymus policy"]:::gate
+    OP{"READ or WRITE ?"}:::gate
+
+    REQ --> OP
+
+    OP -->|READ| CR["check_read(path) -- thymus_policy.py:236"]:::gate
+    ALLOWLIST{"Prefix in allowlist AND no traversal/symlink/decode trick ?"}:::gate
+    CR --> ALLOWLIST
+
+    ALLOWLIST -->|"yes -- /cases, /mnt, /media, /evidence, /tmp/agentropix-sift-*"| ALLOW["ALLOW -- byte read proceeds"]:::allow
+    ALLOWLIST -->|"no -- .. ~ /dev /proc /sys, symlink, URL-decode, PATH_MAX"| DENYR["REJECT -- denied before any I/O, logged"]:::reject
+
+    OP -->|WRITE| CW["check_write(path) -- thymus_policy.py:362"]:::gate
+    CW --> DENYW["ALWAYS REJECT -- 'All writes are rejected -- evidence integrity is architectural' -- logged REJECT_WRITE, filesystem untouched"]:::reject
+
+    NOTE["SRL-2018 notch run: 26/26 decisions = ALLOW, 0 REJECT (stayed in-bounds, reject path code-enforced, not triggered)"]:::note
+    ALLOW -.-> NOTE
+    DENYR -.-> NOTE
+
+    classDef gate fill:#bbf7d0,stroke:#15803d,color:#14532d;
+    classDef allow fill:#86efac,stroke:#15803d,color:#14532d;
+    classDef reject fill:#fecaca,stroke:#b91c1c,color:#7f1d1d;
+    classDef note fill:#dbeafe,stroke:#1d4ed8,color:#1e3a8a;

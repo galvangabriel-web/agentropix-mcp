@@ -131,6 +131,11 @@ to find a fact has produced a hallucination of a different kind. This section st
 plainly, how Agentropix makes evidence modification **structurally impossible** — and
 where that guarantee is honestly bounded.
 
+> 📊 **Visual companion:** [Evidence Integrity, Visually](evidence-integrity-visual.md) —
+> the same argument as colour-coded architecture diagrams + real-data charts (layer
+> interconnection, the Thymus allow/deny flow, architectural-vs-prompt-based, and what
+> happens when the model ignores the restriction).
+
 ### The guarantee is architectural, not prompt-based
 
 The distinction matters in court: an **architectural** control is enforced by code the

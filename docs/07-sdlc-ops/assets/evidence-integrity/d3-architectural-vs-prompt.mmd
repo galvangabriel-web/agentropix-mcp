@@ -1,0 +1,35 @@
+flowchart LR
+    subgraph ARCH["ARCHITECTURAL — enforced in code the model cannot reach around"]
+        direction TB
+        A1["Thymus read-only gate<br/>check_read allowlist, deny-by-default<br/>thymus_policy.py:236"]
+        A2["check_write HARD-CODED REJECT<br/>no MCP tool calls it (0 of 72)<br/>thymus_policy.py:362"]
+        A3["argv-only subprocess<br/>create_subprocess_exec, no shell<br/>wrappers/*.py"]
+        A4["Evidence SHA-256 pin + HMAC seal<br/>hashed once at session start<br/>courtroom.py:89, :161-397"]
+        A5["W-286 DRAFT gate<br/>approval.* stripped, force-stamped DRAFT<br/>wrappers/wazuh_tools.py:44-98"]
+        A6["Human HMAC approval hard-stop<br/>PBKDF2-600k challenge-response<br/>approval_sidecar"]
+        A7["Deterministic LLM-free Critic<br/>false-positive gate, VANKO 9 refuted"]
+        A1 ~~~ A2 ~~~ A3 ~~~ A4 ~~~ A5 ~~~ A6 ~~~ A7
+    end
+
+    subgraph PROMPT["PROMPT-BASED — conventions the model is expected, not forced, to honor"]
+        direction TB
+        P1["Architect agent-reorder<br/>system prompt, default-off"]
+        P2["AI-disclosure wording"]
+        P3["Narrative-rendering layer"]
+        B1["backstop: reorder output REJECTED unless it<br/>EXACTLY equals the deterministic set<br/>model votes, code vetoes"]
+        B2["backstop: disclosure does not gate evidence,<br/>seal + audit log are the record<br/>verify_seal.py"]
+        B3["backstop: rendering reads sealed findings,<br/>cannot mutate the SHA-256 / HMAC seal"]
+        P1 -->|"backstopped by"| B1
+        P2 -->|"backstopped by"| B2
+        P3 -->|"backstopped by"| B3
+    end
+
+    ARCH ~~~ PROMPT
+
+    classDef arch fill:#bbf7d0,stroke:#15803d,color:#14532d;
+    classDef prompt fill:#fde68a,stroke:#b45309,color:#7c2d12;
+    classDef backstop fill:#86efac,stroke:#15803d,color:#14532d;
+
+    class A1,A2,A3,A4,A5,A6,A7 arch
+    class P1,P2,P3 prompt
+    class B1,B2,B3 backstop

@@ -1,0 +1,39 @@
+sequenceDiagram
+    participant LLM as LLM Agent
+    participant MCP as MCP Tool
+    participant TH as Thymus
+    participant EV as Evidence (read-only)
+    participant LOG as Audit Log
+
+    rect rgb(219, 234, 254)
+    Note over LLM,LOG: A. LEGIT READ — in-bounds evidence path
+    LLM->>MCP: read /cases/img.E01
+    MCP->>TH: check_read /cases/img.E01
+    TH-->>MCP: ALLOW (allowlist match)
+    MCP->>EV: open bytes (read-only)
+    EV-->>MCP: image bytes
+    MCP-->>LLM: bytes returned
+    MCP->>LOG: log ALLOW read
+    end
+
+    rect rgb(254, 226, 226)
+    Note over LLM,LOG: B. MODEL TRIES TO WRITE OR MUTATE EVIDENCE
+    LLM->>MCP: write or mutate /cases/img.E01
+    MCP->>TH: check_write (the only write path)
+    TH-->>MCP: REJECT, all writes forbidden (hard-coded)
+    Note over EV: Nothing reaches Evidence, no byte mutated
+    MCP-->>LLM: denied, no write tool exists
+    MCP->>LOG: log REJECT_WRITE
+    end
+
+    rect rgb(254, 226, 226)
+    Note over LLM,LOG: C. MODEL TRIES OUT-OF-BOUNDS READ (/etc/shadow or ..)
+    LLM->>MCP: read /etc/shadow or ../secret
+    MCP->>TH: check_read (allowlist plus traversal guards)
+    TH-->>MCP: REJECT before any I/O (not on allowlist)
+    Note over EV: No open, no bytes read
+    MCP-->>LLM: denied
+    MCP->>LOG: log REJECT
+    end
+
+    Note over LLM,LOG: The capability does not exist — there is no write tool for the model to misuse. Integrity is architectural, not a prompt the model could ignore.

@@ -1,0 +1,64 @@
+flowchart TD
+    classDef llm fill:#e5e7eb,stroke:#4b5563,color:#1f2937;
+    classDef boundary fill:#e0e7ff,stroke:#4338ca,color:#1e1b4b;
+    classDef arch fill:#bbf7d0,stroke:#15803d,color:#14532d;
+    classDef prompt fill:#fde68a,stroke:#b45309,color:#78350f;
+    classDef evidence fill:#bfdbfe,stroke:#1d4ed8,color:#1e3a8a;
+    classDef reject fill:#fecaca,stroke:#b91c1c,color:#7f1d1d;
+
+    subgraph EDGE["LLM / MCP clients (untrusted edge)"]
+        CLIENT["Claude Code / Claude Desktop<br/>natural-language prompt or tool call"]
+    end
+
+    subgraph AUTH["Transport plus auth boundary"]
+        BEARER["Bearer token, fail-closed<br/>reject before dispatch"]
+    end
+
+    subgraph CORE["FastMCP server core — enforcement spine"]
+        TOOLS["72 MCP tools<br/>argv dispatch, no shell"]
+        ARCH["Optional Architect reorder pass<br/>default-off, code keeps the veto"]
+    end
+
+    subgraph GATE["Thymus read-only gate (in front of every tool)"]
+        READ["check_read allowlist<br/>deny-by-default, traversal blocked<br/>thymus_policy.py:236"]
+        WRITE["check_write — HARD-CODED REJECT<br/>no tool calls it<br/>thymus_policy.py:362"]
+    end
+
+    subgraph WRAPPERS["16 SIFT forensic wrappers"]
+        WRAP["Volatility3, Plaso, Sleuth Kit,<br/>YARA, EVTX, RegRipper, EZ-Tools<br/>create_subprocess_exec, never a shell"]
+    end
+
+    subgraph SOURCES["Read-only evidence and data sources"]
+        EVID["E01 / raw disk plus memory image<br/>opened read-only"]
+        WAZUH["Wazuh alerts (read)"]
+    end
+
+    subgraph OUTPUT["Output pipeline — sealed result"]
+        DRAFT["Finding forced to DRAFT<br/>caller approval stripped, W-286"]
+        APPROVE["Examiner HMAC approval<br/>human hard-stop, PBKDF2-600k"]
+        SEAL["Courtroom seal<br/>evidence_image_sha256 plus HMAC<br/>courtroom.py:89, :161"]
+        REPORT["Sealed report"]
+        PUSH["Wazuh push"]
+    end
+
+    CLIENT -->|"request down"| BEARER
+    BEARER --> TOOLS
+    ARCH -.->|"votes, code vetoes"| TOOLS
+    TOOLS -->|"every read first"| READ
+    READ -->|"ALLOW"| WRAP
+    READ -.->|"DENY"| REJECT1["Rejected, no byte read"]
+    TOOLS -.->|"any write attempt"| WRITE
+    WRAP -->|"read-only"| EVID
+    WRAP -->|"read-only"| WAZUH
+    WRAP -->|"findings up"| DRAFT
+    DRAFT --> APPROVE
+    APPROVE --> SEAL
+    SEAL --> REPORT
+    REPORT --> PUSH
+
+    class CLIENT llm
+    class BEARER boundary
+    class TOOLS,WRAP,DRAFT,APPROVE,SEAL,REPORT,PUSH,READ arch
+    class ARCH prompt
+    class EVID,WAZUH evidence
+    class WRITE,REJECT1 reject
