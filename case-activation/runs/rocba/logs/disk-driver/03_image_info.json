@@ -1,0 +1,12 @@
+{
+  "image_path": "/cases/rocba/rocba-cdrive.e01",
+  "case_number": "",
+  "examiner": "",
+  "acquisition_date": "Fri Dec 18 18:26:51 2020",
+  "media_size": "81 GiB (87431311360 bytes)",
+  "md5": "5efc207c85587683e5ca5fa2d5ef1aa4",
+  "sha1": "645dcd29ab039359fbdb6643961478b3d914f21d",
+  "tool": "ewftools.ewfinfo",
+  "raw_output": "ewfinfo 20140816\n\nAcquiry information\n\tDescription:\t\trocba-cdrivev6\n\tAcquisition date:\tFri Dec 18 18:26:51 2020\n\tSystem date:\t\tFri Dec 18 18:26:51 2020\n\tOperating system used:\tWin 10, Build 19042 (64 bit)\n\tSoftware version used:\tXWF 20.1\n\tPassword:\t\tN/A\n\nEWF information\n\tFile format:\t\tEnCase 1\n\tSectors per chunk:\t64\n\tCompression method:\tdeflate\n\tCompression level:\tno compression\n\nMedia information\n\tMedia type:\t\tfixed disk\n\tIs physical:\t\tno\n\tBytes per sector:\t512\n\tNumber of sectors:\t170764280\n\tMedia size:\t\t81 GiB (87431311360 bytes)\n\nDigest hash information\n\tMD5:\t\t\t5efc207c85587683e5ca5fa2d5ef1aa4\n\tSHA1:\t\t\t645dcd29ab039359fbdb6643961478b3d914f21d\n\n",
+  "raw_stdout_sha256": "64953e900646b64a4e4a1a0f16798173c12b8bec11797a8c5b809708821cf092"
+}

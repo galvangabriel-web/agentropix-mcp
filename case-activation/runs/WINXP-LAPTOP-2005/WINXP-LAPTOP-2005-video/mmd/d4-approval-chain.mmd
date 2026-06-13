@@ -1,0 +1,7 @@
+flowchart LR
+    G["Genesis approval<br/>exec-chain-acquisition<br/>prev_hash empty"] --> A2["userassist-intent"]
+    A2 --> A3["13 more<br/>findings + timeline"]
+    A3 --> A17["17th approval<br/>case-disposition"]
+    G -. HMAC and prev_approval_hash .-> A2
+    classDef seal fill:#225588,stroke:#002244,color:#fff;
+    class G,A2,A3,A17 seal;

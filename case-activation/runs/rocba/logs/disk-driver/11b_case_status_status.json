@@ -1,0 +1,37 @@
+{
+  "step": "11b_case_status",
+  "tool": "case_status",
+  "args": {
+    "case_id": "INC-2026-0613202023"
+  },
+  "ok": true,
+  "result": {
+    "case_id": "INC-2026-0613202023",
+    "case": {
+      "case_id": "INC-2026-0613202023",
+      "case_name": "GearB autonomous rocba",
+      "description": "Gear-B PATH B autonomous run, unknown",
+      "status": "active",
+      "examiner_id": "victor.galvan",
+      "incident_type": "intrusion/hacking-tools",
+      "severity": "high",
+      "started_at": "2026-06-13T20:20:23.517414+00:00",
+      "ended_at": null,
+      "scope": "/cases/rocba/rocba-cdrive.e01",
+      "team": [],
+      "tags": [],
+      "case_dir": "",
+      "payload": {}
+    },
+    "active": true,
+    "counts": {
+      "findings": 0,
+      "timeline": 0,
+      "evidence": 1,
+      "iocs": 0,
+      "approvals": 0
+    },
+    "indexer_reachable": true,
+    "error": ""
+  }
+}

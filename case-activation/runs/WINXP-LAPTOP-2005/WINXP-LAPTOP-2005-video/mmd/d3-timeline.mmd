@@ -1,0 +1,11 @@
+flowchart TD
+    T1["16:47:28 - smss.exe boot"] --> T2["16:47:31 - winlogon to services + lsass"]
+    T2 --> T3["16:47:33 - Sygate firewall"]
+    T3 --> T4["16:47:47 - explorer shell"]
+    T4 --> T5["16:47:58 - Symantec AV"]
+    T5 --> T6["16:49:22 - firefox"]
+    T6 --> T7["16:51:02 - iexplore"]
+    T7 --> T8["16:57:36 - cmd.exe opened"]
+    T8 --> T9["16:58:46 - dd acquisition"]
+    classDef acq fill:#b30000,stroke:#660000,color:#fff;
+    class T8,T9 acq;

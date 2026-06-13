@@ -1,0 +1,15 @@
+flowchart TD
+    SYS["System (PID 4)"] --> SMSS["smss.exe (448)<br/>16:47:28"]
+    SMSS --> WL["winlogon (528)"]
+    WL --> SVCS["services.exe (580)"]
+    WL --> LSASS["lsass.exe (592)"]
+    SVCS --> SEC["Security stack<br/>Sygate Smc (876) and Symantec Rtvscan (1304)"]
+    UINIT["userinit (1764) exited"] -. orphan .-> EXP["explorer.exe (1812)<br/>16:47:47 user shell"]
+    EXP --> FF["firefox.exe (2160)<br/>16:49:22"]
+    EXP --> IE["iexplore.exe (2392)<br/>16:51:02"]
+    EXP --> CMD["cmd.exe (2624)<br/>16:57:36 chain start"]
+    CMD --> DD["dd.exe (4012)<br/>16:58:46 ACQUISITION<br/>reads PhysicalMemory"]
+    classDef acq fill:#b30000,stroke:#660000,color:#fff;
+    classDef sec fill:#0b6,stroke:#063,color:#fff;
+    class CMD,DD acq;
+    class SEC sec;

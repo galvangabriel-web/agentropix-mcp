@@ -1,0 +1,16 @@
+{
+  "case_id": "INC-2026-0613202023",
+  "case_name": "GearB autonomous rocba",
+  "description": "Gear-B PATH B autonomous run, unknown",
+  "status": "active",
+  "examiner_id": "victor.galvan",
+  "incident_type": "intrusion/hacking-tools",
+  "severity": "high",
+  "started_at": "2026-06-13T20:20:23.517414+00:00",
+  "ended_at": null,
+  "scope": "/cases/rocba/rocba-cdrive.e01",
+  "team": [],
+  "tags": [],
+  "case_dir": "",
+  "payload": {}
+}

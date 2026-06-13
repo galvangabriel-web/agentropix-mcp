@@ -1,0 +1,27 @@
+{
+  "step": "10b_record_finding",
+  "tool": "record_finding",
+  "args": {
+    "finding": {
+      "finding_id": "rocba-rdp-bruteforce-001",
+      "host": "SRL-FORGE",
+      "mitre_attack": "T1110.003",
+      "confidence": 0.6,
+      "severity": "medium",
+      "timestamp": "2020-11-16T02:03:02Z",
+      "title": "External RDP brute-force: >=5000 EventID 4625 logon failures (max_events cap, truncated) on SRL-FORGE",
+      "description": "Grounded in get_evtx over the ROCBA C-drive Security channel: at least 5000 EventID 4625 logon failures (result truncated at the 5000 max_events cap), provider Microsoft-Windows-Security-Auditing, computer SRL-FORGE, burst around 2020-11-16T02:03Z. Maps to MITRE T1110.003 (Password Spraying / Brute Force: RDP).",
+      "source_artifact": "/cases/rocba/rocba-cdrive.e01 (Security.evtx)"
+    },
+    "case_id": "INC-2026-0613202023"
+  },
+  "ok": true,
+  "result": {
+    "case_id": "INC-2026-0613202023",
+    "finding_id": "rocba-rdp-bruteforce-001",
+    "indexed": false,
+    "indexed_to": "agentropix-findings-2026.06.13",
+    "error": "",
+    "duplicate": false
+  }
+}

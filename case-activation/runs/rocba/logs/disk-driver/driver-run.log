@@ -1,0 +1,19 @@
+[2026-06-13T20:20:23Z] case=rocba image=/cases/rocba/rocba-cdrive.e01 offset=0 kind=multi validated=False preflight=False
+[2026-06-13T20:20:23Z] session established (sid=a7b33b74...)
+[2026-06-13T20:20:23Z] WARN: tool_count=72 != expected 65 (set AGX_EXPECTED_TOOLCOUNT) -- required capabilities present, continuing (capability check passed)
+[2026-06-13T20:20:23Z] health: {"status": "ok", "server": "agentropix-sift", "version": "0.1.0-dev", "uptime_seconds": 283855.08, "tool_count": 72}
+[2026-06-13T20:20:23Z] -> 01_case_init (case_init) timeout=3600.0s
+[2026-06-13T20:20:23Z]    ok 01_case_init (0.0s)
+[2026-06-13T20:20:23Z] -> 02_case_activate (case_activate) timeout=3600.0s
+[2026-06-13T20:20:23Z]    ok 02_case_activate (0.0s)
+[2026-06-13T20:20:23Z] -> 03_image_info (get_image_info) timeout=3600.0s
+[2026-06-13T20:20:23Z]    ok 03_image_info (0.3s)
+[2026-06-13T20:20:23Z] -> 04_evidence_register (evidence_register) timeout=3600.0s
+[2026-06-13T20:22:24Z]    ok 04_evidence_register (121.1s)
+[2026-06-13T20:22:24Z] -> 05_fls_recursive (fls) timeout=3600.0s
+[2026-06-13T20:25:29Z]    ok 05_fls_recursive (177.4s)
+[2026-06-13T20:25:29Z] -> 06_fls_deleted (fls) timeout=3600.0s
+[2026-06-13T20:27:31Z]    ok 06_fls_deleted (122.1s)
+[2026-06-13T20:27:31Z] disk guard ok: free=2766495MiB >= 3x image(22581MiB)
+[2026-06-13T20:27:31Z] -> 07_bulk_extractor (run_bulk_extractor) timeout=14400.0s
+[2026-06-13T20:27:31Z] [7] step 07_bulk_extractor FAILED: run_bulk_extractor: missing required params ['target'] (live schema)

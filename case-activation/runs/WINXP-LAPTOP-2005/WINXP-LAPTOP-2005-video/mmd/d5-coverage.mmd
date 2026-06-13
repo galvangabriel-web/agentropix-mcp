@@ -1,0 +1,12 @@
+flowchart TD
+    IMG["win-xp-laptop-2005-06-25.img<br/>XP SP2 - 512MB - SHA c4aeeb1b"] --> P["Triage coverage"]
+    P --> P1["pslist - pstree - cmdline"]
+    P --> P2["malfind dumped + cleared"]
+    P --> P3["userassist - hivelist"]
+    P --> P4["Run-keys - svcscan - mutantscan"]
+    P1 --> V["VERDICT BENIGN<br/>no injection - no persistence - 0 IOCs"]
+    P2 --> V
+    P3 --> V
+    P4 --> V
+    classDef good fill:#0b6,stroke:#063,color:#fff;
+    class V good;

@@ -1,0 +1,10 @@
+flowchart LR
+    S1["1 Docket<br/>case + evidence"] --> S2["2 Run<br/>triage plugins"]
+    S2 --> S3["3 Review<br/>6 findings"]
+    S3 --> S4["4 Approve<br/>17 signed, hash-chained"]
+    S4 --> S5["5 Seal<br/>analyst/exec/business"]
+    S5 --> S6["6 Escalate<br/>N/A benign"]
+    classDef done fill:#0b6,stroke:#063,color:#fff;
+    classDef na fill:#777,stroke:#444,color:#fff;
+    class S1,S2,S3,S4,S5 done;
+    class S6 na;

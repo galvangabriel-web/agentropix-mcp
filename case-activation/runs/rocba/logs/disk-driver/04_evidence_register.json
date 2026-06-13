@@ -1,0 +1,17 @@
+{
+  "evidence": {
+    "evidence_id": "ee812606ba7f40d7e1ad358ec5ad8f13d6f81447c99874b325c732d640f1c641",
+    "case_id": "INC-2026-0613202023",
+    "path": "/cases/rocba/rocba-cdrive.e01",
+    "description": "unknown disk (EWF/E01)",
+    "sha256": "f2eb856d6fb48e3928e6b6d388b2f116a57b735137354a7eaddca951d81b5c67",
+    "size_bytes": 23678691658,
+    "examiner_id": "victor.galvan",
+    "registered_at": "2026-06-13T20:22:24.867023+00:00",
+    "audit_id": "",
+    "payload": {}
+  },
+  "indexed_to": "agentropix-evidence-2026.06.13",
+  "indexed": true,
+  "error": ""
+}

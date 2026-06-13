@@ -1,0 +1,245 @@
+{
+  "step": "09_get_evtx_4625",
+  "tool": "get_evtx",
+  "args": {
+    "target": "/cases/rocba/rocba-cdrive.e01",
+    "channels": [
+      "Security"
+    ],
+    "event_ids": [
+      4625
+    ],
+    "max_events": 5000
+  },
+  "ts": "2026-06-13T20:30:44Z",
+  "ok": true,
+  "elapsed_s": 8.7,
+  "result": {
+    "image_path": "/cases/rocba/rocba-cdrive.e01",
+    "event_count": 5000,
+    "events": [
+      {
+        "record_id": 1246293,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:02.461451Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:02.461451Z\">\n    </TimeCreated>\n    <EventRecordID>1246293</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">monitor</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">Windows7</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">213.202.233.104</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246295,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:03.028279Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:03.028279Z\">\n    </TimeCreated>\n    <EventRecordID>1246295</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">jon</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">Windows2012</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">81.30.144.115</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246297,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:04.064412Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:04.064412Z\">\n    </TimeCreated>\n    <EventRecordID>1246297</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">mwilliams</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">Remmina</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">213.202.233.104</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246299,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:04.252940Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:04.252940Z\">\n    </TimeCreated>\n    <EventRecordID>1246299</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">NR2</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">-</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">141.98.83.187</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246301,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:04.630816Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:04.630816Z\">\n    </TimeCreated>\n    <EventRecordID>1246301</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">jackie</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">Remmina</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">81.30.144.115</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246303,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:05.652245Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:05.652245Z\">\n    </TimeCreated>\n    <EventRecordID>1246303</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">oracle</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">Windows10</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">213.202.233.104</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246305,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:06.239900Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:06.239900Z\">\n    </TimeCreated>\n    <EventRecordID>1246305</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">janderson</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">Remmina</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">81.30.144.115</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246307,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:07.388865Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:07.388865Z\">\n    </TimeCreated>\n    <EventRecordID>1246307</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">michaela</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">Windows2016</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">213.202.233.104</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246309,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:07.480223Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:07.480223Z\">\n    </TimeCreated>\n    <EventRecordID>1246309</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">SSANCHEZ</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">-</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">81.19.209.101</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246311,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:08.071567Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:08.071567Z\">\n    </TimeCreated>\n    <EventRecordID>1246311</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">kelly</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">mstsc</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">81.30.144.115</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246313,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:09.020470Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:09.020470Z\">\n    </TimeCreated>\n    <EventRecordID>1246313</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">paul</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">Remmina</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">213.202.233.104</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246315,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:09.665562Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:09.665562Z\">\n    </TimeCreated>\n    <EventRecordID>1246315</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">jackie</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">Remmina</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">81.30.144.115</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246317,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:10.876169Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:10.876169Z\">\n    </TimeCreated>\n    <EventRecordID>1246317</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">mstest</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">Rdesktop</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">213.202.233.104</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246319,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:11.261844Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:11.261844Z\">\n    </TimeCreated>\n    <EventRecordID>1246319</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">it</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">Windows7</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">81.30.144.115</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246321,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:12.468103Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:12.468103Z\">\n    </TimeCreated>\n    <EventRecordID>1246321</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">pablo</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">Windows7</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">213.202.233.104</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246323,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:12.883637Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:12.883637Z\">\n    </TimeCreated>\n    <EventRecordID>1246323</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">ipad1</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">Windows2016</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">81.30.144.115</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246325,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:13.223728Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:13.223728Z\">\n    </TimeCreated>\n    <EventRecordID>1246325</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">SCALE</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">-</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">81.19.209.101</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246327,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:14.214194Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:14.214194Z\">\n    </TimeCreated>\n    <EventRecordID>1246327</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">megan</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">Rdesktop</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">213.202.233.104</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246329,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:14.478277Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:14.478277Z\">\n    </TimeCreated>\n    <EventRecordID>1246329</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">joan</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">Windows2019</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">81.30.144.115</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      {
+        "record_id": 1246331,
+        "event_id": 4625,
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "timestamp": "2020-11-16T02:03:15.822716Z",
+        "computer": "SRL-FORGE",
+        "level": 0,
+        "raw": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\">\n  <System>\n    <Provider Name=\"Microsoft-Windows-Security-Auditing\" Guid=\"54849625-5478-4994-A5BA-3E3B0328C30D\">\n    </Provider>\n    <EventID>4625</EventID>\n    <Version>0</Version>\n    <Level>0</Level>\n    <Task>12544</Task>\n    <Opcode>0</Opcode>\n    <Keywords>0x8010000000000000</Keywords>\n    <TimeCreated SystemTime=\"2020-11-16T02:03:15.822716Z\">\n    </TimeCreated>\n    <EventRecordID>1246331</EventRecordID>\n    <Correlation ActivityID=\"76FA6C8F-B802-0001-E86C-FA7602B8D601\">\n    </Correlation>\n    <Execution ProcessID=\"840\" ThreadID=\"10532\">\n    </Execution>\n    <Channel>Security</Channel>\n    <Computer>SRL-FORGE</Computer>\n    <Security>\n    </Security>\n  </System>\n  <EventData>\n    <Data Name=\"SubjectUserSid\">S-1-0-0</Data>\n    <Data Name=\"SubjectUserName\">-</Data>\n    <Data Name=\"SubjectDomainName\">-</Data>\n    <Data Name=\"SubjectLogonId\">0x0</Data>\n    <Data Name=\"TargetUserSid\">S-1-0-0</Data>\n    <Data Name=\"TargetUserName\">patient</Data>\n    <Data Name=\"TargetDomainName\"></Data>\n    <Data Name=\"Status\">0xc000006d</Data>\n    <Data Name=\"FailureReason\">%%2313</Data>\n    <Data Name=\"SubStatus\">0xc0000064</Data>\n    <Data Name=\"LogonType\">3</Data>\n    <Data Name=\"LogonProcessName\">NtLmSsp </Data>\n    <Data Name=\"AuthenticationPackageName\">NTLM</Data>\n    <Data Name=\"WorkstationName\">FreeRDP</Data>\n    <Data Name=\"TransmittedServices\">-</Data>\n    <Data Name=\"LmPackageName\">-</Data>\n    <Data Name=\"KeyLength\">0</Data>\n    <Data Name=\"ProcessId\">0x0</Data>\n    <Data Name=\"ProcessName\">-</Data>\n    <Data Name=\"IpAddress\">213.202.233.104</Data>\n    <Data Name=\"IpPort\">0</Data>\n  </EventData>\n</Event>"
+      },
+      "... [4980 more items truncated \u2014 full dump local-only]"
+    ],
+    "channels_seen": [
+      "Security"
+    ],
+    "truncated": true,
+    "tool": "evtx.dump",
+    "raw_stderr": "[Security] Failed to dump the next record.\n\nCaused by:\n    0: Failed to parse chunk number 10\n    1: Failed to parse chunk header\n    2: Invalid EVTX chunk header magic, expected `ElfChnk0`, found `[ 0,  0,  0, ",
+    "raw_stdout_sha256": "9f033e6a3416b4c7a4318aa71b803ecfffe7987dd8b38a19539f171f539b66c3",
+    "evtx_files_requested": [
+      "Security.evtx"
+    ],
+    "evtx_files_extracted": [
+      "Security.evtx"
+    ],
+    "channels_extracted": [
+      "Security"
+    ],
+    "image_class_detected": "modern",
+    "skipped_reason": null,
+    "legacy_evt_files_found": []
+  },
+  "_trimmed_for_repo": true,
+  "_full_dump_local": "/home/admin2/.openclaw/workspace/drivers/gearB/rocba/09_get_evtx_4625.json"
+}

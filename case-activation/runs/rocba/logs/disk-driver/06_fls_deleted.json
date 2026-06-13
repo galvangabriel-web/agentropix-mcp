@@ -1,0 +1,214 @@
+{
+  "image_path": "/cases/rocba/rocba-cdrive.e01",
+  "offset": 0,
+  "entry_count": 2171,
+  "entries": [
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "384485-128-4",
+      "name": "ProgramData/Dropbox/Update/Log/DropboxUpdate.log-2020-11-01-22-20-00-770-5524",
+      "full_path": "/ProgramData/Dropbox/Update/Log/DropboxUpdate.log-2020-11-01-22-20-00-770-5524",
+      "modified_time": "2020-11-02 16:32:33 (UTC)",
+      "accessed_time": "2020-11-02 16:32:33 (UTC)",
+      "size": 118866
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "474918-128-4",
+      "name": "ProgramData/Dropbox/Update/Log/DropboxUpdate.log-2020-11-14-13-35-01-650-27084-finished",
+      "full_path": "/ProgramData/Dropbox/Update/Log/DropboxUpdate.log-2020-11-14-13-35-01-650-27084-finished",
+      "modified_time": "2020-11-14 13:35:17 (UTC)",
+      "accessed_time": "2020-11-14 13:35:17 (UTC)",
+      "size": 20178
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "475860-128-4",
+      "name": "ProgramData/Dropbox/Update/Log/DropboxUpdate.log-2020-11-14-12-35-01-633-1164-finished",
+      "full_path": "/ProgramData/Dropbox/Update/Log/DropboxUpdate.log-2020-11-14-12-35-01-633-1164-finished",
+      "modified_time": "2020-11-14 12:35:08 (UTC)",
+      "accessed_time": "2020-11-14 12:35:08 (UTC)",
+      "size": 19978
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "385251-128-3",
+      "name": "ProgramData/Microsoft/Search/Data/Applications/Windows/edb000BF.jtx",
+      "full_path": "/ProgramData/Microsoft/Search/Data/Applications/Windows/edb000BF.jtx",
+      "modified_time": "2020-11-16 02:30:43 (UTC)",
+      "accessed_time": "2020-11-16 02:30:43 (UTC)",
+      "size": 1048576
+    },
+    {
+      "entry_type": "d",
+      "allocated": false,
+      "inode": "371067-144-1",
+      "name": "ProgramData/Microsoft/Search/Data/Temp/usgthrsvc",
+      "full_path": "/ProgramData/Microsoft/Search/Data/Temp/usgthrsvc",
+      "modified_time": "2020-11-11 08:13:48 (UTC)",
+      "accessed_time": "2020-11-14 14:02:55 (UTC)",
+      "size": 48
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "381277-128-4",
+      "name": "ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.BingWeather_4.46.22742.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "full_path": "/ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.BingWeather_4.46.22742.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "modified_time": "2020-10-27 03:13:38 (UTC)",
+      "accessed_time": "2020-11-14 14:17:05 (UTC)",
+      "size": 6052
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "381298-128-4",
+      "name": "ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.DesktopAppInstaller_1.0.32912.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "full_path": "/ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.DesktopAppInstaller_1.0.32912.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "modified_time": "2020-10-27 02:56:04 (UTC)",
+      "accessed_time": "2020-11-01 21:31:32 (UTC)",
+      "size": 4752
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "381369-128-4",
+      "name": "ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.MicrosoftOfficeHub_18.2008.12711.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "full_path": "/ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.MicrosoftOfficeHub_18.2008.12711.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "modified_time": "2020-10-27 03:13:29 (UTC)",
+      "accessed_time": "2020-11-14 14:15:01 (UTC)",
+      "size": 4444
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "381388-128-4",
+      "name": "ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.MicrosoftStickyNotes_3.7.142.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "full_path": "/ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.MicrosoftStickyNotes_3.7.142.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "modified_time": "2020-10-27 03:13:27 (UTC)",
+      "accessed_time": "2020-11-01 21:31:32 (UTC)",
+      "size": 5192
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "381320-128-4",
+      "name": "ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.GetHelp_10.2004.31291.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "full_path": "/ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.GetHelp_10.2004.31291.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "modified_time": "2020-10-27 03:13:35 (UTC)",
+      "accessed_time": "2020-11-01 21:31:32 (UTC)",
+      "size": 5664
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "381859-128-4",
+      "name": "ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.WindowsAlarms_10.2009.5.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "full_path": "/ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.WindowsAlarms_10.2009.5.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "modified_time": "2020-10-27 19:27:24 (UTC)",
+      "accessed_time": "2020-11-11 08:14:53 (UTC)",
+      "size": 5924
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "381401-128-4",
+      "name": "ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.MixedReality.Portal_2000.20081.1312.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "full_path": "/ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.MixedReality.Portal_2000.20081.1312.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "modified_time": "2020-10-27 03:13:26 (UTC)",
+      "accessed_time": "2020-11-01 21:31:32 (UTC)",
+      "size": 3032
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "381566-128-4",
+      "name": "ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.ScreenSketch_10.2008.2277.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "full_path": "/ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.ScreenSketch_10.2008.2277.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "modified_time": "2020-10-27 03:13:19 (UTC)",
+      "accessed_time": "2020-11-01 21:02:57 (UTC)",
+      "size": 3820
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "381727-128-4",
+      "name": "ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.WebMediaExtensions_1.0.20875.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "full_path": "/ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.WebMediaExtensions_1.0.20875.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "modified_time": "2020-10-27 03:13:16 (UTC)",
+      "accessed_time": "2020-11-01 21:31:33 (UTC)",
+      "size": 2860
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "381555-128-4",
+      "name": "ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.People_10.1909.10841.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "full_path": "/ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.People_10.1909.10841.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "modified_time": "2020-10-27 03:13:21 (UTC)",
+      "accessed_time": "2020-11-01 21:31:33 (UTC)",
+      "size": 5140
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "381897-128-4",
+      "name": "ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.WindowsFeedbackHub_1.1907.3152.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "full_path": "/ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.WindowsFeedbackHub_1.1907.3152.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "modified_time": "2020-10-27 03:13:12 (UTC)",
+      "accessed_time": "2020-11-01 21:31:34 (UTC)",
+      "size": 6076
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "381904-128-4",
+      "name": "ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.WindowsMaps_10.2009.2.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "full_path": "/ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.WindowsMaps_10.2009.2.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "modified_time": "2020-10-27 19:27:17 (UTC)",
+      "accessed_time": "2020-11-01 21:31:34 (UTC)",
+      "size": 5972
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "391339-128-4",
+      "name": "ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.WindowsStore_12011.1001.1.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "full_path": "/ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.WindowsStore_12011.1001.1.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "modified_time": "2020-11-13 17:34:30 (UTC)",
+      "accessed_time": "2020-11-13 17:34:58 (UTC)",
+      "size": 5444
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "382053-128-4",
+      "name": "ProgramData/Microsoft/Windows/AppRepository/Packages/TheNewYorkTimes.NYTCrossword_1.5.0.0_x86__3q5wqmazkcmtm/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "full_path": "/ProgramData/Microsoft/Windows/AppRepository/Packages/TheNewYorkTimes.NYTCrossword_1.5.0.0_x86__3q5wqmazkcmtm/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "modified_time": "2020-10-27 03:12:53 (UTC)",
+      "accessed_time": "2020-11-01 21:31:34 (UTC)",
+      "size": 5720
+    },
+    {
+      "entry_type": "r",
+      "allocated": false,
+      "inode": "381868-128-4",
+      "name": "ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.WindowsCalculator_10.2009.4.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "full_path": "/ProgramData/Microsoft/Windows/AppRepository/Packages/Microsoft.WindowsCalculator_10.2009.4.0_x64__8wekyb3d8bbwe/S-1-5-21-528816539-567677750-276746561-1002.pckgdep",
+      "modified_time": "2020-10-27 03:13:13 (UTC)",
+      "accessed_time": "2020-11-01 21:31:34 (UTC)",
+      "size": 3840
+    },
+    "... [2151 more items truncated \u2014 full dump local-only]"
+  ],
+  "tool": "sleuthkit.fls",
+  "raw_stderr": "",
+  "raw_stdout_sha256": "e93b927920c086da16e2c881e00c9ed4dbab240bbcc3e63ec6aa121020072117",
+  "summary_only": false,
+  "_trimmed_for_repo": true,
+  "_full_dump_local": "/home/admin2/.openclaw/workspace/drivers/gearB/rocba/06_fls_deleted.json"
+}

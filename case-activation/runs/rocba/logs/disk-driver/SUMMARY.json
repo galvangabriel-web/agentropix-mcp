@@ -1,0 +1,88 @@
+{
+  "steps": [
+    {
+      "name": "01_case_init",
+      "tool": "case_init",
+      "ok": true,
+      "elapsed_s": 0.05,
+      "args": {
+        "case_name": "GearB autonomous rocba",
+        "examiner_id": "victor.galvan",
+        "incident_type": "intrusion/hacking-tools",
+        "severity": "high",
+        "description": "Gear-B PATH B autonomous run, unknown",
+        "scope": "/cases/rocba/rocba-cdrive.e01"
+      }
+    },
+    {
+      "name": "02_case_activate",
+      "tool": "case_activate",
+      "ok": true,
+      "elapsed_s": 0.02,
+      "args": {
+        "case_id": "INC-2026-0613202023"
+      }
+    },
+    {
+      "name": "03_image_info",
+      "tool": "get_image_info",
+      "ok": true,
+      "elapsed_s": 0.33,
+      "args": {
+        "image": "/cases/rocba/rocba-cdrive.e01"
+      }
+    },
+    {
+      "name": "04_evidence_register",
+      "tool": "evidence_register",
+      "ok": true,
+      "elapsed_s": 121.08,
+      "args": {
+        "path": "/cases/rocba/rocba-cdrive.e01",
+        "description": "unknown disk (EWF/E01)",
+        "examiner_id": "victor.galvan"
+      }
+    },
+    {
+      "name": "05_fls_recursive",
+      "tool": "fls",
+      "ok": true,
+      "elapsed_s": 177.43,
+      "args": {
+        "image": "/cases/rocba/rocba-cdrive.e01",
+        "recursive": true,
+        "offset": 0
+      }
+    },
+    {
+      "name": "06_fls_deleted",
+      "tool": "fls",
+      "ok": true,
+      "elapsed_s": 122.13,
+      "args": {
+        "image": "/cases/rocba/rocba-cdrive.e01",
+        "recursive": true,
+        "offset": 0,
+        "deleted_only": true
+      }
+    },
+    {
+      "name": "07_bulk_extractor",
+      "tool": "run_bulk_extractor",
+      "ok": false,
+      "elapsed_s": 0.0,
+      "args": {
+        "image": "/cases/rocba/rocba-cdrive.e01",
+        "out_dir": "/tmp/agentropix-sift-rocba-be"
+      }
+    }
+  ],
+  "ok_steps": 6,
+  "total_steps": 7,
+  "case": "rocba",
+  "cfg": {
+    "image": "/cases/rocba/rocba-cdrive.e01",
+    "os": "unknown",
+    "part_offset": 0
+  }
+}

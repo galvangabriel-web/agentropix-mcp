@@ -1,0 +1,251 @@
+{
+  "step": "07b_bulk_extractor",
+  "tool": "run_bulk_extractor",
+  "args": {
+    "target": "/cases/rocba/rocba-cdrive.e01",
+    "out_dir": "/tmp/agentropix-sift-rocba-be",
+    "max_features": 1000
+  },
+  "ts": "2026-06-13T20:30:53Z",
+  "ok": true,
+  "elapsed_s": 1648.5,
+  "result": {
+    "target": "/cases/rocba/rocba-cdrive.e01",
+    "out_dir": "/tmp/agentropix-sift-rocba-be",
+    "feature_count": 5113600,
+    "features": [
+      {
+        "recorder": "email",
+        "offset": "36396944",
+        "feature": "I9.ad@din.ma",
+        "context": "excel\u007f9\\037B\\232\u007fq?\\252\\014\\252I9.ad@din.ma\\300\\226E\\000nabled.1>2\\377>"
+      },
+      {
+        "recorder": "email",
+        "offset": "55021568-GZIP-121050",
+        "feature": "u0022overwriteMe@microsoft.com",
+        "context": "u0022UPN\\134u0022:\\134u0022overwriteMe@microsoft.com\\134u0022,\\134u0022Ten"
+      },
+      {
+        "recorder": "email",
+        "offset": "69603618",
+        "feature": "cardview-addtotable-dark@2x.pn",
+        "context": "\\000\\000\\000\\000\\000\\000 \\000\\000\\000\\000\\000\\000\\000\\037\\000c\\000a\\000r\\000d\\000v\\000i\\000e\\000w\\000-\\000a\\000d\\000d\\000t\\000o\\000t\\000a\\000b\\000l\\000e\\000-\\000d\\000a\\000r\\000k\\000@\\0002\\000x\\000.\\000p\\000n\\000g\\000B\\300\\001\\000\\000\\000\\004\\000\\220\\000\\200\\000\\000\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69603762",
+        "feature": "cardview-addtotable-dark@3x.pn",
+        "context": "\\000\\000\\000\\000\\000\\000 \\000\\000\\000\\000\\000\\000\\000\\037\\000c\\000a\\000r\\000d\\000v\\000i\\000e\\000w\\000-\\000a\\000d\\000d\\000t\\000o\\000t\\000a\\000b\\000l\\000e\\000-\\000d\\000a\\000r\\000k\\000@\\0003\\000x\\000.\\000p\\000n\\000g\\000C\\300\\001\\000\\000\\000\\004\\000\\220\\000\\200\\000\\000\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69603906",
+        "feature": "cardview-addtotable-dark@4x.pn",
+        "context": "\\000\\000\\000\\000\\000\\000 \\000\\000\\000\\000\\000\\000\\000\\037\\000c\\000a\\000r\\000d\\000v\\000i\\000e\\000w\\000-\\000a\\000d\\000d\\000t\\000o\\000t\\000a\\000b\\000l\\000e\\000-\\000d\\000a\\000r\\000k\\000@\\0004\\000x\\000.\\000p\\000n\\000g\\000D\\300\\001\\000\\000\\000\\004\\000\\200\\000p\\000\\000\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69604178",
+        "feature": "cardview-addtotable@2x.pn",
+        "context": "\\000\\000\\000\\000\\000\\000 \\000\\000\\000\\000\\000\\000\\000\\032\\000c\\000a\\000r\\000d\\000v\\000i\\000e\\000w\\000-\\000a\\000d\\000d\\000t\\000o\\000t\\000a\\000b\\000l\\000e\\000@\\0002\\000x\\000.\\000p\\000n\\000g\\000\\000\\000H\\300\\001\\000\\000\\000\\004\\000\\210\\000v\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69604450",
+        "feature": "cardview-addtotable@4x.pn",
+        "context": "\\000\\000\\000\\000\\000\\000 \\000\\000\\000\\000\\000\\000\\000\\032\\000c\\000a\\000r\\000d\\000v\\000i\\000e\\000w\\000-\\000a\\000d\\000d\\000t\\000o\\000t\\000a\\000b\\000l\\000e\\000@\\0004\\000x\\000.\\000p\\000n\\000g\\000\\000\\000J\\300\\001\\000\\000\\000\\004\\000\\200\\000n\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69604714",
+        "feature": "cardview-checkmark@2x.pn",
+        "context": "\\000\\000\\000\\000\\000\\000 \\000\\000\\000\\000\\000\\000\\000\\031\\000c\\000a\\000r\\000d\\000v\\000i\\000e\\000w\\000-\\000c\\000h\\000e\\000c\\000k\\000m\\000a\\000r\\000k\\000@\\0002\\000x\\000.\\000p\\000n\\000g\\000\\000\\000\\000\\000M\\300\\001\\000\\000\\000\\004\\000\\210\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69604864",
+        "feature": "w-checkmark@3x.pn",
+        "context": "\\031\\000c\\000a\\000r\\000d\\000v\\000i\\000\\006\\000w\\000-\\000c\\000h\\000e\\000c\\000k\\000m\\000a\\000r\\000k\\000@\\0003\\000x\\000.\\000p\\000n\\000g\\000\\000\\000\\000\\000L\\300\\001\\000\\000\\000\\004\\000\\210\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69604986",
+        "feature": "cardview-checkmark@4x.pn",
+        "context": "\\000\\000\\000\\000\\000\\000 \\000\\000\\000\\000\\000\\000\\000\\031\\000c\\000a\\000r\\000d\\000v\\000i\\000e\\000w\\000-\\000c\\000h\\000e\\000c\\000k\\000m\\000a\\000r\\000k\\000@\\0004\\000x\\000.\\000p\\000n\\000g\\000\\000\\000\\000\\000N\\300\\001\\000\\000\\000\\004\\000\\200\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69605250",
+        "feature": "cardview-flag-dark@2x.pn",
+        "context": "\\000\\000\\000\\000\\000\\000 \\000\\000\\000\\000\\000\\000\\000\\031\\000c\\000a\\000r\\000d\\000v\\000i\\000e\\000w\\000-\\000f\\000l\\000a\\000g\\000-\\000d\\000a\\000r\\000k\\000@\\0002\\000x\\000.\\000p\\000n\\000g\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\020\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69605386",
+        "feature": "cardview-flag-dark@3x.pn",
+        "context": "\\000\\000\\000\\000\\006\\000 \\000\\000\\000\\000\\000\\000\\000\\031\\000c\\000a\\000r\\000d\\000v\\000i\\000e\\000w\\000-\\000f\\000l\\000a\\000g\\000-\\000d\\000a\\000r\\000k\\000@\\0003\\000x\\000.\\000p\\000n\\000g\\000\\000\\000\\000\\000R\\300\\001\\000\\000\\000\\004\\000\\210\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69605522",
+        "feature": "cardview-flag-dark@4x.pn",
+        "context": "\\000\\000\\000\\000\\000\\000 \\000\\000\\000\\000\\000\\000\\000\\031\\000c\\000a\\000r\\000d\\000v\\000i\\000e\\000w\\000-\\000f\\000l\\000a\\000g\\000-\\000d\\000a\\000r\\000k\\000@\\0004\\000x\\000.\\000p\\000n\\000g\\000\\000\\000\\000\\000Q\\300\\001\\000\\000\\000\\004\\000x\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69605778",
+        "feature": "cardview-flag@2x.pn",
+        "context": "\\000\\000\\000\\000\\000\\000 \\006\\000\\000\\027\\000\\000\\200\\024\\000c\\000a\\000r\\000d\\000v\\000i\\000e\\000w\\000-\\000f\\000l\\000a\\000g\\000@\\0002\\000x\\000.\\000p\\000n\\000g\\000\\000\\000\\000\\000\\000\\000T\\300\\001\\000\\000\\000\\010\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69605906",
+        "feature": "cardview-flag@3x.pn",
+        "context": "\\000\\000\\000\\000\\000\\000 \\006\\000\\000\\027\\000\\000\\200\\024\\000c\\000a\\000r\\000d\\000v\\000i\\000e\\000w\\000-\\000f\\000l\\000a\\000g\\000@\\0003\\000x\\000.\\000p\\000n\\000g\\000\\000\\000\\000\\000\\000\\000W\\300\\001\\000\\000\\000\\004\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69606034",
+        "feature": "cardview-flag@4x.pn",
+        "context": "\\000\\000\\000\\000\\000\\000 \\000\\000\\000\\000\\000\\000\\000\\024\\000c\\000a\\000r\\000d\\000v\\000i\\000e\\000w\\000-\\000f\\000l\\000a\\000g\\000@\\0004\\000x\\000.\\000p\\000n\\000g\\000\\000\\000\\000\\000\\000\\000\\134\\300\\001\\000\\000\\000\\004\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69606306",
+        "feature": "cardview-linkedentity-dark@2x.pn",
+        "context": "\\000\\000\\000\\000\\000\\000 \\000\\000\\000\\000\\000\\000\\000!\\000c\\000a\\000r\\000d\\000v\\000i\\000e\\000w\\000-\\000l\\000i\\000n\\000k\\000e\\000d\\000e\\000n\\000t\\000i\\000t\\000y\\000-\\000d\\000a\\000r\\000k\\000@\\0002\\000x\\000.\\000p\\000n\\000g\\000\\000\\000\\000\\000Y\\300\\001\\000\\000\\000\\004\\000\\230\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69606458",
+        "feature": "cardview-linkedentity-dark@3x.pn",
+        "context": "\\000\\000\\000\\000\\000\\000 \\000\\000\\000\\000\\000\\000\\000!\\000c\\000a\\000r\\000d\\000v\\000i\\000e\\000w\\000-\\000l\\000i\\000n\\000k\\000e\\000d\\000e\\000n\\000t\\000i\\000t\\000y\\000-\\000d\\000a\\000r\\000k\\000@\\0003\\000x\\000.\\000p\\000n\\000g\\000\\000\\000\\000\\000Z\\300\\001\\000\\000\\000\\004\\000\\230\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69606610",
+        "feature": "cardview-linkedentity-dark@4x.pn",
+        "context": "\\000\\000\\000\\000\\000\\000 \\000\\000\\000\\000\\000\\000\\000!\\000c\\000a\\000r\\000d\\000v\\000i\\000e\\000w\\000-\\000l\\000i\\000n\\000k\\000e\\000d\\000e\\000n\\000t\\000i\\000t\\000y\\000-\\000d\\000a\\000r\\000k\\000@\\0004\\000x\\000.\\000p\\000n\\000g\\000\\000\\000\\000\\000[\\300\\001\\000\\000\\000\\004\\000\\210\\000"
+      },
+      {
+        "recorder": "email",
+        "offset": "69606912",
+        "feature": "w-linkedentity@2x.pn",
+        "context": "\\034\\000c\\000a\\000r\\000d\\000v\\000i\\000\\006\\000w\\000-\\000l\\000i\\000n\\000k\\000e\\000d\\000e\\000n\\000t\\000i\\000t\\000y\\000@\\0002\\000x\\000.\\000p\\000n\\000g\\000\\000\\000\\000\\000\\000\\000]\\300\\001\\000\\000\\000\\004\\000"
+      },
+      "... [697 more items truncated \u2014 full dump local-only]"
+    ],
+    "per_recorder_counts": {
+      "email": 137671,
+      "rfc822": 22047,
+      "url": 1352289,
+      "ip": 260,
+      "telephone": 4205,
+      "ether": 168,
+      "ccn": 1062,
+      "alerts": 105,
+      "domain": 1311633,
+      "elf": 94,
+      "ether_histogram_1": 53,
+      "evtx_carved": 32498,
+      "exif": 2632,
+      "facebook": 2,
+      "gps": 654,
+      "httplogs": 8,
+      "jpeg": 25,
+      "json": 763098,
+      "ntfsindx_carved": 31440,
+      "ntfslogfile_carved": 105,
+      "ntfsmft_carved": 2813,
+      "ntfsusn_carved": 22350,
+      "pii": 2,
+      "sin": 187,
+      "sqlite_carved": 787,
+      "tcp": 128,
+      "url_facebook-address": 39,
+      "url_facebook-id": 27,
+      "url_searches": 373,
+      "url_services": 10833,
+      "utmp_carved": 27,
+      "vcard": 12,
+      "windirs": 1366803,
+      "winlnk": 2258,
+      "winpe": 5527,
+      "winpe_carved": 5429,
+      "zip": 35956
+    },
+    "recorders": [
+      "email",
+      "rfc822",
+      "url",
+      "ip",
+      "telephone",
+      "ether",
+      "ccn",
+      "alerts",
+      "domain",
+      "elf",
+      "ether_histogram_1",
+      "evtx_carved",
+      "exif",
+      "facebook",
+      "gps",
+      "httplogs",
+      "jpeg",
+      "json",
+      "ntfsindx_carved",
+      "ntfslogfile_carved",
+      "... [17 more items truncated \u2014 full dump local-only]"
+    ],
+    "recorder_files": {
+      "email": "/tmp/agentropix-sift-rocba-be/email.txt",
+      "rfc822": "/tmp/agentropix-sift-rocba-be/rfc822.txt",
+      "url": "/tmp/agentropix-sift-rocba-be/url.txt",
+      "ip": "/tmp/agentropix-sift-rocba-be/ip.txt",
+      "telephone": "/tmp/agentropix-sift-rocba-be/telephone.txt",
+      "ether": "/tmp/agentropix-sift-rocba-be/ether.txt",
+      "ccn": "/tmp/agentropix-sift-rocba-be/ccn.txt",
+      "alerts": "/tmp/agentropix-sift-rocba-be/alerts.txt",
+      "domain": "/tmp/agentropix-sift-rocba-be/domain.txt",
+      "elf": "/tmp/agentropix-sift-rocba-be/elf.txt",
+      "ether_histogram_1": "/tmp/agentropix-sift-rocba-be/ether_histogram_1.txt",
+      "evtx_carved": "/tmp/agentropix-sift-rocba-be/evtx_carved.txt",
+      "exif": "/tmp/agentropix-sift-rocba-be/exif.txt",
+      "facebook": "/tmp/agentropix-sift-rocba-be/facebook.txt",
+      "gps": "/tmp/agentropix-sift-rocba-be/gps.txt",
+      "httplogs": "/tmp/agentropix-sift-rocba-be/httplogs.txt",
+      "jpeg": "/tmp/agentropix-sift-rocba-be/jpeg.txt",
+      "json": "/tmp/agentropix-sift-rocba-be/json.txt",
+      "ntfsindx_carved": "/tmp/agentropix-sift-rocba-be/ntfsindx_carved.txt",
+      "ntfslogfile_carved": "/tmp/agentropix-sift-rocba-be/ntfslogfile_carved.txt",
+      "ntfsmft_carved": "/tmp/agentropix-sift-rocba-be/ntfsmft_carved.txt",
+      "ntfsusn_carved": "/tmp/agentropix-sift-rocba-be/ntfsusn_carved.txt",
+      "pii": "/tmp/agentropix-sift-rocba-be/pii.txt",
+      "sin": "/tmp/agentropix-sift-rocba-be/sin.txt",
+      "sqlite_carved": "/tmp/agentropix-sift-rocba-be/sqlite_carved.txt",
+      "tcp": "/tmp/agentropix-sift-rocba-be/tcp.txt",
+      "url_facebook-address": "/tmp/agentropix-sift-rocba-be/url_facebook-address.txt",
+      "url_facebook-id": "/tmp/agentropix-sift-rocba-be/url_facebook-id.txt",
+      "url_searches": "/tmp/agentropix-sift-rocba-be/url_searches.txt",
+      "url_services": "/tmp/agentropix-sift-rocba-be/url_services.txt",
+      "utmp_carved": "/tmp/agentropix-sift-rocba-be/utmp_carved.txt",
+      "vcard": "/tmp/agentropix-sift-rocba-be/vcard.txt",
+      "windirs": "/tmp/agentropix-sift-rocba-be/windirs.txt",
+      "winlnk": "/tmp/agentropix-sift-rocba-be/winlnk.txt",
+      "winpe": "/tmp/agentropix-sift-rocba-be/winpe.txt",
+      "winpe_carved": "/tmp/agentropix-sift-rocba-be/winpe_carved.txt",
+      "zip": "/tmp/agentropix-sift-rocba-be/zip.txt"
+    },
+    "resolved_input": "/tmp/agentropix-sift-ewf-2on_s13k/ewf1",
+    "summary_only": false,
+    "truncated": true,
+    "tool": "bulk_extractor",
+    "raw_stderr": "",
+    "raw_stdout_sha256": "aa1a3c62944043a84e31fd173c318e88b0f65579846d107ef96b09b1ee49e21c",
+    "compressed_input_warning": "",
+    "compressed_input_severity": ""
+  },
+  "_trimmed_for_repo": true,
+  "_full_dump_local": "/home/admin2/.openclaw/workspace/drivers/gearB/rocba/07b_bulk_extractor.json"
+}

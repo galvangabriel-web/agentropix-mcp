@@ -1,0 +1,214 @@
+{
+  "image_path": "/cases/rocba/rocba-cdrive.e01",
+  "offset": 0,
+  "entry_count": 602765,
+  "entries": [
+    {
+      "entry_type": "d",
+      "allocated": true,
+      "inode": "55958-144-1",
+      "name": "Documents and Settings",
+      "full_path": "/Documents and Settings",
+      "modified_time": "2020-10-20 16:23:20 (UTC)",
+      "accessed_time": "2020-10-20 16:23:20 (UTC)",
+      "size": 48
+    },
+    {
+      "entry_type": "d",
+      "allocated": true,
+      "inode": "282655-144-6",
+      "name": "ProgramData",
+      "full_path": "/ProgramData",
+      "modified_time": "2020-11-01 22:21:19 (UTC)",
+      "accessed_time": "2020-11-16 02:44:38 (UTC)",
+      "size": 56
+    },
+    {
+      "entry_type": "d",
+      "allocated": true,
+      "inode": "125687-144-1",
+      "name": "Adobe",
+      "full_path": "/Adobe",
+      "modified_time": "2020-10-27 03:26:43 (UTC)",
+      "accessed_time": "2020-11-14 14:07:33 (UTC)",
+      "size": 232
+    },
+    {
+      "entry_type": "d",
+      "allocated": true,
+      "inode": "107997-144-5",
+      "name": "ARM",
+      "full_path": "/ARM",
+      "modified_time": "2020-11-13 16:26:01 (UTC)",
+      "accessed_time": "2020-11-14 14:07:33 (UTC)",
+      "size": 56
+    },
+    {
+      "entry_type": "d",
+      "allocated": true,
+      "inode": "108014-144-1",
+      "name": "Reader_20.012.20048",
+      "full_path": "/Reader_20.012.20048",
+      "modified_time": "2020-11-06 22:21:56 (UTC)",
+      "accessed_time": "2020-11-14 14:07:33 (UTC)",
+      "size": 48
+    },
+    {
+      "entry_type": "d",
+      "allocated": true,
+      "inode": "17193-144-1",
+      "name": "Reader_20.013.20064",
+      "full_path": "/Reader_20.013.20064",
+      "modified_time": "2020-11-13 16:25:47 (UTC)",
+      "accessed_time": "2020-11-14 14:07:33 (UTC)",
+      "size": 48
+    },
+    {
+      "entry_type": "d",
+      "allocated": true,
+      "inode": "125664-144-1",
+      "name": "{291AA914-A987-4CE9-BD63-AC0A92D435E5}",
+      "full_path": "/{291AA914-A987-4CE9-BD63-AC0A92D435E5}",
+      "modified_time": "2020-11-13 16:25:59 (UTC)",
+      "accessed_time": "2020-11-14 14:07:33 (UTC)",
+      "size": 48
+    },
+    {
+      "entry_type": "d",
+      "allocated": true,
+      "inode": "125688-144-1",
+      "name": "Setup",
+      "full_path": "/Setup",
+      "modified_time": "2020-10-27 03:23:18 (UTC)",
+      "accessed_time": "2020-11-14 14:07:33 (UTC)",
+      "size": 312
+    },
+    {
+      "entry_type": "d",
+      "allocated": true,
+      "inode": "125689-144-6",
+      "name": "{AC76BA86-7AD7-1033-7B44-AC0F074E4100}",
+      "full_path": "/{AC76BA86-7AD7-1033-7B44-AC0F074E4100}",
+      "modified_time": "2020-10-27 03:23:33 (UTC)",
+      "accessed_time": "2020-11-14 14:07:33 (UTC)",
+      "size": 56
+    },
+    {
+      "entry_type": "r",
+      "allocated": true,
+      "inode": "125692-128-1",
+      "name": "abcpy.ini",
+      "full_path": "/abcpy.ini",
+      "modified_time": "2020-09-11 18:50:10 (UTC)",
+      "accessed_time": "2020-10-27 03:23:37 (UTC)",
+      "size": 608
+    },
+    {
+      "entry_type": "r",
+      "allocated": true,
+      "inode": "125695-128-4",
+      "name": "AcroRdrDCUpd2001220048.msp",
+      "full_path": "/AcroRdrDCUpd2001220048.msp",
+      "modified_time": "2020-09-11 18:50:10 (UTC)",
+      "accessed_time": "2020-10-27 03:23:35 (UTC)",
+      "size": 245866496
+    },
+    {
+      "entry_type": "r",
+      "allocated": true,
+      "inode": "125691-128-3",
+      "name": "AcroRead.msi",
+      "full_path": "/AcroRead.msi",
+      "modified_time": "2015-03-17 08:42:22 (UTC)",
+      "accessed_time": "2020-11-06 22:21:17 (UTC)",
+      "size": 2792960
+    },
+    {
+      "entry_type": "r",
+      "allocated": true,
+      "inode": "125690-128-3",
+      "name": "Data1.cab",
+      "full_path": "/Data1.cab",
+      "modified_time": "2015-03-17 08:35:55 (UTC)",
+      "accessed_time": "2020-11-15 09:05:18 (UTC)",
+      "size": 175114043
+    },
+    {
+      "entry_type": "r",
+      "allocated": true,
+      "inode": "125694-128-3",
+      "name": "setup.exe",
+      "full_path": "/setup.exe",
+      "modified_time": "2020-09-11 18:50:10 (UTC)",
+      "accessed_time": "2020-11-15 09:05:18 (UTC)",
+      "size": 468528
+    },
+    {
+      "entry_type": "r",
+      "allocated": true,
+      "inode": "125693-128-1",
+      "name": "setup.ini",
+      "full_path": "/setup.ini",
+      "modified_time": "2020-09-11 18:50:10 (UTC)",
+      "accessed_time": "2020-11-15 09:05:18 (UTC)",
+      "size": 214
+    },
+    {
+      "entry_type": "d",
+      "allocated": true,
+      "inode": "123525-144-1",
+      "name": "Apple",
+      "full_path": "/Apple",
+      "modified_time": "2020-10-27 03:08:23 (UTC)",
+      "accessed_time": "2020-11-14 14:07:33 (UTC)",
+      "size": 264
+    },
+    {
+      "entry_type": "d",
+      "allocated": true,
+      "inode": "123527-144-1",
+      "name": "Installer Cache",
+      "full_path": "/Installer Cache",
+      "modified_time": "2020-10-27 03:08:23 (UTC)",
+      "accessed_time": "2020-11-14 14:07:33 (UTC)",
+      "size": 296
+    },
+    {
+      "entry_type": "d",
+      "allocated": true,
+      "inode": "123528-144-1",
+      "name": "iCloud Control Panel 11.4.0.12",
+      "full_path": "/iCloud Control Panel 11.4.0.12",
+      "modified_time": "2020-10-27 03:08:23 (UTC)",
+      "accessed_time": "2020-11-14 14:07:33 (UTC)",
+      "size": 280
+    },
+    {
+      "entry_type": "r",
+      "allocated": true,
+      "inode": "123529-128-4",
+      "name": "iCloudOutlook64.msi",
+      "full_path": "/iCloudOutlook64.msi",
+      "modified_time": "2020-10-27 03:07:24 (UTC)",
+      "accessed_time": "2020-10-27 03:08:23 (UTC)",
+      "size": 4030464
+    },
+    {
+      "entry_type": "d",
+      "allocated": true,
+      "inode": "123893-144-1",
+      "name": "Apple Computer",
+      "full_path": "/Apple Computer",
+      "modified_time": "2020-10-27 03:08:53 (UTC)",
+      "accessed_time": "2020-11-14 14:07:33 (UTC)",
+      "size": 144
+    },
+    "... [602745 more items truncated \u2014 full dump local-only]"
+  ],
+  "tool": "sleuthkit.fls",
+  "raw_stderr": "",
+  "raw_stdout_sha256": "1848a77bfd88e282feb26636ae90e38537038ee439741a39166ae4e9333cae9a",
+  "summary_only": false,
+  "_trimmed_for_repo": true,
+  "_full_dump_local": "/home/admin2/.openclaw/workspace/drivers/gearB/rocba/05_fls_recursive.json"
+}

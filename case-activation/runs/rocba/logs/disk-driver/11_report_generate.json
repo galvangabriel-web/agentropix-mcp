@@ -1,0 +1,12 @@
+{
+  "step": "11_report_generate",
+  "tool": "report_generate",
+  "args": {
+    "profile": "status",
+    "case_id": "INC-2026-0613202023"
+  },
+  "ts": "2026-06-13T20:30:53Z",
+  "ok": false,
+  "elapsed_s": 0.0,
+  "error": "StepFail: report_generate: in-result error: case_not_found: no documents for case_id 'INC-2026-0613202023'"
+}

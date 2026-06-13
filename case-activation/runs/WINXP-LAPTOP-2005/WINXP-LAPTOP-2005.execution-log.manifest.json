@@ -1,0 +1,30 @@
+{
+  "prefix": "WINXP-LAPTOP-2005",
+  "source_transcript": "C:\\Users\\admin\\.claude\\projects\\C--xp\\bd54dc37-ffdb-4835-8378-42b74ce3fdef.jsonl",
+  "source_sha256": "C04B598AB02E66A4C7A38A76CE8AEFD77F5D64D01044647C6FEAE34E13CD97BE",
+  "total_records": 297,
+  "turns": 109,
+  "tool_calls": 64,
+  "tool_errors": 14,
+  "error_breakdown": [
+    {
+      "kind": "ERROR",
+      "count": 3
+    },
+    {
+      "kind": "LOGICAL_ERROR",
+      "count": 10
+    },
+    {
+      "kind": "TRACEBACK",
+      "count": 1
+    }
+  ],
+  "token_totals": {
+    "output_tokens": 210916.0,
+    "input_tokens": 15064.0,
+    "cache_read": 9935793.0,
+    "cache_creation": 480936.0
+  },
+  "generated_from": "single-agent Claude Code session"
+}
