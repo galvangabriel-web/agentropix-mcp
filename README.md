@@ -30,6 +30,12 @@
 > 🎞️ **[safety proof reel](#%EF%B8%8F-the-six-guarantees-proven-on-screen)** shows every anti-hallucination
 > guarantee backed by real cited evidence from the sealed execution logs.
 
+> 🎥 **Featured video — [Case Evaluation walkthrough (8 min 27 s, narrated) ▶ on Vimeo](https://vimeo.com/1201031111)**
+> — the full **SRL-2015** evidence walkthrough, with every headline number re-computed **live from the
+> committed raw data**: 2,233 findings · 12 malicious IOCs of 91 · 5 `malfind` payloads · 21/21
+> hash-verified samples · YARA 5/5 · 17 examiner-approved findings. Local copy in-repo:
+> [`Final_Video/SRL-2015-EVIDENCE-presentation.mp4`](Final_Video/SRL-2015-EVIDENCE-presentation.mp4).
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#license)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
 [![MCP tools: 72](https://img.shields.io/badge/MCP%20tools-72-green.svg)](docs/04-mcp-tools/tool-reference.md)
