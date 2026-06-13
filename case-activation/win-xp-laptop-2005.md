@@ -8,7 +8,7 @@
 > (the canonical 8-step flow). House style + dual-audience tracks + numbered Prompt
 > Playbook mirror [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md).
 > Canonical numbers cite [`.crew/facts.md`](../docs/08-reference/canonical-facts.md)
-> (72 MCP tools, 16 SIFT wrappers, 4464 tests).
+> (72 MCP tools, 16 SIFT wrappers, 4687 tests).
 >
 > **Goal of this guide:** get the operator *ready to activate this case and start
 > analysis* — not to run analysis. Everything below was profiled **metadata-only**

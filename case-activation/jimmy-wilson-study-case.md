@@ -12,7 +12,7 @@
 > Procedure source-of-truth: `/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md` (8 steps).
 > House style + dual-audience (🖥️ command / 💬 prompt) + numbered-prompt playbook mirror
 > `/home/admin2/docu_agentro/docs/01-overview/user-guide.md`. Canonical numbers: `.crew/facts.md`
-> (**72 MCP tools**, 16 SIFT wrappers, 4464 tests).
+> (**72 MCP tools**, 16 SIFT wrappers, 4687 tests).
 
 ---
 

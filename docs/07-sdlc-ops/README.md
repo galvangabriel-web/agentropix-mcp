@@ -5,7 +5,7 @@ Building, testing, securing, configuring, deploying, evaluating, and maintaining
 ## Read in this order
 
 1. [implementation.md](implementation.md) — how the codebase is organized and built (module map).
-2. [testing.md](testing.md) — the test topology, the gates, and ground-truth recall (4464 tests; 72/72 disk; 108/118 memory).
+2. [testing.md](testing.md) — the test topology, the gates, and ground-truth recall (4687 tests; 72/72 disk; 108/118 memory).
 3. [security-model.md](security-model.md) — the threat model: Thymus, denylists, redaction, read-only boundary.
 4. [recovery-resilience.md](recovery-resilience.md) — the failure-mode catalogue and chaos/recovery classes.
 5. [configuration.md](configuration.md) — the `AGENTROPIX_*` environment surface and what each var tunes (dual-audience).

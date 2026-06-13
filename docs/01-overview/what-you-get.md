@@ -24,7 +24,7 @@ not the pitch — see the inline citations and the shared references in
 | [Provenance & grounding](#provenance--grounding) | The three layers (tool-sourced findings, `inference_constraint = high`, seal-chain validation) that trace every claim to a tool. |
 | [Approval sidecar (human-in-the-loop)](#approval-sidecar-human-in-the-loop) | The optional HMAC examiner sign-off service — PBKDF2 key, nonce, append-only approval hash chain, browser form. |
 | [Wazuh SIEM integration](#wazuh-siem-integration) | How findings/IOCs promote into Wazuh behind default-deny kill switches and the active-response CIDR guard. |
-| [Chaos-tested resilience](#chaos-tested-resilience) | How fault-injection tests prove graceful degradation, plus the 4464-test surface and the real-data recall gates. |
+| [Chaos-tested resilience](#chaos-tested-resilience) | How fault-injection tests prove graceful degradation, plus the 4687-test surface and the real-data recall gates. |
 | [Next](#next) | Where to go next — Quickstart to run it, and the positioning page for the why. |
 
 ---
@@ -48,7 +48,7 @@ reference or architecture page for the full treatment.
 | **Wazuh integration** | Promote findings/IOCs into a Wazuh SIEM behind default-deny kill switches | `wazuh/` | [Wazuh Integration](../09-integrations/wazuh-portal.md) |
 | **Chaos-tested resilience** | Fault-injection tests over the failure paths (timeout, OOM, malformed output, …) | `tests/chaos/test_fault_paths.py` | [Testing](../07-sdlc-ops/testing.md) |
 
-> **Canonical counts** (`72` tools, `16` wrappers, `4464` tests, recall `72/72` /
+> **Canonical counts** (`72` tools, `16` wrappers, `4687` tests, recall `72/72` /
 > `108/118`) are pinned in [`canonical-facts.md`](../08-reference/canonical-facts.md) (mirroring upstream
 > `CANONICAL_FACTS.md`). Numbers below cite that file; re-query the live `tools/list`
 > when an exact count is load-bearing in your own work.
@@ -323,8 +323,8 @@ failure paths (the suite is marked `chaos` in `pyproject.toml` as
 skipped, surfaced by `doctor`) rather than aborting the run, and each wrapper's
 timeout/retry/memory-ceiling envelope contains a misbehaving binary.
 
-The whole surface is covered by **4464 collected tests**
-([`canonical-facts.md`](../08-reference/canonical-facts.md), `test_count = 4464`), spanning unit,
+The whole surface is covered by **4687 collected tests**
+([`canonical-facts.md`](../08-reference/canonical-facts.md), `test_count = 4687`), spanning unit,
 integration (real-subprocess), chaos, and end-to-end recall gates. On the real-data
 recall gate (SANS SRL-2018 corpus), disk per-IOC recall is **72/72 (100%)** on the
 regression suite and **108/118 (91.5%)** memory+disk combined — both pinned in

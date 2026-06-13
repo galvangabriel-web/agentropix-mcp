@@ -229,14 +229,14 @@ which override any older figures a stale presentation might carry — are, per
 |---|---|
 | MCP tool surface | **72** distinct tool functions |
 | Swarm specialists | **7** core DFIR specialists (+ 6 ATT&CK detector agents; 13 `SWARM` classes) |
-| Test suite | **4464** collected tests |
+| Test suite | **4687** collected tests |
 | Disk recall (regression) | **72/72 (100%)** |
 | Memory recall (combined) | **108/118 (91.5%)** |
 | Python | **3.12+** |
 
 > **Do not quote the stale presentation figures.** An older draft cited "46 tools",
 > "11-agent swarm", and "2,807 tests". The canonical, oracle-verified values are
-> **72 tools**, **7 core specialists + 6 detectors**, and **4464 tests** — always cite the
+> **72 tools**, **7 core specialists + 6 detectors**, and **4687 tests** — always cite the
 > fact file.
 
 ---
@@ -250,7 +250,7 @@ which override any older figures a stale presentation might carry — are, per
   noted but not canonicalized.
 - **Tool / agent / test counts.** The source presentation carried legacy figures
   (46 tools, 11-agent swarm, 2,807 tests). Replaced with the canonical
-  **72 tools / 7 core specialists + 6 detectors / 4464 tests** per
+  **72 tools / 7 core specialists + 6 detectors / 4687 tests** per
   [CANONICAL_FACTS](../08-reference/canonical-facts.md).
 
 ---

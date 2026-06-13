@@ -222,4 +222,4 @@ The story sections map onto committed pages — assemble the Devpost text from t
 ---
 
 *Every number above tracks [`canonical-facts.md`](docs/08-reference/canonical-facts.md)
-(72 MCP tools · 16 SIFT wrappers · 4464 tests · 72/72 disk · 108/118 memory recall).*
+(72 MCP tools · 16 SIFT wrappers · 4687 tests · 72/72 disk · 108/118 memory recall).*

@@ -91,7 +91,7 @@ correlate across hosts:
   (e.g. an attacker IP/hash) to see which of the four hosts it touched.
 
 Platform facts (cite [`.crew/facts.md`](../docs/08-reference/canonical-facts.md)):
-**72** MCP tools, **16** SIFT forensic wrappers, **4464** tests. Trust the live
+**72** MCP tools, **16** SIFT forensic wrappers, **4687** tests. Trust the live
 `health.tool_count`, not any banner.
 
 ---
@@ -384,7 +384,7 @@ at the approval gate** — a bot must not sign chain-of-custody. Use Claude CLI
 > house style + dual-audience + numbered-playbook from
 > [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md);
 > canonical numbers from [`.crew/facts.md`](../docs/08-reference/canonical-facts.md)
-> (72 tools / 16 wrappers / 4464 tests). Evidence inventory re-confirmed
+> (72 tools / 16 wrappers / 4687 tests). Evidence inventory re-confirmed
 > metadata-only (`file` / `ewfinfo` / `du`) against `/cases/SRL-2015/` on 2026-06-06.
 > The `10.3.58.x` values are **evidence-host IPs embedded in the image acquisition
 > metadata** (case ground-truth), not infrastructure addresses; the MCP endpoint is

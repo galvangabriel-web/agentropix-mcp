@@ -8,7 +8,7 @@ reading order is layered on via a "Read in this order" list, non-destructively â
 
 ## Source of truth & accuracy
 - **Canonical numbers come from [`docs/08-reference/canonical-facts.md`](docs/08-reference/canonical-facts.md)** â€” `72` MCP tools, `16` forensic
-  wrappers, `4464` tests, `72/72 (100%)` disk recall, `108/118 (91.5%)` memory recall, Python `3.12+`.
+  wrappers, `4687` tests, `72/72 (100%)` disk recall, `108/118 (91.5%)` memory recall, Python `3.12+`.
   **Never state a number that contradicts it.** Stale figures may only appear inside an explicit
   "earlier draft said X, canonical is Y" reconciliation note.
 - **The main repo `/home/admin2/agentropix-sift` (docs + `src/`) is the oracle.** Every non-obvious

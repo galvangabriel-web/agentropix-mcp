@@ -134,8 +134,8 @@ the guide. All four operate on the **same real CFReDS data** and reach the **sam
 
 > **Platform capability vs. validated example run.** Agentropix-SIFT *orchestrates* the SANS SIFT
 > toolchain you already have. The platform exposes **71 deterministic MCP tools** across **16 forensic
-> SIFT wrappers**, with **4464 tests** (cite [`canonical-facts.md`](../08-reference/canonical-facts.md):
-> `mcp_tool_count=71`, `test_count=4464`). The LLM only *orchestrates*; the facts come from
+> SIFT wrappers**, with **4687 tests** (cite [`canonical-facts.md`](../08-reference/canonical-facts.md):
+> `mcp_tool_count=71`, `test_count=4687`). The LLM only *orchestrates*; the facts come from
 > deterministic tools. Throughout this guide the **validated 2026-05-29 CFReDS run** is quoted as a
 > worked example — that run was captured against an earlier build whose live `tools/list` enumerated
 > **62** tools; treat 62 as the snapshot inventory and **72** as the current platform figure.
@@ -1297,6 +1297,6 @@ not sign chain-of-custody.
   [Audit & Courtroom Seal](../05-safety-forensics/audit-courtroom.md) ·
   [Provenance & Grounding](../05-safety-forensics/provenance-grounding.md).
 - **Shared references (oracle)** — [`canonical-facts.md`](../08-reference/canonical-facts.md) (canonical numbers:
-  72 MCP tools, 16 wrappers, 4464 tests), [`tool-list.md`](../04-mcp-tools/tool-list.md) (all
+  72 MCP tools, 16 wrappers, 4687 tests), [`tool-list.md`](../04-mcp-tools/tool-list.md) (all
   72 tools), [`env-vars.md`](../07-sdlc-ops/env-vars.md),
   [`agents-list.md`](../10-agents/agents-list.md).

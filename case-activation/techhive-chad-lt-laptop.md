@@ -9,7 +9,7 @@
 > Procedure source-of-truth: `END-USER-CASE-GUIDE.md`
 > (8 steps). House style + dual-audience (🖥️ command / 💬 prompt) + numbered playbook follow
 > [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md). Canonical numbers cite
-> [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (**72 MCP tools**, **16 SIFT wrappers**, **4464 tests**).
+> [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (**72 MCP tools**, **16 SIFT wrappers**, **4687 tests**).
 
 ---
 

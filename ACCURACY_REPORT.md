@@ -19,7 +19,7 @@
 Blackboard, exposing **72 MCP tools** built on **16 SIFT forensic wrappers**, with
 **Python 3.12+** as the runtime baseline
 ([`docs/08-reference/canonical-facts.md`](docs/08-reference/canonical-facts.md):
-72 tools, 16 wrappers, 4464 tests, 72/72 = 100% disk recall, 108/118 = 91.5% memory recall,
+72 tools, 16 wrappers, 4687 tests, 72/72 = 100% disk recall, 108/118 = 91.5% memory recall,
 Python 3.12+).
 
 Note: the audit prompt says "7-agent swarm", but the tracked `SWARM` tuple in
@@ -31,7 +31,7 @@ recall metric, not the agent count. Both are kept distinct below.
 
 **Intended baseline (the recall numbers the system claims to hit).** Per
 canonical-facts: **72/72 (100%)** disk-recall regression, **108/118 (91.5%)** combined
-memory recall (worst band T1003.002 SAM at **30/40 = 75%**), **4464** collected tests.
+memory recall (worst band T1003.002 SAM at **30/40 = 75%**), **4687** collected tests.
 A second, weaker-provenance framing — **156/156 = 1.000** per-IOC across all surfaces —
 lives in [`docs/07-sdlc-ops/cross-modal-recall-summary.md`](docs/07-sdlc-ops/cross-modal-recall-summary.md):7-20
 (49/49 disk + 107/107 memory + 83/83 cross-modal pairs) and is **operator-attested

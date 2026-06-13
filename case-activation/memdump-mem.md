@@ -6,7 +6,7 @@
 > with this case's real values, in the same dual-audience (🖥️ command / 💬 prompt)
 > house style as [`user-guide.md`](../docs/01-overview/user-guide.md).
 > Canonical numbers cite [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (`mcp_tool_count=71`,
-> 16 forensic SIFT wrappers, `test_count=4464`).
+> 16 forensic SIFT wrappers, `test_count=4687`).
 
 ---
 

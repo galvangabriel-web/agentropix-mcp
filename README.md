@@ -50,7 +50,7 @@
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
 [![MCP tools: 72](https://img.shields.io/badge/MCP%20tools-72-green.svg)](docs/04-mcp-tools/tool-reference.md)
 [![SIFT wrappers: 16](https://img.shields.io/badge/SIFT%20wrappers-16-brightgreen.svg)](docs/04-mcp-tools/tool-reference.md)
-[![Tests: 4464](https://img.shields.io/badge/tests-4464-brightgreen.svg)](docs/07-sdlc-ops/testing.md)
+[![Tests: 4687](https://img.shields.io/badge/tests-4687-brightgreen.svg)](docs/07-sdlc-ops/testing.md)
 [![Disk recall: 72/72](https://img.shields.io/badge/disk%20recall-72%2F72-success.svg)](docs/07-sdlc-ops/dataset-recall.md)
 
 > ## Autonomous DFIR triage on the SANS SIFT Workstation — that never lets the LLM rate its own findings.
@@ -794,7 +794,7 @@ deployed, hardened, kept resilient, scored, and how its decisions are contracted
 [Recovery & resilience](docs/07-sdlc-ops/recovery-resilience.md) · [Deployment](docs/07-sdlc-ops/deployment.md) ·
 [Implementation](docs/07-sdlc-ops/implementation.md) · [ADR index](docs/11-ADR/README.md)
 
-- **Testing — 4464 collected tests** (`pytest --collect-only -q`) in two tiers. *Fast / always-run*
+- **Testing — 4687 collected tests** (`pytest --collect-only -q`) in two tiers. *Fast / always-run*
   (mock-based, CI + pre-commit): `tests/unit/`, `chaos/`, `provenance/`, `evidence_gate/`,
   `approval_sidecar/`, `secrets_gate/`, `wazuh/`. *Host-gated* (skip-with-reason when the fixture is
   absent): `integration/` (SIFT binaries + a staged E01), `wazuh_live`, `real_corpus`. A missing E01 or
@@ -888,7 +888,7 @@ box. See [Configuration](docs/07-sdlc-ops/configuration.md) and the
 |------|-------|
 | MCP tools | **72** distinct tool functions |
 | SIFT forensic wrappers | **16** |
-| Tests collected | **4464** |
+| Tests collected | **4687** |
 | Disk recall (regression) | **72/72 (100%)** |
 | Memory recall (combined) | **108/118 (91.5%)** |
 | Core swarm specialists | **7** (Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt) |

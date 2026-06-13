@@ -51,7 +51,7 @@ case_init → case_activate → evidence_register → get_image_info
 > memory image in this case.
 
 > Platform facts (cite `.crew/facts.md`): **72** MCP tools, **16** forensic SIFT wrappers,
-> **4464** tests. Trust the live `health.tool_count`, not any startup banner.
+> **4687** tests. Trust the live `health.tool_count`, not any startup banner.
 
 ---
 

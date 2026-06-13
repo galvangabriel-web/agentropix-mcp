@@ -49,7 +49,7 @@ re-anchored to the source it can be checked against.
 
 | Section | What you'll get |
 |---|---|
-| [The numbers this demo speaks in](#the-numbers-this-demo-speaks-in) | The canonical figures the demo cites (72 MCP tools, 16 SIFT binaries, 7 specialists + 6 detectors, 4464 tests, 0.85 halt, 72/72 and 108/118 recall) and how the old 46/11 counts reconcile. |
+| [The numbers this demo speaks in](#the-numbers-this-demo-speaks-in) | The canonical figures the demo cites (72 MCP tools, 16 SIFT binaries, 7 specialists + 6 detectors, 4687 tests, 0.85 halt, 72/72 and 108/118 recall) and how the old 46/11 counts reconcile. |
 | [Beat map — demo to Devpost rubric](#beat-map--demo-to-devpost-rubric) | The Beat 0→6 flow diagram mapping each beat to the Devpost rubric dimension (D1, D2/D3, D5, D6) and the source that verifies it. |
 | [Beat 0–1 — the problem, then the one-liner](#beat-01--the-problem-then-the-one-liner) | The 3 AM Tier-2 stakes and the single `agentropix-sift run` command, with the verbatim run banner and the `inference_constraint: high` line. |
 | [Beat 2 — the 4-layer build runs visibly (D3 breadth)](#beat-2--the-4-layer-build-runs-visibly-d3-breadth) | How the 4-layer stack runs and the six verifiable completion-promise tokens a memory run emits (with their source lines). |
@@ -71,7 +71,7 @@ Everything narrated below uses the canonical figures — never invent a competin
 | SIFT binaries the wrappers drive | **16** | [`canonical-facts.md`](../08-reference/canonical-facts.md); `cli.py` `doctor` dict |
 | Core swarm specialists | **7** (memory, timeline, filesystem, artifact, discovery, mail, hunt) | `agents/__init__.py` |
 | ATT&CK detector agents (interleaved in `SWARM`) | **6** | `detectors/`; `agents/__init__.py` |
-| Test count | **4464** | [`canonical-facts.md`](../08-reference/canonical-facts.md) |
+| Test count | **4687** | [`canonical-facts.md`](../08-reference/canonical-facts.md) |
 | Critic halt threshold (default) | **0.85** | `trinity/critic.py:42` |
 | Disk recall (regression) | **72/72 (100%)** | [`canonical-facts.md`](../08-reference/canonical-facts.md) |
 | Memory recall (combined) | **108/118 (91.5%)** | [`canonical-facts.md`](../08-reference/canonical-facts.md) |
@@ -451,7 +451,7 @@ This lands T1566 (Phishing): the recovered attachments are the IOC surface the `
   fallback shown in Beat 3.
 - [uc-approval-gate.md](uc-approval-gate.md) — the DRAFT → APPROVED → sealed spine behind Beats 4–5.
 - [`canonical-facts.md`](../08-reference/canonical-facts.md) — every numeric claim on this page (72 tools, 16 SIFT
-  binaries, 4464 tests, 72/72 disk recall, 108/118 memory recall, halt threshold 0.85).
+  binaries, 4687 tests, 72/72 disk recall, 108/118 memory recall, halt threshold 0.85).
 - [`agents-list.md`](../10-agents/agents-list.md) — the 7 core specialists + 6 ATT&CK detectors
   whose promise tokens land in Beat 2.
 - [agentic-architecture.md](../10-agents/agentic-architecture.md) — the runtime swarm + Trinity Loop behind the 4-layer build in Beat 2.

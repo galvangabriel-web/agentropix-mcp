@@ -194,7 +194,7 @@ unchanged — the reading order is layered on top, non-destructively.
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
 | Implementation — Code Organization & Build | developer | How is the codebase organized and built (module map)? | [docs/07-sdlc-ops/implementation.md](docs/07-sdlc-ops/implementation.md) |
-| Testing — Topology, Gates & Recall | developer, auditor | What is the test topology, the gates, and the ground-truth recall (4464 tests; 72/72 disk; 108/118 memory)? | [docs/07-sdlc-ops/testing.md](docs/07-sdlc-ops/testing.md) |
+| Testing — Topology, Gates & Recall | developer, auditor | What is the test topology, the gates, and the ground-truth recall (4687 tests; 72/72 disk; 108/118 memory)? | [docs/07-sdlc-ops/testing.md](docs/07-sdlc-ops/testing.md) |
 | Recovery & Resilience | auditor, developer | What are the failure modes and the chaos/recovery classes? | [docs/07-sdlc-ops/recovery-resilience.md](docs/07-sdlc-ops/recovery-resilience.md) |
 | Security Model | auditor | What is the threat model — Thymus, denylists, redaction, read-only boundary? | [docs/07-sdlc-ops/security-model.md](docs/07-sdlc-ops/security-model.md) |
 | Configuration | operator, developer (expert + end-user) | What `AGENTROPIX_*` env vars exist and what do they tune? Dual-audience — common settings show both the **expert command** to set them and the **end-user prompt** that asks the session to apply/verify the same. | [docs/07-sdlc-ops/configuration.md](docs/07-sdlc-ops/configuration.md) |

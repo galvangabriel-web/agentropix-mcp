@@ -8,7 +8,7 @@
 > Procedure source-of-truth: `/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md`
 > (steps 0→8). House style + dual-audience (🖥️ command / 💬 prompt) + numbered playbooks mirror
 > `/home/admin2/docu_agentro/docs/01-overview/user-guide.md`. Canonical numbers cite
-> `/home/admin2/docu_agentro/.crew/facts.md` (`mcp_tool_count=71`, `test_count=4464`, 16 SIFT wrappers).
+> `/home/admin2/docu_agentro/.crew/facts.md` (`mcp_tool_count=71`, `test_count=4687`, 16 SIFT wrappers).
 > A full sealed forensic report for this case lives at
 > `/home/admin2/docu_agentro/docs/12-CASES-REPORTS/vanko-report/`; a captured **activation** run lives at
 > [`runs/vanko-abducted-zebrafish/EXECUTED-RUN.md`](./runs/vanko-abducted-zebrafish/EXECUTED-RUN.md).
@@ -242,7 +242,7 @@ cases' IOCs in the shared `agentropix_*` CDB lists are not wiped.
 ## 3. Activate & start — prompt sequences
 
 Both lanes hit the **same 72-tool deterministic engine** (`{{ref:CANONICAL_FACTS#mcp_tool_count}}`,
-backed by 4464 tests) and reach the same sealed result. Each operator action shows the 🖥️ command
+backed by 4687 tests) and reach the same sealed result. Each operator action shows the 🖥️ command
 equivalent.
 
 ### Manual sequence (ask one focused question per step; inspect each answer before the next)

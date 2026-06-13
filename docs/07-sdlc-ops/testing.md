@@ -4,13 +4,13 @@
 > coverage gate, and the ground-truth end-to-end recall gate that distinguishes a real
 > forensic regression from an infrastructure failure.
 
-The suite holds **4464** collected tests (`pytest --collect-only -q`; see
+The suite holds **4687** collected tests (`pytest --collect-only -q`; see
 [CANONICAL_FACTS](../08-reference/canonical-facts.md)). The number is **forward-drift-gated** — a CI check
 that fails the build if a doc quotes a test count without citing the canonical fact file, or
 quotes a known-outdated value. Concretely: doc lines that quote the count must cite this fact
 file, and the following **stale literals are actively rejected** by the upstream drift check
 (each is a prior, now-superseded count): `1270`, `1129`, `1084`, `1073` (early drafts) and
-`3881`, `3899` (intermediate corrections). The current canonical value is **4464**; never
+`3881`, `3899` (intermediate corrections). The current canonical value is **4687**; never
 quote any of the rejected literals as if current.
 
 ---

@@ -3,7 +3,7 @@
 > **LOCAL-ONLY operator runbook.** Real evidence paths and case inventory — do **not** publish.
 > Gets an operator **ready to activate this case and start analysis**; it does not run analysis.
 > All commands/tools verified against the oracle (`/home/admin2/agentropix-sift` docs+src) and the
-> canonical numbers in [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (72 MCP tools, 16 SIFT wrappers, 4464
+> canonical numbers in [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (72 MCP tools, 16 SIFT wrappers, 4687
 > tests). House style + dual-audience (🖥️ command / 💬 prompt) mirrors
 > [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md).
 
@@ -266,7 +266,7 @@ Two lanes, same deterministic MCP engine. Run top-to-bottom; check each **Expect
 
 ## 4. Cross-checks (oracle + canonical)
 
-- **72** MCP tools / **16** SIFT forensic wrappers / **4464** tests — `.crew/facts.md`
+- **72** MCP tools / **16** SIFT forensic wrappers / **4687** tests — `.crew/facts.md`
   (`mcp_tool_count=71`). A live server may report `72` (reproducible +1 over canonical; trust the live
   `health.tool_count`).
 - Memory tool surface verified in `src/agentropix_sift/mcp_server/fastmcp_app.py`: `get_pslist`,

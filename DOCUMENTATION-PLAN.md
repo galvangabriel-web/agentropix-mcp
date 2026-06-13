@@ -19,7 +19,7 @@ It wins over any prose anywhere in the docs.
 |------|-------|--------|
 | MCP tool count | **72** | `docs/08-reference/canonical-facts.md` |
 | Forensic wrappers | **16** SIFT tools | `docs/08-reference/canonical-facts.md`, `src/.../mcp_server/wrappers/` |
-| Test count | **4464** | `docs/08-reference/canonical-facts.md` |
+| Test count | **4687** | `docs/08-reference/canonical-facts.md` |
 | Disk recall (regression) | **72/72 (100%)** | `docs/08-reference/canonical-facts.md` |
 | Memory recall (combined) | **108/118 (91.5%)** | `docs/08-reference/canonical-facts.md` |
 | Python | **3.12+** | `pyproject.toml` |

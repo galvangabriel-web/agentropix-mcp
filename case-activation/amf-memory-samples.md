@@ -5,7 +5,7 @@
 > Procedure instantiated from the oracle:
 > `/home/admin2/agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md`.
 > Canonical numbers cite [`.crew/facts.md`](../docs/08-reference/canonical-facts.md)
-> (`mcp_tool_count=71`, 16 SIFT wrappers, `test_count=4464`).
+> (`mcp_tool_count=71`, 16 SIFT wrappers, `test_count=4687`).
 
 ---
 

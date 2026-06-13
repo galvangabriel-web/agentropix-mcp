@@ -9,7 +9,7 @@
 > (plain-language to a Claude session with the Agentropix MCP attached).
 >
 > Canonical numbers cited from [`.crew/facts.md`](../docs/08-reference/canonical-facts.md):
-> **72 MCP tools**, **16 SIFT forensic wrappers**, **4464 tests**, memory recall
+> **72 MCP tools**, **16 SIFT forensic wrappers**, **4687 tests**, memory recall
 > **108/118 (91.5 %)**. MCP endpoint shape: `http://<TAILNET-HOST>:8765/mcp`
 > (tailnet-only; get the real host + bearer token from Client Setup — never inlined here).
 

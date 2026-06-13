@@ -11,7 +11,7 @@ Source: `/home/admin2/agentropix-sift/CANONICAL_FACTS.md` (last verified upstrea
 
 | Key | Value | Source | Last verified |
 |-----|-------|--------|---------------|
-| `test_count` | 4464 | `pytest --collect-only -q 2>/dev/null \| tail -1` | 2026-05-29 |
+| `test_count` | 4687 | `pytest --collect-only -q 2>/dev/null \| tail -1` | 2026-06-13 |
 | `disk_recall_regression` | 72/72 (100%) | `Reports_results/FULL-CASE-20260505T004738Z/SUMMARY.md` §Recall | 2026-05-23 |
 | `disk_recall_regression_note` | "post-hoc GT (6 of 7 ground_truth_*.yaml authored from run output); see Methodology" | `samples/SUMMARY.md` Methodology | 2026-05-23 |
 | `disk_recall_blinded` | _pending Theme 4 execution_ | `Reports_results/BLIND-LEDGER.md` row 1 | _T-19_ |
@@ -47,7 +47,7 @@ inconsistent (67+5=72) and the double-registration no longer exists at HEAD; **r
 | MCP tool count | **72** distinct tool functions | `CANONICAL_FACTS.md`; `docs/tools/_TOOL-CATALOGUE.md` |
 | SIFT forensic tools (the binaries the wrappers drive) | **16** | `README.md:151`; `CHANGELOG.md:449`; the `doctor` tool dict in `src/agentropix_sift/cli.py:176-196` |
 | Forensic wrapper modules under `mcp_server/wrappers/` | ~40 wrapper `.py` files driving the 16 SIFT tools + EZ-Tools/correlation/mail | `src/agentropix_sift/mcp_server/wrappers/` |
-| Test count | **4464** | `CANONICAL_FACTS.md` (`pytest --collect-only`) |
+| Test count | **4687** | `CANONICAL_FACTS.md` (`pytest --collect-only`) |
 | Disk recall (regression) | **72/72 (100%)** | `CANONICAL_FACTS.md` |
 | Memory recall (combined) | **108/118 (91.5%)** | `CANONICAL_FACTS.md` |
 | Python | **3.12+** | seed; repo `pyproject.toml` |
@@ -69,8 +69,9 @@ inconsistent (67+5=72) and the double-registration no longer exists at HEAD; **r
 - A line quoting a canonical number is whitelisted by the upstream drift gate only if it contains
   `CANONICAL_FACTS`, the `{{ref:CANONICAL_FACTS#key}}` citation, or `historical`/`stale`.
 - Stale `test_count` values the gate actively rejects: `1270`, `1129`, `1084`, `1073` (and the
-  intermediate corrected values `3881`/`3899` are themselves now historical — current is `4464`).
-- Forward-drift assertions enforce that `README.md` still contains the literals `4464` and `72/72`.
+  intermediate corrected values `3881`/`3899`/`4464` are themselves now historical — current is `4687`,
+  re-verified 2026-06-13 via `pytest --collect-only`).
+- Forward-drift assertions enforce that `README.md` still contains the literals `4687` and `72/72`.
 
 ## Related references
 

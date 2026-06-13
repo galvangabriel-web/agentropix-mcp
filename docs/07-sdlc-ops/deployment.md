@@ -288,7 +288,7 @@ canonical index is [`docs/runbooks/README.md`](https://github.com/galvangabriel-
 > **Currency note.** Some older runbooks carry an inline `AUDIT 2026-06-05` banner correcting
 > stale figures (e.g. `expose-fastmcp-tailnet.md` references "16 tools", a 2026-04-25
 > snapshot — the live MCP surface is **72 tools**; `deploy-to-sans.md` corrected an "880+
-> unit tests" figure to the canonical **4464**). Treat the banners and
+> unit tests" figure to the canonical **4687**). Treat the banners and
 > [CANONICAL_FACTS](../08-reference/canonical-facts.md) as authoritative over the runbook prose.
 
 ---

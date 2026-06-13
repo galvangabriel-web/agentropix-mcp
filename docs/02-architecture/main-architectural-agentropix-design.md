@@ -179,7 +179,7 @@ Governing numeric authority: [`docs/08-reference/canonical-facts.md`](../08-refe
 
 - **72 MCP tools** (canonical). The live `@app.tool` surface at HEAD is **72** (67 in `fastmcp_app.py` + 4 `wazuh_tools` + 1 `wazuh_intel`, no duplicates); the canonical lineage carries a persistent off-by-one and the `health` tool's live `len(list_tools())` is the designated source of truth — an explicit reconciliation, not a contradiction.
 - **16 SIFT forensic binaries** driven by the wrappers: `vol`, `log2timeline.py`, `fls`, `icat`, `mmls`, `ewfinfo`, `evtx_dump.py`, `yara`, `bulk_extractor`, `rip.pl`, `pf`, `amcache_parser`, `shimcache_parser`, `exiftool`, `foremost`, `hashdeep` — plus Eric Zimmerman tools via `dotnet` and auxiliary binaries outside the 16.
-- **4464 tests** (canonical).
+- **4687 tests** (canonical).
 - **72/72 (100%) disk recall** and **108/118 (91.5%) memory recall** (canonical).
 - **Python 3.12+** (`pyproject` `requires-python >=3.12`); **FastMCP 3.2.4** (an earlier portal "2.x pin" note is stale; canonical is 3.2.4).
 - **Transports:** stdio (default) and streamable HTTP on port 8765 at `/mcp` (`http://TAILNET-HOST:8765/mcp`), Bearer-protected, fail-closed boot, ADR-017 tailnet-only exposure.

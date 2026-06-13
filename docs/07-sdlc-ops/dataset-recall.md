@@ -290,7 +290,7 @@ SANS case data is openly distributed.
 - [Testing](testing.md) — the ground-truth recall *gate* that runs against this corpus, plus the `real_corpus` pytest marker.
 - [Implementation](implementation.md) — the swarm agents and scoring code the ground-truth files exercise.
 - [Security Model](security-model.md) — the Thymus read-only boundary and seal invariants that keep evidence bytes on-host.
-- [CANONICAL_FACTS](../08-reference/canonical-facts.md) — the canonical 72/72 + 108/118 recall pair and 4464-test count.
+- [CANONICAL_FACTS](../08-reference/canonical-facts.md) — the canonical 72/72 + 108/118 recall pair and 4687-test count.
 - In-repo oracle: `docs/07-evaluator/evidence-dataset.md` (evaluator pack) · `CROSS-MODAL-RECALL-SUMMARY-2026-05-06.md` (cross-modal snapshot) · `samples/ground_truth_*.yaml` (the 29 ground-truth files).
 
 ### Recall-measurement decisions (ADRs)

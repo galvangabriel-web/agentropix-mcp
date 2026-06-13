@@ -2,7 +2,7 @@
 
 > Agentropix-SIFT is a local, CLI-driven, bio-agentic Digital Forensics & Incident Response (DFIR) triage engine for the SANS SIFT Workstation. A deterministic Trinity Loop (Architect -> 7-agent Swarm -> Critic) drives 72 MCP tools (16 of them SIFT forensic wrappers) over one FastMCP server, correlating findings on a quorum blackboard and emitting a cryptographically sealed, schema-validated JSON triage report -- in minutes, on the local host, with no LLM ever in the halt/convergence path.
 
-Canonical facts (governed by docs/08-reference/canonical-facts.md): 72 MCP tools; 16 SIFT forensic wrappers; 4,464 tests; disk recall 72/72 (100%); memory recall 108/118 (91.5%); Python 3.12+.
+Canonical facts (governed by docs/08-reference/canonical-facts.md): 72 MCP tools; 16 SIFT forensic wrappers; 4,687 tests; disk recall 72/72 (100%); memory recall 108/118 (91.5%); Python 3.12+.
 
 This file inlines the full content of the core documents below for single-pass LLM ingestion. Source of truth is the repository; Canonical Facts wins over any prose. Generated from github/main.
 
@@ -84,7 +84,7 @@ This file inlines the full content of the core documents below for single-pass L
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
 [![MCP tools: 72](https://img.shields.io/badge/MCP%20tools-72-green.svg)](docs/04-mcp-tools/tool-reference.md)
 [![SIFT wrappers: 16](https://img.shields.io/badge/SIFT%20wrappers-16-brightgreen.svg)](docs/04-mcp-tools/tool-reference.md)
-[![Tests: 4464](https://img.shields.io/badge/tests-4464-brightgreen.svg)](docs/07-sdlc-ops/testing.md)
+[![Tests: 4687](https://img.shields.io/badge/tests-4687-brightgreen.svg)](docs/07-sdlc-ops/testing.md)
 [![Disk recall: 72/72](https://img.shields.io/badge/disk%20recall-72%2F72-success.svg)](docs/07-sdlc-ops/dataset-recall.md)
 
 > ## Autonomous DFIR triage on the SANS SIFT Workstation — that never lets the LLM rate its own findings.
@@ -817,7 +817,7 @@ deployed, hardened, kept resilient, scored, and how its decisions are contracted
 [Recovery & resilience](docs/07-sdlc-ops/recovery-resilience.md) · [Deployment](docs/07-sdlc-ops/deployment.md) ·
 [Implementation](docs/07-sdlc-ops/implementation.md) · [ADR index](docs/11-ADR/README.md)
 
-- **Testing — 4464 collected tests** (`pytest --collect-only -q`) in two tiers. *Fast / always-run*
+- **Testing — 4687 collected tests** (`pytest --collect-only -q`) in two tiers. *Fast / always-run*
   (mock-based, CI + pre-commit): `tests/unit/`, `chaos/`, `provenance/`, `evidence_gate/`,
   `approval_sidecar/`, `secrets_gate/`, `wazuh/`. *Host-gated* (skip-with-reason when the fixture is
   absent): `integration/` (SIFT binaries + a staged E01), `wazuh_live`, `real_corpus`. A missing E01 or
@@ -911,7 +911,7 @@ box. See [Configuration](docs/07-sdlc-ops/configuration.md) and the
 |------|-------|
 | MCP tools | **72** distinct tool functions |
 | SIFT forensic wrappers | **16** |
-| Tests collected | **4464** |
+| Tests collected | **4687** |
 | Disk recall (regression) | **72/72 (100%)** |
 | Memory recall (combined) | **108/118 (91.5%)** |
 | Core swarm specialists | **7** (Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt) |
@@ -1163,7 +1163,7 @@ unchanged — the reading order is layered on top, non-destructively.
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
 | Implementation — Code Organization & Build | developer | How is the codebase organized and built (module map)? | [docs/07-sdlc-ops/implementation.md](docs/07-sdlc-ops/implementation.md) |
-| Testing — Topology, Gates & Recall | developer, auditor | What is the test topology, the gates, and the ground-truth recall (4464 tests; 72/72 disk; 108/118 memory)? | [docs/07-sdlc-ops/testing.md](docs/07-sdlc-ops/testing.md) |
+| Testing — Topology, Gates & Recall | developer, auditor | What is the test topology, the gates, and the ground-truth recall (4687 tests; 72/72 disk; 108/118 memory)? | [docs/07-sdlc-ops/testing.md](docs/07-sdlc-ops/testing.md) |
 | Recovery & Resilience | auditor, developer | What are the failure modes and the chaos/recovery classes? | [docs/07-sdlc-ops/recovery-resilience.md](docs/07-sdlc-ops/recovery-resilience.md) |
 | Security Model | auditor | What is the threat model — Thymus, denylists, redaction, read-only boundary? | [docs/07-sdlc-ops/security-model.md](docs/07-sdlc-ops/security-model.md) |
 | Configuration | operator, developer (expert + end-user) | What `AGENTROPIX_*` env vars exist and what do they tune? Dual-audience — common settings show both the **expert command** to set them and the **end-user prompt** that asks the session to apply/verify the same. | [docs/07-sdlc-ops/configuration.md](docs/07-sdlc-ops/configuration.md) |
@@ -1309,7 +1309,7 @@ Source: `/home/admin2/agentropix-sift/CANONICAL_FACTS.md` (last verified upstrea
 
 | Key | Value | Source | Last verified |
 |-----|-------|--------|---------------|
-| `test_count` | 4464 | `pytest --collect-only -q 2>/dev/null \| tail -1` | 2026-05-29 |
+| `test_count` | 4687 | `pytest --collect-only -q 2>/dev/null \| tail -1` | 2026-05-29 |
 | `disk_recall_regression` | 72/72 (100%) | `Reports_results/FULL-CASE-20260505T004738Z/SUMMARY.md` §Recall | 2026-05-23 |
 | `disk_recall_regression_note` | "post-hoc GT (6 of 7 ground_truth_*.yaml authored from run output); see Methodology" | `samples/SUMMARY.md` Methodology | 2026-05-23 |
 | `disk_recall_blinded` | _pending Theme 4 execution_ | `Reports_results/BLIND-LEDGER.md` row 1 | _T-19_ |
@@ -1345,7 +1345,7 @@ inconsistent (67+5=72) and the double-registration no longer exists at HEAD; **r
 | MCP tool count | **72** distinct tool functions | `CANONICAL_FACTS.md`; `docs/tools/_TOOL-CATALOGUE.md` |
 | SIFT forensic tools (the binaries the wrappers drive) | **16** | `README.md:151`; `CHANGELOG.md:449`; the `doctor` tool dict in `src/agentropix_sift/cli.py:176-196` |
 | Forensic wrapper modules under `mcp_server/wrappers/` | ~40 wrapper `.py` files driving the 16 SIFT tools + EZ-Tools/correlation/mail | `src/agentropix_sift/mcp_server/wrappers/` |
-| Test count | **4464** | `CANONICAL_FACTS.md` (`pytest --collect-only`) |
+| Test count | **4687** | `CANONICAL_FACTS.md` (`pytest --collect-only`) |
 | Disk recall (regression) | **72/72 (100%)** | `CANONICAL_FACTS.md` |
 | Memory recall (combined) | **108/118 (91.5%)** | `CANONICAL_FACTS.md` |
 | Python | **3.12+** | seed; repo `pyproject.toml` |
@@ -1367,8 +1367,8 @@ inconsistent (67+5=72) and the double-registration no longer exists at HEAD; **r
 - A line quoting a canonical number is whitelisted by the upstream drift gate only if it contains
   `CANONICAL_FACTS`, the `{{ref:CANONICAL_FACTS#key}}` citation, or `historical`/`stale`.
 - Stale `test_count` values the gate actively rejects: `1270`, `1129`, `1084`, `1073` (and the
-  intermediate corrected values `3881`/`3899` are themselves now historical — current is `4464`).
-- Forward-drift assertions enforce that `README.md` still contains the literals `4464` and `72/72`.
+  intermediate corrected values `3881`/`3899` are themselves now historical — current is `4687`).
+- Forward-drift assertions enforce that `README.md` still contains the literals `4687` and `72/72`.
 
 ## Related references
 
@@ -2349,7 +2349,7 @@ Building, testing, securing, configuring, deploying, evaluating, and maintaining
 ## Read in this order
 
 1. [implementation.md](implementation.md) — how the codebase is organized and built (module map).
-2. [testing.md](testing.md) — the test topology, the gates, and ground-truth recall (4464 tests; 72/72 disk; 108/118 memory).
+2. [testing.md](testing.md) — the test topology, the gates, and ground-truth recall (4687 tests; 72/72 disk; 108/118 memory).
 3. [security-model.md](security-model.md) — the threat model: Thymus, denylists, redaction, read-only boundary.
 4. [recovery-resilience.md](recovery-resilience.md) — the failure-mode catalogue and chaos/recovery classes.
 5. [configuration.md](configuration.md) — the `AGENTROPIX_*` environment surface and what each var tunes (dual-audience).
@@ -3247,7 +3247,7 @@ See [`tests/README.md`](tests/README.md) for the full suite descriptions (eviden
 > git-tracked files (`git ls-files`). Recovered malware/live samples are **withheld by design** —
 > only their SHA-256 (from quarantine manifests and in-report hash tables) is published, never their
 > bytes. Internal IPs, Wazuh endpoints, and credentials are kept as placeholders.
-> Canonical numbers (72 MCP tools, 16 SIFT forensic tools, 4464 tests, 72/72 disk recall,
+> Canonical numbers (72 MCP tools, 16 SIFT forensic tools, 4687 tests, 72/72 disk recall,
 > 108/118 memory recall, Python 3.12+) follow `docs/08-reference/canonical-facts.md`.
 
 ---
@@ -3693,7 +3693,7 @@ Every link in the chain is independently verifiable; nothing relies on trusting 
 Blackboard, exposing **72 MCP tools** built on **16 SIFT forensic wrappers**, with
 **Python 3.12+** as the runtime baseline
 ([`docs/08-reference/canonical-facts.md`](docs/08-reference/canonical-facts.md):
-72 tools, 16 wrappers, 4464 tests, 72/72 = 100% disk recall, 108/118 = 91.5% memory recall,
+72 tools, 16 wrappers, 4687 tests, 72/72 = 100% disk recall, 108/118 = 91.5% memory recall,
 Python 3.12+).
 
 Note: the audit prompt says "7-agent swarm", but the tracked `SWARM` tuple in
@@ -3705,7 +3705,7 @@ recall metric, not the agent count. Both are kept distinct below.
 
 **Intended baseline (the recall numbers the system claims to hit).** Per
 canonical-facts: **72/72 (100%)** disk-recall regression, **108/118 (91.5%)** combined
-memory recall (worst band T1003.002 SAM at **30/40 = 75%**), **4464** collected tests.
+memory recall (worst band T1003.002 SAM at **30/40 = 75%**), **4687** collected tests.
 A second, weaker-provenance framing — **156/156 = 1.000** per-IOC across all surfaces —
 lives in [`docs/07-sdlc-ops/cross-modal-recall-summary.md`](docs/07-sdlc-ops/cross-modal-recall-summary.md):7-20
 (49/49 disk + 107/107 memory + 83/83 cross-modal pairs) and is **operator-attested

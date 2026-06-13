@@ -9,7 +9,7 @@
 > procedure (`END-USER-CASE-GUIDE.md`) and the
 > portal house style / dual-audience (🖥️ command · 💬 prompt) of
 > [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md). Canonical numbers cite
-> [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (**72 MCP tools**, **16 SIFT wrappers**, **4464 tests**).
+> [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (**72 MCP tools**, **16 SIFT wrappers**, **4687 tests**).
 
 ---
 
