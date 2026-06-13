@@ -18,7 +18,8 @@ Building, testing, securing, configuring, deploying, evaluating, and maintaining
 
 ## Accuracy & honesty supplements
 
-- [ACCURACY-REPORT.md](ACCURACY-REPORT.md) — the consolidated honesty page: the verbatim "partially curve-fit" methodology disclosure, the honest 108/118 (91.5%) combined recall with T1003.002 = 30/40 worst case, the April 1/7→7/7 gate-failure history, and W-numbered false positives/hallucinations the project caught in its own output.
+- [ACCURACY-REPORT.md](ACCURACY-REPORT.md) — the consolidated honesty page: the verbatim "partially curve-fit" methodology disclosure, the honest 108/118 (91.5%) combined recall with T1003.002 = 30/40 worst case, the April 1/7→7/7 gate-failure history, W-numbered false positives/hallucinations the project caught in its own output, and **§6 — the architectural (not prompt-based) evidence-integrity guarantee**.
+- [evidence-integrity-visual.md](evidence-integrity-visual.md) — graphical companion to ACCURACY-REPORT §6: colour-coded architecture diagrams + real-data charts showing how the layers interconnect, how Thymus allows/denies access, architectural-vs-prompt-based guardrails, and what happens if the model ignores the restriction (8 committed PNGs, grounded in real code + real runs).
 - [cross-modal-recall-summary.md](cross-modal-recall-summary.md) — mirrored 2026-05-06 primary-source snapshot (156/156 per-IOC; base-rd-01 0% coherence by design) that [dataset-recall.md](dataset-recall.md) §4 consolidates.
 - [../12-CASES-REPORTS/srl-2018-artifact-inventory.md](../12-CASES-REPORTS/srl-2018-artifact-inventory.md) — the full SRL-2018 finding inventory (9,578 findings / 29 hosts) substantiating the recall denominators.
 

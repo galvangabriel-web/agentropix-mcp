@@ -21,6 +21,7 @@ Repository: https://github.com/galvangabriel-web/agentropix-mcp  ·  License: MI
 - [Anti-hallucination](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/05-safety-forensics/anti-hallucination.md): The forensic safety spine — provenance grounding, convergence halt, no self-rating.
 - [Use Cases](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/06-use-cases/README.md): Disk/memory/approval/Wazuh use cases, demo walkthrough, case hypotheses.
 - [SDLC & Operations](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/07-sdlc-ops/README.md): Implementation, testing, recovery, security model, configuration, deployment, dataset recall.
+- [Evidence Integrity, Visualized](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/07-sdlc-ops/evidence-integrity-visual.md): Diagrams + real-data charts proving evidence integrity is architectural (not prompt-based) — layer interconnection, Thymus allow/deny, and what happens if the model ignores the restriction.
 - [Reference](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/08-reference/README.md): CLI reference, glossary, ADR index, design decisions, canonical facts.
 - [Client Setup](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/09-integrations/client-setup.md): Connect Claude Desktop / CLI to the MCP server (tailnet, Bearer-gated).
 - [Agents](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/10-agents/README.md): Agentic architecture, delegation model, FastMCP execution, agent roster.

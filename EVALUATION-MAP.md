@@ -16,7 +16,7 @@ that satisfy it, with a reading path. Statuses are honest — ✅ means committe
 | 3 | Architecture diagram + pattern + guardrail split | ✅ | [`docs/02-architecture/main-architectural-agentropix-design.md`](docs/02-architecture/main-architectural-agentropix-design.md) |
 | 4 | Written project description (Devpost story) | ✅ distributed across the portal (assembly guide below) | [§4](#4--written-project-description-devpost-story) |
 | 5 | Dataset documentation | ✅ | [`docs/06-use-cases/reproduce-datasets.md`](docs/06-use-cases/reproduce-datasets.md) |
-| 6 | Accuracy report + evidence-integrity approach | ✅ | [`docs/07-sdlc-ops/dataset-recall.md`](docs/07-sdlc-ops/dataset-recall.md) |
+| 6 | Accuracy report + evidence-integrity approach | ✅ | [`docs/07-sdlc-ops/ACCURACY-REPORT.md`](docs/07-sdlc-ops/ACCURACY-REPORT.md) (§6 evidence integrity) · [visual companion](docs/07-sdlc-ops/evidence-integrity-visual.md) · [recall methodology](docs/07-sdlc-ops/dataset-recall.md) |
 | 7 | Try-it-out instructions | ✅ | [`README.md` → Connect in 60 seconds](README.md#-connect-in-60-seconds) |
 | 8 | Agent execution logs | ✅ | [`AGENT-EXECUTION-LOGS-REPORT.md`](docs/12-CASES-REPORTS/srl-2018-report/submission/AGENT-EXECUTION-LOGS-REPORT.md) (gold report) · [`EXECUTION-LOG.md`](case-activation/runs/jimmy-wilson-poc/EXECUTION-LOG.md) |
 
@@ -131,7 +131,11 @@ The story sections map onto committed pages — assemble the Devpost text from t
   [anti-hallucination](docs/05-safety-forensics/anti-hallucination.md) ·
   [🔒 SECURITY-INVARIANT-AUDIT-2026-06-11](docs/02-architecture/SECURITY-INVARIANT-AUDIT-2026-06-11.md)
   (6 invariants, file:line-cited, 5 Enforced / 1 Partially — the gap stated, not papered over).
-- **Evidence integrity & bypass behavior (required section):** the audit's invariants #3/#4 — the
+- **Evidence integrity & bypass behavior (required section):** the consolidated statement lives in
+  [ACCURACY-REPORT §6](docs/07-sdlc-ops/ACCURACY-REPORT.md#6-evidence-integrity--how-the-architecture-prevents-original-data-from-being-modified)
+  with a [graphical companion](docs/07-sdlc-ops/evidence-integrity-visual.md) (diagrams of the Thymus
+  allow/deny flow, architectural-vs-prompt-based guardrails, and a sequence of *what happens when the
+  model attempts a bypass*). Grounding: the audit's invariants #3/#4 — the
   Thymus deny-by-default policy rejects every write **before** the subprocess spawns, no write tool
   exists in the surface, and each invariant carries an **adversarial test case** describing exactly
   what happens when the agent attempts a bypass. Plus [provenance & grounding](docs/05-safety-forensics/provenance-grounding.md)

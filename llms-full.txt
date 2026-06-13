@@ -18,6 +18,7 @@ This file inlines the full content of the core documents below for single-pass L
 - Anti-hallucination — `docs/05-safety-forensics/anti-hallucination.md`
 - Use Cases — `docs/06-use-cases/README.md`
 - SDLC & Operations — `docs/07-sdlc-ops/README.md`
+- Evidence Integrity, Visualized (Architectural, Not Prompt-Based) — `docs/07-sdlc-ops/evidence-integrity-visual.md`
 - Reference — `docs/08-reference/README.md`
 - Client Setup — `docs/09-integrations/client-setup.md`
 - Agents — `docs/10-agents/README.md`
