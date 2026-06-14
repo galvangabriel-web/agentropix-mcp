@@ -130,6 +130,12 @@ If your case is a **memory dump** instead of a disk image, the chain is differen
 (no partition/`fls`/`extract_files`) and use the **Volatility memory chain**. Example with the generic
 public `memdump` RAM image (`/cases/memdump/memdump.mem`):
 
+![Memory-case flow: prompt → Claude + Agentropix MCP → pre-flight + evidence_register (no get_image_info on raw memory) → open case → Thymus read-only gate → get_pslist (auto-detects profile; empty list = honest negative, stop) → memory chain (netscan/malfind/svcscan/process_tree) → DRAFT findings → human HMAC approval gate → report + courtroom seal → results](assets/try-it-end-to-end/flow-memory.png)
+
+> Source: [`assets/try-it-end-to-end/flow-memory.mmd`](assets/try-it-end-to-end/flow-memory.mmd). Note the
+> **honest-negative branch**: if `get_pslist` returns empty with a symbol-table error, no kernel profile
+> resolved — the chain stops and says so, rather than inventing results.
+
 ```text
 You are my DFIR analyst with the Agentropix-SIFT MCP connected. Investigate ONE memory case end-to-end
 and show me every result. Work autonomously; stop only at the human approval gate.
