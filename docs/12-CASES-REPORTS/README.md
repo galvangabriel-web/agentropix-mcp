@@ -144,6 +144,13 @@ The standalone **Windows XP** laptop of **Greg Schardt** (alias **"Mr. Evil"**, 
 
 **Correlate:** a single-host **disk-only** scenario (no memory, no multi-host APT) — contrast with the enterprise intrusions [SRL-2015](srl-2015-report/README.md) / [SRL-2018](srl-2018-report/SRL-2018-FORENSIC-REPORT.md) and the malware-free insider case [VANKO](vanko-report/VANKO-FORENSIC-REPORT.md).
 
+**Recorded execution-command replay** (5 min 22 s — every one of the 400 tool calls paired with its result/exit, 68 honest errors highlighted; built by [`make_execution_replay.py`](cfreds-hacking-case-report/make_execution_replay.py) from the audit trace):
+
+[![CFReDS execution-command replay — poster frame (click for the MP4)](cfreds-hacking-case-report/EXECUTION-REPLAY-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/cfreds-hacking-case-report/EXECUTION-REPLAY.mp4)
+
+> ▶ GitHub can't inline-play repo MP4s — click the poster for the GitHub Pages player, or
+> ***[download the MP4 (13.5 MB, 5 min 22 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/cfreds-hacking-case-report/EXECUTION-REPLAY.mp4)***.
+
 **More in this case folder:**
 
 - [cfreds-hacking-case-report/CFREDS-HACKING-CASE-4DELL-executive.md](cfreds-hacking-case-report/CFREDS-HACKING-CASE-4DELL-executive.md) / [cfreds-hacking-case-report/CFREDS-HACKING-CASE-4DELL-analyst.md](cfreds-hacking-case-report/CFREDS-HACKING-CASE-4DELL-analyst.md) — the full server-rendered tier (every finding by stable Finding-ID with likelihood/confidence/risk-score, cross-linked executive↔analyst).

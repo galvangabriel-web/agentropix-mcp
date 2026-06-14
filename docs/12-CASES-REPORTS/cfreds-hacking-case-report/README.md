@@ -35,7 +35,8 @@ all HMAC-sealed and approved by examiner `victor.galvan` on 2026-06-14.
 4. [`audit/PROJECT-agent-execution-log.md`](audit/PROJECT-agent-execution-log.md) — the **agent
    execution log**: token usage, the 400-call tool-execution summary, the embedded forensic
    sub-agents, and a step-by-step trace. Machine-readable trace + per-agent rollup in
-   [`audit/`](audit/).
+   [`audit/`](audit/). The same trace is replayed as a video below — the
+   **[execution-command replay](#recorded-execution-command-replay-5-min-22-s)** (every tool call + its exit).
 5. [`CFREDS-HACKING-CASE-4DELL-executive.md`](CFREDS-HACKING-CASE-4DELL-executive.md) /
    [`CFREDS-HACKING-CASE-4DELL-analyst.md`](CFREDS-HACKING-CASE-4DELL-analyst.md) — the **full
    server-rendered tier** (every finding by stable Finding-ID with likelihood/confidence/risk-score,
@@ -43,6 +44,20 @@ all HMAC-sealed and approved by examiner `victor.galvan` on 2026-06-14.
 6. [`CFREDS-report.html`](CFREDS-report.html) — **self-contained HTML report** (inline vector attack
    graph + legend + findings + IOCs + timeline). *GitHub shows `.html` as source — download it and
    open locally for the rendered single-file report.*
+
+## Recorded execution-command replay (5 min 22 s)
+
+A faithful terminal replay of the autonomous run — **every one of the 400 tool calls paired with its
+result/exit**, the 68 honest errors/recoveries highlighted in red, reconstructed from
+[`audit/tool-execution-trace.jsonl`](audit/tool-execution-trace.jsonl) by
+[`make_execution_replay.py`](make_execution_replay.py).
+
+[![CFReDS execution-command replay — poster frame (click for the MP4)](EXECUTION-REPLAY-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/cfreds-hacking-case-report/EXECUTION-REPLAY.mp4)
+
+> ▶ GitHub can't inline-play repo MP4s — click the poster for the GitHub Pages player, or
+> ***[download the MP4 (13.5 MB, 5 min 22 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/cfreds-hacking-case-report/EXECUTION-REPLAY.mp4)***.
+> The [asciinema source](EXECUTION-REPLAY.cast) is included; regenerate with
+> `python make_execution_replay.py && agg --cols 150 --rows 42 --font-size 14 --fps-cap 30 --theme github-dark EXECUTION-REPLAY.cast EXECUTION-REPLAY.gif`.
 
 ## Attack execution graph
 
@@ -76,6 +91,7 @@ all HMAC-sealed and approved by examiner `victor.galvan` on 2026-06-14.
 |---|---|
 | [`diagrams/`](diagrams/) | Attack execution graph — `attack-graph.png` (portrait) / `attack-graph-lr.png` (landscape) / `attack-graph.svg` (vector) + Mermaid (`.mmd`/`-lr.mmd`), Graphviz (`.dot`), and the annotated [`attack-graph.md`](diagrams/attack-graph.md) with legend. |
 | [`audit/`](audit/) | [`PROJECT-agent-execution-log.md`](audit/PROJECT-agent-execution-log.md) (the human-readable agent execution log), `tool-execution-trace.jsonl` (1,003-step machine trace), `workflow-agents.jsonl` (per-sub-agent rollup), `execution-dashboard.{png,svg}`, and the `build-*.py` regenerators. |
+| `EXECUTION-REPLAY.mp4` | The **execution-command replay video** (5 min 22 s) — poster `EXECUTION-REPLAY-poster.png`, asciinema source `EXECUTION-REPLAY.cast`, built by [`make_execution_replay.py`](make_execution_replay.py) from the audit trace. |
 | [`approve-all-findings.ps1`](approve-all-findings.ps1) | Examiner batch-approval helper (the 35 Finding-IDs) — passwords read via secure prompt / env / DPAPI, sent only to the W-288 approval sidecar over TLS; the agent cannot self-approve (W-286 draft-gate). |
 | [`build-report.py`](build-report.py) | Generator for the self-contained `CFREDS-report.html`. |
 | [`MANIFEST.txt`](MANIFEST.txt) | Original deliverable manifest (bundle file list + verdict). |
