@@ -246,14 +246,13 @@ Auto-generated (Opus 4.8 multi-agent workflows), repo-grounded, every figure sou
   only tool-count *phrasings*. Re-rendered the 4 diagrams that bake the count (evidence-integrity
   d1/d3, try-it flow/flow-memory). **LEFT at 72** (point-in-time/historical): run captures recording
   `tool_count: 72`, and the dated "live may report 72 / +1 over canonical 71" drift notes in case
-  guides. **Dual-repo TODO:** the oracle's `canonical-facts.md` + the canonical gate also need 72→73.
+  guides. **Dual-repo:** also applied in the oracle (commit `8600acde4`) — see the *oracle / dual-repo* note at the end of this section.
 - **`test_count` bumped `4464` → `4687`** (re-verified live: `cd /home/admin2/agentropix-sift && uv run
   pytest --collect-only -q | tail -1`). Swept the **live doc surface** (canonical-facts.md authority +
   README/INDEX/llms*/EVALUATION-MAP/case guides/docs prose + same-length-safe SVG text). **Intentionally
   LEFT at 4464** (point-in-time / sealed — editing falsifies them): `case-activation/runs/**` generated
   reports + the WINXP video deck, `docs/12-CASES-REPORTS/**/pipeline-findings/*.json`, PDFs, and the
-  `canonical-facts.md` historical-values list. **Dual-repo TODO:** the oracle's own `canonical-facts.md`
-  + `scripts/check_canonical_facts.py` gate (forward-asserts `4464`) still need the same bump.
+  `canonical-facts.md` historical-values list. **Dual-repo:** also applied in the oracle (commit `8600acde4`).
 - **`check_read` call-site count = 52** (live `agentropix_mcp/src/agentropix_mcp/thymus_policy.py`) — the
   `47` in the local-only `DEVPOST-SUBMISSION.md` draft was wrong (fixed).
 - **Two log types per case, both real:** the **`agx_gearb` PATH-B driver** (`/home/admin2/.openclaw/
@@ -292,6 +291,23 @@ Auto-generated (Opus 4.8 multi-agent workflows), repo-grounded, every figure sou
 - **ROCBA reports:** there are **none in the repo** (the run stopped at logs). A full prior investigation
   exists **local-only** at `/cases/rocba/_work/ROCBA-HACKATHON-2026/` (EXEC_SUMMARY, Q1–Q5,
   ATTRIBUTION_DRAFT, a 5-critic panel, counsel_bundle) — real persona/attribution material; **do not publish**.
+- **Oracle / dual-repo reality (important).** `/home/admin2/agentropix-sift` is the source-of-truth engine
+  repo, but it is **LOCAL-ONLY — it has NO working remote**: its `origin`
+  (`github.com/galvangabriel-web/agentropix-sift.git`) **404s / does not exist**. The **only published
+  repo is the portal** (`agentropix-mcp`). So *never try to `git push` the oracle* — there's nowhere to
+  push; dual-repo changes live on the oracle's branches until merged locally. The oracle is also a
+  **busy multi-worktree repo** (~30 worktrees; `main` is checked out at `/home/admin2/project`, often with
+  dirty WIP) — so you usually **can't `git checkout main`** there, and cross-worktree cherry-picks risk
+  another session's WIP. Stage surgically; don't touch other worktrees' dirty files.
+  - The oracle **canonical gate** `scripts/check_canonical_facts.py` is **table-driven**: it reads the
+    `## Forward-drift assertions` table in `CANONICAL_FACTS.md` and requires each `(key, literal, file)` —
+    currently `test_count`→`README.md` and `disk_recall_regression`→`README.md`. To bump a number: update
+    the row value **and** the forward-table literal **and** the listed file (README) in the same commit,
+    then run the gate (must exit 0). Backward-drift stale patterns (`1270/1129/1084/1073`) are hardcoded.
+  - The 2026-06-14 oracle bump (`8600acde4`, branch `fix/approval-chain-nrt-race`, gate green) updated
+    `CANONICAL_FACTS.md` (73 / 4687 + lineage + forward literal), `README.md` (badge/table/tree 4687,
+    MCP tools 73 — was a stale `61`), `CLAUDE.md`. The oracle's `docs/portal/` mirror is **gitignored**
+    (local-only). Committed but **not pushed** (no remote) — by design.
 
 ## Security / hygiene
 - **Operator published the live secrets by explicit decision (treat as burned):** the demo approver
