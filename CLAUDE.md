@@ -220,6 +220,16 @@ Auto-generated (Opus 4.8 multi-agent workflows), repo-grounded, every figure sou
   ingestion). **`llms-full.txt` inlines the README/client-setup content, so it contains the
   operator-sanctioned BURNED bearer token verbatim (same one already public in README ×3 + client-setup
   + vanko `ost-investigation.sh`); if that token is ever rotated, update `llms-full.txt` too.**
+- **Project-structure map** — the file-by-file annotated repo tree (khabar-style box-drawing + per-file
+  `←` descriptions; Opus 4.8 workflow → parallel area-annotators → assembler → path-verifier; every path
+  verified to exist) lives **inline in `README.md` under `## Project Structure`** (GitHub anchor
+  `#project-structure`, positioned **immediately above `## Acknowledgments`**) — **NOT a standalone file**.
+  It briefly existed as a root `PROJECT-STRUCTURE.md` (2026-06-14) and was **moved into the README the
+  same day**; the standalone file is **deleted** (don't recreate it). Referenced via the `#project-structure`
+  anchor from the `INDEX.md` Landing table (`README.md#project-structure`) and the
+  `docs/12-CASES-REPORTS/README.md` index (`../../README.md#project-structure`) — both verified to resolve.
+  Keep the tree current when top-level structure changes; the ADR count stated there is **31** (the 11-ADR
+  README is the index, not an ADR).
 - **The featured Case Evaluation video** (`Final_Video/SRL-2015-EVIDENCE-presentation.mp4`, 8:27,
   committed) is on Vimeo (`https://vimeo.com/1201031111`, public+embeddable, oEmbed-verified) and
   README-featured. A ≤5-min cut exists locally (`Final_Video/…-5min.mp4`, 4:58) but is NOT the published
