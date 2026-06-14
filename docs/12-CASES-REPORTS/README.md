@@ -2,6 +2,8 @@
 
 Sealed DFIR case reports — for each investigated case: the full forensic analysis, the indicators of compromise, and the Wazuh evidence captures. Findings are examiner-approved and HMAC-sealed, and every report carries its own honest-caveats section (scope, acquisition limits, what is unproven).
 
+> 🗂️ For where these case folders sit in the wider repository (and what every other file does), see the file-by-file map in [**PROJECT-STRUCTURE.md**](../../PROJECT-STRUCTURE.md).
+
 ## Cases
 
 ### SRL-2015 — Stark Research Labs "APT Enterprise" (4-host intrusion)
