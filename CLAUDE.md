@@ -234,6 +234,53 @@ Auto-generated (Opus 4.8 multi-agent workflows), repo-grounded, every figure sou
   per-section sub-casts, render each, stretch each to its narration length (per-segment audio↔video sync);
   Playwright-OCR each section to verify. See auto-memory `video-annotation-pipeline`.
 
+## Session updates (2026-06-14) — canonical bump · new executed runs · try-it guide
+- **`test_count` bumped `4464` → `4687`** (re-verified live: `cd /home/admin2/agentropix-sift && uv run
+  pytest --collect-only -q | tail -1`). Swept the **live doc surface** (canonical-facts.md authority +
+  README/INDEX/llms*/EVALUATION-MAP/case guides/docs prose + same-length-safe SVG text). **Intentionally
+  LEFT at 4464** (point-in-time / sealed — editing falsifies them): `case-activation/runs/**` generated
+  reports + the WINXP video deck, `docs/12-CASES-REPORTS/**/pipeline-findings/*.json`, PDFs, and the
+  `canonical-facts.md` historical-values list. **Dual-repo TODO:** the oracle's own `canonical-facts.md`
+  + `scripts/check_canonical_facts.py` gate (forward-asserts `4464`) still need the same bump.
+- **`check_read` call-site count = 52** (live `agentropix_mcp/src/agentropix_mcp/thymus_policy.py`) — the
+  `47` in the local-only `DEVPOST-SUBMISSION.md` draft was wrong (fixed).
+- **Two log types per case, both real:** the **`agx_gearb` PATH-B driver** (`/home/admin2/.openclaw/
+  workspace/drivers/agx_gearb.py <key> --image … --allow-unvalidated`) only **sequences MCP tool calls**
+  (no blackboard); the **Trinity engine** (`uv run agentropix-sift run <image> -n5 -o report.json` from
+  the oracle) runs the **swarm** and is the **only** path that emits **agent↔blackboard** activity. For an
+  agent-comms log on any case, run the engine, not the driver. Engine `report.json`: top-level
+  `iterations[]` = plan/stable/dropped/critic (the plan-shrink); `trace.tool_calls` entries named
+  `agent.*` = blackboard **publishes**. `report.session-key` is mode-0600 **secret → local-only**.
+- **NEW executed runs (`case-activation/runs/`):** `rocba/` — driver run + `EXECUTION-LOG.md` (the **req-8**
+  agent-execution-log doc) + `logs/`; honest negatives kept (carve param-bug `image`→`target`;
+  `report_generate` `case_not_found` DRAFT-only gotcha; memory-init timeout). `rocba/engine-run/` — the
+  Trinity-engine **agent↔blackboard** showcase (`AGENT-BLACKBOARD.md` + `blackboard-events.jsonl` +
+  trimmed `report.json`; 21 publishes across 13 agents, 13→2 plan-shrink). `WINXP-LAPTOP-2005/` —
+  single-agent run + a rendered **3:19 video** (`…-video/WINXP-LAPTOP-2005-EXECUTION.mp4`) + auto-start
+  `watch.html` (Pages) + `CORRELATION-REPORT.md`; the **298 MB `…-video/deck/frames/` is gitignored**
+  (reproducible via `deck/render.js`).
+- **CDP render lessons:** `render.js` derives frame count from `window.__totalMs`; run the **full** deck
+  (a `render.js 100` cap = a 100-frame *test*, not the video). A **detached headless `claude -p` agent
+  STALLS** waiting for a background-render "monitor" notification (headless `-p` gets no wake-up) — drive
+  long renders **directly** (`run_in_background` Bash), then `ffmpeg -framerate 12` + `ffprobe`-verify.
+  Flow/architecture diagrams now render with **`-t default`** (light) for consistency with the white
+  matplotlib charts; same-length digit swaps in SVG text are safe (no layout shift).
+- **NEW docs:** `docs/07-sdlc-ops/evidence-integrity-visual.md` (graphical companion to **ACCURACY-REPORT.md
+  §6** "Evidence integrity"; 8 figures — 4 `mmdc` PNGs + 4 matplotlib charts via
+  `assets/evidence-integrity/_render_charts.py`); `docs/01-overview/try-it-end-to-end.md` (one-prompt
+  new-user guide — disk (CFReDS) + memory (memdump) prompts, each with a flow PNG). **Both prompts also
+  live in the README "Recommended investigation workflow" as `<details>` collapsibles, byte-identical** —
+  the **doc is the single source of truth** (keep them in sync if edited).
+- **Devpost:** the public page now EXISTS (`devpost.com/software/agentropix-mcp-agentic-forensics-incident-response`).
+  `DEVPOST-SUBMISSION.md` (repo-root, **untracked / local-only** paste source) carries the corrected story
+  (72 tools · 16 wrappers · 52 check_read · 4687 tests · 72/72 + 108/118). Live page still needs: tagline
+  `42`→`72` (a **separate field**, not the body), delete the pasted `--- README LINK SNIPPET ---` /
+  `--- GALLERY ---` meta-sections, and add the demo video. The Devpost **edit page is login-gated**
+  (`secure.devpost.com/users/login`) — not viewable by Claude; verify edits on the **public** page in incognito.
+- **ROCBA reports:** there are **none in the repo** (the run stopped at logs). A full prior investigation
+  exists **local-only** at `/cases/rocba/_work/ROCBA-HACKATHON-2026/` (EXEC_SUMMARY, Q1–Q5,
+  ATTRIBUTION_DRAFT, a 5-critic panel, counsel_bundle) — real persona/attribution material; **do not publish**.
+
 ## Security / hygiene
 - **Operator published the live secrets by explicit decision (treat as burned):** the demo approver
   password (`docs/05-safety-forensics/approval-portal.md`) and the live tailnet IP + bearer token
@@ -278,7 +325,9 @@ Auto-generated (Opus 4.8 multi-agent workflows), repo-grounded, every figure sou
    local copy; differs → check which is newer) so a merge doesn't collide. **Push to GitHub only:
    `git push github main`.**
 6. **Known published gaps (Stage One reviews 2026-06-12, see `evaluation1/` + `evaluation2/`
-   local-only):** the committed `case-activation/runs/jimmy-wilson-poc/POC-RUN.mp4` on `main` is a
+   local-only):** *(partly superseded — see "Session updates 2026-06-14" below: the Devpost page now
+   exists (Check 6), Check 8 is closed via ACCURACY-REPORT §6 + the visual companion, so the single
+   remaining Stage-One blocker is **Check 4**, the ≤5-min narrated demo video.)* the committed `case-activation/runs/jimmy-wilson-poc/POC-RUN.mp4` on `main` is a
    **9-second silent stub** (render collision) — re-render + `ffprobe`-verify before referencing it;
    the narrated ≤5-min demo video upload (EVALUATION-MAP.md §2) is still pending and is the one
    blocking hackathon requirement. The `evaluation2/` review (22-agent Opus workflow, every verdict
