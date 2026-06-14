@@ -42,7 +42,7 @@ conflict, the source is authoritative.
 
 ### 2. The SIFT Workstation tools
 
-**Documentation** ([tool-list.md](../04-mcp-tools/tool-list.md), [canonical-facts.md](../08-reference/canonical-facts.md)): 16 SIFT forensic binaries driven by wrapper modules, surfaced as 72 MCP tools grouped into families.
+**Documentation** ([tool-list.md](../04-mcp-tools/tool-list.md), [canonical-facts.md](../08-reference/canonical-facts.md)): 16 SIFT forensic binaries driven by wrapper modules, surfaced as 73 MCP tools grouped into families.
 
 **Source contrast — the concrete inventory:**
 
@@ -54,11 +54,11 @@ conflict, the source is authoritative.
 
 ### 3. The MCP server
 
-**Documentation** ([mcp-server.md](mcp-server.md), [fastmcp-execution.md](../10-agents/fastmcp-execution.md)): a single FastMCP server, two transports, the Thymus boundary, 72 tools.
+**Documentation** ([mcp-server.md](mcp-server.md), [fastmcp-execution.md](../10-agents/fastmcp-execution.md)): a single FastMCP server, two transports, the Thymus boundary, 73 tools.
 
 **Source contrast — confirmed with precision added:**
 
-- One **FastMCP 3.2.4** app named `agentropix-sift` (`mcp_server/fastmcp_app.py:_build_app`), decorator-registered: 67 `@app.tool()` in `fastmcp_app.py` + 5 via the Wazuh registrars = **72 live registrations** at HEAD, matching the canonical **72** (the historical off-by-one was resolved 2026-06-11 when the canonical figure was re-derived against source + live `tools/list`). (A portal note claiming `wazuh_hunt_ioc` is "registered twice" is **wrong** — the source shows exactly one registration; the surplus grep hits are docstrings in `_safe_tool.py`.)
+- One **FastMCP 3.2.4** app named `agentropix-sift` (`mcp_server/fastmcp_app.py:_build_app`), decorator-registered: 68 `@app.tool()` in `fastmcp_app.py` + 5 via the Wazuh registrars = **73 live registrations** at HEAD, matching the canonical **73** (the historical off-by-one was resolved 2026-06-11 when the canonical figure was re-derived against source + live `tools/list`). (A portal note claiming `wazuh_hunt_ioc` is "registered twice" is **wrong** — the source shows exactly one registration; the surplus grep hits are docstrings in `_safe_tool.py`.)
 - **Transports:** stdio is the default (`app.run()`, trust = process UID); streamable HTTP is opt-in on **:8765 at `/mcp`**, loopback unless explicitly exposed (ADR-017 tailnet-only). Stale `/sse` strings in the source are comments only.
 - **Auth:** `BearerTokenMiddleware` with `secrets.compare_digest` (constant-time, SIFT-W-281), injected by wrapping `app.http_app()` — FastMCP 3.x removed the `.app` shim, so it is NOT `app.run(middleware=[...])`. Boot is **fail-closed**: `_build_app()` raises without `AGENTROPIX_MCP_AUTH_TOKEN` unless `AGENTROPIX_MCP_DEV_MODE=1` — even a stdio launch refuses to start.
 - **The enforcement spine:** the shared tool core `server.py` (61 `mcp_*` async functions) carries the in-code statement *"The MCP server is the enforcement boundary — Thymus policy runs here, not in the agent."* A per-tool sliding-window `_RateLimiter` (default 60/min) and **47 `ThymusEvidencePolicy.check_read` call sites** sit in front of every wrapper execution.
@@ -92,7 +92,7 @@ conflict, the source is authoritative.
 
 **Verdict: Custom MCP Server.**
 
-Agentropix-SIFT is a purpose-built FastMCP 3.2.4 server (`FastMCP("agentropix-sift")`, entry point `agentropix-sift-mcp`) exposing 71 canonical / 72 live-registered forensic tools to general-purpose MCP clients. Claude Desktop and Claude Code attach via a literal `mcp.json` snippet shipped in the module docstring, over stdio (the default transport) or Bearer-protected streamable HTTP at `http://TAILNET-HOST:8765/mcp`. The server itself is the enforcement boundary: the Thymus read-only path policy, the rate limiter, the W-286 DRAFT gate, and the fail-closed Bearer auth all run server-side — *the agent literally has no tool to write evidence* — and the package ships no LLM client of its own in the MCP path. It is **not** a Direct Agent Extension (no Claude-internal plugin code) and **not** an Alternative Agentic IDE (no editing environment).
+Agentropix-SIFT is a purpose-built FastMCP 3.2.4 server (`FastMCP("agentropix-sift")`, entry point `agentropix-sift-mcp`) exposing **73** forensic tools (68 in `fastmcp_app.py` + 5 Wazuh registrars; no duplicates) to general-purpose MCP clients. Claude Desktop and Claude Code attach via a literal `mcp.json` snippet shipped in the module docstring, over stdio (the default transport) or Bearer-protected streamable HTTP at `http://TAILNET-HOST:8765/mcp`. The server itself is the enforcement boundary: the Thymus read-only path policy, the rate limiter, the W-286 DRAFT gate, and the fail-closed Bearer auth all run server-side — *the agent literally has no tool to write evidence* — and the package ships no LLM client of its own in the MCP path. It is **not** a Direct Agent Extension (no Claude-internal plugin code) and **not** an Alternative Agentic IDE (no editing environment).
 
 The verdict *"LLM at the edge, determinism inside"* is verified end-to-end: every fact originates from a named deterministic tool wrapping one of 16 SIFT Workstation binaries via no-shell subprocess execution, and the only in-runtime LLM call in the entire package is the optional, default-off, fail-open Architect reorder pass (`AGENTROPIX_ARCHITECT_LLM_REORDER`).
 
@@ -151,7 +151,7 @@ Every box in the diagram traces to oracle source under `/home/admin2/agentropix-
 
 | Diagram component | Oracle source | Notes |
 |---|---|---|
-| FastMCP app, stdio + HTTP transports, fail-closed boot | `mcp_server/fastmcp_app.py` (`_build_app`) | FastMCP 3.2.4; 67 `@app.tool()` registrations here + 5 via Wazuh registrars = 72 live; the `health` tool's `len(await app.list_tools())` is the designated live tool-count source of truth. |
+| FastMCP app, stdio + HTTP transports, fail-closed boot | `mcp_server/fastmcp_app.py` (`_build_app`) | FastMCP 3.2.4; 68 `@app.tool()` registrations here + 5 via Wazuh registrars = 73 live; the `health` tool's `len(await app.list_tools())` is the designated live tool-count source of truth. |
 | BearerTokenMiddleware + HTTP audit | `mcp_server/fastmcp_app.py:173-306, 310-335` | Injected by wrapping `app.http_app()` — FastMCP 3.x removed the `.app` shim; NOT `app.run(middleware=[...])`. |
 | Shared tool core (61 `mcp_*` async functions) | `mcp_server/server.py` | "The MCP server is the enforcement boundary — Thymus policy runs here, not in the agent." |
 | `_RateLimiter` | `mcp_server/server.py:194-254` | `AGENTROPIX_RATE_LIMIT` default 60 + per-tool override. |
@@ -177,7 +177,7 @@ Every box in the diagram traces to oracle source under `/home/admin2/agentropix-
 
 Governing numeric authority: [`docs/08-reference/canonical-facts.md`](../08-reference/canonical-facts.md).
 
-- **72 MCP tools** (canonical). The live `@app.tool` surface at HEAD is **72** (67 in `fastmcp_app.py` + 4 `wazuh_tools` + 1 `wazuh_intel`, no duplicates); the canonical lineage carries a persistent off-by-one and the `health` tool's live `len(list_tools())` is the designated source of truth — an explicit reconciliation, not a contradiction.
+- **73 MCP tools** (canonical). The live `@app.tool` surface at HEAD is **73** (68 in `fastmcp_app.py` + 4 `wazuh_tools` + 1 `wazuh_intel`, no duplicates); the canonical lineage carries a persistent off-by-one and the `health` tool's live `len(list_tools())` is the designated source of truth — an explicit reconciliation, not a contradiction.
 - **16 SIFT forensic binaries** driven by the wrappers: `vol`, `log2timeline.py`, `fls`, `icat`, `mmls`, `ewfinfo`, `evtx_dump.py`, `yara`, `bulk_extractor`, `rip.pl`, `pf`, `amcache_parser`, `shimcache_parser`, `exiftool`, `foremost`, `hashdeep` — plus Eric Zimmerman tools via `dotnet` and auxiliary binaries outside the 16.
 - **4687 tests** (canonical).
 - **72/72 (100%) disk recall** and **108/118 (91.5%) memory recall** (canonical).

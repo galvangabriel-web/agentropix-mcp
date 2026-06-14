@@ -56,7 +56,7 @@ flowchart TB
     end
 
     subgraph MCP["MCP boundary — the enforcement spine"]
-        TOOLS["72 MCP tools<br/>traced, rate-limited, Thymus-gated"]:::det
+        TOOLS["73 MCP tools<br/>traced, rate-limited, Thymus-gated"]:::det
         BIN["SIFT forensic binaries<br/>vol3 / plaso / tsk / yara / EZ tools"]:::leak
     end
 

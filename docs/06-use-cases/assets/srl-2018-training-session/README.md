@@ -22,7 +22,7 @@ resets:
 ## Armed state
 
 - Armed: 2026-06-07 (see log header) · Active case: `SRL-2018-COMPROMISED-ENTERPRISE`
-- MCP server live at `http://100.85.162.82:8765/mcp` (72 tools).
+- MCP server live at `http://100.85.162.82:8765/mcp` (73 tools).
 
 ## At session end (produced on "done")
 

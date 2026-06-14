@@ -34,7 +34,7 @@ status verdict here is kept in lock-step with the index's live status audit.
 > **Sourcing.** Numeric claims follow [`canonical-facts.md`](canonical-facts.md)
 > (CANONICAL_FACTS). Where the upstream design narrative quoted older figures
 > (e.g. "46 tools / 11 agents / 2807 tests") this page uses the canonical
-> values — **72 MCP tools, 16 SIFT forensic tools, 4687 tests, 72/72 disk
+> values — **73 MCP tools, 16 SIFT forensic tools, 4687 tests, 72/72 disk
 > recall, 108/118 memory recall, Python 3.12+** — and notes the reconciliation.
 > Every ADR reference below was checked against `docs/adr/`; two **status
 > conflicts** with the upstream narrative were resolved in favour of the oracle
@@ -285,7 +285,7 @@ reliable.
 > time of writing. The canonical test count is **4687**
 > ([`canonical-facts.md`](canonical-facts.md), `pytest --collect-only`); the
 > structural bounds above are unchanged. Likewise the "46 tools / 11 agents"
-> phrasing reconciles to the canonical **72 MCP tools** and the **7 core swarm
+> phrasing reconciles to the canonical **73 MCP tools** and the **7 core swarm
 > specialists** (Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt)
 > plus ATT&CK detectors — see [`canonical-facts.md`](canonical-facts.md) and
 > `agents/__init__.py`.
@@ -343,5 +343,5 @@ best-practice prose.
 - [Anti-Hallucination](../05-safety-forensics/anti-hallucination.md) — how the ADR-016 invariants play out at runtime.
 - [Human-in-the-Loop](../05-safety-forensics/human-in-the-loop.md) — the ADR-019 confirmation gate in practice.
 - [EZ Tools / ZimmermanTools Integration](../02-architecture/ez-tools-integration.md) — the hybrid genuine-`.NET`-binary vs Linux-substitute (Amcache/ShimCache/SRUM) decision behind the EZ wrappers.
-- [Canonical facts](canonical-facts.md) — the numeric source of truth (72 tools, 16 SIFT tools, 4687 tests, 72/72 recall).
+- [Canonical facts](canonical-facts.md) — the numeric source of truth (73 tools, 16 SIFT tools, 4687 tests, 72/72 recall).
 - [Agents list](../10-agents/agents-list.md) — the Trinity roles and swarm specialists the ADRs govern.

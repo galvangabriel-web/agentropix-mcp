@@ -12,7 +12,7 @@
 
 **Server:** `http://100.85.162.82:8765/mcp` (tailnet-only — not on public internet)
 
-The endpoint exposes the full Agentropix-SIFT forensic surface — **72 MCP tools** (canonical count; the live `health.tool_count` is authoritative) wrapping **16 SANS SIFT forensic binaries**. Authentication is a single static **bearer token** sent as `Authorization: Bearer <token>`.
+The endpoint exposes the full Agentropix-SIFT forensic surface — **73 MCP tools** (canonical count; the live `health.tool_count` is authoritative) wrapping **16 SANS SIFT forensic binaries**. Authentication is a single static **bearer token** sent as `Authorization: Bearer <token>`.
 
 ---
 
@@ -167,7 +167,7 @@ Ask the model something like:
 
 > *"Use the agentropix-sift MCP server. Run the `health` tool and tell me the tool_count."*
 
-Expected: `tool_count: 72` (or whatever the live count is — that field is authoritative; this doc may lag).
+Expected: `tool_count: 73` (or whatever the live count is — that field is authoritative; this doc may lag).
 
 ---
 

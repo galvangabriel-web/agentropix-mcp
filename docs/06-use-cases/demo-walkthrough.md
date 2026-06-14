@@ -49,7 +49,7 @@ re-anchored to the source it can be checked against.
 
 | Section | What you'll get |
 |---|---|
-| [The numbers this demo speaks in](#the-numbers-this-demo-speaks-in) | The canonical figures the demo cites (72 MCP tools, 16 SIFT binaries, 7 specialists + 6 detectors, 4687 tests, 0.85 halt, 72/72 and 108/118 recall) and how the old 46/11 counts reconcile. |
+| [The numbers this demo speaks in](#the-numbers-this-demo-speaks-in) | The canonical figures the demo cites (73 MCP tools, 16 SIFT binaries, 7 specialists + 6 detectors, 4687 tests, 0.85 halt, 72/72 and 108/118 recall) and how the old 46/11 counts reconcile. |
 | [Beat map — demo to Devpost rubric](#beat-map--demo-to-devpost-rubric) | The Beat 0→6 flow diagram mapping each beat to the Devpost rubric dimension (D1, D2/D3, D5, D6) and the source that verifies it. |
 | [Beat 0–1 — the problem, then the one-liner](#beat-01--the-problem-then-the-one-liner) | The 3 AM Tier-2 stakes and the single `agentropix-sift run` command, with the verbatim run banner and the `inference_constraint: high` line. |
 | [Beat 2 — the 4-layer build runs visibly (D3 breadth)](#beat-2--the-4-layer-build-runs-visibly-d3-breadth) | How the 4-layer stack runs and the six verifiable completion-promise tokens a memory run emits (with their source lines). |
@@ -67,7 +67,7 @@ Everything narrated below uses the canonical figures — never invent a competin
 
 | Claim shown on screen | Canonical value | Source |
 |---|---|---|
-| MCP tools | **72** distinct tool functions | [`canonical-facts.md`](../08-reference/canonical-facts.md); `docs/tools/_TOOL-CATALOGUE.md` |
+| MCP tools | **73** distinct tool functions | [`canonical-facts.md`](../08-reference/canonical-facts.md); `docs/tools/_TOOL-CATALOGUE.md` |
 | SIFT binaries the wrappers drive | **16** | [`canonical-facts.md`](../08-reference/canonical-facts.md); `cli.py` `doctor` dict |
 | Core swarm specialists | **7** (memory, timeline, filesystem, artifact, discovery, mail, hunt) | `agents/__init__.py` |
 | ATT&CK detector agents (interleaved in `SWARM`) | **6** | `detectors/`; `agents/__init__.py` |
@@ -77,7 +77,7 @@ Everything narrated below uses the canonical figures — never invent a competin
 | Memory recall (combined) | **108/118 (91.5%)** | [`canonical-facts.md`](../08-reference/canonical-facts.md) |
 
 > **Reconciliation.** Earlier demo drafts said "46 MCP tools" and "an 11-agent swarm." The
-> source-of-truth count is **72 tools** and **7 core specialists + 6 ATT&CK detectors** — use those.
+> source-of-truth count is **73 tools** and **7 core specialists + 6 ATT&CK detectors** — use those.
 > The "11" figure was a per-run plan size, not the agent roster; the "46" figure predates the tool
 > growth documented in [`canonical-facts.md`](../08-reference/canonical-facts.md) §"MCP tool-count lineage."
 
@@ -175,7 +175,7 @@ Inference constraint: high (LLM is orchestrator; facts from MCP tools)
 ## Beat 2 — the 4-layer build runs visibly (D3 breadth)
 
 The four layers of the stack run in order: the **deterministic SIFT toolkit** (16 binaries) under
-the **typed MCP surface** (72 tools), driven by the **7-agent swarm + 6 ATT&CK detectors**, all
+the **typed MCP surface** (73 tools), driven by the **7-agent swarm + 6 ATT&CK detectors**, all
 wrapped in the **courtroom envelope** (Beat 5). The proof that each agent actually contributed is the
 **completion-promise token** it emits — one snake-case token per agent that successfully published at
 least one finding this run, appended to `report.completion_proofs[]` and sorted for diff-stability.
@@ -450,7 +450,7 @@ This lands T1566 (Phishing): the recovered attachments are the IOC surface the `
 - [uc-memory-triage.md](uc-memory-triage.md) — the Volatility memory path and the `pslist→psscan`
   fallback shown in Beat 3.
 - [uc-approval-gate.md](uc-approval-gate.md) — the DRAFT → APPROVED → sealed spine behind Beats 4–5.
-- [`canonical-facts.md`](../08-reference/canonical-facts.md) — every numeric claim on this page (72 tools, 16 SIFT
+- [`canonical-facts.md`](../08-reference/canonical-facts.md) — every numeric claim on this page (73 tools, 16 SIFT
   binaries, 4687 tests, 72/72 disk recall, 108/118 memory recall, halt threshold 0.85).
 - [`agents-list.md`](../10-agents/agents-list.md) — the 7 core specialists + 6 ATT&CK detectors
   whose promise tokens land in Beat 2.

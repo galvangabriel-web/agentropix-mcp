@@ -110,7 +110,7 @@ All samples recovered, hashed, and quarantined (defanged) at `/home/admin2/srl-2
 
 ## 8. Methodology, integrity & honest caveats
 
-**Approach.** Agentropix-SIFT MCP toolset (68/72 tools exercised) over the SRL-2018 evidence:
+**Approach.** Agentropix-SIFT MCP toolset (68/73 tools exercised) over the SRL-2018 evidence:
 `get_malfind`/YARA recovered the in-memory implant; `ewfmount`+`ntfs-3g` mounting recovered on-disk
 binaries; PowerShell **4104** script-block logs yielded the attacker commands; DC **Kerberos/NTLM**
 (4768/4769/4776) + **RDP operational** (21/25/1149) logs built the lateral graph; prefetch confirmed

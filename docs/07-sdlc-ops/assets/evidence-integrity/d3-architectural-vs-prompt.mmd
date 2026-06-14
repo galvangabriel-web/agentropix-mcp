@@ -2,7 +2,7 @@ flowchart LR
     subgraph ARCH["ARCHITECTURAL — enforced in code the model cannot reach around"]
         direction TB
         A1["Thymus read-only gate<br/>check_read allowlist, deny-by-default<br/>thymus_policy.py:236"]
-        A2["check_write HARD-CODED REJECT<br/>no MCP tool calls it (0 of 72)<br/>thymus_policy.py:362"]
+        A2["check_write HARD-CODED REJECT<br/>no MCP tool calls it (0 of 73)<br/>thymus_policy.py:362"]
         A3["argv-only subprocess<br/>create_subprocess_exec, no shell<br/>wrappers/*.py"]
         A4["Evidence SHA-256 pin + HMAC seal<br/>hashed once at session start<br/>courtroom.py:89, :161-397"]
         A5["W-286 DRAFT gate<br/>approval.* stripped, force-stamped DRAFT<br/>wrappers/wazuh_tools.py:44-98"]

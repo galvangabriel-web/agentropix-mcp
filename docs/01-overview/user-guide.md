@@ -35,7 +35,7 @@ prompt a non-technical user types to get the *same result*. You only need to fol
 | [How to read this guide](#how-to-read-this-guide) | The two audience tracks (🖥️ expert command vs 💬 end-user prompt), the real-data note, and how the GOTCHA boxes work. |
 | [Usability matrix — find your lane](#usability-matrix--find-your-lane) | Pick your lane: **Manual ↔ Autonomous** × **Expert (CLI) ↔ Non-expert (prompt)**. |
 | [The end-to-end pipeline at a glance](#the-end-to-end-pipeline-at-a-glance) | The whole investigation lifecycle (install → triage → review → approve → seal → escalate) in one diagram. |
-| [Tool capability map (summary)](#tool-capability-map-summary) | The 72 MCP tools grouped by DFIR function (full table in the [capability map](../04-mcp-tools/capability-map.md)). |
+| [Tool capability map (summary)](#tool-capability-map-summary) | The 73 MCP tools grouped by DFIR function (full table in the [capability map](../04-mcp-tools/capability-map.md)). |
 | [The 1 MB cap (Desktop-only)](#the-1-mb-cap-desktop-only-and-how-to-size-tool-output) | Claude Desktop's 1 MB response limit and how to bound tool output. |
 | [Gotchas at a glance](#gotchas-at-a-glance) | The real-data quirks/bugs you'll encounter, collected up front. |
 | [Phase 0 — Prerequisites and clients](#phase-0--prerequisites-and-clients) | Install, pre-flight (`doctor`), and choosing Claude Desktop vs the CLI. |
@@ -175,7 +175,7 @@ flowchart LR
 
 ## Tool capability map (summary)
 
-The platform's **72 tools** group into DFIR functions — discovery/health, disk/partition, memory,
+The platform's **73 tools** group into DFIR functions — discovery/health, disk/partition, memory,
 registry & execution artifacts, filesystem/MFT, timeline, event logs, email/PST, YARA/carve/strings,
 IOC pivot, threat intel, Wazuh, and case/findings/reporting. Use the map to pick the right tool for the
 phase you're in.
@@ -461,7 +461,7 @@ From any connected client, call the `health` tool. Expect a small JSON object in
 
 > **🖥️ Expert (command/MCP call):**
 > ```text
-> health  ->  { "status": "ok", "server": "agentropix-sift", "tool_count": 72,
+> health  ->  { "status": "ok", "server": "agentropix-sift", "tool_count": 73,
 >               "version": "...", "uptime_seconds": ... }
 > ```
 > **💬 End-user (prompt):** *"How many Agentropix forensic tools are available right now?"*
@@ -471,7 +471,7 @@ From any connected client, call the `health` tool. Expect a small JSON object in
 
 *Execution D:* call the `health` tool.
 
-*Output D:* `{ "status": "ok", "server": "agentropix-sift", "tool_count": 72, "version": "...",
+*Output D:* `{ "status": "ok", "server": "agentropix-sift", "tool_count": 73, "version": "...",
 "uptime_seconds": ... }`. (The `version` field here is the server's internal build string, e.g.
 `0.1.0-dev`, which is **distinct** from the MCP `serverInfo.version` reported during `initialize`,
 e.g. `3.2.4` — don't conflate the two. The uptime field is named `uptime_seconds`.)
@@ -1192,7 +1192,7 @@ The hands-on lane: you ask one focused question per step (Phase 0 → 8) and ins
 
 5. > *"How many Agentropix forensic tools are available right now?"*
 
-   **Expect:** the session calls `health` and returns the live `tool_count` (canonical `72`; trust the live number, not the startup banner) (see §Phase 1.2).
+   **Expect:** the session calls `health` and returns the live `tool_count` (canonical `73`; trust the live number, not the startup banner) (see §Phase 1.2).
 
 6. > *"Open a new high-severity case for the CFReDS hacking image (Greg Schardt / Mr. Evil), examiner victor.galvan, and make it the active case."*
 
@@ -1297,6 +1297,6 @@ not sign chain-of-custody.
   [Audit & Courtroom Seal](../05-safety-forensics/audit-courtroom.md) ·
   [Provenance & Grounding](../05-safety-forensics/provenance-grounding.md).
 - **Shared references (oracle)** — [`canonical-facts.md`](../08-reference/canonical-facts.md) (canonical numbers:
-  72 MCP tools, 16 wrappers, 4687 tests), [`tool-list.md`](../04-mcp-tools/tool-list.md) (all
-  72 tools), [`env-vars.md`](../07-sdlc-ops/env-vars.md),
+  73 MCP tools, 16 wrappers, 4687 tests), [`tool-list.md`](../04-mcp-tools/tool-list.md) (all
+  73 tools), [`env-vars.md`](../07-sdlc-ops/env-vars.md),
   [`agents-list.md`](../10-agents/agents-list.md).

@@ -16,10 +16,10 @@
 
 **System under audit.** Agentropix-SIFT's core logic is a deterministic **Trinity loop**
 (`Architect → Swarm → Critic`) driving a **swarm of forensic agents** over a shared
-Blackboard, exposing **72 MCP tools** built on **16 SIFT forensic wrappers**, with
+Blackboard, exposing **73 MCP tools** built on **16 SIFT forensic wrappers**, with
 **Python 3.12+** as the runtime baseline
 ([`docs/08-reference/canonical-facts.md`](docs/08-reference/canonical-facts.md):
-72 tools, 16 wrappers, 4687 tests, 72/72 = 100% disk recall, 108/118 = 91.5% memory recall,
+73 tools, 16 wrappers, 4687 tests, 72/72 = 100% disk recall, 108/118 = 91.5% memory recall,
 Python 3.12+).
 
 Note: the audit prompt says "7-agent swarm", but the tracked `SWARM` tuple in

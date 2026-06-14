@@ -1,7 +1,7 @@
 # Tools by Agent
 
 > **Which swarm agent invokes which tools.** The DFIR swarm is the *consumer* of the
-> [72 MCP tools](tool-reference.md): each `SwarmAgent` investigates one dimension and drives a specific
+> [73 MCP tools](tool-reference.md): each `SwarmAgent` investigates one dimension and drives a specific
 > subset of wrappers, publishing `Finding`s to the shared Blackboard. This page maps every agent to the
 > tools/wrappers it calls. Derived from `src/agentropix_sift/agents/`, `src/agentropix_sift/detectors/`,
 > and the agent contract in [`agents-list.md`](../10-agents/agents-list.md).
@@ -161,7 +161,7 @@ findings. See [Trinity Loop](../02-architecture/trinity-loop.md) and
 
 **Sibling 04-mcp-tools pages**
 
-- [Tool reference](tool-reference.md) — the full catalogue of the 72 MCP tools this page maps agents onto, incl. the three-kinds-of-tool taxonomy (read / derived / state-mutating).
+- [Tool reference](tool-reference.md) — the full catalogue of the 73 MCP tools this page maps agents onto, incl. the three-kinds-of-tool taxonomy (read / derived / state-mutating).
 - [Tool list](tool-list.md) — the flat, name-only index of every tool.
 - [Response envelope](response-envelope.md) — the uniform result shape every tool returns, plus mutation/approval gating and availability/skip signalling referenced above.
 - [Capability map](capability-map.md) — tools grouped by forensic capability rather than by invoking agent.

@@ -91,7 +91,7 @@ correlate across hosts:
   (e.g. an attacker IP/hash) to see which of the four hosts it touched.
 
 Platform facts (cite [`.crew/facts.md`](../docs/08-reference/canonical-facts.md)):
-**72** MCP tools, **16** SIFT forensic wrappers, **4687** tests. Trust the live
+**73** MCP tools, **16** SIFT forensic wrappers, **4687** tests. Trust the live
 `health.tool_count`, not any banner.
 
 ---
@@ -264,7 +264,7 @@ mint an `egt_` token → `wazuh_index_findings` (dry-run then live).
 
 ## 3. Activate & start — prompt sequences
 
-Both lanes drive the **same deterministic 72-tool MCP engine** and reach the same
+Both lanes drive the **same deterministic 73-tool MCP engine** and reach the same
 sealed result; only *who drives the chain* differs.
 
 ### A) MANUAL sequence (💬 prompt + 🖥️ command equivalent)
@@ -274,7 +274,7 @@ Run top-to-bottom; check each **Expect:** before the next.
 1. **Pre-flight the environment.**
    💬 *"Check that my Agentropix forensic environment is ready — are all the forensic tools installed, and is the MCP server healthy?"*
    🖥️ `uv run agentropix-sift doctor` ; then call `health`
-   **Expect:** `All tools available.` and `health` → `status:"ok"` with a live `tool_count` (canonical **72**; trust the live number).
+   **Expect:** `All tools available.` and `health` → `status:"ok"` with a live `tool_count` (canonical **73**; trust the live number).
 
 2. **Verify image integrity (all 4 disks).**
    💬 *"Verify the integrity of the four SRL-2015 disk images — do their stored MD5 hashes match?"*
@@ -384,7 +384,7 @@ at the approval gate** — a bot must not sign chain-of-custody. Use Claude CLI
 > house style + dual-audience + numbered-playbook from
 > [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md);
 > canonical numbers from [`.crew/facts.md`](../docs/08-reference/canonical-facts.md)
-> (72 tools / 16 wrappers / 4687 tests). Evidence inventory re-confirmed
+> (73 tools / 16 wrappers / 4687 tests). Evidence inventory re-confirmed
 > metadata-only (`file` / `ewfinfo` / `du`) against `/cases/SRL-2015/` on 2026-06-06.
 > The `10.3.58.x` values are **evidence-host IPs embedded in the image acquisition
 > metadata** (case ground-truth), not infrastructure addresses; the MCP endpoint is

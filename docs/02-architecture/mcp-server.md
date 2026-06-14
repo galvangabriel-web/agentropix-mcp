@@ -1,7 +1,7 @@
 # The FastMCP Server
 
-> **Section 02 · Architecture** — the protocol surface. Agentropix-SIFT exposes **72 MCP
-> tools** (`mcp_tool_count = 72`, [canonical-facts.md](../08-reference/canonical-facts.md)) over a **single
+> **Section 02 · Architecture** — the protocol surface. Agentropix-SIFT exposes **73 MCP
+> tools** (`mcp_tool_count = 73`, [canonical-facts.md](../08-reference/canonical-facts.md)) over a **single
 > FastMCP server**. Every tool is a typed wrapper around an external SIFT binary or an
 > in-process analysis function, and every tool inherits the same hardening stack: tracing,
 > rate-limiting, the [Thymus](#4-thymus--the-read-only-evidence-boundary) read-only boundary,
@@ -30,14 +30,14 @@ catalogue see [04-mcp-tools](../04-mcp-tools/) and
 
 | Section | What you'll get |
 |---|---|
-| [1. The FastMCP app](#1-the-fastmcp-app) | How `_build_app()` registers every `@app.tool()`, the 74-decorator → 72-tool arithmetic, and the cheap `health()` probe that reports the live tool count. |
+| [1. The FastMCP app](#1-the-fastmcp-app) | How `_build_app()` registers every `@app.tool()`, the 74-decorator → 73-tool arithmetic, and the cheap `health()` probe that reports the live tool count. |
 | [2. Transports: stdio and HTTP+SSE](#2-transports-stdio-and-httpsse) | The two transports (local stdin/stdout vs tailnet-only Bearer-protected HTTP+SSE) and how both funnel into one shared tool core. |
 | [3. The per-tool hardening stack](#3-the-per-tool-hardening-stack) | The ordered tracing → rate-limit → Thymus → wrapper pipeline every tool runs, with the four guarantees and their sources. |
 | [3.5. The wrapper layer and the two error-envelope contracts](#35-the-wrapper-layer-and-the-two-error-envelope-contracts) | How wrappers isolate each SIFT binary, and the two error envelopes (`ToolError` vs `safe_tool`'s `ToolErrorEnvelope`) that keep the agent loop alive. |
 | [4. Thymus — the read-only evidence boundary](#4-thymus--the-read-only-evidence-boundary) | The S-02 evidence-integrity layer: the six-step `check_read()` screen, default read-only zones, why write is structurally impossible, and the audit trail. |
 | [5. Tool tracing](#5-tool-tracing) | The contextvar-based per-agent trace buffer and the `ToolCallRecord` fields that form the L1↔L3 fingerprint for the report seal. |
 | [6. What the boundary guarantees, in one table](#6-what-the-boundary-guarantees-in-one-table) | A one-table summary of every boundary layer (transport, telemetry, rate-limit, read/write policy, errors) and its source. |
-| [7. Where to go next](#7-where-to-go-next) | Pointers onward — Trinity loop, swarm agents, the traced-call sequence diagram, and the full 72-tool catalogue. |
+| [7. Where to go next](#7-where-to-go-next) | Pointers onward — Trinity loop, swarm agents, the traced-call sequence diagram, and the full 73-tool catalogue. |
 
 ---
 
@@ -47,7 +47,7 @@ The app is built by `_build_app()` and named `FastMCP("agentropix-sift")`
 (`fastmcp_app.py:348`). Tools are registered with the `@app.tool()` decorator; each tool's
 signature mirrors the inner `mcp_*` function so the Pydantic schemas and existing tests
 still validate the wire format. The catalogue arithmetic is auditable: **74 `@app.tool()`
-decorator occurrences → 72 distinct tool functions** (67 in `fastmcp_app.py` + 5 Wazuh
+decorator occurrences → 73 distinct tool functions** (68 in `fastmcp_app.py` + 5 Wazuh
 wrappers, with `wazuh_hunt_ioc` registered in two modules;
 [tool-list.md](../04-mcp-tools/tool-list.md), [canonical-facts.md](../08-reference/canonical-facts.md)).
 
@@ -298,7 +298,7 @@ arguments and the binary's output are recorded and unmodified."*
   → Thymus → wrapper → subprocess → Pydantic → response), the transport contrast in detail, the
   three architectural surprises, and the open Ralph PreToolUse seam (W-081) →
   [fastmcp-execution.md](../10-agents/fastmcp-execution.md)
-- The full 72-tool catalogue with argument schemas → [04-mcp-tools](../04-mcp-tools/)
+- The full 73-tool catalogue with argument schemas → [04-mcp-tools](../04-mcp-tools/)
 
 ### Related ADRs (decision rationale)
 

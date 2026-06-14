@@ -1,11 +1,11 @@
 # Tool Capability Map (by DFIR function)
 
-> **Section 04 · MCP Tools** — the 72-tool surface grouped by what an examiner is trying to *do*,
+> **Section 04 · MCP Tools** — the 73-tool surface grouped by what an examiner is trying to *do*,
 > so you can pick the right tool for a phase of an investigation rather than scanning an alphabetical list.
-> The platform's **72 tools** (`mcp_tool_count = 72`, cite [`canonical-facts.md`](../08-reference/canonical-facts.md))
+> The platform's **73 tools** (`mcp_tool_count = 73`, cite [`canonical-facts.md`](../08-reference/canonical-facts.md))
 > group into DFIR functions below.
 
-Related: [Tool reference](tool-reference.md) (the master 72-tool index) ·
+Related: [Tool reference](tool-reference.md) (the master 73-tool index) ·
 [Tools by agent](tool-by-agent.md) · [Response envelope](response-envelope.md) ·
 [User Guide](../01-overview/user-guide.md) (the end-to-end runbook this page supports) ·
 [Tool list](tool-list.md) (the full per-tool catalogue) ·
@@ -19,7 +19,7 @@ Related: [Tool reference](tool-reference.md) (the master 72-tool index) ·
 
 | Section | What you'll get |
 |---|---|
-| [The capability map](#the-capability-map) | The 72-tool surface as a DFIR-function table — pick the right tool for each investigation phase. |
+| [The capability map](#the-capability-map) | The 73-tool surface as a DFIR-function table — pick the right tool for each investigation phase. |
 | [Cross-cutting conventions](#cross-cutting-conventions) | The shared rules: `timeout_seconds`, auto-tempdir tools, Thymus path gating, and the EZ-Tools (.NET) family. |
 | [Canonical happy-path ordering](#canonical-happy-path-ordering) | The end-to-end call sequence (case_init → evidence → analysis → approve → persist → report) that backs the User Guide phases. |
 | [Related](#related) | Companion pages: tool reference, tools-by-agent, response envelope, User Guide, and the oracle reference docs (tool list, canonical facts). |
@@ -29,8 +29,8 @@ Related: [Tool reference](tool-reference.md) (the master 72-tool index) ·
 ## The capability map
 
 The bucket counts below sum to the **62-tool** inventory enumerated in the validated 2026-05-29 run;
-the current platform total is **72** (cite [`canonical-facts.md`](../08-reference/canonical-facts.md):
-`mcp_tool_count = 72`). The full per-tool catalogue — with backing modules and mutation/approval
+the current platform total is **73** (cite [`canonical-facts.md`](../08-reference/canonical-facts.md):
+`mcp_tool_count = 73`). The full per-tool catalogue — with backing modules and mutation/approval
 flags — is in [`tool-list.md`](tool-list.md) and
 [Tool reference](tool-reference.md).
 
@@ -38,7 +38,7 @@ flags — is in [`tool-list.md`](tool-list.md) and
 |---|---|---|
 | **Discovery / health / meta** | `health`, `get_image_info` | `health.tool_count` is the source of truth for the live inventory; `get_image_info` = `ewfinfo` E01 metadata |
 | **Disk / container / partition / path** | `parse_gpt`, `get_partitions`, `unwrap_disk_container`, `glob_paths`, `list_files` (+`get_image_info`) | `get_partitions` = `mmls`; `unwrap_disk_container` converts VHD/VMDK/QCOW2→raw with SHA-256; `glob_paths`/`list_files` Thymus-gated |
-| **Memory / Volatility** | `get_pslist`, `run_volatility`, `get_netscan`, `get_malfind`, `get_svcscan`, `get_editbox`, `build_process_tree` | vol3 plugins; `build_process_tree` = PPID forest + LOLBin flags + DKOM orphans |
+| **Memory / Volatility** | `get_pslist`, `run_volatility`, `get_netscan`, `get_malfind`, `get_svcscan`, `get_editbox`, `get_memory_netconns`, `build_process_tree` | vol3 plugins; `build_process_tree` = PPID forest + LOLBin flags + DKOM orphans |
 | **Registry & execution artifacts** | `get_registry`, `get_amcache`, `get_shimcache`, `get_recmd`, `get_sbecmd` | `get_amcache` is Win7+ only (XP has none); `get_sbecmd` = ShellBags |
 | **Filesystem / MFT / TSK** | `fls`, `extract_files`, `get_mftecmd`, `get_lecmd`, `get_jlecmd` | `fls` lists deleted (T1070.004); `offset` in **sectors**; `get_mftecmd` = $MFT/$J/$I30 |
 | **Timeline** | `get_timeline`, `correlate_timeline` | plaso super-timeline; `correlate_timeline` merges EVTX across hosts into one UTC stream |
@@ -86,7 +86,7 @@ into case state by shaping it into `record_finding`/`idx_ingest`.
 
 **Section 04 · MCP Tools (siblings):**
 
-- [Tool reference](tool-reference.md) — the master categorized index of all 72 tools.
+- [Tool reference](tool-reference.md) — the master categorized index of all 73 tools.
 - [Tools by agent](tool-by-agent.md) — which swarm agent invokes which tools.
 - [Response envelope](response-envelope.md) — the common result shape every tool returns.
 - [Tool list](tool-list.md) — the full per-tool catalogue with backing modules and mutation/approval flags.
@@ -94,10 +94,10 @@ into case state by shaping it into `record_finding`/`idx_ingest`.
 
 **Related elsewhere:**
 
-- [MCP server](../02-architecture/mcp-server.md) — how the 72 tools are registered and dispatched (the server that exposes this capability surface).
+- [MCP server](../02-architecture/mcp-server.md) — how the 73 tools are registered and dispatched (the server that exposes this capability surface).
 - [Agents](../10-agents/agents-list.md) — which swarm agent owns each tool family from the map.
 - [Data dictionary](../03-data/data-dictionary.md) — the case-state and artifact records the persistence tools (`record_finding`, `idx_ingest`, …) write.
-- [Canonical facts](../08-reference/canonical-facts.md) — the source for `mcp_tool_count = 72` and other authoritative numbers.
+- [Canonical facts](../08-reference/canonical-facts.md) — the source for `mcp_tool_count = 73` and other authoritative numbers.
 - [User Guide](../01-overview/user-guide.md) — the end-to-end operator runbook these capabilities back.
 
 **ADRs behind these capabilities** (why specific tool families exist / are gated):

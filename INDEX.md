@@ -10,7 +10,7 @@ straight to what you need. New readers should follow one of the
 [reading paths](#reading-paths-by-audience) below.
 
 Agentropix-SIFT is a local, CLI-driven, bio-agentic DFIR triage engine for the SANS SIFT
-Workstation — a Trinity Loop (Architect → 7-agent Swarm → Critic) driving **72 MCP tools**
+Workstation — a Trinity Loop (Architect → 7-agent Swarm → Critic) driving **73 MCP tools**
 (**16** of them SIFT forensic wrappers) over one FastMCP server, with a forensic safety spine.
 Canonical numbers throughout the docs are governed by [Canonical Facts](docs/08-reference/canonical-facts.md).
 
@@ -154,11 +154,11 @@ unchanged — the reading order is layered on top, non-destructively.
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
-| MCP Tool Reference | developer, operator | What are all 72 MCP tools and the 16 forensic wrappers, in detail? | [04-mcp-tools/tool-reference.md](docs/04-mcp-tools/tool-reference.md) |
-| Tool Capability Map (by DFIR function) | operator, examiner, developer | Which tool do I reach for to *do* a thing — the 72-tool surface grouped by DFIR function, with the canonical happy-path ordering? | [04-mcp-tools/capability-map.md](docs/04-mcp-tools/capability-map.md) |
+| MCP Tool Reference | developer, operator | What are all 73 MCP tools and the 16 forensic wrappers, in detail? | [04-mcp-tools/tool-reference.md](docs/04-mcp-tools/tool-reference.md) |
+| Tool Capability Map (by DFIR function) | operator, examiner, developer | Which tool do I reach for to *do* a thing — the 73-tool surface grouped by DFIR function, with the canonical happy-path ordering? | [04-mcp-tools/capability-map.md](docs/04-mcp-tools/capability-map.md) |
 | Tool Response Envelope | developer, auditor | What does a tool call actually return, including the provenance fingerprint and error shape? | [04-mcp-tools/response-envelope.md](docs/04-mcp-tools/response-envelope.md) |
 | Tools by Agent | developer | Which Swarm agent invokes which tools? | [04-mcp-tools/tool-by-agent.md](docs/04-mcp-tools/tool-by-agent.md) |
-| Tool List | developer, operator | The machine-extracted inventory of all 72 MCP tools, with the 16 SIFT forensic wrappers flagged. | [04-mcp-tools/tool-list.md](docs/04-mcp-tools/tool-list.md) |
+| Tool List | developer, operator | The machine-extracted inventory of all 73 MCP tools, with the 16 SIFT forensic wrappers flagged. | [04-mcp-tools/tool-list.md](docs/04-mcp-tools/tool-list.md) |
 
 ## 5. Safety & Forensics
 
@@ -310,7 +310,7 @@ authority for every numeric claim — it wins over any prose anywhere in the doc
 | Artifact | What it holds | New home |
 |----------|---------------|----------|
 | Canonical Facts | The locked numeric table (tool count, tests, recall) — wins over prose | [docs/08-reference/canonical-facts.md](docs/08-reference/canonical-facts.md) |
-| Tool List | Inventory of all 72 MCP tools, with the 16 SIFT forensic wrappers flagged | [docs/04-mcp-tools/tool-list.md](docs/04-mcp-tools/tool-list.md) |
+| Tool List | Inventory of all 73 MCP tools, with the 16 SIFT forensic wrappers flagged | [docs/04-mcp-tools/tool-list.md](docs/04-mcp-tools/tool-list.md) |
 | Schema Dump | The extracted Pydantic model schema (field names, types, constraints) behind the data chapter | [docs/03-data/schema-dump.md](docs/03-data/schema-dump.md) |
 | Module Map | The code module map (where each package and component lives in `src/`) | [docs/02-architecture/module-map.md](docs/02-architecture/module-map.md) |
 | Env Vars | The full `AGENTROPIX_*` environment-variable surface and what each tunes | [docs/07-sdlc-ops/env-vars.md](docs/07-sdlc-ops/env-vars.md) |

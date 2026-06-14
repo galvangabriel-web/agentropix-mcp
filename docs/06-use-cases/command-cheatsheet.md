@@ -28,7 +28,7 @@ Markers below follow the catalogue legend: **[MUT]** = state-mutating (requires 
 of the 16 SIFT forensic binaries.
 
 > **Schema reconciliation (vs [`tool-list.md`](../04-mcp-tools/tool-list.md)).** Every tool name on
-> this page is verified present in the 72-tool catalogue, and the **[MUT]/[APPR]/`dry_run`** markers
+> this page is verified present in the 73-tool catalogue, and the **[MUT]/[APPR]/`dry_run`** markers
 > match the catalogue's auth model. **Argument *names* are not catalogue-verified** — `tool-list.md`
 > carries names/categories/auth only and defers the arg schema to the running server's `tools/list`.
 > The arg names here are lifted verbatim from the source use-case pages; confirm them against live
@@ -231,4 +231,4 @@ MCP tools referenced here: `record_finding`, `report_generate`, `report_export`,
   the narrated walkthroughs (with the 💬 end-user prompts and validated outputs).
 - [demo-walkthrough.md](demo-walkthrough.md) — the judge-facing single run, beat by beat.
 - [case-hypotheses.md](case-hypotheses.md) — per-case attack-chain bias-checks.
-- [`tool-list.md`](../04-mcp-tools/tool-list.md) — the full 72-tool catalogue and exact arg schemas.
+- [`tool-list.md`](../04-mcp-tools/tool-list.md) — the full 73-tool catalogue and exact arg schemas.

@@ -294,7 +294,7 @@ It runs two checks (`check_canonical_facts.py:6-19`):
 
 The gate exits `0` when both checks pass and `1` if either fails
 (`check_canonical_facts.py:20`). This is why the numbers on this portal — the
-72 MCP tools, the `0.85` halt threshold, the `72/72` disk recall — must all be
+73 MCP tools, the `0.85` halt threshold, the `72/72` disk recall — must all be
 sourced from [`canonical-facts.md`](../08-reference/canonical-facts.md) (the portal mirror of the
 upstream table): a contradicting figure is not a stylistic slip, it is a CI
 failure. The drift gate makes documentation accuracy enforceable in exactly the

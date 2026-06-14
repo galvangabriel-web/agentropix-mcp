@@ -1,8 +1,8 @@
 # Agentropix-SIFT
 
-> Agentropix-SIFT is a local, CLI-driven, bio-agentic Digital Forensics & Incident Response (DFIR) triage engine for the SANS SIFT Workstation. A deterministic Trinity Loop (Architect -> 7-agent Swarm -> Critic) drives 72 MCP tools (16 of them SIFT forensic wrappers) over one FastMCP server, correlating findings on a quorum blackboard and emitting a cryptographically sealed, schema-validated JSON triage report -- in minutes, on the local host, with no LLM ever in the halt/convergence path.
+> Agentropix-SIFT is a local, CLI-driven, bio-agentic Digital Forensics & Incident Response (DFIR) triage engine for the SANS SIFT Workstation. A deterministic Trinity Loop (Architect -> 7-agent Swarm -> Critic) drives 73 MCP tools (16 of them SIFT forensic wrappers) over one FastMCP server, correlating findings on a quorum blackboard and emitting a cryptographically sealed, schema-validated JSON triage report -- in minutes, on the local host, with no LLM ever in the halt/convergence path.
 
-Canonical facts (governed by docs/08-reference/canonical-facts.md): 72 MCP tools; 16 SIFT forensic wrappers; 4,687 tests; disk recall 72/72 (100%); memory recall 108/118 (91.5%); Python 3.12+.
+Canonical facts (governed by docs/08-reference/canonical-facts.md): 73 MCP tools; 16 SIFT forensic wrappers; 4,687 tests; disk recall 72/72 (100%); memory recall 108/118 (91.5%); Python 3.12+.
 
 Repository: https://github.com/galvangabriel-web/agentropix-mcp  ·  License: MIT  ·  All numeric claims are governed by Canonical Facts.
 
@@ -10,14 +10,14 @@ Repository: https://github.com/galvangabriel-web/agentropix-mcp  ·  License: MI
 
 - [Landing / overview](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/README.md): What Agentropix-SIFT is, judges map, 60-second connect, the six-stage workflow.
 - [Routed master index](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/INDEX.md): Every doc mapped to audience (operator/examiner/developer/auditor) + the question it answers.
-- [Canonical Facts](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/08-reference/canonical-facts.md): The governing numeric table — wins over all prose (72 tools, 16 wrappers, 4687 tests, recall).
+- [Canonical Facts](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/08-reference/canonical-facts.md): The governing numeric table — wins over all prose (73 tools, 16 wrappers, 4687 tests, recall).
 - [What is Agentropix](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/01-overview/what-is-agentropix.md): The engine concept: Trinity Loop, 7-agent swarm, no LLM in the halt path.
 
 ## Documentation sections
 
 - [Architecture](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/02-architecture/README.md): System-context, components, trinity-loop, swarm, MCP server, sequence diagrams, module map.
 - [Data](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/03-data/README.md): Data dictionary, models, schema-ER, persisted artifacts, recall ground-truth.
-- [MCP Tool List](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/04-mcp-tools/tool-list.md): Inventory of all 72 MCP tools with the 16 SIFT forensic wrappers flagged.
+- [MCP Tool List](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/04-mcp-tools/tool-list.md): Inventory of all 73 MCP tools with the 16 SIFT forensic wrappers flagged.
 - [Anti-hallucination](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/05-safety-forensics/anti-hallucination.md): The forensic safety spine — provenance grounding, convergence halt, no self-rating.
 - [Use Cases](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/06-use-cases/README.md): Disk/memory/approval/Wazuh use cases, demo walkthrough, case hypotheses.
 - [SDLC & Operations](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/07-sdlc-ops/README.md): Implementation, testing, recovery, security model, configuration, deployment, dataset recall.

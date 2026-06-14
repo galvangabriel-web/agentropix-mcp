@@ -36,7 +36,7 @@ load-bearing, because every amber convention is backstopped by a green, code-enf
 ![Layered architecture of Agentropix-SIFT: untrusted LLM edge through Bearer boundary into the FastMCP enforcement spine, the Thymus read-only gate, forensic wrappers, read-only evidence, and the sealed output pipeline](assets/evidence-integrity/d1-layered-architecture.png)
 
 **Caption.** Master layering of Agentropix-SIFT, top to bottom: an untrusted Claude client (grey)
-passes through a fail-closed Bearer boundary into the FastMCP enforcement spine of 72 tools, where the
+passes through a fail-closed Bearer boundary into the FastMCP enforcement spine of 73 tools, where the
 Thymus read-only gate fronts every tool — `check_read` is a deny-by-default allowlist
 (`thymus_policy.py:236`) and `check_write` is a hard-coded REJECT that no tool calls
 (`thymus_policy.py:362`). Allowed reads reach the 16 forensic wrappers (argv subprocess, never a shell)
@@ -78,7 +78,7 @@ rejects `..` traversal, `~` expansion, `/dev`/`/proc`/`/sys`, symlinks, URL-deco
 games up front (`thymus_policy.py:236`). On the WRITE branch there is no policy to evaluate at all:
 `check_write` (`thymus_policy.py:362`) is hard-coded to reject, with the docstring stating it plainly —
 *"All writes are rejected — evidence integrity is architectural … No MCP tool should call it; it exists
-for defense-in-depth and audit completeness."* None of the 72 tools call it. The blue annotation keeps
+for defense-in-depth and audit completeness."* None of the 73 tools call it. The blue annotation keeps
 us honest: on the real SRL-2018 *notch* access audit, all **26 of 26** decisions were ALLOW and **0**
 were REJECT — not because the deny path is weak, but because the run stayed in-bounds, so the
 code-enforced reject path was never triggered.
@@ -124,7 +124,7 @@ path, `check_write`, which is hard-coded to reject all writes (`thymus_policy.py
 rejected — evidence integrity is architectural"), so nothing reaches Evidence; logged `REJECT_WRITE`.
 (C) An out-of-bounds read (`/etc/shadow` or `..`) is denied by `check_read`'s deny-by-default allowlist
 and traversal guards before any I/O, logged REJECT — the capability to misuse simply does not exist in
-the 72-tool surface.
+the 73-tool surface.
 
 The honest answer to "what if the model ignores the restriction?" is that there is no restriction for
 it to ignore — there is no write capability to misuse. A prompt-based guardrail can be argued around; an

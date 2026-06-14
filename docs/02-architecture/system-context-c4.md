@@ -9,7 +9,7 @@
 Agentropix-SIFT is a **local, CLI-driven bio-agentic DFIR triage engine** that runs
 *on* the SANS SIFT Workstation. It never re-implements a forensic parser — it drives the
 16 classical SIFT forensic binaries (Volatility3, Plaso, Sleuth Kit, RegRipper, YARA, …)
-through one [FastMCP](mcp-server.md) server that exposes **72 MCP tools** (`mcp_tool_count = 72`,
+through one [FastMCP](mcp-server.md) server that exposes **73 MCP tools** (`mcp_tool_count = 73`,
 [`canonical-facts.md`](../08-reference/canonical-facts.md)). A deterministic [Trinity Loop](trinity-loop.md)
 (Architect → Swarm → Critic) drives those tools; the
 [Thymus read-only policy](mcp-server.md#4-thymus--the-read-only-evidence-boundary) and the
@@ -51,7 +51,7 @@ flowchart TB
     classDef sink fill:#ffec99,stroke:#f08c00,color:#5c4400,stroke-width:1.5px
 
     Examiner(["DFIR Examiner<br/>runs triage · reviews findings · signs off approvals"]):::actor
-    Agentropix["Agentropix-SIFT<br/>local bio-agentic DFIR triage engine<br/>Trinity Loop · 72 MCP tools · FastMCP · read-only evidence + HMAC seal"]:::core
+    Agentropix["Agentropix-SIFT<br/>local bio-agentic DFIR triage engine<br/>Trinity Loop · 73 MCP tools · FastMCP · read-only evidence + HMAC seal"]:::core
 
     SIFT["SANS SIFT Workstation<br/>host OS + 16 forensic binaries<br/>(vol3, plaso, fls, RegRipper, YARA, …) on $PATH"]:::ext
     Evidence[("Evidence store<br/>E01 / raw / .mem under /cases, /mnt, /media<br/>read-only via Thymus")]:::ext
@@ -110,7 +110,7 @@ flowchart LR
     subgraph ASIFT["Agentropix-SIFT containers"]
         direction TB
         CLI["CLI · cli.py"]:::api
-        MCP["FastMCP · 72 tools"]:::api
+        MCP["FastMCP · 73 tools"]:::api
         Orch["Orchestrator + Trinity"]:::core
         Agents["Swarm + Blackboard"]:::core
         Wrappers["Forensic wrappers"]:::core
@@ -155,7 +155,7 @@ flowchart LR
 | Container | Tech | Responsibility | Source |
 |-----------|------|----------------|--------|
 | **CLI** | Typer | `run` (triage an image), `doctor` (pre-flight the 16 SIFT binaries). Seals the report on write. | `src/agentropix_sift/cli.py` |
-| **FastMCP server** | FastMCP | The single MCP protocol surface — 72 tools over **stdio** (local agents) or **HTTP+SSE** (tailnet, Bearer-token). | `mcp_server/fastmcp_app.py` |
+| **FastMCP server** | FastMCP | The single MCP protocol surface — 73 tools over **stdio** (local agents) or **HTTP+SSE** (tailnet, Bearer-token). | `mcp_server/fastmcp_app.py` |
 | **Orchestrator + Trinity** | asyncio | Drives the [Trinity Loop](trinity-loop.md) over one image; rolls findings + trace into a `TriageReport`. | `orchestrator.py`, `trinity/` |
 | **Swarm + Blackboard** | asyncio | The [DFIR agents](swarm-agents.md) and the cross-agent correlation Blackboard. | `agents/`, `detectors/` |
 | **Forensic wrappers** | Python | Thin protocol-drivers around the 16 SIFT binaries + EZ-Tools; each ships timeout / memory-ceiling / retry / stderr-capture / tracing. | `mcp_server/wrappers/` |

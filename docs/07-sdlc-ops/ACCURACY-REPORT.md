@@ -147,7 +147,7 @@ merely *expected* to honor. Evidence integrity here is architectural at three la
    (`thymus_policy.py:362`) does not conditionally allow anything — it is hard-coded to
    reject, with the in-source docstring *"All writes are rejected — evidence integrity is
    architectural ... No MCP tool should call it; it exists for defense-in-depth and audit
-   completeness."* A source grep confirms the claim: **no tool in the 72-tool surface
+   completeness."* A source grep confirms the claim: **no tool in the 73-tool surface
    calls `check_write` at all**, because none of them can write evidence. Reads go through
    `check_read()` (`thymus_policy.py:236`), a deny-by-default allowlist
    (`/cases/`, `/mnt/`, `/media/`, `/evidence/`, …) that rejects traversal, symlink,

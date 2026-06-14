@@ -16,7 +16,7 @@ not the pitch — see the inline citations and the shared references in
 |---|---|
 | [At a glance](#at-a-glance) | The full capability matrix in one table — each row links to its deep-dive page and names the source-code home. |
 | [Trinity Loop — agentic control without self-rating](#trinity-loop--agentic-control-without-self-rating) | How the deterministic Architect → Swarm → Critic loop drives a run with no LLM self-rating, and when it halts. |
-| [72 MCP tools on one FastMCP server](#71-mcp-tools-on-one-fastmcp-server) | The 72 tools grouped into families (with examples) plus the mutation-token / dry-run guards on state-changing tools. |
+| [73 MCP tools on one FastMCP server](#71-mcp-tools-on-one-fastmcp-server) | The 73 tools grouped into families (with examples) plus the mutation-token / dry-run guards on state-changing tools. |
 | [16 SIFT forensic wrappers](#16-sift-forensic-wrappers) | The 16 trusted SIFT binaries the engine drives and the hardening envelope (timeout, memory ceiling, retry, tracing) around each. |
 | [7-agent Swarm (+ ATT&CK detectors)](#7-agent-swarm--attck-detectors) | What each of the 7 specialists investigates, the 6 deterministic ATT&CK detectors, and the completion-promise proofs. |
 | [Thymus read-only enforcement](#thymus-read-only-enforcement) | How the path-allowlist immune gate keeps evidence structurally read-only, with an audit ring and chain-of-custody log. |
@@ -38,7 +38,7 @@ reference or architecture page for the full treatment.
 | Capability | What you get | Where it lives | Go deeper |
 |------------|--------------|----------------|-----------|
 | **Trinity Loop** | Deterministic Architect → Swarm → Critic control loop with fingerprint-based halt; **no LLM self-rating** | `trinity/architect.py`, `trinity/critic.py`, `orchestrator.py` | [Trinity Loop](../02-architecture/trinity-loop.md) |
-| **72 MCP tools** | A single FastMCP server exposing **72 distinct forensic tools** over stdio + HTTP | `mcp_server/fastmcp_app.py` | [MCP Server](../02-architecture/mcp-server.md) · [Tool Reference](../04-mcp-tools/tool-reference.md) |
+| **73 MCP tools** | A single FastMCP server exposing **73 distinct forensic tools** over stdio + HTTP | `mcp_server/fastmcp_app.py` | [MCP Server](../02-architecture/mcp-server.md) · [Tool Reference](../04-mcp-tools/tool-reference.md) |
 | **16 SIFT forensic wrappers** | Hardened drivers around the 16 trusted SIFT binaries (timeout, memory ceiling, retry, stderr capture, tracing) | `mcp_server/wrappers/` | [MCP Server](../02-architecture/mcp-server.md) |
 | **7-agent Swarm** | Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt specialists + 6 ATT&CK detectors | `agents/`, `detectors/` | [Swarm Agents](../02-architecture/swarm-agents.md) |
 | **Thymus read-only policy** | Path-allowlist enforcement of evidence read-only at the MCP boundary, with an audit ring | `mcp_server/thymus_policy.py` | [Anti-Hallucination](../05-safety-forensics/anti-hallucination.md) |
@@ -48,7 +48,7 @@ reference or architecture page for the full treatment.
 | **Wazuh integration** | Promote findings/IOCs into a Wazuh SIEM behind default-deny kill switches | `wazuh/` | [Wazuh Integration](../09-integrations/wazuh-portal.md) |
 | **Chaos-tested resilience** | Fault-injection tests over the failure paths (timeout, OOM, malformed output, …) | `tests/chaos/test_fault_paths.py` | [Testing](../07-sdlc-ops/testing.md) |
 
-> **Canonical counts** (`72` tools, `16` wrappers, `4687` tests, recall `72/72` /
+> **Canonical counts** (`73` tools, `16` wrappers, `4687` tests, recall `72/72` /
 > `108/118`) are pinned in [`canonical-facts.md`](../08-reference/canonical-facts.md) (mirroring upstream
 > `CANONICAL_FACTS.md`). Numbers below cite that file; re-query the live `tools/list`
 > when an exact count is load-bearing in your own work.
@@ -83,15 +83,15 @@ all preserved in the report's `iterations[]` for audit (see
 
 ---
 
-## 72 MCP tools on one FastMCP server
+## 73 MCP tools on one FastMCP server
 
 > **Deep dive:** [The FastMCP Server](../02-architecture/mcp-server.md) (architecture) ·
 > [MCP Tool Reference](../04-mcp-tools/tool-reference.md) (per-tool signatures).
 
 **MCP** is the Model Context Protocol — the open standard a model client (Claude Desktop,
 Claude CLI) uses to call tools. **FastMCP** is the Python framework that serves them.
-A single FastMCP server (`mcp_server/fastmcp_app.py`) exposes **72 distinct tool
-functions** (`canonical-facts.md`, `mcp_tool_count = 72`) over both **stdio** (the client
+A single FastMCP server (`mcp_server/fastmcp_app.py`) exposes **73 distinct tool
+functions** (`canonical-facts.md`, `mcp_tool_count = 73`) over both **stdio** (the client
 launches the server as a subprocess) and **HTTP** transports. The
 running server's `tools/list` is the authoritative argument schema; the full
 categorized catalogue is in [`tool-list.md`](../04-mcp-tools/tool-list.md). The tool
@@ -340,8 +340,8 @@ built the way it is, what was deferred) in [Section 11 — ADRs](../11-ADR/READM
 | Capability (above) | ADR(s) — decision record |
 |--------------------|--------------------------|
 | Trinity Loop (deterministic execution) | [ADR-002 · Execution Engine](../11-ADR/ADR-002-execution-engine.md) |
-| 72 MCP tools — `extract_files` (raw-E01 extraction) | [ADR-012 · `mcp_extract_files`](../11-ADR/ADR-012-extract-files.md) |
-| 72 MCP tools — `get_evtx` (Windows Event Log) | [ADR-013 · `mcp_get_evtx`](../11-ADR/ADR-013-evtx-wrapper.md) |
+| 73 MCP tools — `extract_files` (raw-E01 extraction) | [ADR-012 · `mcp_extract_files`](../11-ADR/ADR-012-extract-files.md) |
+| 73 MCP tools — `get_evtx` (Windows Event Log) | [ADR-013 · `mcp_get_evtx`](../11-ADR/ADR-013-evtx-wrapper.md) |
 | Swarm data-fetch agents — shared evidence-type gate | [ADR-011 · Evidence-Type Gate Consolidation](../11-ADR/ADR-011-evidence-gates.md) |
 | Thymus read-only enforcement | [ADR-008 · Safety Architecture](../11-ADR/ADR-008-safety-architecture.md) |
 | Courtroom seal · Provenance & grounding (`inference_constraint = high`) | [ADR-016 · Courtroom Audit + Sealing](../11-ADR/ADR-016-courtroom-audit.md), [ADR-022 · Audit-Log Seal](../11-ADR/ADR-022-audit-log-seal.md) |

@@ -1,11 +1,11 @@
 # MCP Tool List (shared reference)
 
-> The full **72** distinct MCP tools exposed by the single FastMCP server. Derived from
+> The full **73** distinct MCP tools exposed by the single FastMCP server. Derived from
 > `docs/tools/_TOOL-CATALOGUE.md` (live-derived) cross-checked against
 > `src/agentropix_sift/mcp_server/fastmcp_app.py` and `src/agentropix_sift/mcp_server/wrappers/`.
-> **72 distinct tool functions** = 72 `@app.tool()` decorator occurrences (67 in `fastmcp_app.py`
-> + 5 in the wazuh wrappers — verified against oracle HEAD `88844e98` and the live `tools/list`,
-> 2026-06-11). Canonical fact: `mcp_tool_count = 72`.
+> **73 distinct tool functions** = 73 `@app.tool()` decorator occurrences (68 in `fastmcp_app.py`
+> + 5 in the wazuh wrappers — verified against the oracle source and the live `tools/list`,
+> 2026-06-14; the `72→73` step added `get_memory_netconns`). Canonical fact: `mcp_tool_count = 73`.
 > The running server's `tools/list` is the authoritative arg schema.
 
 ## The 16 SIFT forensic tools (the wrapped binaries)
@@ -52,7 +52,7 @@ refers to the underlying SIFT command-line forensic binaries that the wrapper la
 
 ---
 
-## Full categorized tool table (71)
+## Full categorized tool table (73)
 
 Legend: **[SIFT-16]** = drives one of the 16 SIFT forensic binaries. **[MUT]** = state-mutating
 (requires `mutation_token`). **[APPR]** = HMAC approval-gated.
@@ -79,7 +79,7 @@ Legend: **[SIFT-16]** = drives one of the 16 SIFT forensic binaries. **[MUT]** =
 | `list_files` | filesystem | List files on a mounted path | `wrappers/tsk.py` |
 | `glob_paths` | filesystem | Glob path matching | `wrappers/glob_paths.py` |
 
-### Memory forensics — Volatility (7)
+### Memory forensics — Volatility (8)
 | Tool | Category | Purpose | Backing module |
 |------|----------|---------|----------------|
 | `run_volatility` | memory | Arbitrary Volatility3 plugin · **[SIFT-16]** | `wrappers/volatility.py` |
@@ -89,6 +89,7 @@ Legend: **[SIFT-16]** = drives one of the 16 SIFT forensic binaries. **[MUT]** =
 | `get_netscan` | memory | Network connections · **[SIFT-16]** | `wrappers/volatility.py` |
 | `get_svcscan` | memory | Service scan · **[SIFT-16]** | `wrappers/volatility.py` |
 | `get_editbox` | memory | Vol2.6 editbox (UI text) | `wrappers/editbox.py` |
+| `get_memory_netconns` | memory | Vol2.6 XP/2003 netconns recovery (`connscan`/`connections`/`sockscan`) — for images where vol3 `windows.netscan` is NotImplemented (Win 5.1); freed-pool rows flagged `likely_artifact` | `wrappers/vol26_netconns.py` |
 
 ### Registry, execution & shell artifacts — EZ Tools / RegRipper (16)
 | Tool | Category | Purpose | Backing module |
@@ -175,10 +176,10 @@ Legend: **[SIFT-16]** = drives one of the 16 SIFT forensic binaries. **[MUT]** =
 
 ---
 
-**Total: 4 + 10 + 7 + 16 + 6 + 4 + 6 + 7 + 2 + 5 + 5 = 72 rows listed; `wazuh_hunt_ioc` is the
+**Total: 4 + 10 + 7 + 16 + 6 + 4 + 6 + 7 + 2 + 5 + 5 = 73 rows listed; `wazuh_hunt_ioc` is the
 double-registered tool, so distinct tool functions = 71.** (The catalogue notes the 74→71
 reconciliation: 74 decorator occurrences, `wazuh_hunt_ioc` registered in two modules.) When an exact
-count matters in a chapter, cite `mcp_tool_count = 72` from [`canonical-facts.md`](../08-reference/canonical-facts.md) and re-query the live
+count matters in a chapter, cite `mcp_tool_count = 73` from [`canonical-facts.md`](../08-reference/canonical-facts.md) and re-query the live
 `tools/list`. Backing-module attributions for a few tools are best-effort from wrapper names; confirm
 against `fastmcp_app.py` registration before asserting a non-obvious module in prose.
 
@@ -196,10 +197,10 @@ against `fastmcp_app.py` registration before asserting a non-obvious module in p
 **Related elsewhere in the portal:**
 
 - [MCP server architecture](../02-architecture/mcp-server.md) — the single FastMCP server that
-  registers and exposes these 72 tools.
+  registers and exposes these 73 tools.
 - [Swarm agents](../10-agents/README.md) · [Agents list](../10-agents/agents-list.md) — the agents
   that call these tools.
-- [Canonical facts](../08-reference/canonical-facts.md) — oracle for `mcp_tool_count = 72`, the 16
+- [Canonical facts](../08-reference/canonical-facts.md) — oracle for `mcp_tool_count = 73`, the 16
   forensic wrappers, and other figures cited above.
 - [Data dictionary](../03-data/data-dictionary.md) — the case artifacts the mutating tools persist.
 

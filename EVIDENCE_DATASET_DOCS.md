@@ -5,7 +5,7 @@
 > git-tracked files (`git ls-files`). Recovered malware/live samples are **withheld by design** —
 > only their SHA-256 (from quarantine manifests and in-report hash tables) is published, never their
 > bytes. Internal IPs, Wazuh endpoints, and credentials are kept as placeholders.
-> Canonical numbers (72 MCP tools, 16 SIFT forensic tools, 4687 tests, 72/72 disk recall,
+> Canonical numbers (73 MCP tools, 16 SIFT forensic tools, 4687 tests, 72/72 disk recall,
 > 108/118 memory recall, Python 3.12+) follow `docs/08-reference/canonical-facts.md`.
 
 ---

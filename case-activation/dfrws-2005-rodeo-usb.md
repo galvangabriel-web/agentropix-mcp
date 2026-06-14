@@ -50,7 +50,7 @@ case_init → case_activate → evidence_register → get_image_info
 > **No memory/Volatility tools** (`get_pslist`/`get_netscan`/`get_malfind`/…): there is no
 > memory image in this case.
 
-> Platform facts (cite `.crew/facts.md`): **72** MCP tools, **16** forensic SIFT wrappers,
+> Platform facts (cite `.crew/facts.md`): **73** MCP tools, **16** forensic SIFT wrappers,
 > **4687** tests. Trust the live `health.tool_count`, not any startup banner.
 
 ---
@@ -195,7 +195,7 @@ equivalent**, with an **Expect:** line. Both hit the same deterministic MCP engi
 
 2. 💬 *"How many Agentropix forensic tools are available right now?"*
    🖥️ call `health`
-   **Expect:** `status: "ok"` with a live `tool_count` (canonical **72**; trust the live number).
+   **Expect:** `status: "ok"` with a live `tool_count` (canonical **73**; trust the live number).
 
 3. 💬 *"Open a new medium-severity DFIR case for the DFRWS 2005 Rodeo USB image at /cases/nist5/DFRWS2005-RODEO/RHINOUSB.dd, slug DFRWS-2005-RODEO-USB, examiner victor.galvan, and make it the active case."*
    🖥️ `case_init {…slug "DFRWS-2005-RODEO-USB"…}` then `case_activate {case_id:"DFRWS-2005-RODEO-USB"}`

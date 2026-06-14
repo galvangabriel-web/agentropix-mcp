@@ -135,8 +135,8 @@ that either do not exist or are gated by non-LLM Python checks.
 
 1. **No write tools exist.** All MCP tools are `get_*`, `scan_*`, `run_*`,
    `promote_*`, plus a `health` probe — read/derive only. There is no
-   `mcp_write_*` for the LLM to call. The MCP surface is **72 distinct tool
-   functions** (74 `@app.tool()` decorators → 72 distinct: 67 in `fastmcp_app.py`
+   `mcp_write_*` for the LLM to call. The MCP surface is **73 distinct tool
+   functions** (73 `@app.tool()` registrations: 68 in `fastmcp_app.py`
    + 5 wazuh wrappers, `wazuh_hunt_ioc` registered twice — see
    [`canonical-facts.md`](../08-reference/canonical-facts.md)). *Capability absence, not policy.*
 2. **`args_hash` freeze.** `mcp_server/_trace.py`'s `@traced` decorator records
@@ -309,7 +309,7 @@ output is byte-identical (modulo the W-077 race below).
 > **Reconciliation note.** Earlier draft material referenced "46 tools",
 > "11 agents", and the package name "agentropix_mcp". Per
 > [`canonical-facts.md`](../08-reference/canonical-facts.md) and the live code, the correct
-> figures are **72 distinct MCP tools**, the **7 core Swarm specialists + ATT&CK
+> figures are **73 distinct MCP tools**, the **7 core Swarm specialists + ATT&CK
 > detector agents** (13 classes in the `SWARM` tuple,
 > `agents/__init__.py`), and the package **`agentropix_sift`**. The numbers in
 > this page follow the canonical facts file.

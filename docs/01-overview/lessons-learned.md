@@ -16,7 +16,7 @@
 > *Proposed* or *Deferred*, the lesson says so plainly rather than depicting it as shipped.
 > Bio-agentic terms (**Trinity Loop**, **Thymus**, **Critic**, **Blackboard**) are defined
 > in the [Glossary](../08-reference/glossary.md). Numeric claims follow
-> [`canonical-facts.md`](../08-reference/canonical-facts.md) (72 MCP tools, 16 forensic
+> [`canonical-facts.md`](../08-reference/canonical-facts.md) (73 MCP tools, 16 forensic
 > wrappers, 4687 tests, 72/72 disk recall, 108/118 memory recall).
 
 ---

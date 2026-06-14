@@ -4,7 +4,7 @@
 > prompt that drives Agentropix-SIFT through the whole **8-step procedure** (`case_init → … → report`)
 > on a **publicly downloadable** case, and gives you every artifact back. Grounded in the gold-standard
 > [User Guide](user-guide.md) and the per-case [Activation Guides](../../case-activation/INDEX.md).
-> Canonical numbers (72 MCP tools · 16 SIFT forensic wrappers · Python 3.12+) are governed by
+> Canonical numbers (73 MCP tools · 16 SIFT forensic wrappers · Python 3.12+) are governed by
 > [Canonical Facts](../08-reference/canonical-facts.md).
 
 ## How to read this page

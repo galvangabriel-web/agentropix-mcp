@@ -4,7 +4,7 @@
 > Lives under `/home/admin2/docu_agentro/case-activation/` (gitignored). Mirrors the portal
 > house style + dual-audience (🖥️ command / 💬 prompt) of
 > [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md). Canonical numbers cite
-> [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (72 MCP tools, 16 SIFT wrappers, 4687 tests).
+> [`.crew/facts.md`](../docs/08-reference/canonical-facts.md) (73 MCP tools, 16 SIFT wrappers, 4687 tests).
 > Procedure template: `agentropix-sift/docs/tools/END-USER-CASE-GUIDE.md`.
 >
 > **GOAL of this guide: get the operator READY to activate the case and start analysis.** Everything
@@ -223,7 +223,7 @@ IOCs (the C2 IP, the typosquat domain) to Wazuh via `wazuh_index_findings` (dry-
 
 4. 💬 *"How many Agentropix forensic tools are available right now?"*
    🖥️ call the `health` tool
-   **Expect:** `status: "ok"` with a live `tool_count` (canonical **72**, updated 2026-06-11; trust the live number, not the startup banner).
+   **Expect:** `status: "ok"` with a live `tool_count` (canonical **73**, updated 2026-06-11; trust the live number, not the startup banner).
 
 5. 💬 *"Open a new high-severity case for the SRL-2018 Compromised Enterprise Network, examiner victor.galvan, case id SRL-2018-COMPROMISED-ENTERPRISE, evidence under /cases/SRL-2018, and make it the active case."*
    🖥️ `case_init { case_name:"SRL-2018 Compromised Enterprise Network", examiner_id:"victor.galvan", case_id:"SRL-2018-COMPROMISED-ENTERPRISE", case_dir:"/cases/SRL-2018", incident_type:"intrusion/apt-c2", severity:"high" }`

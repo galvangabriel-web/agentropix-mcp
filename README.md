@@ -48,14 +48,14 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#license)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
-[![MCP tools: 72](https://img.shields.io/badge/MCP%20tools-72-green.svg)](docs/04-mcp-tools/tool-reference.md)
+[![MCP tools: 73](https://img.shields.io/badge/MCP%20tools-73-green.svg)](docs/04-mcp-tools/tool-reference.md)
 [![SIFT wrappers: 16](https://img.shields.io/badge/SIFT%20wrappers-16-brightgreen.svg)](docs/04-mcp-tools/tool-reference.md)
 [![Tests: 4687](https://img.shields.io/badge/tests-4687-brightgreen.svg)](docs/07-sdlc-ops/testing.md)
 [![Disk recall: 72/72](https://img.shields.io/badge/disk%20recall-72%2F72-success.svg)](docs/07-sdlc-ops/dataset-recall.md)
 
 > ## Autonomous DFIR triage on the SANS SIFT Workstation — that never lets the LLM rate its own findings.
 > Point it at a Windows disk or memory image. It drives **16 real SIFT forensic tools** through **one
-> MCP server (72 tools)**, correlates across a **7-agent swarm** on a quorum blackboard, and emits a
+> MCP server (73 tools)**, correlates across a **7-agent swarm** on a quorum blackboard, and emits a
 > cryptographically sealed, schema-validated JSON triage report — in minutes, on the local host, with
 > **no LLM ever in the halt path**. *(Source: [`what-is-agentropix.md`](docs/01-overview/what-is-agentropix.md).)*
 
@@ -93,7 +93,7 @@ claude mcp add --transport http agentropix-sift "http://127.0.0.1:8765/mcp" \
 
 > *"Use the agentropix-sift MCP server. Run the `health` tool and tell me the tool_count."*
 
-Expected: `tool_count: 72` (the live count is authoritative — this number may lag).
+Expected: `tool_count: 73` (the live count is authoritative — this number may lag).
 
 More detail (self-hosting the full engine, requirements table): see
 [Installation / Quickstart](#installation--quickstart) below and the
@@ -205,7 +205,7 @@ Ask the model:
 
 > *"Use the agentropix-sift MCP server. Run the `health` tool and tell me the tool_count."*
 
-Expected: `tool_count: 72` (the live count is authoritative — this number may lag).
+Expected: `tool_count: 73` (the live count is authoritative — this number may lag).
 
 > **First time on the tailnet, or hit a `401` / timeout?** The complete quickstart — Tailscale invite,
 > per-OS install, token facts, and a full troubleshooting matrix — is in
@@ -239,7 +239,7 @@ Four audiences, four fast paths. Each row is an ordered reading trail; the full 
 Agentropix-SIFT turns a SIFT Workstation into an autonomous-but-accountable triage operator. A
 **Trinity Loop** — an Architect that proposes which agents to run, a **7-agent Swarm** that drives
 deterministic forensic tools, and a **Critic** that scores findings and halts on a *deterministic*
-convergence fingerprint (with **no LLM self-rating**) — orchestrates **72 MCP tools** over a single
+convergence fingerprint (with **no LLM self-rating**) — orchestrates **73 MCP tools** over a single
 [FastMCP](docs/02-architecture/mcp-server.md) server. The result is a fast first pass over disk images,
 memory dumps, and Windows artifacts that produces an evidence-grounded, cryptographically sealed triage
 report a human examiner can trust and defend.
@@ -294,7 +294,7 @@ flowchart TB
     end
 
     subgraph MCP["MCP boundary — the enforcement spine"]
-        TOOLS["72 MCP tools<br/>traced · rate-limited · Thymus-gated"]:::det
+        TOOLS["73 MCP tools<br/>traced · rate-limited · Thymus-gated"]:::det
         BIN["SIFT binaries<br/>vol3 / plaso / tsk / yara / EZ-Tools"]:::leak
     end
 
@@ -336,7 +336,7 @@ flowchart TB
 | Capability | The one-line value | Canonical figure | Source-code home |
 |---|---|---|---|
 | **Trinity Loop** | Deterministic Architect → Swarm → Critic control loop; halts on a convergence fingerprint, **never on an LLM self-rating** | Critic halt default **0.85** | `trinity/architect.py`, `trinity/critic.py`, `orchestrator.py` |
-| **72 MCP tools** | One FastMCP server exposes **72 distinct forensic tools** over stdio + HTTP | **72** tools | `mcp_server/fastmcp_app.py` |
+| **73 MCP tools** | One FastMCP server exposes **73 distinct forensic tools** over stdio + HTTP | **73** tools | `mcp_server/fastmcp_app.py` |
 | **16 SIFT wrappers** | Hardened drivers (timeout, memory ceiling, retry, stderr capture, tracing) around the 16 trusted SIFT binaries | **16** wrappers | `mcp_server/wrappers/` |
 | **7-agent Swarm + ATT&CK detectors** | Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt specialists + 6 deterministic MITRE ATT&CK detectors | **7** specialists (**13** `SWARM` classes) | `agents/`, `detectors/` |
 | **Quorum Blackboard** | An observation is promoted to a `Correlation` only when enough agents corroborate the same token | quorum default **2** | `agents/_blackboard.py` |
@@ -373,7 +373,7 @@ flowchart TB
     Examiner(["DFIR Examiner<br/>runs triage · reviews · approves findings"]):::actor
 
     subgraph Host["SANS SIFT Workstation — local host"]
-        Agentropix["Agentropix-SIFT<br/>Trinity Loop engine + FastMCP server (72 tools)"]:::core
+        Agentropix["Agentropix-SIFT<br/>Trinity Loop engine + FastMCP server (73 tools)"]:::core
         Toolchain["SIFT Forensic Toolchain<br/>Volatility3 · Plaso · Sleuth Kit · EVTX · YARA · … (16 tools)"]:::ext
         Evidence[("Evidence Store<br/>E01 / raw / memory — read-only")]:::ext
     end
@@ -395,7 +395,7 @@ flowchart TB
 Internally, the **Architect** proposes which agents to spawn (by default it returns the canonical
 `SWARM` tuple in priority order; a default-on Reflexion-lite step drops agents the Critic marked
 *stable*). The **7-agent Swarm** invokes the 16 wrapped SIFT forensic tools through the FastMCP server's
-72-tool surface, writing `Finding`s to a shared **Blackboard**; cross-agent agreement at a **quorum** of
+73-tool surface, writing `Finding`s to a shared **Blackboard**; cross-agent agreement at a **quorum** of
 2 becomes a `Correlation`. The **Critic** scores the accumulated findings with a *closed-form* rule —
 `score = min(1.0, max_confidence + 0.25 · len(correlations))` — and halts deterministically when the
 findings stop changing (a convergence fingerprint), bounded by a hard `max_iterations` budget, **never
@@ -771,7 +771,7 @@ manual ↔ autonomous × expert ↔ non-expert — is the [User Guide](docs/01-o
 
 ## MCP surface
 
-Agentropix-SIFT exposes **72 distinct MCP tools** over a single FastMCP server (verified live via
+Agentropix-SIFT exposes **73 distinct MCP tools** over a single FastMCP server (verified live via
 `tools/list` and `health.tool_count`; see [Canonical Facts](docs/08-reference/canonical-facts.md)). Of
 these, **16 are SIFT forensic tools** — deterministic binaries wrapped under `mcp_server/wrappers/` so
 each call captures the binary's raw stdout and fingerprints it with SHA-256. The remainder cover case
@@ -912,7 +912,7 @@ repository corpus (`docs/COMPETITIVE-DFIR.md` oracle, [Canonical Facts](docs/08-
 
 | | **Helpful** | **Harmful** |
 |---|---|---|
-| **Internal** | **Strengths** — *Structural* evidence safety, not a policy promise: agents have **no write tool**; the Thymus policy refuses every write call before the subprocess spawns. Real SANS DFIR tools driven **inside** the agent loop (**16/16 wrappers**, **72 MCP tools**) — rivals explain JSON *after* collection. Deterministic, auditable execution: a fingerprint no-progress detector halts the Trinity Loop with **no LLM in the halt path**, backed by a hash-chained decision ledger. | **Weaknesses** — A **triage engine, not a case-management product**: no HTML report generator, no commercial case-file UX (vs Magnet AXIOM, CADO); output is JSON + the audit ledger. **Read-only consumer**, no host-collection ecosystem (vs Velociraptor's agent fleet) — caps it at post-collection triage. Memory-forensics recall (**108/118**) trails disk (**72/72**) and is the active improvement front. |
+| **Internal** | **Strengths** — *Structural* evidence safety, not a policy promise: agents have **no write tool**; the Thymus policy refuses every write call before the subprocess spawns. Real SANS DFIR tools driven **inside** the agent loop (**16/16 wrappers**, **73 MCP tools**) — rivals explain JSON *after* collection. Deterministic, auditable execution: a fingerprint no-progress detector halts the Trinity Loop with **no LLM in the halt path**, backed by a hash-chained decision ledger. | **Weaknesses** — A **triage engine, not a case-management product**: no HTML report generator, no commercial case-file UX (vs Magnet AXIOM, CADO); output is JSON + the audit ledger. **Read-only consumer**, no host-collection ecosystem (vs Velociraptor's agent fleet) — caps it at post-collection triage. Memory-forensics recall (**108/118**) trails disk (**72/72**) and is the active improvement front. |
 | **External** | **Opportunities** — The MCP consumer model means *any* MCP-speaking LLM client becomes a forensic front-end with zero retraining. Default-local, no-API-key posture fits air-gapped / sovereign SOCs. The ATT&CK detector lane is extensible — deferred detectors (W051/W052/W054) are wired and unit-tested, ready to promote into live recall. | **Threats** — Forensic admissibility scrutiny of any AI-assisted pipeline raises the documentation bar (mitigated by the courtroom seal + provenance chain). Upstream SIFT tool drift (binary flags / output format) can silently shift wrapper parsing — covered by host-gated integration tests. Commercial incumbents move fast on AI features. |
 
 Full competitive analysis: [Competitive Positioning](docs/01-overview/competitive-positioning.md).
@@ -978,7 +978,7 @@ box. See [Configuration](docs/07-sdlc-ops/configuration.md) and the
 
 | Fact | Value |
 |------|-------|
-| MCP tools | **72** distinct tool functions |
+| MCP tools | **73** distinct tool functions |
 | SIFT forensic wrappers | **16** |
 | Tests collected | **4687** |
 | Disk recall (regression) | **72/72 (100%)** |
@@ -1005,7 +1005,7 @@ the question it answers. The portal is organized into twelve numbered sections u
 | 1 | [Overview](docs/01-overview/what-is-agentropix.md) | What Agentropix-SIFT is and why, the capability matrix, the 3-command Quickstart, the complete operator User Guide, and how it compares to alternatives. |
 | 2 | [Architecture](docs/02-architecture/main-architectural-agentropix-design.md) | How the engine is built — **the validated architecture diagram** (pattern + guardrails, HD PDF), system context, internal components, the Trinity Loop, the Swarm + Blackboard, the FastMCP server (and the Thymus boundary), sequence diagrams, the 🗺️ **[Strategic Project Roadmap](docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md)** (Gantt/critical path, lifecycle state machine, GA milestones, risks), the 🔒 **[Security Invariant Audit](docs/02-architecture/SECURITY-INVARIANT-AUDIT-2026-06-11.md)** (6 invariants source-traced), and the 🎛️ **[Tunable Features Catalog](docs/02-architecture/AGENTROPIX-TUNABLE-FEATURES-CATALOG.md)** (252 documented knobs). |
 | 3 | [Data](docs/03-data/data-models.md) | The data model — case/finding/report schemas, the data dictionary, the entity-relationship view, and what gets persisted to disk. |
-| 4 | [MCP Tools](docs/04-mcp-tools/tool-reference.md) | The 72-tool MCP surface — the full tool reference, the typed Response Envelope, which agent invokes which tool, and the capability map. |
+| 4 | [MCP Tools](docs/04-mcp-tools/tool-reference.md) | The 73-tool MCP surface — the full tool reference, the typed Response Envelope, which agent invokes which tool, and the capability map. |
 | 5 | [Safety & Forensics](docs/05-safety-forensics/anti-hallucination.md) | Why you can trust the output — anti-hallucination guarantees, provenance grounding, the Courtroom audit seal, the human-in-the-loop gate, the Approval Portal, and the AI disclosure. |
 | 6 | [Use Cases](docs/06-use-cases/uc-disk-triage.md) | End-to-end worked runs — disk triage, memory triage, the approval gate, the Wazuh push, a guided demo walkthrough, and per-case attack-chain hypotheses. |
 | 7 | [SDLC & Operations](docs/07-sdlc-ops/implementation.md) | How to build, run, and operate it — implementation, testing, configuration, deployment, the security model, recovery/resilience, recall methodology, and the evaluation scorecard. |

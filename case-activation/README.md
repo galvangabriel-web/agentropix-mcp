@@ -39,7 +39,7 @@ guide's GOTCHA B2 makes that offset load-bearing for every filesystem tool. XP s
 TheTechHive Chad_LT — a **Windows-on-ARM** Dell Inspiron 14 3420, the only ARM case in the corpus. Evidence:
 `/cases/nist3/TheTechHiveScenario/TheTechHiveScenario/Chad_LT.E01` (86 G container, 465 GiB media, TX1 21.3.0
 write-blocked acquisition). Load-bearing caveat: the primary OS volume (GPT partition 7) is **BitLocker-encrypted**,
-and the 72-tool MCP surface includes **no BitLocker decryption wrapper** — the operator must unlock it out-of-band
+and the 73-tool MCP surface includes **no BitLocker decryption wrapper** — the operator must unlock it out-of-band
 (e.g. `dislocker` with the in-folder recovery key) first; until then triage is limited to the plaintext NTFS
 partitions 8 and 9. ARM prefetch may be absent (tool self-skips).
 

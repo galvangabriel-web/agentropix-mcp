@@ -35,7 +35,7 @@ correlate. See [agents-list.md](../10-agents/agents-list.md) for the per-agent b
 | `architect.py` | `Architect` — deterministic planner; returns canonical `SWARM`, may prune stable agents |
 | `critic.py` | `Critic` + `TrinityResult` — deterministic score (max conf + 0.25·#correlations), fixed-point fingerprint halt (default threshold 0.85, no LLM self-rating) |
 
-### `mcp_server/` — the single FastMCP server (72 tools)
+### `mcp_server/` — the single FastMCP server (73 tools)
 | Key file | Purpose |
 |----------|---------|
 | `fastmcp_app.py` | Registration site for the 67 in-module tools (+5 wazuh wrappers); `main()` server entry |

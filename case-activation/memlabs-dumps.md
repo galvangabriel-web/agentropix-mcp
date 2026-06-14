@@ -9,7 +9,7 @@
 > (plain-language to a Claude session with the Agentropix MCP attached).
 >
 > Canonical numbers cited from [`.crew/facts.md`](../docs/08-reference/canonical-facts.md):
-> **72 MCP tools**, **16 SIFT forensic wrappers**, **4687 tests**, memory recall
+> **73 MCP tools**, **16 SIFT forensic wrappers**, **4687 tests**, memory recall
 > **108/118 (91.5 %)**. MCP endpoint shape: `http://<TAILNET-HOST>:8765/mcp`
 > (tailnet-only; get the real host + bearer token from Client Setup — never inlined here).
 
@@ -99,12 +99,12 @@ swapped per-Lab in the table at the end of this section.
 > uv run agentropix-sift doctor                 # 16 SIFT wrappers' binaries → "All tools available."
 > bash /home/admin2/.openclaw/workspace/scripts/start-agentropix-mcp.sh status   # expect health: HTTP 200
 > claude mcp list                               # agentropix-sift  http://<TAILNET-HOST>:8765/mcp  ✓ Connected
-> # then call the health tool → { "status":"ok", "tool_count":72, ... }
+> # then call the health tool → { "status":"ok", "tool_count": 73, ... }
 > ```
 > **💬 Prompt:** *"Check that my Agentropix forensic environment is ready and the MCP
 > server is healthy — how many forensic tools are available?"*
 > **Expect:** `doctor` ends with `All tools available.`; `health` returns
-> `status: ok` with a live `tool_count` (canonical **72** — trust the live number, not
+> `status: ok` with a live `tool_count` (canonical **73** — trust the live number, not
 > the startup banner).
 
 > **Note (memory case):** the disk-only integrity step (`ewfverify`) from the template's
@@ -258,7 +258,7 @@ differs. Each operator action shows the **🖥️ command** equivalent and an **
 1. **💬** *"Check that my Agentropix forensic environment is ready and tell me how many
    forensic tools are available."*
    🖥️ `uv run agentropix-sift doctor` ; call `health`
-   **Expect:** `All tools available.`; `health` → `status: ok`, live `tool_count` (canonical **72**).
+   **Expect:** `All tools available.`; `health` → `status: ok`, live `tool_count` (canonical **73**).
 
 2. **💬** *"Open a medium-severity DFIR case `NEWDATA-MEMLABS-NIST4-LAB1` for the MemLabs
    Lab 1 memory dump at `/cases/nist4/MemLabs-Lab1/MemoryDump_Lab1.raw`, examiner

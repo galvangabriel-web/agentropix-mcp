@@ -241,7 +241,7 @@ cases' IOCs in the shared `agentropix_*` CDB lists are not wiped.
 
 ## 3. Activate & start — prompt sequences
 
-Both lanes hit the **same 72-tool deterministic engine** (`{{ref:CANONICAL_FACTS#mcp_tool_count}}`,
+Both lanes hit the **same 73-tool deterministic engine** (`{{ref:CANONICAL_FACTS#mcp_tool_count}}`,
 backed by 4687 tests) and reach the same sealed result. Each operator action shows the 🖥️ command
 equivalent.
 
@@ -261,7 +261,7 @@ equivalent.
 
 4. 💬 *"How many Agentropix forensic tools are available right now?"*
    🖥️ MCP `health`
-   **Expect:** `status:"ok"` with a live `tool_count` (canonical `72`; trust the live number, not the banner).
+   **Expect:** `status:"ok"` with a live `tool_count` (canonical `73`; trust the live number, not the banner).
 
 5. 💬 *"Open a new high-severity case `VANKO-ABDUCTED-ZEBRAFISH` for the Vanko Surface 3 image (FOR500 zebrafish IP-theft), examiner victor.galvan, evidence in /cases/vanko, and make it active."*
    🖥️ MCP `case_init {…}` then `case_activate { "case_id":"VANKO-ABDUCTED-ZEBRAFISH" }`

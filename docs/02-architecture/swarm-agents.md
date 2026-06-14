@@ -295,7 +295,7 @@ The `Correlation` and `Finding` data contracts are fully specified in
 The §2/§3 tables list each agent's `name`, promise, and wrappers. This view answers a
 different question a SANS judge asks: *what tool call does this agent fire, and what does
 that surface?* (cross-checked against each agent's `investigate()`). For the inverse
-mapping — *which agent owns each of the 72 MCP tools* — and the full per-tool ownership
+mapping — *which agent owns each of the 73 MCP tools* — and the full per-tool ownership
 table, see [tool-by-agent.md](../04-mcp-tools/tool-by-agent.md).
 
 | Agent | Tool call fired | What it surfaces |

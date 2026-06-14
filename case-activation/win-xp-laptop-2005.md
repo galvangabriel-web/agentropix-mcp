@@ -8,7 +8,7 @@
 > (the canonical 8-step flow). House style + dual-audience tracks + numbered Prompt
 > Playbook mirror [`docs/01-overview/user-guide.md`](../docs/01-overview/user-guide.md).
 > Canonical numbers cite [`.crew/facts.md`](../docs/08-reference/canonical-facts.md)
-> (72 MCP tools, 16 SIFT wrappers, 4687 tests).
+> (73 MCP tools, 16 SIFT wrappers, 4687 tests).
 >
 > **Goal of this guide:** get the operator *ready to activate this case and start
 > analysis* — not to run analysis. Everything below was profiled **metadata-only**
@@ -228,7 +228,7 @@ For a 2005 image, expect 0 docs at the default Wazuh time range — widen the ra
 
 ## 3. "Activate & start" prompt sequences
 
-Both lanes hit the **same deterministic MCP engine** (72 tools, 16 SIFT wrappers — cite
+Both lanes hit the **same deterministic MCP engine** (73 tools, 16 SIFT wrappers — cite
 `.crew/facts.md`). Each step shows the **💬 prompt** and its **🖥️ command/MCP-call**
 equivalent, with an **Expect:** line. Run top-to-bottom; check Expect before continuing.
 
@@ -240,7 +240,7 @@ equivalent, with an **Expect:** line. Run top-to-bottom; check Expect before con
 
 2. > 💬 *"How many Agentropix forensic tools are available right now?"*
    > 🖥️ call `health`
-   **Expect:** live `tool_count` (canonical **72**; trust the live number, not the banner).
+   **Expect:** live `tool_count` (canonical **73**; trust the live number, not the banner).
 
 3. > 💬 *"Open a new case `WIN-XP-LAPTOP-2005` for the Windows XP laptop image at `/cases/win-xp-laptop-2005-06-25.img`, examiner victor.galvan, severity medium, and make it the active case."*
    > 🖥️ `case_init { case_id:"WIN-XP-LAPTOP-2005", … }` then `case_activate { case_id:"WIN-XP-LAPTOP-2005" }`

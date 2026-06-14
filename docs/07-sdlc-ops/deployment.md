@@ -39,7 +39,7 @@ green-light is `agentropix-sift doctor` returning all-green across the 16 forens
 | Section | What you'll get |
 |---|---|
 | [1. Install on a SANS SIFT Workstation](#1-install-on-a-sans-sift-workstation) | The SANS-host install flow (clone → `uv sync` → env → `doctor`), the don't-`apt`-replacement-binaries rule, and how to verify the 16-wrapper forensic toolchain is all-green. |
-| [2. Serve the MCP server](#2-serve-the-mcp-server) | How to start the `agentropix-sift-mcp` server over stdio or HTTP, the bearer-token gate, the detached-process gotcha, and live-verifying the 72-tool `health` count. |
+| [2. Serve the MCP server](#2-serve-the-mcp-server) | How to start the `agentropix-sift-mcp` server over stdio or HTTP, the bearer-token gate, the detached-process gotcha, and live-verifying the 73-tool `health` count. |
 | [3. Optional: tailnet exposure of the MCP server](#3-optional-tailnet-exposure-of-the-mcp-server) | The default tailnet-only posture: fronting the loopback FastMCP server with Tailscale Serve, with tailnet membership + bearer token as the auth boundary. |
 | [4. Runbook index](#4-runbook-index) | The catalogue of shipped operational playbooks (deploy, expose, token rotation, OOM/timeout, Wazuh, restore) with one-line descriptions and a currency note. |
 | [See also](#see-also) | Cross-links to implementation, configuration, security-model, and recovery-resilience pages. |
@@ -227,7 +227,7 @@ shell before binding the HTTP transport. Over HTTP the server listens on `http:/
 
 *Output D (validated):*
 ```json
-{ "status": "ok", "server": "agentropix-sift", "tool_count": 72,
+{ "status": "ok", "server": "agentropix-sift", "tool_count": 73,
   "version": "...", "uptime_seconds": ... }
 ```
 
@@ -287,7 +287,7 @@ canonical index is [`docs/runbooks/README.md`](https://github.com/galvangabriel-
 
 > **Currency note.** Some older runbooks carry an inline `AUDIT 2026-06-05` banner correcting
 > stale figures (e.g. `expose-fastmcp-tailnet.md` references "16 tools", a 2026-04-25
-> snapshot — the live MCP surface is **72 tools**; `deploy-to-sans.md` corrected an "880+
+> snapshot — the live MCP surface is **73 tools**; `deploy-to-sans.md` corrected an "880+
 > unit tests" figure to the canonical **4687**). Treat the banners and
 > [CANONICAL_FACTS](../08-reference/canonical-facts.md) as authoritative over the runbook prose.
 

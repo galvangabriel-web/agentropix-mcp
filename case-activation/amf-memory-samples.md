@@ -107,8 +107,8 @@ tailnet endpoint, then trust the live tool count.
 >   "http://<TAILNET-HOST>:8765/mcp" --header "Authorization: Bearer <TOKEN>"
 > claude mcp list        # expect: agentropix-sift ... ✓ Connected
 > ```
-> Then call the `health` tool — expect `{ "status":"ok", "tool_count":72, ... }`. **Trust the live
-> `health.tool_count`, not the startup banner** (canonical `72` since 2026-06-11; see the user
+> Then call the `health` tool — expect `{ "status":"ok", "tool_count": 73, ... }`. **Trust the live
+> `health.tool_count`, not the startup banner** (canonical `73` since 2026-06-11; see the user
 > guide §1.2).
 > **💬 Prompt:** *"Is the Agentropix MCP server up, and how many forensic tools are available right now?"*
 
@@ -253,7 +253,7 @@ Both lanes hit the same deterministic MCP engine. Each operator action shows the
 1. **Verify the MCP is up.**
    🖥️ `claude mcp list` then call `health`.
    💬 *"Is the Agentropix MCP up, and how many forensic tools are available?"*
-   **Expect:** `✓ Connected`; `health` → `status:"ok"`, live `tool_count` (canonical `72`; trust the live number).
+   **Expect:** `✓ Connected`; `health` → `status:"ok"`, live `tool_count` (canonical `73`; trust the live number).
 
 2. **Open + activate the case.**
    🖥️ `case_init { case_id:"AMF-WIN-SAMPLE001", examiner_id:"victor.galvan", scope:"/cases/AMF_MemorySamples/windows/sample001.bin", … }`

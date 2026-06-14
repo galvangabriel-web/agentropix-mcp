@@ -1,8 +1,8 @@
 # Agentropix-SIFT — Full LLM Context (llms-full.txt)
 
-> Agentropix-SIFT is a local, CLI-driven, bio-agentic Digital Forensics & Incident Response (DFIR) triage engine for the SANS SIFT Workstation. A deterministic Trinity Loop (Architect -> 7-agent Swarm -> Critic) drives 72 MCP tools (16 of them SIFT forensic wrappers) over one FastMCP server, correlating findings on a quorum blackboard and emitting a cryptographically sealed, schema-validated JSON triage report -- in minutes, on the local host, with no LLM ever in the halt/convergence path.
+> Agentropix-SIFT is a local, CLI-driven, bio-agentic Digital Forensics & Incident Response (DFIR) triage engine for the SANS SIFT Workstation. A deterministic Trinity Loop (Architect -> 7-agent Swarm -> Critic) drives 73 MCP tools (16 of them SIFT forensic wrappers) over one FastMCP server, correlating findings on a quorum blackboard and emitting a cryptographically sealed, schema-validated JSON triage report -- in minutes, on the local host, with no LLM ever in the halt/convergence path.
 
-Canonical facts (governed by docs/08-reference/canonical-facts.md): 72 MCP tools; 16 SIFT forensic wrappers; 4,687 tests; disk recall 72/72 (100%); memory recall 108/118 (91.5%); Python 3.12+.
+Canonical facts (governed by docs/08-reference/canonical-facts.md): 73 MCP tools; 16 SIFT forensic wrappers; 4,687 tests; disk recall 72/72 (100%); memory recall 108/118 (91.5%); Python 3.12+.
 
 This file inlines the full content of the core documents below for single-pass LLM ingestion. Source of truth is the repository; Canonical Facts wins over any prose. Generated from github/main.
 
@@ -82,14 +82,14 @@ This file inlines the full content of the core documents below for single-pass L
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#license)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
-[![MCP tools: 72](https://img.shields.io/badge/MCP%20tools-72-green.svg)](docs/04-mcp-tools/tool-reference.md)
+[![MCP tools: 73](https://img.shields.io/badge/MCP%20tools-73-green.svg)](docs/04-mcp-tools/tool-reference.md)
 [![SIFT wrappers: 16](https://img.shields.io/badge/SIFT%20wrappers-16-brightgreen.svg)](docs/04-mcp-tools/tool-reference.md)
 [![Tests: 4687](https://img.shields.io/badge/tests-4687-brightgreen.svg)](docs/07-sdlc-ops/testing.md)
 [![Disk recall: 72/72](https://img.shields.io/badge/disk%20recall-72%2F72-success.svg)](docs/07-sdlc-ops/dataset-recall.md)
 
 > ## Autonomous DFIR triage on the SANS SIFT Workstation — that never lets the LLM rate its own findings.
 > Point it at a Windows disk or memory image. It drives **16 real SIFT forensic tools** through **one
-> MCP server (72 tools)**, correlates across a **7-agent swarm** on a quorum blackboard, and emits a
+> MCP server (73 tools)**, correlates across a **7-agent swarm** on a quorum blackboard, and emits a
 > cryptographically sealed, schema-validated JSON triage report — in minutes, on the local host, with
 > **no LLM ever in the halt path**. *(Source: [`what-is-agentropix.md`](docs/01-overview/what-is-agentropix.md).)*
 
@@ -127,7 +127,7 @@ claude mcp add --transport http agentropix-sift "http://127.0.0.1:8765/mcp" \
 
 > *"Use the agentropix-sift MCP server. Run the `health` tool and tell me the tool_count."*
 
-Expected: `tool_count: 72` (the live count is authoritative — this number may lag).
+Expected: `tool_count: 73` (the live count is authoritative — this number may lag).
 
 More detail (self-hosting the full engine, requirements table): see
 [Installation / Quickstart](#installation--quickstart) below and the
@@ -239,7 +239,7 @@ Ask the model:
 
 > *"Use the agentropix-sift MCP server. Run the `health` tool and tell me the tool_count."*
 
-Expected: `tool_count: 72` (the live count is authoritative — this number may lag).
+Expected: `tool_count: 73` (the live count is authoritative — this number may lag).
 
 > **First time on the tailnet, or hit a `401` / timeout?** The complete quickstart — Tailscale invite,
 > per-OS install, token facts, and a full troubleshooting matrix — is in
@@ -273,7 +273,7 @@ Four audiences, four fast paths. Each row is an ordered reading trail; the full 
 Agentropix-SIFT turns a SIFT Workstation into an autonomous-but-accountable triage operator. A
 **Trinity Loop** — an Architect that proposes which agents to run, a **7-agent Swarm** that drives
 deterministic forensic tools, and a **Critic** that scores findings and halts on a *deterministic*
-convergence fingerprint (with **no LLM self-rating**) — orchestrates **72 MCP tools** over a single
+convergence fingerprint (with **no LLM self-rating**) — orchestrates **73 MCP tools** over a single
 [FastMCP](docs/02-architecture/mcp-server.md) server. The result is a fast first pass over disk images,
 memory dumps, and Windows artifacts that produces an evidence-grounded, cryptographically sealed triage
 report a human examiner can trust and defend.
@@ -328,7 +328,7 @@ flowchart TB
     end
 
     subgraph MCP["MCP boundary — the enforcement spine"]
-        TOOLS["72 MCP tools<br/>traced · rate-limited · Thymus-gated"]:::det
+        TOOLS["73 MCP tools<br/>traced · rate-limited · Thymus-gated"]:::det
         BIN["SIFT binaries<br/>vol3 / plaso / tsk / yara / EZ-Tools"]:::leak
     end
 
@@ -370,7 +370,7 @@ flowchart TB
 | Capability | The one-line value | Canonical figure | Source-code home |
 |---|---|---|---|
 | **Trinity Loop** | Deterministic Architect → Swarm → Critic control loop; halts on a convergence fingerprint, **never on an LLM self-rating** | Critic halt default **0.85** | `trinity/architect.py`, `trinity/critic.py`, `orchestrator.py` |
-| **72 MCP tools** | One FastMCP server exposes **72 distinct forensic tools** over stdio + HTTP | **72** tools | `mcp_server/fastmcp_app.py` |
+| **73 MCP tools** | One FastMCP server exposes **73 distinct forensic tools** over stdio + HTTP | **73** tools | `mcp_server/fastmcp_app.py` |
 | **16 SIFT wrappers** | Hardened drivers (timeout, memory ceiling, retry, stderr capture, tracing) around the 16 trusted SIFT binaries | **16** wrappers | `mcp_server/wrappers/` |
 | **7-agent Swarm + ATT&CK detectors** | Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt specialists + 6 deterministic MITRE ATT&CK detectors | **7** specialists (**13** `SWARM` classes) | `agents/`, `detectors/` |
 | **Quorum Blackboard** | An observation is promoted to a `Correlation` only when enough agents corroborate the same token | quorum default **2** | `agents/_blackboard.py` |
@@ -407,7 +407,7 @@ flowchart TB
     Examiner(["DFIR Examiner<br/>runs triage · reviews · approves findings"]):::actor
 
     subgraph Host["SANS SIFT Workstation — local host"]
-        Agentropix["Agentropix-SIFT<br/>Trinity Loop engine + FastMCP server (72 tools)"]:::core
+        Agentropix["Agentropix-SIFT<br/>Trinity Loop engine + FastMCP server (73 tools)"]:::core
         Toolchain["SIFT Forensic Toolchain<br/>Volatility3 · Plaso · Sleuth Kit · EVTX · YARA · … (16 tools)"]:::ext
         Evidence[("Evidence Store<br/>E01 / raw / memory — read-only")]:::ext
     end
@@ -429,7 +429,7 @@ flowchart TB
 Internally, the **Architect** proposes which agents to spawn (by default it returns the canonical
 `SWARM` tuple in priority order; a default-on Reflexion-lite step drops agents the Critic marked
 *stable*). The **7-agent Swarm** invokes the 16 wrapped SIFT forensic tools through the FastMCP server's
-72-tool surface, writing `Finding`s to a shared **Blackboard**; cross-agent agreement at a **quorum** of
+73-tool surface, writing `Finding`s to a shared **Blackboard**; cross-agent agreement at a **quorum** of
 2 becomes a `Correlation`. The **Critic** scores the accumulated findings with a *closed-form* rule —
 `score = min(1.0, max_confidence + 0.25 · len(correlations))` — and halts deterministically when the
 findings stop changing (a convergence fingerprint), bounded by a hard `max_iterations` budget, **never
@@ -702,7 +702,7 @@ manual ↔ autonomous × expert ↔ non-expert — is the [User Guide](docs/01-o
 
 ## MCP surface
 
-Agentropix-SIFT exposes **72 distinct MCP tools** over a single FastMCP server (verified live via
+Agentropix-SIFT exposes **73 distinct MCP tools** over a single FastMCP server (verified live via
 `tools/list` and `health.tool_count`; see [Canonical Facts](docs/08-reference/canonical-facts.md)). Of
 these, **16 are SIFT forensic tools** — deterministic binaries wrapped under `mcp_server/wrappers/` so
 each call captures the binary's raw stdout and fingerprints it with SHA-256. The remainder cover case
@@ -843,7 +843,7 @@ repository corpus (`docs/COMPETITIVE-DFIR.md` oracle, [Canonical Facts](docs/08-
 
 | | **Helpful** | **Harmful** |
 |---|---|---|
-| **Internal** | **Strengths** — *Structural* evidence safety, not a policy promise: agents have **no write tool**; the Thymus policy refuses every write call before the subprocess spawns. Real SANS DFIR tools driven **inside** the agent loop (**16/16 wrappers**, **72 MCP tools**) — rivals explain JSON *after* collection. Deterministic, auditable execution: a fingerprint no-progress detector halts the Trinity Loop with **no LLM in the halt path**, backed by a hash-chained decision ledger. | **Weaknesses** — A **triage engine, not a case-management product**: no HTML report generator, no commercial case-file UX (vs Magnet AXIOM, CADO); output is JSON + the audit ledger. **Read-only consumer**, no host-collection ecosystem (vs Velociraptor's agent fleet) — caps it at post-collection triage. Memory-forensics recall (**108/118**) trails disk (**72/72**) and is the active improvement front. |
+| **Internal** | **Strengths** — *Structural* evidence safety, not a policy promise: agents have **no write tool**; the Thymus policy refuses every write call before the subprocess spawns. Real SANS DFIR tools driven **inside** the agent loop (**16/16 wrappers**, **73 MCP tools**) — rivals explain JSON *after* collection. Deterministic, auditable execution: a fingerprint no-progress detector halts the Trinity Loop with **no LLM in the halt path**, backed by a hash-chained decision ledger. | **Weaknesses** — A **triage engine, not a case-management product**: no HTML report generator, no commercial case-file UX (vs Magnet AXIOM, CADO); output is JSON + the audit ledger. **Read-only consumer**, no host-collection ecosystem (vs Velociraptor's agent fleet) — caps it at post-collection triage. Memory-forensics recall (**108/118**) trails disk (**72/72**) and is the active improvement front. |
 | **External** | **Opportunities** — The MCP consumer model means *any* MCP-speaking LLM client becomes a forensic front-end with zero retraining. Default-local, no-API-key posture fits air-gapped / sovereign SOCs. The ATT&CK detector lane is extensible — deferred detectors (W051/W052/W054) are wired and unit-tested, ready to promote into live recall. | **Threats** — Forensic admissibility scrutiny of any AI-assisted pipeline raises the documentation bar (mitigated by the courtroom seal + provenance chain). Upstream SIFT tool drift (binary flags / output format) can silently shift wrapper parsing — covered by host-gated integration tests. Commercial incumbents move fast on AI features. |
 
 Full competitive analysis: [Competitive Positioning](docs/01-overview/competitive-positioning.md).
@@ -909,7 +909,7 @@ box. See [Configuration](docs/07-sdlc-ops/configuration.md) and the
 
 | Fact | Value |
 |------|-------|
-| MCP tools | **72** distinct tool functions |
+| MCP tools | **73** distinct tool functions |
 | SIFT forensic wrappers | **16** |
 | Tests collected | **4687** |
 | Disk recall (regression) | **72/72 (100%)** |
@@ -936,7 +936,7 @@ the question it answers. The portal is organized into twelve numbered sections u
 | 1 | [Overview](docs/01-overview/what-is-agentropix.md) | What Agentropix-SIFT is and why, the capability matrix, the 3-command Quickstart, the complete operator User Guide, and how it compares to alternatives. |
 | 2 | [Architecture](docs/02-architecture/main-architectural-agentropix-design.md) | How the engine is built — **the validated architecture diagram** (pattern + guardrails, HD PDF), system context, internal components, the Trinity Loop, the Swarm + Blackboard, the FastMCP server (and the Thymus boundary), sequence diagrams, the 🗺️ **[Strategic Project Roadmap](docs/02-architecture/PROJECT-ROADMAP-2026-06-11.md)** (Gantt/critical path, lifecycle state machine, GA milestones, risks), the 🔒 **[Security Invariant Audit](docs/02-architecture/SECURITY-INVARIANT-AUDIT-2026-06-11.md)** (6 invariants source-traced), and the 🎛️ **[Tunable Features Catalog](docs/02-architecture/AGENTROPIX-TUNABLE-FEATURES-CATALOG.md)** (252 documented knobs). |
 | 3 | [Data](docs/03-data/data-models.md) | The data model — case/finding/report schemas, the data dictionary, the entity-relationship view, and what gets persisted to disk. |
-| 4 | [MCP Tools](docs/04-mcp-tools/tool-reference.md) | The 72-tool MCP surface — the full tool reference, the typed Response Envelope, which agent invokes which tool, and the capability map. |
+| 4 | [MCP Tools](docs/04-mcp-tools/tool-reference.md) | The 73-tool MCP surface — the full tool reference, the typed Response Envelope, which agent invokes which tool, and the capability map. |
 | 5 | [Safety & Forensics](docs/05-safety-forensics/anti-hallucination.md) | Why you can trust the output — anti-hallucination guarantees, provenance grounding, the Courtroom audit seal, the human-in-the-loop gate, the Approval Portal, and the AI disclosure. |
 | 6 | [Use Cases](docs/06-use-cases/uc-disk-triage.md) | End-to-end worked runs — disk triage, memory triage, the approval gate, the Wazuh push, a guided demo walkthrough, and per-case attack-chain hypotheses. |
 | 7 | [SDLC & Operations](docs/07-sdlc-ops/implementation.md) | How to build, run, and operate it — implementation, testing, configuration, deployment, the security model, recovery/resilience, recall methodology, and the evaluation scorecard. |
@@ -979,7 +979,7 @@ straight to what you need. New readers should follow one of the
 [reading paths](#reading-paths-by-audience) below.
 
 Agentropix-SIFT is a local, CLI-driven, bio-agentic DFIR triage engine for the SANS SIFT
-Workstation — a Trinity Loop (Architect → 7-agent Swarm → Critic) driving **72 MCP tools**
+Workstation — a Trinity Loop (Architect → 7-agent Swarm → Critic) driving **73 MCP tools**
 (**16** of them SIFT forensic wrappers) over one FastMCP server, with a forensic safety spine.
 Canonical numbers throughout the docs are governed by [Canonical Facts](docs/08-reference/canonical-facts.md).
 
@@ -1122,11 +1122,11 @@ unchanged — the reading order is layered on top, non-destructively.
 
 | Title | Audience | What question it answers | Link |
 |-------|----------|--------------------------|------|
-| MCP Tool Reference | developer, operator | What are all 72 MCP tools and the 16 forensic wrappers, in detail? | [04-mcp-tools/tool-reference.md](docs/04-mcp-tools/tool-reference.md) |
-| Tool Capability Map (by DFIR function) | operator, examiner, developer | Which tool do I reach for to *do* a thing — the 72-tool surface grouped by DFIR function, with the canonical happy-path ordering? | [04-mcp-tools/capability-map.md](docs/04-mcp-tools/capability-map.md) |
+| MCP Tool Reference | developer, operator | What are all 73 MCP tools and the 16 forensic wrappers, in detail? | [04-mcp-tools/tool-reference.md](docs/04-mcp-tools/tool-reference.md) |
+| Tool Capability Map (by DFIR function) | operator, examiner, developer | Which tool do I reach for to *do* a thing — the 73-tool surface grouped by DFIR function, with the canonical happy-path ordering? | [04-mcp-tools/capability-map.md](docs/04-mcp-tools/capability-map.md) |
 | Tool Response Envelope | developer, auditor | What does a tool call actually return, including the provenance fingerprint and error shape? | [04-mcp-tools/response-envelope.md](docs/04-mcp-tools/response-envelope.md) |
 | Tools by Agent | developer | Which Swarm agent invokes which tools? | [04-mcp-tools/tool-by-agent.md](docs/04-mcp-tools/tool-by-agent.md) |
-| Tool List | developer, operator | The machine-extracted inventory of all 72 MCP tools, with the 16 SIFT forensic wrappers flagged. | [04-mcp-tools/tool-list.md](docs/04-mcp-tools/tool-list.md) |
+| Tool List | developer, operator | The machine-extracted inventory of all 73 MCP tools, with the 16 SIFT forensic wrappers flagged. | [04-mcp-tools/tool-list.md](docs/04-mcp-tools/tool-list.md) |
 
 ## 5. Safety & Forensics
 
@@ -1276,7 +1276,7 @@ authority for every numeric claim — it wins over any prose anywhere in the doc
 | Artifact | What it holds | New home |
 |----------|---------------|----------|
 | Canonical Facts | The locked numeric table (tool count, tests, recall) — wins over prose | [docs/08-reference/canonical-facts.md](docs/08-reference/canonical-facts.md) |
-| Tool List | Inventory of all 72 MCP tools, with the 16 SIFT forensic wrappers flagged | [docs/04-mcp-tools/tool-list.md](docs/04-mcp-tools/tool-list.md) |
+| Tool List | Inventory of all 73 MCP tools, with the 16 SIFT forensic wrappers flagged | [docs/04-mcp-tools/tool-list.md](docs/04-mcp-tools/tool-list.md) |
 | Schema Dump | The extracted Pydantic model schema (field names, types, constraints) behind the data chapter | [docs/03-data/schema-dump.md](docs/03-data/schema-dump.md) |
 | Module Map | The code module map (where each package and component lives in `src/`) | [docs/02-architecture/module-map.md](docs/02-architecture/module-map.md) |
 | Env Vars | The full `AGENTROPIX_*` environment-variable surface and what each tunes | [docs/07-sdlc-ops/env-vars.md](docs/07-sdlc-ops/env-vars.md) |
@@ -1323,26 +1323,26 @@ Source: `/home/admin2/agentropix-sift/CANONICAL_FACTS.md` (last verified upstrea
 | `rubric_score_self` | 83.83/100 | `docs/SANS-RUBRIC-RE-GRADE-2026-05-23.md` §8 | 2026-05-23 |
 | `bmad_synthesis_score` | 75.6/100 (mean), 80/100 (top: Winston+Victor) | bmad-eval-sweep `SYNTHESIS_TEMPLATE.md` §3 | 2026-05-23 |
 
-### MCP tool-count lineage (how 72 was reached)
+### MCP tool-count lineage (how 73 was reached)
 
 Per `CANONICAL_FACTS.md`, the count grew incrementally and each step is auditable:
 62→63 `get_partitions` (ISSUE-001), 63→64 `get_evt` (ISSUE-008), 64→65 `delete_finding` (ISSUE-014),
 65→66 `build_executable_registry` (EAR), 66→69 `promote_executable_registry` + `exec_registry_get` +
 `exec_registry_search` (EAR Phase 2), 69→70 `promote_iocs` (BUG-004), 70→71 `report_export`
 (ADR-024 Phase 5 — missed by the earlier catalogue chain), 71→72 `retract_approval`
-(phantom-approval reconciliation, oracle HEAD `88844e98`). The decorator count is **72**
-`@app.tool()` occurrences → **72 distinct tool functions** (67 in `fastmcp_app.py` + 5 in the
+(phantom-approval reconciliation, oracle HEAD `88844e98`). The decorator count is **73**
+`@app.tool()` occurrences → **73 distinct tool functions** (68 in `fastmcp_app.py` + 5 in the
 wazuh wrappers: 4 in `wazuh_tools.py`, 1 in `wazuh_intel.py`). *Reconciliation note:* the earlier
 "71 distinct / 74 decorators / `wazuh_hunt_ioc` registered twice" figure was internally
 inconsistent (67+5=72) and the double-registration no longer exists at HEAD; **re-derived
 2026-06-11 against both the oracle source and the live `tools/list` (72 unique names,
-`health.tool_count = 72`)**. Source: `docs/tools/_TOOL-CATALOGUE.md`.
+`health.tool_count = 73`)**. Source: `docs/tools/_TOOL-CATALOGUE.md`.
 
 ## Confirmed structural numbers (code-derived, this inventory)
 
 | Fact | Value | Where confirmed |
 |------|-------|-----------------|
-| MCP tool count | **72** distinct tool functions | `CANONICAL_FACTS.md`; `docs/tools/_TOOL-CATALOGUE.md` |
+| MCP tool count | **73** distinct tool functions | `CANONICAL_FACTS.md`; `docs/tools/_TOOL-CATALOGUE.md` |
 | SIFT forensic tools (the binaries the wrappers drive) | **16** | `README.md:151`; `CHANGELOG.md:449`; the `doctor` tool dict in `src/agentropix_sift/cli.py:176-196` |
 | Forensic wrapper modules under `mcp_server/wrappers/` | ~40 wrapper `.py` files driving the 16 SIFT tools + EZ-Tools/correlation/mail | `src/agentropix_sift/mcp_server/wrappers/` |
 | Test count | **4687** | `CANONICAL_FACTS.md` (`pytest --collect-only`) |
@@ -1372,7 +1372,7 @@ inconsistent (67+5=72) and the double-registration no longer exists at HEAD; **r
 
 ## Related references
 
-- [Tool list](../04-mcp-tools/tool-list.md) — the per-tool breakdown behind the **72** MCP-tool count.
+- [Tool list](../04-mcp-tools/tool-list.md) — the per-tool breakdown behind the **73** MCP-tool count.
 - [Agents list](../10-agents/agents-list.md) — the 7 core swarm specialists + ATT&CK detectors behind the agent counts above.
 - [Design Decisions](design-decisions.md) — reconciliations of older draft figures (e.g. `2807` tests) against these canonical values.
 - [ADR Index](adr-index.md) — the deferred-detector decision that keeps the recall figures un-inflated.
@@ -1472,7 +1472,7 @@ flowchart TB
         CRIT["Critic<br/>(deterministic score<br/>+ fingerprint halt)"]
     end
     THYMUS{{"Thymus read-only policy<br/>(path allowlist, audit ring)"}}
-    MCP["FastMCP server<br/>72 MCP tools"]
+    MCP["FastMCP server<br/>73 MCP tools"]
     TOOLS[["16 SIFT forensic binaries<br/>vol · plaso · fls · yara · …"]]
     BB[("Blackboard<br/>cross-agent correlation")]
     SEAL["Courtroom seal<br/>HMAC-SHA256<br/>+ SHA-256 binding"]
@@ -1537,7 +1537,7 @@ report, and writes an HMAC-SHA256 `report_seal` plus a mode-0600 session key. Th
 result is three files on disk — `report.json`, `<stem>.audit-log.json`, and
 `<stem>.session-key` — any of which a judge can independently verify.
 
-> The canonical numbers used above — **72 MCP tools**, **16 SIFT forensic wrappers**,
+> The canonical numbers used above — **73 MCP tools**, **16 SIFT forensic wrappers**,
 > the **0.85** halt threshold, the **7-agent** core swarm — are tracked in
 > [`canonical-facts.md`](../08-reference/canonical-facts.md) (mirroring upstream `CANONICAL_FACTS.md`).
 > When a count is load-bearing in your own work, re-query the live `tools/list`.
@@ -1687,12 +1687,12 @@ Full-size zoomable SVG exports of the wide diagrams, linked inline from their pa
 
 # MCP Tool List (shared reference)
 
-> The full **72** distinct MCP tools exposed by the single FastMCP server. Derived from
+> The full **73** distinct MCP tools exposed by the single FastMCP server. Derived from
 > `docs/tools/_TOOL-CATALOGUE.md` (live-derived) cross-checked against
 > `src/agentropix_sift/mcp_server/fastmcp_app.py` and `src/agentropix_sift/mcp_server/wrappers/`.
-> **72 distinct tool functions** = 72 `@app.tool()` decorator occurrences (67 in `fastmcp_app.py`
+> **73 distinct tool functions** = 73 `@app.tool()` decorator occurrences (68 in `fastmcp_app.py`
 > + 5 in the wazuh wrappers — verified against oracle HEAD `88844e98` and the live `tools/list`,
-> 2026-06-11). Canonical fact: `mcp_tool_count = 72`.
+> 2026-06-11). Canonical fact: `mcp_tool_count = 73`.
 > The running server's `tools/list` is the authoritative arg schema.
 
 ## The 16 SIFT forensic tools (the wrapped binaries)
@@ -1862,10 +1862,10 @@ Legend: **[SIFT-16]** = drives one of the 16 SIFT forensic binaries. **[MUT]** =
 
 ---
 
-**Total: 4 + 10 + 7 + 16 + 6 + 4 + 6 + 7 + 2 + 5 + 5 = 72 rows listed; `wazuh_hunt_ioc` is the
+**Total: 4 + 10 + 7 + 16 + 6 + 4 + 6 + 7 + 2 + 5 + 5 = 73 rows listed; `wazuh_hunt_ioc` is the
 double-registered tool, so distinct tool functions = 71.** (The catalogue notes the 74→71
 reconciliation: 74 decorator occurrences, `wazuh_hunt_ioc` registered in two modules.) When an exact
-count matters in a chapter, cite `mcp_tool_count = 72` from [`canonical-facts.md`](../08-reference/canonical-facts.md) and re-query the live
+count matters in a chapter, cite `mcp_tool_count = 73` from [`canonical-facts.md`](../08-reference/canonical-facts.md) and re-query the live
 `tools/list`. Backing-module attributions for a few tools are best-effort from wrapper names; confirm
 against `fastmcp_app.py` registration before asserting a non-obvious module in prose.
 
@@ -1883,10 +1883,10 @@ against `fastmcp_app.py` registration before asserting a non-obvious module in p
 **Related elsewhere in the portal:**
 
 - [MCP server architecture](../02-architecture/mcp-server.md) — the single FastMCP server that
-  registers and exposes these 72 tools.
+  registers and exposes these 73 tools.
 - [Swarm agents](../10-agents/README.md) · [Agents list](../10-agents/agents-list.md) — the agents
   that call these tools.
-- [Canonical facts](../08-reference/canonical-facts.md) — oracle for `mcp_tool_count = 72`, the 16
+- [Canonical facts](../08-reference/canonical-facts.md) — oracle for `mcp_tool_count = 73`, the 16
   forensic wrappers, and other figures cited above.
 - [Data dictionary](../03-data/data-dictionary.md) — the case artifacts the mutating tools persist.
 
@@ -2199,7 +2199,7 @@ It runs two checks (`check_canonical_facts.py:6-19`):
 
 The gate exits `0` when both checks pass and `1` if either fails
 (`check_canonical_facts.py:20`). This is why the numbers on this portal — the
-72 MCP tools, the `0.85` halt threshold, the `72/72` disk recall — must all be
+73 MCP tools, the `0.85` halt threshold, the `72/72` disk recall — must all be
 sourced from [`canonical-facts.md`](../08-reference/canonical-facts.md) (the portal mirror of the
 upstream table): a contradicting figure is not a stylistic slip, it is a CI
 failure. The drift gate makes documentation accuracy enforceable in exactly the
@@ -2418,7 +2418,7 @@ Lookup-oriented material: the CLI, the glossary, the ADRs and the design rationa
 
 **Server:** `http://100.85.162.82:8765/mcp` (tailnet-only — not on public internet)
 
-The endpoint exposes the full Agentropix-SIFT forensic surface — **72 MCP tools** (canonical count; the live `health.tool_count` is authoritative) wrapping **16 SANS SIFT forensic binaries**. Authentication is a single static **bearer token** sent as `Authorization: Bearer <token>`.
+The endpoint exposes the full Agentropix-SIFT forensic surface — **73 MCP tools** (canonical count; the live `health.tool_count` is authoritative) wrapping **16 SANS SIFT forensic binaries**. Authentication is a single static **bearer token** sent as `Authorization: Bearer <token>`.
 
 ---
 
@@ -2573,7 +2573,7 @@ Ask the model something like:
 
 > *"Use the agentropix-sift MCP server. Run the `health` tool and tell me the tool_count."*
 
-Expected: `tool_count: 72` (or whatever the live count is — that field is authoritative; this doc may lag).
+Expected: `tool_count: 73` (or whatever the live count is — that field is authoritative; this doc may lag).
 
 ---
 
@@ -2938,7 +2938,7 @@ A trusted insider (Anthony Vanko, STARKSURFACE / `PC User`) copied classified ze
 # Agentropix MCP — server source
 
 The **Agentropix-SIFT MCP server** package: the FastMCP application that exposes the
-72-tool forensic surface (canonical count — the live number is reported by the `health` tool)
+73-tool forensic surface (canonical count — the live number is reported by the `health` tool)
 to any MCP client (Claude Code, Claude Desktop, or a headless JSON-RPC driver).
 
 ## Install
@@ -3247,7 +3247,7 @@ See [`tests/README.md`](tests/README.md) for the full suite descriptions (eviden
 > git-tracked files (`git ls-files`). Recovered malware/live samples are **withheld by design** —
 > only their SHA-256 (from quarantine manifests and in-report hash tables) is published, never their
 > bytes. Internal IPs, Wazuh endpoints, and credentials are kept as placeholders.
-> Canonical numbers (72 MCP tools, 16 SIFT forensic tools, 4687 tests, 72/72 disk recall,
+> Canonical numbers (73 MCP tools, 16 SIFT forensic tools, 4687 tests, 72/72 disk recall,
 > 108/118 memory recall, Python 3.12+) follow `docs/08-reference/canonical-facts.md`.
 
 ---
@@ -3690,10 +3690,10 @@ Every link in the chain is independently verifiable; nothing relies on trusting 
 
 **System under audit.** Agentropix-SIFT's core logic is a deterministic **Trinity loop**
 (`Architect → Swarm → Critic`) driving a **swarm of forensic agents** over a shared
-Blackboard, exposing **72 MCP tools** built on **16 SIFT forensic wrappers**, with
+Blackboard, exposing **73 MCP tools** built on **16 SIFT forensic wrappers**, with
 **Python 3.12+** as the runtime baseline
 ([`docs/08-reference/canonical-facts.md`](docs/08-reference/canonical-facts.md):
-72 tools, 16 wrappers, 4687 tests, 72/72 = 100% disk recall, 108/118 = 91.5% memory recall,
+73 tools, 16 wrappers, 4687 tests, 72/72 = 100% disk recall, 108/118 = 91.5% memory recall,
 Python 3.12+).
 
 Note: the audit prompt says "7-agent swarm", but the tracked `SWARM` tuple in

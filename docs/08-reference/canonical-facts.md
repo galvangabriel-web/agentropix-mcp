@@ -21,30 +21,30 @@ Source: `/home/admin2/agentropix-sift/CANONICAL_FACTS.md` (last verified upstrea
 | `time_to_decision_agentropix` | _pending Theme 2 execution_ | `Reports_results/BENCHMARKS/` | _T-19_ |
 | `time_to_decision_delta` | _derived_ | computed from rows above | _T-19_ |
 | `last_full_eval_run` | 2026-05-05 | `Reports_results/FULL-CASE-20260505T004738Z/` | 2026-05-23 |
-| `mcp_tool_count` | 71 | live `tools/list` + `health.tool_count`; also `_build_app().list_tools()` | 2026-06-02 |
+| `mcp_tool_count` | 73 | live `tools/list` + `health.tool_count`; also `_build_app().list_tools()` | 2026-06-14 |
 | `rubric_score_self` | 83.83/100 | `docs/SANS-RUBRIC-RE-GRADE-2026-05-23.md` §8 | 2026-05-23 |
 | `bmad_synthesis_score` | 75.6/100 (mean), 80/100 (top: Winston+Victor) | bmad-eval-sweep `SYNTHESIS_TEMPLATE.md` §3 | 2026-05-23 |
 
-### MCP tool-count lineage (how 72 was reached)
+### MCP tool-count lineage (how 73 was reached)
 
 Per `CANONICAL_FACTS.md`, the count grew incrementally and each step is auditable:
 62→63 `get_partitions` (ISSUE-001), 63→64 `get_evt` (ISSUE-008), 64→65 `delete_finding` (ISSUE-014),
 65→66 `build_executable_registry` (EAR), 66→69 `promote_executable_registry` + `exec_registry_get` +
 `exec_registry_search` (EAR Phase 2), 69→70 `promote_iocs` (BUG-004), 70→71 `report_export`
 (ADR-024 Phase 5 — missed by the earlier catalogue chain), 71→72 `retract_approval`
-(phantom-approval reconciliation, oracle HEAD `88844e98`). The decorator count is **72**
-`@app.tool()` occurrences → **72 distinct tool functions** (67 in `fastmcp_app.py` + 5 in the
-wazuh wrappers: 4 in `wazuh_tools.py`, 1 in `wazuh_intel.py`). *Reconciliation note:* the earlier
-"71 distinct / 74 decorators / `wazuh_hunt_ioc` registered twice" figure was internally
-inconsistent (67+5=72) and the double-registration no longer exists at HEAD; **re-derived
-2026-06-11 against both the oracle source and the live `tools/list` (72 unique names,
-`health.tool_count = 72`)**. Source: `docs/tools/_TOOL-CATALOGUE.md`.
+(phantom-approval reconciliation, oracle HEAD `88844e98`), **72→73 `get_memory_netconns`**
+(W-302 — Vol2.6 XP/2003 memory-netconns recovery, `wrappers/vol26_netconns.py`). The count is
+**68** `@app.tool()` occurrences in `fastmcp_app.py` **+ 5** Wazuh registrars (4 in `wazuh_tools.py`,
+1 in `wazuh_intel.py`) = **73 distinct tool functions**. *History:* the `71` and `72` figures are
+superseded; **re-derived 2026-06-14 against both the oracle source and the live `tools/list` (73 unique
+names,
+`health.tool_count = 73`)**. Source: `docs/tools/_TOOL-CATALOGUE.md`.
 
 ## Confirmed structural numbers (code-derived, this inventory)
 
 | Fact | Value | Where confirmed |
 |------|-------|-----------------|
-| MCP tool count | **72** distinct tool functions | `CANONICAL_FACTS.md`; `docs/tools/_TOOL-CATALOGUE.md` |
+| MCP tool count | **73** distinct tool functions | `CANONICAL_FACTS.md`; `docs/tools/_TOOL-CATALOGUE.md` |
 | SIFT forensic tools (the binaries the wrappers drive) | **16** | `README.md:151`; `CHANGELOG.md:449`; the `doctor` tool dict in `src/agentropix_sift/cli.py:176-196` |
 | Forensic wrapper modules under `mcp_server/wrappers/` | ~40 wrapper `.py` files driving the 16 SIFT tools + EZ-Tools/correlation/mail | `src/agentropix_sift/mcp_server/wrappers/` |
 | Test count | **4687** | `CANONICAL_FACTS.md` (`pytest --collect-only`) |
@@ -75,7 +75,7 @@ inconsistent (67+5=72) and the double-registration no longer exists at HEAD; **r
 
 ## Related references
 
-- [Tool list](../04-mcp-tools/tool-list.md) — the per-tool breakdown behind the **72** MCP-tool count.
+- [Tool list](../04-mcp-tools/tool-list.md) — the per-tool breakdown behind the **73** MCP-tool count.
 - [Agents list](../10-agents/agents-list.md) — the 7 core swarm specialists + ATT&CK detectors behind the agent counts above.
 - [Design Decisions](design-decisions.md) — reconciliations of older draft figures (e.g. `2807` tests) against these canonical values.
 - [ADR Index](adr-index.md) — the deferred-detector decision that keeps the recall figures un-inflated.

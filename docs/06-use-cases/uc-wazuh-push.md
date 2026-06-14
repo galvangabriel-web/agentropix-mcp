@@ -496,7 +496,7 @@ gate; the actual push is driven by the MCP client.
 - [uc-disk-triage.md](uc-disk-triage.md) / [uc-memory-triage.md](uc-memory-triage.md) — where the
   pushed IOCs originate.
 - [`tool-list.md`](../04-mcp-tools/tool-list.md) — the 5 Wazuh tools (`wazuh_hunt_ioc` registered
-  twice → 72 distinct tools total) and the `[MUT]` write markers.
+  twice → 73 distinct tools total) and the `[MUT]` write markers.
 - [`env-vars.md`](../07-sdlc-ops/env-vars.md) — the full Wazuh kill-switch + connectivity matrix.
 - [`module-map.md`](../02-architecture/module-map.md) — the `wazuh/` package internals.
 

@@ -7,7 +7,7 @@ plus `docs/12-CASES-REPORTS` (sealed DFIR case reports) — 12 numbered categori
 reading order is layered on via a "Read in this order" list, non-destructively — filenames are not renamed.
 
 ## Source of truth & accuracy
-- **Canonical numbers come from [`docs/08-reference/canonical-facts.md`](docs/08-reference/canonical-facts.md)** — `72` MCP tools, `16` forensic
+- **Canonical numbers come from [`docs/08-reference/canonical-facts.md`](docs/08-reference/canonical-facts.md)** — `73` MCP tools, `16` forensic
   wrappers, `4687` tests, `72/72 (100%)` disk recall, `108/118 (91.5%)` memory recall, Python `3.12+`.
   **Never state a number that contradicts it.** Stale figures may only appear inside an explicit
   "earlier draft said X, canonical is Y" reconciliation note.
@@ -17,7 +17,7 @@ reading order is layered on via a "Read in this order" list, non-destructively �
 
 ## MCP-call accuracy (validate every tool/plugin against the live MCP)
 Docs are full of 🖥️ MCP calls and `run_volatility` plugins; a wrong name is a real, demo-breaking bug.
-- **Every documented MCP tool name must exist in the live tool list** (`72` tools — query `tools/list`
+- **Every documented MCP tool name must exist in the live tool list** (`73` tools — query `tools/list`
   via the MCP, or [`docs/04-mcp-tools/tool-list.md`](docs/04-mcp-tools/tool-list.md)). Non-tools that crept into drafts:
   `get_hashdump`/`hashdump` (no credential-dump capability is exposed — drop the step), `get_srum`
   (→ `srum_extract`), and `mmls` used as an MCP slot (→ `get_partitions`/`parse_gpt`; note `fls` *is* a
@@ -235,6 +235,18 @@ Auto-generated (Opus 4.8 multi-agent workflows), repo-grounded, every figure sou
   Playwright-OCR each section to verify. See auto-memory `video-annotation-pipeline`.
 
 ## Session updates (2026-06-14) — canonical bump · new executed runs · try-it guide
+- **`mcp_tool_count` bumped `72` → `73`** (live `tools/list` = 73; lineage now **68 `@app.tool()` in
+  `fastmcp_app.py` + 5 Wazuh registrars = 73**, the off-by-one is resolved — no `wazuh_hunt_ioc`
+  double-count). The `72→73` step is the new tool **`get_memory_netconns`** (W-302 — Vol2.6 XP/2003
+  netconns recovery via `connscan`/`connections`/`sockscan`, `wrappers/vol26_netconns.py`; for images
+  where vol3 `windows.netscan` is NotImplemented on Win 5.1). Documented in `tool-list.md` (Memory §8),
+  `tool-reference.md`, `capability-map.md`. **CAUTION sweeping "72":** it collides with **`72/72` disk
+  recall** (92 occurrences — never touch), schema/line refs (`report.schema.json:72`,
+  `thymus_policy.py:69-72`), and thymus-audit/duration values (`72.4 seconds`, `xp disk 72`) — bump
+  only tool-count *phrasings*. Re-rendered the 4 diagrams that bake the count (evidence-integrity
+  d1/d3, try-it flow/flow-memory). **LEFT at 72** (point-in-time/historical): run captures recording
+  `tool_count: 72`, and the dated "live may report 72 / +1 over canonical 71" drift notes in case
+  guides. **Dual-repo TODO:** the oracle's `canonical-facts.md` + the canonical gate also need 72→73.
 - **`test_count` bumped `4464` → `4687`** (re-verified live: `cd /home/admin2/agentropix-sift && uv run
   pytest --collect-only -q | tail -1`). Swept the **live doc surface** (canonical-facts.md authority +
   README/INDEX/llms*/EVALUATION-MAP/case guides/docs prose + same-length-safe SVG text). **Intentionally
@@ -273,7 +285,7 @@ Auto-generated (Opus 4.8 multi-agent workflows), repo-grounded, every figure sou
   the **doc is the single source of truth** (keep them in sync if edited).
 - **Devpost:** the public page now EXISTS (`devpost.com/software/agentropix-mcp-agentic-forensics-incident-response`).
   `DEVPOST-SUBMISSION.md` (repo-root, **untracked / local-only** paste source) carries the corrected story
-  (72 tools · 16 wrappers · 52 check_read · 4687 tests · 72/72 + 108/118). Live page still needs: tagline
+  (73 tools · 16 wrappers · 52 check_read · 4687 tests · 72/72 + 108/118). Live page still needs: tagline
   `42`→`72` (a **separate field**, not the body), delete the pasted `--- README LINK SNIPPET ---` /
   `--- GALLERY ---` meta-sections, and add the demo video. The Devpost **edit page is login-gated**
   (`secure.devpost.com/users/login`) — not viewable by Claude; verify edits on the **public** page in incognito.

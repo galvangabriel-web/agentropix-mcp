@@ -8,7 +8,7 @@ flowchart TD
     classDef neg fill:#fed7aa,stroke:#c2410c,color:#7c2d12;
 
     U["End user — ONE plain-language prompt (memory case)"]:::edge
-    C["Claude session + Agentropix-SIFT MCP<br/>72 tools · LLM orchestrates, never authors a fact"]:::mcp
+    C["Claude session + Agentropix-SIFT MCP<br/>73 tools · LLM orchestrates, never authors a fact"]:::mcp
     S0["Step 0 · pre-flight + custody<br/>environment ready · evidence_register → SHA-256 chain of custody<br/>NOTE: no get_image_info on a raw .mem (EWF-only — returns empty)"]:::mcp
     S13["Steps 1-3 · open the case<br/>case_init → case_activate → case_status (active · indexer reachable)"]:::mcp
     TH{"Thymus read-only gate<br/>check_read allowlist · check_write REJECT<br/>no write tool exists"}:::seal

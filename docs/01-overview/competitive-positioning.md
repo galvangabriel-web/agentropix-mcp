@@ -39,7 +39,7 @@ the second.
 |---|---|
 | [Executive framing: old reality → new reality](#executive-framing-old-reality--new-reality) | The before/after table positioning the project against the manual-triage status quo (hours of hand-correlation vs minutes of verifiable agentic triage). |
 | [The unique angle](#the-unique-angle) | The four code-enforced properties that, taken together, make Agentropix-SIFT the first DFIR-specific agentic system of its kind. |
-| [Feature matrix vs the field](#feature-matrix-vs-the-field) | A capability-by-capability comparison against five competitors, plus the canonical count reconciliation (16 wrappers, 72 MCP tools, 7 specialists). |
+| [Feature matrix vs the field](#feature-matrix-vs-the-field) | A capability-by-capability comparison against five competitors, plus the canonical count reconciliation (16 wrappers, 73 MCP tools, 7 specialists). |
 | [Four positioning statements](#four-positioning-statements) | The four pitch-ready one-liners that frame why the differentiators are structural moats, not feature-list items. |
 | [Where we honestly lose](#where-we-honestly-lose) | The deliberate non-goals where competitors win — case management, Windows collection, and polished reporting UI. |
 | [Six explicit non-goals](#six-explicit-non-goals) | The scope boundaries stated up front so readers know what the project intentionally is not. |
@@ -91,7 +91,7 @@ each enforced in code (per `COMPETITIVE-DFIR.md`; the in-portal
 1. **Real SANS SIFT toolkit as MCP** — the forensic binaries examiners already trust
    (plaso, Volatility 3, Sleuth Kit, RegRipper, and the rest), exposed as
    uniformly-typed, uniformly-gated `mcp_*` tools (**16 SIFT forensic wrappers** on the
-   **72-tool MCP surface** per [`canonical-facts.md`](../08-reference/canonical-facts.md); see the count
+   **73-tool MCP surface** per [`canonical-facts.md`](../08-reference/canonical-facts.md); see the count
    reconciliation below). *MCP* (Model Context Protocol) is the typed tool-call interface
    the agent speaks; `mcp_*` is the naming prefix for those tools.
 2. **Structural evidence safety** — no write tool exists; the agent cannot mutate
@@ -123,8 +123,8 @@ each enforced in code (per `COMPETITIVE-DFIR.md`; the in-portal
 
 Imported from the oracle's `docs/COMPETITIVE-DFIR.md` feature matrix (2026-04-22), with
 the SIFT-binary count rendered as **16 forensic wrappers**, the agent count as **7 core
-specialists**, and the MCP surface as **72 tools** — all three pinned to
-[`canonical-facts.md`](../08-reference/canonical-facts.md) (`mcp_tool_count = 72`; SIFT forensic tools =
+specialists**, and the MCP surface as **73 tools** — all three pinned to
+[`canonical-facts.md`](../08-reference/canonical-facts.md) (`mcp_tool_count = 73`; SIFT forensic tools =
 `16`) and `src/agentropix_sift/agents/__init__.py` (the runnable `SWARM` tuple).
 
 The five comparators across the top are defined once here so the columns are readable on
@@ -147,7 +147,7 @@ emails, URLs, and other artefacts without parsing the file system.
 
 | Capability | Agentropix-SIFT | Velociraptor + LLM | Autopsy + AI plugin | TheHive / Cortex | CADO Response | Magnet AXIOM Copilot |
 |---|---|---|---|---|---|---|
-| **Integration substrate** | **MCP** — 16 forensic wrappers on a **72-tool** `mcp_*` surface, uniform typing + gating | ad-hoc shell-out / VQL | ad-hoc plugin API | ticket / workflow bus | proprietary cloud API | proprietary desktop plugin |
+| **Integration substrate** | **MCP** — 16 forensic wrappers on a **73-tool** `mcp_*` surface, uniform typing + gating | ad-hoc shell-out / VQL | ad-hoc plugin API | ticket / workflow bus | proprietary cloud API | proprietary desktop plugin |
 | **Real SANS SIFT toolkit** | plaso, vol3, tsk, regripper, amcache, shimcache, evtx, yara, bulk_extractor, prefetch, extract_files, foremost, hashdeep, strings, ewfinfo, exiftool (**16 wrappers**) | VQL artifacts + shell-outs | Autopsy module subset | no native DFIR tools | proprietary carving | AXIOM artifact subset |
 | **Evidence write-protection** | **structural — agents have no write tool**; Thymus gates every read | relies on VQL being read-only + operator discipline | Autopsy case-locking | N/A (no evidence access) | cloud-isolated snapshot | snapshotted case file |
 | **Chain-of-custody** | SHA-256 of source image + per-tool audit trail, HMAC-sealed | artifact upload hash | Autopsy case hash | attachment hash | cloud-signed snapshot | AXIOM case hash |
@@ -161,8 +161,8 @@ emails, URLs, and other artefacts without parsing the file system.
 > **Count reconciliation.** The oracle competitive doc frames the toolkit as "16 / 16"
 > and the swarm as a "5-agent swarm." This portal pins the canonical numbers:
 > **16 forensic wrappers** drive the 16 SIFT binaries (`canonical-facts.md`; `README.md:151`;
-> `cli.py` `doctor` tool dict); the **72-tool MCP surface** is the full `tools/list`
-> (`canonical-facts.md`, `mcp_tool_count = 72`); and the swarm is **7 core specialists**
+> `cli.py` `doctor` tool dict); the **73-tool MCP surface** is the full `tools/list`
+> (`canonical-facts.md`, `mcp_tool_count = 73`); and the swarm is **7 core specialists**
 > (Memory, Timeline, Filesystem, Artifact, Discovery, Mail, Hunt) interleaved with six
 > deterministic ATT&CK detector agents in the runnable `SWARM` tuple
 > (`src/agentropix_sift/agents/__init__.py`). The "5-agent" framing predates the
@@ -179,7 +179,7 @@ flowchart LR
     subgraph OURS["Agentropix-SIFT — LLM only orchestrates"]
         ORCH["LLM proposes next step"]
         DET["Deterministic Python disposes<br/>plan · score · halt-fingerprint"]
-        TOOLS["16 forensic wrappers<br/>72-tool MCP surface · Thymus-gated"]
+        TOOLS["16 forensic wrappers<br/>73-tool MCP surface · Thymus-gated"]
         SEAL["HMAC-SHA256 seal<br/>+ SHA-256 evidence anchor"]
     end
 
@@ -277,6 +277,6 @@ To prevent scope confusion, the project states its non-goals up front. These are
 
 - **[What is Agentropix-SIFT?](what-is-agentropix.md)** — the problem, the pipeline, and
   the LLM-only-vs-Agentropix contrast table.
-- **[What You Get](what-you-get.md)** — the full capability matrix (Trinity loop, 72 MCP
+- **[What You Get](what-you-get.md)** — the full capability matrix (Trinity loop, 73 MCP
   tools, 16 forensic wrappers, Thymus, Courtroom seal, chaos tests, recall gates).
 - **[Quickstart](quickstart.md)** — install, `doctor` pre-flight, and a first triage run.
