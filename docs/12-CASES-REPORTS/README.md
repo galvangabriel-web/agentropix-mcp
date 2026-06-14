@@ -146,9 +146,10 @@ The standalone **Windows XP** laptop of **Greg Schardt** (alias **"Mr. Evil"**, 
 
 **Recorded execution-command replay** (5 min 22 s — every one of the 400 tool calls paired with its result/exit, 68 honest errors highlighted; built by [`make_execution_replay.py`](cfreds-hacking-case-report/make_execution_replay.py) from the audit trace):
 
-[![CFReDS execution-command replay — poster frame (click for the MP4)](cfreds-hacking-case-report/EXECUTION-REPLAY-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/cfreds-hacking-case-report/EXECUTION-REPLAY.mp4)
+[![CFReDS execution-command replay (animated teaser — click for the full MP4)](cfreds-hacking-case-report/EXECUTION-REPLAY-teaser.gif)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/cfreds-hacking-case-report/EXECUTION-REPLAY.mp4)
 
-> ▶ GitHub can't inline-play repo MP4s — click the poster for the GitHub Pages player, or
+> ▶ Inline teaser loop (auto-plays on GitHub). GitHub can't inline-play the full repo MP4 — click the
+> teaser for the GitHub Pages player, or
 > ***[download the MP4 (13.5 MB, 5 min 22 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/cfreds-hacking-case-report/EXECUTION-REPLAY.mp4)***.
 
 **More in this case folder:**

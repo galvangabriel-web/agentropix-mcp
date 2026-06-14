@@ -52,10 +52,12 @@ result/exit**, the 68 honest errors/recoveries highlighted in red, reconstructed
 [`audit/tool-execution-trace.jsonl`](audit/tool-execution-trace.jsonl) by
 [`make_execution_replay.py`](make_execution_replay.py).
 
-[![CFReDS execution-command replay — poster frame (click for the MP4)](EXECUTION-REPLAY-poster.png)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/cfreds-hacking-case-report/EXECUTION-REPLAY.mp4)
+[![CFReDS execution-command replay (animated teaser — click for the full MP4)](EXECUTION-REPLAY-teaser.gif)](https://galvangabriel-web.github.io/agentropix-mcp/docs/12-CASES-REPORTS/cfreds-hacking-case-report/EXECUTION-REPLAY.mp4)
 
-> ▶ GitHub can't inline-play repo MP4s — click the poster for the GitHub Pages player, or
-> ***[download the MP4 (13.5 MB, 5 min 22 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/cfreds-hacking-case-report/EXECUTION-REPLAY.mp4)***.
+> ▶ The animation above is an inline **teaser loop** (auto-plays on GitHub — title → a real
+> tool-error self-correction → findings → seal). GitHub can't inline-play the full repo MP4, so for
+> the complete 5 min 22 s run **click the teaser** for the GitHub Pages player, or
+> ***[download the MP4 (13.5 MB)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/cfreds-hacking-case-report/EXECUTION-REPLAY.mp4)*** (poster: `EXECUTION-REPLAY-poster.png`).
 > The [asciinema source](EXECUTION-REPLAY.cast) is included; regenerate with
 > `python make_execution_replay.py && agg --cols 150 --rows 42 --font-size 14 --fps-cap 30 --theme github-dark EXECUTION-REPLAY.cast EXECUTION-REPLAY.gif`.
 
@@ -91,7 +93,7 @@ result/exit**, the 68 honest errors/recoveries highlighted in red, reconstructed
 |---|---|
 | [`diagrams/`](diagrams/) | Attack execution graph — `attack-graph.png` (portrait) / `attack-graph-lr.png` (landscape) / `attack-graph.svg` (vector) + Mermaid (`.mmd`/`-lr.mmd`), Graphviz (`.dot`), and the annotated [`attack-graph.md`](diagrams/attack-graph.md) with legend. |
 | [`audit/`](audit/) | [`PROJECT-agent-execution-log.md`](audit/PROJECT-agent-execution-log.md) (the human-readable agent execution log), `tool-execution-trace.jsonl` (1,003-step machine trace), `workflow-agents.jsonl` (per-sub-agent rollup), `execution-dashboard.{png,svg}`, and the `build-*.py` regenerators. |
-| `EXECUTION-REPLAY.mp4` | The **execution-command replay video** (5 min 22 s) — poster `EXECUTION-REPLAY-poster.png`, asciinema source `EXECUTION-REPLAY.cast`, built by [`make_execution_replay.py`](make_execution_replay.py) from the audit trace. |
+| `EXECUTION-REPLAY.mp4` | The **execution-command replay video** (5 min 22 s) — inline teaser `EXECUTION-REPLAY-teaser.gif`, poster `EXECUTION-REPLAY-poster.png`, asciinema source `EXECUTION-REPLAY.cast`, built by [`make_execution_replay.py`](make_execution_replay.py) from the audit trace. |
 | [`approve-all-findings.ps1`](approve-all-findings.ps1) | Examiner batch-approval helper (the 35 Finding-IDs) — passwords read via secure prompt / env / DPAPI, sent only to the W-288 approval sidecar over TLS; the agent cannot self-approve (W-286 draft-gate). |
 | [`build-report.py`](build-report.py) | Generator for the self-contained `CFREDS-report.html`. |
 | [`MANIFEST.txt`](MANIFEST.txt) | Original deliverable manifest (bundle file list + verdict). |
