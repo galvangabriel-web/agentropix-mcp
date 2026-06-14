@@ -173,7 +173,11 @@ C2) → **`get_malfind`** (injected/RWX code) → **`get_svcscan`** (services) �
 
 ## To run *any other* case
 
-Swap the values at the top of the prompt — they're the only case-specific parts:
+Start from whichever ready prompt matches your evidence — the
+**[disk-case prompt](#the-prompt-disk-case--paste-this-whole-block-into-claude)**
+(with its [flow diagram](#at-a-glance--what-the-one-prompt-does)) or the
+**[memory-case prompt](#memory-case-variant)** — then swap the values at the top (they're the only
+case-specific parts):
 
 1. **Case ID** and **evidence path(s)**.
 2. **Disk vs memory** — pick the right chain (disk: partition→`fls`→`extract_files`→registry/event-logs;

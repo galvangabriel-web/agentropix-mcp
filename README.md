@@ -453,6 +453,92 @@ rationale narratives in [Design Decisions](docs/08-reference/design-decisions.md
 > types the command** or a **non-technical examiner just asks**. *Adapt Agentropix to the user, not the
 > user to Agentropix.*
 
+> 📋 **Copy-paste, end-to-end:** paste **one** of the two blocks below into a Claude session with the
+> Agentropix MCP connected — it runs the entire six-stage flow on a real case and returns every result,
+> stopping only at the human approval gate. Full guide, step-by-step tool map, and flow diagrams:
+> **[Try it end-to-end — one prompt, a full investigation](docs/01-overview/try-it-end-to-end.md)**.
+
+<details>
+<summary><b>🖴 Disk case — CFReDS "Hacking Case" (Windows XP, public NIST image)</b> · <a href="docs/01-overview/try-it-end-to-end.md#the-prompt-disk-case--paste-this-whole-block-into-claude">canonical source + flow diagram</a></summary>
+
+```text
+You are my DFIR analyst, and you have the Agentropix-SIFT MCP server connected. Investigate ONE
+case end-to-end and show me every result. Work autonomously — don't ask me questions — and stop
+only at the human approval gate.
+
+THE CASE
+- Name: CFReDS "Hacking Case" (Greg Schardt / "Mr. Evil")
+- Case ID: CFREDS-HACKING-CASE-4DELL  (examiner: victor.galvan, severity: high)
+- Evidence (disk, EWF): /cases/cfreds-fresh/4Dell-Latitude-CPi.E01   (the .E02 segment is read automatically)
+- It is a Windows XP disk image. There is NO memory dump — do NOT use any memory/Volatility tools
+  (no pslist / netscan / malfind / svcscan / process_tree).
+
+PER-CASE RULES (follow exactly — they matter):
+- The NTFS volume starts at sector offset 63. Pass offset 63 to file-listing and file-extraction.
+  Confirm the partition layout first.
+- Windows XP event logs are ".evt" → use the .evt event-log tool (get_evt), NOT the Vista+ .evtx one.
+  Skip Amcache (it is Windows 7+ only).
+- Put any carving output dir under /tmp/agentropix-sift-  (e.g. /tmp/agentropix-sift-cfreds-be).
+
+DO THIS IN ORDER, AND SHOW ME EACH RESULT:
+0. Pre-flight + custody: confirm the forensic environment is ready, then verify the image integrity
+   and show me who acquired it and what OS it is. (Expect stored MD5 == aee4fcd9301c03b3b054623ca261959a.)
+1-3. Open case CFREDS-HACKING-CASE-4DELL (high severity, examiner victor.galvan, evidence in
+   /cases/cfreds-fresh), make it the active case, and confirm it's active and the indexer is reachable.
+4. Register the E01 as evidence and give me its SHA-256 chain-of-custody hash.
+5. Analyze the disk and report each result:
+   a. Partition layout — confirm NTFS at offset 63.
+   b. List all files (offset 63, recursive); then list just the deleted files.
+   c. Carve indicators (emails, domains, IPs, URLs) into /tmp/agentropix-sift-cfreds-be.
+   d. Run a YARA smoke-scan (0 matches is a clean pass, not a failure).
+   e. Lift the registry hives (offset 63) and pull execution/persistence artifacts: registry,
+      shimcache, prefetch, and the XP .evt event logs.
+6. Record what you found as findings (they will be saved as DRAFT — that is expected; you cannot
+   self-approve evidence).
+7. STOP at the approval gate: list exactly which findings are waiting for MY approval, with their IDs,
+   and tell me how to approve them (the human HMAC examiner portal). Do NOT approve them yourself.
+8. Generate the case report and give me the report ID + section counts. (Approved-finding count will
+   be 0 until I approve in step 7 — that is correct.)
+
+FINALLY, give me a concise summary: the custody SHA-256, the partition offset, the file + deleted-file
+counts, the IOCs carved, the artifacts found, the DRAFT findings (with IDs), and the report ID — plus
+any honest negatives (tools that found nothing or were skipped, and why).
+```
+</details>
+
+<details>
+<summary><b>🧠 Memory case — generic raw RAM dump (Volatility chain)</b> · <a href="docs/01-overview/try-it-end-to-end.md#memory-case-variant">canonical source + flow diagram</a></summary>
+
+```text
+You are my DFIR analyst with the Agentropix-SIFT MCP connected. Investigate ONE memory case end-to-end
+and show me every result. Work autonomously; stop only at the human approval gate.
+
+THE CASE
+- Case ID: MEMDUMP-2014  (examiner: victor.galvan, severity: medium)
+- Evidence (raw memory dump): /cases/memdump/memdump.mem
+
+MEMORY RULES (follow exactly):
+- Do NOT run get_image_info on a raw memory dump — it reads EWF/E01 metadata and returns empty on .mem.
+- get_pslist is the OS/profile confirm step: Volatility auto-detects the kernel symbol table on the first
+  windows.* plugin. A populated process list confirms the profile matched; an empty list with a
+  symbol-table error is an HONEST NEGATIVE (no profile resolved) — report it as such, don't invent results.
+- This is memory only — do NOT use disk tools (no partitions/fls/extract_files/registry-from-disk).
+
+DO THIS IN ORDER, AND SHOW ME EACH RESULT:
+0. Confirm the environment is ready and register the dump as evidence (give me its SHA-256).
+1-3. Open case MEMDUMP-2014, make it active, confirm active + indexer reachable.
+4. Process list (this also confirms the OS/profile). If it's empty with a symbol-table error, tell me
+   plainly that no profile resolved and stop the memory chain.
+5. Network connections, injected/suspicious code, services, and the process tree (PPID forest, LOLBin flags).
+6. Record what you found as DRAFT findings (you cannot self-approve).
+7. STOP at the approval gate: list the DRAFT findings + IDs and how I approve them. Do NOT approve them.
+8. Generate the report; give me the report ID + section counts.
+
+FINALLY: a concise summary — custody SHA-256, process/network/injection highlights, the DRAFT findings
+(with IDs), the report ID, and any honest negatives.
+```
+</details>
+
 ![Stage 1 doctor](https://img.shields.io/badge/①_DOCTOR-pre--flight-8e44ad?style=for-the-badge)
 ![Stage 2 run](https://img.shields.io/badge/②_RUN-triage-2980b9?style=for-the-badge)
 ![Stage 3 review](https://img.shields.io/badge/③_REVIEW-verify-f39c12?style=for-the-badge)
