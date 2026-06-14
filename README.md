@@ -1009,8 +1009,10 @@ Full table with per-row sources and verification dates:
 ## Documentation map
 
 Start at the routed [master table of contents](INDEX.md), which maps every chapter to its audience and
-the question it answers. The portal is organized into twelve numbered sections under `docs/`, plus the
-`case-activation/` operational annex:
+the question it answers. For a file-by-file map of the whole repository — the MCP-server package
+internals, every docs section, and the case folders, each with a one-line description — see
+[**PROJECT-STRUCTURE.md**](PROJECT-STRUCTURE.md). The portal is organized into twelve numbered sections
+under `docs/`, plus the `case-activation/` operational annex:
 
 | # | Section | What it contains |
 |---|---------|------------------|
