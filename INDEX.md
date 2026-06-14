@@ -97,7 +97,7 @@ unchanged — the reading order is layered on top, non-destructively.
 |-------|----------|--------------------------|------|
 | README — Agentropix-SIFT | all | What is this, at a glance, and where do I go next? | [README.md](README.md) |
 | Documentation Index | all | Which document answers my question, for my role? | [INDEX.md](INDEX.md) |
-| Project Structure | all | Where does each file/folder live and what does it do? | [PROJECT-STRUCTURE.md](PROJECT-STRUCTURE.md) |
+| Project Structure | all | Where does each file/folder live and what does it do? | [README — Project Structure](README.md#project-structure) |
 
 ## 1. Overview
 
