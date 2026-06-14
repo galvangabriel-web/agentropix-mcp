@@ -1,0 +1,27 @@
+flowchart TD
+    classDef edge fill:#e5e7eb,stroke:#4b5563,color:#1f2937;
+    classDef mcp fill:#bbf7d0,stroke:#15803d,color:#14532d;
+    classDef evidence fill:#bfdbfe,stroke:#1d4ed8,color:#1e3a8a;
+    classDef draft fill:#fde68a,stroke:#b45309,color:#7c2d12;
+    classDef human fill:#fecaca,stroke:#b91c1c,color:#7f1d1d;
+    classDef seal fill:#ddd6fe,stroke:#6d28d9,color:#4c1d95;
+
+    U["End user — ONE plain-language prompt"]:::edge
+    C["Claude session + Agentropix-SIFT MCP<br/>72 tools · 16 SIFT forensic wrappers · LLM orchestrates, never authors a fact"]:::mcp
+    S0["Step 0 · pre-flight + custody<br/>doctor (16 SIFT tools ready) · ewfverify / get_image_info<br/>MD5 aee4fcd9 verified · Windows XP · acquired 2004"]:::mcp
+    S13["Steps 1-3 · open the case<br/>case_init → case_activate → case_status (active · indexer reachable)"]:::mcp
+    S4["Step 4 · evidence_register<br/>SHA-256 chain of custody, bound to the case"]:::mcp
+    TH{"Thymus read-only gate<br/>check_read allowlist · check_write REJECT<br/>no write tool exists in the surface"}:::seal
+    EV[("Read-only evidence<br/>4Dell-Latitude-CPi.E01")]:::evidence
+    S5["Step 5 · analyze — disk chain<br/>get_partitions (NTFS @ offset 63) · fls live + deleted<br/>run_bulk_extractor (emails/domains/IPs/URLs) · scan_yara (0 = clean)<br/>extract_files → registry · shimcache · prefetch · get_evt (XP .evt)"]:::mcp
+    S6["Step 6 · record_finding<br/>findings stamped DRAFT (indexed:false) — agent cannot self-approve"]:::draft
+    S7["Step 7 · HUMAN approval gate<br/>HMAC challenge-response · examiner portal<br/>the one step no model can do"]:::human
+    S8["Step 8 · report_generate<br/>+ courtroom seal (evidence SHA-256 + HMAC, tamper-evident)"]:::seal
+    OUT["Results — custody hash · file + deleted counts · carved IOCs<br/>execution/persistence artifacts · DRAFT findings (IDs) · report ID<br/>+ honest negatives (skipped/empty tools, said plainly)"]:::edge
+
+    U --> C --> S0 --> S13 --> S4 --> TH
+    TH -->|"ALLOW read"| EV
+    TH --> S5
+    EV -.->|"bytes, read-only"| S5
+    S5 --> S6 --> S7
+    S7 -->|"examiner signs"| S8 --> OUT

@@ -11,6 +11,11 @@ Get](what-you-get.md).
 > portal, seal the report, and (optionally) escalate to Wazuh** — with expected output at
 > every phase. This Quickstart is the condensed install-and-first-run subset of it.
 
+> ▶️ **Just want one copy-paste prompt that runs a whole case?** See
+> [Try it end-to-end — one prompt, a full investigation](try-it-end-to-end.md): a single
+> plain-language prompt that drives all 8 steps on the public CFReDS case (with a flow diagram
+> of every feature it touches) and a memory-case variant.
+
 > **Fastest start (≈60 seconds, runs today): install the packaged MCP server and connect Claude** —
 > Path A below:
 >

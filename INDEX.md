@@ -108,6 +108,7 @@ unchanged — the reading order is layered on top, non-destructively.
 | What is Agentropix-SIFT? | operator, examiner | What does the tool do, why, who is it for, and how does it compare to manual DFIR? | [docs/01-overview/what-is-agentropix.md](docs/01-overview/what-is-agentropix.md) |
 | What You Get | operator, examiner | What are the concrete capabilities and the feature/capability matrix? | [docs/01-overview/what-you-get.md](docs/01-overview/what-you-get.md) |
 | Quickstart | operator (expert + end-user) | How do I install, pre-flight the toolchain, and run my first triage? The condensed path, dual-audience — each step carries the **expert CLI/MCP command** and the **plain-language end-user prompt** for the same result. | [docs/01-overview/quickstart.md](docs/01-overview/quickstart.md) |
+| Try it end-to-end — one prompt | operator, end-user | I'm brand new — give me **one copy-paste prompt** that runs a *whole* case and returns every result. A complete autonomous prompt on the public CFReDS disk case (with a flow diagram of every feature/step it touches), a step-by-step tool map, the human-approval gate, and a memory-case variant. | [docs/01-overview/try-it-end-to-end.md](docs/01-overview/try-it-end-to-end.md) |
 | Competitive Positioning | operator, examiner | How is this different from Velociraptor + an LLM, and where does it honestly lose? | [docs/01-overview/competitive-positioning.md](docs/01-overview/competitive-positioning.md) |
 |
 
