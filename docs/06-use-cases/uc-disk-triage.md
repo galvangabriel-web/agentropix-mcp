@@ -469,6 +469,7 @@ agentropix-sift evidence-gate mint   # -> egt_<ULID> into AGENTROPIX_MUTATION_TO
 
 ## See also
 
+- [CFReDS "Hacking Case" — sealed report](../12-CASES-REPORTS/cfreds-hacking-case-report/README.md) — the **published sealed case report** for the validated CFReDS run this page draws its real outputs from: a single-host Windows XP disk case (Greg Schardt / "Mr. Evil", `4Dell-Latitude-CPi.E01`), with the [analyst report](../12-CASES-REPORTS/cfreds-hacking-case-report/CFREDS-analyst.md) (35 approved findings, timeline, IOCs, honest negatives), the [attack-execution graph](../12-CASES-REPORTS/cfreds-hacking-case-report/diagrams/attack-graph.png), and the [agent execution log](../12-CASES-REPORTS/cfreds-hacking-case-report/audit/PROJECT-agent-execution-log.md). No memory image (Volatility N/A); no enterprise lateral movement.
 - [uc-memory-triage.md](uc-memory-triage.md) — the Volatility memory-triage counterpart.
 - [uc-approval-gate.md](uc-approval-gate.md) — promote DRAFT findings via examiner approval.
 - [uc-wazuh-push.md](uc-wazuh-push.md) — push the resulting IOCs into Wazuh (optional integration).

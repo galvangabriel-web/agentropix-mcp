@@ -717,6 +717,18 @@ A sibling agent-execution-log run covers the Windows XP laptop (2005) case at
 (auto-plays): a 13-scene deterministic deck correlated from its logs (297 records · 64 tool calls · 14
 errors, all recovered), grounded in the
 [correlation report](case-activation/runs/WINXP-LAPTOP-2005/WINXP-LAPTOP-2005-video/CORRELATION-REPORT.md).
+The **CFReDS "Hacking Case"** sealed case report (**CFREDS-HACKING-CASE-4DELL** — the public NIST
+single-host Windows XP disk image of Greg Schardt / "Mr. Evil", a standalone *unauthorized wireless
+interception* case — **no memory image, no enterprise lateral movement**) keeps its own
+[agent execution log](docs/12-CASES-REPORTS/cfreds-hacking-case-report/audit/PROJECT-agent-execution-log.md)
+alongside the full report: a single Claude-Code agent (`claude-opus-4-8[1m]`) plus one embedded
+multi-agent forensic workflow, **400 tool calls**, **35 examiner-approved findings** (2 critical /
+15 high), **24 timeline events**, 93 IOCs staged, sealed/approved by `victor.galvan` 2026-06-14 over
+`4Dell-Latitude-CPi.E01` (MD5 `aee4fcd9301c03b3b054623ca261959a`):
+[`docs/12-CASES-REPORTS/cfreds-hacking-case-report/`](docs/12-CASES-REPORTS/cfreds-hacking-case-report/README.md)
+([executive](docs/12-CASES-REPORTS/cfreds-hacking-case-report/CFREDS-executive.md) ·
+[analyst](docs/12-CASES-REPORTS/cfreds-hacking-case-report/CFREDS-analyst.md) ·
+[attack graph](docs/12-CASES-REPORTS/cfreds-hacking-case-report/diagrams/attack-graph.png)).
 The wider
 [`case-activation/`](case-activation/) folder holds a per-case Activation Guide for every evidence
 set on this host plus the captured executed runs ([`case-activation/runs/`](case-activation/runs/)).

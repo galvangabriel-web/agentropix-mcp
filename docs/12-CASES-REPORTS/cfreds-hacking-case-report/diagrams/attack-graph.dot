@@ -1,0 +1,52 @@
+// CFReDS Hacking Case - attack execution graph
+// Render:  dot -Tpng attack-graph.dot -o attack-graph.png   (or -Tsvg)
+digraph CFREDS_AttackChain {
+  rankdir=TB;
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10];
+  graph [labelloc="t", label="CFReDS Hacking Case - Greg Schardt / Mr. Evil - Attack Execution", fontsize=14];
+
+  // identity
+  actor   [label="Greg Schardt = 'Mr. Evil' (RID 1003)\nmrevilrulez / whoknowsme@sbcglobal.net", fillcolor="#e8d5ff"];
+
+  // entry
+  entry   [label="(1) ENTRY: local admin console logon\nCD 1A3AD55E + Desktop installers\nhacker-site browsing (2004-08-19..20)", fillcolor="#fff2cc"];
+
+  // capability
+  hw      [label="(2) HW: Compaq WL110 ORiNOCO 802.11b", fillcolor="#ffe5b4"];
+  tools   [label="(2) TOOLS: Cain.exe(32/76) ethereal.exe\nNetStumbler.exe LookAtLan.exe whois.exe\nmirc.exe(30/75) 123WASP", fillcolor="#ffe5b4"];
+
+  // services
+  svc     [label="(3) SERVICES: NPF (WinPcap)\nrpcapd (remote capture) + wlluc48.sys", fillcolor="#cfe8ff"];
+
+  // discovery
+  disc    [label="(4) DISCOVERY: NetStumbler wardriving\nLook@LAN / Whois host enum", fillcolor="#d5f5e3"];
+
+  // collection
+  collect [label="(5) COLLECTION: WLAN sniff/MITM\nEthereal+WinPcap+Cain (gw 192.168.254.254)", fillcolor="#fde2cc"];
+  victim  [label="VICTIM: neighbor Pocket PC\n(WinCE 4.20 / PXA255)", fillcolor="#ffd6d6"];
+  capfile [label="capture 'interception' (173KB)\nsaved to Mr. Evil profile (2004-08-27 15:36)", fillcolor="#fde2cc"];
+
+  // theft
+  cookies [label="(6) THEFT: .NET Passport MSPAuth/MSPProf\nMSN Hotmail (mobile.msn.com)", fillcolor="#ffb3b3"];
+  smb     [label="(6) remote SMB \\\\4.12.220.254\\Temp (m1200)\nkeys.txt / channels.txt / yng13.bmp", fillcolor="#ffb3b3"];
+
+  // anti-forensics
+  af      [label="(7) ANTI-FORENSICS: Anonymizer + GhostWare\nRECYCLER Dc1-4 (deleted installers)", fillcolor="#dddddd"];
+
+  // comms
+  irc     [label="COMMS: IRC Undernet/EFnet\n#Elite.Hackers #evilfork #ISO-WAREZ #ushells\nmIRC DCC fileserver C:\\Temp", fillcolor="#e8e8ff"];
+
+  actor -> entry -> tools;
+  entry -> hw;
+  hw -> svc;
+  tools -> svc;
+  tools -> disc;
+  svc -> disc;
+  disc -> collect;
+  collect -> victim -> capfile -> cookies;
+  tools -> smb;
+  collect -> irc;
+  actor -> irc;
+  cookies -> af;
+  smb -> af;
+}

@@ -189,3 +189,36 @@ explicitly indexed so every tracked file is named in a README:
   git-control file (not a reader document).
 
 **Result: 0 orphans, 0 broken links — every tracked file is now named in a README.**
+
+---
+
+## New case registered (2026-06-14) — CFReDS "Hacking Case"
+
+A new sealed DFIR case folder was added under `docs/12-CASES-REPORTS/` and is fully self-indexed
+from its own anchor README (so the section stays orphan-free; every in-folder reader page is reachable
+from the folder index, matching the SRL-2018 / VANKO house style):
+
+- **`docs/12-CASES-REPORTS/cfreds-hacking-case-report/`** — **CFREDS-HACKING-CASE-4DELL**, the public
+  NIST CFReDS "Hacking Case": Greg Schardt / "Mr. Evil" (WinXP local admin RID 1003) **unauthorized
+  wireless interception** of a neighboring Pocket PC's MSN/Hotmail session + cleartext .NET Passport
+  `MSPAuth`/`MSPProf` cookies. **Single-host disk case (E01)** — no memory image (Volatility N/A), no
+  enterprise lateral movement. 35 examiner-approved findings (2 critical / 15 high), 24 timeline
+  events, 93 IOCs staged; single Claude-Code agent (`claude-opus-4-8[1m]`) + one embedded multi-agent
+  forensic workflow, 400 tool calls, sealed by examiner `victor.galvan` 2026-06-14. The folder
+  [`README.md`](docs/12-CASES-REPORTS/cfreds-hacking-case-report/README.md) (anchor index) routes its
+  "Read in this order" trail to every page:
+  [`CFREDS-executive.md`](docs/12-CASES-REPORTS/cfreds-hacking-case-report/CFREDS-executive.md),
+  [`CFREDS-analyst.md`](docs/12-CASES-REPORTS/cfreds-hacking-case-report/CFREDS-analyst.md) (full
+  timeline + IOCs + honest negatives),
+  [`diagrams/attack-graph.png`](docs/12-CASES-REPORTS/cfreds-hacking-case-report/diagrams/attack-graph.png),
+  [`audit/PROJECT-agent-execution-log.md`](docs/12-CASES-REPORTS/cfreds-hacking-case-report/audit/PROJECT-agent-execution-log.md)
+  (agent execution log),
+  [`CFREDS-HACKING-CASE-4DELL-executive.md`](docs/12-CASES-REPORTS/cfreds-hacking-case-report/CFREDS-HACKING-CASE-4DELL-executive.md) /
+  [`CFREDS-HACKING-CASE-4DELL-analyst.md`](docs/12-CASES-REPORTS/cfreds-hacking-case-report/CFREDS-HACKING-CASE-4DELL-analyst.md)
+  (full server-rendered tier), and
+  [`CFREDS-report.html`](docs/12-CASES-REPORTS/cfreds-hacking-case-report/CFREDS-report.html)
+  (self-contained HTML report).
+
+The coverage table above predates this folder and is **not** re-tabulated here (it is a point-in-time
+2026-06-13 inventory); this addendum records the new case so the `docs/12-CASES-REPORTS` section
+remains fully indexed with no new orphans.

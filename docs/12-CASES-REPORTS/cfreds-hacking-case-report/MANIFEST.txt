@@ -1,0 +1,29 @@
+CFReDS "Hacking Case" (Greg Schardt / Mr. Evil) - Deliverable Bundle
+Case: CFREDS-HACKING-CASE-4DELL   Examiner: victor.galvan   Generated: 2026-06-14
+Evidence: /cases/cfreds-fresh/4Dell-Latitude-CPi.E01  (MD5 aee4fcd9301c03b3b054623ca261959a)
+
+STATUS: 35 findings APPROVED, 24 timeline events APPROVED. 93 IOCs staged (promotion pending evidence-gate token).
+
+FILES IN THIS BUNDLE (C:\xp\cfreds-investigation\)
+  CFREDS-report.html            Self-contained HTML report (inline SVG graph + legend + findings + IOCs + timeline)
+  CFREDS-executive.md           Executive-tier report (35 approved findings; 2 critical / 15 high)
+  CFREDS-analyst.md             Analyst-tier report (all findings + kill-chain timeline)
+  attack-graph.png              Attack execution graph (portrait raster)
+  attack-graph-lr.png           Attack execution graph (landscape raster)
+  attack-graph.svg              Attack execution graph (vector, for print/report)
+  attack-graph.mmd / -lr.mmd    Mermaid sources (portrait / landscape)
+  attack-graph.dot              Graphviz source
+  attack-graph.md               Mermaid graph + legend (markdown)
+  approve-all-findings.ps1      Examiner batch-approval helper (35 finding IDs; prompt/env/DPAPI password)
+  build-report.py               HTML report generator
+  build-execution-log.ps1       Agent execution-log builder (from prior session)
+  MANIFEST.txt                  This file
+
+ALSO ON THE SIFT HOST (not copied here - separate machine):
+  /tmp/agentropix-reports/CFREDS-HACKING-CASE-4DELL-{executive,analyst}.md   (server-rendered)
+  /tmp/agentropix-sift-extract-*/                                            (extracted evidence artifacts)
+  OpenSearch indices: agentropix-findings/timeline/approvals-2026.06.14
+
+VERDICT: Greg Schardt (= 'Mr. Evil' = whoknowsme@sbcglobal.net = IRC mrevilrulez) conducted
+unauthorized wireless interception, capturing a neighboring Pocket PC's MSN/Hotmail session and
+.NET Passport cookies, using a Compaq WL110 ORiNOCO card + Cain/Ethereal/WinPcap/NetStumbler.

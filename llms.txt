@@ -26,7 +26,8 @@ Repository: https://github.com/galvangabriel-web/agentropix-mcp  ·  License: MI
 - [Client Setup](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/09-integrations/client-setup.md): Connect Claude Desktop / CLI to the MCP server (tailnet, Bearer-gated).
 - [Agents](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/10-agents/README.md): Agentic architecture, delegation model, FastMCP execution, agent roster.
 - [ADR Index](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/11-ADR/README.md): All Architecture Decision Records (status: Proposed/Accepted/Deferred).
-- [Cases Reports](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/12-CASES-REPORTS/README.md): Sealed DFIR case reports — SRL-2015, SRL-2018, VANKO.
+- [Cases Reports](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/12-CASES-REPORTS/README.md): Sealed DFIR case reports — SRL-2015, SRL-2018, VANKO, CFReDS Hacking Case.
+- [CFReDS Hacking Case](https://github.com/galvangabriel-web/agentropix-mcp/blob/main/docs/12-CASES-REPORTS/cfreds-hacking-case-report/README.md): CFREDS-HACKING-CASE-4DELL — single-host Windows XP DISK case (NIST CFReDS, no memory image) where Greg Schardt / "Mr. Evil" ran unauthorized wireless interception, capturing a neighboring Pocket PC's MSN/Hotmail session + cleartext .NET Passport cookies (2004-08-27 15:36 GMT). 35 examiner-approved findings (2 critical / 15 high), 24 timeline events, 93 IOCs; sealed by victor.galvan 2026-06-14.
 
 ## Package & audit reports
 

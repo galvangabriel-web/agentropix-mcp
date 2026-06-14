@@ -128,6 +128,29 @@ A trusted insider (Anthony Vanko, STARKSURFACE / `PC User`) copied classified ze
 
 ---
 
+### CFReDS — Hacking Case (Greg Schardt / "Mr. Evil", unauthorized wireless interception)
+
+The standalone **Windows XP** laptop of **Greg Schardt** (alias **"Mr. Evil"**, local admin RID 1003) used for **unauthorized wireless interception**: with a Compaq WL110 ORiNOCO 802.11b card + WinPcap/Ethereal/Cain & Abel (NetStumbler/Look@LAN for discovery), the actor captured a neighboring **Pocket PC's MSN/Hotmail session** including cleartext **.NET Passport `MSPAuth`/`MSPProf`** cookies (2004-08-27 15:36 GMT). Identity is corroborated across the local admin account, the Outlook Express mailbox `whoknowsme@sbcglobal.net`, the IRC persona `mrevilrulez`, and a Look@LAN registry real-name value. **A single-host disk case** — no enterprise lateral movement, no memory image (Volatility N/A). **35 examiner-approved findings** (2 critical / 15 high), 24 timeline events, 93 IOCs staged.
+
+**Read in this order:**
+
+1. [cfreds-hacking-case-report/README.md](cfreds-hacking-case-report/README.md) — per-case anchor: provenance (evidence `4Dell-Latitude-CPi.E01`, MD5 `aee4fcd9301c03b3b054623ca261959a`), headline numbers, the two smoking-gun findings, subfolder guides, and honest caveats/scope.
+2. [cfreds-hacking-case-report/CFREDS-executive.md](cfreds-hacking-case-report/CFREDS-executive.md) — the executive summary: KPIs, the verdict, and the 17 critical/high findings in plain language.
+3. [cfreds-hacking-case-report/CFREDS-analyst.md](cfreds-hacking-case-report/CFREDS-analyst.md) — the analyst / technical report: the 35-finding table, the full reconstructed 2004 kill-chain timeline (profile creation → toolkit install → wireless recon → the 15:36 interception → clean shutdown), the Key IOCs (identity, email, IPs, captured creds, tool hashes with VT ratios, hardware, services), and the honest negatives / scope.
+4. [cfreds-hacking-case-report/diagrams/attack-graph.png](cfreds-hacking-case-report/diagrams/attack-graph.png) — the attack execution graph (identity chain + kill-chain, one visual).
+5. [cfreds-hacking-case-report/audit/PROJECT-agent-execution-log.md](cfreds-hacking-case-report/audit/PROJECT-agent-execution-log.md) — the **agent execution log**: token usage, the 400-call tool-execution summary, the embedded forensic sub-agents, and a step-by-step trace.
+
+**The two smoking-gun findings:** **CFREDS-EXT-15** (the Ethereal capture of a third party's Pocket PC MSN/Hotmail session + `.NET Passport` cookies) and **CFREDS-EXT-21** (the capstone correlation joining the identity chain to the attack chain). Run: single Claude-Code agent (`claude-opus-4-8[1m]`) + one embedded multi-agent forensic workflow · 400 tool calls · sealed/approved by examiner `victor.galvan` on 2026-06-14.
+
+**Correlate:** a single-host **disk-only** scenario (no memory, no multi-host APT) — contrast with the enterprise intrusions [SRL-2015](srl-2015-report/README.md) / [SRL-2018](srl-2018-report/SRL-2018-FORENSIC-REPORT.md) and the malware-free insider case [VANKO](vanko-report/VANKO-FORENSIC-REPORT.md).
+
+**More in this case folder:**
+
+- [cfreds-hacking-case-report/CFREDS-HACKING-CASE-4DELL-executive.md](cfreds-hacking-case-report/CFREDS-HACKING-CASE-4DELL-executive.md) / [cfreds-hacking-case-report/CFREDS-HACKING-CASE-4DELL-analyst.md](cfreds-hacking-case-report/CFREDS-HACKING-CASE-4DELL-analyst.md) — the full server-rendered tier (every finding by stable Finding-ID with likelihood/confidence/risk-score, cross-linked executive↔analyst).
+- [cfreds-hacking-case-report/CFREDS-report.html](cfreds-hacking-case-report/CFREDS-report.html) — self-contained HTML report (inline vector attack graph + legend + findings + IOCs + timeline); GitHub shows `.html` as source — download and open locally for the rendered single-file report.
+
+---
+
 ### Cross-case artifact inventory
 
 - [srl-2018-artifact-inventory.md](srl-2018-artifact-inventory.md) — SRL-2018 forensic artifact inventory (paths sanitized) mirrored from the engine repo, summarizing the per-host disk IOC extraction across the SRL-2018 dataset.
