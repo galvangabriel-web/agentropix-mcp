@@ -238,3 +238,15 @@ pattern (`agentropix-*`) and case filter.
 > ***[download the MP4 (1.5 MB, 53 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/srl-2015-report/video/SRL-2015-investigation-web.mp4)***
 > *(or the [original render, 7.7 MB](video/SRL-2015-investigation.mp4)). Chapters and the honest
 > "reenactment, not live capture" note are in [`video/README.md`](video/README.md).*
+
+
+---
+
+## 🚀 Run / reproduce / extend this yourself
+
+This folder documents the **case**; to **deploy and build on the agent itself**:
+
+- **Install & run** the MCP server, then drive it from Claude — [main README → Deploy hub](../../../README.md) · [quickstart](../../01-overview/quickstart.md) · [client setup](../../09-integrations/client-setup.md)
+- **Run it on a disk/memory image** (one prompt) — [try-it-end-to-end](../../01-overview/try-it-end-to-end.md)
+- **Reproduce a case from public evidence** — [reproduce-datasets](../../06-use-cases/reproduce-datasets.md)
+- **Extend the engine** (add a SwarmAgent / ATT&CK detector / tool wrapper) — [extend-the-swarm](../../10-agents/extend-the-swarm.md)

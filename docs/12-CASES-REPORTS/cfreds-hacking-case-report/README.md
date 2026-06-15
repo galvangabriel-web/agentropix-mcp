@@ -112,3 +112,16 @@ result/exit**, the 68 honest errors/recoveries highlighted in red, reconstructed
   mutation token (CLI action), preserving the human-in-the-loop control.
 - The CFReDS "Hacking Case" is a **public training image**; "Greg Schardt / Mr. Evil" is the
   scenario's documented subject, not a private individual.
+
+
+---
+
+## 🚀 Run / reproduce / extend this yourself
+
+The CFReDS "Hacking Case" is the project's **fully-public, end-to-end reproduce loop** — every step is open:
+
+1. **Download** the evidence — `4Dell-Latitude-CPi.E01` (MD5 `aee4fcd9301c03b3b054623ca261959a`) via [reproduce-datasets.md](../../06-use-cases/reproduce-datasets.md).
+2. **Install & configure** — [main README → Deploy hub](../../../README.md) · [quickstart](../../01-overview/quickstart.md) · [client setup](../../09-integrations/client-setup.md).
+3. **Run** the disk-triage prompt on it — [try-it-end-to-end.md](../../01-overview/try-it-end-to-end.md) · per-case [activation guide](../../../case-activation/cfreds-hacking-case-4dell.md).
+4. **Compare** your findings against this sealed deliverable (35 approved findings, the attack graph, the audit trace).
+5. **Extend** the engine — add a SwarmAgent / detector / tool: [extend-the-swarm.md](../../10-agents/extend-the-swarm.md).

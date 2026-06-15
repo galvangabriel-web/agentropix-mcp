@@ -20,7 +20,7 @@ Get](what-you-get.md).
 > Path A below:
 >
 > ```bash
-> pip install https://github.com/galvangabriel-web/agentropix-mcp/releases/download/v0.2.2/agentropix_mcp-0.2.2-py3-none-any.whl
+> pip install https://github.com/galvangabriel-web/agentropix-mcp/releases/download/v0.3.0/agentropix_mcp-0.3.0-py3-none-any.whl
 > AGENTROPIX_MCP_AUTH_TOKEN="$(openssl rand -base64 32)" agentropix-mcp --transport http --port 8765
 > claude mcp add --transport http agentropix-sift "http://127.0.0.1:8765/mcp" --header "Authorization: Bearer <token-you-just-set>"
 > ```
@@ -84,8 +84,8 @@ skipped rather than the run aborting — but recall drops, so run `doctor` first
 
 > **🖥️ Expert (command):**
 > ```bash
-> # From the packaged v0.2.2 release…
-> pip install https://github.com/galvangabriel-web/agentropix-mcp/releases/download/v0.2.2/agentropix_mcp-0.2.2-py3-none-any.whl
+> # From the packaged v0.3.0 release…
+> pip install https://github.com/galvangabriel-web/agentropix-mcp/releases/download/v0.3.0/agentropix_mcp-0.3.0-py3-none-any.whl
 > # …or from this docs repo's checkout (vendored source + wheel under agentropix_mcp/)
 > pip install ./agentropix_mcp
 > ```
@@ -397,7 +397,7 @@ chain-of-custody property at the heart of the engine.
   catalogue.
 - **[What is Agentropix-SIFT?](what-is-agentropix.md)** — the DFIR problem, positioning,
   and pipeline diagram.
-- **Shared references** — [`tool-list.md`](../04-mcp-tools/tool-list.md) (all 71
+- **Shared references** — [`tool-list.md`](../04-mcp-tools/tool-list.md) (all 73
   tools), [`env-vars.md`](../07-sdlc-ops/env-vars.md) (configuration),
   [`agents-list.md`](../10-agents/agents-list.md) (the swarm).
 - **Why this run works the way it does (ADRs)** — the sealed-output and

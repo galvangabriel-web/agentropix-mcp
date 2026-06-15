@@ -164,3 +164,10 @@ The standalone **Windows XP** laptop of **Greg Schardt** (alias **"Mr. Evil"**, 
 ### Cross-case artifact inventory
 
 - [srl-2018-artifact-inventory.md](srl-2018-artifact-inventory.md) — SRL-2018 forensic artifact inventory (paths sanitized) mirrored from the engine repo, summarizing the per-host disk IOC extraction across the SRL-2018 dataset.
+
+
+---
+
+## 🚀 Run / reproduce / extend these yourself
+
+These are sealed *deliverables*; to **deploy and build on the agent that produced them**: [main README → Deploy hub](../../README.md) · [install & run](../01-overview/quickstart.md) · [run on an image](../01-overview/try-it-end-to-end.md) · [reproduce from public evidence](../06-use-cases/reproduce-datasets.md) · [extend the engine](../10-agents/extend-the-swarm.md).

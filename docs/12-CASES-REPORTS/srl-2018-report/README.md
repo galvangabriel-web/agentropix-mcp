@@ -44,3 +44,16 @@ Findings/IOCs were indexed to the live Wazuh cluster; the dashboard gallery in
 > ▶ *GitHub's repo pages can't play committed MP4s — the poster links to the **GitHub Pages copy, which plays directly in your browser**; or*
 > ***[download the MP4 (19 MB, 5 min 48 s)](https://raw.githubusercontent.com/galvangabriel-web/agentropix-mcp/main/docs/12-CASES-REPORTS/srl-2018-report/training-session-paged.mp4)*** *— the
 > paged action-log replay of the analyst walkthrough.*
+
+
+---
+
+## 🚀 Run / reproduce / extend this yourself
+
+This folder documents the **case**; to **deploy and build on the agent itself**:
+
+- **Install & run** the MCP server, then drive it from Claude — [main README → Deploy hub](../../../README.md) · [quickstart](../../01-overview/quickstart.md) · [client setup](../../09-integrations/client-setup.md)
+- **Run it on a disk/memory image** (one prompt) — [try-it-end-to-end](../../01-overview/try-it-end-to-end.md)
+- **Reproduce a case from public evidence** — [reproduce-datasets](../../06-use-cases/reproduce-datasets.md)
+- **Extend the engine** (add a SwarmAgent / ATT&CK detector / tool wrapper) — [extend-the-swarm](../../10-agents/extend-the-swarm.md)
+- **Self-host the full engine** that produced this report — [deployment.md](../../07-sdlc-ops/deployment.md)

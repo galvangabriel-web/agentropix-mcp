@@ -65,3 +65,15 @@ red-boxed artifact proof and a cross-source correlation panel.
 
 > **Repo housekeeping:** [`.gitignore`](.gitignore) is a git-control file (keeps local-only VANKO
 > working artifacts untracked) — not a reader document.
+
+
+---
+
+## 🚀 Run / reproduce / extend this yourself
+
+This folder documents the **case**; to **deploy and build on the agent itself**:
+
+- **Install & run** the MCP server, then drive it from Claude — [main README → Deploy hub](../../../README.md) · [quickstart](../../01-overview/quickstart.md) · [client setup](../../09-integrations/client-setup.md)
+- **Run it on a disk/memory image** (one prompt) — [try-it-end-to-end](../../01-overview/try-it-end-to-end.md)
+- **Reproduce a case from public evidence** — [reproduce-datasets](../../06-use-cases/reproduce-datasets.md)
+- **Extend the engine** (add a SwarmAgent / ATT&CK detector / tool wrapper) — [extend-the-swarm](../../10-agents/extend-the-swarm.md)

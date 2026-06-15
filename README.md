@@ -80,7 +80,7 @@
 # 1. Install the MCP server (pick one)
 pip install ./agentropix_mcp        # from this checkout — vendored at agentropix_mcp/
 # …or the released wheel:
-pip install https://github.com/galvangabriel-web/agentropix-mcp/releases/download/v0.2.2/agentropix_mcp-0.2.2-py3-none-any.whl
+pip install https://github.com/galvangabriel-web/agentropix-mcp/releases/download/v0.3.0/agentropix_mcp-0.3.0-py3-none-any.whl
 
 # 2. Generate a local auth token and start the server (boot is fail-closed without one)
 export AGENTROPIX_MCP_AUTH_TOKEN="$(openssl rand -base64 32)"
@@ -103,6 +103,30 @@ More detail (self-hosting the full engine, requirements table): see
 
 ---
 
+## 🚀 Deploy, run & extend it yourself
+
+The 5-minute block above is the smoke test. Here is the full path from *zero* to *running the agent on
+your own evidence and building on it* — each step links the complete guide (nothing duplicated):
+
+1. **Install** the agent — [`agentropix_mcp/README.md`](agentropix_mcp/README.md) (the package ships the
+   engine: `agents/`, `detectors/`, `trinity/`, `wrappers/`) · full self-host: [deployment.md](docs/07-sdlc-ops/deployment.md).
+2. **Configure** your MCP client (Claude Code / Claude Desktop) — [client-setup.md](docs/09-integrations/client-setup.md).
+3. **Run** it on a disk or memory image — [try-it-end-to-end.md](docs/01-overview/try-it-end-to-end.md)
+   (one prompt, disk **and** memory) · the two install paths + `doctor` output: [quickstart.md](docs/01-overview/quickstart.md).
+4. **Reproduce** a published case from scratch — [reproduce-datasets.md](docs/06-use-cases/reproduce-datasets.md)
+   (public dataset URLs + hashes; the **CFReDS** "Hacking Case" is a fully-public end-to-end loop) ·
+   compare your run against the sealed [case reports](docs/12-CASES-REPORTS/README.md).
+5. **Extend** it — add your own SwarmAgent, ATT&CK detector, or tool wrapper:
+   [extend-the-swarm.md](docs/10-agents/extend-the-swarm.md) (source-cited recipes + the test contract).
+
+> **What runs today vs. what needs the engine repo:** the **vendored MCP-server wheel** (Path A,
+> `pip install ./agentropix_mcp`) drives the real forensic tools against *your* image through Claude
+> **right now** — install, configure, run, and extend are all reproducible from this checkout. The
+> fully-autonomous **Trinity-Loop engine run** (Path B) additionally needs the engine distribution
+> (currently private — request access); the honest scope note is kept throughout.
+
+---
+
 ## ⚡ Connect to a hosted instance (author's tailnet — optional)
 
 > **Judges / evaluators:** you do **not** need this — use the local path above
@@ -110,7 +134,7 @@ More detail (self-hosting the full engine, requirements table): see
 > users invited to the author's private tailnet.
 
 > **🚀 Already have a SIFT host running on our tailnet? Point Claude at it right now — no install, no build.**
-> One command and you're driving **71 forensic tools** from Claude. **Full guide → [docs/09-integrations/client-setup.md](docs/09-integrations/client-setup.md).**
+> One command and you're driving **73 forensic tools** from Claude. **Full guide → [docs/09-integrations/client-setup.md](docs/09-integrations/client-setup.md).**
 
 > [!NOTE]
 > **First: join the tailnet (one-time).** The server `http://100.85.162.82:8765/mcp` is **tailnet-only** — reachable through **[Tailscale](https://tailscale.com/)**, never the public internet. Before the steps below:
@@ -222,7 +246,7 @@ Four audiences, four fast paths. Each row is an ordered reading trail; the full 
 
 | You are a… | You want to… | Start here → then |
 |---|---|---|
-| 🧑‍💻 **Software engineer** | understand the architecture, build/test/extend it | [Implementation](docs/07-sdlc-ops/implementation.md) → [Trinity Loop](docs/02-architecture/trinity-loop.md) → [Swarm & Blackboard](docs/02-architecture/swarm-agents.md) → [FastMCP Server](docs/02-architecture/mcp-server.md) → [Testing](docs/07-sdlc-ops/testing.md) → [ADRs (decision contract)](docs/11-ADR/README.md) |
+| 🧑‍💻 **Software engineer** | understand the architecture, build/test/extend it | [Implementation](docs/07-sdlc-ops/implementation.md) → [Trinity Loop](docs/02-architecture/trinity-loop.md) → [Swarm & Blackboard](docs/02-architecture/swarm-agents.md) → [FastMCP Server](docs/02-architecture/mcp-server.md) → [**Extend the Swarm**](docs/10-agents/extend-the-swarm.md) → [Testing](docs/07-sdlc-ops/testing.md) → [ADRs (decision contract)](docs/11-ADR/README.md) |
 | 🛡️ **SOC analyst** | run a triage, hunt IOCs, push to the SIEM | [User Guide (runbook)](docs/01-overview/user-guide.md) → [Disk triage](docs/06-use-cases/uc-disk-triage.md) → [Memory triage](docs/06-use-cases/uc-memory-triage.md) → [Wazuh push](docs/06-use-cases/uc-wazuh-push.md) → [CLI Reference](docs/08-reference/cli-reference.md) |
 | ⚖️ **Evaluator / judge** | verify the claims, soundness, chain of custody | [Canonical Facts](docs/08-reference/canonical-facts.md) → [Anti-Hallucination](docs/05-safety-forensics/anti-hallucination.md) → [Audit & Courtroom Seal](docs/05-safety-forensics/audit-courtroom.md) → [Evidence integrity (visual)](docs/07-sdlc-ops/evidence-integrity-visual.md) → [Recall methodology](docs/07-sdlc-ops/dataset-recall.md) → [Evaluation scorecard](docs/07-sdlc-ops/evaluation-scorecard.md) → [SWOT](#swot--strategic-assessment) |
 | 💬 **End-user (non-technical)** | get answers by just *asking* Claude | **[Try it end-to-end — one prompt](docs/01-overview/try-it-end-to-end.md)** (a single copy-paste prompt runs a whole public case) → the [Two Paths table](#two-paths-operator-expert-and-end-user) below → end-user lanes in the [User Guide](docs/01-overview/user-guide.md) → [Tool Capability Map](docs/04-mcp-tools/capability-map.md) |
@@ -315,9 +339,11 @@ flowchart TB
 
 - **One tool surface, two consumers.** The same `@app.tool()` functions the swarm calls are also exposed
   to an LLM client; the server is built by `_build_app()` / `FastMCP("agentropix-sift")`
-  (`mcp_server/fastmcp_app.py`). The package installs two console scripts: `agentropix-sift` (triage CLI)
-  and `agentropix-sift-mcp` (the MCP server). An LLM connects to the latter; the CLI bypasses it and
-  drives the engine directly. See [The FastMCP Server](docs/02-architecture/mcp-server.md).
+  (`mcp_server/fastmcp_app.py`). Console scripts differ by distribution: the **vendored MCP-server wheel**
+  (Path A, `pip install ./agentropix_mcp`) installs **`agentropix-mcp`** only; the **full engine**
+  (Path B) installs `agentropix-sift` (triage CLI) and `agentropix-sift-mcp` (the MCP server). An LLM
+  connects to the MCP-server script; the CLI bypasses it and drives the engine directly. See
+  [The FastMCP Server](docs/02-architecture/mcp-server.md).
 - **Two transports.** The MCP server speaks **stdio** (default — paired with a Claude Desktop / Claude
   Code `mcp.json` entry) or **HTTP+SSE** under `/mcp` (tailnet-only, Bearer-gated, default port 8765).
   Both funnel into the **same tool core**. See [Connect a Client](docs/09-integrations/client-setup.md).
@@ -650,8 +676,8 @@ this repo vendors its source and wheel at [`agentropix_mcp/`](agentropix_mcp/REA
 connect a Claude client:
 
 ```bash
-# 1. Install the v0.2.2 MCP-server wheel  (or, from this checkout: pip install ./agentropix_mcp)
-pip install https://github.com/galvangabriel-web/agentropix-mcp/releases/download/v0.2.2/agentropix_mcp-0.2.2-py3-none-any.whl
+# 1. Install the v0.3.0 MCP-server wheel  (or, from this checkout: pip install ./agentropix_mcp)
+pip install https://github.com/galvangabriel-web/agentropix-mcp/releases/download/v0.3.0/agentropix_mcp-0.3.0-py3-none-any.whl
 
 # 2. Start the server — boot is fail-closed: it refuses to start without an auth token
 AGENTROPIX_MCP_AUTH_TOKEN="$(openssl rand -base64 32)" agentropix-mcp --transport http --port 8765

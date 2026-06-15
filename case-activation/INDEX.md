@@ -1,6 +1,6 @@
 # Case Activation Guides — Master Index
 
-> **LOCAL / OPERATIONAL — tracked, not yet public-safe.** This directory (`/home/admin2/docu_agentro/case-activation/`) **is** version-controlled and pushed to the internal GitLab, but it holds **real case inventory, on-disk paths, and custody hashes** — scrub paths/case names before the repo is ever made public.
+> **OPERATIONAL — tracked & published on GitHub (operator decision).** This directory (`case-activation/`) is version-controlled and public on GitHub; it holds **real case inventory, on-disk paths, and custody hashes**, kept as provenance by explicit operator decision (the pre-public scrub was waived). Don't add **new** unscrubbed case paths or case names without cause.
 
 **How to use:** Pick your case from the tables below → open its per-case Activation Guide → run either the **Manual** numbered prompt sequence (interactive, you drive each step) or the **Autonomous** sequence (detached driver runs to a DRAFT, you approve in the portal). Every guide instantiates the 8-step template procedure (`pick → case_init → case_status → evidence_register → analyze → record_finding → approve → report`) from `END-USER-CASE-GUIDE.md` with that case's real specifics, using the canonical 73-tool / 16-wrapper / 4687-test SIFT MCP surface. The MCP endpoint is shown as a `<TAILNET-HOST>` placeholder in every guide; the approval step is always a human hard-stop.
 
