@@ -1,5 +1,7 @@
 # Agentropix-SIFT
 
+![Agentropix-SIFT — MCP Unified Forensic Triage Architecture: 73 tools and 16 SIFT forensic wrappers behind one MCP interface; an agent swarm cuts days of disk + memory triage to minutes, with every finding deterministic and hashed](assets/hero-architecture.png)
+
 > **Dear Evaluator,**
 >
 > My name is **Gabriel Galvan**, and I am proud to introduce the **Agentropix MCP** solution.
